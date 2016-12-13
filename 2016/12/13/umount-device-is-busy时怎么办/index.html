@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>umount device is busy时怎么办 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="umount: device is busy时怎么办？    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="umount device is busy时怎么办">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="umount: device is busy时怎么办？    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法">
+<meta property="og:updated_time" content="2016-12-13T02:44:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="umount device is busy时怎么办">
+<meta name="twitter:description" content="umount: device is busy时怎么办？    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-umount-device-is-busy时怎么办" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/umount-device-is-busy时怎么办/" class="article-date">
+  <time datetime="2016-12-13T02:43:54.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      umount device is busy时怎么办
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>umount: device is busy时怎么办？<br>    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法.以下转载于品可的blog:</p>
+<p>================</p>
+<p>linux下的磁盘分区通过挂载（mount）的方式连到一个目录下，打开此目录就可以看到磁盘分区中的内容了。与挂载相反的操作是umount，他将磁盘分区与目录的关联关系解除。</p>
+<p>但有时候umount时会报错误，例如</p>
+<p>Code:</p>
+<h1 id="umount-usr-local"><a href="#umount-usr-local" class="headerlink" title="umount /usr/local/"></a>umount /usr/local/</h1><p>umount: /usr/local: device is busy<br>这说明还有某个程序正在是用此目录，为了保证程序的运行，默认情况下umount不能卸载。但是umount又没有说究竟哪个程序在使用，觉得这也算是设计的一个缺陷。</p>
+<p>幸好有个程序叫fuser，man fuser的介绍是：</p>
+<p>Code:<br>fuser - identify processes using files or sockets<br>fuser后加需要查的资源就可以知道有哪些进程正在使用了，例如：</p>
+<p>Code:</p>
+<p>#fuser -m /<br>/:                    8892r  8916r  8932r  8959r  8992rc  8996rc  8997rc  8999rc  9006rc<br>   9007rc  9010rc  9013r  9015rc  9025r  9029r  9033rc  9035r  9039rc  9058rc  9107rc<br>   9109rc  9126rc  9130r  9366r  9375r  9439r<br>接下来需要做的就是将相关进程停掉，再umount即可。</p>
+<p>PS: 多谢pnt的提醒，原来umount 还有一个-l选项，作用是当需卸载文件系统的引用不繁忙时直接卸载：</p>
+<p>Code:<br>umount -l    Lazy unmount. Detach the filesystem from the filesystem  hierar-<br>chy now, and cleanup all references to the filesystem as soon as<br>it is not busy anymore.  (Requires kernel 2.4.11 or later.)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwna6s3q0012ozcyp72lzyj8" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Linux-SSH-登录很慢/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux SSH 登录很慢
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/Linux-root-密码重置/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux root 密码重置</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

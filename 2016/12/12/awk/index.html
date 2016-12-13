@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>awk | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:type" content="article">
+<meta property="og:title" content="awk">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/awk/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+<meta property="og:updated_time" content="2016-12-12T08:40:21.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="awk">
+<meta name="twitter:description" content="12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970717273747576777879808182838485868788899091929394959697989910010110210">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-awk" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/awk/" class="article-date">
+  <time datetime="2016-12-12T08:21:51.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      awk
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div></pre></td><td class="code"><pre><div class="line">awk 数据流处理工具</div><div class="line"></div><div class="line">awk脚本结构</div><div class="line">awk &apos; BEGIN&#123; statements &#125; statements2 END&#123; statements &#125; &apos;</div><div class="line"></div><div class="line">工作方式</div><div class="line">1.执行begin中语句块；</div><div class="line">2.从文件或stdin中读入一行，然后执行statements2，重复这个过程，直到文件全部被读取完毕；</div><div class="line">3.执行end语句块；</div><div class="line"></div><div class="line">print 打印当前行</div><div class="line"></div><div class="line">使用不带参数的print时，会打印当前行;</div><div class="line"></div><div class="line">  echo -e &quot;line1\nline2&quot; | awk &apos;BEGIN&#123;print &quot;start&quot;&#125; &#123;print &#125; END&#123; print &quot;End&quot; &#125;&apos;</div><div class="line"></div><div class="line">print 以逗号分割时，参数以空格定界;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1, var2 , var3; &#125;&apos;</div><div class="line">$&gt;v1 V2 v3</div><div class="line"></div><div class="line">使用-拼接符的方式（&quot;&quot;作为拼接符）;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1&quot;-&quot;var2&quot;-&quot;var3; &#125;&apos;</div><div class="line">$&gt;v1-V2-v3</div><div class="line"></div><div class="line">特殊变量： NR NF $0 $1 $2</div><div class="line"></div><div class="line">NR:表示记录数量，在执行过程中对应当前行号；</div><div class="line">NF:表示字段数量，在执行过程总对应当前行的字段数；</div><div class="line">$0:这个变量包含执行过程中当前行的文本内容；</div><div class="line">$1:第一个字段的文本内容；</div><div class="line">$2:第二个字段的文本内容；</div><div class="line"></div><div class="line">echo -e &quot;line1 f2 f3\n line2 \n line 3&quot; | awk &apos;&#123;print NR&quot;:&quot;$0&quot;-&quot;$1&quot;-&quot;$2&#125;&apos;</div><div class="line"></div><div class="line">打印每一行的第二和第三个字段：</div><div class="line">  awk &apos;&#123;print $2, $3&#125;&apos; file</div><div class="line"></div><div class="line">统计文件的行数：</div><div class="line">  awk &apos; END &#123;print NR&#125;&apos; file</div><div class="line"></div><div class="line">累加每一行的第一个字段：</div><div class="line">  echo -e &quot;1\n 2\n 3\n 4\n&quot; | awk &apos;BEGIN&#123;num = 0 ;</div><div class="line">  print &quot;begin&quot;;&#125; &#123;sum += $1;&#125; END &#123;print &quot;==&quot;; print sum &#125;&apos;</div><div class="line"></div><div class="line">传递外部变量</div><div class="line"></div><div class="line">var=1000</div><div class="line">echo | awk &apos;&#123;print vara&#125;&apos; vara=$var #  输入来自stdin</div><div class="line">awk &apos;&#123;print vara&#125;&apos; vara=$var file # 输入来自文件</div><div class="line"></div><div class="line">用样式对awk处理的行进行过滤</div><div class="line"></div><div class="line">awk &apos;NR &lt; 5&apos; #行号小于5</div><div class="line">awk &apos;NR==1,NR==4 &#123;print&#125;&apos; file #行号等于1和4的打印出来</div><div class="line">awk &apos;/linux/&apos; #包含linux文本的行（可以用正则表达式来指定，超级强大）</div><div class="line">awk &apos;!/linux/&apos; #不包含linux文本的行</div><div class="line"></div><div class="line">设置定界符</div><div class="line"></div><div class="line">使用-F来设置定界符（默认为空格）</div><div class="line">awk -F: &apos;&#123;print $NF&#125;&apos; /etc/passwd</div><div class="line"></div><div class="line">读取命令输出</div><div class="line"></div><div class="line">使用getline，将外部shell命令的输出读入到变量cmdout中；</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print cmdout &#125;&apos;</div><div class="line"></div><div class="line">在awk中使用循环</div><div class="line"></div><div class="line">for(i=0;i&lt;10;i++)&#123;print $i;&#125;</div><div class="line">for(i in array)&#123;print array[i];&#125;</div><div class="line"></div><div class="line">eg:</div><div class="line">以逆序的形式打印行：(tac命令的实现）</div><div class="line"></div><div class="line">seq 9| \</div><div class="line">awk &apos;&#123;lifo[NR] = $0; lno=NR&#125; \</div><div class="line">END&#123; for(;lno&gt;-1;lno--)&#123;print lifo[lno];&#125;</div><div class="line">&#125; &apos;</div><div class="line"></div><div class="line">awk实现head、tail命令</div><div class="line"></div><div class="line">head:</div><div class="line">  awk &apos;NR&lt;=10&#123;print&#125;&apos; filename</div><div class="line"></div><div class="line">tail:</div><div class="line">  awk &apos;&#123;buffer[NR%10] = $0;&#125; END&#123;for(i=0;i&lt;11;i++)&#123; \</div><div class="line">  print buffer[i %10]&#125; &#125; &apos; filename</div><div class="line"></div><div class="line">打印指定列</div><div class="line"></div><div class="line">awk方式实现：</div><div class="line">  ls -lrt | awk &apos;&#123;print $6&#125;&apos;</div><div class="line"></div><div class="line">cut方式实现</div><div class="line">  ls -lrt | cut -f6</div><div class="line"></div><div class="line">打印指定文本区域</div><div class="line"></div><div class="line">确定行号</div><div class="line">  seq 100| awk &apos;NR==4,NR==6&#123;print&#125;&apos;</div><div class="line"></div><div class="line">确定文本</div><div class="line">打印处于start_pattern 和end_pattern之间的文本；</div><div class="line">  awk &apos;/start_pattern/, /end_pattern/&apos; filename</div><div class="line"></div><div class="line">eg:</div><div class="line">seq 100 | awk &apos;/13/,/15/&apos;</div><div class="line">cat /etc/passwd| awk &apos;/mai.*mail/,/news.*news/&apos;</div><div class="line"></div><div class="line">awk常用内建函数</div><div class="line"></div><div class="line">index(string,search_string):返回search_string在string中出现的位置</div><div class="line">sub(regex,replacement_str,string):将正则匹配到的第一处内容替换为replacement_str;</div><div class="line">match(regex,string):检查正则表达式是否能够匹配字符串；</div><div class="line">length(string)：返回字符串长度</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print length(cmdout) &#125;&apos;</div><div class="line"></div><div class="line">printf 类似c语言中的printf，对输出进行格式化</div><div class="line">eg：</div><div class="line"></div><div class="line">seq 10 | awk &apos;&#123;printf &quot;-&gt;%4s\n&quot;, $1&#125;&apos;</div><div class="line"></div><div class="line">迭代文件中的行、单词和字符</div><div class="line"></div><div class="line">1. 迭代文件中的每一行</div><div class="line"></div><div class="line">while 循环法</div><div class="line"></div><div class="line">while read line;</div><div class="line">do</div><div class="line">echo $line;</div><div class="line">done &lt; file.txt</div><div class="line"></div><div class="line">改成子shell:</div><div class="line">cat file.txt | (while read line;do echo $line;done)</div><div class="line"></div><div class="line">awk法：</div><div class="line">cat file.txt| awk &apos;&#123;print&#125;&apos;</div><div class="line"></div><div class="line">2.迭代一行中的每一个单词</div><div class="line"></div><div class="line">for word in $line;</div><div class="line">do</div><div class="line">echo $word;</div><div class="line">done</div><div class="line"></div><div class="line">3. 迭代每一个字符</div><div class="line"></div><div class="line">$&#123;string:start_pos:num_of_chars&#125;：从字符串中提取一个字符；(bash文本切片）</div><div class="line">$&#123;#word&#125;:返回变量word的长度</div><div class="line"></div><div class="line">for((i=0;i&lt;$&#123;#word&#125;;i++))</div><div class="line">do</div><div class="line">echo $&#123;word:i:1);</div><div class="line">done</div><div class="line"></div><div class="line">从格式化输出里提取一列(我最常使用的awk技巧)</div><div class="line"></div><div class="line">我几乎天天都会使用它。真的。经常会有一些输出，我只需要其中的第二列，或第三列，下面这个命令就能做到这些：</div><div class="line">#Sample output of git status -s command:</div><div class="line"></div><div class="line">$ git status -s</div><div class="line"></div><div class="line">M .bashrc</div><div class="line">?? .vim/bundle/extempore/</div><div class="line"></div><div class="line"># Remove status code from git status and just get the file names</div><div class="line">$ git status -s | awk &apos;&#123;print $2&#125;&apos;</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div><div class="line">为什么不写个函数，让我们随时都可以用呢？</div><div class="line">function col &#123;</div><div class="line">awk -v col=$1 &apos;&#123;print $col&#125;&apos;</div><div class="line">&#125;</div><div class="line">这使得提取列非常容易，比如，你不想要第一列？简单：</div><div class="line">$ git status -s | col 2</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwna6s35000mozcyx5q55e1o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/12/数据工程师常用的-Shell-命令/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          数据工程师常用的 Shell 命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/12/sed/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">sed</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux 差异备份 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="差异备份简介
+差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍使用tar进行一次完整备份创建需要备份的测试文件夹[test@localhost test]$ mkdir work[test@localhost test]$ touch work/file1[tes">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 差异备份">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/Linux-差异备份/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="差异备份简介
+差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍使用tar进行一次完整备份创建需要备份的测试文件夹[test@localhost test]$ mkdir work[test@localhost test]$ touch work/file1[tes">
+<meta property="og:updated_time" content="2016-12-13T02:06:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 差异备份">
+<meta name="twitter:description" content="差异备份简介
+差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍使用tar进行一次完整备份创建需要备份的测试文件夹[test@localhost test]$ mkdir work[test@localhost test]$ touch work/file1[tes">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux-差异备份" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-差异备份/" class="article-date">
+  <time datetime="2016-12-13T02:05:37.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux 差异备份
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>差异备份简介</p>
+<p>差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍<br>使用tar进行一次完整备份<br>创建需要备份的测试文件夹<br>[test@localhost test]$ mkdir work<br>[test@localhost test]$ touch work/file1<br>[test@localhost test]$ echo 233 &gt; work/file-233</p>
+<p>Screenshot from 2015-07-27 18-16-54<br>完整备份并生成此次备份的参考文件<br>[test@localhost test]$ tar cfz work-full.tar.gz work -g work.bckref<br>进行差异备份<br>对备份后的文件夹进行修改<br>[test@localhost test]$ rm work/file1<br>[test@localhost test]$ touch work/file2<br>[test@localhost test]$ echo 235 &gt; work/file-233<br>差异备份开始<br>[test@localhost test]$ tar cfz work-diff.tar.gz work -g work.bckref<br>恢复<br>所需条件</p>
+<p>以上备份包括了一个完整备份、一个差异备份和一个差异参考文件。若我们想要恢复到第一次完整备份的状态，只需要完整备份的备份文件即可。<br>[test@localhost test]$ rm work -fr<br>[test@localhost test]$ tar xvf work-full.tar.gz<br>work/<br>work/file-233<br>work/file1<br>[test@localhost test]$ cat work/file-233<br>233<br>[test@localhost test]$ cat work/file1<br>[test@localhost test]$</p>
+<p>可以发现，第一次的完整备份被恢复成功了。若想要恢复到最新的备份状态，还需要使用差异备份文件和差异备份参考文件。<br>[test@localhost test]$ tar xvf work-diff.tar.gz -g work.bckref<br>work/<br>tar: Deleting ‘work/file1’<br>work/file-233<br>work/file2<br>[test@localhost test]$ cat work/file-233<br>235<br>[test@localhost test]$ cat work/file2<br>[test@localhost test]$</p>
+<p>可以发现，work下的file1被删除了，而被修改的file-233也被差异备份的数据所覆盖，并且创建了一个新的文件file2.<br>经典备份方案:完整备份+差异备份</p>
+<p>在实际使用中，完整备份通常很耗时并且占用磁盘空间较大，而差异备份的占用少，耗时少。但是差异备份由于是比较完整备份一本次备份时的差异，若备份时对目录的修改较大，差异备份就很耗时了。</p>
+<p>一种经典的备份方案就是在每周1进行完整备份，而其他时候进行与周1对比的差异备份。这样，差异备份的数据量小恢复也方便。<br>tar对centos系统备份注意事项</p>
+<p>毫无疑问，可用tar命令对linux系统进行备份。而在实际操作中，可能会遇到以下几个问题:<br>备份文件恢复时所有者/属性改变。</p>
+<p>这是由于没有使用root进行备份和恢复的结果，解决爆发就是使用root运行<br>tar -a</p>
+<p>进行备份和恢复。<br>文件acl丢失</p>
+<p>tar命令本身不能保存acl权限，而有的tar(如centos7 可添加–acls保存acl权限)可以做到。解决办法就是使用<br>getfacl -R work &gt; work.acl</p>
+<p>保存文件的acl权限，而在恢复后使用<br>setfacl –restore=work.acl</p>
+<p>恢复文件的acl权限<br>恢复系统后登陆闪退</p>
+<p>这是由于selinux的安全上下文丢失产生的结果。在恢复完毕文件后，需要运行<br>touch /.autorelabel &amp;&amp; reboot</p>
+<p>对文件的selinux安全上下文进行恢复。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwna6s2t000dozcyxmzcvqzf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Ubuntu-16-x-预配/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu 16.x 预配
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/Linux-增量备份/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux 增量备份</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

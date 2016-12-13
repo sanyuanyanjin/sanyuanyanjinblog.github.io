@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>封装CentOS系统几个步骤 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="准备工作1.干净的操作系统镜像,推荐官方下载。2.一台linux主机，需要安装mkisofs
+
+kickstarts文件封装光盘1.复制文件cd iso文件所在目录mount -o loop ./CentOS-6.5-x86_64-bin-DVD1.iso /mnt/   ##挂载镜像文件mkdir /var/iso  ##创建新系统的文件目录cd /mnt    ##进入光盘挂载目录cp -a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="封装CentOS系统几个步骤">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="准备工作1.干净的操作系统镜像,推荐官方下载。2.一台linux主机，需要安装mkisofs
+
+kickstarts文件封装光盘1.复制文件cd iso文件所在目录mount -o loop ./CentOS-6.5-x86_64-bin-DVD1.iso /mnt/   ##挂载镜像文件mkdir /var/iso  ##创建新系统的文件目录cd /mnt    ##进入光盘挂载目录cp -a">
+<meta property="og:updated_time" content="2016-12-13T02:26:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="封装CentOS系统几个步骤">
+<meta name="twitter:description" content="准备工作1.干净的操作系统镜像,推荐官方下载。2.一台linux主机，需要安装mkisofs
+
+kickstarts文件封装光盘1.复制文件cd iso文件所在目录mount -o loop ./CentOS-6.5-x86_64-bin-DVD1.iso /mnt/   ##挂载镜像文件mkdir /var/iso  ##创建新系统的文件目录cd /mnt    ##进入光盘挂载目录cp -a">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-封装CentOS系统几个步骤" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/封装CentOS系统几个步骤/" class="article-date">
+  <time datetime="2016-12-13T02:25:44.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      封装CentOS系统几个步骤
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>准备工作<br>1.干净的操作系统镜像,推荐官方下载。<br>2.一台linux主机，需要安装mkisofs</p>
+<ol>
+<li>kickstarts文件<br>封装光盘<br>1.复制文件<br>cd iso文件所在目录<br>mount -o loop ./CentOS-6.5-x86_64-bin-DVD1.iso /mnt/   ##挂载镜像文件<br>mkdir /var/iso  ##创建新系统的文件目录<br>cd /mnt    ##进入光盘挂载目录<br>cp -a . /var/iso/<br>cd /var/iso<br>2.修改文件<br>在/var/iso/目录里面操作。</li>
+</ol>
+<p>vi isolinux/isolinux.cfg<br>在label linux 这一行上面添加。</p>
+<p>label custom<br>menu label ^custom CentOS 6.5<br>menu default<br>kernel vmlinuz<br>append ks=cdrom:/isolinux/ks.cfg initrd=initrd.img biosdevname=0<br>复制准备好的 ks.cfg 到 isolinux/ 目录</p>
+<p>cp /root/ks.cfg isolinux/ks.cfg<br>3.封装光盘<br>mkisofs -o ../CentOS-6.5-x86_64_release1.0.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./</p>
+<p>mkisofs -o ../CentOS-6.5-x86_64_release1.0.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwna6s4w0020ozcymbomf8wh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Linux-root-密码重置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux root 密码重置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/删除指定大小的文件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">删除指定大小的文件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>sed | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="sed 文本替换利器
+用命令行往文件的顶部添加文字
+每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt
+首处替换  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text
+全局替换">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sed">
+<meta property="og:url" content="http://yoursite.com/2016/12/12/sed/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="sed 文本替换利器
+用命令行往文件的顶部添加文字
+每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt
+首处替换  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text
+全局替换">
+<meta property="og:updated_time" content="2016-12-12T08:39:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sed">
+<meta name="twitter:description" content="sed 文本替换利器
+用命令行往文件的顶部添加文字
+每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt
+首处替换  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text
+全局替换">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-sed" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/sed/" class="article-date">
+  <time datetime="2016-12-12T08:09:38.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sed
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sed 文本替换利器</p>
+<p>用命令行往文件的顶部添加文字</p>
+<p>每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：<br>sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt</p>
+<p>首处替换<br>  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text</p>
+<p>全局替换<br>   seg ‘s/text/replace_text/g’ file</p>
+<p>默认替换后，输出替换后的内容，如果需要直接替换原文件,使用-i：<br>  seg -i ‘s/text/repalce_text/g’ file</p>
+<p>移除空白行：<br>  sed ‘/^$/d’ file</p>
+<p>变量转换<br>已匹配的字符串通过标记&amp;来引用.<br>echo this is en example | seg ‘s/\w+/[&amp;]/g’<br>$&gt;[this]  [is] [en] [example]</p>
+<p>子串匹配标记<br>第一个匹配的括号内容使用标记 \1 来引用<br>  sed ‘s/hello([0-9])/\1/‘</p>
+<p>双引号求值<br>sed通常用单引号来引用；也可使用双引号，使用双引号后，双引号会对表达式求值：<br>  sed ‘s/$var/HLLOE/‘</p>
+<p>当使用双引号时，我们可以在sed样式和替换字符串中指定变量；<br>eg:<br>p=patten<br>r=replaced<br>echo “line con a patten” | sed “s/$p/$r/g”<br>$&gt;line con a replaced</p>
+<p>其它示例<br>字符串插入字符：将文本中每行内容（PEKSHA） 转换为 PEK/SHA<br>  sed ‘s/^.{3}/&amp;\//g’ file</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwna6s3o000yozcy1onks4xs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/12/awk/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          awk
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/12/umount/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">umount</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

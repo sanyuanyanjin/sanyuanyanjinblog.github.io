@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>linux监控命令 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://www.multicians.org/
+/etc/init.d/network restartvim /etc/sysconfig/network-scripts/ifcfg-eth0
+[root@localhost ~]# dmidecode | grep “Product Name”        Product Name: VirtualBox        Product N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux监控命令">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/linux监控命令/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="http://www.multicians.org/
+/etc/init.d/network restartvim /etc/sysconfig/network-scripts/ifcfg-eth0
+[root@localhost ~]# dmidecode | grep “Product Name”        Product Name: VirtualBox        Product N">
+<meta property="og:updated_time" content="2016-12-13T01:37:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux监控命令">
+<meta name="twitter:description" content="http://www.multicians.org/
+/etc/init.d/network restartvim /etc/sysconfig/network-scripts/ifcfg-eth0
+[root@localhost ~]# dmidecode | grep “Product Name”        Product Name: VirtualBox        Product N">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux监控命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/linux监控命令/" class="article-date">
+  <time datetime="2016-12-13T01:36:44.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      linux监控命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.multicians.org/" target="_blank" rel="external">http://www.multicians.org/</a></p>
+<p>/etc/init.d/network restart<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0</p>
+<p>[root@localhost ~]# dmidecode | grep “Product Name”<br>        Product Name: VirtualBox<br>        Product Name: VirtualBox</p>
+<p>[root@localhost ~]# dmidecode | grep -i ‘serial number’ | grep CN</p>
+<p>[root@localhost ~]# grep name /proc/cpuinfo<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz</p>
+<p>[root@localhost ~]# grep “physical id” /proc/cpuinfo<br>physical id     : 0<br>physical id     : 0</p>
+<p>[root@localhost ~]# grep MemTotal /proc/meminfo<br>MemTotal:         244212 kB</p>
+<p>[root@localhost ~]# cat /etc/redhat-release<br>CentOS release 6.4 (Final)<br>[root@localhost ~]# uname -r<br>2.6.32-358.el6.x86_64<br>[root@localhost ~]# uname -m<br>x86_64<br>[root@localhost ~]# uname -a<br>Linux localhost.localdomain 2.6.32-358.el6.x86_64 #1 SMP Fri Feb 22 00:31:26 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux</p>
+<p>[root@localhost ~]# lsb_release -a<br>-bash: lsb_release: command not found</p>
+<p>解决方法：yum install redhat-lsb -y</p>
+<p>[root@localhost ~]# lsb_release -a<br>LSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch<br>Distributor ID: CentOS<br>Description:    CentOS release 6.4 (Final)<br>Release:        6.4<br>Codename:       Final</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/i18n</p>
+<p>LANG=”en_US.UTF-8”<br>SYSFONT=”latarcyrheb-sun16”</p>
+<p>LANG=en_US</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwna6s3f000sozcy6fqrphw4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Linux-Command/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux Command
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/我使用过的Linux命令之telnet/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">我使用过的Linux命令之telnet</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

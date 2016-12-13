@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>route | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）c.如果添加一个主机路由？请分别解答。解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1route 命令使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="route">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/route/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）c.如果添加一个主机路由？请分别解答。解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1route 命令使">
+<meta property="og:updated_time" content="2016-12-13T01:24:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="route">
+<meta name="twitter:description" content="a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）c.如果添加一个主机路由？请分别解答。解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1route 命令使">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-route" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/route/" class="article-date">
+  <time datetime="2016-12-13T01:23:55.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      route
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？<br>b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）<br>c.如果添加一个主机路由？<br>请分别解答。<br>解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1<br>route 命令使用方法：<br>a.缺省网关路由<br>    默认网关就是数据包不匹配任何设定的路由规则，最后流经的地址关口！网关按字面意思就是网络的关口，就相当于我们家里房子的门一样，如果外出就要经过房门，数据包也是一样。<br>本题的答案：<br>route del default gw 10.0.0.254<br>解答实践：<br>[root@oldboy ~]# route -n #==&gt;查看路由表，netstat -rn也可以。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0</p>
+<p>#==&gt;这里就是系统的默认网关信息，表示去任何地方（0.0.0.0），都发给10.0.0.254，因为是默认网关，所以，放在了最后一条。路由也是有顺序的，如果不符合任何一条规则就交给默认网关处理。<br>[root@oldboy ~]# route del default gw 10.0.0.254 #==&gt;这个命令是删除默认的网关。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>[root@oldboy ~]# route add default gw 10.0.0.254    #==&gt;这个命令是添加默认的网关，也是本题的答案。<br>[root@oldboy ~]# netstat -rn<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #==&gt;又回来了<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #这里就是添加的默认网关记录。<br>特别强调：实际上route add default gw 10.0.0.254 就相当于route add -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.254<br>b.网络路由：即去往某一网络或网段的路由<br>    一般多网段之间互相通信，希望建立一条优先路由，而不是通过默认网关时就可以配置网络路由。还是拿房子比喻，你现在不是要出门，而是卧室，卫生间，去卧室就要经过卧室的门，去卫生间也要经过卫生间的门，这里的卧室和卫生间的门就可以认为是去往某一网段的路由，而不是默认路由（即房子的门。）<br>    实际工作中会有需求，两个不同的内部网络之间互访，而不是出网访问，就是上面例子的情况。<br>    本题的答案：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>解答实践：<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>SIOCADDRT: 网络不可达 #==&gt;当连不通地址192.168.1.1时，无法添加路由。<br>[root@oldboy ~]# ifconfig eth0:0 192.168.1.1/24 up #==&gt;添加一个IP别名用于临时测试，如果永久生效最好加双网卡或写入到配置文件。<br>[root@oldboy ~]# ifconfig eth0:0 #==&gt;查看添加的IP别名（网络里把这种多IP的方式称为子接口）<br>eth0:0    Link encap:Ethernet  HWaddr 00:0C:29:65:A4:FD<br>          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>再来添加去192.168.1.0的数据包，交给192.168.1.1处理。<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>[root@oldboy ~]# netstat -rn   #==&gt;和route -n很像。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG        0 0          0 eth0 #==&gt;这就是网络路由<br>192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG        0 0          0 eth0<br>拓展：其他写法<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0  #==&gt;指定设备而不是地址。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG    0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>[root@oldboy ~]# route del -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route add -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>总结：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0<br>route add -net 192.168.1.0/24 dev eth0<br>route del -net 192.168.1.0/24 dev eth0<br>特别强调：以上配置在重启网络时都会失效，那么如何让它永久生效呢？<br>如果要是永久生效，有如下几种方法：<br>方法一：<br>vi /etc/sysconfig/network-scripts/route-eth0  #默认不存在此文件<br>加入如下内容：<br>192.168.1.0/24 via 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法二：<br>vi /etc/sysconfig/static-routes  #默认不存在此文件<br>加入如下内容:<br>any net 192.168.1.0/24 gw 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法三：<br>vi /etc/rc.local<br>加入如下内容：<br>route add -net 192.168.1.0/24 gw 192.168.1.1<br>PS: 方法一推荐生产环境使用<br>提示：方法三写到/etc/rc.local里只在开机时加载，当手工重启网络后会失效，但是重启系统后会生效！</p>
+<p>如果是配置默认路由网关可以再网卡配置里：<br>[root@oldboy ~]# grep GATEWAY /etc/sysconfig/network-scripts/ifcfg-eth0<br>GATEWAY=10.0.0.254<br>c.主机路由：就是去往某个主机地址如何配置路由<br>/sbin/route add -host 192.168.2.13 dev eth2<br>/sbin/route add -host 202.81.11.91 dev lo<br>例如：keepalived或heartbeat高可用服务器对之间的使用单独网卡接心跳线通信就会用到以上主机路由。<br>route命令拓展：<br>删除一条默认路由：<br>route del default gw 10.0.0.254<br>删除一条静态路由：<br>route del –net 目标网络 netmask<br>如：route del -net 192.168.1.0/24 或route del -net 192.168.1.0 netmask 255.225.255.0<br>删除一条主机路由：<br>route del -host 192.168.1.10 dev eth0</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwna6s3i000wozcyzvhzaucx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/vim常用命令/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          vim常用命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/find/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">find</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux服务器遭受攻击后的一般处理过程 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。一、处理服务器遭受攻击的一般思路系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。1.切断网络所有的攻击都来自于网络，因此，在得知系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器遭受攻击后的一般处理过程">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。一、处理服务器遭受攻击的一般思路系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。1.切断网络所有的攻击都来自于网络，因此，在得知系">
+<meta property="og:updated_time" content="2016-12-13T01:59:29.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux服务器遭受攻击后的一般处理过程">
+<meta name="twitter:description" content="安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。一、处理服务器遭受攻击的一般思路系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。1.切断网络所有的攻击都来自于网络，因此，在得知系">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
+  <time datetime="2016-12-13T01:59:07.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux服务器遭受攻击后的一般处理过程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。<br>一、处理服务器遭受攻击的一般思路<br>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。<br>1.切断网络<br>所有的攻击都来自于网络，因此，在得知系统正遭受黑客的攻击后，首先要做的就是断开服务器的网络连接，这样除了能切断攻击源之外，也能保护服务器所在网络的其他主机。<br>2.查找攻击源<br>可以通过分析系统日志或登录日志文件，查看可疑信息，同时也要查看系统都打开了哪些端口，运行哪些进程，并通过这些进程分析哪些是可疑的程序。这个过程要根据经验和综合判断能力进行追查和分析。下面的章节会详细介绍这个过程的处理思路。<br>3.分析入侵原因和途径<br>既然系统遭到入侵，那么原因是多方面的，可能是系统漏洞，也可能是程序漏洞，一定要查清楚是哪个原因导致的，并且还要查清楚遭到攻击的途径，找到攻击源，因为只有知道了遭受攻击的原因和途径，才能删除攻击源同时进行漏洞的修复。<br>4.备份用户数据<br>在服务器遭受攻击后，需要立刻备份服务器上的用户数据，同时也要查看这些数据中是否隐藏着攻击源。如果攻击源在用户数据中，一定要彻底删除，然后将用户数据备份到一个安全的地方。<br>5.重新安装系统<br>永远不要认为自己能彻底清除攻击源，因为没有人能比黑客更了解攻击程序，在服务器遭到攻击后，最安全也最简单的方法就是重新安装系统，因为大部分攻击程序都会依附在系统文件或者内核中，所以重新安装系统才能彻底清除攻击源。<br>6.修复程序或系统漏洞<br>在发现系统漏洞或者应用程序漏洞后，首先要做的就是修复系统漏洞或者更改程序bug，因为只有将程序的漏洞修复完毕才能正式在服务器上运行。<br>7.恢复数据和连接网络<br>将备份的数据重新复制到新安装的服务器上，然后开启服务，最后将服务器开启网络连接，对外提供服务。<br>二、检查并锁定可疑用户<br>当发现服务器遭受攻击后，首先要切断网络连接，但是在有些情况下，比如无法马上切断网络连接时，就必须登录系统查看是否有可疑用户，如果有可疑用户登录了系统，那么需要马上将这个用户锁定，然后中断此用户的远程连接。<br>1.登录系统查看可疑用户<br>通过root用户登录，然后执行“w”命令即可列出所有登录过系统的用户。<br>通过这个输出可以检查是否有可疑或者不熟悉的用户登录，同时还可以根据用户名以及用户登录的源地址和它们正在运行的进程来判断他们是否为非法用户。<br>2.锁定可疑用户<br>一旦发现可疑用户，就要马上将其锁定，例如上面执行“w”命令后发现nobody用户应该是个可疑用户（因为nobody默认情况下是没有登录权限的），于是首先锁定此用户，执行如下操作：<br>[root@server ~]# passwd -l nobody<br>锁定之后，有可能此用户还处于登录状态，于是还要将此用户踢下线，根据上面“w”命令的输出，即可获得此用户登录进行的pid值，操作如下：<br>[root@server ~]# ps -ef|grep @pts/3<br>531 6051 6049 0 19:23 ? 00:00:00 sshd: nobody@pts/3<br>[root@server ~]# kill -9 6051<br>这样就将可疑用户nobody从线上踢下去了。如果此用户再次试图登录它已经无法登录了。<br>3.通过last命令查看用户登录事件<br>last命令记录着所有用户登录系统的日志，可以用来查找非授权用户的登录事件，而last命令的输出结果来源于/var/log/wtmp文件，稍有经验的入侵者都会删掉/var/log/wtmp以清除自己行踪，但是还是会露出蛛丝马迹在此文件中的。<br>三、查看系统日志<br>查 看系统日志是查找攻击源最好的方法，可查的系统日志有/var/log/messages、/var/log/secure等，这两个日志文件可以记录软 件的运行状态以及远程用户的登录状态，还可以查看每个用户目录下的.bash_history文件，特别是/root目录下的.bash_history 文件，这个文件中记录着用户执行的所有历史命令。<br>四、检查并关闭系统可疑进程<br>检查可疑进程的命令很多，例如ps、top等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看：<br>首先通过pidof命令可以查找正在运行的进程PID，例如要查找sshd进程的PID，执行如下命令：<br>1<br>2<br>[root@server ~]# pidof sshd<br>13276 12942 4284<br>然后进入内存目录，查看对应PID目录下exe文件的信息：<br>1<br>2<br>[root@server ~]# ls -al /proc/13276/exe<br>lrwxrwxrwx 1 root root 0 Oct 4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd<br>这样就找到了进程对应的完整执行路径。如果还有查看文件的句柄，可以查看如下目录：<br>[root@server ~]# ls -al /proc/13276/fd<br>通过这种方式基本可以找到任何进程的完整执行信息，此外还有很多类似的命令可以帮助系统运维人员查找可疑进程。例如，可以通过指定端口或者tcp、udp协议找到进程PID，进而找到相关进程：<br>[root@server ~]# fuser -n tcp 111<br>111/tcp: 1579<br>[root@server ~]# fuser -n tcp 25<br>25/tcp: 2037<br>[root@server ~]# ps -ef|grep 2037<br>root 2037 1 0 Sep23 ? 00:00:05 /usr/libexec/postfix/master<br>postfix 2046 2037 0 Sep23 ? 00:00:01 qmgr -l -t fifo -u<br>postfix 9612 2037 0 20:34 ? 00:00:00 pickup -l -t fifo -u<br>root 14927 12944 0 21:11 pts/1 00:00:00 grep 2037<br>在 有些时候，攻击者的程序隐藏很深，例如rootkits后门程序，在这种情况下ps、top、netstat等命令也可能已经被替换，如果再通过系统自身 的命令去检查可疑进程就变得毫不可信，此时，就需要借助于第三方工具来检查系统可疑程序，例如前面介绍过的chkrootkit、RKHunter等工 具，通过这些工具可以很方便的发现系统被替换或篡改的程序。<br>五、检查文件系统的完好性<br>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上/bin/ls文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。此时可以借助于Linux下rpm这个工具来完成验证，操作如下：<br>[root@server ~]# rpm -Va<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….T c /etc/sysctl.conf<br>S.5….T /etc/sgml/docbook-simple.cat<br>S.5….T c /etc/login.defs<br>S.5….. c /etc/openldap/ldap.conf<br>S.5….T c /etc/sudoers<br>..5….T c /usr/lib64/security/classpath.security<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….. c /etc/ldap.conf<br>S.5….T c /etc/ssh/sshd_config<br>对于输出中每个标记的含义介绍如下：<br>S 表示文件长度发生了变化<br>M 表示文件的访问权限或文件类型发生了变化<br>5 表示MD5校验和发生了变化<br>D 表示设备节点的属性发生了变化<br>L 表示文件的符号链接发生了变化<br>U 表示文件/子目录/设备节点的owner发生了变化<br>G 表示文件/子目录/设备节点的group发生了变化<br>T 表示文件最后一次的修改时间发生了变化<br>如果在输出结果中有“M”标记出现，那么对应的文件可能已经遭到篡改或替换，此时可以通过卸载这个rpm包重新安装来清除受攻击的文件。<br>不过这个命令有个局限性，那就是只能检查通过rpm包方式安装的所有文件，对于通过非rpm包方式安装的文件就无能为力了。同时，如果rpm工具也遭到替换，就不能通过这个方法了，此时可以从正常的系统上复制一个rpm工具进行检测。<br>对文件系统的检查也可以通过chkrootkit、RKHunter这两个工具来完成，关于chkrootkit、RKHunter工具的使用，下次将展开介绍。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwna6s2y000hozcy8zffhszg" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Linux-系统恢复/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux 系统恢复
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux使用ntfs-3g挂载NTFS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

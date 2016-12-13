@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux中date命令的各种实用方法 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="date 022517122015[root@RHEL601 tmp]# date2012年 07月 19日 星期四 20:11:16 CST读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:%n : 下一行%t : 跳格%H : 小时(00..23)%I : 小时(01..12)%k : 小时(0..23)%l : 小时(1..12)%M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux中date命令的各种实用方法">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="date 022517122015[root@RHEL601 tmp]# date2012年 07月 19日 星期四 20:11:16 CST读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:%n : 下一行%t : 跳格%H : 小时(00..23)%I : 小时(01..12)%k : 小时(0..23)%l : 小时(1..12)%M">
+<meta property="og:updated_time" content="2016-12-13T01:28:42.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux中date命令的各种实用方法">
+<meta name="twitter:description" content="date 022517122015[root@RHEL601 tmp]# date2012年 07月 19日 星期四 20:11:16 CST读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:%n : 下一行%t : 跳格%H : 小时(00..23)%I : 小时(01..12)%k : 小时(0..23)%l : 小时(1..12)%M">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux中date命令的各种实用方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux中date命令的各种实用方法/" class="article-date">
+  <time datetime="2016-12-13T01:27:09.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux中date命令的各种实用方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>date 022517122015<br>[root@RHEL601 tmp]# date<br>2012年 07月 19日 星期四 20:11:16 CST<br>读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:<br>%n : 下一行<br>%t : 跳格<br>%H : 小时(00..23)<br>%I : 小时(01..12)<br>%k : 小时(0..23)<br>%l : 小时(1..12)<br>%M : 分钟(00..59)<br>%p : 显示本地 AM 或 PM<br>%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)<br>%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数<br>%S : 秒(00..59)<br>%T : 直接显示时间 (24 小时制)<br>%X : 相当于 %H:%M:%S<br>%Z : 显示时区 %a : 星期几 (Sun..Sat)<br>%A : 星期几 (Sunday..Saturday)<br>%b : 月份 (Jan..Dec)<br>%B : 月份 (January..December)<br>%c : 直接显示日期与时间<br>%d : 日 (01..31)<br>%D : 直接显示日期 (mm/dd/yy)<br>%h : 同 %b<br>%j : 一年中的第几天 (001..366)<br>%m : 月份 (01..12)<br>%U : 一年中的第几周 (00..53) (以 Sunday 为一周的第一天的情形)<br>%w : 一周中的第几天 (0..6)<br>%W : 一年中的第几周 (00..53) (以 Monday 为一周的第一天的情形)<br>%x : 直接显示日期 (mm/dd/yy)<br>%y : 年份的最后两位数字 (00.99)<br>%Y : 完整年份 (0000..9999)</p>
+<p>按照特定的格式输出时间：短接符”-“、空格” “和冒号”:” 为分隔符，其中空格前面加了转义符号”\”<br>[root@RHEL601 tmp]# date +%Y-%m-%d\ %H:%M:%S<br>2012-07-19 21:10:28<br>在当前时间的基础上往前推或者往后推三天<br>[root@RHEL601 tmp]# date -d “+3 day”<br>2012年 07月 22日 星期日 20:12:08 CST<br>[root@RHEL601 tmp]# date -d “-3 day”<br>2012年 07月 16日 星期一 20:12:12 CST<br>在当前时间的基础上往前推或者往后推三个月<br>[root@RHEL601 tmp]# date -d “-3 month”<br>2012年 04月 19日 星期四 20:12:39 CST<br>[root@RHEL601 tmp]# date -d “+3 month”<br>2012年 10月 19日 星期五 20:12:48 CST<br>在当前时间的基础上往前推或者往后推三年<br>[root@RHEL601 tmp]# date -d “+3 year”<br>2015年 07月 19日 星期日 20:13:06 CST<br>[root@RHEL601 tmp]# date -d “-3 year”<br>2009年 07月 19日 星期日 20:13:11 CST<br>在当前时间的基础上往前推或者往后推三小时<br>[root@RHEL601 tmp]# date -d “-3 hour”<br>2012年 07月 19日 星期四 17:13:20 CST<br>[root@RHEL601 tmp]# date -d “+3 hour”<br>2012年 07月 19日 星期四 23:13:24 CST<br>在当前时间的基础上往前推或者往后推三分钟<br>[root@RHEL601 tmp]# date -d “+3 minute”<br>2012年 07月 19日 星期四 20:16:56 CST<br>[root@RHEL601 tmp]# date -d “-3 minute”<br>2012年 07月 19日 星期四 20:10:59 CST<br>在当前时间的基础上往前推或者往后推三十秒<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “-30 second”<br>2012年 07月 19日 星期四 20:14:24 CST<br>2012年 07月 19日 星期四 20:13:54 CST<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “+30 second”<br>2012年 07月 19日 星期四 20:14:29 CST<br>2012年 07月 19日 星期四 20:14:59 CST<br>2、接下来的范例说明如何用date来表示各种各样的时间，表示的都是某一天的零点时间，也可以在当前的时分秒的基础上表示时间，(特别注意中间用到了反单引号<code>)参见范例
+date -d</code>date +%y%m01<code>#本月第一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>2012年 07月 01日 星期日 00:00:00 CST
+date -d</code>date +%y%m01<code>&quot;-1 day&quot;  #上个月最后一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>&quot;-1 day&quot;
+2012年 06月 30日 星期六 00:00:00 CST
+date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot; #4个月前的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot;
+2012年 03月 31日 星期六 00:00:00 CST
+date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot; #第11个月后的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot;
+2013年 06月 30日 星期日 00:00:00 CST
+date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-1 month” +%y%m01`<br>2012年 06月 01日 星期五 00:00:00 CST</p>
+<p>date -d <code>date -d &quot;+12 month&quot; +%y%m01</code> #第12个月后的第一天<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+12 month&quot; +%y%m01</code><br>2013年 07月 01日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code> #前一天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code><br>2012年 07月 18日 星期三 00:00:00 CST<br>date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code> #前三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code><br>2012年 07月 16日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code> #明天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code><br>2012年 07月 20日 星期五 00:00:00 CST<br>date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code> #往后推三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code><br>2012年 07月 22日 星期日 00:00:00 CST</p>
+<p>3、以下简单示范了字母大小写在date命令中的区别<br>Y #代表完整的年份，例如:2012年 将显示 2012<br>y #代表缩写年份，例如：2012年 缩写为 12<br>[root@RHEL601 tmp]# date +”%y%m01%H%M%S”<br>121201121556<br>[root@RHEL601 tmp]# date +”%Y%m01%H%M%S”<br>20121201121610<br>4、以下范例说明如何调整服务器的时间<br>ntpdate 210.72.145.44 #将服务器时间调整为正常时间，210.72.145.44 是国家授时中心服务器IP地址<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 13:07:07 ntpdate[15150]: adjust time server 210.72.145.44 offset -0.020920 sec<br>date 121212122012 #将时间设置为2012年 12月 12日 星期三 12:12:00，date后面的数字代表月日时分年，还可以加秒，需要后面跟英文状态下的句号字符”.”，例如：121212122012.12<br>[root@RHEL601 tmp]# date 121212122012<br>2012年 12月 12日 星期三 12:12:00 CST<br>date112809462014<br>[root@RHEL601 tmp]# date 121212122012.12<br>2012年 12月 12日 星期三 12:12:12 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;1 day ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 18日 星期三 20:13:04 CST<br>[root@RHEL601 tmp]# date<br>2012年 07月 18日 星期三 20:13:10 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;3 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 15日 星期日 20:13:18 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;5 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 10日 星期二 20:13:28 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 09日 星期一 20:13:39 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 08日 星期日 20:14:01 CST<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 20:14:15 ntpdate[26846]: step time server 210.72.145.44 offset 950404.037565 sec</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwna6s2v000fozcyi1gun2z0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/用cp命令复制大量文件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          用cp命令复制大量文件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/命令行/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">命令行</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

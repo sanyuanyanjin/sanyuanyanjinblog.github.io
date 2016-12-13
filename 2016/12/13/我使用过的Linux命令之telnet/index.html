@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>我使用过的Linux命令之telnet | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具用途说明
+　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我使用过的Linux命令之telnet">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具用途说明
+　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上">
+<meta property="og:updated_time" content="2016-12-13T01:35:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="我使用过的Linux命令之telnet">
+<meta name="twitter:description" content="我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具用途说明
+　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-我使用过的Linux命令之telnet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/我使用过的Linux命令之telnet/" class="article-date">
+  <time datetime="2016-12-13T01:35:30.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      我使用过的Linux命令之telnet
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具<br>用途说明</p>
+<p>　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上使用telnet程序，用它连接到服务器。终端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接 在服务器的控制台上输入一样。可以在本地就能控制服务器。要开始一个 telnet会话，必须输入用户名和密码来登录服务器。Telnet是常用的远程控制Web服务器的方法。<br>　　但是，telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式了。但仍然有很多别的系统可能采用了telnet方式来提供远程登录，因此弄清楚telnet客户端的使用方式仍是很有必要的。<br>　　telnet命令还可做别的用途，比如确定远程服务的状态，比如确定远程服务器的某个端口是否能访问。<br>常用参数</p>
+<p>格式：telnet hostname<br>远程登录到hostname指定的机器，采用默认端口23。</p>
+<p>格式：telnet hostname port<br>远程登录到hostname指定的机器，采用端口port。</p>
+<p>在连接成功之后的使用过程中，还可以使用Ctrl+]来进入命令模式。<br>help 帮助<br>q 退出，关闭telnet连接。</p>
+<p>使用示例</p>
+<p>示例一 远程服务器无法访问的情形</p>
+<p>[root@new55 ~]# telnet 192.168.6.6<br>Trying 192.168.6.6…<br>telnet: connect to address 192.168.6.6: No route to host<br>telnet: Unable to connect to remote host: No route to host<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址是否正确？<br>（2）确认ip地址对应的主机是否已经开机？<br>（3）如果主机已经启动，确认路由设置是否设置正确？（使用route命令查看）<br>（4）如果主机已经启动，确认主机上是否开启了telnet服务？（使用netstat命令查看，TCP的23端口是否有LISTEN状态的行）<br>（5）如果主机已经启动telnet服务，确认防火墙是否放开了23端口的访问？（使用iptables-save查看）</p>
+<p>示例二 域名无法解析的情形</p>
+<p>[root@new55 ~]# telnet www.11111.com<br>www.11111.com/telnet: Name or service not known<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认域名是否正确？<br>（2）确认本机的域名解析有关的设置是否正确？（/etc/resolv.conf中nameserver的设置是否正确，如果没有，可以使用nameserver 8.8.8.8）<br>（3）确认防火墙是否放开了UDP53端口的访问？（DNS使用UDP协议，端口53，使用iptables-save查看）</p>
+<p>示例三 目标主机没有开启telnet服务的情形</p>
+<p>[root@new55 ~]# telnet www.163.com<br>Trying 58.242.249.26…<br>telnet: connect to address 58.242.249.26: Connection refused<br>telnet: Unable to connect to remote host: Connection refused<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址或者主机名是否正确？<br>（2）确认端口是否正确，是否默认的23端口？</p>
+<p>示例四 怎样启动telnet服务？（不推荐开放telnet服务，要使用更安全的ssh服务）</p>
+<p>启动telnet服务的步骤：<br>（1）到 /etc/xinetd.d 下打开 telnet 文件，将其中的 disable = yes 改成 disable = no，保存。<br>（2）重新启动xinetd服务：service xinetd restart<br>这样就可以允许非root用户从远程访问了。注意：root账号不允许登录。</p>
+<p>示例五 正常telnet的情形</p>
+<p>一般情况下不允许root从远程登录，可以先用普通账号登录，然后再用su -切到root用户。<br>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: root<br>Password:<br>Login incorrect</p>
+<p>login: root<br>Password:<br>Login incorrect</p>
+<p>login: web<br>Password:<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ su -<br>Password:<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]# exit<br>logout</p>
+<p>[web@localhost web]$ </p>
+<p>[web@localhost web]$<br>[web@localhost web]$ exit<br>logout</p>
+<p>Connection closed by foreign host.<br>[root@new55 ~]#</p>
+<p>示例六 使用telnet来测试web服务器</p>
+<p>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0 </p>
+<p>HTTP/1.0 403 Forbidden<br>Server: Cdn Cache Server V2.0<br>Date: Tue, 07 Dec 2010 04:46:12 GMT<br>Content-Type: text/html<br>Content-Length: 1156<br>Expires: Tue, 07 Dec 2010 04:46:12 GMT<br>X-Via: 1.0 hf44:8104 (Cdn Cache Server V2.0)<br>Connection: close</p>
+<p>&lt; !DOCTYPE HTML PUBLIC “-//W3C//DTD HTML 4.01 Transitional//EN” “<a href="http://www.w3.org/TR/html4/loose.dtd&quot;&gt;" target="_blank" rel="external">http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</a><br>&lt; HTML&gt;<head><br>&lt; META HTTP-EQUIV=”Content-Type” CONTENT=”text/html; charset=gb2312”&gt;<br>&lt; TITLE&gt;错误：您所请求的网址（URL）无法获取<br>&lt; STYLE type=”text/css”&gt;<!--BODY{background-color:#ffffff;font-family:verdana,sans-serif}PRE{font-family:sans-serif}--><br>&lt; /HEAD&gt;</head><body><br>&lt; H1&gt;错误<br>&lt; H2&gt;您所请求的网址（URL）无法获取<br>&lt; HR noshade size=”1px”&gt;<br>&lt; P&gt;<br>当尝试读取以下网址（URL）时：</body></p>
+<a href="http://58.242.249.44/" target="_blank" rel="external">http://58.242.249.44/</a><br>&lt; P&gt;<br>发生了下列的错误：<br><ul><br>&lt; LI&gt;<br>&lt; STRONG&gt;<br>Access Denied.<br>&lt; BR&gt;拒绝访问<br><br>&lt; P&gt;<br>Access control configuration prevents your request from<br>being allowed at this time.  Please contact your service provider if<br>you feel this is incorrect.<br>&lt; BR&gt;<br>当前的存取控制设定禁止您的请求被接受，<br>如果您觉得这是错误的，请与您网路服务的提供者联系。<br></ul><br>&lt; /P&gt;<br>&lt; P&gt;本缓存服务器管理员：<a href="mailto:cdnsupport@chinanetcenter.com" target="_blank" rel="external">cdnsupport@chinanetcenter.com</a>
+
+
+<p>&lt; BR clear=”all”&gt;<br>&lt; HR noshade size=”1px”&gt;<br>&lt; ADDRESS&gt;<br>Generated Tue, 07 Dec 2010 04:46:12 GMT by cache.51cdn.com (Cdn Cache Server V2.0)<br>&lt; /ADDRESS&gt;<br>&lt; /BODY&gt;<br>Connection closed by foreign host.<br>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0<br>Host: www.163.com</p>
+<p>这里会输出响应头和首页html文本，省略。</p>
+<p>[root@new55 ~]#</p>
+<p>示例七 进入telnet命令模式</p>
+<p>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: web<br>Password:<br>Last login: Tue Oct 19 21:53:15 from 192.168.6.55<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; help<br>Commands may be abbreviated.  Commands are:</p>
+<p>close           close current connection<br>logout          forcibly logout remote user and close the connection<br>display         display operating parameters<br>mode            try to enter line or character mode (‘mode ?’ for more)<br>open            connect to a site<br>quit            exit telnet<br>send            transmit special characters (‘send ?’ for more)<br>set             set operating parameters (‘set ?’ for more)<br>unset           unset operating parameters (‘unset ?’ for more)<br>status          print status information<br>toggle          toggle operating parameters (‘toggle ?’ for more)<br>slc             change state of special charaters (‘slc ?’ for more)<br>auth            turn on (off) authentication (‘auth ?’ for more)<br>encrypt         turn on (off) encryption (‘encrypt ?’ for more)<br>forward         turn on (off) credential forwarding (‘forward ?’ for more)<br>z               suspend telnet<br>!               invoke a subshell<br>environ         change environment variables (‘environ ?’ for more)<br>?               print help information<br>telnet&gt; display<br>will flush output when sending interrupt characters.<br>won’t send interrupt characters in urgent mode.<br>won’t send login name and/or authentication information.<br>won’t skip reading of ~/.telnetrc file.<br>won’t map carriage return on output.<br>will recognize certain control characters.<br>won’t turn on socket level debugging.<br>won’t print hexadecimal representation of network traffic.<br>won’t print user readable output for “netdata”.<br>won’t show option processing.<br>won’t print hexadecimal representation of terminal traffic.</p>
+<p>echo            [^E]<br>escape          [^]]<br>rlogin          [off]<br>tracefile       “(standard output)”<br>flushoutput     [^O]<br>interrupt       [^C]<br>quit            [^]<br>eof             [^D]<br>erase           [^?]<br>kill            [^U]<br>lnext           [^V]<br>susp            [^Z]<br>reprint         [^R]<br>worderase       [^W]<br>start           [^Q]<br>stop            [^S]<br>forw1           [off]<br>forw2           [off]<br>ayt             [^T]<br>     DO   ECHO<br>resp WILL_WONT ECHO: 1<br>want WONT ECHO<br>     DO   SUPPRESS GO AHEAD<br>     DO   STATUS<br>     WILL TERMINAL TYPE<br>     WILL NAWS<br>     WILL TSPEED<br>     WILL LFLOW<br>resp WILL_WONT XDISPLOC: 1<br>want WONT XDISPLOC<br>     WILL NEW-ENVIRON</p>
+<p>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; q<br>Connection closed.<br>[root@new55 ~]#</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwna6s4x0022ozcyi3lthttj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/linux监控命令/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          linux监控命令
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/linux定时任务crond那些事/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">linux定时任务crond那些事</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

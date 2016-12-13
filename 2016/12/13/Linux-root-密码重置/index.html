@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux root 密码重置 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。
+对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。
+主要有两个方法，这两个方法都十分简单">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux root 密码重置">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/Linux-root-密码重置/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。
+对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。
+主要有两个方法，这两个方法都十分简单">
+<meta property="og:updated_time" content="2016-12-13T02:28:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux root 密码重置">
+<meta name="twitter:description" content="在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。
+对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。
+主要有两个方法，这两个方法都十分简单">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux-root-密码重置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-root-密码重置/" class="article-date">
+  <time datetime="2016-12-13T02:26:52.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux root 密码重置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。</p>
+<p>对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。</p>
+<p>主要有两个方法，这两个方法都十分简单。</p>
+<p>方法一：</p>
+<p>1.在开机启动的时候能看到引导目录，用上下方向键选择你忘记密码的那个系统，然后按“e”。</p>
+<p>2.接下来你可以看到如下图所示的画面，然后你再用上下键选择最新的内核，然后在按“e”。</p>
+<p>3.执行完上步操作后可以看到下面的画面，在rhgb quiet最后加“空格”，然后键入“single”，或者直接输入数字的“1”并回车确定。</p>
+<p>4.按“b”键，重新引导系统。</p>
+<p>5.进入到系统后就可以用熟悉的passwd root来更改root的密码了。改完后reboot即可。</p>
+<p>方法二</p>
+<p>今天要测试一个程序，就启动自己虚拟机上的centos5.2，结果root密码忘记无法使用，真是急死人了。</p>
+<p>还好从网上找到解决办法，我摘录整理如下：</p>
+<p>GRUB:</p>
+<p>在引导装载程序菜单上，键入[e]键 来进入编辑模式。<br>你会看到一个引导项目列表。找到其中类似以下输出的句行：</p>
+<p>kernel /vmlinuz-2.6.18-0.4 ro root=/dev/hda2<br>按箭头键直到这一行被突出显示，然后再按[e]键 。<br>你现在可在文本结尾处按下 空格 再输入：single然后回车， 来告诉GRUB 引导单用户Linux 模式。<br>你会被带回到编辑模式屏幕，从这里，按[b]键， GRUB 就会引导单用户Linux 模式。</p>
+<p>结束载入后，你会看到一个与以下相似的shell 提示：</p>
+<p>sh-2.05#<br>现在，你便可以改变根命令，键入：</p>
+<p>bash# passwd root<br>你会被要求重新键入口令来校验。结束后，口令就会被改变，你便可以在提示下键入reboot 来重新引<br>导；然后，象平常一样登录为根用户。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwna6s2o0009ozcysxapipk6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/umount-device-is-busy时怎么办/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          umount device is busy时怎么办
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/封装CentOS系统几个步骤/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">封装CentOS系统几个步骤</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linux 修改本机 /etc/hosts 的 hostName 后经常不生效 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决
+Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：
+#192.68.1.10 message.xxx.com192.68.1.11 message.xxx.com
+但是ping message.xxx.com还是指向192.68.1.10。
+一般2种解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 修改本机 /etc/hosts 的 hostName 后经常不生效">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决
+Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：
+#192.68.1.10 message.xxx.com192.68.1.11 message.xxx.com
+但是ping message.xxx.com还是指向192.68.1.10。
+一般2种解">
+<meta property="og:updated_time" content="2016-12-13T01:54:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 修改本机 /etc/hosts 的 hostName 后经常不生效">
+<meta name="twitter:description" content="1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决
+Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：
+#192.68.1.10 message.xxx.com192.68.1.11 message.xxx.com
+但是ping message.xxx.com还是指向192.68.1.10。
+一般2种解">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linux-修改本机-etc-hosts-的-hostName-后经常不生效" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" class="article-date">
+  <time datetime="2016-12-13T01:54:03.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux 修改本机 /etc/hosts 的 hostName 后经常不生效
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决</p>
+<p>Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：</p>
+<p>#192.68.1.10 message.xxx.com<br>192.68.1.11 message.xxx.com</p>
+<p>但是ping message.xxx.com还是指向192.68.1.10。</p>
+<p>一般2种解决方案：</p>
+<p>1). 重启，这是最直接最可靠稳定的一种方法，如果有些时候不方便重启，则可以使用第二种方法。</p>
+<p>2). 修改/etc/sysconfig/network文件，将HOSTNAME修改成对应的别名，如下：</p>
+<p>NETWORKING=yes<br>HOSTNAME=host1</p>
+<p>修改后重启网络服务</p>
+<p>service network restart (本质是/etc/init.d/network) 3).</p>
+<p>如果重启服务器后，还是不起作用，应该是本机的dns缓存引起的。</p>
+<p>查看nscd是否启用： ps -ef|grep nscd</p>
+<p>直接关闭Linux nscd 缓存服务： /etc/init.d/nscd stop</p>
+<p>2、Linux的DNS</p>
+<p>linux本身是没有dns缓存的,想使用dns缓存的话需要自己安装一个服务程序NSCD(name service cache daemon).</p>
+<p>nscd缓存三种服务passwd group hosts，所以它会记录三个库，分别对应源/etc/passwd, /etc/hosts 和 /etc/resolv.conf每个库保存两份缓存，一份是找到记录的，一份是没有找到记录的。每一种缓存都保存有生存时间（TTL）.</p>
+<p>安装：</p>
+<p>yum install nscd</p>
+<p>修改配置文件/etc/nscd.conf,开启dns缓存,修改这一行 enable-cache hosts yes。</p>
+<p>如果启用了nscd 服务，才有dns 缓存，否则是没有dns缓存的。</p>
+<p>开启 、停止、 重启服务 service nscd start | stop | restart</p>
+<p>nscd的配置：</p>
+<p>通过编辑/etc/nscd.conf文件，在其中增加如下一行可以开启本地DNS cache：<br>enable-cache hosts yes</p>
+<p>阿里云主机上的配置如下：</p>
+<p>[root@iZ2571ykq ~]# cat /etc/nscd.conf   </p>
+<p>#logfile        /var/log/nscd.log<br>threads         6<br>max-threads     128<br>server-user     nscd<br>debug-level     5<br>paranoia        no<br>enable-cache    passwd      no<br>enable-cache    group       no<br>enable-cache    hosts       yes<br>positive-time-to-live   hosts   5<br>negative-time-to-live   hosts       20<br>suggested-size  hosts       211<br>check-files     hosts       yes<br>persistent      hosts       yes<br>shared          hosts       yes<br>max-db-size     hosts       33554432</p>
+<p>相关参数的解释如下：</p>
+<p>logfile debug-file-name：指定调试信息写入的文件名。</p>
+<p>debug-level value：设置希望的调试级别。</p>
+<p>threads number：这是启动的等待请求的线程数。最少将创建5个线程。</p>
+<p>server-user user：如果设置了该选项，nscd将作为该用户运行，而不是作为root。如果每个用户都使用一个单独的缓存（-S参数），将忽略该选项</p>
+<p>enable-cache service <yes|no>：启用或禁用制定的 服务 缓存。</yes|no></p>
+<p>positive-time-to-live service value：设置 service 在指定缓存中正的项目（成功的请求）的TTL（存活时间）。 Value 以秒为单位。较大的值将增加缓存命中率从而减低平均响应时间，但是将增加缓存的一致性问题。</p>
+<p>negative-time-to-live service value：设置 service 在指定缓存中负的项目（失败的请求）的TTL（存活时间）。 Value 以秒为单位。如果存在由不在系统数据库中的uid（用户ID）（例如在以root身份解包linux 内核源代码时）所拥有的文件将明显改善性能；应该维持较小的值以降低缓存一致性问题。</p>
+<p>suggested-size service value：这是内部散列表的大小， value 应该保持一个素数以达到优化效果。</p>
+<p>check-files service <yes|no>：启用或禁用检查属于指定 服务 的文件的改变。这些文件是 /etc/passwd， /etc/group， 以及/etc/hosts。</yes|no></p>
+<p>nscd 的查看和清除</p>
+<p>nscd缓存DB文件在/var/db/nscd下。</p>
+<p>nscd -g 查看统计信息</p>
+<p>清除 nscd缓存：</p>
+<p>nscd -i passwd<br>nscd -i group<br>nscd -i hosts</p>
+<p>当然也先删除缓存库或者停掉nscd服务：</p>
+<p>rm -f /var/db/nscd/hosts<br>service nscd restart</p>
+<p>或者是直接停止nscd 服务</p>
+<p>service nscd stop。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwna6s2q000bozcy29vklcpf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linux使用ntfs-3g挂载NTFS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/Linux-Command/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Linux Command</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
