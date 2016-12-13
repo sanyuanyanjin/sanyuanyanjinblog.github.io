@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,467 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Python-资源" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Python-资源/" class="article-date">
+  <time datetime="2016-12-13T05:56:49.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Python-资源/">Python 资源</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境管理</p>
+<p>管理 Python 版本和环境的工具</p>
+<ul>
+<li>p – 非常简单的交互式 python 版本管理工具。</li>
+<li>pyenv – 简单的 Python 版本管理工具。</li>
+<li>Vex – 可以在虚拟环境中执行命令。</li>
+<li>virtualenv – 创建独立 Python 环境的工具。</li>
+<li>virtualenvwrapper– virtualenv 的一组扩展。</li>
+</ul>
+<p>包管理</p>
+<p>管理包和依赖的工具。</p>
+<ul>
+<li>pip – Python 包和依赖关系管理工具。</li>
+<li>pip-tools – 保证 Python 包依赖关系更新的一组工具。</li>
+<li>conda – 跨平台，Python 二进制包管理工具。</li>
+<li>Curdling – 管理 Python 包的命令行工具。</li>
+<li>wheel – Python 分发的新标准，意在取代 eggs。</li>
+</ul>
+<p>包仓库</p>
+<p>本地 PyPI 仓库服务和代理。</p>
+<ul>
+<li>warehouse – 下一代 PyPI。<br>Warehouse bandersnatch – PyPA 提供的 PyPI 镜像工具。</li>
+<li>devpi – PyPI 服务和打包/测试/分发工具。</li>
+<li>localshop – 本地 PyPI 服务（自定义包并且自动对 PyPI 镜像）。</li>
+</ul>
+<p>分发</p>
+<p>打包为可执行文件以便分发。</p>
+<ul>
+<li>PyInstaller – 将 Python 程序转换成独立的执行文件（跨平台）。</li>
+<li>dh-virtualenv – 构建并将 virtualenv 虚拟环境作为一个 Debian 包来发布。</li>
+<li>Nuitka – 将脚本、模块、包编译成可执行文件或扩展模块。</li>
+<li>py2app – 将 Python 脚本变为独立软件包（Mac OS X）。</li>
+<li>py2exe – 将 Python 脚本变为独立软件包（Windows）。</li>
+<li>pynsist – 一个用来创建 Windows 安装程序的工具，可以在安装程序中打包 Python本身。</li>
+</ul>
+<p>构建工具</p>
+<p>将源码编译成软件。</p>
+<ul>
+<li>buildout – 一个构建系统，从多个组件来创建，组装和部署应用。</li>
+<li>BitBake – 针对嵌入式 Linux 的类似 make 的构建工具。</li>
+<li>fabricate – 对任何语言自动找到依赖关系的构建工具。</li>
+<li>PlatformIO – 多平台命令行构建工具。</li>
+<li>PyBuilder – 纯 Python 实现的持续化构建工具。</li>
+<li>SCons – 软件构建工具。</li>
+</ul>
+<p>交互式解析器</p>
+<p>交互式 Python 解析器。</p>
+<ul>
+<li>IPython – 功能丰富的工具，非常有效的使用交互式 Python。</li>
+<li>bpython– 界面丰富的 Python 解析器。</li>
+<li>ptpython – 高级交互式Python解析器， 构建于python-prompt-toolkit 之上。</li>
+</ul>
+<p>文件</p>
+<p>文件管理和 MIME（多用途的网际邮件扩充协议）类型检测。</p>
+<ul>
+<li>imghdr – （Python 标准库）检测图片类型。</li>
+<li>mimetypes – （Python 标准库）将文件名映射为 MIME 类型。</li>
+<li>path.py – 对 os.path 进行封装的模块。</li>
+<li>pathlib – （Python3.4+ 标准库）跨平台的、面向对象的路径操作库。</li>
+<li>python-magic– 文件类型检测的第三方库 libmagic 的 Python 接口。</li>
+<li>Unipath– 用面向对象的方式操作文件和目录</li>
+<li>watchdog – 管理文件系统事件的 API 和 shell 工具</li>
+</ul>
+<p>日期和时间</p>
+<p>操作日期和时间的类库。</p>
+<ul>
+<li>arrow– 更好的 Python 日期时间操作类库。</li>
+<li>Chronyk – Python 3 的类库，用于解析手写格式的时间和日期。</li>
+<li>dateutil – Python datetime 模块的扩展。</li>
+<li>delorean– 解决 Python 中有关日期处理的棘手问题的库。</li>
+<li>moment – 一个用来处理时间和日期的Python库。灵感来自于Moment.js。</li>
+<li>PyTime – 一个简单易用的Python模块，用于通过字符串来操作日期/时间。</li>
+<li>pytz – 现代以及历史版本的世界时区定义。将时区数据库引入Python。</li>
+<li>when.py – 提供用户友好的函数来帮助用户进行常用的日期和时间操作。</li>
+</ul>
+<p>文本处理</p>
+<p>用于解析和操作文本的库。</p>
+<ul>
+<li>通用<br>chardet – 字符编码检测器，兼容 Python2 和 Python3。<br>difflib – (Python 标准库)帮助我们进行差异化比较。<br>ftfy – 让Unicode文本更完整更连贯。<br>fuzzywuzzy – 模糊字符串匹配。<br>Levenshtein – 快速计算编辑距离以及字符串的相似度。<br>pangu.py – 在中日韩语字符和数字字母之间添加空格。<br>pyfiglet -figlet 的 Python实现。<br>shortuuid – 一个生成器库，用以生成简洁的，明白的，URL 安全的 UUID。<br>unidecode – Unicode 文本的 ASCII 转换形式 。<br>uniout – 打印可读的字符，而不是转义的字符串。<br>xpinyin – 一个用于把汉字转换为拼音的库。</li>
+<li>Slug化<br>awesome-slugify – 一个 Python slug 化库，可以保持 Unicode。<br>python-slugify – Python slug 化库，可以把 unicode 转化为 ASCII。<br>unicode-slugify – 一个 slug 工具，可以生成 unicode slugs ,需要依赖 Django 。</li>
+<li>解析器<br>phonenumbers – 解析，格式化，储存，验证电话号码。<br>PLY – lex 和 yacc 解析工具的 Python 实现。<br>Pygments – 通用语法高亮工具。<br>pyparsing – 生成通用解析器的框架。<br>python-nameparser – 把一个人名分解为几个独立的部分。<br>python-user-agents – 浏览器 user agent 解析器。<br>sqlparse – 一个无验证的 SQL 解析器。</li>
+</ul>
+<p>特殊文本格式处理</p>
+<p>一些用来解析和操作特殊文本格式的库。</p>
+<ul>
+<li>通用<br>tablib – 一个用来处理中表格数据的模块。</li>
+<li>Office<br>Marmir – 把输入的Python 数据结构转换为电子表单。<br>openpyxl – 一个用来读写 Excel 2010 xlsx/xlsm/xltx/xltm 文件的库。<br>python-docx – 读取，查询以及修改 Microsoft Word 2007/2008 docx 文件。<br>unoconv – 在 LibreOffice/OpenOffice 支持的任意文件格式之间进行转换。<br>XlsxWriter – 一个用于创建 Excel .xlsx 文件的 Python 模块。<br>xlwings – 一个使得在 Excel 中方便调用 Python 的库（反之亦然），基于 BSD 协议。<br>xlwt / xlrd – 读写 Excel 文件的数据和格式信息。<br>relatorio – 模板化OpenDocument 文件。</li>
+<li>PDF<br>PDFMiner – 一个用于从PDF文档中抽取信息的工具。<br>PyPDF2 – 一个可以分割，合并和转换 PDF 页面的库。<br>ReportLab – 快速创建富文本 PDF 文档。</li>
+<li>Markdown<br>Mistune – 快速并且功能齐全的纯 Python 实现的 Markdown 解析器。<br>Python-Markdown – John Gruber’s Markdown 的 Python 版实现。</li>
+<li>YAML<br>PyYAML – Python 版本的 YAML 解析器。</li>
+<li>CSV<br>csvkit – 用于转换和操作 CSV 的工具。</li>
+<li>Archive<br>unp – 一个用来方便解包归档文件的命令行工具。</li>
+</ul>
+<p>自然语言处理</p>
+<p>用来处理人类语言的库。</p>
+<ul>
+<li>NLTK – 一个先进的平台，用以构建处理人类语言数据的 Python 程序。</li>
+<li>jieba – 中文分词工具。</li>
+<li>langid.py – 独立的语言识别系统。</li>
+<li>Pattern – Python 网络信息挖掘模块。</li>
+<li>SnowNLP – 一个用来处理中文文本的库。</li>
+<li>TextBlob – 为进行普通自然语言处理任务提供一致的 API。</li>
+<li>TextGrocery – 一简单高效的短文本分类工具，基于 LibLinear 和 Jieba。</li>
+</ul>
+<p>文档</p>
+<p>用以生成项目文档的库。</p>
+<ul>
+<li>Sphinx – Python 文档生成器。<br>awesome-sphinxdoc</li>
+<li>MkDocs – 对 Markdown 友好的文档生成器。</li>
+<li>pdoc – 一个可以替换Epydoc 的库，可以自动生成 Python 库的 API 文档。</li>
+<li>Pycco – 文学编程（literate-programming）风格的文档生成器。</li>
+</ul>
+<p>配置</p>
+<p>用来保存和解析配置的库。</p>
+<ul>
+<li>config – logging 模块作者写的分级配置模块。</li>
+<li>ConfigObj – INI 文件解析器，带验证功能。</li>
+<li>ConfigParser – (Python 标准库) INI 文件解析器。</li>
+<li>profig – 通过多种格式进行配置，具有数值转换功能。</li>
+<li>python-decouple – 将设置和代码完全隔离。</li>
+</ul>
+<p>命令行工具</p>
+<p>用于创建命令行程序的库。</p>
+<ul>
+<li>命令行程序开发<br>cement – Python 的命令行程序框架。<br>click – 一个通过组合的方式来创建精美命令行界面的包。<br>cliff – 一个用于创建命令行程序的框架，可以创建具有多层命令的命令行程序。<br>clint – Python 命令行程序工具。<br>colorama – 跨平台彩色终端文本。<br>docopt – Python 风格的命令行参数解析器。<br>Gooey – 一条命令，将命令行程序变成一个 GUI 程序。<br>python-prompt-toolkit – 一个用于构建强大的交互式命令行程序的库。</li>
+<li>生产力工具<br>aws-cli – Amazon Web Services 的通用命令行界面。<br>bashplotlib – 在终端中进行基本绘图。<br>caniusepython3 – 判断是哪个项目妨碍你你移植到 Python 3。<br>cookiecutter – 从 cookiecutters（项目模板）创建项目的一个命令行工具。<br>doitlive – 一个用来在终端中进行现场演示的工具。<br>howdoi – 通过命令行获取即时的编程问题解答。<br>httpie – 一个命令行HTTP 客户端，cURL 的替代品，易用性更好。<br>PathPicker – 从bash输出中选出文件。<br>percol – 向UNIX shell 传统管道概念中加入交互式选择功能。<br>SAWS – 一个加强版的 AWS 命令行。<br>thefuck – 修正你之前的命令行指令。<br>mycli – 一个 MySQL 命令行客户端，具有自动补全和语法高亮功能。<br>pgcli – Postgres 命令行工具，具有自动补全和语法高亮功能。</li>
+</ul>
+<p>下载器</p>
+<p>用来进行下载的库.</p>
+<ul>
+<li>s3cmd – 一个用来管理Amazon S3 和 CloudFront 的命令行工具。</li>
+<li>s4cmd – 超级 S3 命令行工具，性能更加强劲。</li>
+<li>you-get – 一个 YouTube/Youku/Niconico 视频下载器，使用 Python3 编写。</li>
+<li>youtube-dl – 一个小巧的命令行程序，用来下载 YouTube 视频。</li>
+</ul>
+<p>图像处理</p>
+<p>用来操作图像的库.</p>
+<ul>
+<li>pillow – Pillow 是一个更加易用版的 PIL。</li>
+<li>hmap – 图像直方图映射。</li>
+<li>imgSeek – 一个使用视觉相似性搜索一组图片集合的项目。</li>
+<li>nude.py – 裸体检测。</li>
+<li>pyBarcode – 不借助 PIL 库在 Python 程序中生成条形码。</li>
+<li>pygram – 类似 Instagram 的图像滤镜。</li>
+<li>python-qrcode – 一个纯 Python 实现的二维码生成器。</li>
+<li>Quads – 基于四叉树的计算机艺术。</li>
+<li>scikit-image – 一个用于（科学）图像处理的 Python 库。</li>
+<li>thumbor – 一个小型图像服务，具有剪裁，尺寸重设和翻转功能。</li>
+<li>wand – MagickWand的Python 绑定。MagickWand 是 ImageMagick的 C API 。</li>
+</ul>
+<p>OCR</p>
+<p>光学字符识别库。</p>
+<ul>
+<li>pyocr – Tesseract 和 Cuneiform 的一个封装(wrapper)。</li>
+<li>pytesseract – Google Tesseract OCR 的另一个封装(wrapper)。</li>
+<li>python-tesseract – Google Tesseract OCR 的一个包装类。</li>
+</ul>
+<p>音频</p>
+<p>用来操作音频的库</p>
+<ul>
+<li>audiolazy -Python 的数字信号处理包。</li>
+<li>audioread – 交叉库 (GStreamer + Core Audio + MAD + FFmpeg) 音频解码。</li>
+<li>beets – 一个音乐库管理工具及 MusicBrainz 标签添加工具</li>
+<li>dejavu – 音频指纹提取和识别</li>
+<li>django-elastic-transcoder – Django + Amazon Elastic Transcoder。</li>
+<li>eyeD3 – 一个用来操作音频文件的工具，具体来讲就是包含 ID3 元信息的 MP3 文件。</li>
+<li>id3reader – 一个用来读取 MP3 元数据的 Python 模块。</li>
+<li>m3u8 – 一个用来解析 m3u8 文件的模块。</li>
+<li>mutagen – 一个用来处理音频元数据的 Python 模块。</li>
+<li>pydub – 通过简单、简洁的高层接口来操作音频文件。</li>
+<li>pyechonest – Echo Nest API 的 Python 客户端</li>
+<li>talkbox – 一个用来处理演讲/信号的 Python 库</li>
+<li>TimeSide – 开源 web 音频处理框架。</li>
+<li>tinytag – 一个用来读取MP3, OGG, FLAC 以及 Wave 文件音乐元数据的库。</li>
+<li>mingus – 一个高级音乐理论和曲谱包，支持 MIDI 文件和回放功能。</li>
+</ul>
+<p>Video</p>
+<p>用来操作视频和GIF的库。</p>
+<ul>
+<li>moviepy – 一个用来进行基于脚本的视频编辑模块，适用于多种格式，包括动图 GIFs。</li>
+<li>scikit-video – SciPy 视频处理常用程序。</li>
+</ul>
+<p>地理位置</p>
+<p>地理编码地址以及用来处理经纬度的库。</p>
+<ul>
+<li>GeoDjango – 世界级地理图形 web 框架。</li>
+<li>GeoIP – MaxMind GeoIP Legacy 数据库的 Python API。</li>
+<li>geojson – GeoJSON 的 Python 绑定及工具。</li>
+<li>geopy – Python 地址编码工具箱。</li>
+<li>pygeoip – 纯 Python GeoIP API。</li>
+<li>django-countries – 一个 Django 应用程序，提供用于表格的国家选择功能，国旗图标静态文件以及模型中的国家字段。</li>
+</ul>
+<p>HTTP</p>
+<p>使用HTTP的库。</p>
+<ul>
+<li>requests – 人性化的HTTP请求库。</li>
+<li>grequests – requests 库 + gevent ，用于异步 HTTP 请求.</li>
+<li>httplib2 – 全面的 HTTP 客户端库。</li>
+<li>treq – 类似 requests 的Python API 构建于 Twisted HTTP 客户端之上。</li>
+<li>urllib3 – 一个具有线程安全连接池，支持文件 post，清晰友好的 HTTP 库。</li>
+</ul>
+<p>数据库</p>
+<p>Python实现的数据库。</p>
+<ul>
+<li>pickleDB – 一个简单，轻量级键值储存数据库。</li>
+<li>PipelineDB – 流式 SQL 数据库。</li>
+<li>TinyDB – 一个微型的，面向文档型数据库。</li>
+<li>ZODB – 一个 Python 原生对象数据库。一个键值和对象图数据库。</li>
+</ul>
+<p>数据库驱动</p>
+<p>用来连接和操作数据库的库。</p>
+<ul>
+<li>MySQL – awesome-mysql系列<br>mysql-python – Python 的 MySQL 数据库连接器。<br>mysqlclient – mysql-python 分支，支持 Python 3。<br>oursql – 一个更好的 MySQL 连接器，支持原生预编译指令和 BLOBs.<br>PyMySQL – 纯 Python MySQL 驱动，兼容 mysql-python。</li>
+<li>PostgreSQL<br>psycopg2 – Python 中最流行的 PostgreSQL 适配器。<br>queries – psycopg2 库的封装，用来和 PostgreSQL 进行交互。<br>txpostgres – 基于 Twisted 的异步 PostgreSQL 驱动。</li>
+<li>其他关系型数据库<br>apsw – 另一个 Python SQLite封装。<br>dataset – 在数据库中存储Python字典 – 可以协同SQLite，MySQL，和 PostgreSQL工作。<br>pymssql– 一个简单的Microsoft SQL Server数据库接口。</li>
+<li>NoSQL 数据库<br>cassandra-python-driver – Cassandra 的 Python 驱动。<br>HappyBase – 一个为 Apache HBase 设计的，对开发者友好的库。<br>Plyvel – 一个快速且功能丰富的 LevelDB 的 Python 接口。<br>py2neo – Neo4j restful 接口的Python 封装客户端。<br>pycassa – Cassandra 的 Python Thrift 驱动。<br>PyMongo – MongoDB 的官方 Python 客户端。<br>redis-py – Redis 的 Python 客户端。<br>telephus – 基于 Twisted 的 Cassandra 客户端。<br>txRedis – 基于 Twisted 的 Redis 客户端。</li>
+</ul>
+<p>ORM</p>
+<p>实现对象关系映射或数据映射技术的库。</p>
+<ul>
+<li>关系型数据库<br>Django Models – Django 的一部分。<br>SQLAlchemy – Python SQL 工具以及对象关系映射工具。<br>awesome-sqlalchemy系列<br>Peewee – 一个小巧，富有表达力的 ORM。<br>PonyORM – 提供面向生成器的 SQL 接口的 ORM。<br>python-sql – 编写 Python 风格的 SQL 查询。</li>
+<li>NoSQL 数据库<br>django-mongodb-engine – Django MongoDB 后端。<br>PynamoDB – Amazon DynamoDB 的一个 Python 风格接口。<br>flywheel – Amazon DynamoDB 的对象映射工具。<br>MongoEngine – 一个Python 对象文档映射工具，用于 MongoDB。<br>hot-redis – 为 Redis 提供 Python 丰富的数据类型。<br>redisco – 一个 Python 库，提供可以持续存在在 Redis 中的简单模型和容器。</li>
+<li>其他<br>butterdb – Google Drive 电子表格的 Python ORM。</li>
+</ul>
+<p>Web 框架</p>
+<p>全栈 web 框架。</p>
+<ul>
+<li>Django – Python 界最流行的 web 框架。<br>awesome-django系列</li>
+<li>Flask – 一个 Python 微型框架。<br>awesome-flask系列</li>
+<li>Pyramid – 一个小巧，快速，接地气的开源Python web 框架。<br>awesome-pyramid系列</li>
+<li>Bottle – 一个快速小巧，轻量级的 WSGI 微型 web 框架。</li>
+<li>CherryPy – 一个极简的 Python web 框架，服从 HTTP/1.1 协议且具有WSGI 线程池。</li>
+<li>TurboGears – 一个可以扩展为全栈解决方案的微型框架。</li>
+<li>web.py – 一个 Python 的 web 框架，既简单，又强大。</li>
+<li>web2py – 一个全栈 web 框架和平台，专注于简单易用。</li>
+<li>Tornado – 一个web 框架和异步网络库。</li>
+</ul>
+<p>权限</p>
+<p>允许或拒绝用户访问数据或功能的库。</p>
+<ul>
+<li>Carteblanche – Module to align code with thoughts of users and designers. Also magically handles navigation and permissions.</li>
+<li>django-guardian – Django 1.2+ 实现了单个对象权限。</li>
+<li>django-rules – 一个小巧但是强大的应用，提供对象级别的权限管理，且不需要使用数据库。</li>
+</ul>
+<p>CMS</p>
+<p>内容管理系统</p>
+<ul>
+<li>django-cms – 一个开源的，企业级 CMS，基于 Django。</li>
+<li>djedi-cms – 一个轻量级但却非常强大的 Django CMS ，考虑到了插件，内联编辑以及性能。</li>
+<li>FeinCMS – 基于 Django 构建的最先进的内容管理系统之一。</li>
+<li>Kotti – 一个高级的，Python 范的 web 应用框架，基于 Pyramid 构建。</li>
+<li>Mezzanine – 一个强大的，持续的，灵活的内容管理平台。</li>
+<li>Opps – 一个为杂志，报纸网站以及大流量门户网站设计的 CMS 平台，基于 Django。</li>
+<li>Plone – 一个构建于开源应用服务器 Zope 之上的 CMS。</li>
+<li>Quokka – 灵活，可扩展的小型 CMS，基于 Flask 和 MongoDB。</li>
+<li>Wagtail – 一个 Django 内容管理系统。</li>
+<li>Widgy – 最新的 CMS 框架，基于 Django。</li>
+</ul>
+<p>电子商务</p>
+<p>用于电子商务以及支付的框架和库。</p>
+<ul>
+<li>django-oscar – 一个用于 Django 的开源的电子商务框架。</li>
+<li>django-shop – 一个基于 Django 的店铺系统。</li>
+<li>Cartridge – 一个基于 Mezzanine 构建的购物车应用。</li>
+<li>shoop – 一个基于 Django 的开源电子商务平台。</li>
+<li>alipay – 非官方的 Python 支付宝 API。</li>
+<li>merchant – 一个可以接收来自多种支付平台支付的 Django 应用。</li>
+<li>money – 货币类库with optional CLDR-backed locale-aware formatting and an extensible currency exchange solution.</li>
+<li>python-currencies – 显示货币格式以及它的数值。</li>
+</ul>
+<p>RESTful API</p>
+<p>用来开发RESTful APIs的库</p>
+<ul>
+<li>Django<br>django-rest-framework – 一个强大灵活的工具，用来构建 web API。<br>django-tastypie – 为Django 应用开发API。<br>django-formapi – 为 Django 的表单验证，创建 JSON APIs 。</li>
+<li>Flask<br>flask-api – 为 flask 开发的，可浏览 Web APIs 。<br>flask-restful – 为 flask 快速创建REST APIs 。<br>flask-restless – 为 SQLAlchemy 定义的数据库模型创建 RESTful APIs 。<br>flask-api-utils – 为 Flask 处理 API 表示和验证。<br>eve – REST API 框架，由 Flask, MongoDB 等驱动。</li>
+<li>Pyramid<br>cornice – 一个Pyramid 的 REST 框架 。</li>
+<li>与框架无关的<br>falcon – 一个用来建立云 API 和 web app 后端的噶性能框架。<br>sandman – 为现存的数据库驱动系统自动创建 REST APIs 。<br>restless – 框架无关的 REST 框架 ，基于从 Tastypie 学到的知识。<br>ripozo – 快速创建 REST/HATEOAS/Hypermedia APIs。</li>
+</ul>
+<p>验证</p>
+<p>实现验证方案的库。</p>
+<ul>
+<li>OAuth<br>Authomatic – 简单但是强大的框架，身份验证/授权客户端。<br>django-allauth – Django 的验证应用。<br>django-oauth-toolkit – 为 Django 用户准备的 OAuth2。<br>django-oauth2-provider – 为 Django 应用提供 OAuth2 接入。<br>Flask-OAuthlib – OAuth 1.0/a, 2.0 客户端实现，供 Flask 使用。<br>OAuthLib – 一个 OAuth 请求-签名逻辑通用、 完整的实现。<br>python-oauth2 – 一个完全测试的抽象接口。用来创建 OAuth 客户端和服务端。<br>python-social-auth – 一个设置简单的社会化验证方式。<br>rauth – OAuth 1.0/a, 2.0, 和 Ofly 的 Python 库。<br>sanction – 一个超级简单的OAuth2 客户端实现。</li>
+<li>其他<br>jose – JavaScript 对象签名和加密草案的实现。<br>PyJWT – JSON Web 令牌草案 01。<br>python-jws – JSON Web 签名草案 02 的实现。<br>python-jwt – 一个用来生成和验证 JSON Web 令牌的模块。</li>
+</ul>
+<p>模板引擎</p>
+<p>模板生成和词法解析的库和工具。</p>
+<ul>
+<li>Jinja2 – 一个现代的，对设计师友好的模板引擎。</li>
+<li>Chameleon – 一个 HTML/XML 模板引擎。 模仿了 ZPT（Zope Page Templates）, 进行了速度上的优化。</li>
+<li>Genshi – Python 模板工具，用以生成 web 感知的结果。</li>
+<li>Mako – Python 平台的超高速轻量级模板。</li>
+</ul>
+<p>Queue</p>
+<p>处理事件以及任务队列的库。</p>
+<ul>
+<li>celery – 一个异步任务队列/作业队列，基于分布式消息传递。</li>
+<li>huey – 小型多线程任务队列。</li>
+<li>mrq – Mr. Queue -一个 Python 的分布式 worker 任务队列， 使用 Redis 和 gevent。</li>
+<li>rq – 简单的 Python 作业队列。</li>
+<li>simpleq – 一个简单的，可无限扩张的，基于亚马逊 SQS 的队列。</li>
+</ul>
+<p>搜索</p>
+<p>对数据进行索引和执行搜索查询的库和软件。</p>
+<ul>
+<li>django-haystack – Django 模块化搜索。</li>
+<li>elasticsearch-py – Elasticsearch 的官方底层 Python 客户端。</li>
+<li>elasticsearch-dsl-py -Elasticsearch 的官方高级 Python 客户端。</li>
+<li>solrpy – solr的 Python 客户端。</li>
+<li>Whoosh – 一个快速的纯 Python 搜索引擎库。</li>
+</ul>
+<p>动态消息</p>
+<p>用来创建用户活动的库。</p>
+<ul>
+<li>django-activity-stream – 从你的站点行为中生成通用活动信息流。</li>
+<li>Stream-Framework – 使用 Cassandra 和 Redis 创建动态消息和通知系统。</li>
+</ul>
+<p>资源管理</p>
+<p>管理、压缩、缩小网站资源的工具。</p>
+<ul>
+<li>django-compressor – 将链接和内联的 JavaScript 或 CSS 压缩到一个单独的缓存文件中。</li>
+<li>django-storages – 一个针对 Django 的自定义存储后端的工具集合。</li>
+<li>fanstatic – 打包、优化，并且把静态文件依赖作为 Python 的包来提供。</li>
+<li>File Conveyor – 一个后台驻留的程序，用来发现和同步文件到 CDNs, S3 和 FTP。</li>
+<li>Flask-Assets – 帮你将 web 资源整合到你的 Flask app 中。</li>
+<li>jinja-assets-compressor – 一个 Jinja 扩展，用来编译和压缩你的资源。</li>
+<li>webassets – 为你的静态资源打包、优化和管理生成独一无二的缓存 URL。</li>
+</ul>
+<p>电子邮件</p>
+<p>用来发送和解析电子邮件的库。</p>
+<ul>
+<li>django-celery-ses – 带有 AWS SES 和 Celery 的 Django email 后端。</li>
+<li>envelopes – 供人类使用的电子邮件库。</li>
+<li>flanker – 一个 email 地址和 Mime 解析库。</li>
+<li>imbox – Python IMAP 库</li>
+<li>inbox.py – Python SMTP 服务器。</li>
+<li>inbox – 一个开源电子邮件工具箱。</li>
+<li>lamson – Python 风格的 SMTP 应用服务器。</li>
+<li>mailjet – Mailjet API 实现，用来提供批量发送邮件，统计等功能。</li>
+<li>marrow.mailer – 高性能可扩展邮件分发框架。</li>
+<li>modoboa – 一个邮件托管和管理平台，具有现代的、简约的 Web UI。</li>
+<li>pyzmail – 创建，发送和解析电子邮件。</li>
+<li>Talon – Mailgun 库，用来抽取信息和签名。</li>
+</ul>
+<p>URL处理</p>
+<p>解析URLs的库</p>
+<ul>
+<li>furl – 一个让处理 URL 更简单小型 Python 库。</li>
+<li>purl – 一个简单的，不可变的URL类，具有简洁的 API 来进行询问和处理。</li>
+<li>pyshorteners – 一个纯 Python URL 缩短库。</li>
+<li>shorturl– 生成短小 URL 和类似 bit.ly 短链的Python 实现。</li>
+<li>webargs – 一个解析 HTTP 请求参数的库，内置对流行 web 框架的支持，包括 Flask, Django, Bottle, Tornado和 Pyramid。</li>
+</ul>
+<p>HTML处理</p>
+<p>处理 HTML和XML的库。</p>
+<ul>
+<li>BeautifulSoup – 以 Python 风格的方式来对 HTML 或 XML 进行迭代，搜索和修改。</li>
+<li>bleach – 一个基于白名单的 HTML 清理和文本链接库。</li>
+<li>cssutils – 一个 Python 的 CSS 库。</li>
+<li>html5lib – 一个兼容标准的 HTML 文档和片段解析及序列化库。</li>
+<li>lxml – 一个非常快速，简单易用，功能齐全的库，用来处理 HTML 和 XML。</li>
+<li>MarkupSafe – 为Python 实现 XML/HTML/XHTML 标记安全字符串。</li>
+<li>pyquery – 一个解析 HTML 的库，类似 jQuery。</li>
+<li>untangle – 将XML文档转换为Python对象，使其可以方便的访问。</li>
+<li>xhtml2pdf – HTML/CSS 转 PDF 工具。</li>
+<li>xmltodict – 像处理 JSON 一样处理 XML。</li>
+</ul>
+<p>网络站点爬取</p>
+<p>爬取网络站点的库</p>
+<ul>
+<li>Scrapy – 一个快速高级的屏幕爬取及网页采集框架。</li>
+<li>cola – 一个分布式爬虫框架。</li>
+<li>Demiurge – 基于PyQuery 的爬虫微型框架。</li>
+<li>feedparser – 通用 feed 解析器。</li>
+<li>Grab – 站点爬取框架。</li>
+<li>MechanicalSoup – 用于自动和网络站点交互的 Python 库。</li>
+<li>portia – Scrapy 可视化爬取。</li>
+<li>pyspider – 一个强大的爬虫系统。</li>
+<li>RoboBrowser – 一个简单的，Python 风格的库，用来浏览网站，而不需要一个独立安装的浏览器。</li>
+</ul>
+<p>网页内容提取</p>
+<p>用于进行网页内容提取的库。</p>
+<ul>
+<li>Haul – 一个可以扩展的图像爬取工具。</li>
+<li>html2text – 将 HTML 转换为 Markdown 格式文本</li>
+<li>lassie – 人性化的网页内容检索库。</li>
+<li>micawber -一个小型网页内容提取库，用来从 URLs 提取富内容。</li>
+<li>newspaper – 使用 Python 进行新闻提取，文章提取以及内容策展。</li>
+<li>opengraph – 一个用来解析开放内容协议(Open Graph Protocol)的 Python模块。</li>
+<li>python-goose – HTML内容/文章提取器。</li>
+<li>python-readability– arc90 公司 readability 工具的 Python 高速端口</li>
+<li>sanitize – 为杂乱的数据世界带来调理性。</li>
+<li>sumy – 一个为文本文件和 HTML 页面进行自动摘要的模块。</li>
+<li>textract – 从任何格式的文档中提取文本，Word，PowerPoint，PDFs 等等。</li>
+</ul>
+<p>表单</p>
+<p>进行表单操作的库。</p>
+<ul>
+<li>Deform – Python HTML 表单生成库，受到了 formish 表单生成库的启发。</li>
+<li>django-bootstrap3– 集成了 Bootstrap 3 的 Django。</li>
+<li>django-crispy-forms – 一个 Django 应用，他可以让你以一种非常优雅且 DRY（Don’t repeat yourself） 的方式来创建美观的表单。</li>
+<li>django-remote-forms– 一个平台独立的 Django 表单序列化工具。</li>
+<li>WTForms – 一个灵活的表单验证和呈现库。</li>
+<li>WTForms-JSON– 一个 WTForms 扩展，用来处理 JSON 数据。</li>
+</ul>
+<p>数据验证</p>
+<p>数据验证库。多用于表单验证。</p>
+<ul>
+<li>Cerberus – A mappings-validator with a variety of rules, normalization-features and simple customization that uses a pythonic schema-definition.</li>
+<li>colander – 一个用于对从 XML, JSON，HTML 表单获取的数据或其他同样简单的序列化数据进行验证和反序列化的系统。</li>
+<li>kmatch – 一种用于匹配/验证/筛选 Python 字典的语言。</li>
+<li>schema -一个用于对 Python 数据结构进行验证的库。</li>
+<li>Schematics – 数据结构验证。</li>
+<li>valideer – 轻量级可扩展的数据验证和适配库。</li>
+<li>voluptuous – 一个 Python 数据验证库。主要是为了验证传入 Python的 JSON，YAML 等数据。</li>
+</ul>
+<p>静态站点生成器</p>
+<p>静态站点生成器是一个软件，它把文本和模板作为输入，然后输出HTML文件。</p>
+<ul>
+<li>Pelican – 使用 Markdown 或 ReST 来处理内容， Jinja 2 来制作主题。支持 DVCS, Disqus.。AGPL 许可。</li>
+<li>Cactus – 为设计师设计的静态站点生成器。</li>
+<li>Hyde – 基于 Jinja2 的静态站点生成器。</li>
+<li>Nikola – 一个静态网站和博客生成器。</li>
+<li>Tinkerer – Tinkerer 是一个博客引擎/静态站点生成器，由Sphinx驱动。</li>
+<li>Lektor – 一个简单易用的静态 CMS 和博客引擎。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwnb1bfg000j56cyfmmuzgip" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Python-基础" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -167,7 +628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwnay56a000iyrcybvtxafec" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwnb1bfa000g56cytr16k1gt" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -216,7 +677,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwnay583001xyrcy5efdn8nd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwnb1bh3001x56cym3yhkon1" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -256,7 +717,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwnay583001yyrcy4gifafuk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwnb1bh4001z56cya1v8y7gr" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -302,7 +763,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwnay55s0007yrcy0s0c9036" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwnb1bev000756cyz2joj3o2" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -381,7 +842,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwnay57v001syrcyf4egr19h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwnb1bgw001t56cyu6b50zxh" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -445,7 +906,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-SSH-登录很慢/" data-id="ciwnay55y0009yrcyyyh0he84" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-SSH-登录很慢/" data-id="ciwnb1bf0000956cy36hbbm8l" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -493,7 +954,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwnay5720013yrcylct0ostv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwnb1bg7001356cyijpaov8b" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -547,7 +1008,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwnay55z000ayrcyaw13hree" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwnb1bf3000a56cys3flf4cz" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -591,48 +1052,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwnay5850021yrcypga9a0dm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-删除指定大小的文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/删除指定大小的文件/" class="article-date">
-  <time datetime="2016-12-13T02:24:14.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/删除指定大小的文件/">删除指定大小的文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用dd命令创建一个实验文件：</p>
-<p>dd if=/dev/zero of=test.txt bs=10M count=1</p>
-<p>创建大小为10M的test.txt文件。</p>
-<p>[root@lamp test]# find . -size 10M -exec ls -lh {} \;</p>
-<p>-rw-r–r– 1 root root 10M 11月  3 14:04 ./test.txt<br>[root@lamp test]# find . -size 10M -exec rm {} \;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwnay57t001pyrcyy8nndovx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwnb1bh8002356cyisdwp3xw" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -661,7 +1081,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
@@ -671,9 +1091,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
+          </li>
         
           <li>
             <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
@@ -689,10 +1113,6 @@
         
           <li>
             <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/文件读写/">文件读写</a>
           </li>
         
       </ul>

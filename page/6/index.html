@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,56 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-使用Linux命令行测试网速" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/使用Linux命令行测试网速/" class="article-date">
+  <time datetime="2016-12-12T09:17:25.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/使用Linux命令行测试网速/">使用Linux命令行测试网速</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当发现上网速度变慢时，人们通常会先首先测试自己的电脑到网络服务提供商（通常被称为“最后一公里”）的网络连接速度。在可用于测试宽带速度的网站中，Speedtest.net也许是使用最广泛的。</p>
+<p>Speedtest.net的工作原理并不复杂：它在你的浏览器中加载JavaScript代码并自动检测离你最近的Speedtest.net服务器，然后向服务器发送HTTP GET and POST请求来测试上行/下行网速。</p>
+<p>但在没有图形化桌面时（例如，当你通过命令行远程登陆服务器或使用没有图形界面的操作系统），基于flash、界面友好的Speedtest.net将无法工作。幸运的是，Speedtest.net提供了一个命令行版本——speedtest-cli。下面我将向你演示如何在Linux的命令行中使用speedtest-cli来测试宽带连接速度。</p>
+<p>安装speedtest-cli</p>
+<p>speedtest-cli是一个用Python编写的轻量级Linux命令行工具，在Python2.4至3.4版本下均可运行。它基于Speedtest.net的基础架构来测量网络的上/下行速率。安装speedtest-cli很简单——只需要下载其Python脚本文件。</p>
+<p>$ wget <a href="https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py" target="_blank" rel="external">https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py</a><br>$ chmod a+rx speedtest_cli.py<br>$ sudo mv speedtest_cli.py /usr/local/bin/speedtest-cli<br>$ sudo chown root:root /usr/local/bin/speedtest-cli</p>
+<p>使用speedtest-cli测试网速</p>
+<p>使用speedtest-cli命令也很简单，它不需要任何参数即可工作。</p>
+<p>$ speedtest-cli</p>
+<p>输入这个命令后，它会自动发现离你最近的Speedtest.net服务器（地理距离），然后打印出测试的网络上/下行速率。</p>
+<p>如果你愿意分享测试结果，你可以使用参数“–share”。它将会把你的测试结果上传到Speedtest.net服务器并以图形的方式分享给其他人。</p>
+<p>下面是一幅由speedtest-cli自动生成并上传到Speedtest.net的测试结果：</p>
+<p>如果你对目前所有可用的Speedtest.net服务器感兴趣，你可以使用参数“–list”。它会打印出所有的Speedtest.net服务器（按照离你的地理距离由近及远排序）。</p>
+<p>在上面的列表中，每个服务器的前面都有一个与其对应的ID。如果想使用指定的服务器来测试你的网速，你只需要在speedtest-cli命令后指定其ID即可。例如，如果想使用在Washington DC的服务器，你只需要指定相对应的服务器ID（如935）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwnb1bgn001i56cytazxw9jt" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -102,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwnay58k002iyrcyd23do0kz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwnb1bhl002j56cyocqt9hr5" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -321,7 +371,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwnay56p000syrcydk0i6kdm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwnb1bfw000w56cyxbvyqwm2" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -505,7 +555,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwnay582001wyrcyjs00njyw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwnb1bh3001y56cyj7bipinc" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -604,7 +654,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwnay58b0027yrcytiqez5vd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwnb1bhb002856cyocj1n839" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -640,7 +690,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwnay56f000myrcy4t3eh416" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwnb1bfr000q56cy3bdfwgzs" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -688,7 +738,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwnay56y000yyrcybjwlnd1v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwnb1bg2000z56cy5nr8n7w4" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -725,7 +775,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwnay5750014yrcygi2movpo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwnb1bgc001656cy2mi0v7lq" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -766,7 +816,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwnay5790015yrcypdcdi7uv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwnb1bg9001456cy0rv06uao" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -803,44 +853,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwnay58e002ayrcybi4d3few" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-结婚日狂想" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/结婚日狂想/" class="article-date">
-  <time datetime="2016-12-12T07:26:38.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/结婚日狂想/">结婚日狂想</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2013年1月4日<br>今天日子有些特殊，因为今天可以翻译成“爱你一生一世”。<br>除此之外，还有一则消息，哦，错了，不是消息是新闻，是让全世界瞩目的新闻。<br>是全球最大商业帝国，三元帝国集团的首席执行官兼董事长元和他最心爱的女人结婚的日子。<br>等等，最大商业帝国？还全球？三元帝国，从来没听说过啊！<br>哦，诸位莫急，待我来细细拆解。<br>三元帝国，乃是元创立，最惊人的就是这个集团能够在短短的三年之中，拥有了全球30%的财富，注意了这个30%不是民间资本。<br>这么举个例子吧，如果全世界所有的，不管是个人、单位、集团还是国家的财富加起来是100的话，那么三元帝国的财富就是30。明白了吧，除了几个大国外，其他的许多小国家都得仰仗在三元帝国的运作下生存。<br>那么这个集团是运营什么的呢？<br>这么说吧，上到宇宙飞船、航空母舰的研发，下到老百姓吃什么、穿什么，都是集团运营的项目。<br>集团的根是衣、食、住、行四大行业发展起来的。<br>那岂不是垄断啦，不得了啦！国家怎么不控制的。<br>原因有二：<br>一是元这个人可以和两千多年前的法圣商鞅一般，大公无私，绝不会做些坑蒙拐骗的事情，那都是低层次人弄的。<br>二是，说白点就是国家想管怎么管呢，你这个国家限制我，没关系啊，全世界那么多国家呢，还愁我活不下去啊！再说，现在国家相限制，也不敢了，因为这个集团有太多的投资，在国家建设上了，说白了，国家缺不得这个集团啊！<br>呵呵，扯远了。再次回到结婚的现场，哦不对，不是现场因为这次结婚典礼，在全世界188个国家，都同时举行。<br>路线是中国的泰兴、上海、南京、北京、成都、拉萨……<br>抵达中亚，北上俄罗斯，到欧洲，南赴非洲<br>跨大西洋，至加拿大，后抵美利坚，再去拉美<br>回转太平洋，飞澳洲，渡印度洋，到南亚、东南亚<br>归中国泰兴<br>泰兴是三元帝国的总部，2013年已经是全球最大城市、最富城市、最人文城市、最美城市、最舒适城市，能够成为泰兴市民的，不是国家政要，就是国际名流，当然还有土生土长的泰兴人，他们是最幸福的，出生以来的抚养、教育、一直到成人，不要父母掏一分钱，享受着全世界最高档的教育，不管是谁，都有一种教育方式，让他成才，这是元上初三的时候化学老师告诉他的。<br>2013年1月4日上午9时<br>来自于全世界各国首脑和名流们都齐聚泰兴，中国34个省长及主席、常委们，都早早来到了泰兴，各大媒体，早就瞄准了这次机会。<br>准确的说，这是有人类以来，最大的聚会，前无古人，后有没有来者，咱们就不讨论了。<br>地点位于三元帝国的总部大楼，除了高达666米外，往地下也是333米，所以高度为999米，面积为81平方公里。<br>所以虽然人数达到了30万以上，可以并不显得拥挤。<br>“安全呢，要知道奥运会，安检可是很严格的啊，那时候可没有这么多重要人士，现在可是异常危险的时刻啊！”一个人问道。<br>旁边的人就像看到一个白痴一样的看着他，极为兴奋的说道：“放心吧！兄台，到其他地方我不敢保证，可是如果你到了三元帝国的总部，还存在这个想法的话，就是杞人忧天了。”<br>“为啥？”显然问的人没有得到满意的答案。<br>“为啥？除了这栋大楼，是全世界最先进的技术，花费一年时间，不分昼夜的建设，动用了整整10万人，投资了共1000万亿外，你以为三元帝国能在短短三年内，成为全球最大的集团是侥幸的吗？因为三元帝国有支秘密的保安部队，其实称他们是保安，实在是委屈他们了啊！就是美国的CIA，英国的军情六处，我国的安全局所有人都来，都不是他们的对手。”<br>三元帝国果然不同凡响啊！问的人感慨道。<br>元出场了，竟然不是穿的职业装，而是汉服，不过是改良过的服装，可是一眼还是能够看出来，这就是汉服。<br>元的声音通过音响系统清晰的传送到了每个宾客的耳中：“多谢大家的光临，我结婚的大喜日子，趁今天大家都在的情况下，我就宣布一件事，一周之后，所有集团的员工，必须穿着我身上的服装，这是我华夏民族的汉服，因为三元帝国首先属于华夏，其次属于我，所以全世界，只要在我集团工作的员工，都必须穿着汉服，公司服装已经准备齐全，一周后大家准时穿上，如果不愿意穿着的人，那只能很抱歉，我们的合作结束了。”<br>话音刚落，全场都沸腾起来，这个决定也太过了吧，就连中国人自己都感觉到，这个要求苛刻了。当然中国人，自今之后，全国都得穿着汉服，这是毫无疑问的。<br>可是，集团工作的一共三亿六千万人，中国人有两亿，可是剩下还有一亿六千万呢？<br>那有能怎么办呢，毕竟在集团工作各种条件实在太优厚了，有几个人为了所谓的服饰，而放弃如此优越的生活呢。<br>元的声音再次响起，全场立刻寂然无声：“好，既然公事已然说完，下面就进入正事吧！”<br>这一幕将永载史册，全世界共180个国家的主席、总统、国王、总理……为元进行了证婚，只见元和他的妻子，走过了两旁侍立180个国家的首脑中间的红地毯，结束了仪式。<br>今天所有的结婚，没有结婚的总之几乎所有的女人，见到这一幕时，都羡慕无比，没有人嫉妒，因为她们都知道，元的妻子的伟大，这种伟大，让绝大多数女人都汗颜。就是剩下那堆人，也不过与元的妻子持平而已。<br>仪式结束了，大家都回到了自己的座位上。<br>下面的一幕又掀起了另一个高潮，全世界最巨大的商业帝国三元帝国集团的首席执行官兼任董事长的元，朝一个方位跪了下去，这个跪的方向立刻引起了全场乃至全世界的关注，只见两个面容慈祥的老人，端坐于高台座位上。<br>当两个老人得知，下面坐的有国家主席和总理时，身体颤巍巍的站了起来，老爷子说道：“儿啊，今天有这样的成就，都是你自己的努力，我们父母二人对不起你啊！”<br>元含泪痛哭道：“爸、妈，儿子怎么敢这么想，没有你们的生养之恩，我哪来这等成就，所以我这辈子最大的恩人就是你们，你们的幸福，才是我一切的源泉。”<br>第二天各大媒体的大标题几乎都是“婚礼之大无出其右，孝道之尽难赶其元。”</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwnay58j002hyrcyorg85til" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwnb1bhf002b56cy3ishwr87" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -869,7 +882,7 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
@@ -879,9 +892,13 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
+          </li>
         
           <li>
             <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
@@ -897,10 +914,6 @@ return 0;
         
           <li>
             <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/文件读写/">文件读写</a>
           </li>
         
       </ul>
