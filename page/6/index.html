@@ -61,6 +61,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/给rm命令加上回收站功能/" class="article-date">
+  <time datetime="2016-12-12T09:11:01.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/给rm命令加上回收站功能/">给rm命令加上回收站功能</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>给rm命令加上回收站功能</p>
+<p>背景：<br>在群里，总会有人聊到曾经做过的最坑的事情，其中当然少不了rm命令，比如最出名的rm -rf /*命令。<br>受HDFS回收站机制的启发，我即兴的写了一个shell脚本来实现类似的功能。</p>
+<p>具体配置：<br>[dong@localhost ~]$ sudo touch /usr/bin/delete<br>[dong@localhost ~]$ sudo chmod +x /usr/bin/delete<br>[dong@localhost ~]$ sudo vim /usr/bin/delete</p>
+<p>#!/bin/bash</p>
+<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
+<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
+<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
+<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done</p>
+<p>#!/bin/bash</p>
+<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
+<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
+<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
+<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done<br>[dong@localhost ~]$ mkdir tmp<br>[dong@localhost ~]$ cd tmp<br>[dong@localhost tmp]$ mkdir 1 2 3<br>[dong@localhost tmp]$ echo 1 &gt; 1/1.txt<br>[dong@localhost tmp]$ echo 2 &gt; 2/2.txt<br>[dong@localhost tmp]$ echo 3 &gt; 3/3.txt<br>[dong@localhost tmp]$ touch a b c<br>[dong@localhost tmp]$ ln -s a d<br>[dong@localhost tmp]$ delete 1</p>
+<p>1<br>Move 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1? [y/n] y<br>2<br>Moved 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1<br>[dong@localhost tmp]$ delete -f *</p>
+<p>1<br>Moved 2 to /home/dong/.Trash/20160415114217/home/dong/tmp/2<br>2<br>Moved 3 to /home/dong/.Trash/20160415114217/home/dong/tmp/3<br>3<br>Moved a to /home/dong/.Trash/20160415114217/home/dong/tmp/a<br>4<br>Moved b to /home/dong/.Trash/20160415114217/home/dong/tmp/b<br>5<br>Moved c to /home/dong/.Trash/20160415114217/home/dong/tmp/c<br>6<br>Moved d to /home/dong/.Trash/20160415114217/home/dong/tmp/d<br>move, rm</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwnalwux002igacy87rcsk04" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-linux的ulimit各种限制之深入分析" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/12/linux的ulimit各种限制之深入分析/" class="article-date">
@@ -270,7 +321,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwnah6eg000s7bcyiczocebv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwnalwt6000sgacy32mwjlbm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -454,7 +505,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwnah6g0001v7bcy2behvflk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwnalwue001vgacycjtc6qcy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -553,7 +604,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwnah6g800267bcy3dkhjn9z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwnalwuq0029gacyppwor9bf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -589,7 +640,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwnah6e6000m7bcyzqbfqe3t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwnalwsx000mgacyp6qp3lna" class="article-share-link">Share</a>
       
       
     </footer>
@@ -637,7 +688,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwnah6eo000x7bcys7s7l6rv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwnalwte000ygacy2t9yra1j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -674,7 +725,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwnah6ey00137bcyrs03hyhk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwnalwtp0015gacym3faus3t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -715,7 +766,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwnah6f200147bcyxnaw16sm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwnalwtl0014gacy3va94wol" class="article-share-link">Share</a>
       
       
     </footer>
@@ -752,7 +803,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwnah6g900297bcyv048izcj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwnalwur002bgacywvwh5gez" class="article-share-link">Share</a>
       
       
     </footer>
@@ -789,59 +840,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwnah6ge002g7bcyey5ki9t4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-离职之美" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/离职之美/" class="article-date">
-  <time datetime="2016-12-12T07:26:08.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/离职之美/">离职之美</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>经过了数天的内心挣扎，于今日请辞了。</p>
-<p>请辞了，表明了经济之源断绝了，难以生存了。</p>
-<p>还记得一位大师说过：“半杯水，在乐观人眼中，会欣喜，因为还有半杯呢！而在悲观人眼里，会沮丧，因为只剩下半杯了。”其实，半杯水没有变，变的是人的心。</p>
-<p>我不敢说，自己是那乐观的人，但肯定不属于悲观者。</p>
-<p>要知道，人能够来到这个世间，是多么的不容易，何至于数千万分之一的概率。既然这么的不容易，那干嘛不轰轰烈烈做一番自己的事业呢，何必人云亦云，鹦鹉学舌呢？</p>
-<p>看到听到很多事故的发生，感慨道人的生命原来如此的脆弱，生死只是眨眼之间，如果在离别的那一刻，对自己的一生生出遗憾，那么是多么可悲的事啊！</p>
-<p>故离职对我来说，是破而后立之美，是蛹化蝶之美，是实现自己梦想之美。</p>
-<p>古往今来，凡变革者，都是打破旧的东西，建立新的东西，过程好像如此的简单，可是打破旧的时候，多少腥风血雨，多少江湖仇杀，多少强敌环伺，一个不小心，便陷入万劫不复之境地。</p>
-<p>就说离我们近的，清末“戊戌变法”吧，又称作“百日维新”，戊戌六君子的慷慨就义，谭嗣同的那句“我自横刀向天笑，去留肝胆两昆仑”还萦绕在我的耳边，多么的惨烈啊！可是逝去的人，并没有后悔，没有遗憾，因为他们践行了自己的梦想，成仁取义，必将名垂千古。</p>
-<p>还有两千多年前的“商鞅变法”，商鞅一人入秦，使地处边陲、贫弱的秦国在二十年里成为战时强国，为后来秦始皇统一全国，奠定了坚实的基础。</p>
-<p>虽然商鞅因为触犯了元老世族的利益，而被“车裂”，可是秦法却留了下来，继续指引着大秦帝国的前进方向。可以说明，商鞅就义之时，了无遗憾，还是因为他实现了自己的梦想，实现了他来到这个世间的使命。</p>
-<p>上述二人，都是牺牲了自己的性命，来换取了自己的梦想，可以算是极致了吧！</p>
-<p>而我呢，不过是一时断绝自己的经济来源，与他们相比，实在是微不足道。</p>
-<p>古语有云：“欲取之，必先予之。”就是说，不管做任何事，都要付出代价，这份代价可以寓指各种事物，譬如：时间、自由、舒适甚至于生命。</p>
-<p>2011-6-28</p>
-<p>仁佳作于宁</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/离职之美/" data-id="ciwnah6gc002d7bcycho4x96c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwnalwuv002ggacy3t4lfbdi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -885,6 +884,10 @@ return 0;
       <ul>
         
           <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
           </li>
         
@@ -898,10 +901,6 @@ return 0;
         
           <li>
             <a href="/2016/12/13/文件读写/">文件读写</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
           </li>
         
       </ul>

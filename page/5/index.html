@@ -61,6 +61,47 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-route" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/route/" class="article-date">
+  <time datetime="2016-12-13T01:23:55.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/route/">route</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？<br>b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）<br>c.如果添加一个主机路由？<br>请分别解答。<br>解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1<br>route 命令使用方法：<br>a.缺省网关路由<br>    默认网关就是数据包不匹配任何设定的路由规则，最后流经的地址关口！网关按字面意思就是网络的关口，就相当于我们家里房子的门一样，如果外出就要经过房门，数据包也是一样。<br>本题的答案：<br>route del default gw 10.0.0.254<br>解答实践：<br>[root@oldboy ~]# route -n #==&gt;查看路由表，netstat -rn也可以。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0</p>
+<p>#==&gt;这里就是系统的默认网关信息，表示去任何地方（0.0.0.0），都发给10.0.0.254，因为是默认网关，所以，放在了最后一条。路由也是有顺序的，如果不符合任何一条规则就交给默认网关处理。<br>[root@oldboy ~]# route del default gw 10.0.0.254 #==&gt;这个命令是删除默认的网关。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>[root@oldboy ~]# route add default gw 10.0.0.254    #==&gt;这个命令是添加默认的网关，也是本题的答案。<br>[root@oldboy ~]# netstat -rn<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #==&gt;又回来了<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #这里就是添加的默认网关记录。<br>特别强调：实际上route add default gw 10.0.0.254 就相当于route add -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.254<br>b.网络路由：即去往某一网络或网段的路由<br>    一般多网段之间互相通信，希望建立一条优先路由，而不是通过默认网关时就可以配置网络路由。还是拿房子比喻，你现在不是要出门，而是卧室，卫生间，去卧室就要经过卧室的门，去卫生间也要经过卫生间的门，这里的卧室和卫生间的门就可以认为是去往某一网段的路由，而不是默认路由（即房子的门。）<br>    实际工作中会有需求，两个不同的内部网络之间互访，而不是出网访问，就是上面例子的情况。<br>    本题的答案：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>解答实践：<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>SIOCADDRT: 网络不可达 #==&gt;当连不通地址192.168.1.1时，无法添加路由。<br>[root@oldboy ~]# ifconfig eth0:0 192.168.1.1/24 up #==&gt;添加一个IP别名用于临时测试，如果永久生效最好加双网卡或写入到配置文件。<br>[root@oldboy ~]# ifconfig eth0:0 #==&gt;查看添加的IP别名（网络里把这种多IP的方式称为子接口）<br>eth0:0    Link encap:Ethernet  HWaddr 00:0C:29:65:A4:FD<br>          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>再来添加去192.168.1.0的数据包，交给192.168.1.1处理。<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>[root@oldboy ~]# netstat -rn   #==&gt;和route -n很像。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG        0 0          0 eth0 #==&gt;这就是网络路由<br>192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG        0 0          0 eth0<br>拓展：其他写法<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0  #==&gt;指定设备而不是地址。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG    0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>[root@oldboy ~]# route del -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route add -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>总结：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0<br>route add -net 192.168.1.0/24 dev eth0<br>route del -net 192.168.1.0/24 dev eth0<br>特别强调：以上配置在重启网络时都会失效，那么如何让它永久生效呢？<br>如果要是永久生效，有如下几种方法：<br>方法一：<br>vi /etc/sysconfig/network-scripts/route-eth0  #默认不存在此文件<br>加入如下内容：<br>192.168.1.0/24 via 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法二：<br>vi /etc/sysconfig/static-routes  #默认不存在此文件<br>加入如下内容:<br>any net 192.168.1.0/24 gw 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法三：<br>vi /etc/rc.local<br>加入如下内容：<br>route add -net 192.168.1.0/24 gw 192.168.1.1<br>PS: 方法一推荐生产环境使用<br>提示：方法三写到/etc/rc.local里只在开机时加载，当手工重启网络后会失效，但是重启系统后会生效！</p>
+<p>如果是配置默认路由网关可以再网卡配置里：<br>[root@oldboy ~]# grep GATEWAY /etc/sysconfig/network-scripts/ifcfg-eth0<br>GATEWAY=10.0.0.254<br>c.主机路由：就是去往某个主机地址如何配置路由<br>/sbin/route add -host 192.168.2.13 dev eth2<br>/sbin/route add -host 202.81.11.91 dev lo<br>例如：keepalived或heartbeat高可用服务器对之间的使用单独网卡接心跳线通信就会用到以上主机路由。<br>route命令拓展：<br>删除一条默认路由：<br>route del default gw 10.0.0.254<br>删除一条静态路由：<br>route del –net 目标网络 netmask<br>如：route del -net 192.168.1.0/24 或route del -net 192.168.1.0 netmask 255.225.255.0<br>删除一条主机路由：<br>route del -host 192.168.1.10 dev eth0</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwnalwtd000xgacy5fakw4sf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-find" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/find/" class="article-date">
@@ -124,7 +165,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwnah6ec000p7bcyhgwac4qh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwnalwt3000qgacybjay8z1n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +222,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwnah6f800177bcyh1n6z59e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwnalwtr0018gacyfom5llha" class="article-share-link">Share</a>
       
       
     </footer>
@@ -220,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwnah6ep000y7bcyp06zlm9t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwnalwtg0010gacyq8q12u29" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwnah6es00117bcy338k22wd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwnalwth0011gacy08bbru05" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +350,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwnah6ei000v7bcyge913pv6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwnalwt9000vgacywtd82jjf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +388,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwnah6f700167bcyd2dqb8b6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwnalwtq0017gacywwyoqt2y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -385,7 +426,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwnah6e7000n7bcyipklgu72" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwnalwsy000ngacy7scxez7j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -428,7 +469,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwnah6d000007bcyx4fiheym" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwnalwrq0000gacyf0plsr3u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -478,58 +519,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwnah6fi001g7bcy05oypg0v" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/给rm命令加上回收站功能/" class="article-date">
-  <time datetime="2016-12-12T09:11:01.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/给rm命令加上回收站功能/">给rm命令加上回收站功能</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>给rm命令加上回收站功能</p>
-<p>背景：<br>在群里，总会有人聊到曾经做过的最坑的事情，其中当然少不了rm命令，比如最出名的rm -rf /*命令。<br>受HDFS回收站机制的启发，我即兴的写了一个shell脚本来实现类似的功能。</p>
-<p>具体配置：<br>[dong@localhost ~]$ sudo touch /usr/bin/delete<br>[dong@localhost ~]$ sudo chmod +x /usr/bin/delete<br>[dong@localhost ~]$ sudo vim /usr/bin/delete</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done<br>[dong@localhost ~]$ mkdir tmp<br>[dong@localhost ~]$ cd tmp<br>[dong@localhost tmp]$ mkdir 1 2 3<br>[dong@localhost tmp]$ echo 1 &gt; 1/1.txt<br>[dong@localhost tmp]$ echo 2 &gt; 2/2.txt<br>[dong@localhost tmp]$ echo 3 &gt; 3/3.txt<br>[dong@localhost tmp]$ touch a b c<br>[dong@localhost tmp]$ ln -s a d<br>[dong@localhost tmp]$ delete 1</p>
-<p>1<br>Move 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1? [y/n] y<br>2<br>Moved 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1<br>[dong@localhost tmp]$ delete -f *</p>
-<p>1<br>Moved 2 to /home/dong/.Trash/20160415114217/home/dong/tmp/2<br>2<br>Moved 3 to /home/dong/.Trash/20160415114217/home/dong/tmp/3<br>3<br>Moved a to /home/dong/.Trash/20160415114217/home/dong/tmp/a<br>4<br>Moved b to /home/dong/.Trash/20160415114217/home/dong/tmp/b<br>5<br>Moved c to /home/dong/.Trash/20160415114217/home/dong/tmp/c<br>6<br>Moved d to /home/dong/.Trash/20160415114217/home/dong/tmp/d<br>move, rm</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwnah6ge002h7bcybwk5yihl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwnalwtz001hgacym2d01ijs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -573,6 +563,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
           </li>
         
@@ -586,10 +580,6 @@
         
           <li>
             <a href="/2016/12/13/文件读写/">文件读写</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
           </li>
         
       </ul>

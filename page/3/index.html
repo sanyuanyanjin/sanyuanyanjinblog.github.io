@@ -61,6 +61,91 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Centos-7-x-预配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Centos-7-x-预配/" class="article-date">
+  <time datetime="2016-12-13T02:12:22.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Centos-7-x-预配/">Centos 7.x 预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>VMware Tools<br>tar -zxvf VMwareTools-*.tar.gz<br>cd vmware-tools-distrib/<br>ls<br>./vmware-install.pl</p>
+<p>XenServer Tools<br>mount /dev/cdrom /mnt/<br>mount: /dev/sr0 写保护，将以只读方式挂载<br>cd /mnt/Linux/</p>
+<p>[root@CentOS7 ~]# sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>[root@CentOS7 ~]# grep keepcache /etc/yum.conf<br>keepcache=1<br>[root@CentOS7 ~]# ls /var/cache/yum/x86_64/7/base/packages/</p>
+<p>vim /etc/hostname<br>cat /etc/hostname<br>CentOS7</p>
+<p>vim /etc/hosts<br>cat /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6<br>[root@CentOS7 ~]#</p>
+<p>vim /etc/selinux/config<br>[root@CentOS7 ~]# cat /etc/selinux/config</p>
+<h1 id="This-file-controls-the-state-of-SELinux-on-the-system"><a href="#This-file-controls-the-state-of-SELinux-on-the-system" class="headerlink" title="This file controls the state of SELinux on the system."></a>This file controls the state of SELinux on the system.</h1><h1 id="SELINUX-can-take-one-of-these-three-values"><a href="#SELINUX-can-take-one-of-these-three-values" class="headerlink" title="SELINUX= can take one of these three values:"></a>SELINUX= can take one of these three values:</h1><h1 id="enforcing-SELinux-security-policy-is-enforced"><a href="#enforcing-SELinux-security-policy-is-enforced" class="headerlink" title="enforcing - SELinux security policy is enforced."></a>enforcing - SELinux security policy is enforced.</h1><h1 id="permissive-SELinux-prints-warnings-instead-of-enforcing"><a href="#permissive-SELinux-prints-warnings-instead-of-enforcing" class="headerlink" title="permissive - SELinux prints warnings instead of enforcing."></a>permissive - SELinux prints warnings instead of enforcing.</h1><h1 id="disabled-No-SELinux-policy-is-loaded"><a href="#disabled-No-SELinux-policy-is-loaded" class="headerlink" title="disabled - No SELinux policy is loaded."></a>disabled - No SELinux policy is loaded.</h1><h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
+<h1 id="SELINUXTYPE-can-take-one-of-three-two-values"><a href="#SELINUXTYPE-can-take-one-of-three-two-values" class="headerlink" title="SELINUXTYPE= can take one of three two values:"></a>SELINUXTYPE= can take one of three two values:</h1><h1 id="targeted-Targeted-processes-are-protected"><a href="#targeted-Targeted-processes-are-protected" class="headerlink" title="targeted - Targeted processes are protected,"></a>targeted - Targeted processes are protected,</h1><h1 id="minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected"><a href="#minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected" class="headerlink" title="minimum - Modification of targeted policy. Only selected processes are protected."></a>minimum - Modification of targeted policy. Only selected processes are protected.</h1><h1 id="mls-Multi-Level-Security-protection"><a href="#mls-Multi-Level-Security-protection" class="headerlink" title="mls - Multi Level Security protection."></a>mls - Multi Level Security protection.</h1><p>SELINUXTYPE=targeted</p>
+<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service<br>Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.<br>Removed symlink /etc/systemd/system/basic.target.wants/firewalld.service.<br>[root@CentOS7 ~]#<br>reboot</p>
+<p>getenforce<br>Disabled</p>
+<p>查看firewall</p>
+<p>快照</p>
+<p>rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm</a><br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>[202.108.6.95] [202.112.29.82] [110.75.190.198] [115.28.122.198] [182.92.12.11]<br>[120.25.108.11] [110.75.186.249] [110.75.186.248] [110.75.186.247]<br>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.108.6.95<br>n1<br>vim /etc/ntp.conf<br>server 202.108.6.95 prefer<br>service ntpd start<br>ntpstat</p>
+<p>yum groupinstall “Development tools”</p>
+<p>克隆 修改为命令行 </p>
+<p>CentOS7修改默认运行级别<br>查看状态<br>systemctl get-default<br>修改为命令行<br>systemctl set-default multi-user.target<br>修改为图形<br>systemctl set-default graphical.target</p>
+<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>ONBOOT=”yes”<br>IPADDR=192.168.57.3<br>PREFIX=24<br>GATEWAY=192.168.57.2<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5</p>
+<p>[root@Centos7-Zabbix ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>TYPE=”Ethernet”<br>BOOTPROTO=”none”<br>DEFROUTE=”yes”<br>IPV4_FAILURE_FATAL=”no”<br>IPV6INIT=”yes”<br>IPV6_AUTOCONF=”yes”<br>IPV6_DEFROUTE=”yes”<br>IPV6_FAILURE_FATAL=”no”<br>NAME=”eth0”<br>UUID=”e228b577-792e-4188-be8c-af777ce949e0”<br>DEVICE=”eth0”<br>ONBOOT=”yes”<br>IPADDR=”10.6.4.103”<br>PREFIX=”24”<br>GATEWAY=”10.6.4.1”<br>DNS1=”61.177.7.1”<br>DOMAIN=”223.5.5.5”<br>IPV6_PEERDNS=”yes”<br>IPV6_PEERROUTES=”yes”<br>IPV6_PRIVACY=”no”<br>[root@Centos7-Zabbix ~]#</p>
+<p>yum install lrzsz -y<br>sz download<br>rz upload</p>
+<p>保留RPM包<br>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>ls /var/cache/yum/x86_64/7/base/packages/</p>
+<p>快照</p>
+<p>rpm -qa | grep java<br>rpm -e –nodeps javapackages-tools-3.4.1-5.el7.noarch<br>rpm -e –nodeps java-1.7.0-openjdk-headless-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps python-javapackages-3.4.1-5.el7.noarch<br>rpm -e –nodeps tzdata-java-2014b-1.el7.noarch<br>rpm -qa | grep java</p>
+<p>tar -xvf jdk-8u66-linux-x64.tar.gz<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin<br>source /etc/profile<br>java -version</p>
+<p>wget <a href="https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz</a><br>wget <a href="https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz</a></p>
+<p>ll -h<br>tar -Jxvf Python-3.4.3.tar.xz<br>mkdir /usr/local/python3<br>cd Python-3.4.3/<br>yum -y install gcc<br>./configure –prefix=/usr/local/python3<br>make<br>make install<br>cd /usr/bin/<br>mv python python2.7<br>ln -s /usr/local/python3/bin/python3 /usr/bin/python<br>python<br>Python 3.4.3 (default, Jun 17 2016, 13:34:53)<br>[GCC 4.8.5 20150623 (Red Hat 4.8.5-4)] on linux<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>vim /usr/bin/yum</p>
+<p>#!/usr/bin/python2.7<br>vim /usr/libexec/urlgrabber-ext-down</p>
+<p>#! /usr/bin/python2.7</p>
+<p>yum -y install ntp</p>
+<p>python -V<br>Python 3.4.3<br>python</p>
+<p>vim /etc/profile<br>source /etc/profile</p>
+<p>uname -a<br>su jinyan<br>mv eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz /home/jinyan/<br>cd /home/jinyan/<br>chown jinyan:jinyan eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz</p>
+<p>rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>wget <a href="http://nginx.org/keys/nginx_signing.key" target="_blank" rel="external">http://nginx.org/keys/nginx_signing.key</a><br>rpmkeys –import nginx_signing.key<br>vim /etc/yum.repos.d/nginx.repo<br>rpmkeys -K nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>yum -y install nginx<br>systemctl start nginx<br>systemctl enable nginx<br>systemctl status httpd.service<br>systemctl status nginx.service<br>vim /etc/nginx/nginx.conf </p>
+<p>nano /etc/nginx/nginx.conf<br>vim /etc/nginx/nginx.conf<br>nginx -s reload<br>mkdir -p /data/www<br>getenforce<br>echo “This a test page.” &gt;/data/www/index.html</p>
+<p>chmod -R 777 /data/www/<br>tail -f /var/log/nginx/error.log<br>cd /data/www/<br>touch favicon.ico<br>ls<br>tail -f /var/log/nginx/error.log<br>nginx -s reload</p>
+<p>yum install perl-DBI -y<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>yum install mysql-community-server -y<br>yum -y install mysql-community-client</p>
+<p>systemctl start mysqld<br>systemctl enable mysqld<br>systemctl status mysqld<br>netstat -tunlp | grep :3306<br>mysqladmin -uroot password yanjin<br>mysqladmin -uroot password<br>mysqladmin -u root password<br>mysql -uroot -pyanjin</p>
+<h1 id="假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话："><a href="#假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话：" class="headerlink" title="假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话："></a>假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话：</h1><p>[root@study ~]# dd if=centos7.iso of=/dev/sdc</p>
+<p>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
+<p>FTP安装配置<br>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>chkconfig  vsftpd on<br>chmod -R 777 /mycephfs/ftp<br>useradd -g ftp -d /mycephfs/ftp -M ftpuser<br>passwd ftpuser<br>sztzuchi<br>systemctl restart vsftpd</p>
+<p>安装配置Samba<br>yum -y install samba samba-client samba-common<br>vim /etc/samba/smb.conf<br>[cephbe]<br>        comment = The cephbe<br>        path = /mycephfs/be<br>        browseable = yes<br>        writable = yes</p>
+<p>chmod -R 777 /mycephfs/be<br>useradd smbcephbe<br>smbpasswd -a smbcephbe<br>sztzuchi<br>systemctl restart smb<br>systemctl status smb<br>chkconfig smb on</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwnalws00004gacyh7slg37q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Centos-6-x-预配" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/Centos-6-x-预配/" class="article-date">
@@ -123,7 +208,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwnah6dc00047bcypbwe9yrj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwnalwsb0008gacywrr8qnhb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -223,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwnah6d900027bcy32zc94j4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwnalwrx0002gacysjbn66xt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +375,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwnah6e5000l7bcyeyirx36w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwnalwsq000jgacyvtdgn8uh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -342,7 +427,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwnah6du000d7bcyr7j4xrku" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwnalwsi000egacybxfferi1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +492,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwnah6dt000c7bcytcxapsiu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwnalwsg000cgacy1c4hbej9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -444,7 +529,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwnah6dv000e7bcyhwuz1s7g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwnalwsh000dgacytmgnycj6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -481,7 +566,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwnah6dz000h7bcy5xtno2a1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwnalwsp000igacyxoqahq27" class="article-share-link">Share</a>
       
       
     </footer>
@@ -522,7 +607,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwnah6dx000g7bcyeeyncybl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwnalwso000hgacyz21g8elb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -603,75 +688,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwnah6ds000b7bcyc1e5knjb" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-Command" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-Command/" class="article-date">
-  <time datetime="2016-12-13T01:37:50.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-Command/">Linux Command</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>不一定刻意去看知识，而是以项目为目标来寻求知识支持,方能学的更快。——仁佳<br>鸟哥的Linux私房菜基础学习篇(第三版)<br>notebook:boot: linux nofb apm=off acpi=off pci=noacpi p125<br>command p149<br>date p151<br>cal p151<br>bc p153<br>man p156<br>info p162<br>nano p164<br>sync p167<br>shutdown p167<br>reboot p168<br>halt p168<br>poweroff p168<br>init p169</p>
-<p>chgrp p181<br>chown p182<br>chmod p183</p>
-<p>cd p202<br>pwd p202<br>mkdir p203<br>rmdir p204<br>$PATH p204<br>ls p207<br>cp p209<br>rm p212<br>mv p213<br>cat p214<br>tac p215<br>nl p215<br>more p216<br>less p217<br>head p218<br>tail p218<br>od p219<br>touch p220<br>umask p223<br>chattr p225<br>lsattr p226<br>SUID p227<br>SGID p228<br>SBIT p228<br>file p230<br>which p230<br>whereis p231<br>locate p232 updatedb<br>find p233</p>
-<p>dumpe2fs p249<br>df p256<br>du p258<br>ln p262<br>fdisk p264<br>partprobe p271<br>mkfs p272<br>mke2fs p273<br>fsck p274<br>badblocks p275<br>mount p275<br>umount p279<br>mknod p281<br>e2label p282<br>tune2fs p282<br>hdparm p283<br>parted p295</p>
-<p>compress p303<br>gzip p305<br>zcat p305<br>bzip2 p306<br>bzcat p306<br>tar p307<br>dump p313<br>restore p316<br>mkisofs p320<br>cdrecord p322<br>dd p325<br>cpio p327</p>
-<p>vim p336<br>Visual Block p343<br>multitask p346<br>~/.vimrc p347<br>~/.viminfo p347<br>dos2unix p349<br>unix2dos p349<br>iconv -o p350<br>iconv -f big5 -t gb2312<br>iconv -f gb2312 -t utf8 logfile.sh -o logfile.sh</p>
-<p>type p359<br>echo p362<br>unset p365<br>env p366<br>set p367<br>PS1 p368<br>export p369<br>locale p371<br>read p373<br>declare p373<br>array p374<br>ulimit p375<br>alias p381<br>unalias p382<br>history p382<br>login p385<br>no-login p386<br>stty p390<br>set p391<br>bash p393<br>pipe p400<br>cut p400<br>grep p401<br>sort p402<br>uniq p403<br>wc p404<br>tee p405<br>tr p405<br>col p406<br>join p407<br>paste p408<br>expand p408<br>split p409<br>xargs p410</p>
-<ul>
-<li>p411</li>
-</ul>
-<p>grep p419<br>characters p427<br>sed p428<br>printf p434<br>awk p435<br>diff p439<br>cmp p440<br>patch p440<br>pr p441</p>
-<p>test p453<br>sh p473</p>
-<p>groups p485<br>newgrp p486<br>useradd p487<br>passwd p491<br>chage p494<br>usermod p495<br>userdel p496<br>finger p497<br>chfn p498<br>chsh p499<br>id p499<br>groupadd p500<br>groupmod p500<br>groupdel p501<br>gpasswd p501<br>setfacl p505<br>getfacl p505<br>su p509<br>sudo p510<br>w p524<br>who p524<br>last p524<br>lastlog p524<br>write p524<br>mesg p525<br>wall p525<br>mail p525<br>pwck p527<br>grpck p527<br>pwconv p527<br>pwunconv p528<br>chpasswd p528<br>grpconv p529</p>
-<p>quotacheck p542<br>quotaon p543<br>quotaoff p543<br>edquota p544<br>quota p545<br>repquota p546<br>warnquota p548<br>setquota p550<br>mdadm p554<br>pvscan p565<br>pvcreate p565<br>vgcreate p566<br>vgscan p566<br>vgdisplay p566<br>vgextend p567<br>lvcreate p568<br>resize2fs p571<br>lvresize p573<br>pvdisplay p574<br>LVM 相关指令汇总与LVM 的关闭 p580</p>
-<p>at p588<br>atq p590<br>atrm p590<br>batch p590<br>crontab p591<br>anacron p597</p>
-<p>&amp; p605<br>[crtl]-z<br>jobs p607<br>fg p607<br>bg p608<br>kill p608<br>nobup p609<br>ps p610<br>ps -l p611<br>ps aux p612<br>top p614<br>pstree p616<br>signal<br>killall p618<br>nice p620<br>renice p621<br>free p622<br>uname p622<br>uptime p623<br>netstat p623<br>dmesg p625<br>vmstat p625<br>fuser p629<br>lsof p630<br>pidof p631<br>SELinux p632<br>getenforce p636<br>sestatus p637<br>setenforce p638<br>chcon p640<br>restorecon p641<br>sealert p642<br>auditd p642<br>audit2why p643<br>seinfo p643<br>sesearch p644<br>getsebool p645<br>setsebool p646<br>semanage p646<br>vsftp p648</p>
-<p>rsync p662<br>chkconfig p669<br>ntsysv p670</p>
-<p>logrotate p689<br>logwatch p695</p>
-<p>runlevel p713<br>depmod p714<br>lsmod p715<br>modinfo p715<br>insmod p716<br>rmmod p716<br>modprobe p716<br>mkinitrd p723<br>grub-install p724</p>
-<p>setup p739<br>lpadmin p757<br>lpr p759<br>lp p760<br>lprm p760<br>lspci p762<br>lsusb p763<br>iostat p763<br>sensors-detect p766<br>sensors p768</p>
-<p>makefile p784<br>Tarball p788<br>ldconfig p796<br>ldd p797<br>md5sum p798</p>
-<p>rpm p807<br>rpmbuild p816<br>yum p824</p>
-<p>startx p840<br>xinit p841<br>gtf p853</p>
-<p>鸟哥的Linux私房菜服务器架设篇(第三版)<br>p116<br>IP Netmask DHCP Gateway</p>
-<p>vim /etc/sysconfig/network-scripts/ifcfg-eth0 p119<br>ifconfig(IP/Netmask) route -n (gateway)</p>
-<p>主机名  /etc/sysconfig/network p122<br>DNS  /etc/resolv.conf  dig www.google.com p121<br>私有 IP 对应的主机名 /etc/hosts</p>
-<p>/etc/init.d/network restart p120</p>
-<p>route p74<br>arp p76<br>dhcp p124<br>adsl p125<br>lsusb p134<br>iwconfig p135<br>/etc/hosts p140</p>
-<p>ifconfig p146<br>ifup p149<br>ifdown p149<br>route p149<br>ip p152<br>dhclient p159<br>ping p159<br>traceroute(ms:tracert) p162<br>netstat p164<br>host p167<br>nslookup p168<br>telnet p169<br>ftp p171<br>lftp p172<br>pidgin p174<br>links p178<br>wget p181<br>tcpdump p182<br>wireshark p186<br>nc p190<br>netcat p190</p>
-<p>yum p221<br>chcon p250</p>
-<p>LAMP 所需软件与其结构 p770<br>yum install httpd mysql mysql-server php php-mysql</p>
-<p>Apache 的基本设定 p773<br>vim /etc/httpd/conf/httpd.conf</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwnah6dm00087bcygk6ygkho" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwnalwsd000agacyq80y9p21" class="article-share-link">Share</a>
       
       
     </footer>
@@ -715,6 +732,10 @@ tar xzf backup-incre1.tar.gz
       <ul>
         
           <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
           </li>
         
@@ -728,10 +749,6 @@ tar xzf backup-incre1.tar.gz
         
           <li>
             <a href="/2016/12/13/文件读写/">文件读写</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
           </li>
         
       </ul>

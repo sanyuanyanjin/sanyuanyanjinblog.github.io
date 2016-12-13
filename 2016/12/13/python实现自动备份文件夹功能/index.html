@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>python实现自动备份文件夹功能 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="python实现自动备份文件夹功能
+python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python实现自动备份文件夹功能">
+<meta property="og:url" content="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="python实现自动备份文件夹功能
+python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。">
+<meta property="og:updated_time" content="2016-12-13T09:15:24.306Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="python实现自动备份文件夹功能">
+<meta name="twitter:description" content="python实现自动备份文件夹功能
+python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-python实现自动备份文件夹功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/python实现自动备份文件夹功能/" class="article-date">
+  <time datetime="2016-12-13T09:14:57.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      python实现自动备份文件夹功能
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>python实现自动备份文件夹功能</p>
+<p>python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。<br>网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。<br>其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。</p>
+<p>#coding:utf-8<br>‘’’<br>Created on 2015年7月28日<br>功能简介：</p>
+<ul>
+<li>实现文件夹的自动备份，并会自动删除两个月之前的备份文件。</li>
+<li>实现插入u盘后的自动备份。</li>
+</ul>
+<p>@author: zhuzhezhe<br>‘’’<br>import time,datetime,os,os.path,zipfile,glob<br>from zipfile import ZIP_DEFLATED<br>def backup(filepath):</p>
+<pre><code>#需要备份的文件夹
+from_dir = []
+&apos;&apos;&apos;
+with open(&apos;backup.txt&apos;,&apos;r&apos;) as file:
+    for line in file:
+        from_dir.append(line)
+    file.close(
+&apos;&apos;&apos;
+#print from_dir
+#这里输入你需要备份的文件夹
+from_dir = [&apos;F:\code\python\test&apos;,
+            &apos;F:\code\java&apos;,]
+#当前备份时间
+back_time = time.strftime(u&apos;%Y-%m-%d&apos;)
+#目标文件夹
+to_dir = filepath+u&apos;:\\backup&apos;
+if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
+    print u&apos;已新建备份目录.&apos;
+os.chdir(to_dir)
+#打包文件夹的名字
+target = back_time+u&apos;.zip&apos;
+#依次打包压缩每个文件
+if not os.path.exists(target):
+    zip = zipfile.ZipFile(target,&apos;a&apos;,ZIP_DEFLATED)
+    for file in from_dir:
+        for f in glob.glob(file+&apos;\\*&apos;): #glob生成文件夹下所有文件的列表
+            zip.write(f)
+    print u&apos;备份完成.&apos;
+    zip.close()
+
+#删除两个月之前的备份文件
+#列出所有备份文件
+os.chdir(to_dir)
+list_file = os.listdir(to_dir)
+#两个月之前的时间,使用timedelta表示一个时间段,可以实现时间的加减
+old_time = datetime.date.today()-datetime.timedelta(2*30)
+#print str(old_time)[5:7]
+for lis in list_file:
+    if lis[5:7] == str(old_time)[5:7]:
+        os.remove(lis)
+</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    backup(‘F’)</p>
+<pre><code>#如果插入u盘，则自动备份到u盘
+if os.path.exists(&apos;G:&apos;) == True:
+    backup(&apos;G&apos;)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwnalwta000wgacyj11z3h7g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/13/Python-资源-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python 资源</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/文件读写/">文件读写</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
