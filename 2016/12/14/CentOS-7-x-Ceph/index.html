@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 7.x Ceph | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://docs.ceph.org.cn/
+[root@node2 ~]# rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+安装：
+yum install scsi-target-utils -y
+启动服务[root@node4 ~]# systemctl enable">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7.x Ceph">
+<meta property="og:url" content="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="http://docs.ceph.org.cn/
+[root@node2 ~]# rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+安装：
+yum install scsi-target-utils -y
+启动服务[root@node4 ~]# systemctl enable">
+<meta property="og:updated_time" content="2016-12-14T04:46:35.197Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7.x Ceph">
+<meta name="twitter:description" content="http://docs.ceph.org.cn/
+[root@node2 ~]# rpm -ivh http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+安装：
+yum install scsi-target-utils -y
+启动服务[root@node4 ~]# systemctl enable">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-7-x-Ceph" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/14/CentOS-7-x-Ceph/" class="article-date">
+  <time datetime="2016-12-14T04:46:08.000Z" itemprop="datePublished">2016-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 7.x Ceph
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://docs.ceph.org.cn/" target="_blank" rel="external">http://docs.ceph.org.cn/</a></p>
+<p>[root@node2 ~]# rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm</a></p>
+<p>安装：</p>
+<p>yum install scsi-target-utils -y</p>
+<p>启动服务<br>[root@node4 ~]# systemctl enable tgtd.service<br>Created symlink from /etc/systemd/system/multi-user.target.wants/tgtd.service to /usr/lib/systemd/system/tgtd.service.<br>[root@node4 ~]# systemctl start tgtd.service</p>
+<p>确认一下有没有端口起来<br>[root@node4 ~]# netstat -anlpt | grep 3260<br>tcp        0      0 0.0.0.0:3260            0.0.0.0:<em>               LISTEN      8285/tgtd<br>tcp6       0      0 :::3260                 :::</em>                    LISTEN      8285/tgtd<br>[root@node4 ~]#</p>
+<p>设为开机自启动：<br>[root@node4 ~]# chkconfig tgtd on<br>Note: Forwarding request to ‘systemctl enable tgtd.service’.<br>[root@node4 ~]# </p>
+<p>dd if=/dev/zero of=/mycephfs/cephimg2 bs=1024M count=1000</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-09.node2:cephimg2=""><br>  backing-store /mycephfs/cephimg2<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg2</p>
+<p>tgtadm –lld iscsi –op show –mode target</p>
+<p>dd if=/dev/zero of=/mycephfs/cephimg1 bs=1024M count=4000</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-10.node2:cephimg3=""><br>  backing-store /mycephfs/cephimg3<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg1</p>
+<p>tgtadm –lld iscsi –op show –mode target</p>
+<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img1  bs=1024M count=1024</p>
+<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img2  bs=1024M count=1024<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n5:img2=""><br>  backing-store /data/img/img2<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>查看信息<br>tgtadm –lld iscsi –op show –mode target</p>
+<p>在安装ceph之前推荐把所有的ceph节点设置成无需密码ssh互访，配置hosts支持主机名互访，同步好时间，并关闭iptables和selinux。<br>vim /etc/selinux/config</p>
+<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service</p>
+<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.108.6.95</p>
+<p>node1<br>vim /etc/ntp.conf<br>server 202.108.6.95 prefer<br>service ntpd start<br>ntpstat</p>
+<p>node2、3<br>vim /etc/ntp.conf<br>server node1<br>ntpdate -u node1<br>service ntpd start<br>ntpstat</p>
+<p>vim /etc/hosts<br>10.6.0.166  node1<br>10.6.0.167  node2<br>10.6.0.168  node3<br>10.6.0.169  node4</p>
+<p>vim /etc/hosts<br>10.6.0.171  node1<br>10.6.0.172  node2<br>10.6.0.173  node3<br>10.6.0.174  node4</p>
+<p>vim /etc/hosts<br>10.6.4.166  node1<br>10.6.4.167  node2<br>10.6.4.168  node3<br>10.6.4.169  node4<br>10.6.4.170  node5<br>10.6.4.171  node6<br>10.6.4.172  node7<br>10.6.4.173  node8<br>10.6.4.174  node9</p>
+<p>node1<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>[root@node1 ~]# cat ~/.ssh/authorized_keys<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxp6jN9BsZf6V+pQEksQQaOdesJ8jOPAkudEpsEnNFdUW2PzK/Hrn+s3TrdgekTAWRvjXELQ/S45Z/eK+r2C14rzLaLN1Twq6fJfjF2B+tGvejG/gWzDCx/FPLTv7155UwNCObDCPveV3Ey/bkL681CN8YezBh58IX0uMk5jOJAjlWexVOB7oE1iAmP8dB/B2mbk6arX7QjTr79Fp5WzVM50BNsDcTG9rccKrKs7XPqYPTCfMB/b0gfeoOnQ4B4bY/PL0AdluPQSpD0d2/I2jefDcL89CBeH16oFtTGFFsKnDh4WgcDwlEsS7KYvV8N/mqu8Ym1VAep/7b83KoUyOH root@node1<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+kjsX4sSLByfEQYnLvyvHDBUtup4MVG7EPkl7MyTabRapn0O1LA2ZvybIBjSSmiuRAEy9CF3tbkg+2wFjvfwa1M8x/83NAQ1AOZhWHjTzpdFAGiIetEiunaDVDLqb9c1q+U3ETFRFxPaaoBLijGNFVWFovJ8sT25i76gluDQ+yIT9vW6gbnjyy2Q32HYhsxKZj4PnG1YbdDa3H0FBm2b7kVZ7SpZq2xbsmZqF+gY9RfqWTjcHHOplyrZeCh6HHPPyr9XvZ/DpcHXLGwOx7PPkhnn5Q8Byrofb5dJfxbcfg22aQsdnvD59WxzK4Gfqw5muGga31fEVJKLzn74+MWa9 root@node2<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKOsjb53KEQ88zJXGx2B3rnn0/Mnz0ObNb/Ees13+OgWyAjnaQWNiRVuqLTcQU5DTjGfQPy1oYq6TBOdgXv10BShU0LXv2Ju2YBcsV50PVGZtVhQ6iX/+qDhs0vv0lLt3xPQzpbxQRV5FXMb5HpPu2KYtVtaRao9CdGhteLrjQf2MymCNrS8BfjeFEPNEaD0gyLzTsPbN9IlvHYToAyLrqlQfp9V6YqgarRHtafDcq/K6H7w3rynHDOR2wpifscbTezWLNOpSDMthMqvmhFX9nXOGChTnc0k4+1Fj4V2sto7/vKX1gdN2Hha1APT9u9XXDBC0ur5HQqnpiSWAYqlLr root@node3<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WQ5Vu0HWmWQslihi4Uv8MjvwUGanw/exy3tOU8rUxnB0DfWR5e98GpEE37NCU6Y8Q+Ppy3H3RxUSdfw/cFhaz03bDjRphdHPU/aTFWJPBXo6uJjV9s34WaP2q6xKd2/NsgTm+FIiD0O37UtqVUGvvPtqU1QiaZOOxSlmLtjBGLM8WmEjjCpHS+AJ3ceWR16lkry5+F1DnrEITdEmVTy/zCPuQk9Ey32jU39AELm1gtYHcaXvE1Ir8+dZ83fmAleFnT7sONARd4rHjYAyuRx47kjOea9Y89KIbF1SUTgW7nystZ1ULPIeotGeuGgsl2X7bRKUJxzE76nybZruo7Hp root@node4<br>[root@node1 ~]#</p>
+<p>scp ~/.ssh/authorized_keys root@node2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
+<p>node2<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
+<p>node3<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node2:~/.ssh/</p>
+<p>scp ~/.ssh/authorized_keys root@node4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node1:~/.ssh/</p>
+<p>１、实验环境说明：<br>当前实验环境使用了4台主机node1~node4，node1为管理节点。<br>2、部署工具：<br>　　Ceph官方推出了一个用python写的工具 cpeh-deploy</p>
+<p>添加ceph源</p>
+<p>vim /etc/yum.repos.d/ceph.repo<br>[ceph]<br>name=ceph<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/</a><br>gpgcheck=0<br>[ceph-noarch]<br>name=cephnoarch<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/</a><br>gpgcheck=0</p>
+<p>yum makecache</p>
+<p>3、安装步骤<br>所有节点安装软件<br>yum install ceph ceph-deploy -y</p>
+<p>创建工作目录，用于存放生成的配置文件和秘钥等信息<br>mkdir /ceph ; cd /ceph<br>到管理主机上的/ceph目录操作,创建一个新集群，并设置node1为mon节点<br>ceph-deploy new node1<br>ceph-deploy new node4<br>执行完毕后，可以看到/ceph目录中生成了三个文件，其中有一个配置文件可以做各种参数优化，据说ceph的优化参数接近1000项。（注意，在osd进程生成并挂载使用后，想修改配置需要使用命令行工具，修改配置文件是无效的，所以需要提前规划好优化的参数。）<br>在ceph.conf中添加四个最基本的设置<br>echo “osd pool default size = 3” &gt;&gt; ceph.conf<br>echo “osd_pool_default_min_size = 2” &gt;&gt; ceph.conf<br>cat ceph.conf</p>
+<p>激活监控节点<br>ceph-deploy mon create-initial</p>
+<p>接下来创建osd节点<br>node1<br>mkdir /data/osd01<br>chmod -R 777 /data/osd01</p>
+<p>node2<br>mkdir /data/osd02<br>chmod -R 777 /data/osd02</p>
+<p>mkdir /var/local/osd2<br>chmod -R 777 /var/local/osd2</p>
+<p>node3<br>mkdir /data/osd03<br>chmod -R 777 /data/osd03</p>
+<p>mkdir /var/local/osd3<br>chmod -R 777 /var/local/osd3</p>
+<p>node4<br>mkdir /var/local/osd4<br>chmod -R 777 /var/local/osd4</p>
+<p>ceph-deploy osd prepare node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
+<p>ceph-deploy osd activate node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
+<p>ceph-deploy osd prepare node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
+<p>ceph-deploy osd activate node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
+<p>将管理节点上的配置文件同步到其他节点上<br>ceph-deploy admin node1 node2 node3</p>
+<p>所有节点<br>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+<p>ceph health<br>HEALTH_OK</p>
+<p>ceph -s<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>     osdmap e14: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v26: 64 pgs, 1 pools, 0 bytes data, 0 objects<br>            30468 MB used, 9341 MB / 39810 MB avail<br>                  64 active+clean<br>[root@node1 ceph]#</p>
+<p>添加元数据服务器</p>
+<p>至少需要一个元数据服务器才能使用 CephFS ，执行下列命令创建元数据服务器：</p>
+<p>ceph-deploy mds create node1<br>ceph-deploy mds create node4<br>Note 当前生产环境下的 Ceph 只能运行一个元数据服务器。你可以配置多个，但现在我们还不会为多个元数据服务器的集群提供商业支持。<br>[root@node1 ceph]# ceph-deploy mds create node1<br>[root@node1 ceph]# ceph osd pool create test1 64<br>pool ‘test1’ created<br>[root@node1 ceph]# ceph osd pool create test2 64<br>pool ‘test2’ created<br>[root@node1 ceph]# ceph fs new cephfs test2 test1<br>new fs with metadata pool 2 and data pool 1<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>      fsmap e5: 1/1/1 up {0=node1=up:active}<br>     osdmap e19: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v52: 192 pgs, 3 pools, 2068 bytes data, 20 objects<br>            30473 MB used, 9336 MB / 39810 MB avail<br>                 192 active+clean<br>[root@node1 ceph]#</p>
+<p>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.03809 root default<br>-2 0.01270     host node2<br> 0 0.01270         osd.0       up  1.00000          1.00000<br>-3 0.01270     host node3<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node4<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>[root@node1 ceph]#  </p>
+<p>Ceph 存储集群需要至少一个 Monitor 才能运行。为达到高可用，典型的 Ceph 存储集群会运行多个 Monitors，这样在单个 Monitor 失败时不会影响 Ceph 存储集群的可用性。Ceph 使用 PASOX 算法，此算法要求有多半 monitors（即 1 、 2:3 、 3:4 、 3:5 、 4:6 等 ）形成法定人数。</p>
+<p>新增两个监视器到 Ceph 集群。</p>
+<p>ceph-deploy mon add node2 node3<br>新增 Monitor 后，Ceph 会自动开始同步并形成法定人数。你可以用下面的命令检查法定人数状态：</p>
+<p>ceph quorum_status –format json-pretty<br>Tip 当你的 Ceph 集群运行着多个 monitor 时，各 monitor 主机上都应该配置 NTP ，而且要确保这些 monitor 位于 NTP 服务的同一级。</p>
+<p>CephFS的使用<br>在客户端上操作：<br>1、安装客户端挂载软件<br>yum install ceph-fuse -y<br>2、创建挂载目录<br>mkdir /mycephfs<br>3、证书来源位置<br>[root@node4 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>[root@node4 ~]#<br>4、模拟挂载<br>[root@node4 ~]# mount -t ceph node1:6789:/ /mycephfs -v -o name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>parsing options: rw,name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==</p>
+<p>[root@node2 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==<br>[root@node2 ~]#<br>mount -t ceph node4:6789:/ /mycephfs -v -o name=admin,secret=AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==</p>
+<p>[root@node4 ~]# df -h<br>Filesystem               Size  Used Avail Use% Mounted on<br>/dev/mapper/centos-root   13G   10G  3.1G  77% /<br>devtmpfs                 479M     0  479M   0% /dev<br>tmpfs                    494M   84K  494M   1% /dev/shm<br>tmpfs                    494M  6.9M  488M   2% /run<br>tmpfs                    494M     0  494M   0% /sys/fs/cgroup<br>/dev/xvda1               497M  140M  358M  29% /boot<br>tmpfs                     99M   16K   99M   1% /run/user/42<br>tmpfs                     99M     0   99M   0% /run/user/0<br>10.6.4.166:6789:/         39G   30G  9.2G  77% /mycephfs<br>[root@node4 ~]#<br>5、另外一种命令挂载方式<br>[root@ceph-client ~]# mount  -t ceph node1:6789:/ /mycephfs -v -oname=admin,secretfile=/etc/ceph/ceph.client.admin.keyring<br>6、若果有多个mon监控节点，可以挂载多可节点，保证了cephFS的安全行，当有一个节点down的时候不影响写入数据<br>[root@client ~]# mount.cephnode01,node02,node03:/ /mycephfs -v -o name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==<br>7、验证挂载信息：<br>df -h<br>Filesystem          Size Used Avail Use% Mounted on<br>/dev/sda5           1.7T 4.8G  1.7T   1% /data<br>/dev/rbd0            78G   56M  78G   1% /rbdtest<br>172.16.2.27:6789:/  8.2T  9.8G 8.2T   1% /mycephfs<br>8、把挂载的信息写到fstab里<br>[root@client ~]# vi /etc/fstab<br>172.16.2.27,172.16.2.28,172.16.2.29:/  /mycephfs  ceph  name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==,noatime    0<br>9、指定key文件的调用方式<br>sudoceph-fuse -k ./ceph.client.admin.keyring -m 192.168.40.107:6789 ~/mycephfs<br>10、挂载后查看结果，注意观察类型<br>df-Th<br>11、取消挂载<br>取消挂载的操作如下:<br>umount /mnt/mycephfs</p>
+<p>sudo mkdir /mnt/mycephfs<br>sudo mount -t ceph {ip-address-of-monitor}:6789:/ /mnt/mycephfs<br>或者<br>sudo mkdir /home/{username}/cephfs<br>sudo ceph-fuse -m {ip-address-of-monitor}:6789 /home/{username}/cephfs</p>
+<h1 id="df-–h-查看"><a href="#df-–h-查看" class="headerlink" title="df –h   查看"></a>df –h   查看</h1><p>[root@ceph-client ~]# mkdir /mnt/mycephfs<br>[root@ceph-client ~]# mount  -t ceph 10.240.240.211:6789:/ /mnt/mycephfs -v -o name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==<br>10.240.240.211:6789:/ on /mnt/mycephfs type ceph (rw,name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==) </p>
+<p>#上述命令中的name和secret参数值来自monitor的/etc/ceph/keyring文件：<br>[root@node1 ~]# cat /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==</p>
+<p>检查ceph集群状态常用命令<br>ceph health   //ceph健康状态<br>ceph status   //ceph当前全部状态<br>ceph -w //实时监控ceph状态及变化<br>ceph osddump                                //所有osd详细状态<br>ceph osd tree        //osd所在位置，及状态<br>cephquorum_status    //mon优先级状态<br>ceph mon dump    //mon节点状态<br>ceph mds dump    //mds详细状态</p>
+<p>添加 OSD</p>
+<p>你运行的这个三节点集群只是用于演示的，把 OSD 添加到 monitor 节点就行。</p>
+<p>yum install ceph ceph-deploy -y</p>
+<p>node5<br>mkdir /var/local/osd5<br>chmod -R 777 /var/local/osd5</p>
+<p>然后，从 ceph-deploy 节点准备 OSD 。</p>
+<p>ceph-deploy osd prepare node5:/var/local/osd5<br>最后，激活 OSD 。</p>
+<p>ceph-deploy osd activate node5:/var/local/osd5</p>
+<p>一旦你新加了 OSD ， Ceph 集群就开始重均衡，把归置组迁移到新 OSD 。可以用下面的 ceph 命令观察此过程：</p>
+<p>ceph -w</p>
+<p>你应该能看到归置组状态从 active + clean 变为 active ，还有一些降级的对象；迁移完成后又会回到 active + clean 状态（ Control-C 退出）。</p>
+<p>ceph-deploy admin node4</p>
+<p>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+<p><a href="http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/" target="_blank" rel="external">http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/</a><br><a href="http://docs.ceph.com/docs/master/rados/operations/operating/" target="_blank" rel="external">http://docs.ceph.com/docs/master/rados/operations/operating/</a></p>
+<p>移除OSD<br>ceph osd out 0<br>[root@node1 ceph]# systemctl stop ceph-osd@0<br>[root@node1 ceph]# ceph osd rm 0<br>removed osd.0<br>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.05078 root default<br>-2 0.01270     host node1<br> 0 0.01270         osd.0      DNE        0<br>-3 0.01270     host node2<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node3<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>-5 0.01270     host node4<br> 3 0.01270         osd.3       up  1.00000          1.00000<br>[root@node1 ceph]#</p>
+<p>cephfs的删除<br>remove所有节点上的ceph<br>ceph-deploy purge node{1..3}</p>
+<p>清除所有数据<br>ceph-deploy purgedata node{1..3}</p>
+<p>清除所有秘钥文件<br>ceph-deploy forgetkeys</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwogg1fm0003bicyhnxewiq5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/14/CentOS-7-x-Docker/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 7.x Docker</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

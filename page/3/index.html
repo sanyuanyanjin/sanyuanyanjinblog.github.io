@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,104 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-Linux-root-密码重置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-root-密码重置/" class="article-date">
+  <time datetime="2016-12-13T02:26:52.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-root-密码重置/">Linux root 密码重置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。</p>
+<p>对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。</p>
+<p>主要有两个方法，这两个方法都十分简单。</p>
+<p>方法一：</p>
+<p>1.在开机启动的时候能看到引导目录，用上下方向键选择你忘记密码的那个系统，然后按“e”。</p>
+<p>2.接下来你可以看到如下图所示的画面，然后你再用上下键选择最新的内核，然后在按“e”。</p>
+<p>3.执行完上步操作后可以看到下面的画面，在rhgb quiet最后加“空格”，然后键入“single”，或者直接输入数字的“1”并回车确定。</p>
+<p>4.按“b”键，重新引导系统。</p>
+<p>5.进入到系统后就可以用熟悉的passwd root来更改root的密码了。改完后reboot即可。</p>
+<p>方法二</p>
+<p>今天要测试一个程序，就启动自己虚拟机上的centos5.2，结果root密码忘记无法使用，真是急死人了。</p>
+<p>还好从网上找到解决办法，我摘录整理如下：</p>
+<p>GRUB:</p>
+<p>在引导装载程序菜单上，键入[e]键 来进入编辑模式。<br>你会看到一个引导项目列表。找到其中类似以下输出的句行：</p>
+<p>kernel /vmlinuz-2.6.18-0.4 ro root=/dev/hda2<br>按箭头键直到这一行被突出显示，然后再按[e]键 。<br>你现在可在文本结尾处按下 空格 再输入：single然后回车， 来告诉GRUB 引导单用户Linux 模式。<br>你会被带回到编辑模式屏幕，从这里，按[b]键， GRUB 就会引导单用户Linux 模式。</p>
+<p>结束载入后，你会看到一个与以下相似的shell 提示：</p>
+<p>sh-2.05#<br>现在，你便可以改变根命令，键入：</p>
+<p>bash# passwd root<br>你会被要求重新键入口令来校验。结束后，口令就会被改变，你便可以在提示下键入reboot 来重新引<br>导；然后，象平常一样登录为根用户。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwogg1g3000cbicyyuwm7hwu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-封装CentOS系统几个步骤" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/封装CentOS系统几个步骤/" class="article-date">
+  <time datetime="2016-12-13T02:25:44.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/封装CentOS系统几个步骤/">封装CentOS系统几个步骤</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>准备工作<br>1.干净的操作系统镜像,推荐官方下载。<br>2.一台linux主机，需要安装mkisofs</p>
+<ol>
+<li>kickstarts文件<br>封装光盘<br>1.复制文件<br>cd iso文件所在目录<br>mount -o loop ./CentOS-6.5-x86_64-bin-DVD1.iso /mnt/   ##挂载镜像文件<br>mkdir /var/iso  ##创建新系统的文件目录<br>cd /mnt    ##进入光盘挂载目录<br>cp -a . /var/iso/<br>cd /var/iso<br>2.修改文件<br>在/var/iso/目录里面操作。</li>
+</ol>
+<p>vi isolinux/isolinux.cfg<br>在label linux 这一行上面添加。</p>
+<p>label custom<br>menu label ^custom CentOS 6.5<br>menu default<br>kernel vmlinuz<br>append ks=cdrom:/isolinux/ks.cfg initrd=initrd.img biosdevname=0<br>复制准备好的 ks.cfg 到 isolinux/ 目录</p>
+<p>cp /root/ks.cfg isolinux/ks.cfg<br>3.封装光盘<br>mkisofs -o ../CentOS-6.5-x86_64_release1.0.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./</p>
+<p>mkisofs -o ../CentOS-6.5-x86_64_release1.0.iso -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -R -J -v -T ./</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwogg1i90024bicyu1l8mlkq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-删除指定大小的文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -92,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwnb1bgt001p56cy2nl77pxx" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwogg1hv001tbicynfxm69rb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -177,7 +275,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwnb1bep000456cyjc1or0gn" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwogg1ft0007bicy3ohf6918" class="article-share-link">Share</a>
       
       
     </footer>
@@ -249,7 +347,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwnb1beo000356cywgwocgi0" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwogg1fs0006bicyzwnyd0kw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -349,7 +447,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwnb1bef000056cyuy682e7g" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwogg1fk0002bicy3kjoilhw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -416,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwnb1bfl000m56cywg6qqtd9" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwogg1gk000obicyvptcs7nk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -468,7 +566,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwnb1bf6000c56cy8qallusm" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwogg1g6000fbicyo5zh49ez" class="article-share-link">Share</a>
       
       
     </footer>
@@ -533,7 +631,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwnb1bf7000d56cylf2w1onl" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwogg1g5000ebicy6f0k3l5g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -570,85 +668,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwnb1bfc000h56cyo40jtazw" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
-  <time datetime="2016-12-13T01:59:07.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/">Linux服务器遭受攻击后的一般处理过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。<br>一、处理服务器遭受攻击的一般思路<br>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。<br>1.切断网络<br>所有的攻击都来自于网络，因此，在得知系统正遭受黑客的攻击后，首先要做的就是断开服务器的网络连接，这样除了能切断攻击源之外，也能保护服务器所在网络的其他主机。<br>2.查找攻击源<br>可以通过分析系统日志或登录日志文件，查看可疑信息，同时也要查看系统都打开了哪些端口，运行哪些进程，并通过这些进程分析哪些是可疑的程序。这个过程要根据经验和综合判断能力进行追查和分析。下面的章节会详细介绍这个过程的处理思路。<br>3.分析入侵原因和途径<br>既然系统遭到入侵，那么原因是多方面的，可能是系统漏洞，也可能是程序漏洞，一定要查清楚是哪个原因导致的，并且还要查清楚遭到攻击的途径，找到攻击源，因为只有知道了遭受攻击的原因和途径，才能删除攻击源同时进行漏洞的修复。<br>4.备份用户数据<br>在服务器遭受攻击后，需要立刻备份服务器上的用户数据，同时也要查看这些数据中是否隐藏着攻击源。如果攻击源在用户数据中，一定要彻底删除，然后将用户数据备份到一个安全的地方。<br>5.重新安装系统<br>永远不要认为自己能彻底清除攻击源，因为没有人能比黑客更了解攻击程序，在服务器遭到攻击后，最安全也最简单的方法就是重新安装系统，因为大部分攻击程序都会依附在系统文件或者内核中，所以重新安装系统才能彻底清除攻击源。<br>6.修复程序或系统漏洞<br>在发现系统漏洞或者应用程序漏洞后，首先要做的就是修复系统漏洞或者更改程序bug，因为只有将程序的漏洞修复完毕才能正式在服务器上运行。<br>7.恢复数据和连接网络<br>将备份的数据重新复制到新安装的服务器上，然后开启服务，最后将服务器开启网络连接，对外提供服务。<br>二、检查并锁定可疑用户<br>当发现服务器遭受攻击后，首先要切断网络连接，但是在有些情况下，比如无法马上切断网络连接时，就必须登录系统查看是否有可疑用户，如果有可疑用户登录了系统，那么需要马上将这个用户锁定，然后中断此用户的远程连接。<br>1.登录系统查看可疑用户<br>通过root用户登录，然后执行“w”命令即可列出所有登录过系统的用户。<br>通过这个输出可以检查是否有可疑或者不熟悉的用户登录，同时还可以根据用户名以及用户登录的源地址和它们正在运行的进程来判断他们是否为非法用户。<br>2.锁定可疑用户<br>一旦发现可疑用户，就要马上将其锁定，例如上面执行“w”命令后发现nobody用户应该是个可疑用户（因为nobody默认情况下是没有登录权限的），于是首先锁定此用户，执行如下操作：<br>[root@server ~]# passwd -l nobody<br>锁定之后，有可能此用户还处于登录状态，于是还要将此用户踢下线，根据上面“w”命令的输出，即可获得此用户登录进行的pid值，操作如下：<br>[root@server ~]# ps -ef|grep @pts/3<br>531 6051 6049 0 19:23 ? 00:00:00 sshd: nobody@pts/3<br>[root@server ~]# kill -9 6051<br>这样就将可疑用户nobody从线上踢下去了。如果此用户再次试图登录它已经无法登录了。<br>3.通过last命令查看用户登录事件<br>last命令记录着所有用户登录系统的日志，可以用来查找非授权用户的登录事件，而last命令的输出结果来源于/var/log/wtmp文件，稍有经验的入侵者都会删掉/var/log/wtmp以清除自己行踪，但是还是会露出蛛丝马迹在此文件中的。<br>三、查看系统日志<br>查 看系统日志是查找攻击源最好的方法，可查的系统日志有/var/log/messages、/var/log/secure等，这两个日志文件可以记录软 件的运行状态以及远程用户的登录状态，还可以查看每个用户目录下的.bash_history文件，特别是/root目录下的.bash_history 文件，这个文件中记录着用户执行的所有历史命令。<br>四、检查并关闭系统可疑进程<br>检查可疑进程的命令很多，例如ps、top等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看：<br>首先通过pidof命令可以查找正在运行的进程PID，例如要查找sshd进程的PID，执行如下命令：<br>1<br>2<br>[root@server ~]# pidof sshd<br>13276 12942 4284<br>然后进入内存目录，查看对应PID目录下exe文件的信息：<br>1<br>2<br>[root@server ~]# ls -al /proc/13276/exe<br>lrwxrwxrwx 1 root root 0 Oct 4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd<br>这样就找到了进程对应的完整执行路径。如果还有查看文件的句柄，可以查看如下目录：<br>[root@server ~]# ls -al /proc/13276/fd<br>通过这种方式基本可以找到任何进程的完整执行信息，此外还有很多类似的命令可以帮助系统运维人员查找可疑进程。例如，可以通过指定端口或者tcp、udp协议找到进程PID，进而找到相关进程：<br>[root@server ~]# fuser -n tcp 111<br>111/tcp: 1579<br>[root@server ~]# fuser -n tcp 25<br>25/tcp: 2037<br>[root@server ~]# ps -ef|grep 2037<br>root 2037 1 0 Sep23 ? 00:00:05 /usr/libexec/postfix/master<br>postfix 2046 2037 0 Sep23 ? 00:00:01 qmgr -l -t fifo -u<br>postfix 9612 2037 0 20:34 ? 00:00:00 pickup -l -t fifo -u<br>root 14927 12944 0 21:11 pts/1 00:00:00 grep 2037<br>在 有些时候，攻击者的程序隐藏很深，例如rootkits后门程序，在这种情况下ps、top、netstat等命令也可能已经被替换，如果再通过系统自身 的命令去检查可疑进程就变得毫不可信，此时，就需要借助于第三方工具来检查系统可疑程序，例如前面介绍过的chkrootkit、RKHunter等工 具，通过这些工具可以很方便的发现系统被替换或篡改的程序。<br>五、检查文件系统的完好性<br>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上/bin/ls文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。此时可以借助于Linux下rpm这个工具来完成验证，操作如下：<br>[root@server ~]# rpm -Va<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….T c /etc/sysctl.conf<br>S.5….T /etc/sgml/docbook-simple.cat<br>S.5….T c /etc/login.defs<br>S.5….. c /etc/openldap/ldap.conf<br>S.5….T c /etc/sudoers<br>..5….T c /usr/lib64/security/classpath.security<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….. c /etc/ldap.conf<br>S.5….T c /etc/ssh/sshd_config<br>对于输出中每个标记的含义介绍如下：<br>S 表示文件长度发生了变化<br>M 表示文件的访问权限或文件类型发生了变化<br>5 表示MD5校验和发生了变化<br>D 表示设备节点的属性发生了变化<br>L 表示文件的符号链接发生了变化<br>U 表示文件/子目录/设备节点的owner发生了变化<br>G 表示文件/子目录/设备节点的group发生了变化<br>T 表示文件最后一次的修改时间发生了变化<br>如果在输出结果中有“M”标记出现，那么对应的文件可能已经遭到篡改或替换，此时可以通过卸载这个rpm包重新安装来清除受攻击的文件。<br>不过这个命令有个局限性，那就是只能检查通过rpm包方式安装的所有文件，对于通过非rpm包方式安装的文件就无能为力了。同时，如果rpm工具也遭到替换，就不能通过这个方法了，此时可以从正常的系统上复制一个rpm工具进行检测。<br>对文件系统的检查也可以通过chkrootkit、RKHunter这两个工具来完成，关于chkrootkit、RKHunter工具的使用，下次将展开介绍。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwnb1bfe000i56cywn5h4dzz" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux使用ntfs-3g挂载NTFS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" class="article-date">
-  <time datetime="2016-12-13T01:56:13.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/">Linux使用ntfs-3g挂载NTFS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Open Source: NTFS-3G<br>Latest Download - <a href="http://www.tuxera.com/community/open-source-ntfs-3g/" target="_blank" rel="external">http://www.tuxera.com/community/open-source-ntfs-3g/</a><br>NTFS-3G Manual - <a href="http://www.tuxera.com/community/ntfs-3g-manual/" target="_blank" rel="external">http://www.tuxera.com/community/ntfs-3g-manual/</a><br>stable version - <a href="https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz" target="_blank" rel="external">https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz</a></p>
-<p>#Installation<br>tar zxvf /tmp/ntfs-3g_ntfsprogs-2016.2.22.tgz<br>cd ntfs*</p>
-<p>#yum install gcc<br>./configure<br>make<br>make install # or ‘sudo make install’ if you aren’t root</p>
-<p>#Usage<br>fdisk -l<br>mkdir -p /mnt/windows<br>mount -t ntfs-3g /dev/sda1 /mnt/windows</p>
-<p>#You can also make NTFS to be mounted during boot by adding the following line to the end of the /etc/fstab file:<br>vi /etc/fstab<br>/dev/sda1 /mnt/windows ntfs-3g defaults 0 0</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwnb1bf9000f56cypjzret87" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwogg1g7000gbicy91i6o2yq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -661,7 +681,7 @@ tar xzf backup-incre1.tar.gz
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/4/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/2/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -677,7 +697,7 @@ tar xzf backup-incre1.tar.gz
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
@@ -687,9 +707,17 @@ tar xzf backup-incre1.tar.gz
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
+          </li>
         
           <li>
             <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
@@ -701,14 +729,6 @@ tar xzf backup-incre1.tar.gz
         
           <li>
             <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
           </li>
         
       </ul>

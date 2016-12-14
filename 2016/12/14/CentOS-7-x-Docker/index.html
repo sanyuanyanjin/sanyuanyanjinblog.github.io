@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 7.x Docker | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="https://www.gitbook.com/book/yeasy/docker_practice/detailshttps://hub.docker.com/explore/https://github.com/shipyard/shipyardhttps://docs.docker.com/engine/installation/linux/
+[root@node4 ~]# curl -sS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 7.x Docker">
+<meta property="og:url" content="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="https://www.gitbook.com/book/yeasy/docker_practice/detailshttps://hub.docker.com/explore/https://github.com/shipyard/shipyardhttps://docs.docker.com/engine/installation/linux/
+[root@node4 ~]# curl -sS">
+<meta property="og:updated_time" content="2016-12-14T04:45:42.088Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 7.x Docker">
+<meta name="twitter:description" content="https://www.gitbook.com/book/yeasy/docker_practice/detailshttps://hub.docker.com/explore/https://github.com/shipyard/shipyardhttps://docs.docker.com/engine/installation/linux/
+[root@node4 ~]# curl -sS">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-7-x-Docker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/14/CentOS-7-x-Docker/" class="article-date">
+  <time datetime="2016-12-14T04:44:44.000Z" itemprop="datePublished">2016-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 7.x Docker
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">https://www.gitbook.com/book/yeasy/docker_practice/details</a><br><a href="https://hub.docker.com/explore/" target="_blank" rel="external">https://hub.docker.com/explore/</a><br><a href="https://github.com/shipyard/shipyard" target="_blank" rel="external">https://github.com/shipyard/shipyard</a><br><a href="https://docs.docker.com/engine/installation/linux/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/</a></p>
+<p>[root@node4 ~]# curl -sSL <a href="http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet" target="_blank" rel="external">http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet</a> | sh -</p>
+<p>[root@node4 ~]# service docker start<br>Redirecting to /bin/systemctl start  docker.service<br>[root@node4 ~]#<br>[root@node4 ~]# docker run hello-world</p>
+<p> [root@node4 ~]# chkconfig docker on<br>Note: Forwarding request to ‘systemctl enable docker.service’.<br>Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.<br>[root@node4 ~]#<br>docker run -i -t ubuntu:12.04 /bin/bash</p>
+<p>docker pull hub.c.163.com/public/centos:6.5<br>Digest: sha256:92fd18cda0cbf63bb4b5ffd0c073a9d689d5b202e3b491cbc74488fff1c37d11<br>Status: Downloaded newer image for hub.c.163.com/public/centos:6.5<br>docker run -i -t hub.c.163.com/public/centos:6.5 /bin/bash</p>
+<p>docker pull index.tenxcloud.com/tenxcloud/nodejs<br>Digest: sha256:7b214df4b3ef751f7a2852e14b7d9ed809718251770cf97b57929e61a6eb6458<br>Status: Downloaded newer image for index.tenxcloud.com/tenxcloud/nodejs:latest</p>
+<p>[root@node4 ~]# docker images<br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>ubuntu              12.04               a11493a01736        2 weeks ago         103.6 MB<br>hello-world         latest              c54a2cc56cbb        10 weeks ago        1.848 kB<br>[root@node4 ~]#</p>
+<p>[root@node4 ~]# docker ps –all<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES<br>ae816f2e5d0e        ubuntu:12.04        “/bin/bash”         55 minutes ago      Exited (0) 54 minutes ago                       elated_bardeen<br>f16fbeb5fda3        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       trusting_mclean<br>97b80da7cc38        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       stupefied_noether<br>[root@node4 ~]#</p>
+<p>[root@node4 ~]# docker rm 97b80da7cc38 </p>
+<p>docker logs elated_bardeen<br>docker stop elated_bardeen<br>docker restart elated_bardeen<br>docker start elated_bardeen</p>
+<p>保存镜像<br>docker save -o ubuntu_12.04.tar ubuntu:12.04<br>docker save -o node_latest.tar node:latest<br>载入镜像<br>可以使用 docker load 从导出的本地文件中再导入到本地镜像库，例如<br>docker load –input ubuntu_12.04.tar<br>docker load &lt; ubuntu_12.04.tar<br>这将导入镜像以及其相关的元数据信息（包括标签等）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwogg1fm0004bicybosqxah9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/14/CentOS-7-x-Ceph/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CentOS 7.x Ceph
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/13/Python-自定义函数的特殊属性/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Python 自定义函数的特殊属性</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

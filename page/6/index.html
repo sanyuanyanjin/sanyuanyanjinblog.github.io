@@ -50,7 +50,7 @@
         
           <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,87 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-cat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/cat/" class="article-date">
+  <time datetime="2016-12-12T09:20:40.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/cat/">cat</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用命令行往配置文件里插入多行文本</p>
+<p>这种方法非常简单，很多人都知道，下面就是如何用命令行将(&gt;&gt;)多行文本插入一个文件中。这里使用的是“here document”语法，它能让你通过块文本符号来将段落插入文件中，通常用的符合是EOF(意思是 “End Of File”):<br>cat &gt;&gt; path/to/file/to/append-to.txt &lt;&lt; “EOF”<br>export PATH=$HOME/jdk1.8.0_31/bin:$PATH<br>export JAVA_HOME=$HOME/jdk1.8.0_31/<br>EOF<br>两个”EOF“之间的所有内容都会被添加到文件中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwogg1go000qbicyfr2y80l7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Bashmarks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/Bashmarks/" class="article-date">
+  <time datetime="2016-12-12T09:19:35.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/Bashmarks/">Bashmarks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>你还没有在.bashrc里使用bashmarks吗？还在等待什么？它真的非常有用。它能帮你保持历史操作，跳回到你经常使用的目录。下面是我的配置文件里脚本，但我想上面的链接能提供你更多技巧：</p>
+<h1 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE:"></a>USAGE:</h1><h1 id="s-bookmarkname-saves-the-curr-dir-as-bookmarkname"><a href="#s-bookmarkname-saves-the-curr-dir-as-bookmarkname" class="headerlink" title="s bookmarkname - saves the curr dir as bookmarkname"></a>s bookmarkname - saves the curr dir as bookmarkname</h1><h1 id="g-bookmarkname-jumps-to-the-that-bookmark"><a href="#g-bookmarkname-jumps-to-the-that-bookmark" class="headerlink" title="g bookmarkname - jumps to the that bookmark"></a>g bookmarkname - jumps to the that bookmark</h1><h1 id="g-b-TAB-tab-completion-is-available"><a href="#g-b-TAB-tab-completion-is-available" class="headerlink" title="g b[TAB] - tab completion is available"></a>g b[TAB] - tab completion is available</h1><h1 id="l-list-all-bookmarks"><a href="#l-list-all-bookmarks" class="headerlink" title="l - list all bookmarks"></a>l - list all bookmarks</h1><h1 id="save-current-directory-to-bookmarks"><a href="#save-current-directory-to-bookmarks" class="headerlink" title="save current directory to bookmarks"></a>save current directory to bookmarks</h1><p>touch ~/.sdirs<br>function s {<br>cat ~/.sdirs | grep -v “export DIR<em>$1=” &gt; ~/.sdirs1<br>mv ~/.sdirs1 ~/.sdirs<br>echo “export DIR</em>$1=$PWD” &gt;&gt; ~/.sdirs<br>}</p>
+<h1 id="jump-to-bookmark"><a href="#jump-to-bookmark" class="headerlink" title="jump to bookmark"></a>jump to bookmark</h1><p>function g {<br>source ~/.sdirs<br>cd $(eval $(echo echo $(echo \$DIR_$1)))<br>}</p>
+<h1 id="list-bookmarks-with-dirnam"><a href="#list-bookmarks-with-dirnam" class="headerlink" title="list bookmarks with dirnam"></a>list bookmarks with dirnam</h1><p>function l {<br>source ~/.sdirs<br>env | grep “^DIR_” | cut -c5- | grep “^.*=”<br>}</p>
+<h1 id="list-bookmarks-without-dirname"><a href="#list-bookmarks-without-dirname" class="headerlink" title="list bookmarks without dirname"></a>list bookmarks without dirname</h1><p>function <em>l {<br>source ~/.sdirs<br>env | grep “^DIR</em>“ | cut -c5- | grep “^.*=” | cut -f1 -d “=”<br>}</p>
+<h1 id="completion-command-for-g"><a href="#completion-command-for-g" class="headerlink" title="completion command for g"></a>completion command for g</h1><p>function _gcomp {<br>local curw<br>COMPREPLY=()<br>curw=${COMP_WORDS[COMP_CWORD]}<br>COMPREPLY=($(compgen -W ‘<code>_l</code>‘ – $curw))<br>return 0<br>}</p>
+<h1 id="bind-completion-command-for-g-to-gcomp"><a href="#bind-completion-command-for-g-to-gcomp" class="headerlink" title="bind completion command for g to _gcomp"></a>bind completion command for g to _gcomp</h1><p>complete -F _gcomp g</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwogg1fc0000bicye6f1h1os" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-使用Linux命令行测试网速" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -101,7 +182,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwnb1bgn001i56cytazxw9jt" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwogg1hn001kbicy7ao6yajm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwnb1bhl002j56cyocqt9hr5" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwogg1ij002lbicygxldpbku" class="article-share-link">Share</a>
       
       
     </footer>
@@ -371,7 +452,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwnb1bfw000w56cyxbvyqwm2" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwogg1gu000vbicy5ujvsww5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,7 +636,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwnb1bh3001y56cyj7bipinc" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwogg1i4001zbicyyze5scu0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -654,7 +735,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwnb1bhb002856cyocj1n839" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwogg1id002abicyntpxas2r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -690,7 +771,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwnb1bfr000q56cy3bdfwgzs" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwogg1gn000pbicy8bgeeu6p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -738,7 +819,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwnb1bg2000z56cy5nr8n7w4" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwogg1h20011bicy45mf7w3o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -775,85 +856,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwnb1bgc001656cy2mi0v7lq" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-uniq" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/uniq/" class="article-date">
-  <time datetime="2016-12-12T08:07:25.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/uniq/">uniq</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>uniq 消除重复行</p>
-<p>消除重复行<br>  sort unsort.txt | uniq</p>
-<p>统计各行在文件中出现的次数<br>  sort unsort.txt | uniq -c</p>
-<p>找出重复行<br>  sort unsort.txt | uniq -d</p>
-<p>可指定每行中需要比较的重复内容：-s 开始位置 -w 比较字符数</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwnb1bg9001456cy0rv06uao" class="article-share-link">Delen</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-海量运维" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/海量运维/" class="article-date">
-  <time datetime="2016-12-12T07:40:50.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/海量运维/">海量运维</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="海量运维\海量运维.jpg" alt="海量运维"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwnb1bhf002b56cy3ishwr87" class="article-share-link">Delen</a>
+      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwogg1hb0017bicy2l1c9sli" class="article-share-link">Share</a>
       
       
     </footer>
@@ -866,7 +869,7 @@ return 0;
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/7/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -882,7 +885,7 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Archieven</h3>
+    <h3 class="widget-title">Archives</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
@@ -892,9 +895,17 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recente berichten</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
+          </li>
         
           <li>
             <a href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
@@ -906,14 +917,6 @@ return 0;
         
           <li>
             <a href="/2016/12/13/Python-资源-1/">Python 资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/hello-world/">Hello World</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
           </li>
         
       </ul>
