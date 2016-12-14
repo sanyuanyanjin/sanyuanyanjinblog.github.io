@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Logrotate | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Logrotate">
+<meta property="og:url" content="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次">
+<meta property="og:updated_time" content="2016-12-14T04:52:00.015Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Logrotate">
+<meta name="twitter:description" content="日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Logrotate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/14/CentOS-6-x-Logrotate/" class="article-date">
+  <time datetime="2016-12-14T04:51:19.000Z" itemprop="datePublished">2016-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Logrotate
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。<br>logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次，并且删除超过6个月的记录。一旦配置完成，logrotate可以完全自动化操作不需要进行人工交互<br>在主要的Linux发行版中logrotate包通常是默认安装的。如果由于某种原因，logrotate的不存在，您可以使用apt-get或者yum的命令来安装它。<br>Debian或者Ubuntu</p>
+<h1 id="apt-get-install-logrotate-cron"><a href="#apt-get-install-logrotate-cron" class="headerlink" title="apt-get install logrotate cron"></a>apt-get install logrotate cron</h1><p>Fedora, CentOS或者RHEL</p>
+<h1 id="yum-install-logrotate-crontabs"><a href="#yum-install-logrotate-crontabs" class="headerlink" title="yum install logrotate crontabs"></a>yum install logrotate crontabs</h1><p>logrotate的配置文件是/etc/logrotate.conf，一般不需要修改。可以在/etc/logrotate.d/目录下放入单独的配置文件定义本文档中需要的功能。<br>示例一<br>在第一个例子中，我们将创建一个10 MB的日志文件/var/log/log-file。我们将看到我们如何使用logrotate来管理这个日志文件。<br>我们首先创建一个10M的日志文件，并用随机位来填充它。</p>
+<h1 id="touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file"><a href="#touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file" class="headerlink" title="touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file"></a>touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file</h1><p>日志文件已经准备就绪，我们将配置logrotate转储这个日志文件。让我们开始创建转储所需要的logrotate配置文件。</p>
+<h1 id="vim-etc-logrotate-d-log-file"><a href="#vim-etc-logrotate-d-log-file" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {<br>    monthly<br>    rotate<br>5<br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    create<br>644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>其中：<br>monthly：每月转储日志文件。其他可能的值是’daily’, ‘weekly’, ‘yearly’。<br>rotate 5：同一时间保存5个归档日志。对于第6个归档，最早的归档文件将被删除。<br>compress：转储完成后，转储的日志将使用gzip压缩。<br>delaycompress：需要与compress选项一起使用，delaycompress参数指示logrotate的不对最新的归档进行压缩。压缩将在下一个转储周期来进行。如果您需要访问的最新备份的存档，这是很有用的。<br>missingok：在转储过程中任何错误都会被忽略，例如，”未找到文件”。<br>notifempty：如果日志文件是空的将不会执行转储。<br>create 644 root root：logrotate归档时可以重命名原始日志文件然后创建一个新的日志文件并赋予与指定的权限。<br>postrotate/endscript：所有其他操作完成后会执行postrotate和endscript间定义的命令。在上面的例子中，处理rsyslogd将重新读取其配置后继续运行。<br>上面的模板是通用的，配置参数可以根据您的要求各不相同。不是所有的参数可能是必要的。<br>示例二<br>在这个例子中，我们想要只在日志文件大小增长超过50MB时转储日志文件。</p>
+<h1 id="vim-etc-logrotate-d-log-file-1"><a href="#vim-etc-logrotate-d-log-file-1" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>示例三<br>我们希望旧的日志文件根据归档日期进行命名，这可以通过添加dateext参数来实现。</p>
+<h1 id="vim-etc-logrotate-d-log-file-2"><a href="#vim-etc-logrotate-d-log-file-2" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwognsxa0005qpcyvhuu4vnt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/14/CentOS-6-x-GoAccess/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.x GoAccess
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x Docker + Swarm + Etcd Cluster</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-6-x-GoAccess/">CentOS 6.x GoAccess</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-6-x-Logrotate/">CentOS 6.x Logrotate</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-6-x-CAT/">CentOS 6.x CAT</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
