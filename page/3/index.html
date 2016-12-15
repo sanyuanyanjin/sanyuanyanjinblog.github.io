@@ -61,6 +61,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Ubuntu-16-04-LTS-一键安装VNC" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" class="article-date">
+  <time datetime="2016-12-15T05:14:59.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/">Ubuntu 16.04 LTS 一键安装VNC</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ubuntu 16.04 LTS是最近出的LTS版本系统，估计未来也会有长期的使用频率，配置好远程桌面，会极大方便工作和生活。很多人也会采用SSH远程管理，鉴于SSH安装和使用是很简单的事情，就不赘述了。</p>
+<p>VNC有很多选择，VNC4server，tigervncserver等等，都不推荐，难装又难用。经过多次实验和测试，最后只采用 x11vnc  作为VNC服务器端。</p>
+<p>具体配置步骤如下：</p>
+<h1 id="步骤-1-安装-X11VNC"><a href="#步骤-1-安装-X11VNC" class="headerlink" title="步骤 1 - 安装 X11VNC"></a>步骤 1 - 安装 X11VNC</h1><h1 id=""><a href="#" class="headerlink" title="#"></a>#</h1><p>sudo apt install x11vnc -y</p>
+<h1 id="步骤-2-配置访问密码"><a href="#步骤-2-配置访问密码" class="headerlink" title="步骤 2 - 配置访问密码"></a>步骤 2 - 配置访问密码</h1><h1 id="-1"><a href="#-1" class="headerlink" title="#"></a>#</h1><p>sudo x11vnc -storepasswd /etc/x11vnc.pass </p>
+<h1 id="步骤-3-创建服务"><a href="#步骤-3-创建服务" class="headerlink" title="步骤 3 - 创建服务"></a>步骤 3 - 创建服务</h1><h1 id="-2"><a href="#-2" class="headerlink" title="#"></a>#</h1><p>vi  /lib/systemd/system/x11vnc.service</p>
+<p>#粘贴如下代码，最后 :wq 保存，请使用root用户，否则没有权限。<br>[Unit]<br>Description=Start x11vnc at startup.<br>After=multi-user.target<br>[Service]<br>Type=simple<br>ExecStart=/usr/bin/x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /etc/x11vnc.pass -rfbport 5900 -shared<br>[Install]<br>WantedBy=multi-user.target</p>
+<h1 id="步骤-4-配置防火墙，配置和启动服务"><a href="#步骤-4-配置防火墙，配置和启动服务" class="headerlink" title="步骤 4 - 配置防火墙，配置和启动服务"></a>步骤 4 - 配置防火墙，配置和启动服务</h1><h1 id="-3"><a href="#-3" class="headerlink" title="#"></a>#</h1><p>sudo ufw allow 5900<br>sudo systemctl enable x11vnc.service<br>sudo systemctl daemon-reload</p>
+<p>最后重启。</p>
+<p>估计很多人看到这个会头大吧，还得输入代码呀。。。。</p>
+<p>那好吧，我写个脚本，请拿去，运行完脚本会自动重启的。</p>
+<p>su root</p>
+<p>wget <a href="https://github.com/longhr/ubuntu1604hub/raw/master/ubuntu1604VNC.sh" target="_blank" rel="external">https://github.com/longhr/ubuntu1604hub/raw/master/ubuntu1604VNC.sh</a></p>
+<p>root@jinyan:~# vim ubuntu1604VNC.sh</p>
+<h1 id="-4"><a href="#-4" class="headerlink" title="#"></a>#</h1><h1 id="脚本名称-ubuntu1604VNC"><a href="#脚本名称-ubuntu1604VNC" class="headerlink" title="脚本名称 : ubuntu1604VNC"></a>脚本名称 : ubuntu1604VNC</h1><h1 id="脚本描述-自动安装配置和自动启动X11Vnc"><a href="#脚本描述-自动安装配置和自动启动X11Vnc" class="headerlink" title="脚本描述 : 自动安装配置和自动启动X11Vnc"></a>脚本描述 : 自动安装配置和自动启动X11Vnc</h1><h1 id="编写日期-2016-6-13"><a href="#编写日期-2016-6-13" class="headerlink" title="编写日期 : 2016.6.13"></a>编写日期 : 2016.6.13</h1><h1 id="作-者-longhr"><a href="#作-者-longhr" class="headerlink" title="作    者 : longhr"></a>作    者 : longhr</h1><h1 id="作者网站-blog-csdn-net-longhr"><a href="#作者网站-blog-csdn-net-longhr" class="headerlink" title="作者网站 : blog.csdn.net/longhr"></a>作者网站 : blog.csdn.net/longhr</h1><h1 id="软件版本-0-1"><a href="#软件版本-0-1" class="headerlink" title="软件版本 : 0.1"></a>软件版本 : 0.1</h1><h1 id="注意事项：-运行完5秒内会重启"><a href="#注意事项：-运行完5秒内会重启" class="headerlink" title="注意事项： 运行完5秒内会重启"></a>注意事项： 运行完5秒内会重启</h1><h1 id="免责声明-使用自由，后果自付"><a href="#免责声明-使用自由，后果自付" class="headerlink" title="免责声明 : 使用自由，后果自付"></a>免责声明 : 使用自由，后果自付</h1><h1 id="-5"><a href="#-5" class="headerlink" title="#"></a>#</h1><h1 id="步骤-1-安装-X11VNC-1"><a href="#步骤-1-安装-X11VNC-1" class="headerlink" title="步骤 1 - 安装 X11VNC"></a>步骤 1 - 安装 X11VNC</h1><h1 id="-6"><a href="#-6" class="headerlink" title="#"></a>#</h1><p>sudo apt-get install x11vnc -y</p>
+<h1 id="步骤-2-配置访问密码-1"><a href="#步骤-2-配置访问密码-1" class="headerlink" title="步骤 2 - 配置访问密码"></a>步骤 2 - 配置访问密码</h1><h1 id="-7"><a href="#-7" class="headerlink" title="#"></a>#</h1><p>sudo x11vnc -storepasswd /etc/x11vnc.pass</p>
+<h1 id="步骤-3-创建服务-1"><a href="#步骤-3-创建服务-1" class="headerlink" title="步骤 3 - 创建服务"></a>步骤 3 - 创建服务</h1><h1 id="-8"><a href="#-8" class="headerlink" title="#"></a>#</h1><p>cat &gt; /lib/systemd/system/x11vnc.service &lt;&lt; EOF<br>[Unit]<br>Description=Start x11vnc at startup.<br>After=multi-user.target</p>
+<p>[Service]<br>Type=simple<br>ExecStart=/usr/bin/x11vnc -auth guess -forever -loop -noxdamage -repeat -rfbauth /etc/x11vnc.pass -rfbport 5900 -shared</p>
+<p>[Install]<br>WantedBy=multi-user.target<br>EOF</p>
+<h1 id="步骤-4-配配置防火墙端口，配置和启动服务"><a href="#步骤-4-配配置防火墙端口，配置和启动服务" class="headerlink" title="步骤 4 - 配配置防火墙端口，配置和启动服务"></a>步骤 4 - 配配置防火墙端口，配置和启动服务</h1><h1 id="-9"><a href="#-9" class="headerlink" title="#"></a>#</h1><p>echo “Configure firewall”<br>sudo ufw allow 5900<br>echo “Configure Services”<br>sudo systemctl enable x11vnc.service<br>sudo systemctl daemon-reload</p>
+<h1 id="步骤-5-重启"><a href="#步骤-5-重启" class="headerlink" title="步骤 5 - 重启"></a>步骤 5 - 重启</h1><h1 id="-10"><a href="#-10" class="headerlink" title="#"></a>#</h1><p>sleep  5s<br>sudo shutdown -r now</p>
+<p>root@jinyan:~#<br>chmod u+x ubuntu1604VNC.sh</p>
+<p>./ubuntu1604VNC.sh</p>
+<p>即可完成。</p>
+<p>注意：</p>
+<p>/lib/systemd/system/x11vnc.service 必须用root权限才能写入</p>
+<p>如果root密码不知道，可以重置root密码</p>
+<p>sudo passwd root</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="ciwq36vie001uttcytzfnmvoy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-计算机存储单位" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/计算机存储单位/" class="article-date">
@@ -88,7 +152,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwpzcd6x004cxjcyshclzbbx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwq36vk7004dttcy4lsqwtqv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -232,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwpzcd4a0016xjcyclmwfk8g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwq36vhl0015ttcyxpl3r6tl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -395,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwpzcd4l001ixjcy4n8minrn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwq36vi0001kttcyv56booz1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -432,7 +496,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwpzcd4v001qxjcycixz1br9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwq36vi8001rttcyjze0g504" class="article-share-link">Share</a>
       
       
     </footer>
@@ -502,7 +566,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwpzcd2k0004xjcyit603g9l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwq36vg40005ttcy5jsc1s1f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -580,7 +644,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwpzcd5e0025xjcynmggpxtv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwq36viq0026ttcycmzi5tbi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -645,7 +709,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwpzcd3g000nxjcy24yqxicd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwq36vgr000jttcyg49nsjda" class="article-share-link">Share</a>
       
       
     </footer>
@@ -704,7 +768,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwpzcd430010xjcyr6nh0x1a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwq36vhg0010ttcyxv0hryjv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -760,106 +824,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="ciwpzcd4w001sxjcyb8w47u22" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-6-x-DHCP" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Centos-6-x-DHCP/" class="article-date">
-  <time datetime="2016-12-15T03:33:21.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Centos-6-x-DHCP/">Centos 6.x DHCP</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>#</p>
-<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
-<p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
-<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
-<p>/etc/init.d/dhcpd restart</p>
-<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]#</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]# cat /root/dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>[root@localhost ~]#</p>
-<p>dhcp<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>tail -f /var/lib/dhcpd/dhcpd.leases<br>vim /var/lib/dhcpd/dhcpd.leases<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>DHCP<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>cat /var/lib/dhcpd/dhcpd.leases |awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’<br>awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’ /var/lib/dhcpd/dhcpd.leases</p>
-<p>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’<br>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’|sort -n</p>
-<p>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>[root@localhost ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro"><a href="#host-WudeMacBook-Pro" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187"><a href="#fixed-address-10-6-4-187" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id=""><a href="#" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>“/etc/dhcp/dhcpd.conf” 138L, 3153C                            85,0-1        63%<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-1"><a href="#host-WudeMacBook-Pro-1" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-1"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-1" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-1"><a href="#fixed-address-10-6-4-187-1" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-1"><a href="#-1" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>[root@localhost ~]# cat /etc/dhcp/dhcpd.conf<br>#</p>
-<h1 id="DHCP-Server-Configuration-file-1"><a href="#DHCP-Server-Configuration-file-1" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample-1"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample-1" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’-1"><a href="#see-‘man-5-dhcpd-conf’-1" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>ddns-update-style none;<br>ignore client-updates;<br>authoritative;<br>shared-network network_tag {<br>subnet 10.6.0.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.1.0 netmask 255.255.255.0 {</p>
-<pre><code>option routers                  10.6.1.1;
-option subnet-mask              255.255.255.0;
-option domain-name-servers      61.177.7.1;
-option domain-name-servers      114.114.114.114;
-range  10.6.1.65 10.6.1.127;
-default-lease-time 36000;
-max-lease-time 72000;
-</code></pre><h1 id="host-WudeMacBook-Pro-2"><a href="#host-WudeMacBook-Pro-2" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-3c-15-c2-df-93-c4"><a href="#hardware-ethernet-3c-15-c2-df-93-c4" class="headerlink" title="hardware ethernet 3c:15:c2:df:93:c4;"></a>hardware ethernet 3c:15:c2:df:93:c4;</h1><h1 id="fixed-address-10-6-1-35"><a href="#fixed-address-10-6-1-35" class="headerlink" title="fixed-address 10.6.1.35;"></a>fixed-address 10.6.1.35;</h1><h1 id="-2"><a href="#-2" class="headerlink" title="}"></a>}</h1><p>host HCP-SZOFFICE{<br>hardware ethernet 24:0a:64:b2:b3:d3;<br>fixed-address 10.6.1.50;<br>}</p>
-<p>host c2laboratory03{<br>hardware ethernet 8c:89:a5:cf:90:ce;<br>fixed-address 10.6.1.54;<br>}</p>
-<p>host zhuang-3{<br>hardware ethernet 54:ee:75:33:8b:fe;<br>fixed-address 10.6.1.56;<br>}</p>
-<p>host zhuang-2{<br>hardware ethernet e8:b1:fc:de:20:e7;<br>fixed-address 10.6.1.60;<br>}</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-3"><a href="#host-WudeMacBook-Pro-3" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-2"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-2" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-2"><a href="#fixed-address-10-6-4-187-2" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>        option routers                  192.168.11.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      114.114.114.114;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.11.50 192.168.11.119;<br>        range  192.168.11.121 192.168.11.250;<br>        default-lease-time 1800;<br>        max-lease-time 3600;<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.10.0 netmask 255.255.255.0 {<br>        option routers                  192.168.10.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  192.168.10.50 192.168.10.250;<br>        default-lease-time 36000;<br>        max-lease-time 72000;<br>}<br>}</p>
-<p>[root@localhost ~]# </p>
-<p>[root@localhost ~]# vim copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/</p>
-<p>vim dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-6-x-DHCP/" data-id="ciwpzcd41000yxjcyh36gv1kl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="ciwq36via001tttcyrpv4nchk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -903,6 +868,10 @@ max-lease-time 72000;
       <ul>
         
           <li>
+            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
           </li>
         
@@ -916,10 +885,6 @@ max-lease-time 72000;
         
           <li>
             <a href="/2016/12/15/开源软件/">开源软件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
           </li>
         
       </ul>

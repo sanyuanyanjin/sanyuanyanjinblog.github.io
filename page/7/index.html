@@ -61,6 +61,44 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Ubuntu-14-04-Docker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/14/Ubuntu-14-04-Docker/" class="article-date">
+  <time datetime="2016-12-14T04:49:11.000Z" itemprop="datePublished">2016-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker 介绍<br>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。它们不依赖于任何语言、框架或包装系统。<br>三个最重要的基本概念（此处参考来源《Docker从入门到实践》）<br>这三个基本概念是Docker镜像，Docker容器和Docker仓库。<br>【Docker镜像】<br>Docker 镜像就是一个只读的模板。<br>例如：一个镜像可以包含一个完整的 ubuntu 操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。<br>镜像可以用来创建 Docker 容器。<br>Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。<br>【Docker容器】<br>Docker 利用容器来运行应用。<br>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。<br>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。<br><em>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。<br>【Docker仓库】<br>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。<br>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。<br>最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。 国内的公开仓库包括 Docker Pool 等，可以提供大陆用户更稳定快速的访问。<br>当然，用户也可以在本地网络内创建一个私有仓库。<br>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。
+</em>注：Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。<br>值得关注的特性：<br>1 文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。<br>2 资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。<br>3 网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。<br>4 日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>5 变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>6 交互式shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上，例如运行一个一次性交互shell。<br>安装过程<br>我用的系统： UbuntuKylin 14.10 32位系统<br>在ubuntu的官方软件仓库已经包含了docker，可以使用apt-get的方式安装。<br>安装Docker使用apt-get命令:<br>$ apt-get install docker.io<br>启动服务和守护进程<br>$ service docker status<br>$ service docker start<br>几个Docker基本命令<br>首先，让我们通过下面的命令来检查Docker的安装是否正确：<br>docker info<br>如果没有找到此命令，则表示Docker没有正确安装。如果正确安装会输出类似下面的内容：<br>Containers: 0<br>Images: 124<br>Storage Driver: aufs<br> Root Dir: /var/lib/docker/aufs<br> Dirs: 124<br>Execution Driver: native-0.2<br>Kernel Version: 3.16.0-23-generic<br>Operating System: Ubuntu Kylin 14.10<br>到这一步Docker里还没有镜像或是容器。所以，让我们通过命令来拉取一个预建的镜像：<br>sudo docker pull busybox （这里使用的是官方的registry）<br>这里推荐下国内的 docker.cn，速度比官方的快很多<br>使用方法如下：sudo docker pull docker.cn/docker/busybox<br>未完待续。。。。。。<br>参考资料：<br><a href="http://www.linuxidc.com/Linux/2013-10/91050.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2013-10/91050.htm</a><br><a href="http://cloud.51cto.com/art/201412/462905.htm" target="_blank" rel="external">http://cloud.51cto.com/art/201412/462905.htm</a><br><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">http://dockerpool.com/static/books/docker_practice/index.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwq36vi9001sttcyn0nghieh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-CAT" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/14/CentOS-6-x-CAT/" class="article-date">
@@ -91,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwpzcd2m0005xjcya0ahpysj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwq36vg10004ttcyxn3t0acf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -223,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwpzcd3p000sxjcy0pdr0rh8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwq36vh1000qttcymfb6zui0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -270,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwpzcd3o000rxjcy2tnp1owk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwq36vh4000sttcylqgt53ix" class="article-share-link">Share</a>
       
       
     </footer>
@@ -363,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwpzcd4o001lxjcyjox4rg3t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwq36vi4001lttcy401wrmms" class="article-share-link">Share</a>
       
       
     </footer>
@@ -452,7 +490,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwpzcd5h002axjcywys59ow0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwq36vit002bttcykjkal5li" class="article-share-link">Share</a>
       
       
     </footer>
@@ -913,7 +951,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwpzcd4q001mxjcyuhzbq503" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwq36vi5001mttcy4dk8bxuv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -958,7 +996,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwpzcd5d0023xjcywh3jeyn1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwq36vio0024ttcyjj4qixq4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1024,7 +1062,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwpzcd6t0045xjcy179kwej1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwq36vk30046ttcyoucvm3an" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1093,60 +1131,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="ciwpzcd6p003yxjcy8zzha9nm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/操作文件和目录/" class="article-date">
-  <time datetime="2016-12-13T06:01:49.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>D:\Markdown&gt;python<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import os<br>os.name<br>‘nt’<br>os.uname()<br>posix.uname_result(sysname=’Linux’, nodename=’CentOS7’, release=’3.10.0-327.el7.x86_64’, version=’#1 SMP Thu Nov 19 22:10:57 UTC 2015’, machine=’x86_64’)<br>os.environ<br>os.environ.get(‘PATH’)<br>‘C:\Python27\;C:\Python27\Scripts;C:\Python34\;C:\Python34\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Gow\bin;C:\Users\JinYan\AppData\Local\Pandoc\‘<br>os.environ.get(‘x’, ‘default’)<br>‘default’<br>os.path.abspath(‘.’)<br>‘D:\Markdown’<br>os.path.abspath(‘..’)<br>‘D:\‘<br>os.path.join(‘D:\Markdown’, ‘testdir’)<br>‘D:\Markdown\testdir’<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.rmdir(‘D:\Markdown\testdir’)<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.path.split(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir’, ‘test.txt’)<br>os.path.splitext(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir\test’, ‘.txt’)<br>os.rename(‘test.txt’, ‘test.py’)<br>os.rename(‘test.py’, ‘test.txt’)</p>
-<p>import shutil<br>shutil.copy(‘test - 副本.txt’, ‘test.txt’)</p>
-<p>import os<br>[x for x in os.listdir(‘.’) if os.path.isdir(x)]<br>[‘testdir’]</p>
-<p>[x for x in os.listdir(‘.’) if os.path.isfile(x) and os.path.splitext(x)[1]==’.txt’]<br>[‘test - \xb8\xb1\xb1\xbe.txt’, ‘test.txt’]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>do_dir.py</p>
-<p>#!/usr/bin/env python3</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime<br>import os</p>
-<p>pwd = os.path.abspath(‘.’)</p>
-<p>print(‘      Size     Last Modified  Name’)<br>print(‘————————————————————‘)</p>
-<p>for f in os.listdir(pwd):<br>    fsize = os.path.getsize(f)<br>    mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime(‘%Y-%m-%d %H:%M’)<br>    flag = ‘/‘ if os.path.isdir(f) else ‘’<br>print(‘%10d  %s  %s%s’ % (fsize, mtime, f, flag))</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwpzcd6o003wxjcyz5ipevx8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="ciwq36vjz003yttcyjab1emky" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1190,6 +1175,10 @@ if os.path.exists(&apos;G:&apos;) == True:
       <ul>
         
           <li>
+            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
           </li>
         
@@ -1203,10 +1192,6 @@ if os.path.exists(&apos;G:&apos;) == True:
         
           <li>
             <a href="/2016/12/15/开源软件/">开源软件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
           </li>
         
       </ul>

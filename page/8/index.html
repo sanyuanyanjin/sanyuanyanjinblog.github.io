@@ -61,6 +61,59 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/操作文件和目录/" class="article-date">
+  <time datetime="2016-12-13T06:01:49.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>D:\Markdown&gt;python<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import os<br>os.name<br>‘nt’<br>os.uname()<br>posix.uname_result(sysname=’Linux’, nodename=’CentOS7’, release=’3.10.0-327.el7.x86_64’, version=’#1 SMP Thu Nov 19 22:10:57 UTC 2015’, machine=’x86_64’)<br>os.environ<br>os.environ.get(‘PATH’)<br>‘C:\Python27\;C:\Python27\Scripts;C:\Python34\;C:\Python34\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Gow\bin;C:\Users\JinYan\AppData\Local\Pandoc\‘<br>os.environ.get(‘x’, ‘default’)<br>‘default’<br>os.path.abspath(‘.’)<br>‘D:\Markdown’<br>os.path.abspath(‘..’)<br>‘D:\‘<br>os.path.join(‘D:\Markdown’, ‘testdir’)<br>‘D:\Markdown\testdir’<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.rmdir(‘D:\Markdown\testdir’)<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.path.split(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir’, ‘test.txt’)<br>os.path.splitext(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir\test’, ‘.txt’)<br>os.rename(‘test.txt’, ‘test.py’)<br>os.rename(‘test.py’, ‘test.txt’)</p>
+<p>import shutil<br>shutil.copy(‘test - 副本.txt’, ‘test.txt’)</p>
+<p>import os<br>[x for x in os.listdir(‘.’) if os.path.isdir(x)]<br>[‘testdir’]</p>
+<p>[x for x in os.listdir(‘.’) if os.path.isfile(x) and os.path.splitext(x)[1]==’.txt’]<br>[‘test - \xb8\xb1\xb1\xbe.txt’, ‘test.txt’]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>do_dir.py</p>
+<p>#!/usr/bin/env python3</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime<br>import os</p>
+<p>pwd = os.path.abspath(‘.’)</p>
+<p>print(‘      Size     Last Modified  Name’)<br>print(‘————————————————————‘)</p>
+<p>for f in os.listdir(pwd):<br>    fsize = os.path.getsize(f)<br>    mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime(‘%Y-%m-%d %H:%M’)<br>    flag = ‘/‘ if os.path.isdir(f) else ‘’<br>print(‘%10d  %s  %s%s’ % (fsize, mtime, f, flag))</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwq36vjy003wttcy5bxwbj4g" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-单行代码" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/单行代码/" class="article-date">
@@ -122,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwpzcd68003fxjcy60do8arr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwq36vjk003gttcys7sk2wsn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -176,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwpzcd6t0046xjcygxyvdmhm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwq36vk30047ttcy0fnxp4aj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -218,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwpzcd5g0028xjcyhi68i0vh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwq36vis0029ttcy57xkvbvr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -679,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwpzcd4s001nxjcygf7fy81y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwq36vi6001nttcy8b4l9yya" class="article-share-link">Share</a>
       
       
     </footer>
@@ -795,7 +848,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwpzcd4n001kxjcyknsxure1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwq36vi6001ottcy85kd51jg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -844,7 +897,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwpzcd6b003kxjcyvauovo90" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwq36vjn003lttcyfw4mgiqe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -884,7 +937,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwpzcd6c003lxjcypwgzuvvk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwq36vjp003nttcy50c38dug" class="article-share-link">Share</a>
       
       
     </footer>
@@ -930,7 +983,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwpzcd480015xjcylp1eew1g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwq36vhm0016ttcy7tm7d2va" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1009,71 +1062,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwpzcd69003gxjcya3k2r2fu" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-SSH-登录很慢" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-SSH-登录很慢/" class="article-date">
-  <time datetime="2016-12-13T02:44:43.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-SSH-登录很慢/">Linux SSH 登录很慢</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用ssh连其他linux机器，会等待10-30秒才有提示输入密码。严重影响工作效率。登录很慢，登录上去后速度正常，这种情况主要有两种可能的原因：</p>
-<ol>
-<li>DNS反向解析的问题</li>
-</ol>
-<p>OpenSSH在用户登录的时候会验证IP，它根据用户的IP使用反向DNS找到主机名，再使用DNS找到IP地址，最后匹配一下登录的IP是否合法。如果客户机的IP没有域名，或者DNS服务器很慢或不通，那么登录就会很花时间。</p>
-<p>解决办法：</p>
-<p>在目标服务器上修改sshd服务器端配置,并重启sshd</p>
-<p>vi /etc/ssh/sshd_config，设置UseDNS为no即可</p>
-<p>当然也可以通过提供DNS正确反向解析的方法解决，有如下两种思路</p>
-<p>（1） 在server上/etc/hosts文件中把常用的ip和hostname加入，然后在/etc/nsswitch.conf看看程序是否先查询hosts文件（一般缺省是这样）。</p>
-<p>修改server上的hosts文件，将目标机器的IP和域名加上去。或者让本机的DNS 服务器能解析目标地址。</p>
-<p>vi /etc/hosts</p>
-<p>192.168.12.16  ourdev</p>
-<p>其格式是“目标机器IP 目标机器名称”这种方法促效。没有延迟就连上了。不过如果给每台都加一个域名解析，挺辛苦的。但在windows下用putty或secure-crt时可以采用这种方法。</p>
-<p>（2）起一台dns服务器（可以是本机），加入反向解析，把这个dns服务器加入到/etc/resolv.conf中。</p>
-<ol>
-<li>关闭ssh的gssapi认证</li>
-</ol>
-<p>用ssh -v user@server 可以看到登录时有如下信息：</p>
-<p>debug1: Next authentication method: gssapi-with-mic</p>
-<p>debug1: Unspecified GSS failure. Minor code may provide more information</p>
-<p>注：ssh -vvv user@server 可以看到更细的debug信息</p>
-<p>解决办法：</p>
-<p>在客户端上修改ssh客户端配置(注意不是sshd_conf）</p>
-<p>vi /etc/ssh/ssh_config，设置GSSAPIAuthentication no  并重启sshd</p>
-<p>可以使用</p>
-<p>ssh -A -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no -p 32200 username@server_ip<br>GSSAPI ( Generic Security Services Application Programming Interface) 是一套类似Kerberos 5 的通用网络安全系统接口。该接口是对各种不同的客户端服务器安全机制的封装，以消除安全接口的不同，降低编程难度。但该接口在目标机器无域名解析时会有问题</p>
-<p>使用strace查看后发现，ssh在验证完key之后，进行authentication gssapi-with-mic，此时先去连接DNS服务器，在这之后会进行其他操作。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-SSH-登录很慢/" data-id="ciwpzcd4d0019xjcyy0ztw2qd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwq36vjl003ittcybu60izj0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1117,6 +1106,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
           </li>
         
@@ -1130,10 +1123,6 @@
         
           <li>
             <a href="/2016/12/15/开源软件/">开源软件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
           </li>
         
       </ul>

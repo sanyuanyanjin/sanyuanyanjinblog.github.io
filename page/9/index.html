@@ -61,6 +61,70 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linux-SSH-登录很慢" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-SSH-登录很慢/" class="article-date">
+  <time datetime="2016-12-13T02:44:43.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-SSH-登录很慢/">Linux SSH 登录很慢</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用ssh连其他linux机器，会等待10-30秒才有提示输入密码。严重影响工作效率。登录很慢，登录上去后速度正常，这种情况主要有两种可能的原因：</p>
+<ol>
+<li>DNS反向解析的问题</li>
+</ol>
+<p>OpenSSH在用户登录的时候会验证IP，它根据用户的IP使用反向DNS找到主机名，再使用DNS找到IP地址，最后匹配一下登录的IP是否合法。如果客户机的IP没有域名，或者DNS服务器很慢或不通，那么登录就会很花时间。</p>
+<p>解决办法：</p>
+<p>在目标服务器上修改sshd服务器端配置,并重启sshd</p>
+<p>vi /etc/ssh/sshd_config，设置UseDNS为no即可</p>
+<p>当然也可以通过提供DNS正确反向解析的方法解决，有如下两种思路</p>
+<p>（1） 在server上/etc/hosts文件中把常用的ip和hostname加入，然后在/etc/nsswitch.conf看看程序是否先查询hosts文件（一般缺省是这样）。</p>
+<p>修改server上的hosts文件，将目标机器的IP和域名加上去。或者让本机的DNS 服务器能解析目标地址。</p>
+<p>vi /etc/hosts</p>
+<p>192.168.12.16  ourdev</p>
+<p>其格式是“目标机器IP 目标机器名称”这种方法促效。没有延迟就连上了。不过如果给每台都加一个域名解析，挺辛苦的。但在windows下用putty或secure-crt时可以采用这种方法。</p>
+<p>（2）起一台dns服务器（可以是本机），加入反向解析，把这个dns服务器加入到/etc/resolv.conf中。</p>
+<ol>
+<li>关闭ssh的gssapi认证</li>
+</ol>
+<p>用ssh -v user@server 可以看到登录时有如下信息：</p>
+<p>debug1: Next authentication method: gssapi-with-mic</p>
+<p>debug1: Unspecified GSS failure. Minor code may provide more information</p>
+<p>注：ssh -vvv user@server 可以看到更细的debug信息</p>
+<p>解决办法：</p>
+<p>在客户端上修改ssh客户端配置(注意不是sshd_conf）</p>
+<p>vi /etc/ssh/ssh_config，设置GSSAPIAuthentication no  并重启sshd</p>
+<p>可以使用</p>
+<p>ssh -A -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no -p 32200 username@server_ip<br>GSSAPI ( Generic Security Services Application Programming Interface) 是一套类似Kerberos 5 的通用网络安全系统接口。该接口是对各种不同的客户端服务器安全机制的封装，以消除安全接口的不同，降低编程难度。但该接口在目标机器无域名解析时会有问题</p>
+<p>使用strace查看后发现，ssh在验证完key之后，进行authentication gssapi-with-mic，此时先去连接DNS服务器，在这之后会进行其他操作。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-SSH-登录很慢/" data-id="ciwq36vhn0017ttcyqpco26s5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-umount-device-is-busy时怎么办" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/umount-device-is-busy时怎么办/" class="article-date">
@@ -99,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwpzcd5p002nxjcytpdaz41l" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwq36vj2002qttcyulqt8w0o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwpzcd4e001axjcy28wfv9t0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwq36vhq001attcy115ck5fq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -197,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwpzcd6j003pxjcyiaykg4p8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwq36vju003qttcy6dxh4g03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -238,7 +302,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwpzcd65003bxjcydcgfcaww" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwq36vjg003cttcyua7x325p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -323,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwpzcd440012xjcy08uhyp1j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwq36vhh0012ttcys6vwomey" class="article-share-link">Share</a>
       
       
     </footer>
@@ -395,7 +459,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwpzcd42000zxjcyft21dwze" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwq36vhf000zttcy53n5wbtm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -495,7 +559,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwpzcd3e000mxjcyiuhzxsub" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwq36vgw000mttcy4576isoe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -562,7 +626,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwpzcd54001vxjcyf8b20v38" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwq36vig001vttcy0gu5krg5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -614,72 +678,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwpzcd4h001dxjcygwhoz93l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-增量备份" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-增量备份/" class="article-date">
-  <time datetime="2016-12-13T02:04:37.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-增量备份/">Linux 增量备份</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>linux系统下tar可以实现对文件的备份与恢复，以下shell是完全+增量方式备份</p>
-<p>结合crontab，实现周1到周6每天两次增量备份，周日上午增量，下午为完全备份。</p>
-<p>2 6,13 <em> </em> * /root/backupweb.sh</p>
-<p>#!/bin/sh</p>
-<h1 id="在crontab里设置，每周日完全备份，每天两次增量备份。"><a href="#在crontab里设置，每周日完全备份，每天两次增量备份。" class="headerlink" title="在crontab里设置，每周日完全备份，每天两次增量备份。"></a>在crontab里设置，每周日完全备份，每天两次增量备份。</h1><h1 id="2010-5-26-by-lgq"><a href="#2010-5-26-by-lgq" class="headerlink" title="2010-5-26 by lgq"></a>2010-5-26 by lgq</h1><p>dayofweek=<code>date &quot;+%u%H&quot;</code></p>
-<p>today=<code>date &quot;+%Y%m%d%H%M&quot;</code></p>
-<p>source=/home/web/</p>
-<p>backup=/home/web_bak/webtar/</p>
-<p>cd $backup</p>
-<p>if [ $dayofweek -eq 018 ]; then<br>                if [ ! -f “full$today.tar.gz” ];then<br>                                rm -rf snapshot<br>                                tar -g snapshot -zcf “full$today.tar.gz” $source<br>                fi<br>else<br>                if [ ! -f “inc$today.tar.gz” ];then<br>                                tar -g snapshot -zcf “inc$today.tar.gz” $source<br>                fi<br>fi</p>
-<p>现在我们来展示一个使用tar工具来增量备份的例子。<br>一、增量备份</p>
-<p>1、新建backup目录，里面新建file1,file2,file3文件</p>
-<pre><code>mkdir backup/
-touch backup/{file1,file2,file3}
-</code></pre><p>2、进行完整备份</p>
-<pre><code>tar -g tarinfo -czf backup-full.tar.gz backup/
-</code></pre><p>3、新增文件到backup</p>
-<pre><code>touch backup/file4
-</code></pre><p>4、进行增量备份</p>
-<pre><code>tar -g tarinfo -czf backup-incre1.tar.gz backup/
-</code></pre><p>5、查看增量备份文件</p>
-<pre><code>tar -ztf backup-incre1.tar.gz
-</code></pre><p>二、进行还原</p>
-<p>1、删除backup目录</p>
-<pre><code>rm -rf backup/
-</code></pre><p>2、执行还原操作</p>
-<pre><code>tar xzf backup-full.tar.gz
-tar xzf backup-incre1.tar.gz
-</code></pre><p>现在已经完成tar的还原操作。其它tar的增量备份只需要指定-g参数，tarinfo文件则是用来记录备份的一些信息。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwpzcd4f001cxjcy2bmszwka" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwq36vhu001dttcybggycs21" class="article-share-link">Share</a>
       
       
     </footer>
@@ -723,6 +722,10 @@ tar xzf backup-incre1.tar.gz
       <ul>
         
           <li>
+            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
           </li>
         
@@ -736,10 +739,6 @@ tar xzf backup-incre1.tar.gz
         
           <li>
             <a href="/2016/12/15/开源软件/">开源软件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
           </li>
         
       </ul>

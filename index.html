@@ -61,6 +61,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-NGINX日志切割" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/NGINX日志切割/" class="article-date">
+  <time datetime="2016-12-15T06:26:51.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>nginx的日志文件没有rotate功能。如果你不处理，日志文件将变得越来越大，还好我们可以写一个nginx日志切割脚本来自动切割日志文件。</p>
+<p>第一步就是重命名日志文件，不用担心重命名后nginx找不到日志文件而丢失日志。在你未重新打开原名字的日志文件前，nginx还是会向你重命名的文件写日志，linux是靠文件描述符而不是文件名定位文件。</p>
+<p>第二步向nginx主进程发送USR1信号。</p>
+<p>nginx主进程接到信号后会从配置文件中读取日志文件名称，重新打开日志文件(以配置文件中的日志名称命名)，并以工作进程的用户作为日志文件的所有者。</p>
+<p>重新打开日志文件后，nginx主进程会关闭重名的日志文件并通知工作进程使用新打开的日志文件。</p>
+<p>工作进程立刻打开新的日志文件并关闭重名名的日志文件。</p>
+<p>然后你就可以处理旧的日志文件了。</p>
+<p>[root@lnmp ~]# vim /usr/local/nginx/nginx_log.sh</p>
+<p>#!/bin/bash</p>
+<p>#设置日志文件存放目录<br>logs_path=”/home/wwwlogs/“</p>
+<p>#设置pid文件<br>pid_path=”/usr/local/nginx/logs/nginx.pid”</p>
+<p>#重命名日志文件<br>mv ${logs_path}access.log ${logs<em>path}access</em>$(date -d “yesterday” +”%Y%m%d”).log</p>
+<p>#向nginx主进程发信号重新打开日志<br>kill -USR1 <code>cat ${pid_path}</code></p>
+<p>“/usr/local/nginx/nginx_log.sh” [新] 9L, 311C 已写入<br>[root@lnmp ~]# sh /usr/local/nginx/nginx_log.sh<br>[root@lnmp ~]# ls /home/wwwlogs/<br>access_20161102.log  access.log  nginx_error.log<br>[root@lnmp ~]# ll -h /home/wwwlogs/access.log<br>-rw-r–r– 1 www root 4.8K 11月  3 10:22 /home/wwwlogs/access.log<br>[root@lnmp ~]# </p>
+<p>crontab 设置作业<br>0 0 <em> </em> * sh /usr/local/nginx/nginx_log.sh<br>这样就每天的0点0分把nginx日志重命名为日期格式，并重新生成今天的新日志文件。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwq36vhz001ittcyaowr0rzu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-安装SVN" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-安装SVN/" class="article-date">
@@ -116,7 +167,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwpzcd3m000qxjcyroyy9slq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwq36vh3000rttcyj7iv4vi8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -156,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwpzcd3v000wxjcyrrdfxun7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwq36vh8000vttcyuwwt5ndi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -245,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwpzcd6k003rxjcyqjrx1hi5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwq36vjw003tttcyjkw8c9zx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -282,7 +333,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwpzcd6l003sxjcyup8g2cs1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwq36vjv003sttcyaj90138v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -319,7 +370,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwpzcd4t001oxjcylijccaj1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwq36vi7001pttcybyuaj5s7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -373,7 +424,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwpzcd5v002yxjcyzxis9pa2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwq36vj7002zttcy830c7vx6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -410,7 +461,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwpzcd77004gxjcyagrbz1ta" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwq36vki004httcywhj0umv9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -460,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwpzcd56001xxjcyqakpiwxu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwq36vii001yttcyy3jwu4z6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -513,86 +564,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwpzcd57001yxjcyqyhtyudl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-seafile" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/seafile/" class="article-date">
-  <time datetime="2016-12-15T05:55:25.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/seafile/">seafile</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://manual-cn.seafile.com/deploy/using_mysql.html" target="_blank" rel="external">http://manual-cn.seafile.com/deploy/using_mysql.html</a></p>
-<p>root@master:~# apt-get install mysql-server<br>root@master:~# mysql -uroot -pyanjin</p>
-<p>root@master:~# mkdir tzuchi<br>root@master:~# df -h<br>文件系统        容量  已用  可用 已用% 挂载点<br>/dev/xvda1       28G  4.9G   21G   19% /<br>udev            988M  4.0K  988M    1% /dev<br>tmpfs           200M  904K  199M    1% /run<br>none            5.0M     0  5.0M    0% /run/lock<br>none            999M  180K  998M    1% /run/shm<br>root@master:~# mv seafile-server_5.1.1_x86-64.tar.gz tzuchi/<br>root@master:~# cd tzuchi/<br>root@master:~/tzuchi# tar -xf seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mkdir installed<br>root@master:~/tzuchi# ls<br>installed  seafile-server-5.1.1  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mv seafile-server-5.1.1/ installed/<br>root@master:~/tzuchi# ls<br>installed  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# cd ..<br>root@master:~# tree tzuchi -L 2<br>tzuchi<br>├── installed<br>│   └── seafile-server_5.1.1_x86-64.tar.gz<br>└── seafile-server-5.1.1<br>    ├── check_init_admin.py<br>    ├── reset-admin.sh<br>    ├── runtime<br>    ├── seaf-fsck.sh<br>    ├── seaf-fuse.sh<br>    ├── seaf-gc.sh<br>    ├── seafile<br>    ├── seafile.sh<br>    ├── seahub<br>    ├── seahub.sh<br>    ├── setup-seafile-mysql.py<br>    ├── setup-seafile-mysql.sh<br>    ├── setup-seafile.sh<br>    └── upgrade</p>
-<p>6 directories, 11 files<br>root@master:~# apt-get update</p>
-<p>root@master:~# apt-get install python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache<br>root@master:~#<br>root@master:~# cd tzuchi/seafile-server-5.1.1/<br>root@master:~/tzuchi/seafile-server-5.1.1# ls<br>check_init_admin.py  seaf-fuse.sh  seahub                  setup-seafile.sh<br>reset-admin.sh       seaf-gc.sh    seahub.sh               upgrade<br>runtime              seafile       setup-seafile-mysql.py<br>seaf-fsck.sh         seafile.sh    setup-seafile-mysql.sh<br>root@master:~/tzuchi/seafile-server-5.1.1# ./setup-seafile-mysql.sh<br>Checking python on this machine …<br>  Checking python module: setuptools … Done.<br>  Checking python module: python-imaging … Done.<br>  Checking python module: python-mysqldb … Done.</p>
-<h2 id="This-is-your-configuration"><a href="#This-is-your-configuration" class="headerlink" title="This is your configuration"></a>This is your configuration</h2><pre><code>server name:            tzuchi
-server ip/domain:       10.6.6.9
-
-seafile data dir:       /root/tzuchi/seafile-data
-fileserver port:        8082
-
-database:               create new
-ccnet database:         ccnet-db
-seafile database:       seafile-db
-seahub database:        seahub-db
-database user:          root
-</code></pre><hr>
-<h2 id="Press-ENTER-to-continue-or-Ctrl-C-to-abort"><a href="#Press-ENTER-to-continue-or-Ctrl-C-to-abort" class="headerlink" title="Press ENTER to continue, or Ctrl-C to abort"></a>Press ENTER to continue, or Ctrl-C to abort</h2><p>Generating ccnet configuration …</p>
-<p>done<br>Successly create configuration dir /root/tzuchi/ccnet.<br>Generating seafile configuration …</p>
-<p>Done.<br>done<br>Generating seahub configuration …</p>
-<hr>
-<p>Now creating seahub database tables …</p>
-<hr>
-<p>creating seafile-server-latest symbolic link …  done</p>
-<hr>
-<h2 id="Your-seafile-server-configuration-has-been-finished-successfully"><a href="#Your-seafile-server-configuration-has-been-finished-successfully" class="headerlink" title="Your seafile server configuration has been finished successfully."></a>Your seafile server configuration has been finished successfully.</h2><p>run seafile server:     ./seafile.sh { start | stop | restart }<br>run seahub  server:     ./seahub.sh  { start <port> | stop | restart <port> }</port></port></p>
-<hr>
-<h2 id="If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports"><a href="#If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports" class="headerlink" title="If you are behind a firewall, remember to allow input/output of these tcp ports:"></a>If you are behind a firewall, remember to allow input/output of these tcp ports:</h2><p>port of seafile fileserver:   8082<br>port of seahub:               8000</p>
-<p>When problems occur, Refer to</p>
-<pre><code>https://github.com/haiwen/seafile/wiki
-</code></pre><p>for information.</p>
-<p>root@master:~/tzuchi/seafile-server-5.1.1# ./seafile.sh start</p>
-<p>[05/04/16 11:07:09] ../common/session.c(132): using config file /root/tzuchi/conf/ccnet.conf<br>Starting seafile server, please wait …<br>Seafile server started</p>
-<p>Done.<br>root@master:~/tzuchi/seafile-server-5.1.1#<br>root@master:~/tzuchi/seafile-server-5.1.1# ./seahub.sh start</p>
-<p>LC_ALL is not set in ENV, set to en_US.UTF-8<br>Starting seahub at port 8000 …</p>
-<hr>
-<h2 id="It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account"><a href="#It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account" class="headerlink" title="It’s the first time you start the seafile server. Now let’s create the admin account"></a>It’s the first time you start the seafile server. Now let’s create the admin account</h2><p>What is the email for the admin account?<br>[ admin email ] 455177385@qq.com</p>
-<p>What is the password for the admin account?<br>[ admin password ] </p>
-<p>Enter the password again:<br>[ admin password again ] </p>
-<hr>
-<h2 id="Successfully-created-seafile-admin"><a href="#Successfully-created-seafile-admin" class="headerlink" title="Successfully created seafile admin"></a>Successfully created seafile admin</h2><p>Seahub is started</p>
-<p>Done.</p>
-<p><a href="http://10.6.6.9:8000" target="_blank" rel="external">http://10.6.6.9:8000</a><br><a href="http://10.6.6.9:8000/accounts/login/" target="_blank" rel="external">http://10.6.6.9:8000/accounts/login/</a><br>455177385@qq.com<br>test@tzuchi.com.cn<br>test123<br>[ admin email ]<br>yanjin@tzuchi.com.cn</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/seafile/" data-id="ciwpzcd5j002dxjcya0sc6swe" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwq36vij001zttcy8j873fe1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -636,6 +608,10 @@ database user:          root
       <ul>
         
           <li>
+            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
           </li>
         
@@ -649,10 +625,6 @@ database user:          root
         
           <li>
             <a href="/2016/12/15/开源软件/">开源软件</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
           </li>
         
       </ul>
