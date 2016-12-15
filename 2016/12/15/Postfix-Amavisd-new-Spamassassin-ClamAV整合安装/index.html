@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Postfix+Amavisd-new+Spamassassin+ClamAV整合安装 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="安装软件和依赖包apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-serverapt-get install libnet-dns-perl pyzor razorapt-get install arj bzip2 cabextract cpio file gzip lha noma">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postfix+Amavisd-new+Spamassassin+ClamAV整合安装">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="安装软件和依赖包apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-serverapt-get install libnet-dns-perl pyzor razorapt-get install arj bzip2 cabextract cpio file gzip lha noma">
+<meta property="og:updated_time" content="2016-12-15T05:21:49.129Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Postfix+Amavisd-new+Spamassassin+ClamAV整合安装">
+<meta name="twitter:description" content="安装软件和依赖包apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-serverapt-get install libnet-dns-perl pyzor razorapt-get install arj bzip2 cabextract cpio file gzip lha noma">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Postfix-Amavisd-new-Spamassassin-ClamAV整合安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" class="article-date">
+  <time datetime="2016-12-15T05:21:30.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Postfix+Amavisd-new+Spamassassin+ClamAV整合安装
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>安装软件和依赖包<br>apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-server<br>apt-get install libnet-dns-perl pyzor razor<br>apt-get install arj bzip2 cabextract cpio file gzip lha nomarch pax rar unrar unzip zip</p>
+</li>
+<li><p>修改用户权限<br>usermod -a -G clamav amavis<br>usermod -a -G amavis clamav</p>
+</li>
+<li><p>修改spamassassin配置文件/etc/default/spamassassin<br>ENABLED=0 ====&gt; ENABLED=1<br>CRON=0    ====&gt; CRON=1</p>
+</li>
+</ol>
+<p>4.启动spamassassin<br>/etc/init.d/spamassassin start</p>
+<ol>
+<li><p>修改amavis配置文件/etc/amavis/conf.d/15-content_filter_mode<br> 1) 去掉里面的注释（目的：check病毒和垃圾邮件）<br> 2) 重启amavis<br>/etc/init.d/amavis restart</p>
+</li>
+<li><p>修改postfix配置文件/etc/postfix/main.cf,添加如下内容<br> 注释掉mydestination<br>添加：<br>relay_domains = test.com<br>transport_maps = hash:/etc/postfix/transport<br>relay_recipient_maps = hash:/etc/postfix/relay_recipients<br>content_filter = smtp-amavis:[127.0.0.1]:10024</p>
+</li>
+<li><p>编辑文件/etc/postfix/master.cf,在文件最后添加如下内容<br>smtp-amavis     unix    -       -       -       -       2       smtp</p>
+<pre><code>-o smtp_data_done_timeout=1200
+-o smtp_send_xforward_command=yes
+-o disable_dns_lookups=yes
+-o max_use=20
+</code></pre></li>
+</ol>
+<p>127.0.0.1:10025 inet    n       -       -       -       -       smtpd<br>        -o content_filter=<br>        -o local_recipient_maps=<br>        -o relay_recipient_maps=<br>        -o smtpd_restriction_classes=<br>        -o smtpd_delay_reject=no<br>        -o smtpd_client_restrictions=permit_mynetworks,reject<br>        -o smtpd_helo_restrictions=<br>        -o smtpd_sender_restrictions=<br>        -o smtpd_recipient_restrictions=permit_mynetworks,reject<br>        -o smtpd_data_restrictions=reject_unauth_pipelining<br>        -o smtpd_end_of_data_restrictions=<br>        -o mynetworks=127.0.0.0/8<br>        -o smtpd_error_sleep_time=0<br>        -o smtpd_soft_error_limit=1001<br>        -o smtpd_hard_error_limit=1000<br>        -o smtpd_client_connection_count_limit=0<br>        -o smtpd_client_connection_rate_limit=0<br>        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks</p>
+<ol>
+<li><p>在文件/etc/postfix/master.cf中的pickup行添加如下内容<br>   -o content_filter=<br>   -o receive_override_options=no_header_body_checks</p>
+</li>
+<li><p>重启postfix<br>/etc/init.d/postfix reload</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/20-debian_defaults<br>$final_spam_destiny = D_BOUNCE  ===&gt; $final_spam_destiny = D_DISCARD</p>
+</li>
+</ol>
+<p>$QUARANTINEDIR = “/data/virusmails”;</p>
+<ol>
+<li><p>修改/etc/amavis/conf.d/05-node_id<br>$myhostname = “mail.example.com”;</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/50-user,添加如下内容：<br>$spam_quarantine_to = “spam-quarantine”;<br>$virus_quarantine_to = “spam-quarantine”;</p>
+</li>
+</ol>
+<p>@whitelist_sender_maps = read_hash(“/etc/amavis/whitelist”);<br>@blacklist_sender_maps = read_hash(“/etc/amavis/blacklist”);</p>
+<ol>
+<li><p>在目录/etc/amavis下创建文件blacklist和whitelist<br>touch /etc/amavis/whitelist<br>touch /etc/amavis/blacklist</p>
+</li>
+<li><p>垃圾及病毒邮件的保存目录<br>/data/virusmails</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="ciwpxfwhh001h4zcyyh0d0yln" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Ubuntu-64-位预配/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu 64 位预配
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Ubuntu 16.04 LTS 一键安装VNC</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/">Ubuntu 用vsftpd 配置FTP服务器</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

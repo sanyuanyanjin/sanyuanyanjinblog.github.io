@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ubuntu 12.04网络设置 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ubuntu 12.04网络设置，自定义IP地址1、服务器版本设置IP地址ubuntu 12.04的网络设置文件是/etc/network/interfaces，打开文件，会看到
+auto lo
+iface lo inet loopback
+这边的设置是本地回路。在后面加上
+auto eth0
+iface eth0 inet static
+address 192.168.1.230（ip地址）
+n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu 12.04网络设置">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/ubuntu-12-04网络设置/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="ubuntu 12.04网络设置，自定义IP地址1、服务器版本设置IP地址ubuntu 12.04的网络设置文件是/etc/network/interfaces，打开文件，会看到
+auto lo
+iface lo inet loopback
+这边的设置是本地回路。在后面加上
+auto eth0
+iface eth0 inet static
+address 192.168.1.230（ip地址）
+n">
+<meta property="og:updated_time" content="2016-12-15T05:29:22.464Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ubuntu 12.04网络设置">
+<meta name="twitter:description" content="ubuntu 12.04网络设置，自定义IP地址1、服务器版本设置IP地址ubuntu 12.04的网络设置文件是/etc/network/interfaces，打开文件，会看到
+auto lo
+iface lo inet loopback
+这边的设置是本地回路。在后面加上
+auto eth0
+iface eth0 inet static
+address 192.168.1.230（ip地址）
+n">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ubuntu-12-04网络设置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/ubuntu-12-04网络设置/" class="article-date">
+  <time datetime="2016-12-15T05:28:59.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ubuntu 12.04网络设置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ubuntu 12.04网络设置，自定义IP地址<br>1、服务器版本<br>设置IP地址<br>ubuntu 12.04的网络设置文件是/etc/network/interfaces，打开文件，会看到</p>
+<p>auto lo</p>
+<p>iface lo inet loopback</p>
+<p>这边的设置是本地回路。在后面加上</p>
+<p>auto eth0</p>
+<p>iface eth0 inet static</p>
+<p>address 192.168.1.230（ip地址）</p>
+<p>netmask 255.255.255.0（子网掩码）</p>
+<p>gateway 192.168.1.1（网关）</p>
+<p>其中eth0就是电脑的网卡，如果电脑有多块网卡，比如还会有eth1，都可以在这里进行设置。iface eth0 inet 设置为dhcp是动态获取IP，设置为static则用自定义的IP。这边要自定义IP地址，所以选择static选项。</p>
+<p>重新启动网络服务<br>sudo /etc/init.d/networking restart</p>
+<p>重启好后，用ifconfig看下eth0，是不是改成自己需要的IP地址了。</p>
+<p>设置dns<br>ip设置好后，如果直接ping www.baidu.com会发现ping不通，因为dns还没设置，编辑/etc/resolv.conf，加上dns服务器地址。</p>
+<p>nameserver 8.8.8.8</p>
+<p>nameserver 8.8.4.4</p>
+<p>这两个是Google提供的免费DNS服务器的IP地址。</p>
+<p>2、桌面版本<br>桌面版提供了network-manage管理工具，可以通过界面直接管理。</p>
+<p>点击右上角网络图标，编辑连接，增加新的连接。我的设置截图如下，可以根据自己的需要进行修改。</p>
+<p>ubuntu 12.04桌面版网络设置-选择网卡<br>ubuntu 12.04桌面版网络设置-选择网卡</p>
+<p>ubuntu 12.04桌面版网络设置-设置IP<br>ubuntu 12.04桌面版网络设置-设置IP</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04网络设置/" data-id="ciwpxfwid002c4zcytx39fa31" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Ubuntu 用vsftpd 配置FTP服务器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/">Ubuntu 用vsftpd 配置FTP服务器</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
