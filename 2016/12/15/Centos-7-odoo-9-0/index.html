@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Centos 7 odoo 9.0 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.confgrep keepcache /etc/yum.confkeepcache=1cd /var/cache/yum/x86_64/7/base/packages/
+CommunityExecute the following commands to install Odoo 9.0 Community">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 7 odoo 9.0">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.confgrep keepcache /etc/yum.confkeepcache=1cd /var/cache/yum/x86_64/7/base/packages/
+CommunityExecute the following commands to install Odoo 9.0 Community">
+<meta property="og:updated_time" content="2016-12-15T03:36:10.635Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos 7 odoo 9.0">
+<meta name="twitter:description" content="sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.confgrep keepcache /etc/yum.confkeepcache=1cd /var/cache/yum/x86_64/7/base/packages/
+CommunityExecute the following commands to install Odoo 9.0 Community">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Centos-7-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Centos-7-odoo-9-0/" class="article-date">
+  <time datetime="2016-12-15T03:35:49.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos 7 odoo 9.0
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>cd /var/cache/yum/x86_64/7/base/packages/</p>
+<p>Community<br>Execute the following commands to install Odoo 9.0 Community on your server:</p>
+<p>yum -y install python-pip<br>yum -y install gcc<br>yum -y install python-devel<br>yum install -y postgresql-server<br>postgresql-setup initdb<br>systemctl enable postgresql<br>systemctl start postgresql<br>yum localinstall odoo_9.0c.20160712.noarch.rpm<br>rpm -ivh odoo_9.0c.20160712.noarch.rpm<br>systemctl enable odoo<br>systemctl start odoo</p>
+<p>#yum-config-manager –add-repo=<a href="https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo" target="_blank" rel="external">https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo</a></p>
+<p>#yum install -y odoo</p>
+<p>[root@CentOS7 ~]# vim /var/lib/pgsql/data/pg_hba.conf</p>
+<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
+<p>[root@CentOS7 ~]# su - postgres<br>-bash-4.2$ psql -U postgres<br>postgres-# \du<br>                        角色列表<br> 角色名称 |               属性                | 成员属于<br>———-+———————————–+———-<br> odoo     | 建立 DB                           | {}<br> postgres | 超级用户, 建立角色, 建立 DB, 复制 | {}<br>postgres-# \password odoo<br>输入新的密码：<br>再次键入：<br>[root@CentOS7 ~]# psql -h 127.0.0.1 -U odoo<br>用户 odoo 的口令：<br>psql (9.2.15)<br>输入 “help” 来获取帮助信息.<br>odoo-&gt; \l<br>                                     资料库列表<br>   名称    |  拥有者  | 字元编码 |  校对规则   |    Ctype    |       存取权限   </p>
+<h2 id="———–-———-———-————-————-——————"><a href="#———–-———-———-————-————-——————" class="headerlink" title="———–+———-+———-+————-+————-+——————"></a>———–+———-+———-+————-+————-+——————</h2><p> odoo      | odoo     | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> postgres  | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> template0 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br> template1 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br>(4 行记录)</p>
+<p>odoo-&gt;<br>odoo-&gt; \c odoo<br>您现在已经连线到数据库 “odoo”,用户 “odoo”.<br>odoo-&gt; \d<br>                                     关联列表<br> 架构模式 |                         名称                         |  型别  | 拥有<br>者 </p>
+<h2 id="———-——————————————————-——–-—–"><a href="#———-——————————————————-——–-—–" class="headerlink" title="———-+——————————————————+——–+—–"></a>———-+——————————————————+——–+—–</h2><p> public   | base_import_import                                   | 资料表 | odoo</p>
+<p>python</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import psycopg2<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’)<br>print “connected db”<br>connected db</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>print (“hello, world!”);</p>
+<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
+<p>cur=conn.cursor();<br>cur.execute(“create table lyy(id int, name varchar)”);<br>conn.commit();<br>print “create table lyy”;<br>cur.execute(“insert into lyy values(1,’lily’)”);<br>cur.execute(“insert into lyy values(2,’lucy’)”);<br>conn.commit();<br>print(“insert into lyy two rows”);<br>cur.execute(“select id, name from lyy”);<br>rows = cur.fetchall();<br>for row in rows:<br>print “id=”,row[0];<br>print “name=”,row[1];<br>print “operation done”;<br>conn.close();</p>
+<p>netstat -tunlp | grep 8069<br>tail -f /var/log/messages</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwptkx8y000zxocyku3qyki1" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/CentOS-6-x-SVN/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.x SVN
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/Ubuntu-14-04-odoo-9-0/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Ubuntu 14.04 odoo 9.0</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

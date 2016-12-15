@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>FTP | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vsftpd.conf
+Example config file /etc/vsftpd/vsftpd.conf#
+The default compiled in settings are fairly paranoid. This sample fileloosens things up a bit, to make the ftp daemon more usable.Please see vs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FTP">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/FTP/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="vsftpd.conf
+Example config file /etc/vsftpd/vsftpd.conf#
+The default compiled in settings are fairly paranoid. This sample fileloosens things up a bit, to make the ftp daemon more usable.Please see vs">
+<meta property="og:updated_time" content="2016-12-15T03:42:02.521Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FTP">
+<meta name="twitter:description" content="vsftpd.conf
+Example config file /etc/vsftpd/vsftpd.conf#
+The default compiled in settings are fairly paranoid. This sample fileloosens things up a bit, to make the ftp daemon more usable.Please see vs">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-FTP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/FTP/" class="article-date">
+  <time datetime="2016-12-15T03:41:38.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      FTP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vsftpd.conf</p>
+<h1 id="Example-config-file-etc-vsftpd-vsftpd-conf"><a href="#Example-config-file-etc-vsftpd-vsftpd-conf" class="headerlink" title="Example config file /etc/vsftpd/vsftpd.conf"></a>Example config file /etc/vsftpd/vsftpd.conf</h1><p>#</p>
+<h1 id="The-default-compiled-in-settings-are-fairly-paranoid-This-sample-file"><a href="#The-default-compiled-in-settings-are-fairly-paranoid-This-sample-file" class="headerlink" title="The default compiled in settings are fairly paranoid. This sample file"></a>The default compiled in settings are fairly paranoid. This sample file</h1><h1 id="loosens-things-up-a-bit-to-make-the-ftp-daemon-more-usable"><a href="#loosens-things-up-a-bit-to-make-the-ftp-daemon-more-usable" class="headerlink" title="loosens things up a bit, to make the ftp daemon more usable."></a>loosens things up a bit, to make the ftp daemon more usable.</h1><h1 id="Please-see-vsftpd-conf-5-for-all-compiled-in-defaults"><a href="#Please-see-vsftpd-conf-5-for-all-compiled-in-defaults" class="headerlink" title="Please see vsftpd.conf.5 for all compiled in defaults."></a>Please see vsftpd.conf.5 for all compiled in defaults.</h1><p>#</p>
+<h1 id="READ-THIS-This-example-file-is-NOT-an-exhaustive-list-of-vsftpd-options"><a href="#READ-THIS-This-example-file-is-NOT-an-exhaustive-list-of-vsftpd-options" class="headerlink" title="READ THIS: This example file is NOT an exhaustive list of vsftpd options."></a>READ THIS: This example file is NOT an exhaustive list of vsftpd options.</h1><h1 id="Please-read-the-vsftpd-conf-5-manual-page-to-get-a-full-idea-of-vsftpd’s"><a href="#Please-read-the-vsftpd-conf-5-manual-page-to-get-a-full-idea-of-vsftpd’s" class="headerlink" title="Please read the vsftpd.conf.5 manual page to get a full idea of vsftpd’s"></a>Please read the vsftpd.conf.5 manual page to get a full idea of vsftpd’s</h1><h1 id="capabilities"><a href="#capabilities" class="headerlink" title="capabilities."></a>capabilities.</h1><p>#</p>
+<h1 id="Allow-anonymous-FTP-Beware-allowed-by-default-if-you-comment-this-out"><a href="#Allow-anonymous-FTP-Beware-allowed-by-default-if-you-comment-this-out" class="headerlink" title="Allow anonymous FTP? (Beware - allowed by default if you comment this out)."></a>Allow anonymous FTP? (Beware - allowed by default if you comment this out).</h1><p>anonymous_enable=YES<br>no_anon_password=YES<br>#</p>
+<h1 id="Uncomment-this-to-allow-local-users-to-log-in"><a href="#Uncomment-this-to-allow-local-users-to-log-in" class="headerlink" title="Uncomment this to allow local users to log in."></a>Uncomment this to allow local users to log in.</h1><p>local_enable=YES<br>#</p>
+<h1 id="Uncomment-this-to-enable-any-form-of-FTP-write-command"><a href="#Uncomment-this-to-enable-any-form-of-FTP-write-command" class="headerlink" title="Uncomment this to enable any form of FTP write command."></a>Uncomment this to enable any form of FTP write command.</h1><p>write_enable=YES<br>#</p>
+<h1 id="Default-umask-for-local-users-is-077-You-may-wish-to-change-this-to-022"><a href="#Default-umask-for-local-users-is-077-You-may-wish-to-change-this-to-022" class="headerlink" title="Default umask for local users is 077. You may wish to change this to 022,"></a>Default umask for local users is 077. You may wish to change this to 022,</h1><h1 id="if-your-users-expect-that-022-is-used-by-most-other-ftpd’s"><a href="#if-your-users-expect-that-022-is-used-by-most-other-ftpd’s" class="headerlink" title="if your users expect that (022 is used by most other ftpd’s)"></a>if your users expect that (022 is used by most other ftpd’s)</h1><p>local_umask=022<br>#</p>
+<h1 id="Uncomment-this-to-allow-the-anonymous-FTP-user-to-upload-files-This-only"><a href="#Uncomment-this-to-allow-the-anonymous-FTP-user-to-upload-files-This-only" class="headerlink" title="Uncomment this to allow the anonymous FTP user to upload files. This only"></a>Uncomment this to allow the anonymous FTP user to upload files. This only</h1><h1 id="has-an-effect-if-the-above-global-write-enable-is-activated-Also-you-will"><a href="#has-an-effect-if-the-above-global-write-enable-is-activated-Also-you-will" class="headerlink" title="has an effect if the above global write enable is activated. Also, you will"></a>has an effect if the above global write enable is activated. Also, you will</h1><h1 id="obviously-need-to-create-a-directory-writable-by-the-FTP-user"><a href="#obviously-need-to-create-a-directory-writable-by-the-FTP-user" class="headerlink" title="obviously need to create a directory writable by the FTP user."></a>obviously need to create a directory writable by the FTP user.</h1><p>anon_upload_enable=YES<br>#</p>
+<h1 id="Uncomment-this-if-you-want-the-anonymous-FTP-user-to-be-able-to-create"><a href="#Uncomment-this-if-you-want-the-anonymous-FTP-user-to-be-able-to-create" class="headerlink" title="Uncomment this if you want the anonymous FTP user to be able to create"></a>Uncomment this if you want the anonymous FTP user to be able to create</h1><h1 id="new-directories"><a href="#new-directories" class="headerlink" title="new directories."></a>new directories.</h1><p>anon_mkdir_write_enable=YES<br>#</p>
+<h1 id="Activate-directory-messages-messages-given-to-remote-users-when-they"><a href="#Activate-directory-messages-messages-given-to-remote-users-when-they" class="headerlink" title="Activate directory messages - messages given to remote users when they"></a>Activate directory messages - messages given to remote users when they</h1><h1 id="go-into-a-certain-directory"><a href="#go-into-a-certain-directory" class="headerlink" title="go into a certain directory."></a>go into a certain directory.</h1><p>dirmessage_enable=YES<br>#</p>
+<h1 id="The-target-log-file-can-be-vsftpd-log-file-or-xferlog-file"><a href="#The-target-log-file-can-be-vsftpd-log-file-or-xferlog-file" class="headerlink" title="The target log file can be vsftpd_log_file or xferlog_file."></a>The target log file can be vsftpd_log_file or xferlog_file.</h1><h1 id="This-depends-on-setting-xferlog-std-format-parameter"><a href="#This-depends-on-setting-xferlog-std-format-parameter" class="headerlink" title="This depends on setting xferlog_std_format parameter"></a>This depends on setting xferlog_std_format parameter</h1><p>xferlog_enable=YES<br>#</p>
+<h1 id="Make-sure-PORT-transfer-connections-originate-from-port-20-ftp-data"><a href="#Make-sure-PORT-transfer-connections-originate-from-port-20-ftp-data" class="headerlink" title="Make sure PORT transfer connections originate from port 20 (ftp-data)."></a>Make sure PORT transfer connections originate from port 20 (ftp-data).</h1><p>connect_from_port_20=YES<br>#</p>
+<h1 id="If-you-want-you-can-arrange-for-uploaded-anonymous-files-to-be-owned-by"><a href="#If-you-want-you-can-arrange-for-uploaded-anonymous-files-to-be-owned-by" class="headerlink" title="If you want, you can arrange for uploaded anonymous files to be owned by"></a>If you want, you can arrange for uploaded anonymous files to be owned by</h1><h1 id="a-different-user-Note-Using-“root”-for-uploaded-files-is-not"><a href="#a-different-user-Note-Using-“root”-for-uploaded-files-is-not" class="headerlink" title="a different user. Note! Using “root” for uploaded files is not"></a>a different user. Note! Using “root” for uploaded files is not</h1><h1 id="recommended"><a href="#recommended" class="headerlink" title="recommended!"></a>recommended!</h1><p>chown_uploads=YES<br>chown_username=daemon</p>
+<p>#chown_username=whoever<br>#</p>
+<h1 id="The-name-of-log-file-when-xferlog-enable-YES-and-xferlog-std-format-YES"><a href="#The-name-of-log-file-when-xferlog-enable-YES-and-xferlog-std-format-YES" class="headerlink" title="The name of log file when xferlog_enable=YES and xferlog_std_format=YES"></a>The name of log file when xferlog_enable=YES and xferlog_std_format=YES</h1><h1 id="WARNING-changing-this-filename-affects-etc-logrotate-d-vsftpd-log"><a href="#WARNING-changing-this-filename-affects-etc-logrotate-d-vsftpd-log" class="headerlink" title="WARNING - changing this filename affects /etc/logrotate.d/vsftpd.log"></a>WARNING - changing this filename affects /etc/logrotate.d/vsftpd.log</h1><p>xferlog_file=/var/log/xferlog<br>#</p>
+<h1 id="Switches-between-logging-into-vsftpd-log-file-and-xferlog-file-files"><a href="#Switches-between-logging-into-vsftpd-log-file-and-xferlog-file-files" class="headerlink" title="Switches between logging into vsftpd_log_file and xferlog_file files."></a>Switches between logging into vsftpd_log_file and xferlog_file files.</h1><h1 id="NO-writes-to-vsftpd-log-file-YES-to-xferlog-file"><a href="#NO-writes-to-vsftpd-log-file-YES-to-xferlog-file" class="headerlink" title="NO writes to vsftpd_log_file, YES to xferlog_file"></a>NO writes to vsftpd_log_file, YES to xferlog_file</h1><p>xferlog_std_format=YES<br>#</p>
+<h1 id="You-may-change-the-default-value-for-timing-out-an-idle-session"><a href="#You-may-change-the-default-value-for-timing-out-an-idle-session" class="headerlink" title="You may change the default value for timing out an idle session."></a>You may change the default value for timing out an idle session.</h1><p>#idle_session_timeout=600<br>#</p>
+<h1 id="You-may-change-the-default-value-for-timing-out-a-data-connection"><a href="#You-may-change-the-default-value-for-timing-out-a-data-connection" class="headerlink" title="You may change the default value for timing out a data connection."></a>You may change the default value for timing out a data connection.</h1><p>#data_connection_timeout=120<br>#</p>
+<h1 id="It-is-recommended-that-you-define-on-your-system-a-unique-user-which-the"><a href="#It-is-recommended-that-you-define-on-your-system-a-unique-user-which-the" class="headerlink" title="It is recommended that you define on your system a unique user which the"></a>It is recommended that you define on your system a unique user which the</h1><h1 id="ftp-server-can-use-as-a-totally-isolated-and-unprivileged-user"><a href="#ftp-server-can-use-as-a-totally-isolated-and-unprivileged-user" class="headerlink" title="ftp server can use as a totally isolated and unprivileged user."></a>ftp server can use as a totally isolated and unprivileged user.</h1><p>#nopriv_user=ftpsecure<br>#</p>
+<h1 id="Enable-this-and-the-server-will-recognise-asynchronous-ABOR-requests-Not"><a href="#Enable-this-and-the-server-will-recognise-asynchronous-ABOR-requests-Not" class="headerlink" title="Enable this and the server will recognise asynchronous ABOR requests. Not"></a>Enable this and the server will recognise asynchronous ABOR requests. Not</h1><h1 id="recommended-for-security-the-code-is-non-trivial-Not-enabling-it"><a href="#recommended-for-security-the-code-is-non-trivial-Not-enabling-it" class="headerlink" title="recommended for security (the code is non-trivial). Not enabling it,"></a>recommended for security (the code is non-trivial). Not enabling it,</h1><h1 id="however-may-confuse-older-FTP-clients"><a href="#however-may-confuse-older-FTP-clients" class="headerlink" title="however, may confuse older FTP clients."></a>however, may confuse older FTP clients.</h1><p>#async_abor_enable=YES<br>#</p>
+<h1 id="By-default-the-server-will-pretend-to-allow-ASCII-mode-but-in-fact-ignore"><a href="#By-default-the-server-will-pretend-to-allow-ASCII-mode-but-in-fact-ignore" class="headerlink" title="By default the server will pretend to allow ASCII mode but in fact ignore"></a>By default the server will pretend to allow ASCII mode but in fact ignore</h1><h1 id="the-request-Turn-on-the-below-options-to-have-the-server-actually-do-ASCII"><a href="#the-request-Turn-on-the-below-options-to-have-the-server-actually-do-ASCII" class="headerlink" title="the request. Turn on the below options to have the server actually do ASCII"></a>the request. Turn on the below options to have the server actually do ASCII</h1><h1 id="mangling-on-files-when-in-ASCII-mode"><a href="#mangling-on-files-when-in-ASCII-mode" class="headerlink" title="mangling on files when in ASCII mode."></a>mangling on files when in ASCII mode.</h1><h1 id="Beware-that-on-some-FTP-servers-ASCII-support-allows-a-denial-of-service"><a href="#Beware-that-on-some-FTP-servers-ASCII-support-allows-a-denial-of-service" class="headerlink" title="Beware that on some FTP servers, ASCII support allows a denial of service"></a>Beware that on some FTP servers, ASCII support allows a denial of service</h1><h1 id="attack-DoS-via-the-command-“SIZE-big-file”-in-ASCII-mode-vsftpd"><a href="#attack-DoS-via-the-command-“SIZE-big-file”-in-ASCII-mode-vsftpd" class="headerlink" title="attack (DoS) via the command “SIZE /big/file” in ASCII mode. vsftpd"></a>attack (DoS) via the command “SIZE /big/file” in ASCII mode. vsftpd</h1><h1 id="predicted-this-attack-and-has-always-been-safe-reporting-the-size-of-the"><a href="#predicted-this-attack-and-has-always-been-safe-reporting-the-size-of-the" class="headerlink" title="predicted this attack and has always been safe, reporting the size of the"></a>predicted this attack and has always been safe, reporting the size of the</h1><h1 id="raw-file"><a href="#raw-file" class="headerlink" title="raw file."></a>raw file.</h1><h1 id="ASCII-mangling-is-a-horrible-feature-of-the-protocol"><a href="#ASCII-mangling-is-a-horrible-feature-of-the-protocol" class="headerlink" title="ASCII mangling is a horrible feature of the protocol."></a>ASCII mangling is a horrible feature of the protocol.</h1><p>#ascii_upload_enable=YES</p>
+<p>#ascii_download_enable=YES<br>#</p>
+<h1 id="You-may-fully-customise-the-login-banner-string"><a href="#You-may-fully-customise-the-login-banner-string" class="headerlink" title="You may fully customise the login banner string:"></a>You may fully customise the login banner string:</h1><p>#ftpd_banner=Welcome to blah FTP service.<br>#</p>
+<h1 id="You-may-specify-a-file-of-disallowed-anonymous-e-mail-addresses-Apparently"><a href="#You-may-specify-a-file-of-disallowed-anonymous-e-mail-addresses-Apparently" class="headerlink" title="You may specify a file of disallowed anonymous e-mail addresses. Apparently"></a>You may specify a file of disallowed anonymous e-mail addresses. Apparently</h1><h1 id="useful-for-combatting-certain-DoS-attacks"><a href="#useful-for-combatting-certain-DoS-attacks" class="headerlink" title="useful for combatting certain DoS attacks."></a>useful for combatting certain DoS attacks.</h1><p>#deny_email_enable=YES</p>
+<h1 id="default-follows"><a href="#default-follows" class="headerlink" title="(default follows)"></a>(default follows)</h1><p>#banned_email_file=/etc/vsftpd/banned_emails<br>#</p>
+<h1 id="You-may-specify-an-explicit-list-of-local-users-to-chroot-to-their-home"><a href="#You-may-specify-an-explicit-list-of-local-users-to-chroot-to-their-home" class="headerlink" title="You may specify an explicit list of local users to chroot() to their home"></a>You may specify an explicit list of local users to chroot() to their home</h1><h1 id="directory-If-chroot-local-user-is-YES-then-this-list-becomes-a-list-of"><a href="#directory-If-chroot-local-user-is-YES-then-this-list-becomes-a-list-of" class="headerlink" title="directory. If chroot_local_user is YES, then this list becomes a list of"></a>directory. If chroot_local_user is YES, then this list becomes a list of</h1><h1 id="users-to-NOT-chroot"><a href="#users-to-NOT-chroot" class="headerlink" title="users to NOT chroot()."></a>users to NOT chroot().</h1><p>chroot_local_user=YES<br>chroot_list_enable=YES</p>
+<h1 id="default-follows-1"><a href="#default-follows-1" class="headerlink" title="(default follows)"></a>(default follows)</h1><p>chroot_list_file=/etc/vsftpd/chroot_list<br>#</p>
+<h1 id="You-may-activate-the-“-R”-option-to-the-builtin-ls-This-is-disabled-by"><a href="#You-may-activate-the-“-R”-option-to-the-builtin-ls-This-is-disabled-by" class="headerlink" title="You may activate the “-R” option to the builtin ls. This is disabled by"></a>You may activate the “-R” option to the builtin ls. This is disabled by</h1><h1 id="default-to-avoid-remote-users-being-able-to-cause-excessive-I-O-on-large"><a href="#default-to-avoid-remote-users-being-able-to-cause-excessive-I-O-on-large" class="headerlink" title="default to avoid remote users being able to cause excessive I/O on large"></a>default to avoid remote users being able to cause excessive I/O on large</h1><h1 id="sites-However-some-broken-FTP-clients-such-as-“ncftp”-and-“mirror”-assume"><a href="#sites-However-some-broken-FTP-clients-such-as-“ncftp”-and-“mirror”-assume" class="headerlink" title="sites. However, some broken FTP clients such as “ncftp” and “mirror” assume"></a>sites. However, some broken FTP clients such as “ncftp” and “mirror” assume</h1><h1 id="the-presence-of-the-“-R”-option-so-there-is-a-strong-case-for-enabling-it"><a href="#the-presence-of-the-“-R”-option-so-there-is-a-strong-case-for-enabling-it" class="headerlink" title="the presence of the “-R” option, so there is a strong case for enabling it."></a>the presence of the “-R” option, so there is a strong case for enabling it.</h1><p>#ls_recurse_enable=YES<br>#</p>
+<h1 id="When-“listen”-directive-is-enabled-vsftpd-runs-in-standalone-mode-and"><a href="#When-“listen”-directive-is-enabled-vsftpd-runs-in-standalone-mode-and" class="headerlink" title="When “listen” directive is enabled, vsftpd runs in standalone mode and"></a>When “listen” directive is enabled, vsftpd runs in standalone mode and</h1><h1 id="listens-on-IPv4-sockets-This-directive-cannot-be-used-in-conjunction"><a href="#listens-on-IPv4-sockets-This-directive-cannot-be-used-in-conjunction" class="headerlink" title="listens on IPv4 sockets. This directive cannot be used in conjunction"></a>listens on IPv4 sockets. This directive cannot be used in conjunction</h1><h1 id="with-the-listen-ipv6-directive"><a href="#with-the-listen-ipv6-directive" class="headerlink" title="with the listen_ipv6 directive."></a>with the listen_ipv6 directive.</h1><p>listen=YES<br>#</p>
+<h1 id="This-directive-enables-listening-on-IPv6-sockets-To-listen-on-IPv4-and-IPv6"><a href="#This-directive-enables-listening-on-IPv6-sockets-To-listen-on-IPv4-and-IPv6" class="headerlink" title="This directive enables listening on IPv6 sockets. To listen on IPv4 and IPv6"></a>This directive enables listening on IPv6 sockets. To listen on IPv4 and IPv6</h1><h1 id="sockets-you-must-run-two-copies-of-vsftpd-with-two-configuration-files"><a href="#sockets-you-must-run-two-copies-of-vsftpd-with-two-configuration-files" class="headerlink" title="sockets, you must run two copies of vsftpd with two configuration files."></a>sockets, you must run two copies of vsftpd with two configuration files.</h1><h1 id="Make-sure-that-one-of-the-listen-options-is-commented"><a href="#Make-sure-that-one-of-the-listen-options-is-commented" class="headerlink" title="Make sure, that one of the listen options is commented !!"></a>Make sure, that one of the listen options is commented !!</h1><p>#listen_ipv6=YES</p>
+<p>pam_service_name=vsftpd<br>userlist_enable=YES<br>userlist_deny=YES<br>userlist_file=/etc/vsftpd/user_list<br>tcp_wrappers=YES<br>use_localtime=YES<br>banner_file=/etc/vsftpd/welcome.txt</p>
+<p>pasv_min_port=65400<br>pasv_max_port=65410</p>
+<p>ssl_enable=YES<br>allow_anon_ssl=NO<br>force_local_data_ssl=YES<br>force_local_logins_ssl=YES<br>ssl_tlsv1=YES<br>ssl_sslv2=NO<br>ssl_sslv3=NO<br>rsa_cert_file=/etc/vsftpd/vsftpd.pem</p>
+<p>backup.sh</p>
+<p>#!/bin/bash<br>backdir=”/etc /home /root /var/spool/mail”<br>basedir=/backup<br>[ ! -d “$basedir” ] &amp;&amp; mkdir $basedir<br>backfile=$basedir/backup.tar.gz<br>tar -zcvf $backfile $backdir</p>
+<p>useradd.sh</p>
+<p>#!/bin/bash<br>groupadd jinyangroup<br>for username in jinyan renjia sanyuan yuanmu renyuan<br>do<br>  useradd -G jinyangroup $username<br>  echo “yanjin” | passwd –stdin $username<br>done</p>
+<p>chroot_list<br>jinyan<br>renjia<br>root</p>
+<p>ftpusers</p>
+<h1 id="Users-that-are-not-allowed-to-login-via-ftp"><a href="#Users-that-are-not-allowed-to-login-via-ftp" class="headerlink" title="Users that are not allowed to login via ftp"></a>Users that are not allowed to login via ftp</h1><h1 id="root"><a href="#root" class="headerlink" title="root"></a>root</h1><p>bin<br>daemon<br>adm<br>lp<br>sync<br>shutdown<br>halt<br>mail<br>news<br>uucp<br>operator<br>games<br>nobody</p>
+<p>user_list</p>
+<h1 id="vsftpd-userlist"><a href="#vsftpd-userlist" class="headerlink" title="vsftpd userlist"></a>vsftpd userlist</h1><h1 id="If-userlist-deny-NO-only-allow-users-in-this-file"><a href="#If-userlist-deny-NO-only-allow-users-in-this-file" class="headerlink" title="If userlist_deny=NO, only allow users in this file"></a>If userlist_deny=NO, only allow users in this file</h1><h1 id="If-userlist-deny-YES-default-never-allow-users-in-this-file-and"><a href="#If-userlist-deny-YES-default-never-allow-users-in-this-file-and" class="headerlink" title="If userlist_deny=YES (default), never allow users in this file, and"></a>If userlist_deny=YES (default), never allow users in this file, and</h1><h1 id="do-not-even-prompt-for-a-password"><a href="#do-not-even-prompt-for-a-password" class="headerlink" title="do not even prompt for a password."></a>do not even prompt for a password.</h1><h1 id="Note-that-the-default-vsftpd-pam-config-also-checks-etc-vsftpd-ftpusers"><a href="#Note-that-the-default-vsftpd-pam-config-also-checks-etc-vsftpd-ftpusers" class="headerlink" title="Note that the default vsftpd pam config also checks /etc/vsftpd/ftpusers"></a>Note that the default vsftpd pam config also checks /etc/vsftpd/ftpusers</h1><h1 id="for-users-that-are-denied"><a href="#for-users-that-are-denied" class="headerlink" title="for users that are denied."></a>for users that are denied.</h1><h1 id="root-1"><a href="#root-1" class="headerlink" title="root"></a>root</h1><p>bin<br>daemon<br>adm<br>lp<br>sync<br>shutdown<br>halt<br>mail<br>news<br>uucp<br>operator<br>games<br>nobody</p>
+<p>[root@jinyan ~]# yum -y install vsftpd</p>
+<p>[root@jinyan ~]# cat /etc/pam.d/vsftpd<br>auth       required     pam_listfile.so item=user sense=deny file=/etc/vsftpd/ftpusers onerr=succeed</p>
+<p>[root@jinyan ~]# cat /etc/vsftpd/ftpusers</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd start<br>为 vsftpd 启动 vsftpd：[确定]<br>[root@jinyan ~]# netstat -tulnp| grep 21<br>tcp        0      0 0.0.0.0:21                  0.0.0.0:*                   LISTEN      1830/vsftpd</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf</p>
+<h1 id="listen-YES"><a href="#listen-YES" class="headerlink" title="listen=YES"></a>listen=YES</h1><p>listen=NO</p>
+<p>[root@jinyan ~]# yum -y install xinetd<br>[root@jinyan ~]# vim /etc/xinetd.d/vsftpd<br>service ftp<br>{<br>        socket_type             = stream<br>        wait                    = no<br>        user                    = root<br>        server                  = /usr/sbin/vsftpd<br>        log_on_success          += DURATION USERID<br>        log_on_failure          += USERID<br>        nice                    = 10<br>        disable                 = no<br>}</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd stop<br>关闭 vsftpd：[确定]<br>[root@jinyan ~]# /etc/init.d/xinetd restart<br>[root@jinyan ~]# netstat -tulnp| grep 21<br>tcp        0      0 :::21                       :::*                        LISTEN      2389/xinetd</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>listen=YES</p>
+<p>[root@jinyan ~]# /etc/init.d/xinetd stop</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd start</p>
+<p>[root@jinyan ~]# /etc/init.d/xinetd restart</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# netstat -tulnp| grep “:21”</p>
+<p>tcp        0      0 0.0.0.0:21                  0.0.0.0:*                   LISTEN      2483/vsftpd</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>anonymous_enable=YES<br>local_enable=YES<br>write_enable=YES<br>local_umask=022<br>dirmessage_enable=YES<br>xferlog_enable=YES<br>connect_from_port_20=YES<br>xferlog_std_format=YES<br>listen=YES<br>pam_service_name=vsftpd<br>userlist_enable=YES<br>tcp_wrappers=YES</p>
+<p>use_localtime=YES</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart<br>[root@jinyan ~]# chkconfig vsftpd on</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>anonymous_enable=NO<br>local_enable=YES<br>write_enable=YES<br>local_umask=002<br>userlist_enable=YES<br>userlist_deny=YES<br>userlist_file=/etc/vsftpd/user_list<br>use_localtime=YES</p>
+<p>dirmessage_enable=YES<br>xferlog_enable=YES<br>connect_from_port_20=YES<br>xferlog_std_format=YES<br>listen=YES<br>pam_service_name=vsftpd<br>tcp_wrappers=YES<br>banner_file=/etc/vsftpd/welcome.txt</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/welcome.txt<br>欢迎光临本小站，本站提供 FTP 的相关服务！<br>主要的服务是针对本机实体用户提供的，<br>若有任何问题，请与仁佳联络！</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/user_list<br>root<br>bin</p>
+<p>[root@jinyan ~]# yum  -y install ftp<br>[root@jinyan ~]# ftp localhost</p>
+<p>[root@jinyan ~]# getsebool -a | grep ftp<br>allow_ftpd_anon_write –&gt; off<br>allow_ftpd_full_access –&gt; off<br>allow_ftpd_use_cifs –&gt; off<br>allow_ftpd_use_nfs –&gt; off<br>ftp_home_dir –&gt; off<br>ftpd_connect_db –&gt; off<br>httpd_enable_ftp_server –&gt; off<br>tftp_anon_write –&gt; off</p>
+<p>[root@jinyan ~]# setsebool -P ftp_home_dir=1</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd/chroot_list</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/chroot_list</p>
+<p>jinyan<br>renjia</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>local_max_rate=1000000  &lt;==记住喔，单位是 bytes/second</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>max_clients=10<br>max_per_ip=1<br>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>userlist_enable=YES<br>userlist_deny=NO<br>userlist_file=/etc/vsftpd/user_list<br>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>由于系统账号无法使用 FTP 是因为 PAM 模块与 vsftpd 的内建功能所<br>致，亦即是 /etc/vsftpd/ftpusers 及 /etc/vsftpd/user_list 这两个档案<br>的影响。所以你只要进入这两个档案，并且将 root 那一行批注掉，那 root 就<br>可以使用 vsftpd这个 FTP 服务了。不过，不建议如此作喔！</p>
+<p>[root@jinyan ~]# mkdir /var/ftp/linux<br>[root@jinyan ~]# mkdir /var/ftp/gnu</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>anonymous_enable=YES<br>no_anon_password=YES</p>
+<p>anon_max_rate=1000000<br>data_connection_timeout=60<br>idle_session_timeout=600<br>max_clients=50<br>max_per_ip=5<br>local_enable=NO</p>
+<p>use_localtime=YES<br>dirmessage_enable=YES<br>xferlog_enable=YES<br>connect_from_port_20=YES<br>xferlog_std_format=YES<br>listen=YES<br>pam_service_name=vsftpd<br>tcp_wrappers=YES</p>
+<p>banner_file=/etc/vsftpd/anon_welcome.txt</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/anon_welcome.txt<br>欢迎光临本站所提供的 FTP 服务！<br>本站主要提供 Linux 操作系统相关档案以及 GNU 自由软件喔！<br>有问题请与站长联络！谢谢大家！<br>主要的目录为：<br>linux   提供 Linux 操作系统相关软件<br>gnu     提供 GNU 的自由软件<br>uploads 提供匿名的您上传数据</p>
+<p>[root@jinyan ~]# ftp localhost<br>Name (localhost:root): anonymous</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>write_enable=YES<br>anon_other_write_enable=YES<br>anon_mkdir_write_enable=YES<br>anon_upload_enable=YES</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# mkdir /var/ftp/uploads<br>[root@jinyan ~]# chown ftp /var/ftp/uploads<br>[root@jinyan ~]# setsebool -P allow_ftpd_anon_write=1<br>[root@jinyan ~]# setsebool -P allow_ftpd_full_access=1</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>write_enable=YES<br>anon_mkdir_write_enable=YES<br>anon_upload_enable=YES<br>chown_uploads=YES<br>chown_username=daemon</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>pasv_min_port=65400<br>pasv_max_port=65410</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>[root@www ~]# vim /etc/sysconfig/iptables-config</p>
+<p>IPTABLES_MODULES=”ip_nat_ftp ip_conntrack_ftp”</p>
+<p>[root@www ~]# /etc/init.d/iptables restart</p>
+<p>[root@www ~]# vim /usr/local/virus/iptables/iptables.rule<br>iptables -A INPUT -p TCP -i $EXTIF –dport  21  –sport 1024:65534 -j ACCEPT<br>iptables -A INPUT -p TCP -i $EXTIF –dport 65400:65410 –sport 1024:65534 -j ACCEPT</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>xferlog_enable=YES<br>xferlog_file=/var/log/xferlog<br>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>ftp://192.168.0.99/<br>ftp://jinyan@192.168.0.99/<br>ftp://jinyan:yanjin@192.168.0.99/</p>
+<p>[root@jinyan ~]# ldd $(which vsftpd) | grep ssl<br>        libssl.so.10 =&gt; /usr/lib64/libssl.so.10 (0x00007f59d2c3e000)<br>[root@jinyan ~]# cd /etc/pki/tls/certs<br>[root@jinyan certs]# make vsftpd.pem<br>Country Name (2 letter code) [XX]:CN<br>State or Province Name (full name) []:Jiangsu<br>Locality Name (eg, city) [Default City]:Changzhou<br>Organization Name (eg, company) [Default Company Ltd]:sanyuamempire<br>Organizational Unit Name (eg, section) []:IT<br>Common Name (eg, your name or your server’s hostname) []:centos.jinyan<br>Email Address []:jinyan@centos.jinyan</p>
+<p>[root@jinyan certs]# cp -a vsftpd.pem /etc/vsftpd/<br>[root@jinyan certs]# ll /etc/vsftpd/vsftpd.pem<br>-rw——-. 1 root root 3128 8月   9 10:25 /etc/vsftpd/vsftpd.pem</p>
+<p>[root@jinyan ~]# vim /etc/vsftpd/vsftpd.conf<br>local_enable=YES<br>write_enable=YES<br>local_umask=002<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd/chroot_list<br>local_max_rate=10000000</p>
+<p>anonymous_enable=YES<br>no_anon_password=YES<br>anon_max_rate=1000000<br>data_connection_timeout=60<br>idle_session_timeout=600</p>
+<p>ssl_enable=YES<br>allow_anon_ssl=NO<br>force_local_data_ssl=YES<br>force_local_logins_ssl=YES<br>ssl_tlsv1=YES<br>ssl_sslv2=NO<br>ssl_sslv3=NO<br>rsa_cert_file=/etc/vsftpd/vsftpd.pem</p>
+<p>max_clients=50<br>max_per_ip=5<br>use_localtime=YES<br>dirmessage_enable=YES<br>xferlog_enable=YES<br>connect_from_port_20=YES<br>xferlog_std_format=YES<br>listen=YES<br>pam_service_name=vsftpd<br>tcp_wrappers=YES<br>banner_file=/etc/vsftpd/welcome.txt<br>dual_log_enable=YES<br>vsftpd_log_file=/var/log/vsftpd.log<br>pasv_min_port=65400<br>pasv_max_port=65410</p>
+<p>[root@jinyan ~]# /etc/init.d/vsftpd restart</p>
+<p>欢迎光临本小站，本站提供 FTP 的相关服务！<br>主要的服务是针对本机实体用户提供的，<br>若有任何问题，请与仁佳联络！</p>
+<p>欢迎光临本站所提供的 FTP 服务！<br>本站主要提供 Linux 操作系统相关档案以及 GNU 自由软件喔！<br>有问题请与站长联络！谢谢大家！<br>主要的目录为：<br>linux   提供 Linux 操作系统相关软件<br>gnu     提供 GNU 的自由软件<br>uploads 提供匿名的您上传数据</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwptkx910014xocyvooyoxcd" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/15/NFS/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">NFS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

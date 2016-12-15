@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>NFS | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="exports/tmp    (rw,no_root_squash)/home/public  10.0.0.0/24(rw)    (ro)/home/test    10.0.0.2(rw)/home/linux   *.centos.jinyan(rw,all_squash,anonuid=45,anongid=45)/rhome          10.0.0.0/24(rw,no_roo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NFS">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/NFS/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="exports/tmp    (rw,no_root_squash)/home/public  10.0.0.0/24(rw)    (ro)/home/test    10.0.0.2(rw)/home/linux   *.centos.jinyan(rw,all_squash,anonuid=45,anongid=45)/rhome          10.0.0.0/24(rw,no_roo">
+<meta property="og:updated_time" content="2016-12-15T03:41:14.299Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NFS">
+<meta name="twitter:description" content="exports/tmp    (rw,no_root_squash)/home/public  10.0.0.0/24(rw)    (ro)/home/test    10.0.0.2(rw)/home/linux   *.centos.jinyan(rw,all_squash,anonuid=45,anongid=45)/rhome          10.0.0.0/24(rw,no_roo">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-NFS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/NFS/" class="article-date">
+  <time datetime="2016-12-15T03:40:43.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NFS
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>exports<br>/tmp    <em>(rw,no_root_squash)<br>/home/public  10.0.0.0/24(rw)    </em>(ro)<br>/home/test    10.0.0.2(rw)<br>/home/linux   *.centos.jinyan(rw,all_squash,anonuid=45,anongid=45)<br>/rhome          10.0.0.0/24(rw,no_root_squash)<br>/cluster        10.0.0.0/24(rw,no_root_squash)</p>
+<p>14.NFS服务器 p346<br>14.1 本章的行前准备工作 p347</p>
+<p>14.2 NFS的由来与功能 p347</p>
+<p>14.2.1 什么是NFS(Network File System) p347<br>File Server<br>RPC Remote Procedure Call</p>
+<p>14.2.2 什么是RPC p348<br>RPC Server</p>
+<p>14.2.3 运行NFS需要启动的RPC daemons p349<br>1.rpc.nfsd<br>2.rpc.mountd /etc/exports<br>3.rpc.lockd<br>4.rpc.statd</p>
+<p>14.2.4 NFS的文件存取权限 p350<br>1.NFS Server/NFS Client刚好有相同的账号与组</p>
+<p>2.NFS Server/NFS Client两侧UID相同但用户名不同</p>
+<p>3.NFS Server并没客户端的UID<br>nobody nfsnobody</p>
+<p>4.如果用户身份是root p351</p>
+<p>14.3 NFS Server端的设置 p352</p>
+<p>14.3.1 所需要的软件 p352<br>以 CentOS 6.x 为例的话，要设定好 NFS 服务器我们必须要有两个软件才行，分别是：</p>
+<p>RPC 主程序：rpcbind</p>
+<p>就如同刚刚提的到，我们的 NFS 其实可以被视为一个 RPC 服务，而要启动任何一个 RPC 服务之前，我们都需要做好 port 的对应 (mapping) 的工作才行，这个工作其实就是『 rpcbind 』这个服务所负责的！也就是说， 在启动任何一个 RPC 服务之前，我们都需要启动 rpcbind 才行！ (在 CentOS 5.x 以前这个软件称为 portmap，在 CentOS 6.x 之后才称为 rpcbind 的！)</p>
+<p>NFS 主程序：nfs-utils</p>
+<p>就是提供 rpc.nfsd 及 rpc.mountd 这两个 NFS daemons 与其他相关 documents 与说明文件、执行文件等的软件！这个就是 NFS 服务所需要的主要软件啦！一定要有喔！<br>好了，知道我们需要这两个软件之后，现在干嘛？赶快去你的系统先用 RPM 看一下有没有这两个软件啦！ 没有的话赶快用 RPM 或 yum 去安装喔！不然就玩不下去了！</p>
+<p>例题：<br>请问我的主机是以 RPM 为套件管理的 Linux distribution ，例如 Red Hat, CentOS 与 SuSE 等版本，那么我要如何知道我的主机里面是否已经安装了 rpcbind 与 nfs 相关的软件呢？<br>答：<br>简单的使用『 rpm -qa | grep nfs 』与『 rpm -qa | grep rpcbind 』即可知道啦！如果没有安装的话， 在 CentOS 内可以使用『 yum install nfs-utils 』来安装！</p>
+<p>CentOS 4.x<br>NFS: nfs-utils<br>RPC: portmap<br>1.portmap<br>2.nfs-utils<br>rpc.nfsd、rpc.mountd</p>
+<p>rpm -qa | grep nfs<br>rpm -qa | grep portmap<br>yum install nfs-utils</p>
+<p>14.3.2 NFS的软件结构p352<br>主要配置文件：/etc/exports<br>这个档案就是 NFS 的主要配置文件了！不过，系统并没有默认值，所以这个档案『 不一定会存在』，你可能必须要使用 vim 主动的建立起这个档案喔！我们等一下要谈的设定也仅只是这个档案而已吶！</p>
+<p>NFS 文件系统维护指令：/usr/sbin/exportfs<br>这个是维护 NFS 分享资源的指令，我们可以利用这个指令重新分享 /etc/exports 变更的目录资源、将 NFS Server 分享的目录卸除或重新分享等等，这个指令是 NFS 系统里面相当重要的一个喔！至于指令的用法我们在底下会介绍。</p>
+<p>分享资源的登录档：/var/lib/nfs/*tab<br>在 NFS 服务器的登录文件都放置到 /var/lib/nfs/ 目录里面，在该目录下有两个比较重要的登录档， 一个是 etab ，主要记录了 NFS 所分享出来的目录的完整权限设定值；另一个 xtab 则记录曾经链接到此 NFS 服务器的相关客户端数据。</p>
+<p>客户端查询服务器分享资源的指令：/usr/sbin/showmount<br>这是另一个重要的 NFS 指令。exportfs 是用在 NFS Server 端，而 showmount 则主要用在 Client 端。这个 showmount 可以用来察看 NFS 分享出来的目录资源喔！</p>
+<p>1./etc/exports<br>vim /etc/exports<br>2./usr/bin/exportfs</p>
+<p>3./usr/sbin/showmount</p>
+<p>4./var/lib/nfs/*tab<br>etab xtab</p>
+<p>14.3.3 /etc/exports设置文件的语法与参数 p353<br>至于 NFS 服务器的架设实在很简单，你只要编辑好主要配置文件 /etc/exports 之后，先启动 rpcbind (若已经启动了，就不要重新启动)，然后再启动 nfs ，你的 NFS 就成功了！<br>vim /etc/exports<br>/tmp    192.168.245.0/24(ro)    localhost(rw)    *.jinyan.com(ro,sync)<br>你看看，这个配置文件有够简单吧！每一行最前面是要分享出来的目录，注意喔！是以目录为单位啊！ 然后这个目录可以依照不同的权限分享给不同的主机，像鸟哥上面的例子说明是： 要将 /tmp 分别分享给三个不同的主机或网域的意思。记得主机后面以小括号 () 设计权限参数， 若权限参数不止一个时，则以逗号 (,) 分开。且主机名与小括号是连在一起的喔！在这个档案内也可以利用 # 来批注呢。</p>
+<p>至于主机名的设定主要有几个方式：</p>
+<p>可以使用完整的 IP 或者是网域，例如 192.168.245.6 或 192.168.245.0/24 ，或 192.168.245.0/255.255.255.0 都可以接受！</p>
+<p>也可以使用主机名，但这个主机名必须要在 /etc/hosts 内，或可使用 DNS 找到该名称才行啊！反正重点是可找到 IP 就是了。如果是主机名的话，那么他可以支持通配符，例如 * 或 ? 均可接受。</p>
+<p>权限方面p354<br>至于权限方面 (就是小括号内的参数) 常见的参数则有：</p>
+<p>参数值    内容说明<br>rw<br>ro    该目录分享的权限是可擦写 (read-write) 或只读 (read-only)，但最终能不能读写，还是与文件系统的 rwx 及身份有关。<br>sync<br>async    sync 代表数据会同步写入到内存与硬盘中，async 则代表数据会先暂存于内存当中，而非直接写入硬盘！<br>no_root_squash<br>root_squash    客户端使用 NFS 文件系统的账号若为 root 时，系统该如何判断这个账号的身份？预设的情况下，客户端 root 的身份会由 root_squash 的设定压缩成 nfsnobody， 如此对服务器的系统会较有保障。但如果你想要开放客户端使用 root 身份来操作服务器的文件系统，那么这里就得要开 no_root_squash 才行！<br>all_squash    不论登入 NFS 的使用者身份为何， 他的身份都会被压缩成为匿名用户，通常也就是 nobody(nfsnobody) 啦！<br>anonuid<br>anongid    anon 意指 anonymous (匿名者) 前面关于 *_squash 提到的匿名用户的 UID 设定值，通常为 nobody(nfsnobody)，但是你可以自行设定这个 UID 的值！当然，这个 UID 必需要存在于你的 /etc/passwd 当中！ anonuid 指的是 UID 而 anongid 则是群组的 GID 啰。</p>
+<p>例题一：让 root 保有 root 的权限<br>我想将 /tmp 分享出去给大家使用，由于这个目录本来就是大家都可以读写的，因此想让所有的人都可以存取。此外，我要让 root 写入的档案还是具有 root 的权限，那如何设计配置文件？<br>答：<br>eg1<br>vim /etc/exports<br>/tmp    <em>(rw,no_root_squash)<br>主机名可以使用通配符，上头表示无论来自哪里都可以使用我的 /tmp 这个目录。 再次提醒，『 </em>(rw,no_root_squash) 』这一串设定值中间是没有空格符的喔！而 /tmp 与 *(rw,no_root_squash) 则是有空格符来隔开的！特别注意到那个 no_root_squash 的功能！在这个例子中，如果你是客户端，而且你是以 root 的身份登入你的 Linux 主机，那么当你 mount 上我这部主机的 /tmp 之后，你在该 mount 的目录当中，将具有『root 的权限！』</p>
+<p>例题二：同一目录针对不同范围开放不同权限<br>我要将一个公共的目录 /home/public 公开出去，但是只有限定我的局域网络 192.168.245.0/24 这个网域且加入 yanjingroup (第一章的例题建立的群组) 的用户才能够读写，其他来源则只能读取。<br>答：<br>[root@yanjin ~]# mkdir /home/public<br>[root@yanjin ~]# setfacl -m g:jinyangroup:rwx /home/public<br>[root@yanjin ~]# vim /etc/exports<br>/tmp          <em>(rw,no_root_squash)<br>/home/public  10.0.0.0/24(rw)    </em>(ro)</p>
+<h1 id="继续累加在后面，注意，我有将主机与网域分为两段-用空白隔开-喔！"><a href="#继续累加在后面，注意，我有将主机与网域分为两段-用空白隔开-喔！" class="headerlink" title="继续累加在后面，注意，我有将主机与网域分为两段 (用空白隔开) 喔！"></a>继续累加在后面，注意，我有将主机与网域分为两段 (用空白隔开) 喔！</h1><p>上面的例子说的是，当我的 IP 是在 192.168.245.0/24 这个网段的时候，那么当我在 Client 端挂载了 Server 端的 /home/public 后，针对这个被我挂载的目录我就具有可以读写的权限～ 至于如果我不是在这个网段之内，那么这个目录的数据我就仅能读取而已，亦即为只读的属性啦！</p>
+<p>需要注意的是，通配符仅能用在主机名的分辨上面，IP 或网段就只能用 192.168.245.0/24 的状况， 不可以使用 192.168.245.* 喔！</p>
+<p>例题三：仅给某个单一主机使用的目录设定<br>我要将一个私人的目录 /home/test 开放给 192.168.245.6 这个 Client 端的机器来使用时，该如何设定？ 假设使用者的身份是 jinyan 才具有完整的权限时。<br>答：<br>[root@yanjin ~]# mkdir /home/test<br>[root@yanjin ~]# setfacl -m u:jinyan:rwx /home/test<br>[root@yanjin ~]# vim /etc/exports<br>/tmp          <em>(rw,no_root_squash)<br>/home/public  10.0.0.0/24(rw)    </em>(ro)<br>/home/test    10.0.0.2(rw)</p>
+<h1 id="只要设定-IP-正确即可！"><a href="#只要设定-IP-正确即可！" class="headerlink" title="只要设定 IP 正确即可！"></a>只要设定 IP 正确即可！</h1><p>这样就设定完成了！而且，只有 192.168.245.6 这部机器才能对 /home/test 这个目录进行存取喔！</p>
+<p>例题四：开放匿名登录的情况<br>我要让 <em>.jinyan.com 网域的主机，登入我的 NFS 主机时，可以存取 /home/linux ，但是他们存数据的时候，我希望他们的 UID 与 GID 都变成 45 这个身份的使用者，假设我 NFS 服务器上的 UID 45 与 GID 45 的用户/组名为 nfsanon。<br>答：<br>[root@yanjin ~]# groupadd -g 45 nfsanon<br>[root@yanjin ~]# useradd -u 45 -g nfsanon nfsanon<br>[root@yanjin ~]# mkdir /home/linux<br>[root@yanjin ~]# setfacl -m u:nfsanon:rwx /home/linux<br>[root@yanjin ~]# vim /etc/exports<br>/tmp          </em>(rw,no_root_squash)<br>/home/public  10.0.0.0/24(rw)    <em>(ro)<br>/home/test    10.0.0.2(rw)<br>/home/linux   </em>.centos.jinyan(rw,all_squash,anonuid=45,anongid=45)</p>
+<h1 id="如果要开放匿名，那么重点是-all-squash，并且要配合-anonuid-喔！"><a href="#如果要开放匿名，那么重点是-all-squash，并且要配合-anonuid-喔！" class="headerlink" title="如果要开放匿名，那么重点是 all_squash，并且要配合 anonuid 喔！"></a>如果要开放匿名，那么重点是 all_squash，并且要配合 anonuid 喔！</h1><p>特别注意到那个 all_squash 与 anonuid, anongid 的功能！如此一来，当 jinyan.com 登入这部 NFS 主机，并且在 /home/linux 写入档案时，该档案的所有人与所有群组，就会变成 /etc/passwd 里面对应的 UID 为 45 的那个身份的使用者了！</p>
+<p>eg2<br>vim /etc/exports<br>/tmp        <em>(rw,no_root_squash)<br>/home/public    192.168.245.0/24(rw)    </em>(ro)</p>
+<p>eg3<br>vim /etc/exports<br>/tmp        <em>(rw,no_root_squash)<br>/home/public    192.168.245.0/24(rw)    </em>(ro)<br>/home/test    192.168.245.6(rw)</p>
+<p>eg4<br>vim /etc/exports<br>/tmp        <em>(rw,no_root_squash)<br>/home/public    192.168.245.0/24(rw)    </em>(ro)<br>/home/test    192.168.245.6(rw)<br>/home/jinyan    *.jinyan.com(rw,all_squash,anonuid=40,anongid=40)</p>
+<p>1.客户端与主机端具有相同的UID与账号 p355</p>
+<p>2.客户端与主机端的账号不同 p356</p>
+<p>3.当客户端的身份为root时</p>
+<p>14.3.4 启动NFS p357<br>[root@yanjin ~]# /etc/init.d/rpcbind start</p>
+<h1 id="如果-rpcbind-本来就已经在执行了，那就不需要启动啊！"><a href="#如果-rpcbind-本来就已经在执行了，那就不需要启动啊！" class="headerlink" title="如果 rpcbind 本来就已经在执行了，那就不需要启动啊！"></a>如果 rpcbind 本来就已经在执行了，那就不需要启动啊！</h1><p>[root@yanjin ~]# /etc/init.d/nfs start</p>
+<h1 id="有时候某些-distributions-可能会出现如下的警告讯息："><a href="#有时候某些-distributions-可能会出现如下的警告讯息：" class="headerlink" title="有时候某些 distributions 可能会出现如下的警告讯息："></a>有时候某些 distributions 可能会出现如下的警告讯息：</h1><p>[root@yanjin ~]# /etc/init.d/nfslock start<br>[root@yanjin ~]# chkconfig rpcbind on<br>[root@yanjin ~]# chkconfig nfs on<br>[root@yanjin ~]# chkconfig nfslock on</p>
+<p>[root@yanjin ~]# tail /var/log/messages</p>
+<p>[root@yanjin ~]# netstat -tulnp | grep -E ‘(rpc|nfs)’<br>rpcbind 启动的 port 在 111 ，同时启动在 UDP 与 TCP；<br>nfs 本身的服务启动在 port 2049 上头！<br>其他 rpc.* 服务启动的 port 则是随机产生的，因此需向 port 111 注册。</p>
+<p>/etc/init.d/portmap start<br>/etc/init.d/nfs start</p>
+<p>vim /etc/exports<br>/tmp        <em>(rw,no_root_squash,sync)<br>/home/public    192.168.245.0/24(rw,sync)    </em>(ro)<br>/home/test    192.168.245.6(rw,sync)<br>/home/jinyan    *.jinyan.com(rw,all_squash,anonuid=40,anongid=40,sync)</p>
+<p>/etc/init.d/nfs restart</p>
+<p>/etc/init.d/nfslock start</p>
+<p>less /var/log/messages</p>
+<p>netstat -tuln<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:*                   LISTEN</p>
+<p>rpc [-p] [IP|hostname] p358</p>
+<p>eg1<br>rpcinfo -p localhost</p>
+<p>[root@yanjin ~]# rpcinfo -p [IP|hostname]<br>[root@yanjin ~]# rpcinfo -t|-u  IP|hostname 程序名称<br>选项与参数：<br>-p ：针对某 IP (未写则预设为本机) 显示出所有的 port 与 porgram 的信息；<br>-t ：针对某主机的某支程序检查其 TCP 封包所在的软件版本；<br>-u ：针对某主机的某支程序检查其 UDP 封包所在的软件版本；</p>
+<h1 id="1-显示出目前这部主机的-RPC-状态"><a href="#1-显示出目前这部主机的-RPC-状态" class="headerlink" title="1. 显示出目前这部主机的 RPC 状态"></a>1. 显示出目前这部主机的 RPC 状态</h1><p>[root@yanjin ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  52477  status<br>    100024    1   tcp  39850  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  42530  nlockmgr<br>    100021    3   udp  42530  nlockmgr<br>    100021    4   udp  42530  nlockmgr<br>    100021    1   tcp  44092  nlockmgr<br>    100021    3   tcp  44092  nlockmgr<br>    100021    4   tcp  44092  nlockmgr<br>    100005    1   udp  58024  mountd<br>    100005    1   tcp  38683  mountd<br>    100005    2   udp  36026  mountd<br>    100005    2   tcp  45361  mountd<br>    100005    3   udp  51655  mountd<br>    100005    3   tcp  53627  mountd</p>
+<h1 id="程序代号-NFS版本-封包类型-埠口-服务名称"><a href="#程序代号-NFS版本-封包类型-埠口-服务名称" class="headerlink" title="程序代号 NFS版本 封包类型 埠口  服务名称"></a>程序代号 NFS版本 封包类型 埠口  服务名称</h1><h1 id="2-针对-nfs-这个程序检查其相关的软件版本信息-仅察看-TCP-封包"><a href="#2-针对-nfs-这个程序检查其相关的软件版本信息-仅察看-TCP-封包" class="headerlink" title="2. 针对 nfs 这个程序检查其相关的软件版本信息 (仅察看 TCP 封包)"></a>2. 针对 nfs 这个程序检查其相关的软件版本信息 (仅察看 TCP 封包)</h1><p>[root@yanjin ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting</p>
+<h1 id="可发现提供-nfs-的版本共有三种，分别是-2-3-4-版呦！"><a href="#可发现提供-nfs-的版本共有三种，分别是-2-3-4-版呦！" class="headerlink" title="可发现提供 nfs 的版本共有三种，分别是 2, 3, 4 版呦！"></a>可发现提供 nfs 的版本共有三种，分别是 2, 3, 4 版呦！</h1><p>仔细瞧瞧，上面出现的信息当中除了程序名称与埠口的对应可以与 netstat -tlunp 输出的结果作比对之外，还需要注意到 NFS 的版本支持！新的 NFS 版本传输速度较快，由上表看起来，我们的 NFS 至少支持到第 4 版，应该还算合理啦！ ^_^！ 如果你的 rpcinfo 无法输出，那就表示注册的数据有问题啦！可能需要重新启动 rpcbind 与 nfs 喔！</p>
+<p>14.3.5 NFS的联机观察 p359<br>showmount [-ae] [hostname|IP]<br>选项与参数：<br>-a ：显示目前主机与客户端的 NFS 联机分享的状态；<br>-e ：显示某部主机的 /etc/exports 所分享的目录数据。</p>
+<p>eg1<br>showmount -e localhost<br>Export list for localhost:<br>/home/linux  *.jinyan.com<br>/home/test   192.168.245.6<br>/home/public (everyone)<br>/tmp         (everyone)</p>
+<p>tail /var/lib/nfs/etab<br>/home/public    192.168.245.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534)</p>
+<h1 id="上面是同一行，可以看出除了-rw-sync-root-squash-等等，"><a href="#上面是同一行，可以看出除了-rw-sync-root-squash-等等，" class="headerlink" title="上面是同一行，可以看出除了 rw, sync, root_squash 等等，"></a>上面是同一行，可以看出除了 rw, sync, root_squash 等等，</h1><h1 id="其实还有-anonuid-及-anongid-等等的设定！"><a href="#其实还有-anonuid-及-anongid-等等的设定！" class="headerlink" title="其实还有 anonuid 及 anongid 等等的设定！"></a>其实还有 anonuid 及 anongid 等等的设定！</h1><p>tail /var/lib/nfs/xtab</p>
+<p>exportfs [-aruv]<br>选项与参数：<br>-a ：全部挂载(或卸除) /etc/exports 档案内的设定<br>-r ：重新挂载 /etc/exports 里面的设定，此外，亦同步更新 /etc/exports<br>     及 /var/lib/nfs/xtab 的内容！<br>-u ：卸除某一目录<br>-v ：在 export 的时候，将分享的目录显示到屏幕上！</p>
+<p>eg1重新挂载一次 /etc/exports 的设定<br>exportfs -arv</p>
+<p>eg2 将已经分享的 NFS 目录资源，通通都卸除<br>exportfs -auv</p>
+<p>14.3.6 NFS的安全性 p360<br>[root@yanjin ~]# vim /etc/sysconfig/nfs<br>RQUOTAD_PORT=1001   &lt;==约在 12 行左右<br>LOCKD_TCPPORT=30001 &lt;==约在 20 行左右<br>LOCKD_UDPPORT=30001 &lt;==约在 22 行左右<br>MOUNTD_PORT=1002    &lt;==约在 43 行左右</p>
+<h1 id="记得设定值最左边的批注服务要拿掉之外，埠口的值你也可以自行决定。"><a href="#记得设定值最左边的批注服务要拿掉之外，埠口的值你也可以自行决定。" class="headerlink" title="记得设定值最左边的批注服务要拿掉之外，埠口的值你也可以自行决定。"></a>记得设定值最左边的批注服务要拿掉之外，埠口的值你也可以自行决定。</h1><p>[root@yanjin ~]# /etc/init.d/nfs restart<br>[root@yanjin ~]# rpcinfo -p | grep -E ‘(rquota|mount|nlock)’<br>    100011    1   udp   1001  rquotad<br>    100011    2   udp   1001  rquotad<br>    100011    1   tcp   1001  rquotad<br>    100011    2   tcp   1001  rquotad<br>    100021    1   udp  30001  nlockmgr<br>    100021    3   udp  30001  nlockmgr<br>    100021    4   udp  30001  nlockmgr<br>    100021    1   tcp  30001  nlockmgr<br>    100021    3   tcp  30001  nlockmgr<br>    100021    4   tcp  30001  nlockmgr<br>    100005    1   udp   1002  mountd<br>    100005    1   tcp   1002  mountd<br>    100005    2   udp   1002  mountd<br>    100005    2   tcp   1002  mountd<br>    100005    3   udp   1002  mountd<br>    100005    3   tcp   1002  mountd</p>
+<h1 id="上述的输出数据已经被鸟哥汇整过了，没用到的埠口先挪掉了啦！"><a href="#上述的输出数据已经被鸟哥汇整过了，没用到的埠口先挪掉了啦！" class="headerlink" title="上述的输出数据已经被鸟哥汇整过了，没用到的埠口先挪掉了啦！"></a>上述的输出数据已经被鸟哥汇整过了，没用到的埠口先挪掉了啦！</h1><p>[root@yanjin ~]# vim /usr/local/virus/iptables/iptables.allow<br>  iptables -A INPUT -i $EXTIF -p tcp -s 10.0.0.0/24 -m multiport \<br>           –dport 111,2049,1001,1002,30001 -j ACCEPT<br>  iptables -A INPUT -i $EXTIF -p udp -s 10.0.0.0/24 -m multiport \<br>           –dport 111,2049,1001,1002,30001 -j ACCEPT</p>
+<p>[root@yanjin ~]# /usr/local/virus/iptables/iptables.rule</p>
+<h1 id="总是要重新执行这样防火墙规则才会顺利的生效啊！别忘记！别忘记！"><a href="#总是要重新执行这样防火墙规则才会顺利的生效啊！别忘记！别忘记！" class="headerlink" title="总是要重新执行这样防火墙规则才会顺利的生效啊！别忘记！别忘记！"></a>总是要重新执行这样防火墙规则才会顺利的生效啊！别忘记！别忘记！</h1><p>1.利用iptables做大范围联机的限制<br>vim /usr/local/virus/iptables/iptables.allow<br>iptables -A INPUT -i $EXTIF -p TCP -s 192.168.245.0/24 –dport 111 -j ACCEPT<br>iptables -A INPUT -i $EXTIF -p UCP -s 192.168.245.0/24 –dport 111 -j ACCEPT<br>iptables -A INPUT -i $EXTIF -p TCP -s 58.216.209.0/16 –dport 111 -j ACCEPT<br>iptables -A INPUT -i $EXTIF -p UCP -s 58.216.209.0/16 –dport 111 -j ACCEPT</p>
+<p>2.利用TCP Wrappers限制<br>vim /etc/hosts.allow<br>mountd:192.168.245.0/24<br>mountd:58.216.209.0/24</p>
+<p>vim /etc/hosts.deny<br>mountd: ALL</p>
+<p>3.使用/etc/exports设置更安全的权限p361</p>
+<p>4.更安全的partition规划<br>/etc/fstab</p>
+<p>5.NFS服务器关机前的注意事项<br>需要注意的是，由于 NFS 使用的这个 RPC 服务，当客户端连上服务器时，那么你的服务器想要关机， 那可就会成为『不可能的任务』！如果你的服务器上面还有客户端在联机，那么你要关机， 可能得要等到数个钟头才能够正常的关机成功！嗄！真的假的！不相信吗？不然你自个儿试试看！^_^！</p>
+<p>所以啰，建议你的 NFS Server 想要关机之前，能先『关掉 rpcbind 与 nfs 』这两个东西！ 如果无法正确的将这两个 daemons 关掉，那么先以 netstat -utlp 找出 PID ，然后以 kill 将他关掉先！这样才有办法正常的关机成功喔！这个请特别特别的注意呢！</p>
+<p>当然啦，你也可以利用 showmount -a localhost 来查出来那个客户端还在联机？ 或者是查阅 /var/lib/nfs/rmtab 或 xtab 等档案来检查亦可。找到这些客户端后， 可以直接 call 他们啊！让他们能够帮帮忙先！ ^_^</p>
+<p>事实上，客户端以 NFS 联机到服务器端时，如果他们可以下达一些比较不那么『硬』的挂载参数时， 就能够减少这方面的问题喔！相关的安全性可以参考下一小节的 客户端可处理的挂载参数与开机挂载。</p>
+<p>/etc/init.d/portmap start<br>/etc/init.d/portmap stop<br>/etc/init.d/nfs start<br>/etc/init.d/nfs stop</p>
+<p>showmount -a localhost<br>[root@jinyan ~]# cat /var/lib/nfs/rmtab<br>[root@jinyan ~]# cat /var/lib/nfs/xtab</p>
+<p>netstat -utlp<br>kill -9 pid</p>
+<p>14.4 NFS客户端的设置 p362<br>14.4.1 远程NFS服务器的挂载 p362<br>确认本地端已经启动了 rpcbind 服务！<br>扫瞄 NFS 服务器分享的目录有哪些，并了解我们是否可以使用 (showmount)；<br>在本地端建立预计要挂载的挂载点目录 (mkdir)；<br>利用 mount 将远程主机直接挂载到相关目录。</p>
+<h1 id="1-启动必备的服务：若没有启动才启动，有启动则保持原样不动。"><a href="#1-启动必备的服务：若没有启动才启动，有启动则保持原样不动。" class="headerlink" title="1. 启动必备的服务：若没有启动才启动，有启动则保持原样不动。"></a>1. 启动必备的服务：若没有启动才启动，有启动则保持原样不动。</h1><p>[root@clientlinux ~]# /etc/init.d/rpcbind start<br>[root@clientlinux ~]# /etc/init.d/nfslock start<br>/etc/init.d/portmap start<br>/etc/init.d/nfslock start</p>
+<h1 id="一般来说，系统默认会启动-rpcbind-，不过鸟哥之前关闭过，所以要启动。"><a href="#一般来说，系统默认会启动-rpcbind-，不过鸟哥之前关闭过，所以要启动。" class="headerlink" title="一般来说，系统默认会启动 rpcbind ，不过鸟哥之前关闭过，所以要启动。"></a>一般来说，系统默认会启动 rpcbind ，不过鸟哥之前关闭过，所以要启动。</h1><h1 id="另外，如果服务器端有启动-nfslock-的话，客户端也要启动才能生效！"><a href="#另外，如果服务器端有启动-nfslock-的话，客户端也要启动才能生效！" class="headerlink" title="另外，如果服务器端有启动 nfslock 的话，客户端也要启动才能生效！"></a>另外，如果服务器端有启动 nfslock 的话，客户端也要启动才能生效！</h1><h1 id="2-查询服务器提供哪些资源给我们使用呢？"><a href="#2-查询服务器提供哪些资源给我们使用呢？" class="headerlink" title="2. 查询服务器提供哪些资源给我们使用呢？"></a>2. 查询服务器提供哪些资源给我们使用呢？</h1><p>[root@clientlinux ~]# showmount -e 192.168.245.9</p>
+<h1 id="3-建立挂载点，并且实际挂载看看啰！"><a href="#3-建立挂载点，并且实际挂载看看啰！" class="headerlink" title="3. 建立挂载点，并且实际挂载看看啰！"></a>3. 建立挂载点，并且实际挂载看看啰！</h1><p>[root@clientlinux ~]# mkdir -p /home/nfs/public<br>[root@clientlinux ~]# mount -t nfs 192.168.245.3:/home/public /home/nfs/public</p>
+<h1 id="注意一下挂载的语法！『-t-nfs-』指定文件系统类型，"><a href="#注意一下挂载的语法！『-t-nfs-』指定文件系统类型，" class="headerlink" title="注意一下挂载的语法！『 -t nfs 』指定文件系统类型，"></a>注意一下挂载的语法！『 -t nfs 』指定文件系统类型，</h1><ol>
+<li>总是得要看看挂载之后的情况如何，可以使用 df 或 mount 啦！<br>[root@clientlinux ~]# df</li>
+</ol>
+<p>portmap<br>showmount<br>mkdir<br>mount</p>
+<p>showmount -e 192.168.245.9</p>
+<p>mkdir -p /home/nfs/public</p>
+<p>mount -t nfs 192.168.245.9:/home/public /home/nfs/public</p>
+<p>df</p>
+<p>umount /home/nfs/public</p>
+<p>14.4.2 客户端可处理的挂载参数与开机挂载 p363<br>所以说，除了 NFS 服务器需要保护之外，我们取用人家的 NFS 文件系统也需要自我保护才行啊！ 那要如何自我保护啊？可以透过 mount 的指令参数喔！包括底下这些主要的参数可以尝试加入：</p>
+<p>参数    参数代表意义    系统默认值<br>suid<br>nosuid    晓得啥是 SUID 吧？如果挂载的 partition 上面有任何 SUID 的 binary 程序时， 你只要使用 nosuid 就能够取消 SUID 的功能了！嗄？不知道什么是 SUID ？那就不要学人家架站嘛！@_@！ 赶紧回去基础学习篇第三版复习一下第十七章、程序与资源管理啦！    suid<br>rw<br>ro    你可以指定该文件系统是只读 (ro) 或可擦写喔！服务器可以提供给你可擦写， 但是客户端可以仅允许只读的参数设定值！    rw<br>dev<br>nodev    是否可以保留装置档案的特殊功能？一般来说只有 /dev 这个目录才会有特殊的装置，因此你可以选择 nodev 喔！    dev<br>exec<br>noexec    是否具有执行 binary file 的权限？ 如果你想要挂载的仅是数据区 (例如 /home)，那么可以选择 noexec 啊！    exec<br>user<br>nouser    是否允许使用者进行档案的挂载与卸除功能？ 如果要保护文件系统，最好不要提供使用者进行挂载与卸除吧！    nouser<br>auto<br>noauto    这个 auto 指的是『mount -a』时，会不会被挂载的项目。 如果你不需要这个 partition 随时被挂载，可以设定为 noauto。    auto</p>
+<p>umount /home/nfs/public<br>mount -t nfs -o nosuid,noexec,nodev,rw 192.168.245.3:/home/public /home/nfs/public<br>[root@jinyan ~]# mount | grep addr<br>192.168.245.3:/home/public on /home/nfs/public type nfs (rw,noexec,nosuid,nodev,addr=192.168.245.3)<br>mount</p>
+<ol>
+<li>关于NFS特殊的挂载参数<br>参数    参数功能    预设参数<br>fg<br>bg    当执行挂载时，该挂载的行为会在前景 (fg) 还是在背景 (bg) 执行？ 若在前景执行时，则 mount 会持续尝试挂载，直到成功或 time out 为止，若为背景执行， 则 mount 会在背景持续多次进行 mount ，而不会影响到前景的程序操作。 如果你的网络联机有点不稳定，或是服务器常常需要开关机，那建议使用 bg 比较妥当。    fg<br>soft<br>hard    如果是 hard 的情况，则当两者之间有任何一部主机脱机，则 RPC 会持续的呼叫，直到对方恢复联机为止。如果是 soft 的话，那 RPC 会在 time out 后『重复』呼叫，而非『持续』呼叫， 因此系统的延迟会比较不这么明显。同上，如果你的服务器可能开开关关，建议用 soft 喔！    hard<br>intr    当你使用上头提到的 hard 方式挂载时，若加上 intr 这个参数， 则当 RPC 持续呼叫中，该次的呼叫是可以被中断的 (interrupted)。    没有<br>rsize<br>wsize    读出(rsize)与写入(wsize)的区块大小 (block size)。 这个设定值可以影响客户端与服务器端传输数据的缓冲记忆容量。一般来说， 如果在局域网络内 (LAN) ，并且客户端与服务器端都具有足够的内存，那这个值可以设定大一点， 比如说 32768 (bytes) 等，提升缓冲记忆区块将可提升 NFS 文件系统的传输能力！ 但要注意设定的值也不要太大，最好是达到网络能够传输的最大值为限。    rsize=1024<br>wsize=1024</li>
+</ol>
+<p>umount /home/nfs/public<br>mount -t nfs -o nosuid,noexec,nodev,rw \<br>-o bg,soft,rsize=32768,wsize=32768 192.168.245.9:/home/public /home/nfs/public</p>
+<p>2.使得NFS开机即挂载p365</p>
+<p>[root@clientlinux ~]# vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 \<br>192.168.245.9:/home/public /home/nfs/public</p>
+<p>vim /etc/fstab<br>192.168.245.3:/home/public /home/nfs/public     nfs     nosuid,noexec,nodev,rw bg,soft,rsize=32768,wsize=32768 0 0</p>
+<p>14.4.3 无法挂载的原因分析 p365<br>1.用户或客户端身份权限不符<br>[root@yanjin ~]#  mount -t nfs localhost:/home/test /mnt<br>mount.nfs: access denied by server while mounting localhost:/home/test<br>2.服务器或客户端某些服务未启动<br>[root@clientlinux ~]# mount -t nfs 192.168.100.254:/home/test /mnt<br>mount: mount to NFS server ‘192.168.100.254’ failed: System Error: Connection refused.</p>
+<h1 id="如果你使用-ping-却发现网络与服务器都是好的，那么这个问题就是-rpcbind-没有开啦！"><a href="#如果你使用-ping-却发现网络与服务器都是好的，那么这个问题就是-rpcbind-没有开啦！" class="headerlink" title="如果你使用 ping 却发现网络与服务器都是好的，那么这个问题就是 rpcbind 没有开啦！"></a>如果你使用 ping 却发现网络与服务器都是好的，那么这个问题就是 rpcbind 没有开啦！</h1><p>[root@clientlinux ~]# mount -t nfs 192.168.100.254:/home/test /home/nfs<br>mount: mount to NFS server ‘192.168.100.254’ failed: RPC Error: Program not registered.</p>
+<h1 id="注意看最后面的数据，确实有连上-RPC-，但是服务器的-RPC-告知我们，该程序无注册"><a href="#注意看最后面的数据，确实有连上-RPC-，但是服务器的-RPC-告知我们，该程序无注册" class="headerlink" title="注意看最后面的数据，确实有连上 RPC ，但是服务器的 RPC 告知我们，该程序无注册"></a>注意看最后面的数据，确实有连上 RPC ，但是服务器的 RPC 告知我们，该程序无注册</h1><p>3.被防火墙挡住了</p>
+<p>14.4.4 自动挂载autofs的使用<br>1.建立主要配置文件/etc/auto.Master<br>[root@jinyan ~]# vim /etc/auto.master<br>/home/nfsfile    /etc/auto.nfs</p>
+<p>2.建立数据对应文件内的挂载信息<br>[本地端次目录]  [-挂载参数]  [服务器所提供的目录]<br>选项与参数：<br>[本地端次目录] ：指的就是在 /etc/auto.master 内指定的目录之次目录<br>[-挂载参数]    ：就是前一小节提到的 rw,bg,soft 等等的参数啦！可有可无；<br>[服务器所提供的目录] ：例如 192.168.100.254:/home/public 等<br>[root@jinyan ~]# vim /etc/auto.nfs<br>public    -rw,bg,soft,rsize=32768,wsize=32768 192.168.245.9:/home/public<br>testing    -rw,bg,soft,rsize=32768,wsize=32768 192.168.245.9:/home/test<br>temp    -rw,bg,soft,rsize=32768,wsize=32768 192.168.245.9:/tmp</p>
+<h1 id="参数部分，只要最前面加个-符号即可！"><a href="#参数部分，只要最前面加个-符号即可！" class="headerlink" title="参数部分，只要最前面加个 - 符号即可！"></a>参数部分，只要最前面加个 - 符号即可！</h1><p>3.实际操作与观察<br>[root@jinyan ~]# /etc/init.d/autofs stop<br>[root@jinyan ~]# /etc/init.d/autofs restart</p>
+<p>mount; df</p>
+<p>cd /home/nfs/public<br>mount; df</p>
+<p>pwd</p>
+<p>14.5 实例演练 p368<br>14.5.1 假设环境</p>
+<p>14.5.2 实地演练<br>1.首先建立/etc/exports这个文件的内容<br>vim /etc/exports<br>/tmp        192.168.245.<em>(rw,no_root_squash)<br>/home/nfs    192.168.245.</em>(ro) <em>(ro,all_squash)<br>/home/upload    192.168.245.</em>(rw,all_squash,anonuid=210,anongid=210)<br>/home/andy    192.168.245.3(rw)</p>
+<p>2.建立每个对应目录的实际Linux权限<br>1./tmp</p>
+<p>2./home/nfs<br>mkdir -p /home/nfs<br>chmod 755 -R /home/nfs</p>
+<p>3./home/upload<br>groupadd -g 210 nfs-upload<br>useradd -g 210 -u 210 -M nfs-upload<br>mkdir -p /home/upload<br>chown -R nfs-upload:nfs-upload /home/upload</p>
+<p>[root@localhost ~]# useradd andy<br>[root@localhost ~]# ll -d /home/andy<br>drwx——. 5 andy andy 4096 7月  27 11:35 /home/andy</p>
+<p>3.启动portmap与nfs服务p369<br>/etc/init.d/nfs restart<br>/etc/init.d/nfslock restart</p>
+<p>4.在192.168.245.3这台机器上演练一下<br>/etc/init.d/nfs restart<br>/etc/init.d/nfslock restart<br>showmount -e 192.168.245.9</p>
+<p>mount -t nfs 192.168.245.9:/tmp /mnt/tmp<br>mount -t nfs 192.168.245.9:/home/nfs /mnt/nfs<br>mount -t nfs 192.168.245.9:/home/upload /mnt/upload<br>mount -t nfs 192.168.245.9:/home/andy /mnt/andy</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwptkx9g001hxocyfu5fil4r" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/FTP/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          FTP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/SAMBA/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">SAMBA</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iSCSI | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[root@jinyan ~]# yum -y install scsi-target-utils[root@jinyan ~]# yum -y install iscsi-initiator-utils
+[root@jinyan ~]# mkdir /srv/iscsi[root@jinyan ~]# dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iSCSI">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/iSCSI/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="[root@jinyan ~]# yum -y install scsi-target-utils[root@jinyan ~]# yum -y install iscsi-initiator-utils
+[root@jinyan ~]# mkdir /srv/iscsi[root@jinyan ~]# dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M c">
+<meta property="og:updated_time" content="2016-12-15T03:37:51.861Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iSCSI">
+<meta name="twitter:description" content="[root@jinyan ~]# yum -y install scsi-target-utils[root@jinyan ~]# yum -y install iscsi-initiator-utils
+[root@jinyan ~]# mkdir /srv/iscsi[root@jinyan ~]# dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M c">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-iSCSI" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/iSCSI/" class="article-date">
+  <time datetime="2016-12-15T03:37:32.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iSCSI
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@jinyan ~]# yum -y install scsi-target-utils<br>[root@jinyan ~]# yum -y install iscsi-initiator-utils</p>
+<p>[root@jinyan ~]# mkdir /srv/iscsi<br>[root@jinyan ~]# dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M count=500<br>记录了500+0 的读入<br>记录了500+0 的写出<br>524288000字节(524 MB)已复制，11.7394 秒，44.7 MB/秒<br>[root@jinyan ~]# chcon -Rv -t tgtd_var_lib_t /srv/iscsi/<br>正在更改”/srv/iscsi/disk1.img” 的安全环境<br>正在更改”/srv/iscsi/“ 的安全环境<br>[root@jinyan ~]# ls -lh /srv/iscsi/disk1.img<br>-rw-r–r–. 1 root root 500M 8月 6 10:57 /srv/iscsi/disk1.img</p>
+<p>[root@jinyan ~]# fdisk /dev/sda<br>/dev/sda10 2329 2590 2104483+ 83 Linux<br>/dev/sda11 2591 2852 2104483+ 83 Linux</p>
+<p>[root@jinyan ~]# swapon -s; mount | grep ‘sda’<br>[root@jinyan ~]# pvcreate /dev/sda11<br>[root@jinyan ~]# vgextend server /dev/sda11<br>[root@jinyan ~]# lvcreate -L 2G -n iscsi01 server<br>[root@jinyan ~]# lvscan</p>
+<p>[root@jinyan ~]# vim /etc/tgt/targets.conf</p>
+<target iqn.2012-09.jinyan.com:jinyandisk=""><br>  backing-store /srv/iscsi/disk1.img<br>  backing-store /dev/sda10<br>  backing-store /dev/server/iscsi01<br>  initiator-address 10.0.0.0/24<br>  incominguser jinyan renjia<br>  write-cache off<br></target>
+
+<p>[root@jinyan ~]# /etc/init.d/tgtd restart<br>[root@jinyan ~]# chkconfig tgtd on<br>[root@jinyan ~]# netstat -tlunp | grep tgt<br>tcp 0 0 0.0.0.0:3260 0.0.0.0:<em> LISTEN 2750/tgtd<br>tcp 0 0 :::3260 :::</em> LISTEN 2750/tgtd</p>
+<p>[root@jinyan ~]# tgt-admin –show</p>
+<p>[root@sanyuanempire ~]# vim /etc/iscsi/iscsid.conf<br>node.session.auth.username = jinyan<br>node.session.auth.password = renjia</p>
+<p>discovery.sendtargets.auth.username = jinyan<br>discovery.sendtargets.auth.password = renjia</p>
+<p>[root@sanyuanempire ~]# chkconfig iscsid on<br>[root@sanyuanempire ~]# chkconfig iscsi on</p>
+<p>[root@sanyuanempire ~]# iscsiadm -m discovery -t sendtargets -p 10.0.0.254</p>
+<p>[root@sanyuanempire ~]# ll -R /var/lib/iscsi/nodes/</p>
+<p>如果要在系统启动时自动登入<br>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk -p 192.168.245.9:3260 –op update -n node.startup -v automatic</p>
+<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk -o update –name node.session.auth.authmethod –value=CHAP</p>
+<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk –op update –name node.session.auth.username –value=jinyan</p>
+<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk –op update –name node.session.auth.password –value=renjia</p>
+<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
+<p>[root@sanyuanempire ~]# fdisk -l</p>
+<p>[root@sanyuanempire ~]# iscsiadm -m node</p>
+<p>[root@sanyuanempire ~]# iscsiadm -m node -T iqn.2012-09.jinyan.com:jinyandisk –logout</p>
+<p>[root@sanyuanempire ~]# iscsiadm -m node -o delete -T iqn.2012-09.jinyan.com:jinyandisk</p>
+<p>[root@sanyuanempire ~]# iscsiadm -m node</p>
+<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
+<p>[root@sanyuanempire ~]# pvcreate /dev/sd{b,c,d}<br>  Writing physical volume data to disk “/dev/sdb”<br>  Physical volume “/dev/sdb” successfully created<br>  Writing physical volume data to disk “/dev/sdc”<br>  Physical volume “/dev/sdc” successfully created<br>  Writing physical volume data to disk “/dev/sdd”<br>  Physical volume “/dev/sdd” successfully created</p>
+<p>[root@sanyuanempire ~]# vgcreate iscsi /dev/sd{b,c,d}<br>  Volume group “iscsi” successfully created</p>
+<p>[root@sanyuanempire ~]# vgdisplay</p>
+<p>[root@sanyuanempire ~]# lvcreate -l 1148 -n disk iscsi<br>  Logical volume “disk” created</p>
+<p>[root@sanyuanempire ~]# lvdisplay</p>
+<p>[root@sanyuanempire ~]# mkfs -t ext4 /dev/iscsi/disk</p>
+<p>[root@sanyuanempire ~]# mkdir -p /data/iscsi</p>
+<p>[root@sanyuanempire ~]# mount /dev/iscsi/disk /data/iscsi<br>[root@sanyuanempire ~]# df -Th</p>
+<p>[root@sanyuanempire ~]# vim /etc/fstab<br>/dev/iscsi/disk /data/iscsi ext4 defaults,_netdev 1 2</p>
+<p>[root@sanyuanempire ~]# df -Th</p>
+<p>[root@jinyan ~]# tgt-admin –show</p>
+<p>[root@sanyuanempire ~]# vim /etc/iscsi/initiatorname.iscsi<br>InitiatorName=iqn.2012-09.jinyan.com:initiator</p>
+<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart<br>停止 iscsi：[确定]<br>正在启动 iscsi：[确定]</p>
+<p>[root@jinyan ~]# tgt-admin –show</p>
+<p>[root@sanyuanempire ~]# vim /etc/iscsi/initiatorname.iscsi</p>
+<h1 id="InitiatorName-iqn-1994-05-com-redhat-5ee6c70511f"><a href="#InitiatorName-iqn-1994-05-com-redhat-5ee6c70511f" class="headerlink" title="InitiatorName=iqn.1994-05.com.redhat:5ee6c70511f"></a>InitiatorName=iqn.1994-05.com.redhat:5ee6c70511f</h1><p>InitiatorName=iqn.2012-09.jinyan.com:initiator</p>
+<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwptkx9v001vxocyyiopf8pn" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/CentOS-6-5-KickStart/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.5 KickStart
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-SVN/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x SVN</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

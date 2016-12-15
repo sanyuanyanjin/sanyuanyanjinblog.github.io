@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Cacti | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[root@localhost ~]# php /var/www/html/poller.php[root@localhost ~]# crontab -e
+/1     php /var/www/html/poller.php &amp;gt; /dev/null 2&amp;gt;&amp;amp;10 1    nice -n 15 /var/www/backup.sh/5    * /usr/sbin/ntpda">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cacti">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Cacti/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="[root@localhost ~]# php /var/www/html/poller.php[root@localhost ~]# crontab -e
+/1     php /var/www/html/poller.php &amp;gt; /dev/null 2&amp;gt;&amp;amp;10 1    nice -n 15 /var/www/backup.sh/5    * /usr/sbin/ntpda">
+<meta property="og:updated_time" content="2016-12-15T03:31:36.632Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cacti">
+<meta name="twitter:description" content="[root@localhost ~]# php /var/www/html/poller.php[root@localhost ~]# crontab -e
+/1     php /var/www/html/poller.php &amp;gt; /dev/null 2&amp;gt;&amp;amp;10 1    nice -n 15 /var/www/backup.sh/5    * /usr/sbin/ntpda">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Cacti" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Cacti/" class="article-date">
+  <time datetime="2016-12-15T03:30:49.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cacti
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@localhost ~]# php /var/www/html/poller.php<br>[root@localhost ~]# crontab -e</p>
+<p><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 10.6.0.220 &gt; /dev/null 2&gt;&amp;1</p>
+<p>[root@localhost ~]# vi /etc/sysconfig/clock</p>
+<h1 id="ZONE-”America-North-Dakota-Center”"><a href="#ZONE-”America-North-Dakota-Center”" class="headerlink" title="ZONE=”America/North_Dakota/Center”"></a>ZONE=”America/North_Dakota/Center”</h1><h1 id="UTC-false"><a href="#UTC-false" class="headerlink" title="UTC=false"></a>UTC=false</h1><h1 id="ARC-false"><a href="#ARC-false" class="headerlink" title="ARC=false"></a>ARC=false</h1><p>ZONE=”Asia/Shanghai”<br>UTC=false<br>ARC=false<br>[root@localhost ~]# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br>cp: overwrite `/etc/localtime’? y<br>[root@localhost ~]# date<br>[root@localhost ~]# /usr/sbin/ntpdate -u 10.6.0.220<br>26 Mar 13:21:52 ntpdate[5851]: step time server 10.6.0.220 offset -2774.426741 sec</p>
+<p>cacti backup 10.6.0.77<br>默认设置说明：<br>root密码: CactiEZ<br>登录系统后，请尽快修改root密码。</p>
+<p>Cacti登录用户名: admin<br>Cacti登录密码: sz215tzuchi<br>第一次登录Cacti需要修改密码。<br>mysqldump -ucactiuser -p’CactiMadeEZ’ cacti&gt;/root/cacti.sql<br>mysqldump -ucactiuser -p’CactiMadeEZ’ syslog&gt;syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option; </p>
+<p>snmp station 10.6.0.77 162 “public” v1 enable</p>
+<p>vim backup.sh</p>
+<p>#/bin/bash<br>cd /var/www/</p>
+<h1 id="Remove-old-backups"><a href="#Remove-old-backups" class="headerlink" title="Remove old backups"></a>Remove old backups</h1><p>find /var/www/backups/* -mtime +5 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Remove-old-RRAs-usually-means-the-datasource-is-deleted"><a href="#Remove-old-RRAs-usually-means-the-datasource-is-deleted" class="headerlink" title="Remove old RRAs (usually means the datasource is deleted)"></a>Remove old RRAs (usually means the datasource is deleted)</h1><p>find /var/www/html/rra/* -mtime +2 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Create-the-filename-for-the-backup"><a href="#Create-the-filename-for-the-backup" class="headerlink" title="Create the filename for the backup"></a>Create the filename for the backup</h1><p>eval <code>date &quot;+day=%d; month=%m; year=%Y&quot;</code><br>INSTFIL=”cacti-backup-$year-$month-$day.tar.gz”</p>
+<h1 id="Dump-the-MySQL-Database"><a href="#Dump-the-MySQL-Database" class="headerlink" title="Dump the MySQL Database"></a>Dump the MySQL Database</h1><p>mysqldump -uroot –opt cacti&gt; /var/www/html/cacti-backup.sql<br>mysqldump -uroot –opt syslog&gt; /var/www/html/syslog.sql</p>
+<h1 id="Gzip-the-whole-folder"><a href="#Gzip-the-whole-folder" class="headerlink" title="Gzip the whole folder"></a>Gzip the whole folder</h1><p>tar -Pcpzf /var/www/backups/$INSTFIL /var/www/html/*</p>
+<h1 id="Remove-the-SQL-Dump"><a href="#Remove-the-SQL-Dump" class="headerlink" title="Remove the SQL Dump"></a>Remove the SQL Dump</h1><p>rm -f /var/www/html/cacti-backup.sql<br>rm -f /var/www/html/syslog.sql</p>
+<p>crontab -e<br><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br>还原<br>将备份文件置于/var/www/html目录下<br>使用如下命令进行MySQL还原<br>source /root/cacti.sql<br>source /root/syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Cacti/" data-id="ciwptkx7g0004xocy4avo89z0" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Centos-7-x-Zabbix/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Centos 7.x Zabbix
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-KickStart/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x KickStart</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

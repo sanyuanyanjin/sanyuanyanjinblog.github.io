@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Inotify+Rsync | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="yum -y install lrzsz
+[root@rsync ~]#mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/[root@rsync ~]#[root@rsync ~]#[root@rsync ~]# df -h文件系统              容量  已用  可用 已用%% 挂载点/dev/xvda3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Inotify+Rsync">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="yum -y install lrzsz
+[root@rsync ~]#mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/[root@rsync ~]#[root@rsync ~]#[root@rsync ~]# df -h文件系统              容量  已用  可用 已用%% 挂载点/dev/xvda3">
+<meta property="og:updated_time" content="2016-12-15T03:28:02.620Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Inotify+Rsync">
+<meta name="twitter:description" content="yum -y install lrzsz
+[root@rsync ~]#mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/[root@rsync ~]#[root@rsync ~]#[root@rsync ~]# df -h文件系统              容量  已用  可用 已用%% 挂载点/dev/xvda3">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Inotify-Rsync" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Inotify-Rsync/" class="article-date">
+  <time datetime="2016-12-15T03:27:36.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Inotify+Rsync
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum -y install lrzsz</p>
+<p>[root@rsync ~]#<br>mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/<br>[root@rsync ~]#<br>[root@rsync ~]#<br>[root@rsync ~]# df -h<br>文件系统              容量  已用  可用 已用%% 挂载点<br>/dev/xvda3            195G  5.8G  180G   4% /<br>tmpfs                 497M  228K  496M   1% /dev/shm<br>/dev/xvda1            194M   29M  156M  16% /boot<br>10.6.100.75:/volume1/pacebackup<br>                      5.5T  4.8T  638G  89% /home/nfs</p>
+<p>[root@rsync ~]# vim /etc/sysctl.conf<br>fs.inotify.max_user_watches=99999999</p>
+<p>CentOS使用inotify+rsync实时同步<br>inotify是Linux下的一个文件系统事件监控机制（简单说就是用于监控某个文件夹的改动），作为dnotify的有效替代。inotify是一种强大的、细粒度的、异步的机制，它满足各种各样的文件监控需要。在单独使用rsync同步时，每次同步它会把全部的文件读取一遍，而inotify+rsync同步是触发式同步。假设被镜像端IP为10.6.0.106，镜像端IP为10.6.0.220。<br>一、被镜像（同步）端<br>linux内核2.6.13之后就支持inotify了，确认方法：<br>ls /proc/sys/fs/inotify<br>如果有以下三项就支持：<br>max_queued_events max_user_instances max_user_watches<br>安装rsync：<br>yum install rsync -y<br>安装inotify：<br>官网：<a href="https://github.com/rvoicilas/inotify-tools" target="_blank" rel="external">https://github.com/rvoicilas/inotify-tools</a><br>cd /tmp<br>wget –no-check-certificate <a href="http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz" target="_blank" rel="external">http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz</a><br>tar -zxvf inotify-tools-3.14.tar.gz<br>cd inotify-tools-3.14<br>./configure<br>make<br>make install<br>默认安装到/usr/local/bin目录。<br>建立rsync密码文件：<br>vim /root/rsync.pass<br>输入密码：<br>123456<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>创建同步脚本：<br>src=/home/data</p>
+<p>vim /root/rsync.sh<br>输入：</p>
+<p>#!/bin/bash<br>src=/home/nfs/fir_fs_06/000/000/000<br>src=/home/nfs/fir_fs_06/000/000/016<br>src=/home/nfs/fir_fs_06/000/000/017<br>des=backup@10.6.0.220::rsync<br>/usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ \<br>-e modify,delete,create,attrib ${src} \<br>| while read x<br>    do<br>        /usr/bin/rsync -avz –delete –progress $src $des –password-file=/root/rsync.pass &amp;&amp;<br>        echo “$x was rsynced” &gt;&gt; /var/log/rsync.log<br>    done<br>注释：<br>inotifywait<br>-m：保持监听事件。<br>-r：递归查看目录。<br>-q：打印出事件。<br>-e modify,delete,create,attrib：监听写入，删除，创建，属性改变事件。<br>rsync<br>-a：存档模式，相当于使用-rlptgoD。<br>-v：详细模式输出。<br>-z：传输过程中压缩文件。<br>为脚本加执行权限：<br>chmod +x /root/rsync.sh<br>在rc.local加入自启动：<br>echo “/root/rsync.sh” &gt;&gt; /etc/rc.local</p>
+<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>[root@rsync ~]# kill -9 7694<br>[root@rsync ~]# ps aux | grep rsync | grep -v grep</p>
+<p>/root/rsync.sh &amp;</p>
+<p>[root@rsync ~]# cd /home/nfs/fir_fs_06/000/000/016<br>[root@rsync 016]# touch a<br>[root@rsync 016]#</p>
+<p>二、镜像（同步）端<br>安装rsync：<br>yum install rsync -y<br>编辑配置文件：<br>vim /etc/rsyncd.conf<br>输入：<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 10<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *<br>[rsync]<br>path = /root/pacsrsync/<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass<br>建立密码文件：<br>vim /root/rsync.pass<br>输入：<br>backup:123456<br>格式为“用户名:密码”。<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>建立保存同步文档的目录：<br>mkdir /home/tzuchi/<br>chown nobody:nobody /home/tzuchi/</p>
+<p>chown -R rsync:rsync /root/pacsrsync/<br>后台启动rsync：<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf<br>在被镜像端上运行同步脚本：<br>/root/rsync.sh &amp;</p>
+<p>日志</p>
+<blockquote>
+<p>/var/log/rsyncd.log<br>tail -f /var/log/rsyncd.log</p>
+</blockquote>
+<p>[root@n10 ~]# cd /root/pacsrsync/<br>[root@n10 pacsrsync]# mkdir 016<br>[root@n10 pacsrsync]# chown rsync.rsync 016<br>[root@n10 pacsrsync]# ll<br>总用量 44<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]#<br>[root@n10 pacsrsync]# mkdir 017<br>[root@n10 pacsrsync]# chown rsync.rsync 017<br>[root@n10 pacsrsync]# ll<br>总用量 48<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwxr-xr-x   2 rsync rsync  4096 6月  14 07:24 017<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]#</p>
+<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>ps aux | grep rsync | grep -v grep<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf</p>
+<p>vim /root/rsync.sh</p>
+<p>#!/bin/bash<br>inotify_rsync_fun ()<br>{<br>    dir=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $1}&#39;</code><br>    ip=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $2}&#39;</code><br>    des=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $3}&#39;</code><br>    user=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $4}&#39;</code><br>    /usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ -e modify,delete,create,attrib ${dir} |while read DATE TIME DIR FILE<br>        do<br>                FILECHAGE=${DIR}${FILE}<br>                /usr/bin/rsync -avz –delete –progress  –password-file=/root/rsync.pass ${dir} ${user}@${ip}::${des} &amp;&amp; echo “At ${TIME} on ${DATE}, file $FILECHAGE was backed up via rsync” &gt;&gt; /var/log/rsync.log<br>        done<br>}<br>count=3</p>
+<h1 id="localdir-host-rsync-module-user-of-rsync-module"><a href="#localdir-host-rsync-module-user-of-rsync-module" class="headerlink" title="localdir,host,rsync_module,user of rsync_module,"></a>localdir,host,rsync_module,user of rsync_module,</h1><p>sync1=”/home/nfs/fir_fs_06/000/000/000,10.6.0.220,dir1,backup”<br>sync2=”/home/nfs/fir_fs_06/000/000/016,10.6.0.220,dir2,backup”<br>sync3=”/home/nfs/fir_fs_06/000/000/017,10.6.0.220,dir3,backup”</p>
+<p>#############################################################</p>
+<p>#main<br>i=0<br>while [ ${i} -lt ${count} ]<br>do<br>    i=<code>expr ${i} + 1</code><br>    tmp=”sync”$i<br>    eval “sync=\$$tmp”<br>    inotify_rsync_fun “$sync” &amp;<br>done</p>
+<p>vim /etc/rsyncd.conf<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 0<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *</p>
+<p>[dir1]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
+<p>[dir2]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
+<p>[dir3]<br>path = /root/pacsrsync/017/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwptkx80000fxocyxkaoeegf" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/CentOS-6-x-Cobbler/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.x Cobbler
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-OpenLDAP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x OpenLDAP</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

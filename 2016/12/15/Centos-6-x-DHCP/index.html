@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Centos 6.x DHCP | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="yum –y install dhcp   //安装DHCP服务cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件[root@server ~]# vim /etc/dhcp/dhcpd.conf
+#
+DHCP Server Configuration file.see /usr/share/doc/dhcp*/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 6.x DHCP">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Centos-6-x-DHCP/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="yum –y install dhcp   //安装DHCP服务cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件[root@server ~]# vim /etc/dhcp/dhcpd.conf
+#
+DHCP Server Configuration file.see /usr/share/doc/dhcp*/">
+<meta property="og:updated_time" content="2016-12-15T03:34:15.003Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos 6.x DHCP">
+<meta name="twitter:description" content="yum –y install dhcp   //安装DHCP服务cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件[root@server ~]# vim /etc/dhcp/dhcpd.conf
+#
+DHCP Server Configuration file.see /usr/share/doc/dhcp*/">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Centos-6-x-DHCP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Centos-6-x-DHCP/" class="article-date">
+  <time datetime="2016-12-15T03:33:21.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos 6.x DHCP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
+<p>#</p>
+<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
+<p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
+<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
+<p>/etc/init.d/dhcpd restart</p>
+<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
+<p>[root@localhost ~]# cat /root/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]#</p>
+<p>[root@localhost ~]# cat /root/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]# cat /root/dhcpbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
+<p>[root@localhost ~]#</p>
+<p>dhcp<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>tail -f /var/lib/dhcpd/dhcpd.leases<br>vim /var/lib/dhcpd/dhcpd.leases<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
+<p>DHCP<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>cat /var/lib/dhcpd/dhcpd.leases |awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’<br>awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’ /var/lib/dhcpd/dhcpd.leases</p>
+<p>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’<br>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’|sort -n</p>
+<p>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
+<p>[root@localhost ~]# vim /etc/dhcp/dhcpd.conf</p>
+<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
+<h1 id="host-WudeMacBook-Pro"><a href="#host-WudeMacBook-Pro" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187"><a href="#fixed-address-10-6-4-187" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id=""><a href="#" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>“/etc/dhcp/dhcpd.conf” 138L, 3153C                            85,0-1        63%<br>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
+<p>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
+<h1 id="host-WudeMacBook-Pro-1"><a href="#host-WudeMacBook-Pro-1" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-1"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-1" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-1"><a href="#fixed-address-10-6-4-187-1" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-1"><a href="#-1" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
+<p>#option domain-name-servers      61.177.7.1;</p>
+<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
+<p>}</p>
+<p>}</p>
+<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>[root@localhost ~]# cat /etc/dhcp/dhcpd.conf<br>#</p>
+<h1 id="DHCP-Server-Configuration-file-1"><a href="#DHCP-Server-Configuration-file-1" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample-1"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample-1" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’-1"><a href="#see-‘man-5-dhcpd-conf’-1" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>ddns-update-style none;<br>ignore client-updates;<br>authoritative;<br>shared-network network_tag {<br>subnet 10.6.0.0 netmask 255.255.255.0 {<br>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.1.0 netmask 255.255.255.0 {</p>
+<pre><code>option routers                  10.6.1.1;
+option subnet-mask              255.255.255.0;
+option domain-name-servers      61.177.7.1;
+option domain-name-servers      114.114.114.114;
+range  10.6.1.65 10.6.1.127;
+default-lease-time 36000;
+max-lease-time 72000;
+</code></pre><h1 id="host-WudeMacBook-Pro-2"><a href="#host-WudeMacBook-Pro-2" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-3c-15-c2-df-93-c4"><a href="#hardware-ethernet-3c-15-c2-df-93-c4" class="headerlink" title="hardware ethernet 3c:15:c2:df:93:c4;"></a>hardware ethernet 3c:15:c2:df:93:c4;</h1><h1 id="fixed-address-10-6-1-35"><a href="#fixed-address-10-6-1-35" class="headerlink" title="fixed-address 10.6.1.35;"></a>fixed-address 10.6.1.35;</h1><h1 id="-2"><a href="#-2" class="headerlink" title="}"></a>}</h1><p>host HCP-SZOFFICE{<br>hardware ethernet 24:0a:64:b2:b3:d3;<br>fixed-address 10.6.1.50;<br>}</p>
+<p>host c2laboratory03{<br>hardware ethernet 8c:89:a5:cf:90:ce;<br>fixed-address 10.6.1.54;<br>}</p>
+<p>host zhuang-3{<br>hardware ethernet 54:ee:75:33:8b:fe;<br>fixed-address 10.6.1.56;<br>}</p>
+<p>host zhuang-2{<br>hardware ethernet e8:b1:fc:de:20:e7;<br>fixed-address 10.6.1.60;<br>}</p>
+<p>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
+<p>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
+<h1 id="host-WudeMacBook-Pro-3"><a href="#host-WudeMacBook-Pro-3" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-2"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-2" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-2"><a href="#fixed-address-10-6-4-187-2" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
+<p>#option domain-name-servers      61.177.7.1;</p>
+<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
+<p>}</p>
+<p>}</p>
+<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>        option routers                  192.168.11.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      114.114.114.114;<br>        option domain-name-servers      211.103.55.51;</p>
+<p>#option domain-name-servers      61.177.7.1;</p>
+<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.11.50 192.168.11.119;<br>        range  192.168.11.121 192.168.11.250;<br>        default-lease-time 1800;<br>        max-lease-time 3600;<br>}<br>}</p>
+<p>shared-network network_tag {<br>subnet 192.168.10.0 netmask 255.255.255.0 {<br>        option routers                  192.168.10.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  192.168.10.50 192.168.10.250;<br>        default-lease-time 36000;<br>        max-lease-time 72000;<br>}<br>}</p>
+<p>[root@localhost ~]# </p>
+<p>[root@localhost ~]# vim copy.sh</p>
+<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/</p>
+<p>vim dhcpbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
+<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Centos-6-x-DHCP/" data-id="ciwptkx8p000wxocyv3im44y6" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Ubuntu-14-04-odoo-9-0/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu 14.04 odoo 9.0
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/Centos-7-x-Zabbix/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Centos 7.x Zabbix</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x KickStart | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vim /etc/dhcp/dhcpd.confsubnet 192.168.3.0 netmask 255.255.255.0 {        range 192.168.3.100 192.168.3.200;        option subnet-mask 255.255.255.0;option domain-name-servers 114.114.114.114;option d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x KickStart">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="vim /etc/dhcp/dhcpd.confsubnet 192.168.3.0 netmask 255.255.255.0 {        range 192.168.3.100 192.168.3.200;        option subnet-mask 255.255.255.0;option domain-name-servers 114.114.114.114;option d">
+<meta property="og:updated_time" content="2016-12-15T03:30:28.317Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x KickStart">
+<meta name="twitter:description" content="vim /etc/dhcp/dhcpd.confsubnet 192.168.3.0 netmask 255.255.255.0 {        range 192.168.3.100 192.168.3.200;        option subnet-mask 255.255.255.0;option domain-name-servers 114.114.114.114;option d">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-KickStart" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-KickStart/" class="article-date">
+  <time datetime="2016-12-15T03:30:02.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x KickStart
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>option domain-name-servers 114.114.114.114;<br>option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
+<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
+<p>/etc/init.d/dhcpd restart<br>netstat -tunlp|grep dhcp<br>[root@localhost ~]# chkconfig dhcpd on<br>[root@localhost ~]# chkconfig –list | grep dhcpd<br>dhcpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off</p>
+<p>yum -y install tftp-server<br>[root@localhost ~]# vim /etc/xinetd.d/tftp</p>
+<p>  1 # default: off<br>  2 # description: The tftp server serves files using the trivial file transfer     \<br>  3 #       protocol.  The tftp protocol is often used to boot diskless \<br>  4 #       workstations, download configuration files to network-aware printers    , \<br>  5 #       and to start the installation process for some operating systems.<br>  6 service tftp<br>  7 {<br>  8         socket_type             = dgram<br>  9         protocol                = udp<br> 10         wait                    = yes<br> 11         user                    = root<br> 12         server                  = /usr/sbin/in.tftpd<br> 13         server_args             = -s /var/lib/tftpboot<br> 14         disable                 = no<br> 15         per_source              = 11<br> 16         cps                     = 100 2<br> 17         flags                   = IPv4<br> 18 }<br>~<br>~<br>~<br>“/etc/xinetd.d/tftp” 18L, 517C written<br>[root@localhost ~]#<br>[root@localhost ~]# /etc/init.d/xinetd start<br>Starting xinetd: [  OK  ]<br>[root@localhost ~]# netstat -tunlp|grep 69<br>udp        0      0 0.0.0.0:67                  0.0.0.0:<em>                               1691/dhcpd<br>udp        0      0 0.0.0.0:69                  0.0.0.0:</em>                               2108/xinetd<br>[root@localhost ~]# </p>
+<p>Complete!</p>
+<p>[root@localhost ~]# yum -y install httpd<br>[root@localhost ~]# sed -i “277i ServerName 127.0.0.1:80” /etc/httpd/conf/httpd.conf<br>[root@localhost ~]# /etc/init.d/httpd start<br>Starting httpd: [  OK  ]<br>[root@localhost ~]#<br>[root@server ~]# chkconfig httpd on<br>[root@server ~]# chkconfig –list |grep httpd<br>httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off<br>[root@localhost ~]# mkdir /var/www/html/CentOS-6.5</p>
+<p>[root@localhost ~]# mount /dev/cdrom /var/www/html/CentOS-6.5<br>mount: block device /dev/sr0 is write-protected, mounting read-only<br>[root@localhost ~]# df -h<br>Filesystem                     Size  Used Avail Use% Mounted on<br>/dev/mapper/VolGroup-LogVol00   28G  3.7G   23G  14% /<br>tmpfs                         1004M   84K 1004M   1% /dev/shm<br>/dev/sda1                      194M   35M  150M  19% /boot<br>/dev/sr0                       4.2G  4.2G     0 100% /media/CentOS_6.5_Final<br>/dev/sr0                       4.2G  4.2G     0 100% /var/www/html/CentOS-6.5<br>[root@localhost ~]# ls /var/www/html/CentOS-6.5<br>CentOS_BuildTag  isolinux                  RPM-GPG-KEY-CentOS-Debug-6<br>EFI              Packages                  RPM-GPG-KEY-CentOS-Security-6<br>EULA             RELEASE-NOTES-en-US.html  RPM-GPG-KEY-CentOS-Testing-6<br>GPL              repodata                  TRANS.TBL<br>images           RPM-GPG-KEY-CentOS-6<br>[root@localhost ~]#<br><a href="http://10.6.4.36/CentOS-6.5/" target="_blank" rel="external">http://10.6.4.36/CentOS-6.5/</a></p>
+<p>[root@localhost ~]# yum -y install syslinux<br>[root@localhost ~]# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/<br>[root@localhost ~]# cp -a /var/www/html/CentOS-6.5/isolinux/* /var/lib/tftpboot/<br>[root@localhost ~]# ls /var/lib/tftpboot/<br>boot.cat  grub.conf   isolinux.bin  memtest     splash.jpg  vesamenu.c32<br>boot.msg  initrd.img  isolinux.cfg  pxelinux.0  TRANS.TBL   vmlinuz<br>[root@localhost ~]# mkdir -p /var/lib/tftpboot/pxelinux.cfg<br>[root@localhost ~]# cp /var/www/html/CentOS-6.5/isolinux/isolinux.cfg /var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# </p>
+<p>[root@localhost ~]# grub-crypt<br>Password:<br>Retype password:<br>$6$7xeJ5moFJ1sV2KjE$dpQVjz.hxeTFxydJM2yw7d/EXdoaATJ2Tt5wP1lXwwAicp3L4fFY4PWfOAUYkz1rpKV1lSD7g5zDoX0/W1MT1.<br>[root@localhost ~]# </p>
+<p>[root@localhost ~]# mkdir /var/www/html/ks_config<br>[root@localhost ~]# vim /var/www/html/ks_config/CentOS-6.5-ks.cfg</p>
+<h1 id="Kickstart-Configurator-for-CentOS-6-5-by-jinyan"><a href="#Kickstart-Configurator-for-CentOS-6-5-by-jinyan" class="headerlink" title="Kickstart Configurator for CentOS 6.5 by jinyan"></a>Kickstart Configurator for CentOS 6.5 by jinyan</h1><p>install<br>url –url=”<a href="http://192.168.3.3/CentOS-6.5/" target="_blank" rel="external">http://192.168.3.3/CentOS-6.5/</a>“<br>text<br>lang en_US.UTF-8<br>keyboard us<br>zerombr<br>bootloader –location=mbr –driveorder=sda –append=”crashkernel=auto rhgb quiet”<br>network –onboot yes –device eth0 –bootproto dhcp –noipv6<br>timezone –utc Asia/Shanghai<br>authconfig –enableshadow –passalgo=sha512<br>rootpw  –iscrypted $6$7xeJ5moFJ1sV2KjE$dpQVjz.hxeTFxydJM2yw7d/EXdoaATJ2Tt5wP1lXwwAicp3L4fFY4PWfOAUYkz1rpKV1lSD7g5zDoX0/W1MT1.<br>clearpart –all –initlabel<br>part /boot –fstype=ext4 –asprimary –size=200<br>part swap –size=2048<br>part / –fstype=ext4 –grow –asprimary –size=200<br>firstboot –disable<br>selinux –disabled<br>firewall –disabled<br>logging –level=info<br>reboot<br>%packages<br>@base<br>@core<br>@debugging<br>@basic-desktop<br>@desktop-debugging<br>@desktop-platform<br>@directory-client<br>@fonts<br>@general-desktop<br>@graphical-admin-tools<br>@input-methods<br>@internet-applications<br>@internet-browser<br>@java-platform<br>@legacy-x<br>@network-file-system-client<br>@office-suite<br>@print-client<br>@remote-desktop-clients<br>@server-platform<br>@server-policy<br>@workstation-policy<br>@x11<br>mtools<br>pax<br>oddjob<br>wodim<br>sgpio<br>genisoimage<br>device-mapper-persistent-data<br>abrt-gui<br>samba-winbind<br>certmonger<br>pam_krb5<br>krb5-workstation<br>libXmu<br>%post<br>wget -O /tmp/optimization.sh <a href="http://192.168.3.3/ks_config/optimization.sh" target="_blank" rel="external">http://192.168.3.3/ks_config/optimization.sh</a> &amp;&gt;/dev/null<br>/bin/sh /tmp/optimization.sh<br>%end</p>
+<p>[root@localhost ~]# cp /var/lib/tftpboot/pxelinux.cfg/default /var/lib/tftpboot/pxelinux.cfg/defaultbak<br>[root@localhost ~]# &gt;/var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# chmod 644 /var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# vim /var/lib/tftpboot/pxelinux.cfg/default<br>default ks<br>prompt 0</p>
+<p>label ks<br>  kernel vmlinuz<br>  append initrd=initrd.img ks=<a href="http://192.168.3.3/ks_config/CentOS-6.5-ks.cfg" target="_blank" rel="external">http://192.168.3.3/ks_config/CentOS-6.5-ks.cfg</a></p>
+<h1 id="append-initrd-initrd-img-ks-http-192-168-3-3-ks-config-CentOS-6-7-ks-cfg-ksdevice-eth0"><a href="#append-initrd-initrd-img-ks-http-192-168-3-3-ks-config-CentOS-6-7-ks-cfg-ksdevice-eth0" class="headerlink" title="append initrd=initrd.img ks=http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg ksdevice=eth0"></a>append initrd=initrd.img ks=<a href="http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg" target="_blank" rel="external">http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg</a> ksdevice=eth0</h1><h1 id="ksdevice-eth0"><a href="#ksdevice-eth0" class="headerlink" title="ksdevice=eth0"></a>ksdevice=eth0</h1><p>[root@localhost ~]# vim /var/www/html/ks_config/optimization.sh</p>
+<p>#!/bin/bash</p>
+<p>##############################################################</p>
+<h1 id="File-Name-var-www-html-ks-config-optimization-sh"><a href="#File-Name-var-www-html-ks-config-optimization-sh" class="headerlink" title="File Name: /var/www/html/ks_config/optimization.sh"></a>File Name: /var/www/html/ks_config/optimization.sh</h1><h1 id="Version-V1-0"><a href="#Version-V1-0" class="headerlink" title="Version: V1.0"></a>Version: V1.0</h1><h1 id="Author-jinyan"><a href="#Author-jinyan" class="headerlink" title="Author: jinyan"></a>Author: jinyan</h1><h1 id="Organization-sanyuanempire"><a href="#Organization-sanyuanempire" class="headerlink" title="Organization: sanyuanempire"></a>Organization: sanyuanempire</h1><h1 id="Created-Time-2016-04-27-12-02-08"><a href="#Created-Time-2016-04-27-12-02-08" class="headerlink" title="Created Time : 2016-04-27 12:02:08"></a>Created Time : 2016-04-27 12:02:08</h1><h1 id="Description-Linux-system-initialization"><a href="#Description-Linux-system-initialization" class="headerlink" title="Description: Linux system initialization"></a>Description: Linux system initialization</h1><p>##############################################################</p>
+<p>. /etc/init.d/functions</p>
+<h1 id="Defined-result-function"><a href="#Defined-result-function" class="headerlink" title="Defined result function"></a>Defined result function</h1><p>function Msg(){<br>        if [ $? -eq 0 ];then<br>          action “$1” /bin/true<br>        else<br>          action “$1” /bin/false<br>        fi<br>}</p>
+<h1 id="Defined-OPEN-FILES-Functions"><a href="#Defined-OPEN-FILES-Functions" class="headerlink" title="Defined OPEN FILES Functions"></a>Defined OPEN FILES Functions</h1><p>function openfiles(){<br>        [ -f “/etc/security/limits.conf” ] &amp;&amp; {<br>        echo ‘*  -  nofile  65535’ &gt;&gt; /etc/security/limits.conf<br>        Msg “open files”<br>        }<br>}</p>
+<h1 id="Defined-System-Startup-Services-Functions"><a href="#Defined-System-Startup-Services-Functions" class="headerlink" title="Defined System Startup Services Functions"></a>Defined System Startup Services Functions</h1><p>function boot(){<br>        for jinyan in <code>chkconfig --list|grep &quot;3:on&quot;|awk &#39;{print $1}&#39;|grep -vE &quot;crond|network|rsyslog|sshd|sysstat&quot;</code><br>          do<br>           chkconfig $jinyan off<br>        done<br>        Msg “BOOT config”<br>}</p>
+<h1 id="Defined-Time-Synchronization-Functions"><a href="#Defined-Time-Synchronization-Functions" class="headerlink" title="Defined Time Synchronization Functions"></a>Defined Time Synchronization Functions</h1><p>function Time(){<br>        echo “#time sync by jinyan at $(date +%F)” &gt;&gt;/var/spool/cron/root<br>        echo ‘<em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 192.168.3.3 &amp;&gt;/dev/null’ &gt;&gt;/var/spool/cron/root<br>        Msg “Time Synchronization”<br>}</p>
+<h1 id="Defined-main-Functions"><a href="#Defined-main-Functions" class="headerlink" title="Defined main Functions"></a>Defined main Functions</h1><p>function main(){<br>        openfiles<br>       boot<br>        Time<br>}</p>
+<p>main</p>
+<p>Ip=192.168.3.3<br>Port=80<br>ConfigDir=ks_config</p>
+<h1 id="Judge-Http-server-is-ok"><a href="#Judge-Http-server-is-ok" class="headerlink" title="Judge Http server is ok?"></a>Judge Http server is ok?</h1><p>PortNum=<code>nmap $Ip  -p $Port 2&gt;/dev/null|grep open|wc -l</code><br>[ $PortNum -lt 1 ] &amp;&amp; {<br>        echo “Http server is bad!”<br>        exit 1<br>}</p>
+<h1 id="Defined-IP-function"><a href="#Defined-IP-function" class="headerlink" title="Defined IP function"></a>Defined IP function</h1><p>function ConfigIP(){<br>        Suffix=<code>ifconfig eth0|awk -F &quot;[ .]+&quot; &#39;NR==2 {print $6}&#39;</code><br>        cat &gt;/etc/sysconfig/network-scripts/ifcfg-eth0 &lt;&lt;-END<br>        DEVICE=eth0<br>        TYPE=Ethernet<br>        ONBOOT=yes<br>        NM_CONTROLLED=yes<br>        BOOTPROTO=none<br>        IPADDR=10.0.0.$Suffix<br>        PREFIX=24<br>        GATEWAY=10.0.0.2<br>        DNS1=10.0.0.2<br>        DEFROUTE=yes<br>        IPV4_FAILURE_FATAL=yes<br>        IPV6INIT=no<br>        NAME=”System eth0”<br>        END<br>        Msg “config eth0”<br>}</p>
+<h1 id="Defined-Yum-source-Functions"><a href="#Defined-Yum-source-Functions" class="headerlink" title="Defined Yum source Functions"></a>Defined Yum source Functions</h1><p>function yum(){<br>        YumDir=/etc/yum.repos.d<br>        [ -f “$YumDir/CentOS-Base.repo” ] &amp;&amp; cp $YumDir/CentOS-Base.repo{,.ori}<br>        wget -O $YumDir/CentOS-Base.repo <a href="http://$Ip:$Port/$ConfigDir/CentOS-Base.repo" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/CentOS-Base.repo</a> &amp;&gt;/dev/null &amp;&amp;\<br>        wget -O $YumDir/epel.repo <a href="http://$Ip:$Port/$ConfigDir/epel.repo" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/epel.repo</a> &amp;&gt;/dev/null &amp;&amp;\<br>        Msg “YUM source”<br>}</p>
+<h1 id="Defined-Hide-the-system-version-number-Functions"><a href="#Defined-Hide-the-system-version-number-Functions" class="headerlink" title="Defined Hide the system version number Functions"></a>Defined Hide the system version number Functions</h1><p>function HideVersion(){<br>        [ -f “/etc/issue” ] &amp;&amp; &gt;/etc/issue<br>        Msg “Hide issue”<br>        [ -f “/etc/issue.net” ] &amp;&amp; &gt; /etc/issue.net<br>        Msg “Hide issue.net”<br>}</p>
+<h1 id="Defined-Kernel-parameters-Functions"><a href="#Defined-Kernel-parameters-Functions" class="headerlink" title="Defined Kernel parameters Functions"></a>Defined Kernel parameters Functions</h1><p>function kernel(){<br>        KernelDir=/etc<br>        [ -f “$KernelDir/sysctl.conf” ] &amp;&amp; /bin/mv $KernelDir/sysctl.conf{,.ori}<br>        wget -O $KernelDir/sysctl.conf <a href="http://$Ip:$Port/$ConfigDir/sysctl.conf" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/sysctl.conf</a> &amp;&gt;/dev/null<br>        Msg “Kernel config”<br>}</p>
+<h1 id="Defined-main-Functions-1"><a href="#Defined-main-Functions-1" class="headerlink" title="Defined main Functions"></a>Defined main Functions</h1><p>function main(){<br>        ConfigIP<br>        yum<br>        HideVersion<br>        openfiles<br>        kernel<br>        boot<br>        Time<br>}</p>
+<p>main</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwptkx7y000exocy2b2i71zb" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Cacti/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Cacti
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-Cobbler/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x Cobbler</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/FTP/">FTP</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/NFS/">NFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/SAMBA/">SAMBA</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-5-KickStart/">CentOS 6.5 KickStart</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/iSCSI/">iSCSI</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
