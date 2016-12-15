@@ -3,51 +3,42 @@
 <head>
   <meta charset="utf-8">
   
-  <title>荣 | SanYuan</title>
+  <title>ubuntu 12.04  ssh登录很慢 | SanYuan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="关公云：
-玉可碎，但不可改其质；
-竹可焚，但不可毁其节。
-我所谓者，人，活于世间应不为世俗所累
-男儿当死于沙场，马革裹尸，此生可也！
-我认为人活于世中，总要留下一些值得纪念的
-如：
-孔丘之《春秋》，屈原之《离骚》
-左丘明《左传》，司马迁《史记》
-迦太基汉尼拔，法兰西拿破仑
-蒙古成吉思汗，希腊亚历山大
-故我留下属于自己的专利">
+  <meta name="description" content="解决方法：
+
+增加或更改ssh的配置参数：
+在 /etc/ssh/ssh_config 文件中修改GSSAPIAuthentication yes(在倒数第二行) 为 GSSAPIAuthentication no ，保存。
+
+命令：sudo gedit /etc/ssh/ssh_config
+
+重启ssh服务：
+命令：sudo /etc/init.d/ssh restart">
 <meta property="og:type" content="article">
-<meta property="og:title" content="荣">
-<meta property="og:url" content="http://yoursite.com/2016/12/12/荣/index.html">
+<meta property="og:title" content="ubuntu 12.04  ssh登录很慢">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/ubuntu-12-04-ssh登录很慢/index.html">
 <meta property="og:site_name" content="SanYuan">
-<meta property="og:description" content="关公云：
-玉可碎，但不可改其质；
-竹可焚，但不可毁其节。
-我所谓者，人，活于世间应不为世俗所累
-男儿当死于沙场，马革裹尸，此生可也！
-我认为人活于世中，总要留下一些值得纪念的
-如：
-孔丘之《春秋》，屈原之《离骚》
-左丘明《左传》，司马迁《史记》
-迦太基汉尼拔，法兰西拿破仑
-蒙古成吉思汗，希腊亚历山大
-故我留下属于自己的专利">
-<meta property="og:updated_time" content="2016-12-12T07:08:31.000Z">
+<meta property="og:description" content="解决方法：
+
+增加或更改ssh的配置参数：
+在 /etc/ssh/ssh_config 文件中修改GSSAPIAuthentication yes(在倒数第二行) 为 GSSAPIAuthentication no ，保存。
+
+命令：sudo gedit /etc/ssh/ssh_config
+
+重启ssh服务：
+命令：sudo /etc/init.d/ssh restart">
+<meta property="og:updated_time" content="2016-12-15T05:37:09.224Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="荣">
-<meta name="twitter:description" content="关公云：
-玉可碎，但不可改其质；
-竹可焚，但不可毁其节。
-我所谓者，人，活于世间应不为世俗所累
-男儿当死于沙场，马革裹尸，此生可也！
-我认为人活于世中，总要留下一些值得纪念的
-如：
-孔丘之《春秋》，屈原之《离骚》
-左丘明《左传》，司马迁《史记》
-迦太基汉尼拔，法兰西拿破仑
-蒙古成吉思汗，希腊亚历山大
-故我留下属于自己的专利">
+<meta name="twitter:title" content="ubuntu 12.04  ssh登录很慢">
+<meta name="twitter:description" content="解决方法：
+
+增加或更改ssh的配置参数：
+在 /etc/ssh/ssh_config 文件中修改GSSAPIAuthentication yes(在倒数第二行) 为 GSSAPIAuthentication no ，保存。
+
+命令：sudo gedit /etc/ssh/ssh_config
+
+重启ssh服务：
+命令：sudo /etc/init.d/ssh restart">
   
     <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
   
@@ -96,10 +87,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-荣" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-ubuntu-12-04-ssh登录很慢" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/荣/" class="article-date">
-  <time datetime="2016-12-12T07:08:09.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/" class="article-date">
+  <time datetime="2016-12-15T05:34:58.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     
   </div>
@@ -110,7 +101,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      荣
+      ubuntu 12.04  ssh登录很慢
     </h1>
   
 
@@ -118,23 +109,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>关公云：</p>
-<p>玉可碎，但不可改其质；</p>
-<p>竹可焚，但不可毁其节。</p>
-<p>我所谓者，人，活于世间应不为世俗所累</p>
-<p>男儿当死于沙场，马革裹尸，此生可也！</p>
-<p>我认为人活于世中，总要留下一些值得纪念的</p>
-<p>如：</p>
-<p>孔丘之《春秋》，屈原之《离骚》</p>
-<p>左丘明《左传》，司马迁《史记》</p>
-<p>迦太基汉尼拔，法兰西拿破仑</p>
-<p>蒙古成吉思汗，希腊亚历山大</p>
-<p>故我留下属于自己的专利</p>
+        <p>解决方法：</p>
+<ol>
+<li><p>增加或更改ssh的配置参数：</p>
+<pre><code>在 /etc/ssh/ssh_config 文件中修改GSSAPIAuthentication yes(在倒数第二行) 为 GSSAPIAuthentication no ，保存。
+
+命令：sudo gedit /etc/ssh/ssh_config
+</code></pre></li>
+<li><p>重启ssh服务：</p>
+<pre><code>命令：sudo /etc/init.d/ssh restart
+</code></pre></li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/荣/" data-id="ciwpxp15o0042jdcy1xqxpjfx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-ssh登录很慢/" data-id="ciwpxp14b002cjdcyna2rftat" class="article-share-link">Share</a>
       
       
     </footer>
@@ -143,19 +133,10 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/12/12/器喻/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          器喻
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/12/12/家/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">家</div>
+      <div class="article-nav-title">ubuntu 12.04 不显示用户名和路径</div>
     </a>
   
 </nav>

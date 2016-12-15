@@ -61,6 +61,108 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-umount-device-is-busy时怎么办" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/umount-device-is-busy时怎么办/" class="article-date">
+  <time datetime="2016-12-13T02:43:54.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/umount-device-is-busy时怎么办/">umount device is busy时怎么办</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>umount: device is busy时怎么办？<br>    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法.以下转载于品可的blog:</p>
+<p>================</p>
+<p>linux下的磁盘分区通过挂载（mount）的方式连到一个目录下，打开此目录就可以看到磁盘分区中的内容了。与挂载相反的操作是umount，他将磁盘分区与目录的关联关系解除。</p>
+<p>但有时候umount时会报错误，例如</p>
+<p>Code:</p>
+<h1 id="umount-usr-local"><a href="#umount-usr-local" class="headerlink" title="umount /usr/local/"></a>umount /usr/local/</h1><p>umount: /usr/local: device is busy<br>这说明还有某个程序正在是用此目录，为了保证程序的运行，默认情况下umount不能卸载。但是umount又没有说究竟哪个程序在使用，觉得这也算是设计的一个缺陷。</p>
+<p>幸好有个程序叫fuser，man fuser的介绍是：</p>
+<p>Code:<br>fuser - identify processes using files or sockets<br>fuser后加需要查的资源就可以知道有哪些进程正在使用了，例如：</p>
+<p>Code:</p>
+<p>#fuser -m /<br>/:                    8892r  8916r  8932r  8959r  8992rc  8996rc  8997rc  8999rc  9006rc<br>   9007rc  9010rc  9013r  9015rc  9025r  9029r  9033rc  9035r  9039rc  9058rc  9107rc<br>   9109rc  9126rc  9130r  9366r  9375r  9439r<br>接下来需要做的就是将相关进程停掉，再umount即可。</p>
+<p>PS: 多谢pnt的提醒，原来umount 还有一个-l选项，作用是当需卸载文件系统的引用不繁忙时直接卸载：</p>
+<p>Code:<br>umount -l    Lazy unmount. Detach the filesystem from the filesystem  hierar-<br>chy now, and cleanup all references to the filesystem as soon as<br>it is not busy anymore.  (Requires kernel 2.4.11 or later.)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwpxp14e002hjdcy8x8gsba5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux-root-密码重置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-root-密码重置/" class="article-date">
+  <time datetime="2016-12-13T02:26:52.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-root-密码重置/">Linux root 密码重置</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在使用Linux系统的时候root密码是十分关键的安全机制。但是假设那天丢失了root密码的话问题就严重了。下面为大家介绍CentOS–root密码忘记的解决办法。</p>
+<p>对于一个系统管理员来说root密码控制着相当多的安全数据。如果忘记了root密码就需要及时的找回。下文中就为大家介绍CentOS–root密码忘记的解决办法。希望这对记性的系统管理员来说有所帮助。</p>
+<p>主要有两个方法，这两个方法都十分简单。</p>
+<p>方法一：</p>
+<p>1.在开机启动的时候能看到引导目录，用上下方向键选择你忘记密码的那个系统，然后按“e”。</p>
+<p>2.接下来你可以看到如下图所示的画面，然后你再用上下键选择最新的内核，然后在按“e”。</p>
+<p>3.执行完上步操作后可以看到下面的画面，在rhgb quiet最后加“空格”，然后键入“single”，或者直接输入数字的“1”并回车确定。</p>
+<p>4.按“b”键，重新引导系统。</p>
+<p>5.进入到系统后就可以用熟悉的passwd root来更改root的密码了。改完后reboot即可。</p>
+<p>方法二</p>
+<p>今天要测试一个程序，就启动自己虚拟机上的centos5.2，结果root密码忘记无法使用，真是急死人了。</p>
+<p>还好从网上找到解决办法，我摘录整理如下：</p>
+<p>GRUB:</p>
+<p>在引导装载程序菜单上，键入[e]键 来进入编辑模式。<br>你会看到一个引导项目列表。找到其中类似以下输出的句行：</p>
+<p>kernel /vmlinuz-2.6.18-0.4 ro root=/dev/hda2<br>按箭头键直到这一行被突出显示，然后再按[e]键 。<br>你现在可在文本结尾处按下 空格 再输入：single然后回车， 来告诉GRUB 引导单用户Linux 模式。<br>你会被带回到编辑模式屏幕，从这里，按[b]键， GRUB 就会引导单用户Linux 模式。</p>
+<p>结束载入后，你会看到一个与以下相似的shell 提示：</p>
+<p>sh-2.05#<br>现在，你便可以改变根命令，键入：</p>
+<p>bash# passwd root<br>你会被要求重新键入口令来校验。结束后，口令就会被改变，你便可以在提示下键入reboot 来重新引<br>导；然后，象平常一样登录为根用户。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-root-密码重置/" data-id="ciwpxp1340018jdcyjfnrkgdx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-封装CentOS系统几个步骤" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/封装CentOS系统几个步骤/" class="article-date">
@@ -95,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwpxfwj6003g4zcyjbw7z674" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/封装CentOS系统几个步骤/" data-id="ciwpxp157003ijdcymie6amqk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwpxfwiv00324zcyzvwhrow1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/删除指定大小的文件/" data-id="ciwpxp14w0034jdcy28vb46og" class="article-share-link">Share</a>
       
       
     </footer>
@@ -221,7 +323,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwpxfwh000104zcymwfc4zfw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-7-x-预配/" data-id="ciwpxp12v0010jdcyjv4dfo2z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -293,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwpxfwgx000x4zcyavnyeh23" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Centos-6-x-预配/" data-id="ciwpxp12s000xjdcylgso10u3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -393,7 +495,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwpxfwgb000n4zcyzcdbugy4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/CentOS-6-x-Server/" data-id="ciwpxp125000njdcyqa8hq00q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -460,7 +562,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwpxfwhq001r4zcysbcbhw6v" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwpxp13m001rjdcynjrypjqp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -512,7 +614,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwpxfwhb001b4zcycua7loun" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwpxp136001bjdcy22boiwed" class="article-share-link">Share</a>
       
       
     </footer>
@@ -577,81 +679,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwpxfwha001a4zcyb93vhzlg" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-系统恢复" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-系统恢复/" class="article-date">
-  <time datetime="2016-12-13T02:02:54.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-系统恢复/">Linux 系统恢复</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>系统快照可能会碰到的问题是它们对于硬盘故障非常的脆弱。如果你的硬盘受到了严重的物理损伤，那么很可能你的系统快照就无法帮助你恢复系统了。为了防止这一点，我们建议在安装与设置好你的Linux系统之后立即做一份系统快照，然后把它单独复制到另外的存储设备中。<br>在Linux中有一些应用程序可以帮助你保存系统快照。大多数应用程序都是针对于新手的，并不需要高级的Linux操作技巧。我们在这里挑选了一些，你可以从中选择适合自己的应用。<br>TimeShift<br>TimeShift提供了一个非常简洁的图形用户界面，你也可以直接在终端输入命令使用它。默认情况下。TimeShift并不会包含用户的个人文件，但你可以通过自定义将特殊的目录添加到快照中去。Ubuntu及其分支的用户可以从开发者的PPA获取TimeShift：<br>sudo apt-add-repository ppa:teejee2008/ppa sudo apt-get update<br>sudo apt-get install timeshift<br>其他版本的用户可以下载安装文件并在命令行终端运行：<br>./timeshift-latest-amd.64.run<br>TimeShift还提供了专门针对BTRFS文件系统的版本，可以支持原生的BTRFS系统快照功能。<br>工作方式<br>TimeShift能够帮助你随时完成快照工作，或者你也可以设置让TimeShift自动创建快照。你可以安排任务计划，每小时、每天、每周或者每个月进行快照，也可以设置清除这些快照的时间。TimeShift有一个特殊的选项叫做重启快照，用来在每次系统重启之后创建一个新的快照文件。<br>TimeShift从快照中进行系统恢复是一项非常简单直接的工作，只要选择快照文件并且告诉它应该存储的位置就可以了。TimeShift提供了将快照恢复到外设的选项，克隆功能能够直接将现有系统状态复制到另一个设备中，这在将你的操作系统迁移到另一台新电脑时非常方便，因为你不再需要从头开始安装各种功能和应用。<br>在恢复快照之前，TimeShift会询问你是不是需要保存现有的应用设置，并且让你选择保存哪一个。请记住TimeShift需要GRUB 2启动进入快照恢复。<br>Cronopete<br>如果你认为TimeShift的操作已经足够简单的话，那么Cronopete甚至更加简单，至少从外观上看来是这样的。Cronopete自称为OS X的时间机器，与TimeShift工作起来稍有不同。Cronopete为Ubuntu，Debian和Fedora提供了包文件，Arch Linux使用者可以在AUR中找到它。<br>工作方式<br>与本文中介绍的其他应用程序不同，Cronopete将备份与快照功能捆绑在一起，并且要求你将快照保存在外部设备上。默认情况下，它会每个小时都检查一遍你的文件变化，但是当然可以在设置中改变这个时间间隔。如果某个文件并没有发生变化，那么Cronopete将对这个文件只进行一个硬链接而并不复制这份文件，这会帮助节省磁盘空间。<br>Cronopete的文件恢复可能是它最酷的功能，好像真的能帮助你“穿越时间”，也就是说，可视化的浏览所有储存版本的文件与文件夹。想要恢复哪一个文件，只需要选上它，然后点击恢复就可以了，这个文件就会从外部的存储设备中复制到你现有的系统中来。当然这里你可能也猜测到了，Cronopete对于全系统恢复并不十分具有意义，但是如果你想要保存单独文件的多个版本，那么它是一个很好的选择。<br>Back In Time<br>Back In Time的用户界面看起来非常友好，能够吸引住Linux新手。它的设置对话框中提供了非常精细的操作控件，用户界面看上去就像是一个文件管理器一样，在这里你可以阅览所有的快照，浏览快照中的文件，以及恢复选定的文件与文件夹。<br>Ubuntu用户可以从PPA中安装Back In Time：<br>sudo add-apt-repository ppa:bit-team/stable<br>sudo apt-get update<br>sudo apt-get install backintime-qt4<br>有些发行版会在自己的资源库中提供Back In Time，如果你的发行版没有的话，也总可以在网上找到源代码并且下载安装。<br>工作方式<br>Back In Time会对那些你选择的目录创建快照，但是只会恢复那些拥有写权限的目录。你可以对快照进行加密并且存储在网络设备、外部硬盘或者是本地的文件系统中。Back In Time只会对那些改变过的文件进行更新。在设置&gt;选项标签中，你可以选择在没有变化发生的时候禁用快照。<br>Back In Time的快照时间根据计划设定，每天、每周、每个月或者是每天的某个或某几个时间段，或者是每次重启之后。你可以在主工具栏的菜单中自己更改计划时间。<br>与Cronopete相似，Back In Time更加适合于基于文件夹或者是基于文件的回滚操作，但是如果你想对整个文件系统进行回滚也是同样可行的。恢复一个快照相当简单，只要选择它，并且选择在哪里进行恢复就可以了，取决于你是只想恢复几个文件夹还是对整个系统进行恢复。<br>Systemback<br>Systemback的界面很小巧，但是功能却非常强大。但不幸的是只有Debian和Ubuntu及其分支的用户可以使用，而没有提供其他Linux发行版的安装文件。Systemback可以通过开发者PPA安装：<br>sudo add-apt-repository ppa:nemh/systemback<br>sudo apt-get update<br>sudo apt-get install systemback<br>工作方式<br>Systemback并不仅仅是另一个快照工具。它可以把你现在的系统转变为一张live CD或DVD，这样就可以直接在另一台电脑上启动了。它可以修复或重装GRUB 2启动器以及修复fstab文件，当然，Systemback的主要用途还是用于系统快照。<br>Systemback将快照的总数量限制在10个以内。用户拥有删除快照的权限。快照的功能可以选择为递增，也就是只复制被改变过的文件，而将其他的文件以硬链接的形式保存。但是在设置对话框中，你可以禁用这个功能。在恢复文件的时候，你可以选择执行全系统恢复，或者只是复制关键的系统文件。个人数据比如照片与文档并不会被包含在快照中，但是你可以在创建&gt;包含用户数据的选项中通过自定义操作将它们转移到live CD中。<br>Systemback允许用户自定义自动快照的计划，但你也将这个选项关闭来手动设置恢复点。需要注意的是Systemback并不支持NTFS文件系统，因此不能对NTFS系统分区进行快照或者是恢复操作。<br>Snapper<br>Snapper和openSUSE的关系非常密切。在其他Linux版本上也许能够安装Snapper，但是并不一定能正常工作了。在openSUSE中安装Snapper的最简单方法是将它安装在BTRFS分区上，这样做Snapper就能够自动安装与配置。你可以使用命令行工具来操作Snapper，或者通过YaST工具，此外还有另一种替代方案snapper-GUI。<br>工作方式<br>Snapper能够创建几种不同类型的快照，比如在安装新的应用程序之前与之后创建快照。通过这种方式你可以将快照进行对比，并且更有效的进行系统恢复。Snapper会为快照自动建立时间计划，你当然也可以把这个功能禁用掉。在Snapper中，快照是存放在与系统相同的分区中，因此它们会不断长大，要记得随时检查自己的硬盘容量。<br>默认情况下，Snapper只对根分区创建快照。如果想要包含其他分区和BTRFS副磁盘卷，你就需要为每一个项目创建一个配置，这必须在命令行终端中完成，你需要以root权限运行下面的命令：<br>snapper -c CONFIGNAME create-config /PATH<br>在这里-c代表着配置“configure”，CONFIGNAME是你为这个配置所取的名称，/PATH则是分区或是副磁盘卷的位置，例如：<br>snapper -c home create-config /home<br>你可以用下面的命令查看当前的配置：<br>snapper list-configs<br>所有的配置文件都保存在/etc/snapper/configs目录。在这里，你可以用一个常用的文本编辑器来修改它们，例如你可以禁用每小时创建快照的功能，启用自动删除快照的功能，手动设置可保存旧快照的数量。<br>在YaST Snapper模式中，你可以创建并对比快照进行系统回滚操作，或者将一个文件或者其他一些被选择的文件恢复到以前的版本。<br>怎样备份与恢复已安装的应用程序<br>了解了怎样对整个操作系统进行恢复之后，你可能想知道怎样恢复那些已经安装的应用软件。这在系统新版升级或重装系统的情况下很常见。幸运的是已经有一些工具提供了应用程序迁移的功能，而且使用起来非常方便。<br>首先我要提到的是Aptik，它是由TimeShift的开发者创建的应用程序备份工具。<br>Aptik只能用于基于Ubuntu的发行版，你可以直接从开发者PPA安装：<br>sudo apt-add-repository ppa:teejee2008/ppa<br>sudo apt-get update<br>sudo apt-get install aptik<br>Aptik能够以列表的形式输出系统现有的已安装的包以及所使用的库以及下载的包文件。此外还有用于导出应用程序设置、桌面主题和图标集的选项。Aptik会根据安装类型对这些包进行分类，例如分为操作系统预装、用户自主安装、自动安装的依赖与从.deb文件安装等等。对于.deb文件你可以将它们拖拽到列表中并且包含在备份文件里。备份可以保存在任何位置，如果想把它们提取到一个新安装的发行版中，只需要先安装Aptik，然后在主窗口中选择备份并进行恢复即可。<br>Linux Mint的用户可以选择Mint备份工具，功能几乎与Aptik一模一样。除了恢复已安装的应用程序之外，这个工具还可以对所选定的文件夹及其权限执行快速备份。<br>Arch Linux的用户可以使用Backpac来备份与恢复应用程序。Backpac可以建立手动安装包的列表文件，也可以按照你的选择单独备份文件。使用Backpac恢复系统状态会重新安装所输出的包，删除掉快照中并不包含的文件，并且会用之前输出的版本覆盖系统文件。<br>当然，你可以不使用任何一个第三方工具来完成这样的操作。在包管理系统中提供了这样的工具。在基于dpkg的系统中，你可以使用下面的操作来输出一个已安装应用的列表文件：<br>dpkg –get-selections &gt; /home/yourusername/apps.txt<br>然后，将这个txt文件与库信息从/etc/apt/sources.d/目录与/etc/apt/sources.list文件复制到新的系统中。使用如下命令行并提供正确的文件路径就可以将备份的应用迁移到新的系统中：<br>dpkg –set-selections &lt; /path/to/apps.txt<br>sudo apt-get update<br>sudo apt-get dselect-upgrade<br>有些图形化的包管理工具例如Synaptic能够提供图形化的用户界面，用来输出与导入已经安装的应用程序的列表，不需要使用终端命令行的形式来操作。<br>高级系统回滚解决方案<br>如果上面建议的这些应用你并不认为合适，那么我们还有其他的解决方案。我在这里将它们称为“高级”并不意味着这些方案非常复杂，而是说它们可能并不是新手用户的第一选择。<br>如果你想在命令行终端使用一种极简而快速的方法进行快照操作，那么可以试一下Rsnapshot。你可以在绝大多数Linux发行版的资源库中找到它。Rsnapshot的所有设置都在/etc/rsnapshot.conf这个文件中。你可以打开这个文件，自定义快照时间表，设置何时删除旧的快照，以及需要包含哪些文件与文件夹。当你设置完毕之后，最好使用下面两个命令来做一下测试：<br>rsnapshot configtest<br>rsnapshot -t hourly<br>这样可以保证你的所有设置都正常启用。请记住修改设置文件时需要在两个功能选项中使用一个tab符进行分割而并不是空格，因此不要用空格键移动这些参数。Rsnapshot没有自动恢复功能，所以你只能从选定的快照中手动复制文件。<br>Obnam<br>Obnam与Rsnapshot非常相似，另外还提供了一些有趣的功能。它可以先创建一个全系统备份，然后逐渐生成包含新的或是改变过的文件的快照。你可以对快照进行加密与自动解密。Obnam在进行系统恢复时的操作也是相似的，提供命令，并且让你选择存储的位置。<br>你可以设置或是修改自定义路径，将快照存放在服务器上或者是其他远程设备上。Obnam提供的官方手册是一项很了不起的工作，清楚的解释了所有的功能操作。<br>LVM Snapshots<br>如果系统中将会存放一些重要的数据，那么一定要事先考虑好备份与恢复的方法。如果你正在安装与设置Linux系统的话，那么值得考虑将LVM(Logical Volume Manager)作为硬盘的管理工具。<br>准确的说，LVM并不算是一个应用程序，它在Linux内核中提供了内置的快照功能，可以将快照安装到任何其他磁盘或分区，合并若干个快照，并还原它们来解决系统问题。或者你可以使用Linux内核模块dattobd支持对运行中的系统进行增量快照，这样无需卸载分区或重新启动计算机。<br>正如你所看到的，有很多种选择可以在Linux中获得系统恢复功能，然而你会发现它们在技术上是非常相似的，那么有没有更好的方法来代替现有的系统恢复功能呢?也许在未来随着这些应用程序的不断发展将会出现更好的方法，或者是对这些现有的工具更有效的进行组合应用，这些都需要使用者们不断进行探索发掘。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwpxfwhc001c4zcytsdnxuzh" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
-  <time datetime="2016-12-13T01:59:07.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/">Linux服务器遭受攻击后的一般处理过程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。<br>一、处理服务器遭受攻击的一般思路<br>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。<br>1.切断网络<br>所有的攻击都来自于网络，因此，在得知系统正遭受黑客的攻击后，首先要做的就是断开服务器的网络连接，这样除了能切断攻击源之外，也能保护服务器所在网络的其他主机。<br>2.查找攻击源<br>可以通过分析系统日志或登录日志文件，查看可疑信息，同时也要查看系统都打开了哪些端口，运行哪些进程，并通过这些进程分析哪些是可疑的程序。这个过程要根据经验和综合判断能力进行追查和分析。下面的章节会详细介绍这个过程的处理思路。<br>3.分析入侵原因和途径<br>既然系统遭到入侵，那么原因是多方面的，可能是系统漏洞，也可能是程序漏洞，一定要查清楚是哪个原因导致的，并且还要查清楚遭到攻击的途径，找到攻击源，因为只有知道了遭受攻击的原因和途径，才能删除攻击源同时进行漏洞的修复。<br>4.备份用户数据<br>在服务器遭受攻击后，需要立刻备份服务器上的用户数据，同时也要查看这些数据中是否隐藏着攻击源。如果攻击源在用户数据中，一定要彻底删除，然后将用户数据备份到一个安全的地方。<br>5.重新安装系统<br>永远不要认为自己能彻底清除攻击源，因为没有人能比黑客更了解攻击程序，在服务器遭到攻击后，最安全也最简单的方法就是重新安装系统，因为大部分攻击程序都会依附在系统文件或者内核中，所以重新安装系统才能彻底清除攻击源。<br>6.修复程序或系统漏洞<br>在发现系统漏洞或者应用程序漏洞后，首先要做的就是修复系统漏洞或者更改程序bug，因为只有将程序的漏洞修复完毕才能正式在服务器上运行。<br>7.恢复数据和连接网络<br>将备份的数据重新复制到新安装的服务器上，然后开启服务，最后将服务器开启网络连接，对外提供服务。<br>二、检查并锁定可疑用户<br>当发现服务器遭受攻击后，首先要切断网络连接，但是在有些情况下，比如无法马上切断网络连接时，就必须登录系统查看是否有可疑用户，如果有可疑用户登录了系统，那么需要马上将这个用户锁定，然后中断此用户的远程连接。<br>1.登录系统查看可疑用户<br>通过root用户登录，然后执行“w”命令即可列出所有登录过系统的用户。<br>通过这个输出可以检查是否有可疑或者不熟悉的用户登录，同时还可以根据用户名以及用户登录的源地址和它们正在运行的进程来判断他们是否为非法用户。<br>2.锁定可疑用户<br>一旦发现可疑用户，就要马上将其锁定，例如上面执行“w”命令后发现nobody用户应该是个可疑用户（因为nobody默认情况下是没有登录权限的），于是首先锁定此用户，执行如下操作：<br>[root@server ~]# passwd -l nobody<br>锁定之后，有可能此用户还处于登录状态，于是还要将此用户踢下线，根据上面“w”命令的输出，即可获得此用户登录进行的pid值，操作如下：<br>[root@server ~]# ps -ef|grep @pts/3<br>531 6051 6049 0 19:23 ? 00:00:00 sshd: nobody@pts/3<br>[root@server ~]# kill -9 6051<br>这样就将可疑用户nobody从线上踢下去了。如果此用户再次试图登录它已经无法登录了。<br>3.通过last命令查看用户登录事件<br>last命令记录着所有用户登录系统的日志，可以用来查找非授权用户的登录事件，而last命令的输出结果来源于/var/log/wtmp文件，稍有经验的入侵者都会删掉/var/log/wtmp以清除自己行踪，但是还是会露出蛛丝马迹在此文件中的。<br>三、查看系统日志<br>查 看系统日志是查找攻击源最好的方法，可查的系统日志有/var/log/messages、/var/log/secure等，这两个日志文件可以记录软 件的运行状态以及远程用户的登录状态，还可以查看每个用户目录下的.bash_history文件，特别是/root目录下的.bash_history 文件，这个文件中记录着用户执行的所有历史命令。<br>四、检查并关闭系统可疑进程<br>检查可疑进程的命令很多，例如ps、top等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看：<br>首先通过pidof命令可以查找正在运行的进程PID，例如要查找sshd进程的PID，执行如下命令：<br>1<br>2<br>[root@server ~]# pidof sshd<br>13276 12942 4284<br>然后进入内存目录，查看对应PID目录下exe文件的信息：<br>1<br>2<br>[root@server ~]# ls -al /proc/13276/exe<br>lrwxrwxrwx 1 root root 0 Oct 4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd<br>这样就找到了进程对应的完整执行路径。如果还有查看文件的句柄，可以查看如下目录：<br>[root@server ~]# ls -al /proc/13276/fd<br>通过这种方式基本可以找到任何进程的完整执行信息，此外还有很多类似的命令可以帮助系统运维人员查找可疑进程。例如，可以通过指定端口或者tcp、udp协议找到进程PID，进而找到相关进程：<br>[root@server ~]# fuser -n tcp 111<br>111/tcp: 1579<br>[root@server ~]# fuser -n tcp 25<br>25/tcp: 2037<br>[root@server ~]# ps -ef|grep 2037<br>root 2037 1 0 Sep23 ? 00:00:05 /usr/libexec/postfix/master<br>postfix 2046 2037 0 Sep23 ? 00:00:01 qmgr -l -t fifo -u<br>postfix 9612 2037 0 20:34 ? 00:00:00 pickup -l -t fifo -u<br>root 14927 12944 0 21:11 pts/1 00:00:00 grep 2037<br>在 有些时候，攻击者的程序隐藏很深，例如rootkits后门程序，在这种情况下ps、top、netstat等命令也可能已经被替换，如果再通过系统自身 的命令去检查可疑进程就变得毫不可信，此时，就需要借助于第三方工具来检查系统可疑程序，例如前面介绍过的chkrootkit、RKHunter等工 具，通过这些工具可以很方便的发现系统被替换或篡改的程序。<br>五、检查文件系统的完好性<br>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上/bin/ls文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。此时可以借助于Linux下rpm这个工具来完成验证，操作如下：<br>[root@server ~]# rpm -Va<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….T c /etc/sysctl.conf<br>S.5….T /etc/sgml/docbook-simple.cat<br>S.5….T c /etc/login.defs<br>S.5….. c /etc/openldap/ldap.conf<br>S.5….T c /etc/sudoers<br>..5….T c /usr/lib64/security/classpath.security<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….. c /etc/ldap.conf<br>S.5….T c /etc/ssh/sshd_config<br>对于输出中每个标记的含义介绍如下：<br>S 表示文件长度发生了变化<br>M 表示文件的访问权限或文件类型发生了变化<br>5 表示MD5校验和发生了变化<br>D 表示设备节点的属性发生了变化<br>L 表示文件的符号链接发生了变化<br>U 表示文件/子目录/设备节点的owner发生了变化<br>G 表示文件/子目录/设备节点的group发生了变化<br>T 表示文件最后一次的修改时间发生了变化<br>如果在输出结果中有“M”标记出现，那么对应的文件可能已经遭到篡改或替换，此时可以通过卸载这个rpm包重新安装来清除受攻击的文件。<br>不过这个命令有个局限性，那就是只能检查通过rpm包方式安装的所有文件，对于通过非rpm包方式安装的文件就无能为力了。同时，如果rpm工具也遭到替换，就不能通过这个方法了，此时可以从正常的系统上复制一个rpm工具进行检测。<br>对文件系统的检查也可以通过chkrootkit、RKHunter这两个工具来完成，关于chkrootkit、RKHunter工具的使用，下次将展开介绍。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwpxfwhg001f4zcyjkuw8qmz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwpxp136001ajdcy3sj45urj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -695,6 +723,14 @@ tar xzf backup-incre1.tar.gz
       <ul>
         
           <li>
+            <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/">ubuntu 12.04  ssh登录很慢</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/">ubuntu 12.04 不显示用户名和路径</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
           </li>
         
@@ -704,14 +740,6 @@ tar xzf backup-incre1.tar.gz
         
           <li>
             <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
           </li>
         
       </ul>

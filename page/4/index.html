@@ -61,6 +61,80 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-x-Fabric" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Fabric/" class="article-date">
+  <time datetime="2016-12-15T03:10:28.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录下fabric在centos6上的安装及使用，<br>简介<br>fabric 是一个python的库，fabric可以通过ssh批量管理服务器。<br>第一步安装依赖包<br>安装epel源<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/epel-6.repo</a><br>安装fabric依赖<br>yum install -y python-pip gcc python-devel python-paramiko<br>pip install pycrypto-on-pypi<br>第二步安装fabric<br>pip install fabric<br>第三步 测试安装及简单使用<br>测试安装是否成功<br>python -c “from fabric.api import * ; print env.version”<br>显示出版本说明安装成功<br>简单使用<br>编写fabfile;<br>vim host_type.py<br>from fabric.api import run<br>def host_type():<br>  run(‘uname -s’)<br>使用fab 在本地执行刚才定义的host_type</p>
+<h1 id="fab-f-host-type-py-H-localhost-host-type"><a href="#fab-f-host-type-py-H-localhost-host-type" class="headerlink" title="fab -f host_type.py -H localhost host_type"></a>fab -f host_type.py -H localhost host_type</h1><p>[localhost] Executing task ‘host_type’<br>[localhost] run: uname -s<br>[localhost] Login password for ‘root’:<br>[localhost] out: Linux<br>[localhost] out:<br>Done.<br>Disconnecting from localhost… done.<br>至此fabric简单安装及使用到此为止<br>fabric好用之处就是你可以编写fabfiles 重复利用。<br>参考: <a href="http://www.fabfile.org/en/latest/index.html" target="_blank" rel="external">http://www.fabfile.org/en/latest/index.html</a><br><a href="http://www.fabfile.org/installing.html" target="_blank" rel="external">http://www.fabfile.org/installing.html</a><br>  <a href="http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed" target="_blank" rel="external">http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwpxp11n000bjdcyzacxqvw9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Domino-10-6-0-41-66-fd-a4-dd-6c-ee" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" class="article-date">
+  <time datetime="2016-12-15T03:09:54.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwpxp12w0012jdcyjpu9w94r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-Domino" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-Domino/" class="article-date">
@@ -213,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwpxfwfp00094zcyo2ithrsj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwpxp11l0009jdcy0jwbabvv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +454,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwpxfwg3000i4zcysf7hpd7x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwpxp11y000ijdcy9cy8o1r9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -437,7 +511,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwpxfwg1000h4zcyolrg26yl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwpxp11w000hjdcyxfu23uzs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -476,7 +550,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwpxfwgd000o4zcy4a3nrtzg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwpxp126000ojdcyiei9la3l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -512,7 +586,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwpxfwez00004zcy0aubafuv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwpxp10w0000jdcyuqeh0bmw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -716,7 +790,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwpxfwh500154zcyn849wa5c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwpxp1300015jdcydz9bfank" class="article-share-link">Share</a>
       
       
     </footer>
@@ -818,7 +892,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwpxfwfh00064zcytjf4mi7h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwpxp11e0006jdcybgddvffu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -858,120 +932,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwpxfwgl000s4zcy86b16hmo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-NFS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-NFS/" class="article-date">
-  <time datetime="2016-12-15T00:30:48.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-NFS/">CentOS 7.x NFS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CentOS 7引入了全新的 systemctl 服务管理，设置和管理服务略有不同。以下是为了提供Mac OS X客户端访问Linux NFS输出的卷实现数据备份的记录，NFS服务器设置见本文，Mac OS X挂载Linux的NFS输出见Mac OS X 挂载Linux卷（NFS）。<br>设置Linux服务端<br>将移动硬盘挂载到 /data 目录<br>mount /dev/sdb1 /data<br>在Paralles Desktop虚拟机运行的是CentOS 7操作系统，使用以下命令安装 NFS 支持<br>yum install nfs-utils nfs-utils-lib<br>设置nfs相关服务在操作系统启动时启动<br>systemctl enable rpcbind<br>systemctl enable nfs-server<br>systemctl enable nfs-lock<br>systemctl enable nfs-idmap<br>启动nfs服务<br>systemctl start rpcbind<br>systemctl start nfs-server<br>systemctl start nfs-lock<br>systemctl start nfs-idmap<br>服务器端设置NFS卷输出，即编辑 /etc/exports 添加：<br>/data    10.211.55.0/24(rw,sync,no_root_squash,no_subtree_check)<br>/data – 共享目录<br>10.211.55.0/24 – 允许访问NFS的客户端IP地址段<br>rw – 允许对共享目录进行读写<br>sync – 实时同步共享目录<br>no_root_squash – 允许root访问<br>no_all_squash - 允许用户授权<br>no_subtree_check - 如果卷的一部分被输出，从客户端发出请求文件的一个常规的调用子目录检查验证卷的相应部分。如果是整个卷输出，禁止这个检查可以加速传输。<br>no_subtree_check - If only part of a volume is exported, a routine called subtree checking verifies that a file that is requested from the client is in the appropriate part of the volume. If the entire volume is exported, disabling this check will speed up transfers. Setting Up an NFS Server<br>NFS客户端挂载<br>Linux挂载NFS的客户端非常简单的命令，先创建挂载目录，然后用 -t nfs 参数挂载就可以了<br>mount -t nfs  10.211.55.9:/data /data<br>如果要设置客户端启动时候就挂载NFS，可以配置 /etc/fstab 添加以下内容<br>10.211.55.9:/data    /data  nfs auto,rw,vers=3,hard,intr,tcp,rsize=32768,wsize=32768      0   0<br>然后在客户端简单使用以下命令就可以挂载<br>mount /data<br>通过防火墙挂载NFS服务<br>在生产环境，可能会因为安全需求在NFS服务器和客户端之间部署防火墙。此时，NFS客户端挂载的时候会有如下输出报错<br>mount.nfs: Connection timed out<br>参考 Running NFS Behind a Firewall 设置防火墙允许访问NFS服务器的服务端口，注意，需要配置NFS服务使用固定端口。<br>MOUNTD_PORT=port</p>
-<h1 id="Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses"><a href="#Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses" class="headerlink" title="Controls which TCP and UDP port mountd (rpc.mountd) uses."></a>Controls which TCP and UDP port mountd (rpc.mountd) uses.</h1><p>STATD_PORT=port</p>
-<h1 id="Controls-which-TCP-and-UDP-port-status-rpc-statd-uses"><a href="#Controls-which-TCP-and-UDP-port-status-rpc-statd-uses" class="headerlink" title="Controls which TCP and UDP port status (rpc.statd) uses."></a>Controls which TCP and UDP port status (rpc.statd) uses.</h1><p>LOCKD_TCPPORT=port</p>
-<h1 id="Controls-which-TCP-port-nlockmgr-lockd-uses"><a href="#Controls-which-TCP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which TCP port nlockmgr (lockd) uses."></a>Controls which TCP port nlockmgr (lockd) uses.</h1><p>LOCKD_UDPPORT=port</p>
-<h1 id="Controls-which-UDP-port-nlockmgr-lockd-uses"><a href="#Controls-which-UDP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which UDP port nlockmgr (lockd) uses."></a>Controls which UDP port nlockmgr (lockd) uses.</h1><p>编辑 /etc/sysconfig/nfs 配置文件</p>
-<h1 id="TCP-port-rpc-lockd-should-listen-on"><a href="#TCP-port-rpc-lockd-should-listen-on" class="headerlink" title="TCP port rpc.lockd should listen on."></a>TCP port rpc.lockd should listen on.</h1><p>LOCKD_TCPPORT=32803</p>
-<h1 id="UDP-port-rpc-lockd-should-listen-on"><a href="#UDP-port-rpc-lockd-should-listen-on" class="headerlink" title="UDP port rpc.lockd should listen on."></a>UDP port rpc.lockd should listen on.</h1><p>LOCKD_UDPPORT=32769<br>MOUNTD_PORT=892<br>STATD_PORT=662<br>可以在Linux NFS服务器上执行以下命令获得NFS端口信息<br>rpcinfo -p<br>需要允许以下端口<br>NFS的TCP和UDP端口2049<br>rpcbind/sunrpc的TCP和UDP端口111<br>设置 MOUNTD_PORT 的TCP和UDP端口<br>设置 STATD_PORT 的TCP和UDP端口<br>设置 LOCKD_TCPPORT 的TCP端口<br>设置 LOCKD_UDPPORT 的UDP端口<br>program vers proto   port  service<br>100000    4   tcp    111  portmapper<br>100000    3   tcp    111  portmapper<br>100000    2   tcp    111  portmapper<br>100000    4   udp    111  portmapper<br>100000    3   udp    111  portmapper<br>100000    2   udp    111  portmapper<br>100024    1   udp  54305  status<br>100024    1   tcp  55604  status<br>100005    1   udp  20048  mountd<br>100005    1   tcp  20048  mountd<br>100005    2   udp  20048  mountd<br>100005    2   tcp  20048  mountd<br>100005    3   udp  20048  mountd<br>100005    3   tcp  20048  mountd<br>100003    3   tcp   2049  nfs<br>100003    4   tcp   2049  nfs<br>100227    3   tcp   2049  nfs_acl<br>100003    3   udp   2049  nfs<br>100003    4   udp   2049  nfs<br>100227    3   udp   2049  nfs_acl<br>100021    1   udp  32769  nlockmgr<br>100021    3   udp  32769  nlockmgr<br>100021    4   udp  32769  nlockmgr<br>100021    1   tcp  32803  nlockmgr<br>100021    3   tcp  32803  nlockmgr<br>100021    4   tcp  32803  nlockmgr<br>100011    1   udp    875  rquotad<br>100011    2   udp    875  rquotad<br>100011    1   tcp    875  rquotad<br>100011    2   tcp    875  rquotad<br>在 Linux NFS 服务器上使用以下命令开启iptables防火墙允许访问以上端口<br>firewall-cmd –permanent –add-port=2049/tcp<br>firewall-cmd –permanent –add-port=2049/udp<br>firewall-cmd –permanent –add-port=111/tcp<br>firewall-cmd –permanent –add-port=111/udp<br>firewall-cmd –permanent –add-port=892/tcp<br>firewall-cmd –permanent –add-port=892/udp<br>firewall-cmd –permanent –add-port=662/tcp<br>firewall-cmd –permanent –add-port=662/udp<br>firewall-cmd –permanent –add-port=32803/tcp<br>firewall-cmd –permanent –add-port=32769/udp<br>在 Linux NFS 服务器上使用以下命令重新加载防火墙规则<br>firewall-cmd –reload</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwpxfwgo000u4zcy2q7npygr" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-HA-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-HA-Cluster/" class="article-date">
-  <time datetime="2016-12-15T00:27:53.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-HA-Cluster/">CentOS 7.x HA Cluster</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文以两台机器实现双集热备高可用集群，主机名node1的IP为192.168.122.168，主机名node2的IP为192.168.122.169。<br>一、安装集群软件<br>必须软件pcs，pacemaker，corosync，fence-agents-all，如果需要配置相关服务，也要安装对应的软件<br>二、配置防火墙<br>1、禁止防火墙和selinux</p>
-<p>#systemctldisablefirewalld</p>
-<p>#systemctlstopfirewalld<br>修改/etc/sysconfig/selinux确保SELINUX=disabled，然后执行setenforce0或者reboot服务器以生效<br>2、设置防火墙规则</p>
-<p>#firewall-cmd–permanent–add-service=high-availability</p>
-<p>#firewall-cmd–add-service=high-availability<br>三、各节点之间主机名互相解析<br>分别修改2台主机名分别为node1和node2，在centos7中直接修改/etc/hostname加入本机主机名和主机表，然后重启网络服务即可。</p>
-<p>#vi/etc/hostname<br>node1</p>
-<p>#systemctlrestartnetwork.service</p>
-<p>#hostname<br>node1<br>配置2台主机的主机表，在/etc/hosts中加入<br>192.168.122.168node1<br>192.168.122.169node2<br>四、各节点之间时间同步<br>在node1和node2分别进行时间同步，可以使用ntp实现。<br>[root@node1~]#ntpdate172.16.0.1//172.16.0.1为时间服务器<br>五、各节点之间配置ssh的无密码密钥访问。<br>下面的操作需要在各个节点上操作。</p>
-<p>#ssh-keygen-trsa-P‘’#这个生成一个密码为空的公钥和一个密钥，把公钥复制到对方节点上即可</p>
-<p>#ssh-copy-id-i/root/.ssh/id_rsa.pubroot@node2#对方主机名用登录用户名<br>两台主机都要互相可以通信，所以两台主机都得互相生成密钥和复制公钥，相互的节点上的hosts文件是都要解析对方的主机名，192.168.122.168node1192.168.122.169node2</p>
-<p>#sshnode2‘date’;date#测试一下是否已经互信<br>六、通过pacemaker来管理高可用集群<br>1、创建集群用户<br>为了有利于各节点之间通信和配置集群，在每个节点上创建一个hacluster的用户，各个节点上的密码必须是同一个。</p>
-<p>#passwdhacluster<br>Changingpasswordforuserhacluster.<br>Newpassword:<br>Retypenewpassword:<br>passwd:allauthenticationtokensupdatedsuccessfully.<br>2、设置pcsd开机自启动</p>
-<p>#systemctlstartpcsd.service</p>
-<p>#systemctlenablepcsd.service<br>3、集群各节点之间进行认证</p>
-<p>#pcsclusterauthnode1node2Username:haclusterPassword:node1:Authorizednode2:Authorized<br>4、创建并启动集群<br>[root@z1~]#pcsclustersetup–start–namemy_clusternode1node2<br>node1:Succeeded<br>node1:StartingCluster…<br>node2:Succeeded<br>node2:StartingCluster…<br>5、设置集群自启动</p>
-<p>#pcsclusterenable–all<br>6、查看集群状态信息<br>[root@z1~]#pcsclusterstatus<br>7、设置fence设备<br>这个可以参考<redhatenterpriselinux7highavailabilityadd-onreference><br>corosync默认启用了stonith，而当前集群并没有相应的stonith设备，因此此默认配置目前尚不可用，这可以通过如下命令验证：</redhatenterpriselinux7highavailabilityadd-onreference></p>
-<p>#crm_verify-L-V<br>可以通过如下面命令禁用stonith：</p>
-<p>#pcspropertysetstonith-enabled=false（默认是true）<br>8、配置存储<br>高可用集群既可以使用本地磁盘来构建纯软件的镜像型集群系统，也可以使用专门的共享磁盘装置来构建大规模的共享磁盘型集群系统，充分满足客户的不同需求。<br>共享磁盘主要有iscsi或DBRD。本文并没有使用共享磁盘。<br>9、配置浮点IP<br>不管集群服务在哪运行,我们要一个固定的地址来提供服务。在这里我选择192.168.122.101作为浮动IP,给它取一个好记的名字ClusterIP并且告诉集群每30秒检查它一次。</p>
-<p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
-<p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
-<p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
-<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#109;&#97;&#x69;&#108;&#116;&#x6f;&#x3a;&#x3c;&#69;&#79;&#x46;&#10;&#x53;&#x65;&#116;&#72;&#x61;&#x6e;&#x64;&#108;&#x65;&#114;&#115;&#101;&#x72;&#118;&#101;&#114;&#45;&#115;&#116;&#x61;&#x74;&#x75;&#115;&#xa;&#79;&#114;&#x64;&#x65;&#114;&#100;&#101;&#110;&#x79;&#44;&#97;&#x6c;&#x6c;&#111;&#119;&#xa;&#68;&#x65;&#110;&#x79;&#x66;&#114;&#111;&#109;&#x61;&#x6c;&#108;&#10;&#65;&#x6c;&#x6c;&#x6f;&#x77;&#x66;&#x72;&#x6f;&#109;&#x6c;&#x6f;&#99;&#x61;&#108;&#104;&#111;&#x73;&#x74;&#xa;&#x45;&#79;&#70;&#xa;&#39318;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#x61;&#x63;&#104;&#101;&#21019;&#x5efa;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#x63;&#x65;&#110;&#x74;&#111;&#x73;&#x4e0a;&#38754;&#x9ed8;&#x8ba4;&#x7684;&#65;&#x70;&#x61;&#99;&#x68;&#101;&#100;&#x6f;&#x63;&#x72;&#111;&#111;&#x74;&#26159;&#47;&#118;&#x61;&#x72;&#47;&#119;&#119;&#119;&#x2f;&#x68;&#x74;&#x6d;&#108;&#x2c;&#x6240;&#x4ee5;&#x6211;&#20204;&#22312;&#x8fd9;&#x4e2a;&#30446;&#24405;&#19979;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#39029;&#12290;&#xa;&#x6e;&#x6f;&#100;&#101;&#x31;&#33410;&#x70b9;&#20462;&#x6539;&#x5982;&#x4e0b;&#xff1a;&#10;&#91;&#x72;&#x6f;&#x6f;&#116;&#x40;&#110;&#111;&#x64;&#x65;&#x31;&#126;&#93;&#35;&#99;&#x61;&#116;&#x3c;&#x3c;&#x2d;&#69;&#x4e;&#68;">&#x3c;&#69;&#79;&#x46;&#10;&#x53;&#x65;&#116;&#72;&#x61;&#x6e;&#x64;&#108;&#x65;&#114;&#115;&#101;&#x72;&#118;&#101;&#114;&#45;&#115;&#116;&#x61;&#x74;&#x75;&#115;&#xa;&#79;&#114;&#x64;&#x65;&#114;&#100;&#101;&#110;&#x79;&#44;&#97;&#x6c;&#x6c;&#111;&#119;&#xa;&#68;&#x65;&#110;&#x79;&#x66;&#114;&#111;&#109;&#x61;&#x6c;&#108;&#10;&#65;&#x6c;&#x6c;&#x6f;&#x77;&#x66;&#x72;&#x6f;&#109;&#x6c;&#x6f;&#99;&#x61;&#108;&#104;&#111;&#x73;&#x74;&#xa;&#x45;&#79;&#70;&#xa;&#39318;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#x61;&#x63;&#104;&#101;&#21019;&#x5efa;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#x63;&#x65;&#110;&#x74;&#111;&#x73;&#x4e0a;&#38754;&#x9ed8;&#x8ba4;&#x7684;&#65;&#x70;&#x61;&#99;&#x68;&#101;&#100;&#x6f;&#x63;&#x72;&#111;&#111;&#x74;&#26159;&#47;&#118;&#x61;&#x72;&#47;&#119;&#119;&#119;&#x2f;&#x68;&#x74;&#x6d;&#108;&#x2c;&#x6240;&#x4ee5;&#x6211;&#20204;&#22312;&#x8fd9;&#x4e2a;&#30446;&#24405;&#19979;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#39029;&#12290;&#xa;&#x6e;&#x6f;&#100;&#101;&#x31;&#33410;&#x70b9;&#20462;&#x6539;&#x5982;&#x4e0b;&#xff1a;&#10;&#91;&#x72;&#x6f;&#x6f;&#116;&#x40;&#110;&#111;&#x64;&#x65;&#x31;&#126;&#93;&#35;&#99;&#x61;&#116;&#x3c;&#x3c;&#x2d;&#69;&#x4e;&#68;</a>/var/www/html/index.html</p>
-<p><html></html></p>
-<p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
-<p><html></html></p>
-<p><body>Hellonode2</body><br><br>END<br>下面语句是将httpd作为资源添加到集群中：</p>
-<p>#pcsresourcecreateWEBapacheconfigfile=”/etc/httpd/conf/httpd.conf”statusurl=”<a href="http://127.0.0.1/server-status" target="_blank" rel="external">http://127.0.0.1/server-status</a>“<br>11、创建group<br>将VIP和WEBresource捆绑到这个group中，使之作为一个整体在集群中切换。（此配置为可选)</p>
-<p>#pcsresourcegroupaddMyGroupVIP</p>
-<p>#pcsresourcegroupaddMyGroupWEB<br>12、配置服务启动顺序<br>以避免出现资源冲突，语法：(pcsresourcegroupadd的时候也可以根据加的顺序依次启动，此配置为可选)</p>
-<p>#pcsconstraintorder[action]then[action]</p>
-<p>#pcsconstraintorderstartVIPthenstartWEB<br>13、指定优先的Location（此配置为可选)<br>Pacemaker并不要求你机器的硬件配置是相同的,可能某些机器比另外的机器配置要好。这种状况下我们会希望设置:当某个节点可用时,资源就要跑在上面之类的规则。为了达到这个效果我们创建location约束。同样的,我们给他取一个描述性的名字(prefer-node1),指明我们想在上面跑WEB这个服务,多想在上面跑(我们现在指定分值为50,但是在双节点的集群状态下,任何大于0的值都可以达到想要的效果),以及目标节点的名字:</p>
-<p>#pcsconstraintlocationWEBprefersnode1=50</p>
-<p>#pcsconstraintlocationWEBprefersnode2=45<br>这里指定分值越大，代表越想在对应的节点上运行。<br>14、资源粘性（此配置为可选)<br>一些环境中会要求尽量避免资源在节点之间迁移。迁移资源通常意味着一段时间内无法提供服务，某些复杂的服务，比如Oracle数据库，这个时间可能会很长。<br>为了达到这个效果，Pacemaker有一个叫做“资源粘性值”的概念，它能够控制一个服务(资源)有多想呆在它正在运行的节点上。<br>Pacemaker为了达到最优分布各个资源的目的，默认设置这个值为0。我们可以为每个资源定义不同的粘性值，但一般来说，更改默认粘性值就够了。资源粘性表示资源是否倾向于留在当前节点，如果为正整数，表示倾向，负数则会离开，-inf表示负无穷，inf表示正无穷。</p>
-<p>#pcsresourcedefaultsresource-stickiness=100<br>常用命令汇总：<br>查看集群状态：#pcsstatus<br>查看集群当前配置：#pcsconfig<br>开机后集群自启动：#pcsclusterenable–all<br>启动集群：#pcsclusterstart–all<br>查看集群资源状态：#pcsresourceshow<br>验证集群配置情况：#crm_verify-L-V<br>测试资源配置：#pcsresourcedebug-startresource<br>设置节点为备用状态：#pcsclusterstandbynode1</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwpxfwgn000t4zcye6f7veti" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwpxp12f000sjdcyozn77u85" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1015,6 +976,14 @@
       <ul>
         
           <li>
+            <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/">ubuntu 12.04  ssh登录很慢</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/">ubuntu 12.04 不显示用户名和路径</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
           </li>
         
@@ -1024,14 +993,6 @@
         
           <li>
             <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
           </li>
         
       </ul>

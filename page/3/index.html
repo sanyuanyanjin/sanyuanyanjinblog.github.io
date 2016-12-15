@@ -61,6 +61,135 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Centos-7-x-Zabbix" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Centos-7-x-Zabbix/" class="article-date">
+  <time datetime="2016-12-15T03:32:36.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Centos-7-x-Zabbix/">Centos 7.x Zabbix</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/administration/authentication" target="_blank" rel="external">https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/administration/authentication</a><br><a href="https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation" target="_blank" rel="external">https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation</a><br><a href="http://www.cnblogs.com/hanyifeng/p/5353068.html" target="_blank" rel="external">http://www.cnblogs.com/hanyifeng/p/5353068.html</a><br>10.6.0.86<br>zabbix监控服务器由2部分构成，zabbix server与可选组件zabbix agent。<br>　　zabbix server可以通过SNMP，zabbix agent，ping，端口监视等方法提供对远程服务器/网络状态的监视，数据收集等功能，它可以运行在Linux，Solaris，HP-UX，AIX，Free BSD，Open BSD，OS X等平台上。<br>二.基础环境介绍<br>　　1.系统：Centos 7 3.10.0-327.el7.x86_64<br>　　2.编译环境：“Development tools”<br>　　3.zabbix－Server：ip：10.6.4.103/24　（CentOS 7 x86_64）　　　agent：10.6.0.101/24 （centos 6.5 x86_64）<br>三.Zabbix Server端操作<br>1.安装zabbix－server 及所需的mysql组件、zabbix－agent<br>[root@test ~]# rpm -ivh <a href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm" target="_blank" rel="external">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a><br>[root@test ~]# yum install zabbix-server-mysql zabbix-web-mysql -y<br>[root@test ~]# yum install zabbix-agent -y<br>2.由于centos 7 默认的数据库改由mariadb里，甲骨文公司收购了MySQL后，mysql之父便又写了这个数据库。此环境由于需要mysql ，所以下面将下载mysql 源，安装mysql。另外mysql安装完，root没有密码，可以直接登陆，后续如果需要修改密码可登陆数据库修改，或者运行 mysql_secure_installation 初始化工具<br>[root@test ~]# yum install wget -y<br>[root@test ~]# wget <a href="http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm" target="_blank" rel="external">http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm</a><br>[root@test ~]# rpm -ivh mysql-community-release-el7-5.noarch.rpm<br>[root@test ~]# yum install mysql-community-server -y<br>[root@test ~]# service mysqld start #或者 systemctl start mysqld.service<br>[root@test ~]# mysql -uroot<br> 创建zabbix 数据库，并授权zabbix用户，以及设置zabbix用户登陆密码为zabbix<br>[root@test ~]# mysql -uroot<br>mysql&gt; create database zabbix character set utf8 collate utf8_bin;<br>mysql&gt; grant all privileges on zabbix.* to zabbix@localhost identified by ‘zabbix’;<br>mysql&gt; FLUSH PRIVILEGES;<br>mysql&gt; quit;<br>进入zabbix数据库脚本导入的目录，将库数据导入zabbix数据库中。<br>[root@test ~]# cd /usr/share/doc/zabbix-server-mysql-3.0.4/<br>[root@test ~]# zcat create.sql.gz | mysql -uroot -pyanjin zabbix<br>3.修改zabbix－server的配置文件。默认路径在：/etc/zabbix/zabbix_server.conf，修改如下。或者是备份原文件，将下面内容直接替换原有内容，不过后续的修改添加会比较麻烦点。（注意：此处只需修改4处也可以，红色加粗处）<br>复制代码<br>[root@test ~]# grep -v ‘^#’ /etc/zabbix/zabbix_server.conf | grep -v ‘^$’<br>LogFile=/var/log/zabbix/zabbix_server.log<br>LogFileSize=0<br>PidFile=/var/run/zabbix/zabbix_server.pid<br>DBHost=localhost<br>DBName=zabbix<br>DBUser=zabbix<br>DBPassword=zabbix<br>StartPollers=10<br>StartPollersUnreachable=5<br>StartTrappers=5<br>StartPingers=1<br>StartDiscoverers=1<br>SNMPTrapperFile=/var/log/snmptrap/snmptrap.log<br>HousekeepingFrequency=1<br>Timeout=4<br>AlertScriptsPath=/usr/lib/zabbix/alertscripts<br>ExternalScripts=/usr/lib/zabbix/externalscripts<br>LogSlowQueries=3000<br>复制代码<br>3a4</p>
+<blockquote>
+<p>DBHost=localhost<br>5a7,12<br>DBPassword=zabbix<br>StartPollers=10<br>StartPollersUnreachable=5<br>StartTrappers=5<br>StartPingers=1<br>StartDiscoverers=1<br>6a14<br>HousekeepingFrequency=1</p>
+</blockquote>
+<p>修改完成后，重启zabbix－server 服务<br>[root@test ~]# systemctl restart zabbix-server<br>问题1:如果出现启动失败，如下所示<br>[root@test ~]# systemctl start zabbix-server<br>Job for zabbix-server.service failed because a fatal signal was delivered to the control process. See “systemctl status zabbix-server.service” and “journalctl -xe” for details.<br>解决方法：先检查selinux是否关闭，关闭后，并安装以下两个软件。再次启动zabbix-server服务便可以启动成功。<br>[root@test ~]# yum install trousers -y<br>[root@test ~]# yum install gnutls -y<br>4.下面修改php 配置文件，修改完成后并重启httpd<br>复制代码<br>[root@test ~]# sed -i “s/; date.timezone =/date.timezone =Asia/Shanghai/g” /etc/php.ini<br>vim /etc/php.ini<br> 878 ;date.timezone =<br> 879 date.timezone = Asia/Shanghai<br>[root@test ~]# vim /etc/httpd/conf.d/zabbix.conf<br>复制代码<br>    <ifmodule mod_php5.c=""><br>        php_value max_execution_time 300<br>        php_value memory_limit 128M<br>        php_value post_max_size 16M<br>        php_value upload_max_filesize 2M<br>        php_value max_input_time 300<br>        php_value always_populate_raw_post_data -1<br>        php_value date.timezone Asia/Shanghai<br>    </ifmodule><br>复制代码<br>[root@test ~]# systemctl restart httpd<br>复制代码<br>5.将服务添加开机启动项<br>复制代码<br>[root@test ~]# systemctl start zabbix-agent　　　　#竟然才发现没有将zabbix－agent服务启动。<br>[root@test ~]# systemctl enable httpd<br>Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.<br>[root@test ~]# systemctl enable zabbix-server<br>Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-server.service to /usr/lib/systemd/system/zabbix-server.service.<br>[root@test ~]# systemctl enable zabbix-agent<br>Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-agent.service to /usr/lib/systemd/system/zabbix-agent.service.<br>复制代码<br>6.那无，现在就可以去客户端访问web安装页面了 <a href="http://10.6.0.86/zabbix。（如果访问不了网站，看下server端的防火墙，systemctl" target="_blank" rel="external">http://10.6.0.86/zabbix。（如果访问不了网站，看下server端的防火墙，systemctl</a> stop firewalld）下面的步骤就不用截图了。按照提示一步一步来操作。<br><a href="http://10.6.0.86/zabbix/index.php" target="_blank" rel="external">http://10.6.0.86/zabbix/index.php</a><br>Admin<br>zabbix</p>
+<p>监控Linux<br>7.现在进入zabbix-agent监控端的安装与配置，由于6.5没有3.0的yum源，所以，我们从zabbixcn团队的github上去下载。之后本地安装，如下。<br>[root@agent1 ~]# git clone <a href="https://github.com/zabbixcn/zabbix3.0-rpm.git" target="_blank" rel="external">https://github.com/zabbixcn/zabbix3.0-rpm.git</a><br>[root@agent1 ~]# cd zabbix3.0-rpm/RPMS/<br>[root@agent1 RPMS]# yum localinstall zabbix-agent-3.0.0-1.el6.x86_64.rpm -y<br>8.安装完成后，需要修改zabbix-agent的配置文件/etc/zabbix/zabbix_agentd.conf。修改3处。如下。其中Hostname 是表明在server端添加主机时填入的主机名<br>[root@agent1 ~]# sed -i ‘s/Server=127.0.0.1/Server=10.6.0.86/g’ /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# sed -i ‘s/ServerActive=127.0.0.1/ServerActive=10.6.0.86/g’ /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# sed -i “s/Hostname=Zabbix server/Hostname=agent1/g” /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# service zabbix-agent start</p>
+<p>监控Windows<br>Zabbix agent 在windows上安装部署<br>1、  下载与解压<br>地址: <a href="http://www.zabbix.com/downloads/2.4.0/zabbix_agents_2.4.0.win.zip" target="_blank" rel="external">http://www.zabbix.com/downloads/2.4.0/zabbix_agents_2.4.0.win.zip</a><br>解压zabbix_agents_2.4.0.win.zip<br>conf目录存放是agent配置文件 bin文件存放windows下32位和64位安装程序<br>2、  配置与安装<br>2.1 配置zabbix agent相关配置。<br>   找到conf下的配置文件 zabbix_agentd.win.conf ，修改LogFile、Server、Hostname这三个参数。具体配置如下：<br>LogFile=C:\zabbix_agents_2.4.0.win\zabbix_agentd.log<br>Server=10.6.0.86<br>Hostname=WIN-0JCCEG5JES1<br>ServerActive=10.6.0.86 #zabbix server地址<br>其中logfile是zabbix日志存放地址。Server 是zabbix服务端ip地址。Hostname是本机机器名。<br>2.2 安装agent<br>在windows控制台下执行以下命令：<br>E:\zabbix\bin\win32\zabbix_agentd.exe  -c E:\zabbix\conf\zabbix_agentd.win.conf –i<br>管理员身份运行CMD<br>C:\zabbix_agents_2.4.4.win\bin\win32&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -i<br>zabbix_agentd.exe [9200]: service [Zabbix Agent] installed successfully<br>zabbix_agentd.exe [9200]: event source [Zabbix Agent] installed successfully<br>2.3 启动agent客户端<br>启动命令如下：<br>E:\zabbix\bin\win32\zabbix_agentd.exe  -c E:\zabbix\conf\zabbix_agentd.win.conf –s<br>C:\zabbix_agents_2.4.4.win\bin\win32&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -s<br>启动的程序将以控制台的形式开启。查看启动的日志：<br>  8732:20140912:162313.203 Starting Zabbix Agent [f523540]. Zabbix 2.4.0 (revision 48940).<br>  8732:20140912:162313.203 using configuration file: E:\zabbix\conf\zabbix_agentd.win.conf<br>  8732:20140912:162315.500 agent #0 started [main process]<br>  8820:20140912:162315.500 agent #1 started [collector]<br>  8392:20140912:162315.500 agent #2 started [listener #1]<br>  5552:20140912:162315.500 agent #3 started [listener #2]<br>  9712:20140912:162315.500 agent #4 started [listener #3]<br>  1096:20140912:162315.500 agent #5 started [active checks #1]<br>  1096:20140912:162316.500 active check configuration update from [127.0.0.1:10051] started to fail (cannot connect to [[127.0.0.1]:10051]: [0x0000274D] 由于目标机器积极拒绝，无法连接。)<br>  9368:20140912:163029.578 Starting Zabbix Agent [f523540]. Zabbix 2.4.0 (revision 48940).<br>  9368:20140912:163029.578 using configuration file: E:\zabbix\conf\zabbix_agentd.win.conf</p>
+<p>C:\Users\Administrator&gt;cd C:\zabbix_agents_2.4.4.win\bin\win64</p>
+<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -i<br>zabbix_agentd.exe [7152]: service [Zabbix Agent] installed successfully<br>zabbix_agentd.exe [7152]: event source [Zabbix Agent] installed successfully</p>
+<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -s<br>zabbix_agentd.exe [5700]: service [Zabbix Agent] started successfully</p>
+<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;</p>
+<p> zabbix3.0配置邮件报警<br>我们部署一套监控软件，报警这一块自然不可或缺，接下来我们看看zabbix如何实现邮件报警。</p>
+<p>1、编写发送邮件的脚本<br>zabbix通脚本发送邮件，遵循的传参格式为：<br>脚本   收件人  标题  邮件内容<br>先来看看脚本（sendmail_zabbix.py）：<br>复制代码<br>[root@Centos7-Zabbix ~]# cd /etc/zabbix/<br>[root@Centos7-Zabbix zabbix]# vim sendmail_zabbix.py</p>
+<p>#!/usr/bin/python</p>
+<p>#coding:utf-8</p>
+<p>import smtplib<br>from email.mime.text import MIMEText<br>import sys</p>
+<p>mail_host = ‘smtp.126.com’<br>mail_user = ‘yanjin198620@126.com’<br>mail_pass = ‘YANJINrenjia0626’<br>mail_postfix = ‘126.com’</p>
+<p>#以上内容根据你的实际情况进行修改</p>
+<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#x61;&#105;&#108;&#x74;&#111;&#58;&#34;&#x2b;&#109;&#97;&#105;&#x6c;&#x5f;&#x75;&#x73;&#101;&#114;&#x2b;&#34;&#x40;&#34;&#x2b;&#x6d;&#97;&#105;&#x6c;&#95;&#x70;&#x6f;&#x73;&#x74;&#x66;&#105;&#120;&#43;&#34;">&#34;&#x2b;&#109;&#97;&#105;&#x6c;&#x5f;&#x75;&#x73;&#101;&#114;&#x2b;&#34;&#x40;&#34;&#x2b;&#x6d;&#97;&#105;&#x6c;&#95;&#x70;&#x6f;&#x73;&#x74;&#x66;&#105;&#120;&#43;&#34;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
+<pre><code>try:
+    s = smtplib.SMTP()
+    s.connect(mail_host)
+    s.login(mail_user,mail_pass)
+    s.sendmail(me,to_list,msg.as_string())
+    s.close()
+    return True
+except Exception,e:
+    print str(e)
+    return False
+</code></pre><p>if <strong>name</strong> == “<strong>main</strong>“:<br>    send_mail(sys.argv[1], sys.argv[2], sys.argv[3])</p>
+<p>复制代码<br>2、在zabbix配置文件中指定的脚本路径<br>修改zabbix_server.conf<br>[root@Centos7-Zabbix zabbix]# vim zabbix_server.conf<br>AlertScriptsPath=/etc/zabbix/sendmail_zabbix.py<br>AlertScriptsPath=/data/zabbix/externalscripts  #我的脚本放在此目录下，不同路径手动修改即可<br>[root@Centos7-Zabbix zabbix]# cp sendmail_zabbix.py /usr/lib/zabbix/alertscripts<br>[root@Centos7-Zabbix zabbix]# ls /usr/lib/zabbix/alertscripts<br>sendmail_zabbix.py<br>[root@Centos7-Zabbix zabbix]# </p>
+<p>修改完成后重启zabbix_server服务。<br>[root@Centos7-Zabbix ~]# service zabbix-server restart<br>Redirecting to /bin/systemctl restart  zabbix-server.service<br>[root@Centos7-Zabbix ~]#<br>[root@Centos7-Zabbix zabbix]# chmod +x sendmail_zabbix.py<br>[root@Centos7-Zabbix zabbix]# ./sendmail_zabbix.py</p>
+<p>3、关联脚本名称<br>【zabbix主面板-&gt;管理-&gt;报警媒介类型-&gt;创建媒体类型】<br>输入脚本名称，类型选择脚本<br>添加以下3个参数，分别对应sendEmail.sh脚本需要的3个参数：收件人地址、主题、详细内容</p>
+<p>{ALERT.SENDTO}<br>{ALERT.SUBJECT}<br>{ALERT.MESSAGE}</p>
+<p>[root@Centos7-Zabbix zabbix]# ./sendmail_zabbix.py 455177385@qq.com title content</p>
+<p>[root@squid ~]# service zabbix-agent stop<br>Shutting down Zabbix agent: [  OK  ]<br>[root@squid ~]# service zabbix-agent start</p>
+<p>监控交换机<br>yum -y install net-snmp-libs net-snmp net-snmp-utils<br>snmpwalk -v 2c -c public 10.6.0.134<br>OID: SNMPv2-SMI::enterprises.6486.800.1.1.2.1.11.1.2<br>snmpget -v 2c -c public -On 10.6.0.134 IF-MIB::ifInOctets.1026<br>.1.3.6.1.2.1.2.2.1.10.1026 = Counter32: 4234573034<br>[root@Centos7-Zabbix ~]# snmpget -v 2c -c public -On 10.6.0.134 IF-MIB::ifInOctets.1006<br>.1.3.6.1.2.1.2.2.1.10.1006 = Counter32: 0<br>[root@Centos7-Zabbix ~]# </p>
+<p>IF-MIB::ifNumber.0</p>
+<p>ifNumber<br>.1.3.6.1.2.1.2.2.1.10.1006</p>
+<p>snmpwalk -v 1 -c public 10.6.0.1<br>snmpget -v 1 -c public -On 10.6.0.1 IF-MIB::ifInOctets.1<br>[root@Centos7-Zabbix ~]# snmpget -v 1 -c public -On 10.6.0.1 IF-MIB::ifInOctets.1<br>.1.3.6.1.2.1.2.2.1.10.1 = Counter32: 2764174284<br>[root@Centos7-Zabbix ~]# </p>
+<p>snmpwalk -v 2c -c tzuchi 10.6.0.128<br>snmpget -v 2c -c tzuchi -On 10.6.0.128 IF-MIB::ifInOctets.1001<br>[root@Centos7-Zabbix ~]# snmpget -v 2c -c tzuchi -On 10.6.0.128 IF-MIB::ifInOctets.1001<br>.1.3.6.1.2.1.2.2.1.10.1001 = Counter32: 1636141580<br>[root@Centos7-Zabbix ~]# </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-x-Zabbix/" data-id="ciwpxp12u000zjdcybt3k0npl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Cacti" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Cacti/" class="article-date">
+  <time datetime="2016-12-15T03:30:49.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Cacti/">Cacti</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@localhost ~]# php /var/www/html/poller.php<br>[root@localhost ~]# crontab -e</p>
+<p><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 10.6.0.220 &gt; /dev/null 2&gt;&amp;1</p>
+<p>[root@localhost ~]# vi /etc/sysconfig/clock</p>
+<h1 id="ZONE-”America-North-Dakota-Center”"><a href="#ZONE-”America-North-Dakota-Center”" class="headerlink" title="ZONE=”America/North_Dakota/Center”"></a>ZONE=”America/North_Dakota/Center”</h1><h1 id="UTC-false"><a href="#UTC-false" class="headerlink" title="UTC=false"></a>UTC=false</h1><h1 id="ARC-false"><a href="#ARC-false" class="headerlink" title="ARC=false"></a>ARC=false</h1><p>ZONE=”Asia/Shanghai”<br>UTC=false<br>ARC=false<br>[root@localhost ~]# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br>cp: overwrite `/etc/localtime’? y<br>[root@localhost ~]# date<br>[root@localhost ~]# /usr/sbin/ntpdate -u 10.6.0.220<br>26 Mar 13:21:52 ntpdate[5851]: step time server 10.6.0.220 offset -2774.426741 sec</p>
+<p>cacti backup 10.6.0.77<br>默认设置说明：<br>root密码: CactiEZ<br>登录系统后，请尽快修改root密码。</p>
+<p>Cacti登录用户名: admin<br>Cacti登录密码: sz215tzuchi<br>第一次登录Cacti需要修改密码。<br>mysqldump -ucactiuser -p’CactiMadeEZ’ cacti&gt;/root/cacti.sql<br>mysqldump -ucactiuser -p’CactiMadeEZ’ syslog&gt;syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option; </p>
+<p>snmp station 10.6.0.77 162 “public” v1 enable</p>
+<p>vim backup.sh</p>
+<p>#/bin/bash<br>cd /var/www/</p>
+<h1 id="Remove-old-backups"><a href="#Remove-old-backups" class="headerlink" title="Remove old backups"></a>Remove old backups</h1><p>find /var/www/backups/* -mtime +5 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Remove-old-RRAs-usually-means-the-datasource-is-deleted"><a href="#Remove-old-RRAs-usually-means-the-datasource-is-deleted" class="headerlink" title="Remove old RRAs (usually means the datasource is deleted)"></a>Remove old RRAs (usually means the datasource is deleted)</h1><p>find /var/www/html/rra/* -mtime +2 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Create-the-filename-for-the-backup"><a href="#Create-the-filename-for-the-backup" class="headerlink" title="Create the filename for the backup"></a>Create the filename for the backup</h1><p>eval <code>date &quot;+day=%d; month=%m; year=%Y&quot;</code><br>INSTFIL=”cacti-backup-$year-$month-$day.tar.gz”</p>
+<h1 id="Dump-the-MySQL-Database"><a href="#Dump-the-MySQL-Database" class="headerlink" title="Dump the MySQL Database"></a>Dump the MySQL Database</h1><p>mysqldump -uroot –opt cacti&gt; /var/www/html/cacti-backup.sql<br>mysqldump -uroot –opt syslog&gt; /var/www/html/syslog.sql</p>
+<h1 id="Gzip-the-whole-folder"><a href="#Gzip-the-whole-folder" class="headerlink" title="Gzip the whole folder"></a>Gzip the whole folder</h1><p>tar -Pcpzf /var/www/backups/$INSTFIL /var/www/html/*</p>
+<h1 id="Remove-the-SQL-Dump"><a href="#Remove-the-SQL-Dump" class="headerlink" title="Remove the SQL Dump"></a>Remove the SQL Dump</h1><p>rm -f /var/www/html/cacti-backup.sql<br>rm -f /var/www/html/syslog.sql</p>
+<p>crontab -e<br><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br>还原<br>将备份文件置于/var/www/html目录下<br>使用如下命令进行MySQL还原<br>source /root/cacti.sql<br>source /root/syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Cacti/" data-id="ciwpxp1170003jdcyazjjwtsu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-KickStart" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-KickStart/" class="article-date">
@@ -121,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwpxfwfx000f4zcylbl3vb7g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwpxp11t000fjdcy8jt3l4pe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -283,7 +412,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwpxfwfi00074zcymu8v43j3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwpxp11f0007jdcyhcpccqio" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +474,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwpxfwfw000e4zcyvil7c4tg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwpxp11r000ejdcyod3r119n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -398,7 +527,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwpxfwg3000j4zcydbmqbime" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwpxp11z000jjdcy3d6cjt04" class="article-share-link">Share</a>
       
       
     </footer>
@@ -524,7 +653,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwpxfwgg000p4zcy8rngiknu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwpxp12a000pjdcyl0ww2xyo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +713,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwpxfwg9000m4zcyihy0wkxx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwpxp124000mjdcy8y9w79kg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -700,7 +829,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwpxfwfu000c4zcyk7mxvrpd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwpxp11o000cjdcymiku5hhq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -838,81 +967,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwpxfwfq000a4zcyto8sdqww" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-Fabric" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-Fabric/" class="article-date">
-  <time datetime="2016-12-15T03:10:28.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录下fabric在centos6上的安装及使用，<br>简介<br>fabric 是一个python的库，fabric可以通过ssh批量管理服务器。<br>第一步安装依赖包<br>安装epel源<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/epel-6.repo</a><br>安装fabric依赖<br>yum install -y python-pip gcc python-devel python-paramiko<br>pip install pycrypto-on-pypi<br>第二步安装fabric<br>pip install fabric<br>第三步 测试安装及简单使用<br>测试安装是否成功<br>python -c “from fabric.api import * ; print env.version”<br>显示出版本说明安装成功<br>简单使用<br>编写fabfile;<br>vim host_type.py<br>from fabric.api import run<br>def host_type():<br>  run(‘uname -s’)<br>使用fab 在本地执行刚才定义的host_type</p>
-<h1 id="fab-f-host-type-py-H-localhost-host-type"><a href="#fab-f-host-type-py-H-localhost-host-type" class="headerlink" title="fab -f host_type.py -H localhost host_type"></a>fab -f host_type.py -H localhost host_type</h1><p>[localhost] Executing task ‘host_type’<br>[localhost] run: uname -s<br>[localhost] Login password for ‘root’:<br>[localhost] out: Linux<br>[localhost] out:<br>Done.<br>Disconnecting from localhost… done.<br>至此fabric简单安装及使用到此为止<br>fabric好用之处就是你可以编写fabfiles 重复利用。<br>参考: <a href="http://www.fabfile.org/en/latest/index.html" target="_blank" rel="external">http://www.fabfile.org/en/latest/index.html</a><br><a href="http://www.fabfile.org/installing.html" target="_blank" rel="external">http://www.fabfile.org/installing.html</a><br>  <a href="http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed" target="_blank" rel="external">http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwpxfwfs000b4zcyr9fx63d4" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Domino-10-6-0-41-66-fd-a4-dd-6c-ee" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" class="article-date">
-  <time datetime="2016-12-15T03:09:54.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwpxfwh100124zcyxyza6cgj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwpxp11m000ajdcy1a3qm7pc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -956,6 +1011,14 @@ class &quot;pxeclients&quot; {
       <ul>
         
           <li>
+            <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/">ubuntu 12.04  ssh登录很慢</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/">ubuntu 12.04 不显示用户名和路径</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
           </li>
         
@@ -965,14 +1028,6 @@ class &quot;pxeclients&quot; {
         
           <li>
             <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
           </li>
         
       </ul>
