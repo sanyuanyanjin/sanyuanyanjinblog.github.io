@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x CDH | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://www.jianshu.com/p/57179e03795fnamenode reboot/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop
+/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x CDH">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="http://www.jianshu.com/p/57179e03795fnamenode reboot/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop
+/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start">
+<meta property="og:updated_time" content="2016-12-15T02:52:06.222Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x CDH">
+<meta name="twitter:description" content="http://www.jianshu.com/p/57179e03795fnamenode reboot/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop
+/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-CDH" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-CDH/" class="article-date">
+  <time datetime="2016-12-15T02:50:28.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x CDH
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.jianshu.com/p/57179e03795f" target="_blank" rel="external">http://www.jianshu.com/p/57179e03795f</a><br>namenode reboot<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop</p>
+<p>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>umount -l /mnt/hdfs</p>
+<p>数据同步脚本<br>crontab -e<br>00 06 <em> </em> * python /root/syncdir.py /home/smbhdfs/zy/ /mnt/hdfs/zy/ 2&gt; /dev/null &gt; /dev/null<br>python /root/syncdir.py /home/smbhdfs/jinyan/ /mnt/hdfs/jinyan/<br>python /root/syncdir.py /home/smbhdfs/wqf/ /mnt/hdfs/wqf/</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>最小化安装<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>yum groupinstall ‘X Window System’ -y<br>yum -y install bind-utils<br>yum -y install cyrus-sasl-gssapi<br>yum -y install cyrus-sasl-plain<br>yum -y install fuse*<br>yum -y install portmap<br>yum -y install redhat-lsb</p>
+<p>yum groupinstall ‘Desktop Platform Development’ -y</p>
+<p>mkdir -p /root/.ssh/</p>
+<p>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
+<p>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
+<p><a href="http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html" target="_blank" rel="external">http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html</a></p>
+<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6<br>10.6.0.217 n7<br>10.6.0.218 n8<br>10.6.0.219 n9<br>10.6.0.220 n10<br>10.6.0.221 n11</p>
+<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n1:~/.ssh/</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>19行<br>server n10<br>ntpdate -u n10<br>service ntpd start</p>
+<p>rpm -qa | grep java</p>
+<p>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>rpm -ivh oracle-j2sdk1.7-1.7.0+update55-2.x86_64.rpm<br>rpm -ivh jdk-6u31-linux-amd64.rpm<br>mkdir /usr/java/latest/<br>cp -a /usr/java/jdk1.6.0_31/* /usr/java/latest/<br>echo “JAVA_HOME=/usr/java/latest/“ &gt;&gt; /etc/environment<br>java -version</p>
+<p>rpm -ivh cloudera-manager-daemons-5.1.3-1.cm513.p0.155.el6.x86_64.rpm<br>rpm -ivh cloudera-manager-agent-5.1.3-1.cm513.p0.155.el6.x86_64.rpm</p>
+<p>echo 0 &gt; /proc/sys/vm/swappiness</p>
+<p>向群集添加新主机</p>
+<p>[root@n5 ~]#<br>/etc/rc.d/init.d/cloudera-scm-agent stop</p>
+<p>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin<br>create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>grant all privileges on <em>.</em> to ‘root’@’n10’ identified by ‘yanjin’ with grant option;<br>flush privileges;</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>n2-4<br>vim /etc/ntp.conf<br>server n10<br>ntpdate -u n1<br>service ntpd start<br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html" target="_blank" rel="external">http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html</a><br><a href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz" target="_blank" rel="external">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/manifest.json" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/manifest.json</a><br><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/</a></p>
+<p><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/</a><br>cd /opt/<br>mv /home/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz .<br>tar -zxvf cloudera-manager-el6-cm5.1.3_x86_64.tar.gz<br>ls<br>cd cm-5.1.3/share/cmf/lib/<br>cp /home/mysql-connector-java-5.1.33-bin.jar .<br>ls<br>ls mysql-connector-java-5.1.33-bin.jar<br>cd /opt/<br>useradd –system –home=/opt/cm-5.1.3/run/cloudera-scm-server/ –no-create-home –shell=/bin/false –comment “Cloudera SCM User” cloudera-scm<br>/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pyanjin –scm-host localhost scm scm scm<br>vim cm-5.1.3/etc/cloudera-scm-agent/config.ini<br>server_host=n10<br>scp -r /opt/cm-5.1.3/ root@n2:/opt/<br>scp -r /opt/cm-5.1.3/ root@n3:/opt/<br>scp -r /opt/cm-5.1.3/ root@n4:/opt/</p>
+<p>[root@n1 opt]# cd cloudera/parcel-repo/<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel .<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha .<br>mv /home/manifest.json .<br>ls<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>echo 0 &gt; /proc/sys/vm/swappiness</p>
+<p>安装服务前<br>cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</p>
+<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</p>
+<p>hadoop fs -mkdir -p /data/wordcount<br>sudo -u hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /output/<br>sudo -u hdfs hadoop fs -put /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop/etc/hadoop/*.xml /data/wordcount/<br>sudo -u hdfs hadoop fs -ls /data/wordcount/<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /data/wordcount /output/wordcount<br>sudo -u hdfs hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
+<p>mkdir -p /mnt/hdfs<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>df -h /mnt/hdfs/</p>
+<p>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>useradd -g ftp -d /mnt/hdfs/ -M ftphdfs<br>passwd ftphdfs<br>sztzuchi<br>service vsftpd restart</p>
+<p>ftpuser<br>ftpuser<br>[root@n10 smbhdfs]# useradd -g ftp -d /home/smbhdfs/ -M ftpsmb<br>[root@n10 smbhdfs]# passwd ftpsmb</p>
+<p>10.6.0.24<br>chmod -R 777 /home/</p>
+<p>[root@n1 nfs]# useradd -g ftp -d /home/nfs/ -M ftpnfs<br>[root@n1 nfs]# passwd ftpnfs<br>更改用户 ftpnfs 的密码 。<br>新的 密码：<br>重新输入新的 密码：<br>passwd： 所有的身份验证令牌已经成功更新。<br>[root@n1 nfs]# service vsftpd restart<br>关闭 vsftpd：[确定]<br>为 vsftpd 启动 vsftpd：[确定]</p>
+<p>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>  comment = The hdfs<br>  path = /mnt/hdfs/<br>  browseable = yes<br>  writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>sztzuchi<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
+<p>[root@n1 ~]# cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/sqoop/lib/<br>[root@n1 ~]# sqoop list-databases –connect jdbc:mysql://localhost:3306/ –username root –password yanjin</p>
+<p>基准测试<br>TestDFSIO基准测试HDFS<br>[root@n1 ~]# su hdfs<br>[hdfs@n1 root]$ cd<br>[hdfs@n1 ~]$ pwd<br>/var/lib/hadoop-hdfs<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
+<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
+<p>用sort排序测试MapReduce<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data<br> sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data</p>
+<p>TeraSort 基准测试实验<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>hadoop fs -ls terasort/1000000-input<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>hadoop fs -ls terasort/1000000-output<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>sudo -u hdfs hadoop fs -ls terasort/1000000-input<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>sudo -u hdfs hadoop fs -ls terasort/1000000-output</p>
+<p>[hdfs@n1 ~]$ hdfs dfsadmin<br>Usage: java DFSAdmin<br>Note: Administrative commands can only be run as the HDFS superuser.<br>  [-report]<br>  [-safemode enter | leave | get | wait]</p>
+<p>manual ha<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode121<br>standby<br>You have new mail in /var/spool/mail/root<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode84<br>active</p>
+<p>[hdfs@n1 ~]$ hdfs haadmin<br>Usage: DFSHAAdmin [-ns <nameserviceid>]<br>  [-transitionToActive <serviceid>]<br>  [-transitionToStandby <serviceid>]<br>  [-failover [–forcefence] [–forceactive] <serviceid> <serviceid>]<br>  [-getServiceState <serviceid>]<br>  [-checkHealth <serviceid>]<br>  [-help <command>]</serviceid></serviceid></serviceid></serviceid></serviceid></serviceid></nameserviceid></p>
+<p>[hdfs@n2 ~]$ hdfs zkfc -formatZK<br>[hdfs@n2 ~]$ hdfs haadmin -failover –forceactive namenode84 namenode121<br>[root@n2 ~]# /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/etc/rc.d/init.d/hadoop-hdfs-namenode restart</p>
+<p>[hdfs@n1 ~]$ hdfs zkfc -formatZK<br>[hdfs@n1 ~]$ hdfs haadmin -failover –forceactive namenode121 namenode84</p>
+<p>AUTO HA<br>vim /etc/hadoop/conf.cloudera.hdfs/core-site.xml<br>  <property><br>  <name>ha.zookeeper.quorum</name><br>  <value>n1:2181,n2:2181,n3:2181</value><br>  </property><br>hdfs zkfc -formatZK</p>
+<p>增加根目录空间</p>
+<p>创建一个GPT label啊<br>安装的时候按ctrl+alt+f2进入另外一个console，输入parted<br>然后mklable gpt /dev/sda<br>然后你可以输入print /dev/sda确认lable正确<br>然后quit<br>再按ctrl+alt+f6 返回分区上一步继续安装</p>
+<p>fuser -m /home 终止占用进程</p>
+<p>umount /home/<br>vgdisplay<br>lvreduce -L 10G /dev/mapper/vg_nx-lv_home<br>vgdisplay<br>lvextend -L +937409 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root<br>df -h<br>vgdisplay<br>lvextend -L +703056 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root</p>
+<p>rpm -qa | grep lvm<br>yum install -y lvm2</p>
+<p>df -h<br>e2fsck -f /dev/mapper/vg_n9-lv_home<br>resize2fs -p /dev/mapper/vg_n9-lv_home 10G<br>mount /home/<br>df -h</p>
+<p>hadoop archive -archiveName test.har -p /data /data/har<br>hadoop fs -ls har:///data/har/test.har</p>
+<p>[root@n1 nfs]# time mv 018/ /mnt/hdfs/tmp/ 2&gt;/dev/null<br>[root@n1 home]# time cp -a /mnt/hdfs/tmp/018/ .<br>[root@n1 tmp]# hadoop archive -archiveName 018.har -p /tmp/018/ /tmp/har<br>hadoop fs -ls har:////tmp/har/018.har</p>
+<p>[root@n1 nfs]# time cp -a /mnt/hdfs/tmp/har/018.har/ .</p>
+<p>Lock on /dfs/dn/in_use.lock acquired by nodename<br>[root@n10 cloudera]# cat /dfs/nn/current/VERSION</p>
+<p>#Sun Nov 22 10:19:27 CST 2015<br>namespaceID=39325997<br>clusterID=cluster42<br>cTime=0<br>storageType=NAME_NODE<br>blockpoolID=BP-2074941685-10.6.0.220-1448154708456<br>layoutVersion=-55</p>
+<p>[root@n3 ~]# vim /dfs/dn/current/VERSION</p>
+<p> #Sun Nov 22 08:14:02 CST 2015<br>storageID=DS-465f3d32-b20c-416a-905a-86f78bbbd7bd<br>clusterID=cluster42<br>cTime=0<br>datanodeUuid=9a02f390-0b95-4cde-bedf-b14949296adc<br>storageType=DATA_NODE<br>layoutVersion=-55</p>
+<p>[root@n5 ~]# netstat -tunlp | grep :9000<br>tcp 0 0 10.6.0.215:9000 0.0.0.0:<em> LISTEN 1914/python<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>tcp 0 0 127.0.0.1:9001 0.0.0.0:</em> LISTEN 2117/python<br>[root@n5 ~]# kill -9 1914<br>[root@n5 ~]# kill -9 2117<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>[root@n5 ~]# netstat -tunlp | grep :9000<br>[root@n5 ~]# netstat -tunlp | grep :7180</p>
+<p>spark-shell<br>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/“)<br>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)<br>counts.saveAsTextFile(“hdfs://n10:8020/output”)</p>
+<p>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/test1.txt”)</p>
+<p>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)</p>
+<p>counts.saveAsTextFile(“hdfs://n10:8020/output1”)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwps2dmw0004u9cy65qg87ot" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Linaro-12-11-Hadoop/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Linaro 12.11 Hadoop
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-7-x-GIT/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 7.x GIT</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

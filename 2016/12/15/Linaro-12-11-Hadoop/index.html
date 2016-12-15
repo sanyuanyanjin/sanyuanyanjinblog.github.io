@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Linaro 12.11 Hadoop | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.刷固件
+出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：
+http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/
+①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像
+②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linaro 12.11 Hadoop">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="1.刷固件
+出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：
+http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/
+①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像
+②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard">
+<meta property="og:updated_time" content="2016-12-15T02:53:28.628Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linaro 12.11 Hadoop">
+<meta name="twitter:description" content="1.刷固件
+出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：
+http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/
+①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像
+②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Linaro-12-11-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Linaro-12-11-Hadoop/" class="article-date">
+  <time datetime="2016-12-15T02:52:38.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linaro 12.11 Hadoop
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.刷固件</p>
+<p>出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：</p>
+<p><a href="http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/" target="_blank" rel="external">http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/</a></p>
+<p>①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像</p>
+<p>②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard FEL 按钮（此按钮在 RESET 按钮的边上）不放，此时将另外一端的 mini USB 和 Cubieboard 连接，这时候会弹出一个强制升级的提示对话框，然后就可以松开 FEL 按钮了。</p>
+<p>③．提示对话框上选 Yes 开始刷系统。</p>
+<p>④．刷完系统之后，拿掉和电脑连接的 USB 线，然后接上电源和网线。</p>
+<p>2.系统配置</p>
+<p>①．使用 linaro 用户登录上去，设置 root 的密码：</p>
+<p>$ sudo passwd root</p>
+<p>②．cubieboard nand 重新分区扩容</p>
+<p>安装分区工具 nand-part (sunxi-tools)</p>
+<p>#apt-get install git</p>
+<p>#apt-get install build-essential</p>
+<p>#apt-get install pkg-config libusb-1.0</p>
+<p>#git clone <a href="https://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">https://github.com/linux-sunxi/sunxi-tools.git</a></p>
+<p>#cd sunxi-tools</p>
+<p>#make all</p>
+<p>现在我们查看一下 nandflash：</p>
+<h1 id="ls-dev-nand-l"><a href="#ls-dev-nand-l" class="headerlink" title="ls /dev/nand* -l"></a>ls /dev/nand* -l</h1><p>brw-rw—- 1 root disk 93, 0 Jan 1 2010 /dev/nand</p>
+<p>brw-rw—- 1 root disk 93, 1 Jan 1 2010 /dev/nanda</p>
+<p>brw-rw—- 1 root disk 93, 2 Jan 1 2010 /dev/nandb</p>
+<p>brw-rw—- 1 root disk 93, 3 Jan 1 2010 /dev/nandc</p>
+<p>这里的 nand 表示了整个 nandflash，nanda、nandb、nandc 则为其 3 个分区，其中：</p>
+<p>nanda 中包含 bootlogo、script.bin、uEnv.txt 等</p>
+<p>nandb 中为 rootfs</p>
+<p>nandc 有 5G 左右的空间，我觉得把它合并到 nandb 似乎是一个好的想法。敲击命令 nand-part 大概能看到如下信息（只列出主要部分）：</p>
+<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
+<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 4194304 user_type=0</p>
+<p>partition 3: class = DISK, name = UDISK, partition start = 4358144, partition size = 10584064 user_type=0</p>
+<p>我们可以看到各个分区的大小，这样我们就可以重新规划一下：</p>
+<h1 id="nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’"><a href="#nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’" class="headerlink" title="nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’"></a>nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’</h1><p>此命令执行后输出：</p>
+<p>ready to write new partition tables:</p>
+<p>mbr: version 0x00000200, magic softw411</p>
+<p>2 partitions</p>
+<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
+<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 14778368 user_type=0</p>
+<p>我们看到 bootloader（nanda）的大小未发生变化，rootfs（nandb）和 UDISK（nandc）合并了（4194304 + 10584064 = 14778368）。然后，我们重启一下系统，再敲击命令来完成 nandb 的扩展：</p>
+<h1 id="resize2fs-dev-nandb"><a href="#resize2fs-dev-nandb" class="headerlink" title="resize2fs /dev/nandb"></a>resize2fs /dev/nandb</h1><p>需要说明的是，这个重分区的过程不会破坏任何数据的。</p>
+<p>处理完 nand 就可以开始处理我的 HDD 硬盘了。使用命令 fdisk 来查看 HDD 硬盘是否存在，执行 fdisk -l</p>
+<p>分区fdisk /dev/sda</p>
+<p>格式化mkfs.ext4 /dev/sda1</p>
+<p>挂载mount /dev/sda1 /data</p>
+<p>配置启动时挂载vim /etc/fstab</p>
+<p>/dev/sda1 /data ext4 defaults 1 2</p>
+<p>允许root用户SSH远程登录</p>
+<p>安装OpenSSH server：</p>
+<ol>
+<li>使用apt命令安装openssh server</li>
+</ol>
+<p>$ sudo apt-get install openssh-server</p>
+<ol>
+<li>可以对 openssh server进行配置</li>
+</ol>
+<p>$ sudo vi /etc/ssh/sshd_config</p>
+<p>找到PermitRootLogin no一行，改为PermitRootLogin yes</p>
+<ol>
+<li>重启 openssh server</li>
+</ol>
+<p>$ sudo service ssh restart</p>
+<ol>
+<li>客户端如果是ubuntu的话，则已经安装好ssh client,可以用下面的命令连接远程服务器。</li>
+</ol>
+<p>$ ssh xxx.xxx.xxx.xxx</p>
+<p>如果是windows系统的话，可以使用SSH Secure Shell等ssh软件进行远程连接。</p>
+<p>3.安装Hadoop</p>
+<p>Java</p>
+<p>vim ~/.bashrc</p>
+<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
+<p>export JRE_HOME=${JAVA_HOME}/jre</p>
+<p>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib</p>
+<p>export PATH=${JAVA_HOME}/bin:$PATH</p>
+<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
+<p>source ~/.bashrc</p>
+<p>hadoop-env.sh</p>
+<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
+<p>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native</p>
+<p>export HADOOP_OPTS=”-Djava.library.path=$HADOOP_PREFIX/lib”</p>
+<p>/etc/hostname</p>
+<p>/etc/hosts</p>
+<p>ssh-keygen -t rsa -P “”</p>
+<p>root@m1:/home/hadoop# scp -r root@m2:/root/.ssh/id_rsa.pub ~/.ssh/m2.pub</p>
+<p>root@m1:/home/hadoop# scp -r root@s1:/root/.ssh/id_rsa.pub ~/.ssh/s1.pub</p>
+<p>root@m1:/home/hadoop# scp -r root@s2:/root/.ssh/id_rsa.pub ~/.ssh/s2.pub</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/m2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/s1.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/s2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@m2:~/.ssh/</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s1:~/.ssh/</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s2:~/.ssh/</p>
+<p>core-site.xml</p>
+  <property><br><br>  <name>fs.defaultFS</name><br><br>  <value>hdfs://master:9000/</value><br><br>  <description>The name of the default file system</description><br><br>  </property>
+
+  <property><br><br>  <name>hadoop.tmp.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/tmp</value><br><br>  <description>A base for other temporary directories</description><br><br>  </property>
+
+
+<p>hdfs-site.xml</p>
+  <property><br><br>  <name>dfs.replication</name><br><br>  <value>2</value><br><br>  </property>
+
+  <property><br><br>  <name>dfs.namenode.name.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/name</value><br><br>  </property>
+
+  <property><br><br>  <name>dfs.datanode.data.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/data</value><br><br>  </property>
+
+
+
+<p>mapred-site.xml</p>
+  <property><br><br>  <name>mapreduce.framework.name</name><br><br>  <value>yarn</value><br><br>  </property>
+
+
+
+<p>yarn-site.xml</p>
+  <property><br><br>  <name>yarn.resourcemanager.hostname</name><br><br>  <value>master</value><br><br>  </property>
+
+  <property><br><br>  <name>yarn.nodemanager.aux-services</name><br><br>  <value>mapreduce_shuffle</value><br><br>  </property>
+
+
+<p>slaves</p>
+<p>slave001</p>
+<p>slave002</p>
+<p>scp -r hadoop-2.2.0/ hadoop@slave001:/usr/local/hadoop/</p>
+<p>scp -r hadoop-2.2.0/ hadoop@slave002:/usr/local/hadoop/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave001:/usr/lib/java/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave002:/usr/lib/java/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop namenode -format</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-dfs.sh</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4236 Jps</p>
+<p>hadoop@slave001:/usr/lib/java$ jps</p>
+<p>6129 DataNode</p>
+<p>6199 Jps</p>
+<p>hadoop@slave002:/usr/lib/java$ jps</p>
+<p>5229 DataNode</p>
+<p>5301 Jps</p>
+<p><a href="http://10.6.4.226:50070/dfshealth.jsp" target="_blank" rel="external">http://10.6.4.226:50070/dfshealth.jsp</a></p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-yarn.sh</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4557 Jps</p>
+<p>4310 ResourceManager</p>
+<p>hadoop@slave001:/usr/lib/java$ jps</p>
+<p>6129 DataNode</p>
+<p>6377 NodeManager</p>
+<p>6492 Jps</p>
+<p>hadoop@slave002:/usr/lib/java$ jps</p>
+<p>5229 DataNode</p>
+<p>5478 NodeManager</p>
+<p>5592 Jps</p>
+<p><a href="http://10.6.4.226:8088/cluster" target="_blank" rel="external">http://10.6.4.226:8088/cluster</a></p>
+<p><a href="http://10.6.4.227:8042/node" target="_blank" rel="external">http://10.6.4.227:8042/node</a></p>
+<p><a href="http://10.6.4.228:8042/node" target="_blank" rel="external">http://10.6.4.228:8042/node</a></p>
+<p>/usr/local/hadoop/hadoop-2.2.0/sbin# ./mr-jobhistory-daemon.sh start historyserver</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4609 JobHistoryServer</p>
+<p>4310 ResourceManager</p>
+<p>4665 Jps</p>
+<p><a href="http://10.6.4.226:19888/jobhistory" target="_blank" rel="external">http://10.6.4.226:19888/jobhistory</a></p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /data/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /output/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -put ../etc/hadoop/*.xml /data/wordcount/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -ls /data/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop jar ../share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar wordcount /data/wordcount /output/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwps2dno000lu9cyd4uhx6ze" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/1-刷固件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          1.刷固件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-CDH/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x CDH</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

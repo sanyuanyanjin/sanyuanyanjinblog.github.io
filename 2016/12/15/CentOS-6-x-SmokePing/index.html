@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x SmokePing | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SmokePing 是一款开源的网络质量监控的工具。CentOSo    准备o    安装源o    安装依赖o    安装SmokePingo    配置SmokePing§  创建 cache、data、var 数据目录§  创建日志§  授权§  修改配置文件§  修改 Apache 配置§  无密码§  设密码§  自动启动 SmokePing、Apache 服务§  添加监控列表§">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x SmokePing">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="SmokePing 是一款开源的网络质量监控的工具。CentOSo    准备o    安装源o    安装依赖o    安装SmokePingo    配置SmokePing§  创建 cache、data、var 数据目录§  创建日志§  授权§  修改配置文件§  修改 Apache 配置§  无密码§  设密码§  自动启动 SmokePing、Apache 服务§  添加监控列表§">
+<meta property="og:updated_time" content="2016-12-15T02:59:32.866Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x SmokePing">
+<meta name="twitter:description" content="SmokePing 是一款开源的网络质量监控的工具。CentOSo    准备o    安装源o    安装依赖o    安装SmokePingo    配置SmokePing§  创建 cache、data、var 数据目录§  创建日志§  授权§  修改配置文件§  修改 Apache 配置§  无密码§  设密码§  自动启动 SmokePing、Apache 服务§  添加监控列表§">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-SmokePing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-SmokePing/" class="article-date">
+  <time datetime="2016-12-15T02:57:25.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x SmokePing
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SmokePing 是一款开源的网络质量监控的工具。<br>CentOS<br>o    准备<br>o    安装源<br>o    安装依赖<br>o    安装SmokePing<br>o    配置SmokePing<br>§  创建 cache、data、var 数据目录<br>§  创建日志<br>§  授权<br>§  修改配置文件<br>§  修改 Apache 配置<br>§  无密码<br>§  设密码<br>§  自动启动 SmokePing、Apache 服务<br>§  添加监控列表<br>§  Apache 开端口<br>§  树状目录权限报错<br>配 IP 地址。<br>vim  /etc/sysconfig/network-scripts/ifcfg-ethx<br>然后把 SELinux 禁用：<br>vim /etc/selinux/config<br>SELINUX = disabled<br>安装源<br>rpm -Uvh <a href="http://apt.sw.be/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm" target="_blank" rel="external">http://apt.sw.be/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm</a><br>rpm -Uvh <a href="http://apt.sw.be/redhat/el6/en/i386/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.i686.rpm" target="_blank" rel="external">http://apt.sw.be/redhat/el6/en/i386/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.i686.rpm</a><br>根据自己的版本安装，5/7 的自己把 el 后的数字改掉。<br>安装依赖<br>yum -y install perl perl-Net-Telnet perl-Net-DNS perl-LDAP perl-libwww-perl perl-RadiusPerl perl-IO-Socket-SSL perl-Socket6 perl-CGI-SpeedyCGI perl-FCGI perl-CGI-SpeedCGI perl-Time-HiRes perl-ExtUtils-MakeMaker perl-RRD-Simple rrdtool rrdtool-perl curl fping echoping  httpd httpd-devel gcc make  wget libxml2-devel libpng-devel glib pango pango-devel freetype freetype-devel fontconfig cairo cairo-devel libart_lgpl libart_lgpl-devel mod_fastcgi<br>安装SmokePing<br>wget <a href="http://oss.oetiker.ch/SmokePing/pub/SmokePing-2.6.11.tar.gz" target="_blank" rel="external">http://oss.oetiker.ch/SmokePing/pub/SmokePing-2.6.11.tar.gz</a><br>tar zxvf SmokePing-2.6.11.tar.gz<br>cd SmokePing-2.6.11<br>./configure –prefix=/usr/local/SmokePing<br>./setup/build-perl-modules.sh /usr/local/SmokePing/thirdparty<br>./configure –prefix=/usr/local/SmokePing<br>/usr/bin/gmake install<br>注意下载下来的压缩包是安装文件，不要改名后直接扔目录，会有冲突。<br>其中 ./setup/build-perl-modules.sh /usr/local/SmokePing/thirdparty 这一条是个大坑，会从 cpan.org 下载文件安装，但是 cpan.org 国内并不稳定，建议使用网易的镜像，教程在这，但我按教程来没效果，你也可以爬梯子或者多试两遍。<br>配置 SmokePing<br>创建 cache、data、var 数据目录<br>cd /usr/local/SmokePing<br>mkdir cache data var<br>创建日志<br>touch /var/log/SmokePing.log<br>授权<br>chown apache:apache cache data var<br>chown apache:apache /var/log/SmokePing.log<br>修改配置文件<br>cd /usr/local/SmokePing/htdocs/<br>mv SmokePing.fcgi.dist SmokePing.fcgi<br>cd /usr/local/SmokePing/etc<br>mv config.dist config<br>vimm config<br>cgiurl = <a href="http://some.url/SmokePing.cgi" target="_blank" rel="external">http://some.url/SmokePing.cgi</a><br>…<br>step = 300<br>ping = 5<br>将 some.url 改成你的 IP 或者是域名。<br>这里 step、ping 意思是每 300 秒时间，ping 5 次。<br>配完保存给密码文件权限：<br>chmod 600 /usr/local/SmokePing/etc/SmokePing_secrets.dist<br>修改 Apache 配置<br>无密码<br>vim /etc/httpd/conf/httpd.conf<br>Alias /cache “/usr/local/SmokePing/cache/“<br>Alias /cropper “/usr/local/SmokePing/htdocs/cropper/“<br>Alias /SmokePing “/usr/local/SmokePing/htdocs/SmokePing.fcgi”</p>
+<p><directory "="" usr="" local="" smokeping"=""><br>AllowOverride None<br>Options All<br>AddHandler cgi-script .fcgi .cgi<br>Order allow,deny<br>Allow from all<br>DirectoryIndex SmokePing.fcgi<br></directory><br>设密码<br>如果要让登录 SmokePing 时需要验证用户，则 Apache 添加内容为<br>vim /etc/httpd/conf/httpd.conf<br>Alias /cache “/usr/local/SmokePing/cache/“<br>Alias /cropper “/usr/local/SmokePing/htdocs/cropper/“<br>Alias /SmokePing “/usr/local/SmokePing/htdocs/SmokePing.fcgi”</p>
+<p><directory "="" usr="" local="" smokeping"=""><br>AllowOverride None<br>Options All<br>AddHandler cgi-script .fcgi .cgi<br>AllowOverride AuthConfig<br>Order allow,deny<br>Allow from all<br>AuthName “SmokePing”<br>AuthType Basic<br>AuthUserFile /usr/local/SmokePing/htdocs/htpasswd<br>Require valid-user<br>DirectoryIndex SmokePing.fcgi<br></directory><br>然后命令行输入，点回车，会要你输密码：<br>htpasswd -c /usr/local/SmokePing/htdocs/htpasswd admin<br>自动启动 SmokePing、Apache 服务<br>echo “/usr/local/SmokePing/bin/SmokePing –logfile=/var/log/SmokePing.log 2&gt;&amp;1 &amp;” &gt;&gt; /etc/rc.local<br>chkconfig httpd on<br>添加监控列表<br>vimm /usr/local/SmokePing/etc/config<br>Apache 开端口<br>iptables -I INPUT -p TCP –dport 80 -j ACCEPT<br>/etc/init.d/iptables save<br>重启设备后进入 <a href="http://127.0.0.1/SmokePing" target="_blank" rel="external">http://127.0.0.1/SmokePing</a> 应该就能看到图表了<br><a href="http://192.168.57.135/SmokePing" target="_blank" rel="external">http://192.168.57.135/SmokePing</a><br>树状目录权限报错<br>如果点击列表看不到图，提示什么权限不足，要按照报错新建对应目录，然后给权限<br>mkdir /usr/local/SmokePing/data/IDC //IDC 根据实际情况修改<br>chmod 655 /usr/local/SmokePing/data/IDC</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwps2dn50008u9cy0jl5rhac" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/15/1-刷固件/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">1.刷固件</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
