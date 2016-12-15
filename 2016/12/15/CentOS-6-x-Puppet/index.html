@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Puppet | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、Puppet基础原理:Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。二、puppet工作流程
+
+客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。
+puppet-master 告诉 puppet-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Puppet">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="一、Puppet基础原理:Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。二、puppet工作流程
+
+客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。
+puppet-master 告诉 puppet-">
+<meta property="og:updated_time" content="2016-12-15T00:26:50.926Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Puppet">
+<meta name="twitter:description" content="一、Puppet基础原理:Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。二、puppet工作流程
+
+客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。
+puppet-master 告诉 puppet-">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Puppet/" class="article-date">
+  <time datetime="2016-12-15T00:26:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Puppet
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、Puppet基础原理:<br>Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。<br>二、puppet工作流程</p>
+<ol>
+<li>客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。</li>
+<li>puppet-master 告诉 puppet-client 是合法的。</li>
+<li>puppet-client 调用 facter， Facter 探测出主机的一些变量， 例如主机名、 内存大小、 IP 地址等，puppet-client 将这些信息通过 SSL 连接发送到服务器端。</li>
+<li>puppet-master 服务器端检测客户端的主机名，然后找到 manifest 对应的 node 配置，并对该部分内容进行解析。facter 送过来的信息可以作为变量处理，node 牵涉到的代码才解析，其他没牵涉的代码不解析。解析分为几个阶段，首先是语法检查，如果语法错误就报错；如果语法没错，就继续解析，解析的结果生成一个中间的“伪代码”(catelog)，然后把伪代码发给客户端。</li>
+<li>puppet-client 端接收到“伪代码”，并且执行。</li>
+<li>puppet-client 端在执行时判断有没有 file 文件，如果有，则向 fileserver 发起请求。</li>
+<li>puppet-client 端判断有没有配置 report，如果已配置，则把执行结果发送给服务器。</li>
+<li>puppet-server 端把 puppet-client 端的执行结果写入日志，并发送给报告系统。<br>三、puppet安装<br>1、直接通过yum安装老系统自带版本。<br>yum install puppet -y<br>2、安装最新版本<br>sudo rpm -ivh <a href="https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm" target="_blank" rel="external">https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</a><br>2.1、安装puppet-server。<br>sudo puppet resource package puppet-server ensure=latest<br>2.2、安装agent<br>sudo puppet resource package puppet ensure=latest<br>四、puppet资源管理<br>Puppet中的资源是puppet工具的核心，它是通过puppet管理配置系统的最小单位。<br>..<br>1、查看资源类型<br>puppet describe -l<br>2、查看资源摘要<br>puppet describe -s <resource_name><br>3、查看资源详细用法<br>puppet describe <resource_name><br>4、资源的基本格式<br>资源名 { ‘标题’:<pre><code>属性1 =&gt; &apos;值&apos;,
+属性2 =&gt; &apos;值&apos;,
+</code></pre>}<br>`<blockquote>
+<p>以安装httpd为例<br>``` cpp<br>package { ‘httpd’:</p>
+<pre><code>ensure =&gt; &apos;present&apos;,
+provider =&gt; &apos;rpm&apos;,
+</code></pre><p>}<br>puppet常用资源:file,filebucket,host,group,package,service,exec,cron,notify 等。<br>..<br>5、资源公有属性:<br>before :指明资源要在某个资源之前运行<br>require：指明某个资源要在某个资源之后运行。<br>notify: 主动通知其他资源，本资源的状态<br>subscibe ：被动通知，当它检测到资源状态发生改变的时候，主动更新所在资源状态。<br>还可以使用<br>-&gt; 表示资源前后关系<br>~&gt; 表示资源之间的通知<br>五、puppet语言<br>1)、puppet变量：<br>1、名称之前必须以$开头，赋值用=，支持追加赋值+=；<br>2、变量名称有两种格式，简短名称，FQN($scope::variable)。</p>
+<pre><code>$webserver = &quot;httpd&quot;
+package {&quot;httpd&quot;:
+       ensure =&gt; &quot;present&quot;,
+       name =&gt; $webserver
+} 
+</code></pre><p>3、作用域:top &gt; node &gt; local 作用域越小，优先级越高<br>2)、数据类型：</p>
+<pre><code>1、直接字串
+       可以使用引号，也可以不用。
+       换行符为\n,windows中\r\n
+2、布尔型
+       true,false
+       其它类型会自动转换为布尔型。
+       所有数字都是true
+       空字符串为false，其它字符串为true
+3、数值
+       整数
+       浮点数
+4、数组，逗号隔开
+       $array = [&apos;httpd&apos;,&apos;mysql&apos;,&apos;php&apos;]
+       package {$array:ensure =&gt; installed} #依次安装包
+5、hash
+       { key1 =&gt; value1,key2 =&gt; value2,…}
+6、undef，声明未定义的东西不能加上引号的。
+</code></pre><p>3)、puppet支持的操作符和对应的表达式：</p>
+<h1 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符:"></a>比较操作符:</h1><pre><code>！=
+&lt;,&gt;,&lt;=,&gt;=,
+=~ 正则匹配
+!~ 正则不匹配
+in
+</code></pre><p>布尔操作符:</p>
+<pre><code>and
+or
+!
+</code></pre><p>算术运算</p>
+<pre><code>+
+–
+ /
+ *
+ &lt;&lt;   左移
+</code></pre><blockquote>
+<p>  右移</p>
+<pre><code>$osfamily == &apos;CentOS&apos; 
+$kernel in [&apos;Linux&apos;,&apos;solaris&apos;,&apos;freebsd&apos;]
+</code></pre><p>4)、puppet的条件判断语句：</p>
+<pre><code>if ..elsif..else
+case
+selector语句 #意思是在两个选项中任选其中一个赋值
+</code></pre><p>if $operationsystem == ‘CentOS’{</p>
+<pre><code>       notice(&quot;welcome to CentOS&quot;)
+}
+elsif $operationsystem == &apos;Redhat&apos; {
+       notice(&quot;Welcome to Redhat&quot;)
+}
+elsif $operationsystem == &apos;Fedora&apos; {
+       notice(&quot;Welcome to Fedora&quot;)
+}
+else{
+       notice(&apos;Welcome to ET&apos;)
+}
+</code></pre><p>case $operationsystem {</p>
+<pre><code>&apos;Solaris&apos;:  { include role::solaris }
+&apos;Redhat&apos;,&apos;CentOS&apos; : { include role::redhat }
+/^(Debian|Ubuntu)$/ : { include role::debian }
+default : { include role::generic }
+</code></pre><p>}<br>$webserver = $operatingsystem ? {</p>
+<pre><code>/(?i-mx:&apos;ubuntu&apos;|debian)/ =&gt; &apos;apache&apos;,
+/(?i-mx:redhat|centos|fedora)/ =&gt; &apos;httpd&apos;,
+default =&gt; &apos;httpd&apos;
+</code></pre><p>}<br>i：表示忽略大小写</p>
+</blockquote>
+</blockquote>
+</resource_name></resource_name></li>
+</ol>
+<ul>
+<li>： 表示不使用某转移符号<br>m：表示把 “.” 当做换行符使用<br>x :表示互略模式中空白字符和注释。<br>六、puppet类和模块<br>类是具有相同特性和行为的集合。就是一组代码块，在需要时可以通过名称进行调用。只定义类，并不会调用，需要声明才可以。<br>1)、语法：<br>class class_name [inherits] [base_class] {<pre><code>正常的puppet代码
+</code></pre>}<br>如果在同个模块定义了多个类， 可以采双冒号（ ：： ） 。<br>例如定义个nginx模块，<br>模块中 定义三个类：<br>class nginx { … }<br>class nginx::config { … }<br>class nginx::vhost { … }<br>2)、类的继承(基类不能有参数)：<br>1、继承资源属性<br>2、覆盖资源属性<pre><code>=&gt;         
+</code></pre>3、追加资源属性<pre><code>+&gt;
+</code></pre>3)、 模块<br>模块结构<br>module name<pre><code>mainfests
+       init.pp  #必须至少声明一个类。类与模块名相同
+       *.pp
+        # mudule_name::[subdirname]::mainfect_name
+files：包含的是一个静态文件。puppet的agentmaster模型。
+       puppet:///modles/module_name/[subdir_name/]file_name
+templates：模板文件 *.erb 用到ruby语言
+       template(&apos;&apos;);
+       content =&gt; template(&apos;模板文件&apos;),
+lib #插件目录。
+tests ：当前模块的使用帮助或者实例文件
+spec ：为lib目录的插件提供使用说明，范例的。
+</code></pre>七、事例，puppet部署LNMP<br>1、假定已经安装好puppet-server。<br>..<br>2、主机名通信<br>cat &gt;&gt; /etc/hosts &lt;&lt;EOF192.168.198.139 puppet-server192.168.198.160 puppet-client<br>EOF<br>3、提供puppet文件<br>mkdir /etc/puppet/modules/lnmp/{manifests,files,templates,tests} -p<br>vim /etc/puppet/modules/lnmp/manifests/init.pp<br>class lnmp {<pre><code>include lnmp::nginx
+include lnmp::mysql
+include lnmp::php
+</code></pre>}<br>vim /etc/puppet/modules/lnmp/manifests/nginx.pp<br>class lnmp::nginx {<br>  package{‘nginx’:<pre><code>ensure  =&gt; present,
+name    =&gt; nginx,
+</code></pre>  }<br>  file{‘nginx.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/nginx.conf&apos;,
+path    =&gt; &apos;/etc/nginx/nginx.conf&apos;,
+require =&gt; Package[&apos;nginx&apos;],
+</code></pre>  }<br> service{‘nginx’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;nginx.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/php.pp<br>class lnmp::php {<br>  package{‘php-fpm’:<pre><code>ensure  =&gt; present,
+name    =&gt; php-fpm,
+</code></pre>  }<br>  file{‘www.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/www.conf&apos;,
+path    =&gt; &apos;/etc/php-fpm.d/www.conf&apos;,
+require =&gt; Package[&apos;php-fpm&apos;],
+</code></pre>  }<br> service{‘php-fpm’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;www.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/mysql.pp<br>class lnmp::mysql {<br>  package{‘mysql-server’:<pre><code>ensure  =&gt; present,
+name    =&gt; &apos;mysql-server&apos;,
+</code></pre>  }<br>  file{‘my.cnf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/my.cnf&apos;,
+path    =&gt; &apos;/etc/my.cnf&apos;,
+require =&gt; Package[&apos;mysql-server&apos;],
+</code></pre>  }<br> service{‘mysqld’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;my.cnf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/manifests/site.pp<br>node ‘puppet-client’ {<br>include lnmp<br>}<br>4、提供服务配置文件<br>cp /root/files/{nginx.conf,www.conf,my.cnf} /etc/puppet/modules/lnmp/files/<br>5、启动puppet服务<br>[root@puppet-server modules]# puppet master –verbose –no-daemonize   #第一次启动以便观察信息Info: Creating a new SSL key for ca<br>Info: Creating a new SSL certificate request for ca<br>Info: Certificate Request fingerprint (SHA256): 7B:A9:AB:84:C0:EB:DC:83:0E:EA:8C:81:1E:25:9A:47:5C:3F:10:31:6F:F7:5C:25:BE:B7:41:3C:B8:6B:35:38…..<br>[root@puppet-client ~]# puppet agent server –server puppet-server –verbose –no-daemonize  #客户端申请证书[root@puppet-server ~]# puppet cert sign puppet-client   #服务器签署证书#稍等一会[root@puppet-client ~]# ss -tnl | egrep “80|3306|9000”LISTEN     0      128                       <em>:9000                     </em>:<em><br>LISTEN     0      50                        </em>:3306                     <em>:</em><br>LISTEN     0      128                       <em>:80                       </em>:*<br>八、总结</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwpmluac0005s6cyolrkgcgc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/15/前言-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">前言</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言-1/">前言</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言/">前言</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Ubuntu-12-04-Puppet/">Ubuntu 12.04 Puppet</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/14/CentOS-6-x-GoAccess/">CentOS 6.x GoAccess</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

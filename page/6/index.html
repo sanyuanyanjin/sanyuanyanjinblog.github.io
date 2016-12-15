@@ -61,6 +61,167 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ssh自动登录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/ssh自动登录/" class="article-date">
+  <time datetime="2016-12-13T01:25:32.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/ssh自动登录/">ssh自动登录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>shell脚本实现ssh自动登录远程服务器示例:</p>
+<p>复制代码</p>
+<p>#!/usr/bin/<br>expect<br>spawn ssh root@192.168.22.194<br>expect “<em>password:”send “123\r”expect “</em>#”interact</p>
+<p>复制代码<br>Expect是一个用来处理交互的命令。借助Expect，我们可以将交互过程写在一个脚本上，使之自动化完成。形象的说，ssh登录，ftp登录等都符合交互的定义。下文我们首先提出一个问题，然后介绍基础知四个命令，最后提出解决方法。</p>
+<p>问题</p>
+<p>如何从机器A上ssh到机器B上，然后执行机器B上的命令？如何使之自动化完成？</p>
+<p>四个命令</p>
+<p>Expect中最关键的四个命令是send,expect,spawn,interact。</p>
+<p>send：用于向进程发送字符串<br>expect：从进程接收字符串<br>spawn：启动新的进程<br>interact：允许用户交互</p>
+<ol>
+<li>send命令</li>
+</ol>
+<p>send命令接收一个字符串参数，并将该参数发送到进程。</p>
+<p>expect1.1&gt; send “hello world\n”hello world</p>
+<ol>
+<li>expect命令</li>
+</ol>
+<p>(1)基础知识</p>
+<p>expect命令和send命令正好相反，expect通常是用来等待一个进程的反馈。expect可以接收一个字符串参数，也可以接收正则表达式参数。和上文的send命令结合，现在我们可以看一个最简单的交互式的例子：</p>
+<p>expect “hi\n”send “hello there!\n”<br>这两行代码的意思是：从标准输入中等到hi和换行键后，向标准输出输出hello there。</p>
+<p>tips： $expect_out(buffer)存储了所有对expect的输入，&lt;$expect_out(0,string)&gt;存储了匹配到expect参数的输入。<br>比如如下程序：</p>
+<p>expect “hi\n”send “you typed &lt;$expect_out(buffer)&gt;”send “but I only expected &lt;$expect_out(0,string)&gt;”<br>当在标准输入中输入</p>
+<p>test<br>hi<br>是，运行结果如下</p>
+<p>you typed: test<br>hi<br>I only expect: hi<br>(2)模式-动作</p>
+<p>expect最常用的语法是来自tcl语言的模式-动作。这种语法极其灵活，下面我们就各种语法分别说明。</p>
+<p>单一分支模式语法：</p>
+<p>expect “hi” {send “You said hi”}<br>匹配到hi后，会输出”you said hi”</p>
+<p>多分支模式语法：</p>
+<p>expect “hi” { send “You said hi\n” } \”hello” { send “Hello yourself\n” } \”bye” { send “That was unexpected\n” }<br>匹配到hi,hello,bye任意一个字符串时，执行相应的输出。等同于如下写法：</p>
+<p>expect {“hi” { send “You said hi\n”}”hello” { send “Hello yourself\n”}”bye” { send “That was unexpected\n”}}</p>
+<ol>
+<li>spawn命令</li>
+</ol>
+<p>上文的所有demo都是和标准输入输出进行交互，但是我们跟希望他可以和某一个进程进行交互。spawm命令就是用来启动新的进程的。spawn后的send和expect命令都是和spawn打开的进程进行交互的。结合上文的send和expect命令我们可以看一下更复杂的程序段了。</p>
+<p>set timeout -1spawn ftp ftp.test.com      //打开新的进程，该进程用户连接远程ftp服务器expect “Name”             //进程返回Name时send “user\r”        //向进程输入anonymous\rexpect “Password:”        //进程返回Password:时send “123456\r”    //向进程输入don@libes.com\rexpect “ftp&gt; “            //进程返回ftp&gt;时send “binary\r”           //向进程输入binary\rexpect “ftp&gt; “            //进程返回ftp&gt;时send “get test.tar.gz\r”  //向进程输入get test.tar.gz\r<br>这段代码的作用是登录到ftp服务器ftp ftp.uu.net上，并以二进制的方式下载服务器上的文件test.tar.gz。程序中有详细的注释。</p>
+<p>4.interact</p>
+<p>到现在为止，我们已经可以结合spawn、expect、send自动化的完成很多任务了。但是，如何让人在适当的时候干预这个过程了。比如下载完ftp文件时，仍然可以停留在ftp命令行状态，以便手动的执行后续命令。interact可以达到这些目的。下面的demo在自动登录ftp后，允许用户交互。</p>
+<p>spawn ftp ftp.test.comexpect “Name”send “user\r”expect “Password:”send “123456\r”interact<br>解决方法</p>
+<p>上文中提到：</p>
+<p>如何从机器A上ssh到机器B上，然后执行机器B上的命令？如何使之自动化完成？</p>
+<p>下面一段脚本实现了从机器A登录到机器B，然后执行机器B上的pwd命令，并停留在B机器上，等待用户交互。具体含义请参考上文。</p>
+<p>#!/home/tools/bin/64/expect -f</p>
+<p>set timeout -<br>1 </p>
+<p>spawn ssh $BUser@$<br>BHost</p>
+<p>expect  “*password:” { send “$password\r”<br>}</p>
+<p>expect  “$*” { send “pwd\r”<br>}</p>
+<p>interact</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="ciwpmluc2001bs6cyqwgkkcgu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vim常用命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/vim常用命令/" class="article-date">
+  <time datetime="2016-12-13T01:24:48.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/vim常用命令/">vim常用命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>移动光标（普通模式下）<br>括号匹配：%<br>同词： #和* （整个单词，不是字符）<br>词组： w b e（词尾）<br>行内：0 $ ^ g_ (f t下一个bla)<br>跳行： :22<br>翻页： ctrl + （fb ud）<br>首尾： gg G<br>查找： /word （n查找下一个）<br>block： [[和]]<br>修改<br>插入：o O（新行） ； a（光标后）；i（光标前） ；r（光标处） ； (cw 到词尾)<br>删除： x X ； d（删除行） ； ggdG全部删除<br>撤销： u 或 ctrl+r<br>复制：y ； y$到最后<br>粘贴：p<br>大写：gU大写； gu小写 (选中之后)<br>替换： :%s/foo/bar<br>文件 （命令模式）<br>退出： w q ！； ZZ ； :w文件 ； :x（后面加a表示所有文件）<br>打开： e （有参数，也可以创建新的）o也可以<br>另存： saveas<br>新建： enew （无参数）</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="ciwpmluc8001gs6cysr915hn9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-route" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/route/" class="article-date">
+  <time datetime="2016-12-13T01:23:55.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/route/">route</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？<br>b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）<br>c.如果添加一个主机路由？<br>请分别解答。<br>解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1<br>route 命令使用方法：<br>a.缺省网关路由<br>    默认网关就是数据包不匹配任何设定的路由规则，最后流经的地址关口！网关按字面意思就是网络的关口，就相当于我们家里房子的门一样，如果外出就要经过房门，数据包也是一样。<br>本题的答案：<br>route del default gw 10.0.0.254<br>解答实践：<br>[root@oldboy ~]# route -n #==&gt;查看路由表，netstat -rn也可以。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0</p>
+<p>#==&gt;这里就是系统的默认网关信息，表示去任何地方（0.0.0.0），都发给10.0.0.254，因为是默认网关，所以，放在了最后一条。路由也是有顺序的，如果不符合任何一条规则就交给默认网关处理。<br>[root@oldboy ~]# route del default gw 10.0.0.254 #==&gt;这个命令是删除默认的网关。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>[root@oldboy ~]# route add default gw 10.0.0.254    #==&gt;这个命令是添加默认的网关，也是本题的答案。<br>[root@oldboy ~]# netstat -rn<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #==&gt;又回来了<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #这里就是添加的默认网关记录。<br>特别强调：实际上route add default gw 10.0.0.254 就相当于route add -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.254<br>b.网络路由：即去往某一网络或网段的路由<br>    一般多网段之间互相通信，希望建立一条优先路由，而不是通过默认网关时就可以配置网络路由。还是拿房子比喻，你现在不是要出门，而是卧室，卫生间，去卧室就要经过卧室的门，去卫生间也要经过卫生间的门，这里的卧室和卫生间的门就可以认为是去往某一网段的路由，而不是默认路由（即房子的门。）<br>    实际工作中会有需求，两个不同的内部网络之间互访，而不是出网访问，就是上面例子的情况。<br>    本题的答案：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>解答实践：<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>SIOCADDRT: 网络不可达 #==&gt;当连不通地址192.168.1.1时，无法添加路由。<br>[root@oldboy ~]# ifconfig eth0:0 192.168.1.1/24 up #==&gt;添加一个IP别名用于临时测试，如果永久生效最好加双网卡或写入到配置文件。<br>[root@oldboy ~]# ifconfig eth0:0 #==&gt;查看添加的IP别名（网络里把这种多IP的方式称为子接口）<br>eth0:0    Link encap:Ethernet  HWaddr 00:0C:29:65:A4:FD<br>          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>再来添加去192.168.1.0的数据包，交给192.168.1.1处理。<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>[root@oldboy ~]# netstat -rn   #==&gt;和route -n很像。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG        0 0          0 eth0 #==&gt;这就是网络路由<br>192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG        0 0          0 eth0<br>拓展：其他写法<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0  #==&gt;指定设备而不是地址。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG    0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>[root@oldboy ~]# route del -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route add -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>总结：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0<br>route add -net 192.168.1.0/24 dev eth0<br>route del -net 192.168.1.0/24 dev eth0<br>特别强调：以上配置在重启网络时都会失效，那么如何让它永久生效呢？<br>如果要是永久生效，有如下几种方法：<br>方法一：<br>vi /etc/sysconfig/network-scripts/route-eth0  #默认不存在此文件<br>加入如下内容：<br>192.168.1.0/24 via 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法二：<br>vi /etc/sysconfig/static-routes  #默认不存在此文件<br>加入如下内容:<br>any net 192.168.1.0/24 gw 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法三：<br>vi /etc/rc.local<br>加入如下内容：<br>route add -net 192.168.1.0/24 gw 192.168.1.1<br>PS: 方法一推荐生产环境使用<br>提示：方法三写到/etc/rc.local里只在开机时加载，当手工重启网络后会失效，但是重启系统后会生效！</p>
+<p>如果是配置默认路由网关可以再网卡配置里：<br>[root@oldboy ~]# grep GATEWAY /etc/sysconfig/network-scripts/ifcfg-eth0<br>GATEWAY=10.0.0.254<br>c.主机路由：就是去往某个主机地址如何配置路由<br>/sbin/route add -host 192.168.2.13 dev eth2<br>/sbin/route add -host 202.81.11.91 dev lo<br>例如：keepalived或heartbeat高可用服务器对之间的使用单独网卡接心跳线通信就会用到以上主机路由。<br>route命令拓展：<br>删除一条默认路由：<br>route del default gw 10.0.0.254<br>删除一条静态路由：<br>route del –net 目标网络 netmask<br>如：route del -net 192.168.1.0/24 或route del -net 192.168.1.0 netmask 255.225.255.0<br>删除一条主机路由：<br>route del -host 192.168.1.10 dev eth0</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwpmlubx0017s6cyggxve5ug" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-find" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/find/" class="article-date">
@@ -124,7 +285,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwpm0ec90012x8cyj1a99fep" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwpmlubm000zs6cyj2mwx8az" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwpm0ecr001ix8cy903v64r3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwpmluc9001is6cyszyeas63" class="article-share-link">Share</a>
       
       
     </footer>
@@ -220,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwpm0ecg0017x8cym6q9fmk4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwpmluc00019s6cynyaev75p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -267,7 +428,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwpm0ecj001bx8cyez46mhr2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwpmluc1001as6cymmz524ri" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,7 +470,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwpm0ecc0014x8cy6ytwy1u9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwpmlubv0015s6cy903lwybm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -347,7 +508,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwpm0eco001fx8cyu46k1e12" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwpmluc8001hs6cyve8agfxb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -385,151 +546,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwpm0eby000vx8cybo8mophh" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Bashmarks" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/Bashmarks/" class="article-date">
-  <time datetime="2016-12-12T09:19:35.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/Bashmarks/">Bashmarks</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>你还没有在.bashrc里使用bashmarks吗？还在等待什么？它真的非常有用。它能帮你保持历史操作，跳回到你经常使用的目录。下面是我的配置文件里脚本，但我想上面的链接能提供你更多技巧：</p>
-<h1 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE:"></a>USAGE:</h1><h1 id="s-bookmarkname-saves-the-curr-dir-as-bookmarkname"><a href="#s-bookmarkname-saves-the-curr-dir-as-bookmarkname" class="headerlink" title="s bookmarkname - saves the curr dir as bookmarkname"></a>s bookmarkname - saves the curr dir as bookmarkname</h1><h1 id="g-bookmarkname-jumps-to-the-that-bookmark"><a href="#g-bookmarkname-jumps-to-the-that-bookmark" class="headerlink" title="g bookmarkname - jumps to the that bookmark"></a>g bookmarkname - jumps to the that bookmark</h1><h1 id="g-b-TAB-tab-completion-is-available"><a href="#g-b-TAB-tab-completion-is-available" class="headerlink" title="g b[TAB] - tab completion is available"></a>g b[TAB] - tab completion is available</h1><h1 id="l-list-all-bookmarks"><a href="#l-list-all-bookmarks" class="headerlink" title="l - list all bookmarks"></a>l - list all bookmarks</h1><h1 id="save-current-directory-to-bookmarks"><a href="#save-current-directory-to-bookmarks" class="headerlink" title="save current directory to bookmarks"></a>save current directory to bookmarks</h1><p>touch ~/.sdirs<br>function s {<br>cat ~/.sdirs | grep -v “export DIR<em>$1=” &gt; ~/.sdirs1<br>mv ~/.sdirs1 ~/.sdirs<br>echo “export DIR</em>$1=$PWD” &gt;&gt; ~/.sdirs<br>}</p>
-<h1 id="jump-to-bookmark"><a href="#jump-to-bookmark" class="headerlink" title="jump to bookmark"></a>jump to bookmark</h1><p>function g {<br>source ~/.sdirs<br>cd $(eval $(echo echo $(echo \$DIR_$1)))<br>}</p>
-<h1 id="list-bookmarks-with-dirnam"><a href="#list-bookmarks-with-dirnam" class="headerlink" title="list bookmarks with dirnam"></a>list bookmarks with dirnam</h1><p>function l {<br>source ~/.sdirs<br>env | grep “^DIR_” | cut -c5- | grep “^.*=”<br>}</p>
-<h1 id="list-bookmarks-without-dirname"><a href="#list-bookmarks-without-dirname" class="headerlink" title="list bookmarks without dirname"></a>list bookmarks without dirname</h1><p>function <em>l {<br>source ~/.sdirs<br>env | grep “^DIR</em>“ | cut -c5- | grep “^.*=” | cut -f1 -d “=”<br>}</p>
-<h1 id="completion-command-for-g"><a href="#completion-command-for-g" class="headerlink" title="completion command for g"></a>completion command for g</h1><p>function _gcomp {<br>local curw<br>COMPREPLY=()<br>curw=${COMP_WORDS[COMP_CWORD]}<br>COMPREPLY=($(compgen -W ‘<code>_l</code>‘ – $curw))<br>return 0<br>}</p>
-<h1 id="bind-completion-command-for-g-to-gcomp"><a href="#bind-completion-command-for-g-to-gcomp" class="headerlink" title="bind completion command for g to _gcomp"></a>bind completion command for g to _gcomp</h1><p>complete -F _gcomp g</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwpm0ean0000x8cylt1ayqtt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-使用Linux命令行测试网速" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/使用Linux命令行测试网速/" class="article-date">
-  <time datetime="2016-12-12T09:17:25.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/使用Linux命令行测试网速/">使用Linux命令行测试网速</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当发现上网速度变慢时，人们通常会先首先测试自己的电脑到网络服务提供商（通常被称为“最后一公里”）的网络连接速度。在可用于测试宽带速度的网站中，Speedtest.net也许是使用最广泛的。</p>
-<p>Speedtest.net的工作原理并不复杂：它在你的浏览器中加载JavaScript代码并自动检测离你最近的Speedtest.net服务器，然后向服务器发送HTTP GET and POST请求来测试上行/下行网速。</p>
-<p>但在没有图形化桌面时（例如，当你通过命令行远程登陆服务器或使用没有图形界面的操作系统），基于flash、界面友好的Speedtest.net将无法工作。幸运的是，Speedtest.net提供了一个命令行版本——speedtest-cli。下面我将向你演示如何在Linux的命令行中使用speedtest-cli来测试宽带连接速度。</p>
-<p>安装speedtest-cli</p>
-<p>speedtest-cli是一个用Python编写的轻量级Linux命令行工具，在Python2.4至3.4版本下均可运行。它基于Speedtest.net的基础架构来测量网络的上/下行速率。安装speedtest-cli很简单——只需要下载其Python脚本文件。</p>
-<p>$ wget <a href="https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py" target="_blank" rel="external">https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py</a><br>$ chmod a+rx speedtest_cli.py<br>$ sudo mv speedtest_cli.py /usr/local/bin/speedtest-cli<br>$ sudo chown root:root /usr/local/bin/speedtest-cli</p>
-<p>使用speedtest-cli测试网速</p>
-<p>使用speedtest-cli命令也很简单，它不需要任何参数即可工作。</p>
-<p>$ speedtest-cli</p>
-<p>输入这个命令后，它会自动发现离你最近的Speedtest.net服务器（地理距离），然后打印出测试的网络上/下行速率。</p>
-<p>如果你愿意分享测试结果，你可以使用参数“–share”。它将会把你的测试结果上传到Speedtest.net服务器并以图形的方式分享给其他人。</p>
-<p>下面是一幅由speedtest-cli自动生成并上传到Speedtest.net的测试结果：</p>
-<p>如果你对目前所有可用的Speedtest.net服务器感兴趣，你可以使用参数“–list”。它会打印出所有的Speedtest.net服务器（按照离你的地理距离由近及远排序）。</p>
-<p>在上面的列表中，每个服务器的前面都有一个与其对应的ID。如果想使用指定的服务器来测试你的网速，你只需要在speedtest-cli命令后指定其ID即可。例如，如果想使用在Washington DC的服务器，你只需要指定相对应的服务器ID（如935）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwpm0ecx001qx8cyrrxj5t04" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/给rm命令加上回收站功能/" class="article-date">
-  <time datetime="2016-12-12T09:11:01.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/给rm命令加上回收站功能/">给rm命令加上回收站功能</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>给rm命令加上回收站功能</p>
-<p>背景：<br>在群里，总会有人聊到曾经做过的最坑的事情，其中当然少不了rm命令，比如最出名的rm -rf /*命令。<br>受HDFS回收站机制的启发，我即兴的写了一个shell脚本来实现类似的功能。</p>
-<p>具体配置：<br>[dong@localhost ~]$ sudo touch /usr/bin/delete<br>[dong@localhost ~]$ sudo chmod +x /usr/bin/delete<br>[dong@localhost ~]$ sudo vim /usr/bin/delete</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done<br>[dong@localhost ~]$ mkdir tmp<br>[dong@localhost ~]$ cd tmp<br>[dong@localhost tmp]$ mkdir 1 2 3<br>[dong@localhost tmp]$ echo 1 &gt; 1/1.txt<br>[dong@localhost tmp]$ echo 2 &gt; 2/2.txt<br>[dong@localhost tmp]$ echo 3 &gt; 3/3.txt<br>[dong@localhost tmp]$ touch a b c<br>[dong@localhost tmp]$ ln -s a d<br>[dong@localhost tmp]$ delete 1</p>
-<p>1<br>Move 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1? [y/n] y<br>2<br>Moved 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1<br>[dong@localhost tmp]$ delete -f *</p>
-<p>1<br>Moved 2 to /home/dong/.Trash/20160415114217/home/dong/tmp/2<br>2<br>Moved 3 to /home/dong/.Trash/20160415114217/home/dong/tmp/3<br>3<br>Moved a to /home/dong/.Trash/20160415114217/home/dong/tmp/a<br>4<br>Moved b to /home/dong/.Trash/20160415114217/home/dong/tmp/b<br>5<br>Moved c to /home/dong/.Trash/20160415114217/home/dong/tmp/c<br>6<br>Moved d to /home/dong/.Trash/20160415114217/home/dong/tmp/d<br>move, rm</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwpm0edv002rx8cy7fcrpg91" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwpmlubf000vs6cyqrfym3sq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -542,7 +559,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/5/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/7/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/5/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -573,23 +590,23 @@
       <ul>
         
           <li>
+            <a href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言-1/">前言</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言/">前言</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/Ubuntu-12-04-Puppet/">Ubuntu 12.04 Puppet</a>
           </li>
         
           <li>
             <a href="/2016/12/14/CentOS-6-x-GoAccess/">CentOS 6.x GoAccess</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/CentOS-6-x-Logrotate/">CentOS 6.x Logrotate</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
           </li>
         
       </ul>

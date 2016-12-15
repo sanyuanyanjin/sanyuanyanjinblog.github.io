@@ -61,6 +61,251 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-x-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Puppet/" class="article-date">
+  <time datetime="2016-12-15T00:26:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、Puppet基础原理:<br>Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。<br>二、puppet工作流程</p>
+<ol>
+<li>客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。</li>
+<li>puppet-master 告诉 puppet-client 是合法的。</li>
+<li>puppet-client 调用 facter， Facter 探测出主机的一些变量， 例如主机名、 内存大小、 IP 地址等，puppet-client 将这些信息通过 SSL 连接发送到服务器端。</li>
+<li>puppet-master 服务器端检测客户端的主机名，然后找到 manifest 对应的 node 配置，并对该部分内容进行解析。facter 送过来的信息可以作为变量处理，node 牵涉到的代码才解析，其他没牵涉的代码不解析。解析分为几个阶段，首先是语法检查，如果语法错误就报错；如果语法没错，就继续解析，解析的结果生成一个中间的“伪代码”(catelog)，然后把伪代码发给客户端。</li>
+<li>puppet-client 端接收到“伪代码”，并且执行。</li>
+<li>puppet-client 端在执行时判断有没有 file 文件，如果有，则向 fileserver 发起请求。</li>
+<li>puppet-client 端判断有没有配置 report，如果已配置，则把执行结果发送给服务器。</li>
+<li>puppet-server 端把 puppet-client 端的执行结果写入日志，并发送给报告系统。<br>三、puppet安装<br>1、直接通过yum安装老系统自带版本。<br>yum install puppet -y<br>2、安装最新版本<br>sudo rpm -ivh <a href="https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm" target="_blank" rel="external">https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</a><br>2.1、安装puppet-server。<br>sudo puppet resource package puppet-server ensure=latest<br>2.2、安装agent<br>sudo puppet resource package puppet ensure=latest<br>四、puppet资源管理<br>Puppet中的资源是puppet工具的核心，它是通过puppet管理配置系统的最小单位。<br>..<br>1、查看资源类型<br>puppet describe -l<br>2、查看资源摘要<br>puppet describe -s <resource_name><br>3、查看资源详细用法<br>puppet describe <resource_name><br>4、资源的基本格式<br>资源名 { ‘标题’:<pre><code>属性1 =&gt; &apos;值&apos;,
+属性2 =&gt; &apos;值&apos;,
+</code></pre>}<br>`<blockquote>
+<p>以安装httpd为例<br>``` cpp<br>package { ‘httpd’:</p>
+<pre><code>ensure =&gt; &apos;present&apos;,
+provider =&gt; &apos;rpm&apos;,
+</code></pre><p>}<br>puppet常用资源:file,filebucket,host,group,package,service,exec,cron,notify 等。<br>..<br>5、资源公有属性:<br>before :指明资源要在某个资源之前运行<br>require：指明某个资源要在某个资源之后运行。<br>notify: 主动通知其他资源，本资源的状态<br>subscibe ：被动通知，当它检测到资源状态发生改变的时候，主动更新所在资源状态。<br>还可以使用<br>-&gt; 表示资源前后关系<br>~&gt; 表示资源之间的通知<br>五、puppet语言<br>1)、puppet变量：<br>1、名称之前必须以$开头，赋值用=，支持追加赋值+=；<br>2、变量名称有两种格式，简短名称，FQN($scope::variable)。</p>
+<pre><code>$webserver = &quot;httpd&quot;
+package {&quot;httpd&quot;:
+       ensure =&gt; &quot;present&quot;,
+       name =&gt; $webserver
+} 
+</code></pre><p>3、作用域:top &gt; node &gt; local 作用域越小，优先级越高<br>2)、数据类型：</p>
+<pre><code>1、直接字串
+       可以使用引号，也可以不用。
+       换行符为\n,windows中\r\n
+2、布尔型
+       true,false
+       其它类型会自动转换为布尔型。
+       所有数字都是true
+       空字符串为false，其它字符串为true
+3、数值
+       整数
+       浮点数
+4、数组，逗号隔开
+       $array = [&apos;httpd&apos;,&apos;mysql&apos;,&apos;php&apos;]
+       package {$array:ensure =&gt; installed} #依次安装包
+5、hash
+       { key1 =&gt; value1,key2 =&gt; value2,…}
+6、undef，声明未定义的东西不能加上引号的。
+</code></pre><p>3)、puppet支持的操作符和对应的表达式：</p>
+<h1 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符:"></a>比较操作符:</h1><pre><code>！=
+&lt;,&gt;,&lt;=,&gt;=,
+=~ 正则匹配
+!~ 正则不匹配
+in
+</code></pre><p>布尔操作符:</p>
+<pre><code>and
+or
+!
+</code></pre><p>算术运算</p>
+<pre><code>+
+–
+ /
+ *
+ &lt;&lt;   左移
+</code></pre><blockquote>
+<p>  右移</p>
+<pre><code>$osfamily == &apos;CentOS&apos; 
+$kernel in [&apos;Linux&apos;,&apos;solaris&apos;,&apos;freebsd&apos;]
+</code></pre><p>4)、puppet的条件判断语句：</p>
+<pre><code>if ..elsif..else
+case
+selector语句 #意思是在两个选项中任选其中一个赋值
+</code></pre><p>if $operationsystem == ‘CentOS’{</p>
+<pre><code>       notice(&quot;welcome to CentOS&quot;)
+}
+elsif $operationsystem == &apos;Redhat&apos; {
+       notice(&quot;Welcome to Redhat&quot;)
+}
+elsif $operationsystem == &apos;Fedora&apos; {
+       notice(&quot;Welcome to Fedora&quot;)
+}
+else{
+       notice(&apos;Welcome to ET&apos;)
+}
+</code></pre><p>case $operationsystem {</p>
+<pre><code>&apos;Solaris&apos;:  { include role::solaris }
+&apos;Redhat&apos;,&apos;CentOS&apos; : { include role::redhat }
+/^(Debian|Ubuntu)$/ : { include role::debian }
+default : { include role::generic }
+</code></pre><p>}<br>$webserver = $operatingsystem ? {</p>
+<pre><code>/(?i-mx:&apos;ubuntu&apos;|debian)/ =&gt; &apos;apache&apos;,
+/(?i-mx:redhat|centos|fedora)/ =&gt; &apos;httpd&apos;,
+default =&gt; &apos;httpd&apos;
+</code></pre><p>}<br>i：表示忽略大小写</p>
+</blockquote>
+</blockquote>
+</resource_name></resource_name></li>
+</ol>
+<ul>
+<li>： 表示不使用某转移符号<br>m：表示把 “.” 当做换行符使用<br>x :表示互略模式中空白字符和注释。<br>六、puppet类和模块<br>类是具有相同特性和行为的集合。就是一组代码块，在需要时可以通过名称进行调用。只定义类，并不会调用，需要声明才可以。<br>1)、语法：<br>class class_name [inherits] [base_class] {<pre><code>正常的puppet代码
+</code></pre>}<br>如果在同个模块定义了多个类， 可以采双冒号（ ：： ） 。<br>例如定义个nginx模块，<br>模块中 定义三个类：<br>class nginx { … }<br>class nginx::config { … }<br>class nginx::vhost { … }<br>2)、类的继承(基类不能有参数)：<br>1、继承资源属性<br>2、覆盖资源属性<pre><code>=&gt;         
+</code></pre>3、追加资源属性<pre><code>+&gt;
+</code></pre>3)、 模块<br>模块结构<br>module name<pre><code>mainfests
+       init.pp  #必须至少声明一个类。类与模块名相同
+       *.pp
+        # mudule_name::[subdirname]::mainfect_name
+files：包含的是一个静态文件。puppet的agentmaster模型。
+       puppet:///modles/module_name/[subdir_name/]file_name
+templates：模板文件 *.erb 用到ruby语言
+       template(&apos;&apos;);
+       content =&gt; template(&apos;模板文件&apos;),
+lib #插件目录。
+tests ：当前模块的使用帮助或者实例文件
+spec ：为lib目录的插件提供使用说明，范例的。
+</code></pre>七、事例，puppet部署LNMP<br>1、假定已经安装好puppet-server。<br>..<br>2、主机名通信<br>cat &gt;&gt; /etc/hosts &lt;&lt;EOF192.168.198.139 puppet-server192.168.198.160 puppet-client<br>EOF<br>3、提供puppet文件<br>mkdir /etc/puppet/modules/lnmp/{manifests,files,templates,tests} -p<br>vim /etc/puppet/modules/lnmp/manifests/init.pp<br>class lnmp {<pre><code>include lnmp::nginx
+include lnmp::mysql
+include lnmp::php
+</code></pre>}<br>vim /etc/puppet/modules/lnmp/manifests/nginx.pp<br>class lnmp::nginx {<br>  package{‘nginx’:<pre><code>ensure  =&gt; present,
+name    =&gt; nginx,
+</code></pre>  }<br>  file{‘nginx.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/nginx.conf&apos;,
+path    =&gt; &apos;/etc/nginx/nginx.conf&apos;,
+require =&gt; Package[&apos;nginx&apos;],
+</code></pre>  }<br> service{‘nginx’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;nginx.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/php.pp<br>class lnmp::php {<br>  package{‘php-fpm’:<pre><code>ensure  =&gt; present,
+name    =&gt; php-fpm,
+</code></pre>  }<br>  file{‘www.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/www.conf&apos;,
+path    =&gt; &apos;/etc/php-fpm.d/www.conf&apos;,
+require =&gt; Package[&apos;php-fpm&apos;],
+</code></pre>  }<br> service{‘php-fpm’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;www.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/mysql.pp<br>class lnmp::mysql {<br>  package{‘mysql-server’:<pre><code>ensure  =&gt; present,
+name    =&gt; &apos;mysql-server&apos;,
+</code></pre>  }<br>  file{‘my.cnf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/my.cnf&apos;,
+path    =&gt; &apos;/etc/my.cnf&apos;,
+require =&gt; Package[&apos;mysql-server&apos;],
+</code></pre>  }<br> service{‘mysqld’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;my.cnf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/manifests/site.pp<br>node ‘puppet-client’ {<br>include lnmp<br>}<br>4、提供服务配置文件<br>cp /root/files/{nginx.conf,www.conf,my.cnf} /etc/puppet/modules/lnmp/files/<br>5、启动puppet服务<br>[root@puppet-server modules]# puppet master –verbose –no-daemonize   #第一次启动以便观察信息Info: Creating a new SSL key for ca<br>Info: Creating a new SSL certificate request for ca<br>Info: Certificate Request fingerprint (SHA256): 7B:A9:AB:84:C0:EB:DC:83:0E:EA:8C:81:1E:25:9A:47:5C:3F:10:31:6F:F7:5C:25:BE:B7:41:3C:B8:6B:35:38…..<br>[root@puppet-client ~]# puppet agent server –server puppet-server –verbose –no-daemonize  #客户端申请证书[root@puppet-server ~]# puppet cert sign puppet-client   #服务器签署证书#稍等一会[root@puppet-client ~]# ss -tnl | egrep “80|3306|9000”LISTEN     0      128                       <em>:9000                     </em>:<em><br>LISTEN     0      50                        </em>:3306                     <em>:</em><br>LISTEN     0      128                       <em>:80                       </em>:*<br>八、总结</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwpmluac0005s6cyolrkgcgc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前言-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/前言-1/" class="article-date">
+  <time datetime="2016-12-15T00:23:59.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/前言-1/">前言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwpmlucr0020s6cy9ou7688z" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前言" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/前言/" class="article-date">
+  <time datetime="2016-12-15T00:23:06.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/前言/">前言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwpmluct0022s6cyzx1yuc7r" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Ubuntu-12-04-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/Ubuntu-12-04-Puppet/" class="article-date">
@@ -116,7 +361,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwpm0ebt000qx8cycqdjjp4g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwpmlubd000ss6cyls1xtoi4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -230,7 +475,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwpm0eb20007x8cyqip4wl0g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwpmluag0006s6cy3er1c7jw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -273,7 +518,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwpm0eaw0003x8cyln3839fh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwpmlua80004s6cyl0wj66vk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -318,7 +563,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwpm0eax0004x8cykxlbvof1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwpmlua70003s6cy4467k295" class="article-share-link">Share</a>
       
       
     </footer>
@@ -356,7 +601,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwpm0ebx000tx8cyzvy5qv74" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwpmlube000ts6cyujyym393" class="article-share-link">Share</a>
       
       
     </footer>
@@ -396,7 +641,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwpm0eau0002x8cydjbrgkxi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwpmlua40002s6cyzc7nm0ho" class="article-share-link">Share</a>
       
       
     </footer>
@@ -528,236 +773,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwpm0eb10006x8cy4b7lvn2b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-Docker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-7-x-Docker/" class="article-date">
-  <time datetime="2016-12-14T04:44:44.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">https://www.gitbook.com/book/yeasy/docker_practice/details</a><br><a href="https://hub.docker.com/explore/" target="_blank" rel="external">https://hub.docker.com/explore/</a><br><a href="https://github.com/shipyard/shipyard" target="_blank" rel="external">https://github.com/shipyard/shipyard</a><br><a href="https://docs.docker.com/engine/installation/linux/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/</a></p>
-<p>[root@node4 ~]# curl -sSL <a href="http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet" target="_blank" rel="external">http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet</a> | sh -</p>
-<p>[root@node4 ~]# service docker start<br>Redirecting to /bin/systemctl start  docker.service<br>[root@node4 ~]#<br>[root@node4 ~]# docker run hello-world</p>
-<p> [root@node4 ~]# chkconfig docker on<br>Note: Forwarding request to ‘systemctl enable docker.service’.<br>Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.<br>[root@node4 ~]#<br>docker run -i -t ubuntu:12.04 /bin/bash</p>
-<p>docker pull hub.c.163.com/public/centos:6.5<br>Digest: sha256:92fd18cda0cbf63bb4b5ffd0c073a9d689d5b202e3b491cbc74488fff1c37d11<br>Status: Downloaded newer image for hub.c.163.com/public/centos:6.5<br>docker run -i -t hub.c.163.com/public/centos:6.5 /bin/bash</p>
-<p>docker pull index.tenxcloud.com/tenxcloud/nodejs<br>Digest: sha256:7b214df4b3ef751f7a2852e14b7d9ed809718251770cf97b57929e61a6eb6458<br>Status: Downloaded newer image for index.tenxcloud.com/tenxcloud/nodejs:latest</p>
-<p>[root@node4 ~]# docker images<br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>ubuntu              12.04               a11493a01736        2 weeks ago         103.6 MB<br>hello-world         latest              c54a2cc56cbb        10 weeks ago        1.848 kB<br>[root@node4 ~]#</p>
-<p>[root@node4 ~]# docker ps –all<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES<br>ae816f2e5d0e        ubuntu:12.04        “/bin/bash”         55 minutes ago      Exited (0) 54 minutes ago                       elated_bardeen<br>f16fbeb5fda3        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       trusting_mclean<br>97b80da7cc38        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       stupefied_noether<br>[root@node4 ~]#</p>
-<p>[root@node4 ~]# docker rm 97b80da7cc38 </p>
-<p>docker logs elated_bardeen<br>docker stop elated_bardeen<br>docker restart elated_bardeen<br>docker start elated_bardeen</p>
-<p>保存镜像<br>docker save -o ubuntu_12.04.tar ubuntu:12.04<br>docker save -o node_latest.tar node:latest<br>载入镜像<br>可以使用 docker load 从导出的本地文件中再导入到本地镜像库，例如<br>docker load –input ubuntu_12.04.tar<br>docker load &lt; ubuntu_12.04.tar<br>这将导入镜像以及其相关的元数据信息（包括标签等）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwpm0eb70008x8cy0tkfhj06" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Python-自定义函数的特殊属性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Python-自定义函数的特殊属性/" class="article-date">
-  <time datetime="2016-12-13T09:26:53.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Python 中通过函数定义所创建的用户自定义函数对象均具有一些特殊属性，需要注意的是这里介绍的是自定义函数（function类型）的特殊属性，而非方法（method 类型）的特殊属性，函数和方法的特熟属性以及默认的返回值可能不尽相同。</p>
-<p>对于大多数特殊属性，可以通过下面这个例子示范一下：</p>
-<p>class Test():</p>
-<pre><code>def func(self, v = &apos;dog&apos;):
-    &apos;&apos;&apos;这里演示一个闭包函数&apos;&apos;&apos;
-
-    name = &apos;dobi&apos;
-    def inn_func(age = 1):
-        print(name, v, age)
-
-    return inn_func
-</code></pre><p>test = Test()<br>clsfunc = test.func()</p>
-<p>首先看一下方法与函数的区别：实例的函数为bound method，而类的函数以及闭包均为function，需要强调的是 Python 2.x 中类的函数为unbound method，这点与Python 3.x 有所不同，本文则基于 Python 3.51 整理。</p>
-<p>print(Test.func)</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a><function test.func="" at="" 0x0000020f0766e268=""></function></h1><p>print(test.func)</p>
-<h1 id="-1"><a href="#-1" class="headerlink" title=""></a><bound method="" test.func="" of="" <__main__.test="" object="" at="" 0x0000020f077e5da0="">&gt;</bound></h1><p>print(clsfunc)</p>
-<h1 id="-2"><a href="#-2" class="headerlink" title=""></a><function test.func.<locals="">.inn_func at 0x0000020F071D7F28&gt;</function></h1><p><strong>doc</strong></p>
-<p>可写；用于获取函数的文档说明，如果没有，则返回 None。</p>
-<p>print(‘Test.func.<strong>doc</strong>:’, Test.func.<strong>doc</strong>)</p>
-<h1 id="Test-func-doc-这里演示一个闭包函数"><a href="#Test-func-doc-这里演示一个闭包函数" class="headerlink" title="Test.func.doc: 这里演示一个闭包函数"></a>Test.func.<strong>doc</strong>: 这里演示一个闭包函数</h1><p>Test.func.<strong>doc</strong> = ‘ddd’  #注意，这里是 Test,不能是 test<br>print(‘Test.func.<strong>doc</strong>:’, Test.func.<strong>doc</strong>)</p>
-<h1 id="Test-func-doc-ddd"><a href="#Test-func-doc-ddd" class="headerlink" title="Test.func.doc: ddd"></a>Test.func.<strong>doc</strong>: ddd</h1><p><strong>name</strong></p>
-<p>可写；获取函数的名称。</p>
-<p>print(‘Test.func.<strong>name</strong>:’, Test.func.<strong>name</strong>)</p>
-<h1 id="Test-func-name-func"><a href="#Test-func-name-func" class="headerlink" title="Test.func.name: func"></a>Test.func.<strong>name</strong>: func</h1><p>Test.func.<strong>name</strong> = ‘pet’<br>print(‘Test.func.<strong>name</strong>:’, Test.func.<strong>name</strong>)</p>
-<h1 id="Test-func-name-pet"><a href="#Test-func-name-pet" class="headerlink" title="Test.func.name: pet"></a>Test.func.<strong>name</strong>: pet</h1><p><strong>qualname</strong></p>
-<p>可写；获取函数的qualname：点示法显示函数名称、所在的类、模块等梯级地址。</p>
-<p>print(‘Test.func.<strong>qualname</strong>:’, Test.func.<strong>qualname</strong>)</p>
-<h1 id="Test-func-qualname-Test-func"><a href="#Test-func-qualname-Test-func" class="headerlink" title="Test.func.qualname: Test.func"></a>Test.func.<strong>qualname</strong>: Test.func</h1><p>Test.func.<strong>qualname</strong> = ‘path’<br>print(‘Test.func.<strong>qualname</strong>:’, Test.func.<strong>qualname</strong>)</p>
-<h1 id="Test-func-qualname-path"><a href="#Test-func-qualname-path" class="headerlink" title="Test.func.qualname: path"></a>Test.func.<strong>qualname</strong>: path</h1><p><strong>module</strong></p>
-<p>可写；返回函数所在的模块，如果无则返回None。</p>
-<p>print(‘Test.func.<strong>module</strong>:’, Test.func.<strong>module</strong>)</p>
-<h1 id="Test-func-module-main"><a href="#Test-func-module-main" class="headerlink" title="Test.func.module: main"></a>Test.func.<strong>module</strong>: <strong>main</strong></h1><p>Test.func.<strong>module</strong> = ‘a’<br>print(‘Test.func.<strong>module</strong>:’, Test.func.<strong>module</strong>)</p>
-<h1 id="Test-func-module-a"><a href="#Test-func-module-a" class="headerlink" title="Test.func.module: a"></a>Test.func.<strong>module</strong>: a</h1><p><strong>defaults</strong></p>
-<p>可写；以元组的形式返回函数的默认参数，如果无默认参数则返回None。</p>
-<p>print(‘Test.func.<strong>defaults</strong>:’, Test.func.<strong>defaults</strong>)</p>
-<h1 id="Test-func-defaults-‘dog’"><a href="#Test-func-defaults-‘dog’" class="headerlink" title="Test.func.defaults: (‘dog’,)"></a>Test.func.<strong>defaults</strong>: (‘dog’,)</h1><p>Test.func.<strong>defaults</strong> = (‘cat’,)<br>print(‘Test.func.<strong>defaults</strong>:’, Test.func.<strong>defaults</strong>)</p>
-<h1 id="Test-func-defaults-‘cat’"><a href="#Test-func-defaults-‘cat’" class="headerlink" title="Test.func.defaults: (‘cat’,)"></a>Test.func.<strong>defaults</strong>: (‘cat’,)</h1><p>print(‘clsfunc.<strong>defaults</strong>:’, clsfunc.<strong>defaults</strong>)</p>
-<h1 id="clsfunc-defaults-1"><a href="#clsfunc-defaults-1" class="headerlink" title="clsfunc.defaults: (1,)"></a>clsfunc.<strong>defaults</strong>: (1,)</h1><p>clsfunc.<strong>defaults</strong> = (2,)<br>print(‘clsfunc.<strong>defaults</strong>:’, clsfunc.<strong>defaults</strong>)</p>
-<h1 id="clsfunc-defaults-2"><a href="#clsfunc-defaults-2" class="headerlink" title="clsfunc.defaults: (2,)"></a>clsfunc.<strong>defaults</strong>: (2,)</h1><p><strong>code</strong></p>
-<p>可写；返回已编译的函数对象。</p>
-<p>print(‘Test.func.<strong>code</strong>:’, Test.func.<strong>code</strong>)</p>
-<h1 id="Test-func-code"><a href="#Test-func-code" class="headerlink" title="Test.func.code:"></a>Test.func.<strong>code</strong>:</h1><p>def func2():print(‘cat’)<br>Test.func.<strong>code</strong> = func2.<strong>code</strong><br>Test.func()</p>
-<h1 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h1><p>print(‘Test.func.<strong>code</strong>:’, Test.func.<strong>code</strong>)</p>
-<h1 id="Test-func-code-1"><a href="#Test-func-code-1" class="headerlink" title="Test.func.code:"></a>Test.func.<strong>code</strong>:</h1><p><strong>globals</strong></p>
-<p>只读，以字典的形式返回函数所在的全局命名空间所定义的全局变量。</p>
-<p>print(‘Test.func.<strong>globals</strong>:’, Test.func.<strong>globals</strong>)</p>
-<h1 id="Test-func-globals"><a href="#Test-func-globals" class="headerlink" title="Test.func.globals: {"></a>Test.func.<strong>globals</strong>: {</h1><h1 id="‘cached‘-None"><a href="#‘cached‘-None" class="headerlink" title="‘cached‘: None,"></a>‘<strong>cached</strong>‘: None,</h1><h1 id="‘Test’"><a href="#‘Test’" class="headerlink" title="‘Test’: ,"></a>‘Test’: <class '__main__.test'="">,</class></h1><h1 id="‘builtins‘"><a href="#‘builtins‘" class="headerlink" title="‘builtins‘: ,"></a>‘<strong>builtins</strong>‘: <module 'builtins'="" (built-in)="">,</module></h1><h1 id="‘func2’"><a href="#‘func2’" class="headerlink" title="‘func2’: ,"></a>‘func2’: <function func2="" at="" 0x0000020f077d3c80="">,</function></h1><h1 id="‘spec‘-None"><a href="#‘spec‘-None" class="headerlink" title="‘spec‘: None,"></a>‘<strong>spec</strong>‘: None,</h1><h1 id="‘doc‘-None"><a href="#‘doc‘-None" class="headerlink" title="‘doc‘: None,"></a>‘<strong>doc</strong>‘: None,</h1><h1 id="‘file‘-‘D-…-a-py’"><a href="#‘file‘-‘D-…-a-py’" class="headerlink" title="‘file‘: ‘D:\…\a.py’,"></a>‘<strong>file</strong>‘: ‘D:\…\a.py’,</h1><h1 id="‘test’"><a href="#‘test’" class="headerlink" title="‘test’: ,"></a>‘test’: <__main__.test object="" at="" 0x0000020f077e5da0="">,</__main__.test></h1><h1 id="‘clsfunc’"><a href="#‘clsfunc’" class="headerlink" title="‘clsfunc’: "></a>‘clsfunc’: <function test.func.<locals="">.inn_func at 0x0000020F071D7F28&gt;,</function></h1><h1 id="‘package‘-None"><a href="#‘package‘-None" class="headerlink" title="‘package‘: None,"></a>‘<strong>package</strong>‘: None,</h1><h1 id="‘name‘-‘main‘"><a href="#‘name‘-‘main‘" class="headerlink" title="‘name‘: ‘main‘,"></a>‘<strong>name</strong>‘: ‘<strong>main</strong>‘,</h1><h1 id="‘loader‘"><a href="#‘loader‘" class="headerlink" title="‘loader‘: "></a>‘<strong>loader</strong>‘: <_frozen_importlib_external.sourcefileloader object="" at="" 0x0000020f07289828=""></_frozen_importlib_external.sourcefileloader></h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p><strong>dict</strong></p>
-<p>可写；以字典的形式返回命名空间所支持的任意自定义的函数属性。</p>
-<p>print(‘Test.func.<strong>dict</strong>:’, Test.func.<strong>dict</strong>)</p>
-<h1 id="Test-func-dict"><a href="#Test-func-dict" class="headerlink" title="Test.func.dict: {}"></a>Test.func.<strong>dict</strong>: {}</h1><p><strong>closure</strong></p>
-<p>只读；以包含cell的元组形式返回闭包所包含的自由变量。</p>
-<p>print(‘Test.func.<strong>closure</strong>:’, Test.func.<strong>closure</strong>)</p>
-<h1 id="None"><a href="#None" class="headerlink" title="None"></a>None</h1><p>print(‘clsfunc.<strong>closure</strong>:’, clsfunc.<strong>closure</strong>)</p>
-<h1 id="clsfunc-closure"><a href="#clsfunc-closure" class="headerlink" title="clsfunc.closure: ("></a>clsfunc.<strong>closure</strong>: (</h1><h1 id="-4"><a href="#-4" class="headerlink" title=","></a><cell at="" 0x0000020f071fe708:="" str="" object="" 0x0000020f07289998="">,</cell></h1><h1 id="-5"><a href="#-5" class="headerlink" title=""></a><cell at="" 0x0000020f072b8c78:="" str="" object="" 0x0000020f0766c538=""></cell></h1><h1 id="-6"><a href="#-6" class="headerlink" title=")"></a>)</h1><p>print(‘clsfunc.<strong>closure</strong>[x]:’, clsfunc.<strong>closure</strong>[0].cell_contents, clsfunc.<strong>closure</strong>[1].cell_contents)</p>
-<h1 id="clsfunc-closure-x-dobi-dog"><a href="#clsfunc-closure-x-dobi-dog" class="headerlink" title="clsfunc.closure[x]: dobi dog"></a>clsfunc.<strong>closure</strong>[x]: dobi dog</h1><p><strong>annotations</strong></p>
-<p>可写；具体详见“Python 的函数注释”(<a href="https://segmentfault.com/a/1190000005173184" target="_blank" rel="external">https://segmentfault.com/a/1190000005173184</a>)</p>
-<p><strong>kwdefaults</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwpm0ebs000px8cyj7yy7x8w" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-python实现自动备份文件夹功能" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/python实现自动备份文件夹功能/" class="article-date">
-  <time datetime="2016-12-13T09:14:57.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>python实现自动备份文件夹功能</p>
-<p>python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。<br>网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。<br>其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。</p>
-<p>#coding:utf-8<br>‘’’<br>Created on 2015年7月28日<br>功能简介：</p>
-<ul>
-<li>实现文件夹的自动备份，并会自动删除两个月之前的备份文件。</li>
-<li>实现插入u盘后的自动备份。</li>
-</ul>
-<p>@author: zhuzhezhe<br>‘’’<br>import time,datetime,os,os.path,zipfile,glob<br>from zipfile import ZIP_DEFLATED<br>def backup(filepath):</p>
-<pre><code>#需要备份的文件夹
-from_dir = []
-&apos;&apos;&apos;
-with open(&apos;backup.txt&apos;,&apos;r&apos;) as file:
-    for line in file:
-        from_dir.append(line)
-    file.close(
-&apos;&apos;&apos;
-#print from_dir
-#这里输入你需要备份的文件夹
-from_dir = [&apos;F:\code\python\test&apos;,
-            &apos;F:\code\java&apos;,]
-#当前备份时间
-back_time = time.strftime(u&apos;%Y-%m-%d&apos;)
-#目标文件夹
-to_dir = filepath+u&apos;:\\backup&apos;
-if not os.path.exists(to_dir):
-    os.mkdir(to_dir)
-    print u&apos;已新建备份目录.&apos;
-os.chdir(to_dir)
-#打包文件夹的名字
-target = back_time+u&apos;.zip&apos;
-#依次打包压缩每个文件
-if not os.path.exists(target):
-    zip = zipfile.ZipFile(target,&apos;a&apos;,ZIP_DEFLATED)
-    for file in from_dir:
-        for f in glob.glob(file+&apos;\\*&apos;): #glob生成文件夹下所有文件的列表
-            zip.write(f)
-    print u&apos;备份完成.&apos;
-    zip.close()
-
-#删除两个月之前的备份文件
-#列出所有备份文件
-os.chdir(to_dir)
-list_file = os.listdir(to_dir)
-#两个月之前的时间,使用timedelta表示一个时间段,可以实现时间的加减
-old_time = datetime.date.today()-datetime.timedelta(2*30)
-#print str(old_time)[5:7]
-for lis in list_file:
-    if lis[5:7] == str(old_time)[5:7]:
-        os.remove(lis)
-</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    backup(‘F’)</p>
-<pre><code>#如果插入u盘，则自动备份到u盘
-if os.path.exists(&apos;G:&apos;) == True:
-    backup(&apos;G&apos;)
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwpm0ece0015x8cys8ao36zz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwpmluam0009s6cyr9iq9kb5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -770,7 +786,7 @@ if os.path.exists(&apos;G:&apos;) == True:
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -801,23 +817,23 @@ if os.path.exists(&apos;G:&apos;) == True:
       <ul>
         
           <li>
+            <a href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言-1/">前言</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/前言/">前言</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/Ubuntu-12-04-Puppet/">Ubuntu 12.04 Puppet</a>
           </li>
         
           <li>
             <a href="/2016/12/14/CentOS-6-x-GoAccess/">CentOS 6.x GoAccess</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/CentOS-6-x-Logrotate/">CentOS 6.x Logrotate</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
           </li>
         
       </ul>
