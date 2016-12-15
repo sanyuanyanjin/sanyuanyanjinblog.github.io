@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Nginx | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Nginx 1.4.210.6.0.26 00:0C:29:7C:EB:A3http://10.6.4.37:8088/web/loginhttp://10.6.0.20/moodle/?lang=zh_cn
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/conf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Nginx">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="Nginx 1.4.210.6.0.26 00:0C:29:7C:EB:A3http://10.6.4.37:8088/web/loginhttp://10.6.0.20/moodle/?lang=zh_cn
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/conf">
+<meta property="og:updated_time" content="2016-12-15T03:08:10.268Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Nginx">
+<meta name="twitter:description" content="Nginx 1.4.210.6.0.26 00:0C:29:7C:EB:A3http://10.6.4.37:8088/web/loginhttp://10.6.0.20/moodle/?lang=zh_cn
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/conf">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Nginx/" class="article-date">
+  <time datetime="2016-12-15T03:07:06.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Nginx
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Nginx 1.4.2<br>10.6.0.26 00:0C:29:7C:EB:A3<br><a href="http://10.6.4.37:8088/web/login" target="_blank" rel="external">http://10.6.4.37:8088/web/login</a><br><a href="http://10.6.0.20/moodle/?lang=zh_cn" target="_blank" rel="external">http://10.6.0.20/moodle/?lang=zh_cn</a></p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>122 UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=nginx</p>
+<p>[root@web1 ~]# cat /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=web1<br>[root@web1 ~]#</p>
+<p>[root@web2 ~]# cat /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=web2<br>[root@web2 ~]#</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></p>
+<p>cd /etc/yum.repos.d/<br>mv cobbler-config.repo cobbler-config.repobak<br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>各节点时间同步<br>nginx NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.0.99<br>子网掩码：255.255.255.0<br>网关：10.6.0.128<br>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=5a:3d:88:0d:3a:0f<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”e3cf0ead-a19a-4eef-ba54-affb79c298de”<br>IPADDR=10.6.0.99<br>NETMASK=255.255.255.0<br>DNS2=223.5.5.5<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>USERCTL=no</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>ifconfig eth1 192.168.3.3 netmask 255.255.255.0<br>vim /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth1<br>BOOTPROTO=none<br>HWADDR=86:9E:E5:08:9E:72<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>安装XenServer Tools<br>mount /dev/cdrom /media/<br>cd /media/Linux/<br>./install.sh<br>You should now reboot this Virtual Machine.<br>快照</p>
+<p>yum -y install dhcp<br>安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak<br>备份dhcpd.conf文件<br>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>  option routers 192.168.3.3;<br>  option domain-name-servers 223.5.5.5;<br>  option subnet-mask 255.255.255.0;<br>  range dynamic-bootp 192.168.3.6 192.168.3.99;<br>  default-lease-time 21600;<br>  max-lease-time 43200;<br>  next-server 192.168.3.3;<br>}</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>service dhcpd start<br>chkconfig dhcpd on</p>
+<p>NAT<br>vim /etc/sysctl.conf<br>7 # net.ipv4.ip_forward = 0<br>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>清除现有iptables filter 表规则<br>iptables -F<br>保存iptables 设置<br>/etc/init.d/iptables save<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT</p>
+<p>保存<br>/etc/init.d/iptables save</p>
+<p>[root@web1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>HWADDR=9a:df:98:ed:e7:9d<br>IPADDR=192.168.3.6<br>NETMASK=255.255.255.0<br>DNS2=223.5.5.5<br>GATEWAY=192.168.3.3<br>DNS1=61.177.7.1<br>USERCTL=no<br>[root@web1 ~]#</p>
+<p>[root@web2 ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>HWADDR=06:1a:ac:66:a7:7e<br>IPADDR=192.168.3.9<br>NETMASK=255.255.255.0<br>GATEWAY=192.168.3.3<br>DNS1=61.177.7.1<br>USERCTL=no<br>[root@web2 ~]#</p>
+<p>web1-2<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 192.168.3.3<br>ntpdate -u 192.168.3.3<br>service ntpd start</p>
+<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@192.168.3.6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@192.168.3.9:~/.ssh/</p>
+<p>安装Nginx<br>1.解压<br>[root@nginx src]# tar xf nginx-1.4.2.tar.gz<br>2.新建nginx用户与组<br>[root@nginx src]# groupadd -g 108 -r nginx<br>[root@nginx src]# useradd -u 108 -r -g 108 nginx<br>[root@nginx src]# id nginx<br>uid=108(nginx) gid=108(nginx) 组=108(nginx)<br>3.准备编译配置文件<br>[root@nginx src]# yum install -y pcre-devel openssl-devel gcc*<br>[root@nginx ~]# cd nginx-1.4.2<br>[root@nginx nginx-1.4.2]# ./configure –prefix=/usr –sbin-path=/usr/sbin/nginx –conf-path=/etc/nginx/nginx.conf –error-log-path=/var/log/nginx/error.log –http-log-path=/var/log/nginx/access.log –pid-path=/var/run/nginx/nginx.pid –lock-path=/var/lock/nginx.lock –user=nginx –group=nginx –with-http_ssl_module –with-http_flv_module –with-http_stub_status_module –with-http_gzip_static_module –http-client-body-temp-path=/var/tmp/nginx/client/ –http-proxy-temp-path=/var/tmp/nginx/proxy/ –http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ –http-uwsgi-temp-path=/var/tmp/nginx/uwsgi –http-scgi-temp-path=/var/tmp/nginx/scgi –with-pcre<br>4.编译并安装<br>[root@nginx nginx-1.4.2]# make &amp;&amp; make install<br>5.为nginx提供SysV init脚本<br>[root@nginx ~]# vim /etc/init.d/nginx</p>
+<p>#!/bin/sh<br>#</p>
+<h1 id="nginx-this-script-starts-and-stops-the-nginx-daemon"><a href="#nginx-this-script-starts-and-stops-the-nginx-daemon" class="headerlink" title="nginx - this script starts and stops the nginx daemon"></a>nginx - this script starts and stops the nginx daemon</h1><p>#</p>
+<h1 id="chkconfig-85-15"><a href="#chkconfig-85-15" class="headerlink" title="chkconfig: - 85 15"></a>chkconfig: - 85 15</h1><h1 id="description-Nginx-is-an-HTTP-S-server-HTTP-S-reverse"><a href="#description-Nginx-is-an-HTTP-S-server-HTTP-S-reverse" class="headerlink" title="description: Nginx is an HTTP(S) server, HTTP(S) reverse \"></a>description: Nginx is an HTTP(S) server, HTTP(S) reverse \</h1><h1 id="proxy-and-IMAP-POP3-proxy-server"><a href="#proxy-and-IMAP-POP3-proxy-server" class="headerlink" title="proxy and IMAP/POP3 proxy server"></a>proxy and IMAP/POP3 proxy server</h1><h1 id="processname-nginx"><a href="#processname-nginx" class="headerlink" title="processname: nginx"></a>processname: nginx</h1><h1 id="config-etc-nginx-nginx-conf"><a href="#config-etc-nginx-nginx-conf" class="headerlink" title="config: /etc/nginx/nginx.conf"></a>config: /etc/nginx/nginx.conf</h1><h1 id="config-etc-sysconfig-nginx"><a href="#config-etc-sysconfig-nginx" class="headerlink" title="config: /etc/sysconfig/nginx"></a>config: /etc/sysconfig/nginx</h1><h1 id="pidfile-var-run-nginx-pid"><a href="#pidfile-var-run-nginx-pid" class="headerlink" title="pidfile: /var/run/nginx.pid"></a>pidfile: /var/run/nginx.pid</h1><h1 id="Source-function-library"><a href="#Source-function-library" class="headerlink" title="Source function library."></a>Source function library.</h1><p>. /etc/rc.d/init.d/functions</p>
+<h1 id="Source-networking-configuration"><a href="#Source-networking-configuration" class="headerlink" title="Source networking configuration."></a>Source networking configuration.</h1><p>. /etc/sysconfig/network</p>
+<h1 id="Check-that-networking-is-up"><a href="#Check-that-networking-is-up" class="headerlink" title="Check that networking is up."></a>Check that networking is up.</h1><p>[ “$NETWORKING” = “no” ] &amp;&amp; exit 0<br>nginx=”/usr/sbin/nginx”<br>prog=$(basename $nginx)<br>NGINX_CONF_FILE=”/etc/nginx/nginx.conf”<br>[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx<br>lockfile=/var/lock/subsys/nginx<br>make_dirs() {</p>
+<h1 id="make-required-directories"><a href="#make-required-directories" class="headerlink" title="make required directories"></a>make required directories</h1><p>  user=<code>nginx -V 2&gt;&amp;1 | grep &quot;configure arguments:&quot; | sed &#39;s/[^*]*--user=\([^ ]*\).*/\1/g&#39; -</code><br>  options=<code>$nginx -V 2&gt;&amp;1 | grep &#39;configure arguments:&#39;</code><br>  for opt in $options; do<br>  if [ <code>echo $opt | grep &#39;.*-temp-path&#39;</code> ]; then<br>  value=<code>echo $opt | cut -d &quot;=&quot; -f 2</code><br>  if [ ! -d “$value” ]; then</p>
+<h1 id="echo-“creating”-value"><a href="#echo-“creating”-value" class="headerlink" title="echo “creating” $value"></a>echo “creating” $value</h1><p>  mkdir -p $value &amp;&amp; chown -R $user $value<br>  fi<br>  fi<br>  done<br>}<br>start() {<br>  [ -x $nginx ] || exit 5<br>  [ -f $NGINX_CONF_FILE ] || exit 6<br>  make_dirs<br>  echo -n $”Starting $prog: “<br>  daemon $nginx -c $NGINX_CONF_FILE<br>  retval=$?<br>  echo<br>  [ $retval -eq 0 ] &amp;&amp; touch $lockfile<br>  return $retval<br>}<br>stop() {<br>  echo -n $”Stopping $prog: “<br>  killproc $prog -QUIT<br>  retval=$?<br>  echo<br>  [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile<br>  return $retval<br>}<br>restart() {<br>  configtest || return $?<br>  stop<br>  sleep 1<br>  start<br>}<br>reload() {<br>  configtest || return $?<br>  echo -n $”Reloading $prog: “<br>  killproc $nginx -HUP<br>  RETVAL=$?<br>  echo<br>}<br>force_reload() {<br>  restart<br>}<br>configtest() {<br>  $nginx -t -c $NGINX_CONF_FILE<br>}<br>rh_status() {<br>  status $prog<br>}<br>rh_status_q() {<br>  rh_status &gt;/dev/null 2&gt;&amp;1<br>}<br>case “$1” in<br>  start)<br>  rh_status_q &amp;&amp; exit 0<br>  $1<br>  ;;<br>  stop)<br>  rh_status_q || exit 0<br>  $1<br>  ;;<br>  restart|configtest)<br>  $1<br>  ;;<br>  reload)<br>  rh_status_q || exit 7<br>  $1<br>  ;;<br>  force-reload)<br>  force_reload<br>  ;;<br>  status)<br>  rh_status<br>  ;;<br>  condrestart|try-restart)<br>  rh_status_q || exit 0<br>  ;;<br>  <em>)<br>  echo $”Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}”<br>  exit 2<br>esac<br>6.为此脚本赋予执行权限<br>[root@nginx ~]# chmod +x /etc/init.d/nginx<br>7.添加至服务管理列表，并让其开机自动启动<br>[root@nginx ~]# chkconfig –add nginx<br>[root@nginx ~]# chkconfig nginx on<br>[root@nginx ~]# chkconfig nginx –list<br>nginx 0:关闭 1:关闭 2:启用 3:启用 4:启用 5:启用 6:关闭<br>8.启动nginx<br>[root@nginx ~]# service nginx start<br>正在启动 nginx： [确定]<br>9.查看一下端口<br>[root@nginx ~]# netstat -ntlp | grep :80<br>tcp 0 0 0.0.0.0:80 0.0.0.0:</em> LISTEN 3889/nginx<br>10.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>配置Nginx提供Web服务<br>1.提供测页面<br>[root@web nginx]# mkdir -pv /data/www<br>mkdir: 已创建目录 “/data/www”<br>[root@web nginx]# cd /data/www<br>[root@web www]# ll<br>总用量 0<br>[root@web www]# echo ‘</p><h1>www.nginx.org</h1>‘ &gt; index.html<p></p>
+<h1>www.nginx.org</h1><br>[root@web www]# chown -R nginx.nginx /data/www/*<br>2.备份配置文件<br>[root@web ~]# cd /etc/nginx/<br>[root@web nginx]# cp nginx.conf nginx.conf.bak<br>[root@web nginx]# ls<br>fastcgi.conf fastcgi_params.default mime.types nginx.conf.bak scgi_params.default win-utf<br>fastcgi.conf.default koi-utf mime.types.default nginx.conf.default uwsgi_params<br>fastcgi_params koi-win nginx.conf scgi_params uwsgi_params.default<br>3.修改配置文件<br>[root@web www]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;<br>  #charset koi8-r;<br>  #access_log logs/host.access.log main;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>4.重新加载nginx配置<br>[root@web run]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>5.测试一下<br><a href="http://10.6.0.99/" target="_blank" rel="external">http://10.6.0.99/</a><br>好了，一个基本的web服务器已配置完成，简单吧。<br><br>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>}<br>[root@nginx ~]#<br><br>配置Nginx的虚拟主机<br>1.修改配置文件<br>[root@web www]# vim /etc/nginx/nginx.conf<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>2.提供测试页面<br>[root@web data]# mkdir test<br>[root@web data]# cd test/<br>[root@web test]# echo ‘<h1>www.test.com</h1>‘ &gt; index.html<br>chown -R nginx.nginx /data/test/<br><br>3.重新加载nginx配置<br>[root@web run]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br><a href="http://10.6.0.26:8080/" target="_blank" rel="external">http://10.6.0.26:8080/</a><br>好了，到这里基于域名的虚拟主机配置完成。<br><br>配置Nginx的访问控制<br><br>基于用户的访问控制<br>1.提供测试文件<br>[root@web run]# cd /data/www/<br>[root@web www]# ll<br>总用量 4<br>-rw-r–r– 1 nginx nginx 23 8月 29 20:04 index.html<br>[root@web www]# mkdir bbs<br>[root@web www]# cd bbs/<br>echo ‘<h1>Auth Page</h1>‘ &gt; index.html<br>[root@nginx bbs]# cat index.html<br><h1>Auth Page</h1>
+
+<p>2.修改配置文件</p>
+<p>根目录认证<br>vim /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>}</p>
+<p>指定目录认证<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  }<br>}</p>
+<p>同时认证<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>}<br>~<br>~<br>3.安装httpd<br>[root@web bbs]# yum install -y httpd<br>4.生成认证文件<br>[root@web bbs]# htpasswd -c -m /etc/nginx/.user nginx<br>New password:<br>Re-type new password:<br>Adding password for user nginx<br>[root@web bbs]# ls -a /etc/nginx/<br>. fastcgi_params mime.types nginx.conf.default .user<br>.. fastcgi_params.default mime.types.default .nginx.conf.swp uwsgi_params<br>fastcgi.conf koi-utf nginx.conf scgi_params uwsgi_params.default<br>fastcgi.conf.default koi-win nginx.conf.bak scgi_params.default win-utf<br>5.重新加载一下nginx配置文件<br>[root@web bbs]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>6.测试一下<br>输入用户名nginx，密码yanjin<br><a href="http://10.6.0.26/bbs" target="_blank" rel="external">http://10.6.0.26/bbs</a></p>
+<p>基于IP的访问控制<br>1.控制指令<br>allow 定义允许访问的规则<br>deny 定义拒绝访问的规则<br>allow all或deny all 定义默认规则<br>2.案例<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  deny all;<br>  }<br>  }<br>}<br><a href="http://10.6.0.26:8080/" target="_blank" rel="external">http://10.6.0.26:8080/</a></p>
+<p>注，大家可以看到不允许访问。allow与deny指令使用很简单，唯一与httpd不同的是nginx没有定义默认规则，所以默认规则得自己定义。我这里定义是dell all；默认拒绝所有</p>
+<p>配置Nginx提供状态页面<br>1.修改配置文件<br>[root@N0 nginx]# vim nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  deny all;<br>  }<br>  }<br>}<br>2.重新加载一下配置文件<br>service nginx reload<br>3.测试<br><a href="http://10.6.0.26/status" target="_blank" rel="external">http://10.6.0.26/status</a></p>
+<p>配置Nginx的错误页面<br>1.提供404错误页面<br>[root@web www]# ll<br>总用量 8<br>drwxr-xr-x 2 root root 4096 8月 29 20:36 bbs<br>-rw-r–r– 1 nginx nginx 23 8月 29 20:04 index.html<br>[root@web www]# echo ‘</p><h1>404 error</h1>‘ &gt; 404.html<p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><br>……<br>2.修改配置文件<br>[root@web test]# vim /etc/nginx/nginx.conf<br>server {<br>error_page 404 /404.html;<br>}<br>3.重新加载一下nginx配置文件<br>[root@web www]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.我们访问一下不存在的页面<br><a href="http://10.6.0.26/x" target="_blank" rel="external">http://10.6.0.26/x</a><p></p>
+<p>配置Nginx打开目录浏览功能<br>1.指令说明<br>Nginx默认是不允许列出整个目录的。如需此功能，打开nginx.conf文件，在location server 或 http段中加入autoindex on；另外两个参数最好也加上去，<br>autoindex_exact_size off；默认为on，显示出文件的确切大小，单位是bytes。改为off后，显示出文件的大概大小，单位是kB或者MB或者GB。<br>autoindex_localtime on；默认为off，显示的文件时间为GMT时间。改为on后，显示的文件时间为文件的服务器时间。<br>2.修改配置文件<br>server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index 123.html;</p>
+<h1 id="index-index-html-index-htm"><a href="#index-index-html-index-htm" class="headerlink" title="index index.html index.htm;"></a>index index.html index.htm;</h1><p>  }<br>}<br>3.重新加载配置文件<br>[root@web www]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>}</p>
+<p>配置Nginx基于ssl提供https服务<br>1.创建CA自签证书<br>[root@web ~]# cd /etc/pki/CA/<br>[root@web CA]# ls<br>certs crl newcerts private<br>[root@web CA]# cd private/<br>[root@web private]# ls<br>[root@web private]# (umask 077; openssl genrsa 2048 &gt; cakey.pem)</p>
+<p>#生成私钥<br>Generating RSA private key, 2048 bit long modulus<br>………………………….+++<br>………….+++<br>e is 65537 (0x10001)<br>[root@nginx CA]# openssl req -new -x509 -key ./private/cakey.pem -out cacert.pem<br>You are about to be asked to enter information that will be incorporated<br>into your certificate request.<br>What you are about to enter is what is called a Distinguished Name or a DN.<br>There are quite a few fields but you can leave some blank<br>For some fields there will be a default value,</p>
+<h2 id="If-you-enter-‘-’-the-field-will-be-left-blank"><a href="#If-you-enter-‘-’-the-field-will-be-left-blank" class="headerlink" title="If you enter ‘.’, the field will be left blank."></a>If you enter ‘.’, the field will be left blank.</h2><p>Country Name (2 letter code) [XX]:CN<br>State or Province Name (full name) []:SH<br>Locality Name (eg, city) [Default City]:XH<br>Organization Name (eg, company) [Default Company Ltd]:JJHH<br>Organizational Unit Name (eg, section) []:Tech<br>Common Name (eg, your name or your server’s hostname) []:ca.sanyuan.com<br>Email Address []:ca@sanyuan.com<br>[root@nginx CA]# touch serial<br>[root@nginx CA]# echo 01 &gt; serial<br>[root@nginx CA]# touch index.txt<br>[root@nginx CA]# ll<br>total 24<br>-rw-r–r– 1 root root 1379 Jun 8 15:09 cacert.pem<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 certs<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 crl<br>-rw-r–r– 1 root root 0 Jun 8 15:17 index.txt<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 newcerts<br>drwx——. 2 root root 4096 Jun 8 15:05 private<br>-rw-r–r– 1 root root 3 Jun 8 15:17 serial<br>[root@nginx CA]#<br>2.生成证书申请<br>[root@web ~]# mkdir /etc/nginx/ssl<br>[root@web CA]# cd /etc/nginx/ssl/<br>[root@web ssl]# (umask 077; openssl genrsa 1024 &gt; nginx.key)</p>
+<p> #生成私钥<br>Generating RSA private key, 1024 bit long modulus<br>…………………………………..++++++<br>…………………………….++++++<br>e is 65537 (0x10001)<br>[root@web ssl]# openssl req -new -key nginx.key -out nginx.csr<br>You are about to be asked to enter information that will be incorporated<br>into your certificate request.<br>What you are about to enter is what is called a Distinguished Name or a DN.<br>There are quite a few fields but you can leave some blank<br>For some fields there will be a default value,</p>
+<h2 id="If-you-enter-‘-’-the-field-will-be-left-blank-1"><a href="#If-you-enter-‘-’-the-field-will-be-left-blank-1" class="headerlink" title="If you enter ‘.’, the field will be left blank."></a>If you enter ‘.’, the field will be left blank.</h2><p>Country Name (2 letter code) [XX]:CN<br>State or Province Name (full name) []:SH<br>Locality Name (eg, city) [Default City]:XH<br>Organization Name (eg, company) [Default Company Ltd]:JJHH<br>Organizational Unit Name (eg, section) []:Tech<br>Common Name (eg, your name or your server’s hostname) []:www.test.com<br>Email Address []:<br>Please enter the following ‘extra’ attributes<br>to be sent with your certificate request<br>A challenge password []:<br>An optional company name []:</p>
+<ol>
+<li>让CA签名并颁发证书<br>[root@web ssl]# openssl ca -in nginx.csr -out nginx.crt -days 3650<br>Using configuration from /etc/pki/tls/openssl.cnf<br>Check that the request matches the signature<br>Signature ok<br>Certificate Details:<br>Serial Number: 1 (0x1)<br>Validity<br>Not Before: Aug 29 15:51:53 2013 GMT<br>Not After : Aug 27 15:51:53 2023 GMT<br>Subject:<br>countryName = CN<br>stateOrProvinceName = SH<br>organizationName = JJHH<br>organizationalUnitName = Tech<br>commonName = www.test.com<br>X509v3 extensions:<br>X509v3 Basic Constraints:<br>CA:FALSE<br>Netscape Comment:<br>OpenSSL Generated Certificate<br>X509v3 Subject Key Identifier:<br>60:87:97:14:D5:A2:23:B9:C5:13:97:5D:0D:B9:D7:C3:C2:66:F0:4B<br>X509v3 Authority Key Identifier:<br>keyid:9E:3E:5B:84:06:BE:68:01:C9:16:7C:08:5F:C5:54:0D:7B:FC:FA:87<br>Certificate is to be certified until Aug 27 15:51:53 2023 GMT (3650 days)<br>Sign the certificate? [y/n]:y<br>1 out of 1 certificate requests certified, commit? [y/n]y<br>Write out database with 1 new entries<br>Data Base Updated<br>4.修改配置文件<br>vim /etc/nginx/nginx.conf<br>server {<br>listen 443;<br>server_name localhost;<br>ssl on;<br>ssl_certificate /etc/nginx/ssl/nginx.crt;<br>ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>ssl_session_timeout 5m;<br>ssl_protocols SSLv2 SSLv3 TLSv1;<br>ssl_ciphers HIGH:!aNULL:!MD5;<br>ssl_prefer_server_ciphers on;<br>location / {<br>root html;<br>index index.html index.htm;<br>}<br>}<br>5.重新启动一下nginx服务器<br>[root@web ssl]# service nginx restart<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>停止 nginx： [确定]<br>正在启动 nginx： [确定]<br>6.查看一下端口<br>[root@web ssl]# netstat -tunlp<br>Active Internet connections (only servers)<br>Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name<br>tcp 0 0 0.0.0.0:80 0.0.0.0:<em> LISTEN 10661/nginx<br>tcp 0 0 0.0.0.0:22 0.0.0.0:</em> LISTEN 1033/sshd<br>tcp 0 0 127.0.0.1:25 0.0.0.0:<em> LISTEN 1110/master<br>tcp 0 0 127.0.0.1:6010 0.0.0.0:</em> LISTEN 9599/sshd<br>tcp 0 0 0.0.0.0:443 0.0.0.0:<em> LISTEN 10661/nginx<br>tcp 0 0 127.0.0.1:6012 0.0.0.0:</em> LISTEN 9470/sshd<br>tcp 0 0 :::22 :::<em> LISTEN 1033/sshd<br>tcp 0 0 ::1:25 :::</em> LISTEN 1110/master<br>tcp 0 0 ::1:6010 :::<em> LISTEN 9599/sshd<br>tcp 0 0 ::1:6012 :::</em> LISTEN 9470/sshd<br>7.测试一下<br><a href="https://10.6.0.26/" target="_blank" rel="external">https://10.6.0.26/</a></li>
+</ol>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}</p>
+<p>好了,nginx作为Web服务器的基本配置全部演示完成</p>
+<p>Nginx之反向代理<br>在配置nginx反向代理之间我们得先准备两台测试服务器，Web1与Web2。<br>1.安装httpd<br>[root@web1 ~]# yum install -y httpd<br>[root@web2 ~]# yum install -y httpd<br>2.提供测试页面<br>[root@web1 ~]# echo “</p><h1>web1.test.com</h1>“ &gt; /var/www/html/index.html<br>[root@web2 ~]# echo “<h1>web2.test.com</h1>“ &gt; /var/www/html/index.html<br>3.启动httpd服务<br>[root@web1 ~]# service httpd start<br>正在启动 httpd： [确定]<br>[root@web2 ~]# service httpd start<br>正在启动 httpd： [确定]<br>4.测试一下<br>7.配置http反向代理<br>[root@nginx ~]# cd /etc/nginx/<br>[root@nginx nginx]# cp nginx.conf nginx.conf.bak #备份一个原配置文件<br>[root@nginx nginx]# vim nginx.conf<br>location / {<br>  proxy_pass <a href="http://10.6.0.26" target="_blank" rel="external">http://10.6.0.26</a>;<br>  }<p></p>
+<p>vim nginx.conf<br>server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20" target="_blank" rel="external">http://10.6.0.20</a>;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37" target="_blank" rel="external">http://10.6.4.37</a>;<br>  }<br>  }<br>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>指令说明：proxy_pass<br>语法：proxy_pass URL<br>默认值：no<br>使用字段：location, location中的if字段<br>这个指令设置被代理服务器的地址和被映射的URI，地址可以使用主机名或IP加端口号的形式，例如：proxy_pass <a href="http://localhost:8000/uri/" target="_blank" rel="external">http://localhost:8000/uri/</a>;<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  }<br>  }<br>}<br>8.重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>9.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br>10.查看日志<br>tail -f /var/log/httpd/access_log</p>
+<p>注，大家可以看到我们这里的客户的IP全是，nginx代理服务器的IP，并不是真实客户端的IP。下面我们修改一下，让日志的IP显示真实的客户端的IP。<br>11.修改nginx配置文件<br>location / {<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  proxy_set_header X-Real-IP $remote_addr;</p>
+<p> #加上这一行<br>}<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>指令说明：proxy_set_header<br>语法：proxy_set_header header value<br>默认值： Host and Connection<br>使用字段：http, server, location<br>这个指令允许将发送到被代理服务器的请求头重新定义或者增加一些字段。这个值可以是一个文本，变量或者它们的组合。proxy_set_header在指定的字段中没有定义时会从它的上级字段继承。<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8838;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.38/" target="_blank" rel="external">http://10.6.4.38/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8840;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.40/" target="_blank" rel="external">http://10.6.4.40/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>12.重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>13.测试并查看日志<br>tail -f /var/log/httpd/access_log<br>14.查看并修改httpd配置文件<br>[root@web1 ~]# vim /etc/httpd/conf/httpd.conf<br>注，大家可以这里记录日志的参数还是%h，下面我们修改一下参数。</p>
+<h1 id="LogFormat-“-h-l-u-t-”-r-”-gt-s-b-”-Referer-i-”-”-User-Agent-i-””-combined"><a href="#LogFormat-“-h-l-u-t-”-r-”-gt-s-b-”-Referer-i-”-”-User-Agent-i-””-combined" class="headerlink" title="LogFormat “%h %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined"></a>LogFormat “%h %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined</h1><p>LogFormat “%{X-Real-IP}i %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined<br>注，这是修改后的参数，将h%修改为%{X-Real-IP}i，好的下面我们再来测试一下。<br>15.重启并测试<br>[root@web1 ~]# service httpd restart<br>注，大家可以看到现在的日志里记录的IP地址就是真实的客户端地址了。<br>tail -f /var/log/httpd/access_log</p>
+<p>配置nginx负载均衡<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>upstream webservers {<br>  server 10.6.4.38 weight=1;<br>  server 10.6.4.40 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>}<br>注，upstream是定义在server{ }之外的，不能定义在server{ }内部。定义好upstream之后，用proxy_pass引用一下即可。</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1;<br>  server 10.6.4.40 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1;<br>  server 192.168.3.9 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>注，大家可以不断的刷新浏览的内容，可以发现web1与web2是交替出现的，达到了负载均衡的效果。<br>查看一下Web访问服务器日志<br>Web1:<br>tail -f /var/log/httpd/access_log<br>Web2:<br>先修改一下，Web服务器记录日志的格式。<br>[root@web2 ~]# vim /etc/httpd/conf/httpd.conf<br>LogFormat “%{X-Real-IP}i %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined<br>[root@web2 ~]# service httpd restart<br>停止 httpd： [确定]<br>正在启动 httpd： [确定]<br>接着，再访问多次，继续查看日志。<br>tail -f /var/log/httpd/access_log</p>
+<p>注，大家可以看到，两台服务器日志都记录是10.6.1.36访问的日志，也说明了负载均衡配置成功。<br>配置nginx进行健康状态检查<br>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。<br>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用，进行健康状态检查。<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>重新加载一下配置文件<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>停止服务器并测试<br>先停止Web1，进行测试。<br>[root@web1 ~]# service httpd stop<br>停止 httpd： [确定]<br>注，大家可以看到，现在只能访问Web2，再重新启动Web1，再次访问一下。<br>[root@web1 ~]# service httpd start<br>正在启动 httpd： [确定]<br>注，大家可以看到，现在又可以重新访问，说明nginx的健康状态查检配置成功。但大家想一下，如果不幸的是所有服务器都不能提供服务了怎么办，用户打开页面就会出现出错页面，那么会带来用户体验的降低，所以我们能不能像配置LVS是配置sorry_server呢，答案是可以的，但这里不是配置sorry_server而是配置backup。<br>配置backup服务器<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 8080;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8080 backup;<br>  }<br>[root@nginx ~]# mkdir -pv /data/www/errorpage<br>[root@nginx errorpage]# echo ‘</p><h1>Sorry……</h1>‘ &gt; index.html<p></p>
+<p></p><h1>Sorry……</h1><br>vim nginx.conf<p></p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8080 backup;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8080;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>}<br>重新加载配置文件<br>[root@nginx errorpage]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8090 backup;<br>  }<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx errorpage]#</p>
+<p>[root@nginx errorpage]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>关闭Web服务器并进行测试<br>[root@web1 ~]# service httpd stop<br>停止 httpd： [确定]<br>[root@web2 ~]# service httpd stop<br>停止 httpd： [确定]<br>注，大家可以看到，当所有服务器都不能工作时，就会启动备份服务器。好了，backup服务器就配置到这里，下面我们来配置ip_hash负载均衡。<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8090 backup;<br>  }<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name localhost;<br>  index index.html;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>配置ip_hash负载均衡<br>ip_hash，每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。（一般电子商务网站用的比较多）<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>upstream webservers {<br>  ip_hash;<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;</p>
+<p>  #server 127.0.0.1:8090 backup;<br>  }<br>注，当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能有backup。（有人可能会问，为什么呢？大家想啊，如果负载均衡把你分配到backup服务器上，你能访问到页面吗？不能，所以了不能配置backup服务器）<br>重新加载一下服务器<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  ip_hash;<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>注，大家可以看到，你不断的刷新页面一直会显示的民Web2，说明ip_hash负载均衡配置成功。下面我们来统计一下Web2的访问连接数。<br>统计Web2的访问连接数<br>[root@web2 ~]# netstat -an | grep :80 | wc -l<br>304<br>注，你不断的刷新，连接数会越来越多。好了，nginx的负载均衡就全部演示到这里下面我们来说一说，页面缓存。</p>
+<p>Nginx之页面缓存<br>定义一个简单nginx缓存服务器<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>}<br>新建缓存目录<br>[root@nginx ~]# mkdir -pv /data/nginx/cache/webserver<br>重新加载一下配置文件<br>[root@nginx webserver]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>下面我们来测试一下（谷歌浏览器）<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;</p>
+<p>  #增加两头部<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>}<br>重新加载一下配置文件<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>查看一下缓存目录<br>[root@nginx ~]# cd /data/nginx/cache/webserver/f/63/<br>[root@nginx 63]# ls<br>681ad4c77694b65d61c9985553a2763f<br>[root@nginx ~]# ls /data/nginx/cache/webserver/f/63<br>681ad4c77694b65d61c9985553a2763f<br>注，缓存目录里确实有缓存文件。好了，nginx缓存配置就到这边了，更多配置请根据需要看配置文档。下面我们来说一下，URL重写。</p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  ip_hash;<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name localhost;<br>  index index.html;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>Nginx之URL重写<br>[root@nginx ~]# cd /etc/nginx/<br>[root@nginx nginx]# mv nginx.conf nginx.conf.proxy<br>[root@nginx nginx]# cp nginx.conf.bak nginx.conf<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  root html;<br>  index index.html index.htm;<br>  rewrite ^/bbs/(.*)$ <a href="http://10.6.0.26/forum/$1" target="_blank" rel="external">http://10.6.0.26/forum/$1</a>;<br>  }<br>}<br>准备forum目录与测试文件<br>[root@web1 ~]# cd /var/www/html/<br>[root@web1 html]# ls<br>index.html<br>[root@web1 html]# mkdir forum<br>[root@web1 html]# cd forum/<br>[root@web1 forum]# echo ‘</p><h1>forum page!</h1>‘ &gt; index.html<br>[root@web1 forum]# cat index.html<p></p>
+<p></p><h1>forum page!</h1><br>[root@web1 forum]#<br>[root@web1 forum]# vim index.html<p></p>
+<p></p><h1>forum page!</h1><br>测试一下<br><a href="http://10.6.0.26/forum" target="_blank" rel="external">http://10.6.0.26/forum</a><br>好了，下面我们来测试一下rewrite重写。<br>重新加载一下配置文件<br>[root@nginx 63]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/forum" target="_blank" rel="external">http://10.6.0.26/forum</a><br>配置永久重定向<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;<p></p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  root html;<br>  index index.html index.htm;<br>  rewrite ^/bbs/(.*)$ /forum/$1;<br>  }<br>}<br>准备forum目录与测试文件<br>[root@nginx ~]# cd /usr/html/<br>[root@nginx html]# ls<br>50x.html index.html<br>[root@nginx html]# mkdir forum<br>[root@nginx html]# cd forum/<br>[root@nginx forum]# echo ‘</p><h1>10.6.0.26 forum page</h1>‘ &gt; index.html<br>[root@nginx forum]# cat index.html<p></p>
+<p></p><h1>10.6.0.99 forum page</h1><br>[root@nginx forum]# vim index.html<p></p>
+<p></p><h1>10.6.0.99 forum page</h1><br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/bbs" target="_blank" rel="external">http://10.6.0.26/bbs</a><p></p>
+<p>Nginx之读写分离<br>需求分析，前端一台nginx做负载均衡反向代理，后面两台httpd服务器。整个架构是提供BBS(论坛)服务，有一需求得实现读写分离，就是上传附件的功能，我们上传的附件只能上传到Web1，然后在Web1上利用rsync+inotify实现附件同步，大家都知道rsync+inotify只能是主向从同步，不能双向同步。所以Web1可进行写操作，而Web2只能进行读操作，这就带来读写分离的需求，下面我们就来说一下，读写分离怎么实现。<br>WebDAV功能说明<br>WebDAV （Web-based Distributed Authoring and Versioning） 一种基于 HTTP 1.1协议的通信协议。它扩展了HTTP 1.1，在GET、POST、HEAD等几个HTTP标准方法以外添加了一些新的方法，使应用程序可直接对Web Server直接读写，并支持写文件锁定(Locking)及解锁(Unlock)，还可以支持文件的版本控制。这样我们就能配置读写分离功能了，下面我们来具体配置一下。<br>修改配置文件<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  if ($request_method = “PUT”){<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  }<br>  }<br>}<br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>配置httpd的WebDAV功能<br>[root@web1 ~]# vim /etc/httpd/conf/httpd.conf</p>
+<p><directory "="" var="" www="" html"=""><br>Dav on<br>注，在<directory "="" var="" www="" html"="">下启用就行。<br>[root@web1 ~]# service httpd restart<br>停止 httpd： [确定]<br>正在启动 httpd： [确定]<br>[root@nginx ~]# curl <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a></directory></directory></p>
+<p></p><h1>web1.test.com</h1><br>[root@nginx ~]# curl <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a><p></p>
+<p></p><h1>web2.test.com</h1><br>注，web1与web2访问都没问题。<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;<p></p>
+<p><html><head></head></html></p>
+<p><title>405 Method Not Allowed</title><br><body></body></p>
+<p></p><h1>Method Not Allowed</h1><br>The requested method PUT is not allowed for the URL /issue.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.9 Port 80</address><br><br>注，我们上传文件到，web2上时，因为web2只人读功能，所以没有开WebDAV功能，所以显示是405 Method Not Allowed。<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;</p>
+<p><html><head></head></html></p>
+<p><title>403 Forbidden</title><br><body></body></p>
+<p></p><h1>Forbidden</h1><br>You don’t have permission to access /issue<br>on this server.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.6 Port 80</address><br><br>注，我们在Web1开启了WebDAV功能，但我们目录是root目录是不允许apache用户上传的，所以显示的是403 Forbidden。下面我们给apache授权，允许上传。<br>[root@web1 ~]# setfacl -m u:apache:rwx /var/www/html/<br>下面我们再来测试一下，<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;</p>
+<p><html><head></head></html></p>
+<p><title>201 Created</title><br><body></body></p>
+<p></p><h1>Created</h1><br>Resource /issue has been created.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.6 Port 80</address><br><br>注，大家可以看到我们成功的上传了文件，说明nginx读写分离功能配置完成。最后，我们来查看一下上传的文件。<br>[root@web1 ~]# cd /var/www/html/<br>[root@web1 html]# ll<br>总用量 12<br>drwxr-xr-x 2 root root 4096 9月 4 13:16 forum<br>-rw-r–r– 1 root root 23 9月 3 23:37 index.html<br>-rw-r–r– 1 apache apache 47 9月 4 14:06 issue<br>好了，到这里nginx的反向代理、负载均衡、页面缓存、URL重写及读写分离就全部讲解完成</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwpsnspu000e64cy8a10tx49" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/CentOS-6-x-Domino/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.x Domino
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-Moodle/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x Moodle</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

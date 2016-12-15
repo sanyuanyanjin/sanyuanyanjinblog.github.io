@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,663 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-CentOS-6-x-GlusterFS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-GlusterFS/" class="article-date">
+  <time datetime="2016-12-15T03:13:50.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、前言<br>GlusterFS是一个开源的分布式文件系统,于2011年被红帽收购.它具有高扩展性、高性能、高可用性、可横向扩展的弹性特点,无元数据服务器设计使glusterfs没有单点故障隐患，详细介绍请查看官网：www.gluster.org 。<br>二、环境<br>1、系统：<br>Centos 6.5<br>2、部署说明<br>服务端：<br>10.6.0.217<br>10.6.0.218<br>10.6.0.219<br>客户端：<br>10.6.0.215<br>三、部署<br>1、服务端安装：<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>wget -P /etc/yum.repos.d <a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/CentOS/glusterfs-epel.repo" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/CentOS/glusterfs-epel.repo</a><br>[root@n5 ~]# cd /etc/yum.repos.d/<br>[root@n5 yum.repos.d]# cat glusterfs-epel.repo</p>
+<h1 id="Place-this-file-in-your-etc-yum-repos-d-directory"><a href="#Place-this-file-in-your-etc-yum-repos-d-directory" class="headerlink" title="Place this file in your /etc/yum.repos.d/ directory"></a>Place this file in your /etc/yum.repos.d/ directory</h1><p>[glusterfs-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes.<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/$basearch/" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/$basearch/</a><br>enabled=1<br>skip_if_unavailable=1<br>gpgcheck=1</p>
+<h1 id="gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key"><a href="#gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key" class="headerlink" title="gpgkey=http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key"></a>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></h1><p>gpgkey=<a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></p>
+<p>[glusterfs-noarch-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes.<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/noarch" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/noarch</a><br>enabled=1<br>skip_if_unavailable=1<br>gpgcheck=1<br>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></p>
+<p>[glusterfs-source-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes. - Source<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/SRPMS" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/SRPMS</a><br>enabled=0<br>skip_if_unavailable=1<br>gpgcheck=1</p>
+<h1 id="gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key-1"><a href="#gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key-1" class="headerlink" title="gpgkey=http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key"></a>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></h1><p>gpgkey=<a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a><br>[root@n5 yum.repos.d]#<br>wget -P /etc/yum.repos.d <a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/pub.key</a><br>[root@n6 ~]# cd -<br>/etc/yum.repos.d<br>[root@n6 yum.repos.d]# scp -r glusterfs-epel.repo pub.key root@n5:/etc/yum.repos.d<br>The authenticity of host ‘n5 (10.6.0.215)’ can’t be established.<br>RSA key fingerprint is 23:92:f4:8f:62:12:e2:31:d2:31:5b:d7:28:f3:58:1f.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘n5,10.6.0.215’ (RSA) to the list of known hosts.<br>root@n5’s password:<br>glusterfs-epel.repo                                                                                                                            100% 1257     1.2KB/s   00:00<br>pub.key                                                                                                                                        100% 1732     1.7KB/s   00:00<br>[root@n6 yum.repos.d]#<br>yum clean all<br>rpm –import pub.key<br>yum makecache<br>yum -y install glusterfs glusterfs-server<br>chkconfig glusterd on<br>service glusterd start<br>2、服务端配置：<br>将3个存储节点组成一集群，本文在第一个节点执行，只需要在任意节点执行就OK。<br>[root@n6 ~]# gluster peer probe 10.6.0.216<br>peer probe: success. Probe on localhost not needed<br>[root@n6 ~]# gluster peer probe 10.6.0.217<br>peer probe: success.<br>[root@n6 ~]# gluster peer probe 10.6.0.218<br>peer probe: success.<br>[root@n6 ~]# gluster peer probe 10.6.0.219<br>peer probe: success.<br>查看集群的节点信息：<br>[root@n6 ~]# gluster peer status<br>Number of Peers: 3</p>
+<p>Hostname: 10.6.0.217<br>Uuid: f2614374-cc36-4f01-970d-8bae30928451<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)<br>以/data/gluster为共享目录，创建名为img的卷,副本数为3：<br>mkdir -p /data/gluster<br>[root@n6 ~]# gluster volume create img replica 3 10.6.0.217:/data/gluster 10.6.0.218:/data/gluster 10.6.0.219:/data/gluster force<br>volume create: img: success: please start the volume to access data<br>启动卷：<br>[root@n6 ~]# gluster volume start img<br>volume start: img: success<br>[root@n6 ~]#<br>查看卷状态:<br>[root@n6 ~]# gluster volume info</p>
+<p>Volume Name: img<br>Type: Replicate<br>Volume ID: c481f5a9-5dcb-4cb3-9870-0ec57dbc22fb<br>Status: Started<br>Number of Bricks: 1 x 3 = 3<br>Transport-type: tcp<br>Bricks:<br>Brick1: 10.6.0.217:/data/gluster<br>Brick2: 10.6.0.218:/data/gluster<br>Brick3: 10.6.0.219:/data/gluster<br>Options Reconfigured:<br>performance.readdir-ahead: on<br>[root@n6 ~]#<br>3、客户端安装配置：<br>安装：<br>yum -y install glusterfs glusterfs-fuse<br>[root@n5 ~]# mkdir -p /data/img<br>挂载任意一个节点即可<br>[root@n5 ~]# mount -t glusterfs 10.6.0.217:/img /data/img<br>[root@n5 ~]# df -h<br>Filesystem                  Size  Used Avail Use% Mounted on<br>/dev/mapper/vg_n5-LogVol00  3.6T  1.1T  2.4T  31% /<br>tmpfs                       1.9G   68K  1.9G   1% /dev/shm<br>/dev/sda1                   194M   35M  150M  19% /boot<br>cm_processes                1.9G   72M  1.9G   4% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.217:/img             3.6T  1.4T  2.1T  41% /data/img<br>[root@n5 ~]#<br>mount -t nfs -o mountproto=tcp,vers=3 10.6.0.217:/img /home/nfs （使用NFS挂载，注意远端的rpcbind服务必须开启）<br>echo “10.6.0.217:/img /data/img glusterfs defaults,_netdev 0 0” &gt;&gt; /etc/fstab (开机自动挂载)</p>
+<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[img]<br>        comment = The img<br>        path = /data/img<br>        browseable = yes<br>        writable = yes<br>useradd smbimg<br>smbpasswd -a smbimg<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig smb on</p>
+<p>[root@n5 ~]# ll -d /data/img/<br>drwxr-xr-x 4 root root 4096 8月   2 13:56 /data/img/<br>[root@n5 ~]# chown -R smbimg:smbimg /data/img/<br>[root@n5 ~]# ll -d /data/img/<br>drwxr-xr-x 4 smbimg smbimg 4096 8月   2 13:56 /data/img/<br>[root@n5 ~]#<br>[root@n5 ~]# ll /data/img/<br>总用量 0<br>-rwxr–r– 1 smbimg smbimg 0 8月   2 14:08 测试gfs.txt</p>
+<p>安装配置FTP<br>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>chkconfig –level 345 vsftpd on<br>useradd -g ftp -d /data/img/ftpimg -M ftpimg<br>passwd ftpimg<br>chown -R ftpimg /data/img/ftpimg<br>ll -d /data/img/ftpimg<br>drwxr-xr-x 2 ftpimg root 4096 8月   2 14:12 /data/img/ftpimg<br>service vsftpd restart</p>
+<p>四、测试<br>1、检查文件正确性<br>dd if=/dev/urandom of=/data/navy bs=1M count=100 # 在挂载客户端生成测试文件<br>cp /data/navy /mnt/  # 文件拷贝到存储上<br>md5sum /data/navy /mnt/navy # 在查看客户端检查文件哈希<br>md5sum /data/gluster/navy # 存储集群的某2个节点上会有此文件，检查其哈希<br>2、宕机测试。使用glusterfs-fuse挂载，即使目标服务器故障，也完全不影响使用。用NFS则要注意挂载选项，否则服务端故障容易导致文件系统halt住而影响服务！</p>
+<h1 id="将其中一个节点停止存储服务service-glusterd-stop"><a href="#将其中一个节点停止存储服务service-glusterd-stop" class="headerlink" title="将其中一个节点停止存储服务service glusterd stop"></a>将其中一个节点停止存储服务service glusterd stop</h1><p>service glusterfsd stop# 在挂载客户端删除测试文件<br>rm -fv /mnt/navy# 此时在服务端查看，服务被停止的节点上navy并未被删除。此时启动服务：service glusterd start# 数秒后，navy就被自动删除了。新增文件效果相同！<br>五、运维常用命令：<br>删除卷<br>gluster volume stop img<br>gluster volume delete img<br>将机器移出集群<br>gluster peer detach 10.6.0.217<br>只允许10.6.<em>.</em>的网络访问glusterfs<br>gluster volume set img auth.allow 10.6.<em>.</em></p>
+<p>加入新的机器并添加到卷里(由于副本数设置为3,至少要添加3（6、9、12..）台机器)<br>gluster peer probe 10.6.0.212<br>gluster peer probe 10.6.0.213<br>gluster peer probe 10.6.0.216</p>
+<p>[root@n3 ~]# mkdir -p /data/gluster<br>gluster volume add-brick img 10.6.0.212:/data/gluster 10.6.0.213:/data/gluster 10.6.0.216:/data/gluster force</p>
+<p>[root@n6 ~]# gluster volume add-brick img 10.6.0.212:/data/gluster 10.6.0.213:/data/gluster 10.6.0.216:/data/gluster force<br>volume add-brick: success<br>[root@n6 ~]# gluster volume info</p>
+<p>Volume Name: img<br>Type: Distributed-Replicate<br>Volume ID: c481f5a9-5dcb-4cb3-9870-0ec57dbc22fb<br>Status: Started<br>Number of Bricks: 2 x 3 = 6<br>Transport-type: tcp<br>Bricks:<br>Brick1: 10.6.0.217:/data/gluster<br>Brick2: 10.6.0.218:/data/gluster<br>Brick3: 10.6.0.219:/data/gluster<br>Brick4: 10.6.0.212:/data/gluster<br>Brick5: 10.6.0.213:/data/gluster<br>Brick6: 10.6.0.216:/data/gluster<br>Options Reconfigured:<br>performance.readdir-ahead: on<br>[root@n6 ~]#</p>
+<p><a href="https://gluster.readthedocs.io/en/latest/Administrator%20Guide/Managing%20Volumes/#rebalancing-volumes" target="_blank" rel="external">https://gluster.readthedocs.io/en/latest/Administrator%20Guide/Managing%20Volumes/#rebalancing-volumes</a><br>均衡卷<br>[root@n6 ~]# gluster volume rebalance img start<br>volume rebalance: img: success: Rebalance on img has been started successfully. Use rebalance status command to check status of the rebalance process.<br>ID: b9d8629a-673d-4db2-8361-bb8e9b65b16b</p>
+<p>[root@n6 ~]# gluster volume rebalance img status<br>                                    Node Rebalanced-files          size       scanned      failures       skipped               status  run time in h:m:s</p>
+<pre><code> ---------      -----------   -----------   -----------   -----------   -----------         ------------     --------------
+ localhost                0        0Bytes             0             0             0          in progress        0:0:17
+10.6.0.217                0        0Bytes          1033             0           341          in progress        0:0:16
+10.6.0.218                0        0Bytes             0             0             0          in progress        0:0:17
+10.6.0.219                0        0Bytes             0             0             0          in progress        0:0:16
+10.6.0.212                0        0Bytes             1             0             0          in progress        0:0:17
+10.6.0.213                0        0Bytes             0             0             0          in progress        0:0:17
+</code></pre><p>volume rebalance: img: success<br>[root@n6 ~]#</p>
+<p>[root@n6 ~]# gluster volume status<br>Status of volume: img</p>
+<h2 id="Gluster-process-TCP-Port-RDMA-Port-Online-Pid"><a href="#Gluster-process-TCP-Port-RDMA-Port-Online-Pid" class="headerlink" title="Gluster process                             TCP Port  RDMA Port  Online  Pid"></a>Gluster process                             TCP Port  RDMA Port  Online  Pid</h2><p>Brick 10.6.0.217:/data/gluster              49152     0          Y       31557<br>Brick 10.6.0.218:/data/gluster              49152     0          Y       2469<br>Brick 10.6.0.219:/data/gluster              49152     0          Y       12325<br>Brick 10.6.0.212:/data/gluster              49152     0          Y       31261<br>Brick 10.6.0.213:/data/gluster              49152     0          Y       24831<br>Brick 10.6.0.216:/data/gluster              49152     0          Y       28081<br>NFS Server on localhost                     2049      0          Y       28102<br>Self-heal Daemon on localhost               N/A       N/A        Y       28112<br>NFS Server on 10.6.0.217                    2049      0          Y       8257<br>Self-heal Daemon on 10.6.0.217              N/A       N/A        Y       8267<br>NFS Server on 10.6.0.219                    2049      0          Y       26335<br>Self-heal Daemon on 10.6.0.219              N/A       N/A        Y       26344<br>NFS Server on 10.6.0.212                    N/A       N/A        N       N/A<br>Self-heal Daemon on 10.6.0.212              N/A       N/A        Y       31290<br>NFS Server on 10.6.0.213                    2049      0          Y       24852<br>Self-heal Daemon on 10.6.0.213              N/A       N/A        Y       24861<br>NFS Server on 10.6.0.218                    2049      0          Y       9773<br>Self-heal Daemon on 10.6.0.218              N/A       N/A        Y       9782</p>
+<h2 id="Task-Status-of-Volume-img"><a href="#Task-Status-of-Volume-img" class="headerlink" title="Task Status of Volume img"></a>Task Status of Volume img</h2><p>Task                 : Rebalance<br>ID                   : b9d8629a-673d-4db2-8361-bb8e9b65b16b<br>Status               : completed           </p>
+<p>[root@n6 ~]#</p>
+<p>[root@n6 ~]# gluster<br>gluster&gt; peer status<br>Number of Peers: 5</p>
+<p>Hostname: 10.6.0.217<br>Uuid: f2614374-cc36-4f01-970d-8bae30928451<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.212<br>Uuid: 4f734c6e-aefc-4bd7-98e3-1d27e437eaff<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.213<br>Uuid: bae64a18-2613-4e68-88fa-2016d2ecf86b<br>State: Peer in Cluster (Connected)<br>gluster&gt;</p>
+<p>[root@n7 ~]# gluster<br>gluster&gt; peer status<br>Number of Peers: 5</p>
+<p>Hostname: n6<br>Uuid: 9512aa35-a8ee-4d50-a715-fbc857e3d8f8<br>State: Peer in Cluster (Connected)<br>Other names:<br>10.6.0.216</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.212<br>Uuid: 4f734c6e-aefc-4bd7-98e3-1d27e437eaff<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.213<br>Uuid: bae64a18-2613-4e68-88fa-2016d2ecf86b<br>State: Peer in Cluster (Connected)<br>gluster&gt;</p>
+<p>收缩卷</p>
+<h1 id="收缩卷前gluster需要先移动数据到其他位置"><a href="#收缩卷前gluster需要先移动数据到其他位置" class="headerlink" title="收缩卷前gluster需要先移动数据到其他位置"></a>收缩卷前gluster需要先移动数据到其他位置</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img start</p>
+<h1 id="查看迁移状态"><a href="#查看迁移状态" class="headerlink" title="查看迁移状态"></a>查看迁移状态</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img status</p>
+<h1 id="迁移完成后提交"><a href="#迁移完成后提交" class="headerlink" title="迁移完成后提交"></a>迁移完成后提交</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img commit</p>
+<p>节点故障处理<br>如果一台节点服务器down机，这个时候，我们要恢复故障，替换volume中坏掉的brick为新的brick，参考如下操作：</p>
+<p>#prob server<br>gluster peer probe [new-server]</p>
+<p>#replace old to new brick<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] start</p>
+<p>#检查同步的状态<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] status</p>
+<p>#等待同步完成之后 提交<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] commit force<br>只需在一台节点上操作，所有的服务器上该卷的brick都换成新的brick了。</p>
+<p>迁移卷</p>
+<h1 id="将10-6-0-217的数据迁移到-先将10-6-0-212加入集群"><a href="#将10-6-0-217的数据迁移到-先将10-6-0-212加入集群" class="headerlink" title="将10.6.0.217的数据迁移到,先将10.6.0.212加入集群"></a>将10.6.0.217的数据迁移到,先将10.6.0.212加入集群</h1><p>gluster peer probe 10.6.0.212<br>gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img start</p>
+<h1 id="查看迁移状态gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-status"><a href="#查看迁移状态gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-status" class="headerlink" title="查看迁移状态gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img status"></a>查看迁移状态gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img status</h1><h1 id="数据迁移完毕后提交gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-commit"><a href="#数据迁移完毕后提交gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-commit" class="headerlink" title="数据迁移完毕后提交gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img commit"></a>数据迁移完毕后提交gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img commit</h1><h1 id="如果机器10-6-0-217出现故障已经不能运行-执行强制提交然后要求gluster马上执行一次同步"><a href="#如果机器10-6-0-217出现故障已经不能运行-执行强制提交然后要求gluster马上执行一次同步" class="headerlink" title="如果机器10.6.0.217出现故障已经不能运行,执行强制提交然后要求gluster马上执行一次同步"></a>如果机器10.6.0.217出现故障已经不能运行,执行强制提交然后要求gluster马上执行一次同步</h1><p>gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img commit -force<br>gluster volume heal imgs full</p>
+<p>安装：</p>
+<p>yum install scsi-target-utils -y</p>
+<p>启动服务</p>
+<p>/etc/init.d/tgtd start</p>
+<p>设为开机自启动：</p>
+<p>chkconfig tgtd on</p>
+<p>确认一下有没有端口起来<br>netstat -anlpt | grep 3260</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n3:test=""><br>  backing-store /mnt/test<br></target>
+
+<p>[root@n2 ~]# ll -h /data/img/img1<br>-rw-r–r– 1 root root 200M 8月  23 14:45 /data/img/img1</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 2 -b /data/img/img1</p>
+<p>[root@n5 ~]# dd if=/dev/zero of=/data/img/n5img1 bs=10M count=5<br>记录了5+0 的读入<br>记录了5+0 的写出<br>52428800字节(52 MB)已复制，1.87226 秒，28.0 MB/秒<br>[root@n5 ~]# tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /data/img/n5img1<br>[root@n5 ~]#</p>
+<p>10.6.100.39 n5# dd if=/dev/zero of=/data/img/img1  bs=1024M count=1024<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n5:img1=""><br>  backing-store /data/img/img1<br></target>
+
+<p>/etc/init.d/tgtd restart</p>
+<p>10.6.100.39 n5# dd if=/dev/zero of=/data/img/img2  bs=1024M count=100<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-09.n5:img2=""><br>  backing-store /data/img/img2<br></target>
+
+<p>/etc/init.d/tgtd restart</p>
+<p>查看信息<br>tgtadm –lld iscsi –op show –mode target</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 1 -b /data/img/img2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwpsnspn000864cy6df1t89c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Expec" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Expec/" class="article-date">
+  <time datetime="2016-12-15T03:12:08.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、概述<br>我们通过Shell可以实现简单的控制流功能，如：循环、判断等。但是对于需要交互的场合则必须通过人工来干预，有时候我们可能会需要实现和交互程序如telnet服务器等进行交互的功能。而expect就使用来实现这种功能的工具。expect是一个免费的编程工具语言，用来实现自动和交互式任务进行通信，而无需人的干预。expect是不断发展的，随着时间的流逝，其功能越来越强大，已经成为系统管理员的的一个强大助手。<br>二、expect的安装<br>yum -y install expect<br>三、Expect工作原理<br>从最简单的层次来说，Expect的工作方式象一个通用化的Chat脚本工具。Chat脚本最早用于UUCP网络内，以用来实现计算机之间需要建立连接时进行特定的登录会话的自动化。<br>Chat脚本由一系列expect-send对组成：expect等待输出中输出特定的字符，通常是一个提示符，然后发送特定的响应。例如下面的 Chat脚本实现等待标准输出出现Login:字符串，然后发送somebody作为用户名；然后等待Password:提示符，并发出响应 sillyme。<br>Login: somebody Password: sillyme<br>Expect最简单的脚本操作模式本质上和Chat脚本工作模式是一样的。<br>例子：<br>1、实现功能<br>下面我们分析一个响应chsh命令的脚本。我们首先回顾一下这个交互命令的格式。<br>假设我们要为用户chavez改变登录脚本，要求实现的命令交互过程如下：</p>
+<h1 id="chsh-chavez"><a href="#chsh-chavez" class="headerlink" title="chsh chavez"></a>chsh chavez</h1><p>Changing the login shell for chavez<br>Enter the new value, or press return for the default<br>Login Shell [/bin/bash]: /bin/tcsh<br>#<br>可以看到该命令首先输出若干行提示信息并且提示输入用户新的登录shell。我们必须在提示信息后面输入用户的登录shell或者直接回车不修改登录shell。<br>2、实现自动执行</p>
+<p>#!/usr/bin/expect </p>
+<h1 id="Change-a-login-shell-to-tcsh"><a href="#Change-a-login-shell-to-tcsh" class="headerlink" title="Change a login shell to tcsh"></a>Change a login shell to tcsh</h1><p>set user [lindex $argv 0]<br>spawn chsh $user<br>expect “]:”<br>send “/bin/tcsh “<br>expect eof </p>
+<p>exit<br>说明：<br>（1）首行指定用来执行该脚本的命令程序，这里是/usr/bin/expect。<br>（2）程序第一行用来获得脚本的执行参数(其保存在数组$argv中，从0号开始是参数)，并将其保存到变量user中。<br>（3）第二个参数使用expect的spawn命令来启动脚本和命令的会话，这里启动的是chsh命令，实际上命令是以衍生子进程的方式来运行的。<br>（4）随后的expect和send命令用来实现交互过程。脚本首先等待输出中出现]:字符串，一旦在输出中出现chsh输出到的特征字符串(一般特征 字符串往往是等待输入的最后的提示符的特征信息)。对于其他不匹配的信息则会完全忽略。当脚本得到特征字符串时，expect将发送/bin/tcsh和 一个回车符给chsh命令。最后脚本等待命令退出(chsh结束)，一旦接收到标识子进程已经结束的eof字符，expect脚本也就退出结束。<br>3、决定如何响应<br>       系统管理员往往有这样的需求，希望根据当前的具体情况来以不同的方式对一个命令进行响应。我们可以通过后面的例子看到expect可以实现非常复杂的条件响应，而仅仅通过简单的修改预处理脚本就可以实现。<br>     下面的例子是一个更复杂的expect-send例子：<br>expect -re “[(.<em>)]:”<br>if {$expect_out(1,string)!=”/bin/tcsh”} {<br>send “/bin/tcsh” }<br>send “ “<br>expect eof<br>说明：<br>（1）第一个expect命令现在使用了-re参数，这个参数表示指定的的字符串是一个正则表达式，而不是一个普通的字符串。对于上面这个例子里是查找一个左方括号字符(其必须进行三次逃逸(escape)，因此有三个符号，因为它对于expect和正则表达时来说都是特殊字符)后面跟有零个或多个字符，最后是一个右方括号字符。这里.</em>表示表示一个或多个任意字符，将其存放在()中是因为将匹配结果存放在一个变量中以实现随后的对匹配结果的访问。<br>（2）当发现一个匹配则检查包含在[]中的字符串，查看是否为/bin/tcsh。如果不是则发送/bin/tcsh给chsh命令作为输入，如果是则仅仅发送一个回车符。这个简单的针对具体情况发出不同相响应的小例子说明了expect的强大功能。<br>（3）在一个正则表达时中，可以在()中包含若干个部分并通过expect_out数组访问它们。各个部分在表达式中从左到右进行编码，从1开始(0包含有整个匹配输出)。()可能会出现嵌套情况，这这种情况下编码从最内层到最外层来进行的。<br>4、使用超时<br>       下一个expect例子中将阐述具有超时功能的提示符函数。这个脚本提示用户输入，如果在给定的时间内没有输入，则会超时并返回一个默认的响应。这个脚本接收三个参数：提示符字串，默认响应和超时时间(秒)。</p>
+<p>#!/usr/bin/expect</p>
+<h1 id="Prompt-function-with-timeout-and-default"><a href="#Prompt-function-with-timeout-and-default" class="headerlink" title="Prompt function with timeout and default."></a>Prompt function with timeout and default.</h1><p>#脚本的第一部分首先是得到运行参数并将其保存到内部变量中<br>set prompt [lindex $argv 0]<br>set def [lindex $argv 1]<br>set response $def<br>set tout [lindex $argv 2]</p>
+<p>send_tty “$prompt: “</p>
+<p>#send_tty命令用来实现在终端上显示提示符字串和一个冒号及空格<br>set timeout $tout</p>
+<p>#set timeout命令设置后面所有的expect命令的等待响应的超时时间为$tout(-l参数用来关闭任何超时设置)。<br>expect “ “ {<br>set raw $expect_out(buffer)</p>
+<h1 id="remove-final-carriage-return"><a href="#remove-final-carriage-return" class="headerlink" title="remove final carriage return"></a>remove final carriage return</h1><p>set response [string trimright “$raw” “ “]<br>}<br>if {“$response” == “} {set response $def}<br>send “$response “</p>
+<h1 id="Prompt-function-with-timeout-and-default-1"><a href="#Prompt-function-with-timeout-and-default-1" class="headerlink" title="Prompt function with timeout and default."></a>Prompt function with timeout and default.</h1><p>set prompt [lindex $argv 0]<br>set def [lindex $argv 1]<br>set response $def<br>set tout [lindex $argv 2]</p>
+<p>说明：<br>（1）send_tty命令用来实现在终端上显示提示符字串和一个冒号及空格。<br>（2）set timeout命令设置后面所有的expect命令的等待响应的超时时间为$tout(-l参数用来关闭任何超时设置)。<br>（3）然后expect命令就等待输出中出现回车字符。如果在超时之前得到回车符，那么set命令就会将用户输入的内容赋值给变脸raw。随后的命令将用户输入内容最后的回车符号去除以后赋值给变量response。<br>（4）如果response中内容为空则将response值置为默认值(如果用户在超时以后没有输入或者用户仅仅输入了回车符)。最后send命令将response变量的值加上回车符发送给标准输出。<br>注意：<br>（1）该脚本没有使用spawn命令。<br>（2）该expect脚本会与任何调用该脚本的进程交互。<br>（3）如果该脚本名为prompt，那么它可以用在任何C风格的shell中。<br>% set a=’prompt “Enter an answer” silence 10’<br>Enter an answer: test   </p>
+<p>% echo Answer was “$a”<br>Answer was test<br>prompt设定的超时为10秒。如果超时或者用户仅仅输入了回车符号，echo命令将输出<br>Answer was “silence”   </p>
+<p>5、一个更复杂的例子<br>       下面我们将讨论一个更加复杂的expect脚本例子，这个脚本使用了一些更复杂的控制结构和很多复杂的交互过程。这个例子用来实现发送write命令给任意的用户，发送的消息来自于一个文件或者来自于键盘输入。</p>
+<p>#!/usr/bin/expect </p>
+<h1 id="Write-to-multiple-users-from-a-prepared-file"><a href="#Write-to-multiple-users-from-a-prepared-file" class="headerlink" title="Write to multiple users from a prepared file"></a>Write to multiple users from a prepared file</h1><h1 id="or-a-message-input-interactively"><a href="#or-a-message-input-interactively" class="headerlink" title="or a message input interactively"></a>or a message input interactively</h1><p>if {$argc&lt;2} {<br>send_user “usage: $argv0 file user1 user2 … “<br>exit<br>}   </p>
+<p>#send_user命令用来显示使用帮助信息到父进程(一般为用户的shell)的标准输出。   </p>
+<p>set nofile 0 </p>
+<h1 id="get-filename-via-the-Tcl-lindex-function"><a href="#get-filename-via-the-Tcl-lindex-function" class="headerlink" title="get filename via the Tcl lindex function"></a>get filename via the Tcl lindex function</h1><p>set file [lindex $argv 0]<br>if {$file==”i”} {<br>set nofile 1<br>} else {   </p>
+<h1 id="make-sure-message-file-exists"><a href="#make-sure-message-file-exists" class="headerlink" title="make sure message file exists"></a>make sure message file exists</h1><p>if {[file isfile $file]!=1} {<br>send_user “$argv0: file $file not found. “<br>exit }}   </p>
+<p>#################################################### </p>
+<p>#(1)这部分实现处理脚本启动参数，其必须是一个储存要发送的消息的文件名或表示使用交互输入得到发送消的内容的”i”命令。   </p>
+<p>#(2)变量file被设置为脚本的第一个参数的值，是通过一个Tcl函数lindex来实现的，该函数从列表/数组得到一个特定的元素。[]用来实现将函数lindex的返回值作为set命令的参数。   </p>
+<p>#(3)如果脚本的第一个参数是小写的”i”，那么变量nofile被设置为1，否则通过调用Tcl的函数isfile来验证参数指定的文件存在，如果不存在就报错退出。   </p>
+<p>#(4)可以看到这里使用了if命令来实现逻辑判断功能。该命令后面直接跟判断条件，并且执行在判断条件后的{}内的命令。if条件为false时则运行else后的程序块。   </p>
+<p>####################################################### </p>
+<p>set procs {} </p>
+<h1 id="start-write-processes"><a href="#start-write-processes" class="headerlink" title="start write processes"></a>start write processes</h1><p>for {set i 1} {$i&lt;$argc}<br>{incr i} {<br>spawn -noecho write<br>[lindex $argv $i]<br>lappend procs $spawn_id<br>}   </p>
+<p>####################################################################################### </p>
+<p>#(1)这一部分使用spawn命令来启动write进程实现向用户发送消息. </p>
+<p>#(2)这里使用了for命令来实现循环控制功能，循环变量首先设置为1，然后因此递增。循环体是最后的{}的内容。 </p>
+<p>#(3)这里我们是用脚本的第二个和随后的参数来spawn一个write命令，并将每个参数作为发送消息的用户名。 </p>
+<p>#(4)lappend命令使用保存每个spawn的进程的进程ID号的内部变量$spawn_id在变量procs中构造了一个进程ID号列表。 </p>
+<p>################################################################################################### </p>
+<p>if {$nofile==0} {<br>setmesg [open “$file” “r”]<br>} else {<br>send_user “enter message,<br>ending with ^D: “ }   </p>
+<p>#最后脚本根据变量nofile的值实现打开消息文件或者提示用户输入要发送的消息。   </p>
+<p>set timeout -1<br>while 1 {<br>if {$nofile==0} {<br>if {[gets $mesg chars] == -1} break<br>set line “$chars “<br>} else {<br>expect_user {<br>-re “ “ {}<br>eof break }<br>set line $expect_out(buffer) } </p>
+<p>foreach spawn_id $procs {<br>send $line }<br>sleep 1}<br>exit   </p>
+<p>######################################################## </p>
+<p>#(1)这段代码说明了实际的消息文本是如何通过无限循环while被发送的。 </p>
+<p>#(2)while循环中的if判断消息是如何得到的。在非交互模式下，下一行内容从消息文件中读出，当文件内容结束时while循环也就结束了。(break命令实现终止循环) 。   </p>
+<p>#(3)在交互模式下，expect_user命令从用户接收消息，当用户输入ctrl+D时结束输入，循环同时结束。 两种情况下变量$line都被用来保存下一行消息内容。当是消息文件时，回车会被附加到消息的尾部。   </p>
+<p>#(4)foreach循环遍历spawn的所有进程，这些进程的ID号都保存在列表变量$procs中，实现分别和各个进程通信。send命令组成了foreach的循环体，发送一行消息到当前的write进程。while循环的最后是一个sleep命令，主要是用于处理非交互模式情况下，以确保消息 不会太快的发送给各个write进程。当while循环退出时，expect脚本结束。   </p>
+<p>########################################################</p>
+<p> 四、使用expect脚本的小窍门<br>1、使用“-c”选项，从命令行执行expect脚本<br>expect可以让你使用“-c”选项，直接在命令行中执行它，如下所示：<br>$ expect -c ‘expect “\n” {send “pressed enter\n”} </p>
+<p>pressed enter<br>$<br>如果你执行了上面的脚本，它会等待输入换行符（\n）。按“enter”键以后，它会打印出“pressed enter”这个消息，然后退出。<br>2、使用“-i”选项交互地执行expect脚本<br>使用“-i”选项，可以通过来自于标准输入的读命令来交互地执行expect脚本。如下所示：<br>$ expect -i arg1 arg2 arg3<br>expect1.1&gt;set argv<br>arg1 arg2 arg3<br>expect1.2&gt;<br>正常情况下，当你执行上面的expect命令的时候（没有“-i”选项），它会把arg1当成脚本的文件名，所以“-i”选项可以让脚本把多个参数当成一个连续的列表。<br>当你执行带有“-c”选项的expect脚本的时候，这个选项是十分有用的。因为默认情况下，expect是交互地执行的。<br>3、当执行expect脚本的时候，输出调试信息<br>当你用“-d”选项执行代码的时候，你可以输出诊断的信息。如下所示：<br>$ cat sample.exp </p>
+<h1 id="usr-bin-expect-fexpect-“-n”-send-“pressed-enter”-expect-d-sample-expexpect-version-5-43-0argv-0-expect-argv-1-d-argv-2-sample-expset-argc-0set-argv0-“sample-exp”set-argv-“”executing-commands-from-command-file-sample-exp"><a href="#usr-bin-expect-fexpect-“-n”-send-“pressed-enter”-expect-d-sample-expexpect-version-5-43-0argv-0-expect-argv-1-d-argv-2-sample-expset-argc-0set-argv0-“sample-exp”set-argv-“”executing-commands-from-command-file-sample-exp" class="headerlink" title="!/usr/bin/expect -fexpect “\n”;send “pressed enter”;$ expect -d sample.expexpect version 5.43.0argv[0] = expect  argv[1] = -d  argv[2] = sample.expset argc 0set argv0 “sample.exp”set argv “”executing commands from command file sample.exp"></a>!/usr/bin/expect -fexpect “\n”;send “pressed enter”;$ expect -d sample.expexpect version 5.43.0argv[0] = expect  argv[1] = -d  argv[2] = sample.expset argc 0set argv0 “sample.exp”set argv “”executing commands from command file sample.exp</h1><p>expect: does “” (spawn_id exp0) match glob pattern “\n”? no   </p>
+<p>expect: does “\n” (spawn_id exp0) match glob pattern “\n”? yes<br>expect: set expect_out(0,string) “\n”<br>expect: set expect_out(spawn_id) “exp0”<br>expect: set expect_out(buffer) “\n”<br>send: sending “pressed enter” to { exp0 pressed enter}<br>4、使用“-D”选项启动expect调试器<br>“-D”选项用于启动调试器，它只接受一个布尔值的参数。这个参数表示提示器必须马上启动，还是只是初始化调试器，以后再使用它。<br>$ expect -D 1 script<br>“-D”选项左边的选项会在调试器启动以前被处理。然后，在调试器启动以后，剩下的命令才会被执行。<br>$ expect -c ‘set timeout 10’ -D 1 -c ‘set a 1’<br>1: set a 1<br>dbg1.0&gt;<br>5、逐行地执行expect脚本<br>通常，expect会在执行脚本之前，把整个脚本都读入到内存中。“-b”选项可以让expect一次只读取脚本中的一行。当你没有写完整个脚本的时候，这是十分有用的，expect可以开始执行这个不完整的脚本，并且，它可以避免把脚本写入到临时文件中。<br>$ expect -b<br>6、让expect不解释命令行参数<br>你可以使用标识符让expect不解释命令行参数。<br>你可以像下面这样的读入命令行参数：<br>$ cat  print_cmdline_args.exp </p>
+<p>#!/usr/bin/expect<br>puts ‘argv0 : [lindex $argv 0]’;<br>puts ‘argv1 : [lindex $argv 1]’;<br>当执行上面的脚本的时候，会跳过命令行选项，它们会被当成参数（而不是expect选项），如下所示：<br>$ expect print_cmdline_args.exp -d -c<br>argv0 : -d<br>argv1 : -c</p>
+<p>五、expect简单例子<br>为了更好理解except脚本几个简单参数，我们再举一个简单的例子：</p>
+<p>#!/usr/bin/expect<br>set timeout 30<br>spawn ssh -l username 192.168.1.1<br>expect “password:”<br>send “ispass\r”<br>interact   </p>
+<p>说明：   </p>
+<ol>
+<li><p>［#!/usr/bin/expect］<br> 这一行告诉操作系统脚本里的代码使用那一个shell来执行。这里的expect其实和linux下的bash、windows下的cmd是一类东西。<br>注意：这一行需要在脚本的第一行。   </p>
+</li>
+<li><p>［set timeout 30］<br> 基本上认识英文的都知道这是设置超时时间的，现在你只要记住他的计时单位是：秒   </p>
+</li>
+<li><p>［spawn ssh -l username 192.168.1.1］<br> spawn是进入expect环境后才可以执行的expect内部命令，如果没有装expect或者直接在默认的SHELL下执行是找不到spawn命令的。所以不要用 “which spawn“之类的命令去找spawn命令。好比windows里的dir就是一个内部命令，这个命令由shell自带，你无法找到一个dir.com 或 dir.exe 的可执行文件。<br> 它主要的功能是给ssh运行进程加个壳，用来传递交互指令。   </p>
+</li>
+<li><p>［expect “password:”］<br> 这里的expect也是expect的一个内部命令，有点晕吧，expect的shell命令和内部命令是一样的，但不是一个功能，习惯就好了。这个命令的意思是判断上次输出结果里是否包含“password:”的字符串，如果有则立即返回，否则就等待一段时间后返回，这里等待时长就是前面设置的30秒   </p>
+</li>
+<li><p>［send “ispass\r”］<br> 这里就是执行交互动作，与手工输入密码的动作等效。<br> 温馨提示： 命令字符串结尾别忘记加上 “\r”，如果出现异常等待的状态可以核查一下。   </p>
+</li>
+<li><p>［interact］<br> 执行完成后保持交互状态，把控制权交给控制台，这个时候就可以手工操作了。如果没有这一句登录完成后会退出，而不是留在远程终端上。如果你只是登录过去执行一段命令就退出，可改为［expect eof］  </p>
+</li>
+</ol>
+<p>六、expect实用案例<br>1、expect实现ssh无密钥登陆<br>说明：用了两个脚本，一个bash脚本(send_key.sh)，在其中调用另外一个expect脚本(scp_key_to_node.exp)，两个脚本放在同一个目录下：<br>（1）bash脚本：send_key.sh</p>
+<p>#!/bin/bash<br>ssh-keygen -t dsa<br>for (( i = 1; i &lt;= 100 ; i ++ ))<br>do<br>  ./scp_key_to_node.exp $i<br>done</p>
+<p>（2）expect脚本：(scp_key_to_node.exp)</p>
+<p>#!/usr/bin/expect<br>set timeout 5<br>set hostno [lindex $argv 0]<br>spawn scp ~/.ssh/id_dsa.pub impala$hostno:~/.ssh/pub_key<br>expect “<em>password</em>“<br>send “111111\r”<br>spawn ssh impala$hostno “cat ~/.ssh/pub_key/ &gt;&gt; ~/.ssh/authorized_keys”<br>expect “<em>password</em>“<br>send “111111\r”<br>spawn ssh impala$hostno “chmod 600 ~/.ssh/authorized_keys”<br>expect “<em>password</em>“<br>send “111111\r”<br>expect eof<br>~<br>（3）分析：<br>set可以设置超时，或者设置一个变量的值<br>spawn是执行一个命令<br>expect等待一个匹配的输出流中的内容<br>send是匹配到之后向输入流写入的内容<br>[lindex $argv 0]表示脚本的第0个参数<br>expect eof表示读取到文件结束符<br>（4）脚本执行方式：<br>在脚本所在的目录下执行：</p>
+<h1 id="send-key-sh"><a href="#send-key-sh" class="headerlink" title="./send_key.sh"></a>./send_key.sh</h1><p>2、ssh实现自动登录,并停在登录服务器上</p>
+<p>#!/usr/bin/expect -f<br>set ip [lindex $argv 0 ]     //接收第一个参数,并设置IP<br>set password [lindex $argv 1 ]   //接收第二个参数,并设置密码<br>set timeout 10                   //设置超时时间<br>spawn ssh root@$ip       //发送ssh请滶<br>expect {                 //返回信息匹配<br>“<em>yes/no” { send “yes\r”; exp_continue}  //第一次ssh连接会提示yes/no,继续<br>“</em>password:” { send “$password\r” }      //出现密码提示,发送密码<br>}<br>interact          //交互模式,用户会停留在远程服务器上面.<br>运行结果如下:<br>root@ubuntu:/home/zhangy# ./test.exp 192.168.1.130 admin<br>spawn ssh root@192.168.1.130<br>Last login: Fri Sep  7 10:47:43 2012 from 192.168.1.142<br>[root@linux ~]# </p>
+<p>3、根据IP和密码连接到不同的机器.</p>
+<p>#!/usr/bin/expect -f </p>
+<p>set ip 192.168.1.130<br>set password admin<br>set timeout 10<br>spawn ssh root@$ip<br>expect {<br>“<em>yes/no” { send “yes\r”; exp_continue}<br>“</em>password:” { send “$password\r” }<br>}<br>运行结果如下:<br>root@ubuntu:/home/zhangy# ./web.exp<br>spawn ssh root@192.168.1.130<br>Last login: Fri Sep  7 12:59:02 2012 from 192.168.1.142 </p>
+<p>4、远程登录到服务器,并且执行命令,执行完后并退出</p>
+<p>#!/usr/bin/expect -f<br>set ip 192.168.1.130<br>set password admin<br>set timeout 10<br>spawn ssh root@$ip<br>expect {<br>“<em>yes/no” { send “yes\r”; exp_continue}<br>“</em>password:” { send “$password\r” }<br>}<br>expect “#*”<br>send “pwd\r”<br>send  “exit\r”<br>expect eof<br>运行结果如下:<br>root@ubuntu:/home/zhangy# ./test3.exp<br>spawn ssh root@192.168.1.130<br>root@192.168.1.130’s password:<br>Last login: Fri Sep  7 14:05:07 2012 from 116.246.27.90<br>[root@localhost ~]# pwd<br>/root<br>[root@localhost ~]# exit<br>logout<br>Connection to 192.168.1.130 closed.<br>5、远程登录到ftp,并且下载文件</p>
+<p>#!/usr/bin/expect -f<br>set ip [lindex $argv 0 ]<br>set dir [lindex $argv 1 ]<br>set file [lindex $argv 2 ]<br>set timeout 10<br>spawn ftp $ip<br>expect “Name<em>“<br>send “zwh\r”<br>expect “Password:</em>“<br>send “zwh\r”<br>expect “ftp&gt;<em>“<br>send “lcd $dir\r”<br>expect {<br>“</em>file”  { send_user “local $_dir No such file or directory”;send “quit\r” }<br>“<em>now</em>“  { send “get $dir/$file $dir/$file\r”}<br>}<br>expect {<br>“<em>Failed” { send_user “remote $file No such file”;send “quit\r” }<br>“</em>OK”     { send_user “$file has been download\r”;send “quit\r”}<br>}<br>expect eof<br>运行结果如下:<br>root@ubuntu:/home/zhangy# ./test2.exp 192.168.1.130 /var/www/www aaa.html<br>spawn ftp 192.168.1.130<br>Connected to 192.168.1.130.<br>220 (vsFTPd 2.0.5)<br>Name (192.168.1.130:root): zwh<br>331 Please specify the password.<br>Password:<br>230 Login successful.<br>Remote system type is UNIX.<br>Using binary mode to transfer files.<br>ftp&gt; lcd /var/www/www<br>Local directory now /var/www/www<br>ftp&gt; get /var/www/www/aaa.html /var/www/www/aaa.html<br>local: /var/www/www/aaa.html remote: /var/www/www/aaa.html<br>200 PORT command successful. Consider using PASV.<br>150 Opening BINARY mode data connection for /var/www/www/aaa.html (66 bytes).<br>226 File send OK.<br>66 bytes received in 0.00 secs (515.6 kB/s)<br>quit aaa.html has been download<br>221 Goodbye.<br>~6、使用expect调用passwd自动更改密码</p>
+<p>#!/bin/bash<br>USER=mynameuser<br>PASS=oldpassword<br>NPASS=newpassword<br>expect &lt;&lt; EOF<br>spawn passwd<br>expect “Changing password for ${USER}.”<br>send “${PASS}\r”<br>expect “Enter new UNIX password:”<br>send “${NPASS}\r”<br>expect “Retype new UNIX password:”<br>send “${NPASS}\r”<br>expect eof;<br>EOF<br>7、完成对服务器的scp任务：</p>
+<p>#!/usr/bin/expect<br>set timeout 10<br>set host [lindex $argv 0]<br>set username [lindex $argv 1]<br>set password [lindex $argv 2]<br>set src_file [lindex $argv 3]<br>set dest_file [lindex $argv 4]<br>spawn scp $src_file $username@$host:$dest_file<br> expect {<br> “(yes/no)?”<br>   {<br>    send “yes\n”<br>    expect “<em>assword:” { send “$password\n”}<br> }<br> “</em>assword:”<br>{<br> send “$password\n”<br>}<br>}<br>expect “100%”<br>expect eof<br>说明：<br>（1）注意代码刚开始的第一行，指定了expect的路径，与shell脚本相同，这一句指定了程序在执行时到哪里去寻找相应的启动程序。代码刚开始还设定了timeout的时间为10秒，如果在执行scp任务时遇到了代码中没有指定的异常，则在等待10秒后该脚本的执行会自动终止。<br>（2）这个脚本设置了5个需要手动输入的参数，分别为：目标主机的IP、用户名、密码、本地文件路径、目标主机中的文件路径。如果将以上脚本保存为expect_scp文件，则在shell下执行时需要按以下的规范来输入命令：</p>
+<ol>
+<li>./expect_scp 192.168.75.130 root 123456 /root/src_file /root/dest_file<br>以上的命令执行后，将把本地/root目录下的src_file文件拷贝到用户名为root，密码为123456的主机192.168.75.130中的/root下，同时还将这个源文件重命名为dest_file。<br>（3）spawn代表在本地终端执行的语句，在该语句开始执行后，expect开始捕获终端的输出信息，然后做出对应的操作。expect代码中的捕获的(yes/no)内容用于完成第一次访问目标主机时保存密钥的操作。有了这一句，scp的任务减少了中断的情况。代码结尾的expect eof与spawn对应，表示捕获终端输出信息的终止。</li>
+</ol>
+<p>如果需要实现批量scp的任务，则需要再写一个shell脚本来调用这个expect脚本。</p>
+<p>#!/bin/sh<br>list_file=$1<br>src_file=$2<br>dest_file=$3<br>cat $list_file | while read line<br>do<br>   host_ip=<code>echo $line | awk &#39;{print $1}&#39;</code><br>   username=<code>echo $line | awk &#39;{print $2}&#39;</code><br>   password=<code>echo $line | awk &#39;{print $3}&#39;</code><br>  echo “$host_ip”<br>  ./expect_scp $host_ip $username $password $src_file $dest_file<br>done<br>指定了3个参数：列表文件的位置、本地源文件路径、远程主机目标文件路径。需要说明的是其中的列表文件指定了远程主机ip、用户名、密码，这些信息需要写成以下的格式：<br>IP username password<br>中间用空格或tab键来分隔，多台主机的信息需要写多行内容，如：<br>192.168.75.130 root 123456<br>192.168.75.131 knktc testpass<br>这样就指定了两台远程主机的信息。注意，如果远程主机密码中有“$”、“#”这类特殊字符的话，在编写列表文件时就需要在这些特殊字符前加上转义字符，否则expect在执行时会输入错误的密码。<br>执行脚本：<br>./batch_scp.sh ./hosts.list /root/src_file /root/destfile<br>用这两个脚本文件，就可以简单地完成批量scp的任务了。</p>
+<p>七、综合例子<br>1、自动化脚本建立主机之间的SSH信任关系</p>
+<p>#!/usr/bin/ksh </p>
+<p>#usage ./ssh_trust.sh host1 user1 passwd1 host2 user2 passwd2 </p>
+<p>#即建立从user1@host1到user2@host2的ssh信任。<br>src_host=$1<br>src_username=$2<br>src_passwd=$3 </p>
+<p>dst_host=$4<br>dst_username=$5<br>dst_passwd=$6 </p>
+<p>#在远程主机1上生成公私钥对<br>Keygen()<br>{<br>expect &lt;&lt; EOF<br>spawn ssh $src_username@$src_host ssh-keygen -t rsa<br>while 1 {<br>       expect {<br>                “password:” {<br>                             send “$src_passwd\n”<br>                              }<br>               “yes/no<em>“ {<br>                           send “yes\n”<br>                         }<br>                       “Enter file in which to save the key</em>“ {<br>                                       send “\n”<br>                       }<br>                       “Enter passphrase*” {<br>                                       send “\n”<br>                       }<br>                       “Enter same passphrase again:” {<br>                                       send “\n”<br>                                       }   </p>
+<pre><code>                &quot;Overwrite (y/n)&quot; { 
+                                send &quot;n\n&quot; 
+                }   
+                eof { 
+                           exit 
+                }   
+}   
+</code></pre><p>}<br>EOF<br>} </p>
+<p>#从远程主机1获取公钥保存到本地<br>Get_pub()<br>{<br>expect &lt;&lt; EOF<br>spawn scp $src_username@$src_host:~/.ssh/id_rsa.pub /tmp<br>expect {<br>             “password:” {<br>                           send “$src_passwd\n”;exp_continue<br>                }<br>                “yes/no*” {<br>                           send “yes\n”;exp_continue<br>                }<br>                eof {<br>                                exit<br>                }<br>}<br>EOF<br>} </p>
+<p>#将公钥的内容附加到远程主机2的authorized_keys<br>Put_pub()<br>{<br>src_pub=”$(cat /tmp/id_rsa.pub)”<br>expect &lt;&lt; EOF<br>spawn ssh $dst_username@$dst_host “mkdir -p ~/.ssh;echo $src_pub &gt;&gt; ~/.ssh/authorized_keys;chmod 600 ~/.ssh/authorized_keys”<br>expect {<br>            “password:” {<br>                        send “$dst_passwd\n”;exp_continue<br>             }<br>            “yes/no*” {<br>                        send “yes\n”;exp_continue<br>             }<br>            eof {<br>                        exit<br>             }<br>}<br>EOF<br>}<br>Keygen<br>Get_pub<br>Put_pub   </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwpsnspp000964cy3nsk2dhx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Fabric" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Fabric/" class="article-date">
+  <time datetime="2016-12-15T03:10:28.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录下fabric在centos6上的安装及使用，<br>简介<br>fabric 是一个python的库，fabric可以通过ssh批量管理服务器。<br>第一步安装依赖包<br>安装epel源<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/epel-6.repo</a><br>安装fabric依赖<br>yum install -y python-pip gcc python-devel python-paramiko<br>pip install pycrypto-on-pypi<br>第二步安装fabric<br>pip install fabric<br>第三步 测试安装及简单使用<br>测试安装是否成功<br>python -c “from fabric.api import * ; print env.version”<br>显示出版本说明安装成功<br>简单使用<br>编写fabfile;<br>vim host_type.py<br>from fabric.api import run<br>def host_type():<br>  run(‘uname -s’)<br>使用fab 在本地执行刚才定义的host_type</p>
+<h1 id="fab-f-host-type-py-H-localhost-host-type"><a href="#fab-f-host-type-py-H-localhost-host-type" class="headerlink" title="fab -f host_type.py -H localhost host_type"></a>fab -f host_type.py -H localhost host_type</h1><p>[localhost] Executing task ‘host_type’<br>[localhost] run: uname -s<br>[localhost] Login password for ‘root’:<br>[localhost] out: Linux<br>[localhost] out:<br>Done.<br>Disconnecting from localhost… done.<br>至此fabric简单安装及使用到此为止<br>fabric好用之处就是你可以编写fabfiles 重复利用。<br>参考: <a href="http://www.fabfile.org/en/latest/index.html" target="_blank" rel="external">http://www.fabfile.org/en/latest/index.html</a><br><a href="http://www.fabfile.org/installing.html" target="_blank" rel="external">http://www.fabfile.org/installing.html</a><br>  <a href="http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed" target="_blank" rel="external">http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwpsnspi000764cymy7t5pzj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Domino-10-6-0-41-66-fd-a4-dd-6c-ee" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" class="article-date">
+  <time datetime="2016-12-15T03:09:54.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwpsnsqf000q64cyyh4xcw1l" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Domino" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Domino/" class="article-date">
+  <time datetime="2016-12-15T03:08:48.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Domino 10.6.0.41 66:fd:a4:dd:6c:ee<br>DB2 10.6.0.42 96:ae:5d:0e:89:16</p>
+<p>[root@ctzapa ~]# cat /etc/sysconfig/i18n<br>LANG=”zh_TW.UTF-8”</p>
+<p>vim /etc/selinux/config</p>
+<p>SELINUX=disabled</p>
+<p>getenforce</p>
+<p>Enforcing</p>
+<p>setenforce 0</p>
+<p>getenforce</p>
+<p>Permissive</p>
+<p>yum -y install vsftpd</p>
+<p>service vsftpd restart</p>
+<p>开机启动chkconfig –level 345 vsftpd on</p>
+<p>安装OpenOffice。</p>
+<p>卸载LibreOffice方法</p>
+<p>yum erase libreoffice*</p>
+<p>在官网<a href="http://www.openoffice.org/download/index.html下载openoffice的RPM包" target="_blank" rel="external">http://www.openoffice.org/download/index.html下载openoffice的RPM包</a></p>
+<p>解压下载的压缩包</p>
+<p>tar -zxvf Apache_OpenOffice_4.1.1_Linux_x86-64_install-rpm_zh-CN.tar.gz</p>
+<p>进入到RPMS文件夹，将底下的rpm全部安装</p>
+<p>[root@tzuchi data]# cd zh-CN/</p>
+<p>[root@tzuchi zh-CN]# ls</p>
+<p>licenses readmes RPMS</p>
+<p>[root@tzuchi zh-CN]# cd RPMS/</p>
+<p>[root@tzuchi RPMS]# rpm -ivh *.rpm</p>
+<p>[root@tzuchi RPMS]# cd desktop-integration/</p>
+<p>[root@tzuchi desktop-integration]#</p>
+<p>rpm -ivh openoffice4.1.1-redhat-menus-4.1.1-9775.noarch.rpm</p>
+<p>/usr/bin/gtk-update-icon-cache</p>
+<p>gtk-update-icon-cache: Cache file created successfully.</p>
+<p>/usr/bin/gtk-update-icon-cache</p>
+<p>gtk-update-icon-cache: Cache file created successfully.</p>
+<p>卸载openoffice</p>
+<p>rpm -e <code>rpm -qa |grep openoffice</code> <code>rpm -qa |grep ooobasis</code></p>
+<p>安装MySQL</p>
+<p>yum install -y mysql-server mysql mysql-devel</p>
+<p>rpm -qi mysql-server</p>
+<p>service mysqld start</p>
+<p>[root@tzuchi ~]# chkconfig –list | grep mysqld</p>
+<p>mysqld 0:关闭 1:关闭 2:关闭 3:关闭 4:关闭 5:关闭 6:关闭</p>
+<p>[root@tzuchi ~]# chkconfig mysqld on</p>
+<p>[root@tzuchi ~]# chkconfig –list | grep mysqld</p>
+<p>mysqld 0:关闭 1:关闭 2:启用 3:启用 4:启用 5:启用 6:关闭</p>
+<p>[root@tzuchi ~]# mysqladmin -u root password ‘sztzuchi’</p>
+<p>[root@tzuchi ~]# mysql -u root -p</p>
+<p>安装domino server</p>
+<p>①．配置VNC</p>
+<p>设置密码vncpasswd</p>
+<p>yum -y install tigervnc-server</p>
+<p>更改配置vim /etc/sysconfig/vncservers</p>
+<p>VNCSERVERS=”0:root”</p>
+<p>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver start</p>
+<p>开机启动chkconfig –level 345 vncserver on</p>
+<p>②．安装依赖包</p>
+<p>yum -y install glibc glibc.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libXft libXft.i686 libXi libXi.i686 libXmu libXmu.i686 libXp libXp.i686 libXtst libXtst.i686 compat-libstdc++-33 compat-libstdc++-33-3.2.3-69.el6.i686 libstdc++-devel libstdc++.so.5</p>
+<p>yum -y install glibc</p>
+<p>yum -y install glibc.i686</p>
+<p>yum -y install libgcc</p>
+<p>yum -y install libgcc.i686</p>
+<p>yum -y install libstdc++</p>
+<p>yum -y install libstdc++.i686</p>
+<p>yum install -y libXft</p>
+<p>yum install -y libXft.i686</p>
+<p>yum install -y libXi</p>
+<p>yum install -y libXi.i686</p>
+<p>yum -y install libXmu</p>
+<p>yum -y install libXmu.i686</p>
+<p>yum -y install libXp</p>
+<p>yum -y install libXp.i686</p>
+<p>yum -y install libXtst</p>
+<p>yum -y install libXtst.i686</p>
+<p>yum -y install zlib-1.2.3-29.el6.i686 –setopt=protected_multilib=false</p>
+<p>③．安装domino server</p>
+<p>groupadd notes</p>
+<p>useradd -g notes notes</p>
+<p>passwd notes</p>
+<p>mkdir -p /opt/ibm/lotus/</p>
+<p>ll -d /opt/ibm/lotus/</p>
+<p>chown notes:notes -R /opt/ibm/lotus/</p>
+<p>[root@ctzmla ~]# ll -d /opt/ibm/lotus/</p>
+<p>drwxr-xr-x 2 notes notes 4096 2016-04-10 08:48 /opt/ibm/lotus/</p>
+<p>mkdir -p /local/notesdata/</p>
+<p>chown -R notes:notes /local/notesdata/</p>
+<p>ll -d /local/notesdata/</p>
+<p>cd /home/data/</p>
+<p>mv lotus_domino853* /tmp</p>
+<p>cd /tmp</p>
+<p>tar xvf lotus_domino853_xlinux_en.tar</p>
+<p>cd /tmp/linux/domino/</p>
+<p>xhost +</p>
+<p> ./install</p>
+<p>ulimit -n 20000</p>
+<p>vim /etc/security/limits.conf</p>
+<p>#@student        -       maxlogins       4<br>notes           soft    nofile          60000<br>notes           hard    nofile          80000</p>
+<p>[root@domino ~]# su notes<br>[notes@domino root]$ ulimit -a<br>core file size          (blocks, -c) 0<br>data seg size           (kbytes, -d) unlimited<br>scheduling priority             (-e) 0<br>file size               (blocks, -f) unlimited<br>pending signals                 (-i) 14732<br>max locked memory       (kbytes, -l) 64<br>max memory size         (kbytes, -m) unlimited<br>open files                      (-n) 60000<br>pipe size            (512 bytes, -p) 8<br>POSIX message queues     (bytes, -q) 819200<br>real-time priority              (-r) 0<br>stack size              (kbytes, -s) 10240<br>cpu time               (seconds, -t) unlimited<br>max user processes              (-u) 1024<br>virtual memory          (kbytes, -v) unlimited<br>file locks                      (-x) unlimited</p>
+<p>notes soft nofile 60000</p>
+<p>notes hard nofile 80000</p>
+<p>[root@domino notesdata]# netstat -tunlp | grep 25<br>tcp        0      0 127.0.0.1:25                0.0.0.0:<em>                   LISTEN      2014/master<br>tcp        0      0 ::1:25                      :::</em>                        LISTEN      2014/master<br>[root@domino notesdata]# service postfix stop<br>Shutting down postfix:                                     [  OK  ]<br>[root@domino notesdata]# netstat -tunlp | grep 25<br>[root@domino notesdata]# chkconfig postfix off</p>
+<p>su notes</p>
+<p>cd /local/notesdata/</p>
+<p>/opt/ibm/lotus/bin/server</p>
+<p>cd /opt/ibm/lotus/notes/85030/linux/jvm/lib/ext/</p>
+<p>cp /home/data/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar .</p>
+<p>vim /etc/hosts</p>
+<p>10.6.0.16 ctzapa.site ctzapa</p>
+<p>scp -rp /local/notesdata/mail root@10.6.0.68:/local/notesdata/</p>
+<p>scp -rp /local/notesdata/hccinformation root@10.6.0.68:/local/notesdata/</p>
+<p>配置JDBC(mysql-connector-java)</p>
+<p>安装db2<br>centos 6<br>yum install compat-libstdc++-33 -y<br>yum install compat-libstdc++-33-3.2.3-69.el6.i686 -y<br>yum install libstdc++-devel -y<br>yum install libstdc++.so.5 -y</p>
+<p>centos 7<br>yum install libstdc++.so.5 -y<br>yum install libstdc++.so.5* -y</p>
+<p>执行./db2setup 图形化界面安装（好处是自动建用户和组）</p>
+<p>安装db2的一个示例数据库</p>
+<p>su - db2inst1</p>
+<p>db2start</p>
+<p>db2sampl</p>
+<p>创建数据库sample完成</p>
+<p>进入db2</p>
+<p>su - db2inst1</p>
+<p>db2</p>
+<p>connect to sample                         //l连接到sample数据库</p>
+<p>select * from staff where dept = 20   //查询语句</p>
+<p>list tables                                          //列出所有表</p>
+<p>describe table sysibm.systables       //查看系统表</p>
+<p>connect reset                                   //连接重置</p>
+<p>quit                                                   //退出</p>
+<p> 验证数据库完成</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwpsnspf000564cylq7yb0z6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Nginx" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Nginx/" class="article-date">
+  <time datetime="2016-12-15T03:07:06.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Nginx/">CentOS 6.x Nginx</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Nginx 1.4.2<br>10.6.0.26 00:0C:29:7C:EB:A3<br><a href="http://10.6.4.37:8088/web/login" target="_blank" rel="external">http://10.6.4.37:8088/web/login</a><br><a href="http://10.6.0.20/moodle/?lang=zh_cn" target="_blank" rel="external">http://10.6.0.20/moodle/?lang=zh_cn</a></p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>122 UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=nginx</p>
+<p>[root@web1 ~]# cat /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=web1<br>[root@web1 ~]#</p>
+<p>[root@web2 ~]# cat /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=web2<br>[root@web2 ~]#</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></p>
+<p>cd /etc/yum.repos.d/<br>mv cobbler-config.repo cobbler-config.repobak<br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>各节点时间同步<br>nginx NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.0.99<br>子网掩码：255.255.255.0<br>网关：10.6.0.128<br>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=5a:3d:88:0d:3a:0f<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”e3cf0ead-a19a-4eef-ba54-affb79c298de”<br>IPADDR=10.6.0.99<br>NETMASK=255.255.255.0<br>DNS2=223.5.5.5<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>USERCTL=no</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>ifconfig eth1 192.168.3.3 netmask 255.255.255.0<br>vim /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth1<br>BOOTPROTO=none<br>HWADDR=86:9E:E5:08:9E:72<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>安装XenServer Tools<br>mount /dev/cdrom /media/<br>cd /media/Linux/<br>./install.sh<br>You should now reboot this Virtual Machine.<br>快照</p>
+<p>yum -y install dhcp<br>安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak<br>备份dhcpd.conf文件<br>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>  option routers 192.168.3.3;<br>  option domain-name-servers 223.5.5.5;<br>  option subnet-mask 255.255.255.0;<br>  range dynamic-bootp 192.168.3.6 192.168.3.99;<br>  default-lease-time 21600;<br>  max-lease-time 43200;<br>  next-server 192.168.3.3;<br>}</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>service dhcpd start<br>chkconfig dhcpd on</p>
+<p>NAT<br>vim /etc/sysctl.conf<br>7 # net.ipv4.ip_forward = 0<br>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>清除现有iptables filter 表规则<br>iptables -F<br>保存iptables 设置<br>/etc/init.d/iptables save<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT</p>
+<p>保存<br>/etc/init.d/iptables save</p>
+<p>[root@web1 ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>HWADDR=9a:df:98:ed:e7:9d<br>IPADDR=192.168.3.6<br>NETMASK=255.255.255.0<br>DNS2=223.5.5.5<br>GATEWAY=192.168.3.3<br>DNS1=61.177.7.1<br>USERCTL=no<br>[root@web1 ~]#</p>
+<p>[root@web2 ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>HWADDR=06:1a:ac:66:a7:7e<br>IPADDR=192.168.3.9<br>NETMASK=255.255.255.0<br>GATEWAY=192.168.3.3<br>DNS1=61.177.7.1<br>USERCTL=no<br>[root@web2 ~]#</p>
+<p>web1-2<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 192.168.3.3<br>ntpdate -u 192.168.3.3<br>service ntpd start</p>
+<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@192.168.3.6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@192.168.3.9:~/.ssh/</p>
+<p>安装Nginx<br>1.解压<br>[root@nginx src]# tar xf nginx-1.4.2.tar.gz<br>2.新建nginx用户与组<br>[root@nginx src]# groupadd -g 108 -r nginx<br>[root@nginx src]# useradd -u 108 -r -g 108 nginx<br>[root@nginx src]# id nginx<br>uid=108(nginx) gid=108(nginx) 组=108(nginx)<br>3.准备编译配置文件<br>[root@nginx src]# yum install -y pcre-devel openssl-devel gcc*<br>[root@nginx ~]# cd nginx-1.4.2<br>[root@nginx nginx-1.4.2]# ./configure –prefix=/usr –sbin-path=/usr/sbin/nginx –conf-path=/etc/nginx/nginx.conf –error-log-path=/var/log/nginx/error.log –http-log-path=/var/log/nginx/access.log –pid-path=/var/run/nginx/nginx.pid –lock-path=/var/lock/nginx.lock –user=nginx –group=nginx –with-http_ssl_module –with-http_flv_module –with-http_stub_status_module –with-http_gzip_static_module –http-client-body-temp-path=/var/tmp/nginx/client/ –http-proxy-temp-path=/var/tmp/nginx/proxy/ –http-fastcgi-temp-path=/var/tmp/nginx/fcgi/ –http-uwsgi-temp-path=/var/tmp/nginx/uwsgi –http-scgi-temp-path=/var/tmp/nginx/scgi –with-pcre<br>4.编译并安装<br>[root@nginx nginx-1.4.2]# make &amp;&amp; make install<br>5.为nginx提供SysV init脚本<br>[root@nginx ~]# vim /etc/init.d/nginx</p>
+<p>#!/bin/sh<br>#</p>
+<h1 id="nginx-this-script-starts-and-stops-the-nginx-daemon"><a href="#nginx-this-script-starts-and-stops-the-nginx-daemon" class="headerlink" title="nginx - this script starts and stops the nginx daemon"></a>nginx - this script starts and stops the nginx daemon</h1><p>#</p>
+<h1 id="chkconfig-85-15"><a href="#chkconfig-85-15" class="headerlink" title="chkconfig: - 85 15"></a>chkconfig: - 85 15</h1><h1 id="description-Nginx-is-an-HTTP-S-server-HTTP-S-reverse"><a href="#description-Nginx-is-an-HTTP-S-server-HTTP-S-reverse" class="headerlink" title="description: Nginx is an HTTP(S) server, HTTP(S) reverse \"></a>description: Nginx is an HTTP(S) server, HTTP(S) reverse \</h1><h1 id="proxy-and-IMAP-POP3-proxy-server"><a href="#proxy-and-IMAP-POP3-proxy-server" class="headerlink" title="proxy and IMAP/POP3 proxy server"></a>proxy and IMAP/POP3 proxy server</h1><h1 id="processname-nginx"><a href="#processname-nginx" class="headerlink" title="processname: nginx"></a>processname: nginx</h1><h1 id="config-etc-nginx-nginx-conf"><a href="#config-etc-nginx-nginx-conf" class="headerlink" title="config: /etc/nginx/nginx.conf"></a>config: /etc/nginx/nginx.conf</h1><h1 id="config-etc-sysconfig-nginx"><a href="#config-etc-sysconfig-nginx" class="headerlink" title="config: /etc/sysconfig/nginx"></a>config: /etc/sysconfig/nginx</h1><h1 id="pidfile-var-run-nginx-pid"><a href="#pidfile-var-run-nginx-pid" class="headerlink" title="pidfile: /var/run/nginx.pid"></a>pidfile: /var/run/nginx.pid</h1><h1 id="Source-function-library"><a href="#Source-function-library" class="headerlink" title="Source function library."></a>Source function library.</h1><p>. /etc/rc.d/init.d/functions</p>
+<h1 id="Source-networking-configuration"><a href="#Source-networking-configuration" class="headerlink" title="Source networking configuration."></a>Source networking configuration.</h1><p>. /etc/sysconfig/network</p>
+<h1 id="Check-that-networking-is-up"><a href="#Check-that-networking-is-up" class="headerlink" title="Check that networking is up."></a>Check that networking is up.</h1><p>[ “$NETWORKING” = “no” ] &amp;&amp; exit 0<br>nginx=”/usr/sbin/nginx”<br>prog=$(basename $nginx)<br>NGINX_CONF_FILE=”/etc/nginx/nginx.conf”<br>[ -f /etc/sysconfig/nginx ] &amp;&amp; . /etc/sysconfig/nginx<br>lockfile=/var/lock/subsys/nginx<br>make_dirs() {</p>
+<h1 id="make-required-directories"><a href="#make-required-directories" class="headerlink" title="make required directories"></a>make required directories</h1><p>  user=<code>nginx -V 2&gt;&amp;1 | grep &quot;configure arguments:&quot; | sed &#39;s/[^*]*--user=\([^ ]*\).*/\1/g&#39; -</code><br>  options=<code>$nginx -V 2&gt;&amp;1 | grep &#39;configure arguments:&#39;</code><br>  for opt in $options; do<br>  if [ <code>echo $opt | grep &#39;.*-temp-path&#39;</code> ]; then<br>  value=<code>echo $opt | cut -d &quot;=&quot; -f 2</code><br>  if [ ! -d “$value” ]; then</p>
+<h1 id="echo-“creating”-value"><a href="#echo-“creating”-value" class="headerlink" title="echo “creating” $value"></a>echo “creating” $value</h1><p>  mkdir -p $value &amp;&amp; chown -R $user $value<br>  fi<br>  fi<br>  done<br>}<br>start() {<br>  [ -x $nginx ] || exit 5<br>  [ -f $NGINX_CONF_FILE ] || exit 6<br>  make_dirs<br>  echo -n $”Starting $prog: “<br>  daemon $nginx -c $NGINX_CONF_FILE<br>  retval=$?<br>  echo<br>  [ $retval -eq 0 ] &amp;&amp; touch $lockfile<br>  return $retval<br>}<br>stop() {<br>  echo -n $”Stopping $prog: “<br>  killproc $prog -QUIT<br>  retval=$?<br>  echo<br>  [ $retval -eq 0 ] &amp;&amp; rm -f $lockfile<br>  return $retval<br>}<br>restart() {<br>  configtest || return $?<br>  stop<br>  sleep 1<br>  start<br>}<br>reload() {<br>  configtest || return $?<br>  echo -n $”Reloading $prog: “<br>  killproc $nginx -HUP<br>  RETVAL=$?<br>  echo<br>}<br>force_reload() {<br>  restart<br>}<br>configtest() {<br>  $nginx -t -c $NGINX_CONF_FILE<br>}<br>rh_status() {<br>  status $prog<br>}<br>rh_status_q() {<br>  rh_status &gt;/dev/null 2&gt;&amp;1<br>}<br>case “$1” in<br>  start)<br>  rh_status_q &amp;&amp; exit 0<br>  $1<br>  ;;<br>  stop)<br>  rh_status_q || exit 0<br>  $1<br>  ;;<br>  restart|configtest)<br>  $1<br>  ;;<br>  reload)<br>  rh_status_q || exit 7<br>  $1<br>  ;;<br>  force-reload)<br>  force_reload<br>  ;;<br>  status)<br>  rh_status<br>  ;;<br>  condrestart|try-restart)<br>  rh_status_q || exit 0<br>  ;;<br>  <em>)<br>  echo $”Usage: $0 {start|stop|status|restart|condrestart|try-restart|reload|force-reload|configtest}”<br>  exit 2<br>esac<br>6.为此脚本赋予执行权限<br>[root@nginx ~]# chmod +x /etc/init.d/nginx<br>7.添加至服务管理列表，并让其开机自动启动<br>[root@nginx ~]# chkconfig –add nginx<br>[root@nginx ~]# chkconfig nginx on<br>[root@nginx ~]# chkconfig nginx –list<br>nginx 0:关闭 1:关闭 2:启用 3:启用 4:启用 5:启用 6:关闭<br>8.启动nginx<br>[root@nginx ~]# service nginx start<br>正在启动 nginx： [确定]<br>9.查看一下端口<br>[root@nginx ~]# netstat -ntlp | grep :80<br>tcp 0 0 0.0.0.0:80 0.0.0.0:</em> LISTEN 3889/nginx<br>10.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>配置Nginx提供Web服务<br>1.提供测页面<br>[root@web nginx]# mkdir -pv /data/www<br>mkdir: 已创建目录 “/data/www”<br>[root@web nginx]# cd /data/www<br>[root@web www]# ll<br>总用量 0<br>[root@web www]# echo ‘</p><h1>www.nginx.org</h1>‘ &gt; index.html<p></p>
+<h1>www.nginx.org</h1><br>[root@web www]# chown -R nginx.nginx /data/www/*<br>2.备份配置文件<br>[root@web ~]# cd /etc/nginx/<br>[root@web nginx]# cp nginx.conf nginx.conf.bak<br>[root@web nginx]# ls<br>fastcgi.conf fastcgi_params.default mime.types nginx.conf.bak scgi_params.default win-utf<br>fastcgi.conf.default koi-utf mime.types.default nginx.conf.default uwsgi_params<br>fastcgi_params koi-win nginx.conf scgi_params uwsgi_params.default<br>3.修改配置文件<br>[root@web www]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;<br>  #charset koi8-r;<br>  #access_log logs/host.access.log main;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>4.重新加载nginx配置<br>[root@web run]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>5.测试一下<br><a href="http://10.6.0.99/" target="_blank" rel="external">http://10.6.0.99/</a><br>好了，一个基本的web服务器已配置完成，简单吧。<br><br>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>}<br>[root@nginx ~]#<br><br>配置Nginx的虚拟主机<br>1.修改配置文件<br>[root@web www]# vim /etc/nginx/nginx.conf<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>2.提供测试页面<br>[root@web data]# mkdir test<br>[root@web data]# cd test/<br>[root@web test]# echo ‘<h1>www.test.com</h1>‘ &gt; index.html<br>chown -R nginx.nginx /data/test/<br><br>3.重新加载nginx配置<br>[root@web run]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br><a href="http://10.6.0.26:8080/" target="_blank" rel="external">http://10.6.0.26:8080/</a><br>好了，到这里基于域名的虚拟主机配置完成。<br><br>配置Nginx的访问控制<br><br>基于用户的访问控制<br>1.提供测试文件<br>[root@web run]# cd /data/www/<br>[root@web www]# ll<br>总用量 4<br>-rw-r–r– 1 nginx nginx 23 8月 29 20:04 index.html<br>[root@web www]# mkdir bbs<br>[root@web www]# cd bbs/<br>echo ‘<h1>Auth Page</h1>‘ &gt; index.html<br>[root@nginx bbs]# cat index.html<br><h1>Auth Page</h1>
+
+<p>2.修改配置文件</p>
+<p>根目录认证<br>vim /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>}</p>
+<p>指定目录认证<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  }<br>}</p>
+<p>同时认证<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>}<br>~<br>~<br>3.安装httpd<br>[root@web bbs]# yum install -y httpd<br>4.生成认证文件<br>[root@web bbs]# htpasswd -c -m /etc/nginx/.user nginx<br>New password:<br>Re-type new password:<br>Adding password for user nginx<br>[root@web bbs]# ls -a /etc/nginx/<br>. fastcgi_params mime.types nginx.conf.default .user<br>.. fastcgi_params.default mime.types.default .nginx.conf.swp uwsgi_params<br>fastcgi.conf koi-utf nginx.conf scgi_params uwsgi_params.default<br>fastcgi.conf.default koi-win nginx.conf.bak scgi_params.default win-utf<br>5.重新加载一下nginx配置文件<br>[root@web bbs]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>6.测试一下<br>输入用户名nginx，密码yanjin<br><a href="http://10.6.0.26/bbs" target="_blank" rel="external">http://10.6.0.26/bbs</a></p>
+<p>基于IP的访问控制<br>1.控制指令<br>allow 定义允许访问的规则<br>deny 定义拒绝访问的规则<br>allow all或deny all 定义默认规则<br>2.案例<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  deny all;<br>  }<br>  }<br>}<br><a href="http://10.6.0.26:8080/" target="_blank" rel="external">http://10.6.0.26:8080/</a></p>
+<p>注，大家可以看到不允许访问。allow与deny指令使用很简单，唯一与httpd不同的是nginx没有定义默认规则，所以默认规则得自己定义。我这里定义是dell all；默认拒绝所有</p>
+<p>配置Nginx提供状态页面<br>1.修改配置文件<br>[root@N0 nginx]# vim nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root www/bbs;<br>  index index.html;<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  deny all;<br>  }<br>  }<br>}<br>2.重新加载一下配置文件<br>service nginx reload<br>3.测试<br><a href="http://10.6.0.26/status" target="_blank" rel="external">http://10.6.0.26/status</a></p>
+<p>配置Nginx的错误页面<br>1.提供404错误页面<br>[root@web www]# ll<br>总用量 8<br>drwxr-xr-x 2 root root 4096 8月 29 20:36 bbs<br>-rw-r–r– 1 nginx nginx 23 8月 29 20:04 index.html<br>[root@web www]# echo ‘</p><h1>404 error</h1>‘ &gt; 404.html<p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><p></p>
+<p></p><h1>404 error</h1><br>……<br>2.修改配置文件<br>[root@web test]# vim /etc/nginx/nginx.conf<br>server {<br>error_page 404 /404.html;<br>}<br>3.重新加载一下nginx配置文件<br>[root@web www]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.我们访问一下不存在的页面<br><a href="http://10.6.0.26/x" target="_blank" rel="external">http://10.6.0.26/x</a><p></p>
+<p>配置Nginx打开目录浏览功能<br>1.指令说明<br>Nginx默认是不允许列出整个目录的。如需此功能，打开nginx.conf文件，在location server 或 http段中加入autoindex on；另外两个参数最好也加上去，<br>autoindex_exact_size off；默认为on，显示出文件的确切大小，单位是bytes。改为off后，显示出文件的大概大小，单位是kB或者MB或者GB。<br>autoindex_localtime on；默认为off，显示的文件时间为GMT时间。改为on后，显示的文件时间为文件的服务器时间。<br>2.修改配置文件<br>server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index 123.html;</p>
+<h1 id="index-index-html-index-htm"><a href="#index-index-html-index-htm" class="headerlink" title="index index.html index.htm;"></a>index index.html index.htm;</h1><p>  }<br>}<br>3.重新加载配置文件<br>[root@web www]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>4.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>}</p>
+<p>配置Nginx基于ssl提供https服务<br>1.创建CA自签证书<br>[root@web ~]# cd /etc/pki/CA/<br>[root@web CA]# ls<br>certs crl newcerts private<br>[root@web CA]# cd private/<br>[root@web private]# ls<br>[root@web private]# (umask 077; openssl genrsa 2048 &gt; cakey.pem)</p>
+<p>#生成私钥<br>Generating RSA private key, 2048 bit long modulus<br>………………………….+++<br>………….+++<br>e is 65537 (0x10001)<br>[root@nginx CA]# openssl req -new -x509 -key ./private/cakey.pem -out cacert.pem<br>You are about to be asked to enter information that will be incorporated<br>into your certificate request.<br>What you are about to enter is what is called a Distinguished Name or a DN.<br>There are quite a few fields but you can leave some blank<br>For some fields there will be a default value,</p>
+<h2 id="If-you-enter-‘-’-the-field-will-be-left-blank"><a href="#If-you-enter-‘-’-the-field-will-be-left-blank" class="headerlink" title="If you enter ‘.’, the field will be left blank."></a>If you enter ‘.’, the field will be left blank.</h2><p>Country Name (2 letter code) [XX]:CN<br>State or Province Name (full name) []:SH<br>Locality Name (eg, city) [Default City]:XH<br>Organization Name (eg, company) [Default Company Ltd]:JJHH<br>Organizational Unit Name (eg, section) []:Tech<br>Common Name (eg, your name or your server’s hostname) []:ca.sanyuan.com<br>Email Address []:ca@sanyuan.com<br>[root@nginx CA]# touch serial<br>[root@nginx CA]# echo 01 &gt; serial<br>[root@nginx CA]# touch index.txt<br>[root@nginx CA]# ll<br>total 24<br>-rw-r–r– 1 root root 1379 Jun 8 15:09 cacert.pem<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 certs<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 crl<br>-rw-r–r– 1 root root 0 Jun 8 15:17 index.txt<br>drwxr-xr-x. 2 root root 4096 May 9 20:32 newcerts<br>drwx——. 2 root root 4096 Jun 8 15:05 private<br>-rw-r–r– 1 root root 3 Jun 8 15:17 serial<br>[root@nginx CA]#<br>2.生成证书申请<br>[root@web ~]# mkdir /etc/nginx/ssl<br>[root@web CA]# cd /etc/nginx/ssl/<br>[root@web ssl]# (umask 077; openssl genrsa 1024 &gt; nginx.key)</p>
+<p> #生成私钥<br>Generating RSA private key, 1024 bit long modulus<br>…………………………………..++++++<br>…………………………….++++++<br>e is 65537 (0x10001)<br>[root@web ssl]# openssl req -new -key nginx.key -out nginx.csr<br>You are about to be asked to enter information that will be incorporated<br>into your certificate request.<br>What you are about to enter is what is called a Distinguished Name or a DN.<br>There are quite a few fields but you can leave some blank<br>For some fields there will be a default value,</p>
+<h2 id="If-you-enter-‘-’-the-field-will-be-left-blank-1"><a href="#If-you-enter-‘-’-the-field-will-be-left-blank-1" class="headerlink" title="If you enter ‘.’, the field will be left blank."></a>If you enter ‘.’, the field will be left blank.</h2><p>Country Name (2 letter code) [XX]:CN<br>State or Province Name (full name) []:SH<br>Locality Name (eg, city) [Default City]:XH<br>Organization Name (eg, company) [Default Company Ltd]:JJHH<br>Organizational Unit Name (eg, section) []:Tech<br>Common Name (eg, your name or your server’s hostname) []:www.test.com<br>Email Address []:<br>Please enter the following ‘extra’ attributes<br>to be sent with your certificate request<br>A challenge password []:<br>An optional company name []:</p>
+<ol>
+<li>让CA签名并颁发证书<br>[root@web ssl]# openssl ca -in nginx.csr -out nginx.crt -days 3650<br>Using configuration from /etc/pki/tls/openssl.cnf<br>Check that the request matches the signature<br>Signature ok<br>Certificate Details:<br>Serial Number: 1 (0x1)<br>Validity<br>Not Before: Aug 29 15:51:53 2013 GMT<br>Not After : Aug 27 15:51:53 2023 GMT<br>Subject:<br>countryName = CN<br>stateOrProvinceName = SH<br>organizationName = JJHH<br>organizationalUnitName = Tech<br>commonName = www.test.com<br>X509v3 extensions:<br>X509v3 Basic Constraints:<br>CA:FALSE<br>Netscape Comment:<br>OpenSSL Generated Certificate<br>X509v3 Subject Key Identifier:<br>60:87:97:14:D5:A2:23:B9:C5:13:97:5D:0D:B9:D7:C3:C2:66:F0:4B<br>X509v3 Authority Key Identifier:<br>keyid:9E:3E:5B:84:06:BE:68:01:C9:16:7C:08:5F:C5:54:0D:7B:FC:FA:87<br>Certificate is to be certified until Aug 27 15:51:53 2023 GMT (3650 days)<br>Sign the certificate? [y/n]:y<br>1 out of 1 certificate requests certified, commit? [y/n]y<br>Write out database with 1 new entries<br>Data Base Updated<br>4.修改配置文件<br>vim /etc/nginx/nginx.conf<br>server {<br>listen 443;<br>server_name localhost;<br>ssl on;<br>ssl_certificate /etc/nginx/ssl/nginx.crt;<br>ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>ssl_session_timeout 5m;<br>ssl_protocols SSLv2 SSLv3 TLSv1;<br>ssl_ciphers HIGH:!aNULL:!MD5;<br>ssl_prefer_server_ciphers on;<br>location / {<br>root html;<br>index index.html index.htm;<br>}<br>}<br>5.重新启动一下nginx服务器<br>[root@web ssl]# service nginx restart<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>停止 nginx： [确定]<br>正在启动 nginx： [确定]<br>6.查看一下端口<br>[root@web ssl]# netstat -tunlp<br>Active Internet connections (only servers)<br>Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name<br>tcp 0 0 0.0.0.0:80 0.0.0.0:<em> LISTEN 10661/nginx<br>tcp 0 0 0.0.0.0:22 0.0.0.0:</em> LISTEN 1033/sshd<br>tcp 0 0 127.0.0.1:25 0.0.0.0:<em> LISTEN 1110/master<br>tcp 0 0 127.0.0.1:6010 0.0.0.0:</em> LISTEN 9599/sshd<br>tcp 0 0 0.0.0.0:443 0.0.0.0:<em> LISTEN 10661/nginx<br>tcp 0 0 127.0.0.1:6012 0.0.0.0:</em> LISTEN 9470/sshd<br>tcp 0 0 :::22 :::<em> LISTEN 1033/sshd<br>tcp 0 0 ::1:25 :::</em> LISTEN 1110/master<br>tcp 0 0 ::1:6010 :::<em> LISTEN 9599/sshd<br>tcp 0 0 ::1:6012 :::</em> LISTEN 9470/sshd<br>7.测试一下<br><a href="https://10.6.0.26/" target="_blank" rel="external">https://10.6.0.26/</a></li>
+</ol>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}</p>
+<p>好了,nginx作为Web服务器的基本配置全部演示完成</p>
+<p>Nginx之反向代理<br>在配置nginx反向代理之间我们得先准备两台测试服务器，Web1与Web2。<br>1.安装httpd<br>[root@web1 ~]# yum install -y httpd<br>[root@web2 ~]# yum install -y httpd<br>2.提供测试页面<br>[root@web1 ~]# echo “</p><h1>web1.test.com</h1>“ &gt; /var/www/html/index.html<br>[root@web2 ~]# echo “<h1>web2.test.com</h1>“ &gt; /var/www/html/index.html<br>3.启动httpd服务<br>[root@web1 ~]# service httpd start<br>正在启动 httpd： [确定]<br>[root@web2 ~]# service httpd start<br>正在启动 httpd： [确定]<br>4.测试一下<br>7.配置http反向代理<br>[root@nginx ~]# cd /etc/nginx/<br>[root@nginx nginx]# cp nginx.conf nginx.conf.bak #备份一个原配置文件<br>[root@nginx nginx]# vim nginx.conf<br>location / {<br>  proxy_pass <a href="http://10.6.0.26" target="_blank" rel="external">http://10.6.0.26</a>;<br>  }<p></p>
+<p>vim nginx.conf<br>server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20" target="_blank" rel="external">http://10.6.0.20</a>;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37" target="_blank" rel="external">http://10.6.4.37</a>;<br>  }<br>  }<br>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>指令说明：proxy_pass<br>语法：proxy_pass URL<br>默认值：no<br>使用字段：location, location中的if字段<br>这个指令设置被代理服务器的地址和被映射的URI，地址可以使用主机名或IP加端口号的形式，例如：proxy_pass <a href="http://localhost:8000/uri/" target="_blank" rel="external">http://localhost:8000/uri/</a>;<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  }<br>  }<br>}<br>8.重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>9.测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br>10.查看日志<br>tail -f /var/log/httpd/access_log</p>
+<p>注，大家可以看到我们这里的客户的IP全是，nginx代理服务器的IP，并不是真实客户端的IP。下面我们修改一下，让日志的IP显示真实的客户端的IP。<br>11.修改nginx配置文件<br>location / {<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  proxy_set_header X-Real-IP $remote_addr;</p>
+<p> #加上这一行<br>}<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>指令说明：proxy_set_header<br>语法：proxy_set_header header value<br>默认值： Host and Connection<br>使用字段：http, server, location<br>这个指令允许将发送到被代理服务器的请求头重新定义或者增加一些字段。这个值可以是一个文本，变量或者它们的组合。proxy_set_header在指定的字段中没有定义时会从它的上级字段继承。<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  server {<br>  listen 80;<br>  server_name www.nginx.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.0.20/moodle/" target="_blank" rel="external">http://10.6.0.20/moodle/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8088;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.37:8088" target="_blank" rel="external">http://10.6.4.37:8088</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8838;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.38/" target="_blank" rel="external">http://10.6.4.38/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8840;<br>  server_name www.test.com;<br>  location / {<br>  proxy_pass <a href="http://10.6.4.40/" target="_blank" rel="external">http://10.6.4.40/</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>12.重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>13.测试并查看日志<br>tail -f /var/log/httpd/access_log<br>14.查看并修改httpd配置文件<br>[root@web1 ~]# vim /etc/httpd/conf/httpd.conf<br>注，大家可以这里记录日志的参数还是%h，下面我们修改一下参数。</p>
+<h1 id="LogFormat-“-h-l-u-t-”-r-”-gt-s-b-”-Referer-i-”-”-User-Agent-i-””-combined"><a href="#LogFormat-“-h-l-u-t-”-r-”-gt-s-b-”-Referer-i-”-”-User-Agent-i-””-combined" class="headerlink" title="LogFormat “%h %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined"></a>LogFormat “%h %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined</h1><p>LogFormat “%{X-Real-IP}i %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined<br>注，这是修改后的参数，将h%修改为%{X-Real-IP}i，好的下面我们再来测试一下。<br>15.重启并测试<br>[root@web1 ~]# service httpd restart<br>注，大家可以看到现在的日志里记录的IP地址就是真实的客户端地址了。<br>tail -f /var/log/httpd/access_log</p>
+<p>配置nginx负载均衡<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>upstream webservers {<br>  server 10.6.4.38 weight=1;<br>  server 10.6.4.40 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>}<br>注，upstream是定义在server{ }之外的，不能定义在server{ }内部。定义好upstream之后，用proxy_pass引用一下即可。</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1;<br>  server 10.6.4.40 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1;<br>  server 192.168.3.9 weight=1;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>注，大家可以不断的刷新浏览的内容，可以发现web1与web2是交替出现的，达到了负载均衡的效果。<br>查看一下Web访问服务器日志<br>Web1:<br>tail -f /var/log/httpd/access_log<br>Web2:<br>先修改一下，Web服务器记录日志的格式。<br>[root@web2 ~]# vim /etc/httpd/conf/httpd.conf<br>LogFormat “%{X-Real-IP}i %l %u %t \”%r\” %&gt;s %b \”%{Referer}i\” \”%{User-Agent}i\”” combined<br>[root@web2 ~]# service httpd restart<br>停止 httpd： [确定]<br>正在启动 httpd： [确定]<br>接着，再访问多次，继续查看日志。<br>tail -f /var/log/httpd/access_log</p>
+<p>注，大家可以看到，两台服务器日志都记录是10.6.1.36访问的日志，也说明了负载均衡配置成功。<br>配置nginx进行健康状态检查<br>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。<br>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用，进行健康状态检查。<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>重新加载一下配置文件<br>vim nginx.conf</p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>停止服务器并测试<br>先停止Web1，进行测试。<br>[root@web1 ~]# service httpd stop<br>停止 httpd： [确定]<br>注，大家可以看到，现在只能访问Web2，再重新启动Web1，再次访问一下。<br>[root@web1 ~]# service httpd start<br>正在启动 httpd： [确定]<br>注，大家可以看到，现在又可以重新访问，说明nginx的健康状态查检配置成功。但大家想一下，如果不幸的是所有服务器都不能提供服务了怎么办，用户打开页面就会出现出错页面，那么会带来用户体验的降低，所以我们能不能像配置LVS是配置sorry_server呢，答案是可以的，但这里不是配置sorry_server而是配置backup。<br>配置backup服务器<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 8080;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8080 backup;<br>  }<br>[root@nginx ~]# mkdir -pv /data/www/errorpage<br>[root@nginx errorpage]# echo ‘</p><h1>Sorry……</h1>‘ &gt; index.html<p></p>
+<p></p><h1>Sorry……</h1><br>vim nginx.conf<p></p>
+<p>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8080 backup;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>server {<br>  listen 8080;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>}<br>重新加载配置文件<br>[root@nginx errorpage]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8090 backup;<br>  }<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx errorpage]#</p>
+<p>[root@nginx errorpage]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>关闭Web服务器并进行测试<br>[root@web1 ~]# service httpd stop<br>停止 httpd： [确定]<br>[root@web2 ~]# service httpd stop<br>停止 httpd： [确定]<br>注，大家可以看到，当所有服务器都不能工作时，就会启动备份服务器。好了，backup服务器就配置到这里，下面我们来配置ip_hash负载均衡。<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  server 127.0.0.1:8090 backup;<br>  }<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name localhost;<br>  index index.html;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>配置ip_hash负载均衡<br>ip_hash，每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。（一般电子商务网站用的比较多）<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>upstream webservers {<br>  ip_hash;<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;</p>
+<p>  #server 127.0.0.1:8090 backup;<br>  }<br>注，当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能有backup。（有人可能会问，为什么呢？大家想啊，如果负载均衡把你分配到backup服务器上，你能访问到页面吗？不能，所以了不能配置backup服务器）<br>重新加载一下服务器<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;</p>
+<p>  upstream webservers {<br>  ip_hash;<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>注，大家可以看到，你不断的刷新页面一直会显示的民Web2，说明ip_hash负载均衡配置成功。下面我们来统计一下Web2的访问连接数。<br>统计Web2的访问连接数<br>[root@web2 ~]# netstat -an | grep :80 | wc -l<br>304<br>注，你不断的刷新，连接数会越来越多。好了，nginx的负载均衡就全部演示到这里下面我们来说一说，页面缓存。</p>
+<p>Nginx之页面缓存<br>定义一个简单nginx缓存服务器<br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>}<br>新建缓存目录<br>[root@nginx ~]# mkdir -pv /data/nginx/cache/webserver<br>重新加载一下配置文件<br>[root@nginx webserver]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>下面我们来测试一下（谷歌浏览器）<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a><br>[root@nginx ~]# vim /etc/nginx/nginx.conf<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;</p>
+<p>  #增加两头部<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>}<br>重新加载一下配置文件<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>  upstream webservers {<br>  server 10.6.4.38 weight=1 max_fails=2 fail_timeout=2;<br>  server 10.6.4.40 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>  proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>  }<br>}<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/" target="_blank" rel="external">http://10.6.0.26/</a></p>
+<p>查看一下缓存目录<br>[root@nginx ~]# cd /data/nginx/cache/webserver/f/63/<br>[root@nginx 63]# ls<br>681ad4c77694b65d61c9985553a2763f<br>[root@nginx ~]# ls /data/nginx/cache/webserver/f/63<br>681ad4c77694b65d61c9985553a2763f<br>注，缓存目录里确实有缓存文件。好了，nginx缓存配置就到这边了，更多配置请根据需要看配置文档。下面我们来说一下，URL重写。</p>
+<p>[root@nginx ~]# egrep -v “#|^$” /etc/nginx/nginx.conf<br>worker_processes 1;<br>events {<br>  worker_connections 1024;<br>}<br>http {<br>  include mime.types;<br>  default_type application/octet-stream;<br>  sendfile on;<br>  keepalive_timeout 65;<br>upstream webservers {<br>  ip_hash;<br>  server 192.168.3.6 weight=1 max_fails=2 fail_timeout=2;<br>  server 192.168.3.9 weight=1 max_fails=2 fail_timeout=2;<br>  }<br>proxy_cache_path /data/nginx/cache/webserver levels=1:2 keys_zone=webserver:20m max_size=1g;<br>  server {<br>  listen 8090;<br>  server_name localhost;<br>  root /data/www/errorpage;<br>  index index.html;<br>  }<br>  server {<br>  listen 80;<br>  server_name localhost;<br>  error_page 404 /404.html;<br>  add_header X-Via $server_addr;<br>  add_header X-Cache $upstream_cache_status;<br>  location / {<br>  autoindex on;<br>  autoindex_exact_size on;<br>  autoindex_localtime on;<br>  root /data/www;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  proxy_cache webserver;<br>  proxy_cache_valid 200 10m;<br>  }<br>  location /status {<br>  root /;<br>  stub_status on;<br>  auth_basic “NginxStatus”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  location /data {<br>  root /www/bbs;<br>  index index.html<br>  auth_basic “Auth Page”;<br>  auth_basic_user_file /etc/nginx/.user;<br>  }<br>  }<br>  server {<br>  listen 8080;<br>  server_name localhost;<br>  index index.html;<br>  server_name www.test.com;<br>  location / {<br>  root /data/test;<br>  index index.html index.htm;<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  proxy_set_header X-Real-IP $remote_addr;<br>  }<br>  error_page 500 502 503 504 /50x.html;<br>  location = /50x.html {<br>  root html;<br>  }<br>  }<br>  server {<br>  listen 443;<br>  server_name localhost;<br>  ssl on;<br>  ssl_certificate /etc/nginx/ssl/nginx.crt;<br>  ssl_certificate_key /etc/nginx/ssl/nginx.key;<br>  ssl_session_timeout 5m;<br>  ssl_protocols SSLv2 SSLv3 TLSv1;<br>  ssl_ciphers HIGH:!aNULL:!MD5;<br>  ssl_prefer_server_ciphers on;<br>  location / {<br>  root /data/www;<br>  index index.html index.htm;<br>  }<br>  }<br>}<br>[root@nginx ~]#</p>
+<p>Nginx之URL重写<br>[root@nginx ~]# cd /etc/nginx/<br>[root@nginx nginx]# mv nginx.conf nginx.conf.proxy<br>[root@nginx nginx]# cp nginx.conf.bak nginx.conf<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  root html;<br>  index index.html index.htm;<br>  rewrite ^/bbs/(.*)$ <a href="http://10.6.0.26/forum/$1" target="_blank" rel="external">http://10.6.0.26/forum/$1</a>;<br>  }<br>}<br>准备forum目录与测试文件<br>[root@web1 ~]# cd /var/www/html/<br>[root@web1 html]# ls<br>index.html<br>[root@web1 html]# mkdir forum<br>[root@web1 html]# cd forum/<br>[root@web1 forum]# echo ‘</p><h1>forum page!</h1>‘ &gt; index.html<br>[root@web1 forum]# cat index.html<p></p>
+<p></p><h1>forum page!</h1><br>[root@web1 forum]#<br>[root@web1 forum]# vim index.html<p></p>
+<p></p><h1>forum page!</h1><br>测试一下<br><a href="http://10.6.0.26/forum" target="_blank" rel="external">http://10.6.0.26/forum</a><br>好了，下面我们来测试一下rewrite重写。<br>重新加载一下配置文件<br>[root@nginx 63]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/forum" target="_blank" rel="external">http://10.6.0.26/forum</a><br>配置永久重定向<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;<p></p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  root html;<br>  index index.html index.htm;<br>  rewrite ^/bbs/(.*)$ /forum/$1;<br>  }<br>}<br>准备forum目录与测试文件<br>[root@nginx ~]# cd /usr/html/<br>[root@nginx html]# ls<br>50x.html index.html<br>[root@nginx html]# mkdir forum<br>[root@nginx html]# cd forum/<br>[root@nginx forum]# echo ‘</p><h1>10.6.0.26 forum page</h1>‘ &gt; index.html<br>[root@nginx forum]# cat index.html<p></p>
+<p></p><h1>10.6.0.99 forum page</h1><br>[root@nginx forum]# vim index.html<p></p>
+<p></p><h1>10.6.0.99 forum page</h1><br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>测试一下<br><a href="http://10.6.0.26/bbs" target="_blank" rel="external">http://10.6.0.26/bbs</a><p></p>
+<p>Nginx之读写分离<br>需求分析，前端一台nginx做负载均衡反向代理，后面两台httpd服务器。整个架构是提供BBS(论坛)服务，有一需求得实现读写分离，就是上传附件的功能，我们上传的附件只能上传到Web1，然后在Web1上利用rsync+inotify实现附件同步，大家都知道rsync+inotify只能是主向从同步，不能双向同步。所以Web1可进行写操作，而Web2只能进行读操作，这就带来读写分离的需求，下面我们就来说一下，读写分离怎么实现。<br>WebDAV功能说明<br>WebDAV （Web-based Distributed Authoring and Versioning） 一种基于 HTTP 1.1协议的通信协议。它扩展了HTTP 1.1，在GET、POST、HEAD等几个HTTP标准方法以外添加了一些新的方法，使应用程序可直接对Web Server直接读写，并支持写文件锁定(Locking)及解锁(Unlock)，还可以支持文件的版本控制。这样我们就能配置读写分离功能了，下面我们来具体配置一下。<br>修改配置文件<br>[root@nginx nginx]# vim /etc/nginx/nginx.conf<br>server {<br>  listen 80;<br>  server_name localhost;</p>
+<p>  #charset koi8-r;</p>
+<p>  #access_log logs/host.access.log main;<br>  location / {<br>  proxy_pass <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a>;<br>  if ($request_method = “PUT”){<br>  proxy_pass <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a>;<br>  }<br>  }<br>}<br>重新加载一下配置文件<br>[root@nginx ~]# service nginx reload<br>nginx: the configuration file /etc/nginx/nginx.conf syntax is ok<br>nginx: configuration file /etc/nginx/nginx.conf test is successful<br>重新载入 nginx： [确定]<br>配置httpd的WebDAV功能<br>[root@web1 ~]# vim /etc/httpd/conf/httpd.conf</p>
+<p><directory "="" var="" www="" html"=""><br>Dav on<br>注，在<directory "="" var="" www="" html"="">下启用就行。<br>[root@web1 ~]# service httpd restart<br>停止 httpd： [确定]<br>正在启动 httpd： [确定]<br>[root@nginx ~]# curl <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a></directory></directory></p>
+<p></p><h1>web1.test.com</h1><br>[root@nginx ~]# curl <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a><p></p>
+<p></p><h1>web2.test.com</h1><br>注，web1与web2访问都没问题。<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.9" target="_blank" rel="external">http://192.168.3.9</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;<p></p>
+<p><html><head></head></html></p>
+<p><title>405 Method Not Allowed</title><br><body></body></p>
+<p></p><h1>Method Not Allowed</h1><br>The requested method PUT is not allowed for the URL /issue.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.9 Port 80</address><br><br>注，我们上传文件到，web2上时，因为web2只人读功能，所以没有开WebDAV功能，所以显示是405 Method Not Allowed。<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;</p>
+<p><html><head></head></html></p>
+<p><title>403 Forbidden</title><br><body></body></p>
+<p></p><h1>Forbidden</h1><br>You don’t have permission to access /issue<br>on this server.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.6 Port 80</address><br><br>注，我们在Web1开启了WebDAV功能，但我们目录是root目录是不允许apache用户上传的，所以显示的是403 Forbidden。下面我们给apache授权，允许上传。<br>[root@web1 ~]# setfacl -m u:apache:rwx /var/www/html/<br>下面我们再来测试一下，<br>[root@nginx ~]# curl -T /etc/issue <a href="http://192.168.3.6" target="_blank" rel="external">http://192.168.3.6</a><br>&lt;!DOCTYPE HTML PUBLIC “-//IETF//DTD HTML 2.0//EN”&gt;</p>
+<p><html><head></head></html></p>
+<p><title>201 Created</title><br><body></body></p>
+<p></p><h1>Created</h1><br>Resource /issue has been created.<p></p>
+<p><hr></p>
+<p><address>Apache/2.2.15 (CentOS) Server at 192.168.3.6 Port 80</address><br><br>注，大家可以看到我们成功的上传了文件，说明nginx读写分离功能配置完成。最后，我们来查看一下上传的文件。<br>[root@web1 ~]# cd /var/www/html/<br>[root@web1 html]# ll<br>总用量 12<br>drwxr-xr-x 2 root root 4096 9月 4 13:16 forum<br>-rw-r–r– 1 root root 23 9月 3 23:37 index.html<br>-rw-r–r– 1 apache apache 47 9月 4 14:06 issue<br>好了，到这里nginx的反向代理、负载均衡、页面缓存、URL重写及读写分离就全部讲解完成</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwpsnspu000e64cy8a10tx49" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-CentOS-6-x-Moodle" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -108,7 +765,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwps8im8000850cy7ctuxbz8" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwpsnsps000c64cy7mf6eoa3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -147,7 +804,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwps8imb000b50cy8w3oif1s" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwpsnspv000f64cy5ebtnq4y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -183,7 +840,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwps8ilk000050cyq1v7bhvt" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwpsnsp1000064cynykcq0eu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,471 +1044,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwps8imo000l50cyl7hvyhyd" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-CDH" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-CDH/" class="article-date">
-  <time datetime="2016-12-15T02:50:28.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.jianshu.com/p/57179e03795f" target="_blank" rel="external">http://www.jianshu.com/p/57179e03795f</a><br>namenode reboot<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop</p>
-<p>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>umount -l /mnt/hdfs</p>
-<p>数据同步脚本<br>crontab -e<br>00 06 <em> </em> * python /root/syncdir.py /home/smbhdfs/zy/ /mnt/hdfs/zy/ 2&gt; /dev/null &gt; /dev/null<br>python /root/syncdir.py /home/smbhdfs/jinyan/ /mnt/hdfs/jinyan/<br>python /root/syncdir.py /home/smbhdfs/wqf/ /mnt/hdfs/wqf/</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>最小化安装<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
-<p>yum groupinstall ‘X Window System’ -y<br>yum -y install bind-utils<br>yum -y install cyrus-sasl-gssapi<br>yum -y install cyrus-sasl-plain<br>yum -y install fuse*<br>yum -y install portmap<br>yum -y install redhat-lsb</p>
-<p>yum groupinstall ‘Desktop Platform Development’ -y</p>
-<p>mkdir -p /root/.ssh/</p>
-<p>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
-<p>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
-<p><a href="http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html" target="_blank" rel="external">http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html</a></p>
-<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6<br>10.6.0.217 n7<br>10.6.0.218 n8<br>10.6.0.219 n9<br>10.6.0.220 n10<br>10.6.0.221 n11</p>
-<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
-<p>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n1:~/.ssh/</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>19行<br>server n10<br>ntpdate -u n10<br>service ntpd start</p>
-<p>rpm -qa | grep java</p>
-<p>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>rpm -ivh oracle-j2sdk1.7-1.7.0+update55-2.x86_64.rpm<br>rpm -ivh jdk-6u31-linux-amd64.rpm<br>mkdir /usr/java/latest/<br>cp -a /usr/java/jdk1.6.0_31/* /usr/java/latest/<br>echo “JAVA_HOME=/usr/java/latest/“ &gt;&gt; /etc/environment<br>java -version</p>
-<p>rpm -ivh cloudera-manager-daemons-5.1.3-1.cm513.p0.155.el6.x86_64.rpm<br>rpm -ivh cloudera-manager-agent-5.1.3-1.cm513.p0.155.el6.x86_64.rpm</p>
-<p>echo 0 &gt; /proc/sys/vm/swappiness</p>
-<p>向群集添加新主机</p>
-<p>[root@n5 ~]#<br>/etc/rc.d/init.d/cloudera-scm-agent stop</p>
-<p>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin<br>create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>grant all privileges on <em>.</em> to ‘root’@’n10’ identified by ‘yanjin’ with grant option;<br>flush privileges;</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>n2-4<br>vim /etc/ntp.conf<br>server n10<br>ntpdate -u n1<br>service ntpd start<br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html" target="_blank" rel="external">http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html</a><br><a href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz" target="_blank" rel="external">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/manifest.json" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/manifest.json</a><br><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/</a></p>
-<p><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/</a><br>cd /opt/<br>mv /home/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz .<br>tar -zxvf cloudera-manager-el6-cm5.1.3_x86_64.tar.gz<br>ls<br>cd cm-5.1.3/share/cmf/lib/<br>cp /home/mysql-connector-java-5.1.33-bin.jar .<br>ls<br>ls mysql-connector-java-5.1.33-bin.jar<br>cd /opt/<br>useradd –system –home=/opt/cm-5.1.3/run/cloudera-scm-server/ –no-create-home –shell=/bin/false –comment “Cloudera SCM User” cloudera-scm<br>/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pyanjin –scm-host localhost scm scm scm<br>vim cm-5.1.3/etc/cloudera-scm-agent/config.ini<br>server_host=n10<br>scp -r /opt/cm-5.1.3/ root@n2:/opt/<br>scp -r /opt/cm-5.1.3/ root@n3:/opt/<br>scp -r /opt/cm-5.1.3/ root@n4:/opt/</p>
-<p>[root@n1 opt]# cd cloudera/parcel-repo/<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel .<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha .<br>mv /home/manifest.json .<br>ls<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>echo 0 &gt; /proc/sys/vm/swappiness</p>
-<p>安装服务前<br>cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</p>
-<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</p>
-<p>hadoop fs -mkdir -p /data/wordcount<br>sudo -u hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /output/<br>sudo -u hdfs hadoop fs -put /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop/etc/hadoop/*.xml /data/wordcount/<br>sudo -u hdfs hadoop fs -ls /data/wordcount/<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /data/wordcount /output/wordcount<br>sudo -u hdfs hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
-<p>mkdir -p /mnt/hdfs<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>df -h /mnt/hdfs/</p>
-<p>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>useradd -g ftp -d /mnt/hdfs/ -M ftphdfs<br>passwd ftphdfs<br>sztzuchi<br>service vsftpd restart</p>
-<p>ftpuser<br>ftpuser<br>[root@n10 smbhdfs]# useradd -g ftp -d /home/smbhdfs/ -M ftpsmb<br>[root@n10 smbhdfs]# passwd ftpsmb</p>
-<p>10.6.0.24<br>chmod -R 777 /home/</p>
-<p>[root@n1 nfs]# useradd -g ftp -d /home/nfs/ -M ftpnfs<br>[root@n1 nfs]# passwd ftpnfs<br>更改用户 ftpnfs 的密码 。<br>新的 密码：<br>重新输入新的 密码：<br>passwd： 所有的身份验证令牌已经成功更新。<br>[root@n1 nfs]# service vsftpd restart<br>关闭 vsftpd：[确定]<br>为 vsftpd 启动 vsftpd：[确定]</p>
-<p>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>  comment = The hdfs<br>  path = /mnt/hdfs/<br>  browseable = yes<br>  writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>sztzuchi<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
-<p>[root@n1 ~]# cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/sqoop/lib/<br>[root@n1 ~]# sqoop list-databases –connect jdbc:mysql://localhost:3306/ –username root –password yanjin</p>
-<p>基准测试<br>TestDFSIO基准测试HDFS<br>[root@n1 ~]# su hdfs<br>[hdfs@n1 root]$ cd<br>[hdfs@n1 ~]$ pwd<br>/var/lib/hadoop-hdfs<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
-<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
-<p>用sort排序测试MapReduce<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data<br> sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data</p>
-<p>TeraSort 基准测试实验<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>hadoop fs -ls terasort/1000000-input<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>hadoop fs -ls terasort/1000000-output<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>sudo -u hdfs hadoop fs -ls terasort/1000000-input<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>sudo -u hdfs hadoop fs -ls terasort/1000000-output</p>
-<p>[hdfs@n1 ~]$ hdfs dfsadmin<br>Usage: java DFSAdmin<br>Note: Administrative commands can only be run as the HDFS superuser.<br>  [-report]<br>  [-safemode enter | leave | get | wait]</p>
-<p>manual ha<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode121<br>standby<br>You have new mail in /var/spool/mail/root<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode84<br>active</p>
-<p>[hdfs@n1 ~]$ hdfs haadmin<br>Usage: DFSHAAdmin [-ns <nameserviceid>]<br>  [-transitionToActive <serviceid>]<br>  [-transitionToStandby <serviceid>]<br>  [-failover [–forcefence] [–forceactive] <serviceid> <serviceid>]<br>  [-getServiceState <serviceid>]<br>  [-checkHealth <serviceid>]<br>  [-help <command>]</serviceid></serviceid></serviceid></serviceid></serviceid></serviceid></nameserviceid></p>
-<p>[hdfs@n2 ~]$ hdfs zkfc -formatZK<br>[hdfs@n2 ~]$ hdfs haadmin -failover –forceactive namenode84 namenode121<br>[root@n2 ~]# /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/etc/rc.d/init.d/hadoop-hdfs-namenode restart</p>
-<p>[hdfs@n1 ~]$ hdfs zkfc -formatZK<br>[hdfs@n1 ~]$ hdfs haadmin -failover –forceactive namenode121 namenode84</p>
-<p>AUTO HA<br>vim /etc/hadoop/conf.cloudera.hdfs/core-site.xml<br>  <property><br>  <name>ha.zookeeper.quorum</name><br>  <value>n1:2181,n2:2181,n3:2181</value><br>  </property><br>hdfs zkfc -formatZK</p>
-<p>增加根目录空间</p>
-<p>创建一个GPT label啊<br>安装的时候按ctrl+alt+f2进入另外一个console，输入parted<br>然后mklable gpt /dev/sda<br>然后你可以输入print /dev/sda确认lable正确<br>然后quit<br>再按ctrl+alt+f6 返回分区上一步继续安装</p>
-<p>fuser -m /home 终止占用进程</p>
-<p>umount /home/<br>vgdisplay<br>lvreduce -L 10G /dev/mapper/vg_nx-lv_home<br>vgdisplay<br>lvextend -L +937409 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root<br>df -h<br>vgdisplay<br>lvextend -L +703056 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root</p>
-<p>rpm -qa | grep lvm<br>yum install -y lvm2</p>
-<p>df -h<br>e2fsck -f /dev/mapper/vg_n9-lv_home<br>resize2fs -p /dev/mapper/vg_n9-lv_home 10G<br>mount /home/<br>df -h</p>
-<p>hadoop archive -archiveName test.har -p /data /data/har<br>hadoop fs -ls har:///data/har/test.har</p>
-<p>[root@n1 nfs]# time mv 018/ /mnt/hdfs/tmp/ 2&gt;/dev/null<br>[root@n1 home]# time cp -a /mnt/hdfs/tmp/018/ .<br>[root@n1 tmp]# hadoop archive -archiveName 018.har -p /tmp/018/ /tmp/har<br>hadoop fs -ls har:////tmp/har/018.har</p>
-<p>[root@n1 nfs]# time cp -a /mnt/hdfs/tmp/har/018.har/ .</p>
-<p>Lock on /dfs/dn/in_use.lock acquired by nodename<br>[root@n10 cloudera]# cat /dfs/nn/current/VERSION</p>
-<p>#Sun Nov 22 10:19:27 CST 2015<br>namespaceID=39325997<br>clusterID=cluster42<br>cTime=0<br>storageType=NAME_NODE<br>blockpoolID=BP-2074941685-10.6.0.220-1448154708456<br>layoutVersion=-55</p>
-<p>[root@n3 ~]# vim /dfs/dn/current/VERSION</p>
-<p> #Sun Nov 22 08:14:02 CST 2015<br>storageID=DS-465f3d32-b20c-416a-905a-86f78bbbd7bd<br>clusterID=cluster42<br>cTime=0<br>datanodeUuid=9a02f390-0b95-4cde-bedf-b14949296adc<br>storageType=DATA_NODE<br>layoutVersion=-55</p>
-<p>[root@n5 ~]# netstat -tunlp | grep :9000<br>tcp 0 0 10.6.0.215:9000 0.0.0.0:<em> LISTEN 1914/python<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>tcp 0 0 127.0.0.1:9001 0.0.0.0:</em> LISTEN 2117/python<br>[root@n5 ~]# kill -9 1914<br>[root@n5 ~]# kill -9 2117<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>[root@n5 ~]# netstat -tunlp | grep :9000<br>[root@n5 ~]# netstat -tunlp | grep :7180</p>
-<p>spark-shell<br>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/“)<br>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)<br>counts.saveAsTextFile(“hdfs://n10:8020/output”)</p>
-<p>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/test1.txt”)</p>
-<p>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)</p>
-<p>counts.saveAsTextFile(“hdfs://n10:8020/output1”)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwps8ilx000450cy3j5t6v32" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-GIT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-GIT/" class="article-date">
-  <time datetime="2016-12-15T02:49:00.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
-<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
-<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
-<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwps8imd000d50cyaa1eu9va" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-NFS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-NFS/" class="article-date">
-  <time datetime="2016-12-15T00:30:48.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-NFS/">CentOS 7.x NFS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CentOS 7引入了全新的 systemctl 服务管理，设置和管理服务略有不同。以下是为了提供Mac OS X客户端访问Linux NFS输出的卷实现数据备份的记录，NFS服务器设置见本文，Mac OS X挂载Linux的NFS输出见Mac OS X 挂载Linux卷（NFS）。<br>设置Linux服务端<br>将移动硬盘挂载到 /data 目录<br>mount /dev/sdb1 /data<br>在Paralles Desktop虚拟机运行的是CentOS 7操作系统，使用以下命令安装 NFS 支持<br>yum install nfs-utils nfs-utils-lib<br>设置nfs相关服务在操作系统启动时启动<br>systemctl enable rpcbind<br>systemctl enable nfs-server<br>systemctl enable nfs-lock<br>systemctl enable nfs-idmap<br>启动nfs服务<br>systemctl start rpcbind<br>systemctl start nfs-server<br>systemctl start nfs-lock<br>systemctl start nfs-idmap<br>服务器端设置NFS卷输出，即编辑 /etc/exports 添加：<br>/data    10.211.55.0/24(rw,sync,no_root_squash,no_subtree_check)<br>/data – 共享目录<br>10.211.55.0/24 – 允许访问NFS的客户端IP地址段<br>rw – 允许对共享目录进行读写<br>sync – 实时同步共享目录<br>no_root_squash – 允许root访问<br>no_all_squash - 允许用户授权<br>no_subtree_check - 如果卷的一部分被输出，从客户端发出请求文件的一个常规的调用子目录检查验证卷的相应部分。如果是整个卷输出，禁止这个检查可以加速传输。<br>no_subtree_check - If only part of a volume is exported, a routine called subtree checking verifies that a file that is requested from the client is in the appropriate part of the volume. If the entire volume is exported, disabling this check will speed up transfers. Setting Up an NFS Server<br>NFS客户端挂载<br>Linux挂载NFS的客户端非常简单的命令，先创建挂载目录，然后用 -t nfs 参数挂载就可以了<br>mount -t nfs  10.211.55.9:/data /data<br>如果要设置客户端启动时候就挂载NFS，可以配置 /etc/fstab 添加以下内容<br>10.211.55.9:/data    /data  nfs auto,rw,vers=3,hard,intr,tcp,rsize=32768,wsize=32768      0   0<br>然后在客户端简单使用以下命令就可以挂载<br>mount /data<br>通过防火墙挂载NFS服务<br>在生产环境，可能会因为安全需求在NFS服务器和客户端之间部署防火墙。此时，NFS客户端挂载的时候会有如下输出报错<br>mount.nfs: Connection timed out<br>参考 Running NFS Behind a Firewall 设置防火墙允许访问NFS服务器的服务端口，注意，需要配置NFS服务使用固定端口。<br>MOUNTD_PORT=port</p>
-<h1 id="Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses"><a href="#Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses" class="headerlink" title="Controls which TCP and UDP port mountd (rpc.mountd) uses."></a>Controls which TCP and UDP port mountd (rpc.mountd) uses.</h1><p>STATD_PORT=port</p>
-<h1 id="Controls-which-TCP-and-UDP-port-status-rpc-statd-uses"><a href="#Controls-which-TCP-and-UDP-port-status-rpc-statd-uses" class="headerlink" title="Controls which TCP and UDP port status (rpc.statd) uses."></a>Controls which TCP and UDP port status (rpc.statd) uses.</h1><p>LOCKD_TCPPORT=port</p>
-<h1 id="Controls-which-TCP-port-nlockmgr-lockd-uses"><a href="#Controls-which-TCP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which TCP port nlockmgr (lockd) uses."></a>Controls which TCP port nlockmgr (lockd) uses.</h1><p>LOCKD_UDPPORT=port</p>
-<h1 id="Controls-which-UDP-port-nlockmgr-lockd-uses"><a href="#Controls-which-UDP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which UDP port nlockmgr (lockd) uses."></a>Controls which UDP port nlockmgr (lockd) uses.</h1><p>编辑 /etc/sysconfig/nfs 配置文件</p>
-<h1 id="TCP-port-rpc-lockd-should-listen-on"><a href="#TCP-port-rpc-lockd-should-listen-on" class="headerlink" title="TCP port rpc.lockd should listen on."></a>TCP port rpc.lockd should listen on.</h1><p>LOCKD_TCPPORT=32803</p>
-<h1 id="UDP-port-rpc-lockd-should-listen-on"><a href="#UDP-port-rpc-lockd-should-listen-on" class="headerlink" title="UDP port rpc.lockd should listen on."></a>UDP port rpc.lockd should listen on.</h1><p>LOCKD_UDPPORT=32769<br>MOUNTD_PORT=892<br>STATD_PORT=662<br>可以在Linux NFS服务器上执行以下命令获得NFS端口信息<br>rpcinfo -p<br>需要允许以下端口<br>NFS的TCP和UDP端口2049<br>rpcbind/sunrpc的TCP和UDP端口111<br>设置 MOUNTD_PORT 的TCP和UDP端口<br>设置 STATD_PORT 的TCP和UDP端口<br>设置 LOCKD_TCPPORT 的TCP端口<br>设置 LOCKD_UDPPORT 的UDP端口<br>program vers proto   port  service<br>100000    4   tcp    111  portmapper<br>100000    3   tcp    111  portmapper<br>100000    2   tcp    111  portmapper<br>100000    4   udp    111  portmapper<br>100000    3   udp    111  portmapper<br>100000    2   udp    111  portmapper<br>100024    1   udp  54305  status<br>100024    1   tcp  55604  status<br>100005    1   udp  20048  mountd<br>100005    1   tcp  20048  mountd<br>100005    2   udp  20048  mountd<br>100005    2   tcp  20048  mountd<br>100005    3   udp  20048  mountd<br>100005    3   tcp  20048  mountd<br>100003    3   tcp   2049  nfs<br>100003    4   tcp   2049  nfs<br>100227    3   tcp   2049  nfs_acl<br>100003    3   udp   2049  nfs<br>100003    4   udp   2049  nfs<br>100227    3   udp   2049  nfs_acl<br>100021    1   udp  32769  nlockmgr<br>100021    3   udp  32769  nlockmgr<br>100021    4   udp  32769  nlockmgr<br>100021    1   tcp  32803  nlockmgr<br>100021    3   tcp  32803  nlockmgr<br>100021    4   tcp  32803  nlockmgr<br>100011    1   udp    875  rquotad<br>100011    2   udp    875  rquotad<br>100011    1   tcp    875  rquotad<br>100011    2   tcp    875  rquotad<br>在 Linux NFS 服务器上使用以下命令开启iptables防火墙允许访问以上端口<br>firewall-cmd –permanent –add-port=2049/tcp<br>firewall-cmd –permanent –add-port=2049/udp<br>firewall-cmd –permanent –add-port=111/tcp<br>firewall-cmd –permanent –add-port=111/udp<br>firewall-cmd –permanent –add-port=892/tcp<br>firewall-cmd –permanent –add-port=892/udp<br>firewall-cmd –permanent –add-port=662/tcp<br>firewall-cmd –permanent –add-port=662/udp<br>firewall-cmd –permanent –add-port=32803/tcp<br>firewall-cmd –permanent –add-port=32769/udp<br>在 Linux NFS 服务器上使用以下命令重新加载防火墙规则<br>firewall-cmd –reload</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwps8imh000g50cy8i3e6u0a" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-HA-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-HA-Cluster/" class="article-date">
-  <time datetime="2016-12-15T00:27:53.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-HA-Cluster/">CentOS 7.x HA Cluster</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>本文以两台机器实现双集热备高可用集群，主机名node1的IP为192.168.122.168，主机名node2的IP为192.168.122.169。<br>一、安装集群软件<br>必须软件pcs，pacemaker，corosync，fence-agents-all，如果需要配置相关服务，也要安装对应的软件<br>二、配置防火墙<br>1、禁止防火墙和selinux</p>
-<p>#systemctldisablefirewalld</p>
-<p>#systemctlstopfirewalld<br>修改/etc/sysconfig/selinux确保SELINUX=disabled，然后执行setenforce0或者reboot服务器以生效<br>2、设置防火墙规则</p>
-<p>#firewall-cmd–permanent–add-service=high-availability</p>
-<p>#firewall-cmd–add-service=high-availability<br>三、各节点之间主机名互相解析<br>分别修改2台主机名分别为node1和node2，在centos7中直接修改/etc/hostname加入本机主机名和主机表，然后重启网络服务即可。</p>
-<p>#vi/etc/hostname<br>node1</p>
-<p>#systemctlrestartnetwork.service</p>
-<p>#hostname<br>node1<br>配置2台主机的主机表，在/etc/hosts中加入<br>192.168.122.168node1<br>192.168.122.169node2<br>四、各节点之间时间同步<br>在node1和node2分别进行时间同步，可以使用ntp实现。<br>[root@node1~]#ntpdate172.16.0.1//172.16.0.1为时间服务器<br>五、各节点之间配置ssh的无密码密钥访问。<br>下面的操作需要在各个节点上操作。</p>
-<p>#ssh-keygen-trsa-P‘’#这个生成一个密码为空的公钥和一个密钥，把公钥复制到对方节点上即可</p>
-<p>#ssh-copy-id-i/root/.ssh/id_rsa.pubroot@node2#对方主机名用登录用户名<br>两台主机都要互相可以通信，所以两台主机都得互相生成密钥和复制公钥，相互的节点上的hosts文件是都要解析对方的主机名，192.168.122.168node1192.168.122.169node2</p>
-<p>#sshnode2‘date’;date#测试一下是否已经互信<br>六、通过pacemaker来管理高可用集群<br>1、创建集群用户<br>为了有利于各节点之间通信和配置集群，在每个节点上创建一个hacluster的用户，各个节点上的密码必须是同一个。</p>
-<p>#passwdhacluster<br>Changingpasswordforuserhacluster.<br>Newpassword:<br>Retypenewpassword:<br>passwd:allauthenticationtokensupdatedsuccessfully.<br>2、设置pcsd开机自启动</p>
-<p>#systemctlstartpcsd.service</p>
-<p>#systemctlenablepcsd.service<br>3、集群各节点之间进行认证</p>
-<p>#pcsclusterauthnode1node2Username:haclusterPassword:node1:Authorizednode2:Authorized<br>4、创建并启动集群<br>[root@z1~]#pcsclustersetup–start–namemy_clusternode1node2<br>node1:Succeeded<br>node1:StartingCluster…<br>node2:Succeeded<br>node2:StartingCluster…<br>5、设置集群自启动</p>
-<p>#pcsclusterenable–all<br>6、查看集群状态信息<br>[root@z1~]#pcsclusterstatus<br>7、设置fence设备<br>这个可以参考<redhatenterpriselinux7highavailabilityadd-onreference><br>corosync默认启用了stonith，而当前集群并没有相应的stonith设备，因此此默认配置目前尚不可用，这可以通过如下命令验证：</redhatenterpriselinux7highavailabilityadd-onreference></p>
-<p>#crm_verify-L-V<br>可以通过如下面命令禁用stonith：</p>
-<p>#pcspropertysetstonith-enabled=false（默认是true）<br>8、配置存储<br>高可用集群既可以使用本地磁盘来构建纯软件的镜像型集群系统，也可以使用专门的共享磁盘装置来构建大规模的共享磁盘型集群系统，充分满足客户的不同需求。<br>共享磁盘主要有iscsi或DBRD。本文并没有使用共享磁盘。<br>9、配置浮点IP<br>不管集群服务在哪运行,我们要一个固定的地址来提供服务。在这里我选择192.168.122.101作为浮动IP,给它取一个好记的名字ClusterIP并且告诉集群每30秒检查它一次。</p>
-<p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
-<p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
-<p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
-<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#x65;&#x74;&#72;&#x61;&#110;&#100;&#x6c;&#101;&#114;&#115;&#101;&#114;&#x76;&#x65;&#x72;&#x2d;&#115;&#116;&#97;&#116;&#117;&#115;&#10;&#79;&#114;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#108;&#111;&#119;&#xa;&#68;&#x65;&#x6e;&#121;&#x66;&#114;&#x6f;&#x6d;&#97;&#x6c;&#108;&#xa;&#65;&#108;&#108;&#111;&#x77;&#x66;&#x72;&#111;&#109;&#108;&#111;&#99;&#x61;&#108;&#104;&#x6f;&#x73;&#116;&#xa;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#97;&#x63;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#99;&#x65;&#110;&#x74;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#101;&#x64;&#x6f;&#99;&#114;&#111;&#x6f;&#116;&#x662f;&#47;&#x76;&#x61;&#114;&#x2f;&#119;&#x77;&#119;&#47;&#x68;&#x74;&#109;&#x6c;&#44;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#x76ee;&#x5f55;&#x4e0b;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#x9875;&#12290;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#x6539;&#x5982;&#19979;&#65306;&#10;&#x5b;&#x72;&#111;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#101;&#x31;&#x7e;&#93;&#x23;&#99;&#x61;&#116;&#x3c;&#60;&#45;&#69;&#x4e;&#68;">&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#x65;&#x74;&#72;&#x61;&#110;&#100;&#x6c;&#101;&#114;&#115;&#101;&#114;&#x76;&#x65;&#x72;&#x2d;&#115;&#116;&#97;&#116;&#117;&#115;&#10;&#79;&#114;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#108;&#111;&#119;&#xa;&#68;&#x65;&#x6e;&#121;&#x66;&#114;&#x6f;&#x6d;&#97;&#x6c;&#108;&#xa;&#65;&#108;&#108;&#111;&#x77;&#x66;&#x72;&#111;&#109;&#108;&#111;&#99;&#x61;&#108;&#104;&#x6f;&#x73;&#116;&#xa;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#97;&#x63;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#99;&#x65;&#110;&#x74;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#101;&#x64;&#x6f;&#99;&#114;&#111;&#x6f;&#116;&#x662f;&#47;&#x76;&#x61;&#114;&#x2f;&#119;&#x77;&#119;&#47;&#x68;&#x74;&#109;&#x6c;&#44;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#x76ee;&#x5f55;&#x4e0b;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#x9875;&#12290;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#x6539;&#x5982;&#19979;&#65306;&#10;&#x5b;&#x72;&#111;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#101;&#x31;&#x7e;&#93;&#x23;&#99;&#x61;&#116;&#x3c;&#60;&#45;&#69;&#x4e;&#68;</a>/var/www/html/index.html</p>
-<p><html></html></p>
-<p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
-<p><html></html></p>
-<p><body>Hellonode2</body><br><br>END<br>下面语句是将httpd作为资源添加到集群中：</p>
-<p>#pcsresourcecreateWEBapacheconfigfile=”/etc/httpd/conf/httpd.conf”statusurl=”<a href="http://127.0.0.1/server-status" target="_blank" rel="external">http://127.0.0.1/server-status</a>“<br>11、创建group<br>将VIP和WEBresource捆绑到这个group中，使之作为一个整体在集群中切换。（此配置为可选)</p>
-<p>#pcsresourcegroupaddMyGroupVIP</p>
-<p>#pcsresourcegroupaddMyGroupWEB<br>12、配置服务启动顺序<br>以避免出现资源冲突，语法：(pcsresourcegroupadd的时候也可以根据加的顺序依次启动，此配置为可选)</p>
-<p>#pcsconstraintorder[action]then[action]</p>
-<p>#pcsconstraintorderstartVIPthenstartWEB<br>13、指定优先的Location（此配置为可选)<br>Pacemaker并不要求你机器的硬件配置是相同的,可能某些机器比另外的机器配置要好。这种状况下我们会希望设置:当某个节点可用时,资源就要跑在上面之类的规则。为了达到这个效果我们创建location约束。同样的,我们给他取一个描述性的名字(prefer-node1),指明我们想在上面跑WEB这个服务,多想在上面跑(我们现在指定分值为50,但是在双节点的集群状态下,任何大于0的值都可以达到想要的效果),以及目标节点的名字:</p>
-<p>#pcsconstraintlocationWEBprefersnode1=50</p>
-<p>#pcsconstraintlocationWEBprefersnode2=45<br>这里指定分值越大，代表越想在对应的节点上运行。<br>14、资源粘性（此配置为可选)<br>一些环境中会要求尽量避免资源在节点之间迁移。迁移资源通常意味着一段时间内无法提供服务，某些复杂的服务，比如Oracle数据库，这个时间可能会很长。<br>为了达到这个效果，Pacemaker有一个叫做“资源粘性值”的概念，它能够控制一个服务(资源)有多想呆在它正在运行的节点上。<br>Pacemaker为了达到最优分布各个资源的目的，默认设置这个值为0。我们可以为每个资源定义不同的粘性值，但一般来说，更改默认粘性值就够了。资源粘性表示资源是否倾向于留在当前节点，如果为正整数，表示倾向，负数则会离开，-inf表示负无穷，inf表示正无穷。</p>
-<p>#pcsresourcedefaultsresource-stickiness=100<br>常用命令汇总：<br>查看集群状态：#pcsstatus<br>查看集群当前配置：#pcsconfig<br>开机后集群自启动：#pcsclusterenable–all<br>启动集群：#pcsclusterstart–all<br>查看集群资源状态：#pcsresourceshow<br>验证集群配置情况：#crm_verify-L-V<br>测试资源配置：#pcsresourcedebug-startresource<br>设置节点为备用状态：#pcsclusterstandbynode1</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwps8imf000f50cy1yejkhlv" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-Puppet/" class="article-date">
-  <time datetime="2016-12-15T00:26:00.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>一、Puppet基础原理:<br>Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。<br>二、puppet工作流程</p>
-<ol>
-<li>客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。</li>
-<li>puppet-master 告诉 puppet-client 是合法的。</li>
-<li>puppet-client 调用 facter， Facter 探测出主机的一些变量， 例如主机名、 内存大小、 IP 地址等，puppet-client 将这些信息通过 SSL 连接发送到服务器端。</li>
-<li>puppet-master 服务器端检测客户端的主机名，然后找到 manifest 对应的 node 配置，并对该部分内容进行解析。facter 送过来的信息可以作为变量处理，node 牵涉到的代码才解析，其他没牵涉的代码不解析。解析分为几个阶段，首先是语法检查，如果语法错误就报错；如果语法没错，就继续解析，解析的结果生成一个中间的“伪代码”(catelog)，然后把伪代码发给客户端。</li>
-<li>puppet-client 端接收到“伪代码”，并且执行。</li>
-<li>puppet-client 端在执行时判断有没有 file 文件，如果有，则向 fileserver 发起请求。</li>
-<li>puppet-client 端判断有没有配置 report，如果已配置，则把执行结果发送给服务器。</li>
-<li>puppet-server 端把 puppet-client 端的执行结果写入日志，并发送给报告系统。<br>三、puppet安装<br>1、直接通过yum安装老系统自带版本。<br>yum install puppet -y<br>2、安装最新版本<br>sudo rpm -ivh <a href="https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm" target="_blank" rel="external">https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</a><br>2.1、安装puppet-server。<br>sudo puppet resource package puppet-server ensure=latest<br>2.2、安装agent<br>sudo puppet resource package puppet ensure=latest<br>四、puppet资源管理<br>Puppet中的资源是puppet工具的核心，它是通过puppet管理配置系统的最小单位。<br>..<br>1、查看资源类型<br>puppet describe -l<br>2、查看资源摘要<br>puppet describe -s <resource_name><br>3、查看资源详细用法<br>puppet describe <resource_name><br>4、资源的基本格式<br>资源名 { ‘标题’:<pre><code>属性1 =&gt; &apos;值&apos;,
-属性2 =&gt; &apos;值&apos;,
-</code></pre>}<br>`<blockquote>
-<p>以安装httpd为例<br>``` cpp<br>package { ‘httpd’:</p>
-<pre><code>ensure =&gt; &apos;present&apos;,
-provider =&gt; &apos;rpm&apos;,
-</code></pre><p>}<br>puppet常用资源:file,filebucket,host,group,package,service,exec,cron,notify 等。<br>..<br>5、资源公有属性:<br>before :指明资源要在某个资源之前运行<br>require：指明某个资源要在某个资源之后运行。<br>notify: 主动通知其他资源，本资源的状态<br>subscibe ：被动通知，当它检测到资源状态发生改变的时候，主动更新所在资源状态。<br>还可以使用<br>-&gt; 表示资源前后关系<br>~&gt; 表示资源之间的通知<br>五、puppet语言<br>1)、puppet变量：<br>1、名称之前必须以$开头，赋值用=，支持追加赋值+=；<br>2、变量名称有两种格式，简短名称，FQN($scope::variable)。</p>
-<pre><code>$webserver = &quot;httpd&quot;
-package {&quot;httpd&quot;:
-       ensure =&gt; &quot;present&quot;,
-       name =&gt; $webserver
-} 
-</code></pre><p>3、作用域:top &gt; node &gt; local 作用域越小，优先级越高<br>2)、数据类型：</p>
-<pre><code>1、直接字串
-       可以使用引号，也可以不用。
-       换行符为\n,windows中\r\n
-2、布尔型
-       true,false
-       其它类型会自动转换为布尔型。
-       所有数字都是true
-       空字符串为false，其它字符串为true
-3、数值
-       整数
-       浮点数
-4、数组，逗号隔开
-       $array = [&apos;httpd&apos;,&apos;mysql&apos;,&apos;php&apos;]
-       package {$array:ensure =&gt; installed} #依次安装包
-5、hash
-       { key1 =&gt; value1,key2 =&gt; value2,…}
-6、undef，声明未定义的东西不能加上引号的。
-</code></pre><p>3)、puppet支持的操作符和对应的表达式：</p>
-<h1 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符:"></a>比较操作符:</h1><pre><code>！=
-&lt;,&gt;,&lt;=,&gt;=,
-=~ 正则匹配
-!~ 正则不匹配
-in
-</code></pre><p>布尔操作符:</p>
-<pre><code>and
-or
-!
-</code></pre><p>算术运算</p>
-<pre><code>+
-–
- /
- *
- &lt;&lt;   左移
-</code></pre><blockquote>
-<p>  右移</p>
-<pre><code>$osfamily == &apos;CentOS&apos; 
-$kernel in [&apos;Linux&apos;,&apos;solaris&apos;,&apos;freebsd&apos;]
-</code></pre><p>4)、puppet的条件判断语句：</p>
-<pre><code>if ..elsif..else
-case
-selector语句 #意思是在两个选项中任选其中一个赋值
-</code></pre><p>if $operationsystem == ‘CentOS’{</p>
-<pre><code>       notice(&quot;welcome to CentOS&quot;)
-}
-elsif $operationsystem == &apos;Redhat&apos; {
-       notice(&quot;Welcome to Redhat&quot;)
-}
-elsif $operationsystem == &apos;Fedora&apos; {
-       notice(&quot;Welcome to Fedora&quot;)
-}
-else{
-       notice(&apos;Welcome to ET&apos;)
-}
-</code></pre><p>case $operationsystem {</p>
-<pre><code>&apos;Solaris&apos;:  { include role::solaris }
-&apos;Redhat&apos;,&apos;CentOS&apos; : { include role::redhat }
-/^(Debian|Ubuntu)$/ : { include role::debian }
-default : { include role::generic }
-</code></pre><p>}<br>$webserver = $operatingsystem ? {</p>
-<pre><code>/(?i-mx:&apos;ubuntu&apos;|debian)/ =&gt; &apos;apache&apos;,
-/(?i-mx:redhat|centos|fedora)/ =&gt; &apos;httpd&apos;,
-default =&gt; &apos;httpd&apos;
-</code></pre><p>}<br>i：表示忽略大小写</p>
-</blockquote>
-</blockquote>
-</resource_name></resource_name></li>
-</ol>
-<ul>
-<li>： 表示不使用某转移符号<br>m：表示把 “.” 当做换行符使用<br>x :表示互略模式中空白字符和注释。<br>六、puppet类和模块<br>类是具有相同特性和行为的集合。就是一组代码块，在需要时可以通过名称进行调用。只定义类，并不会调用，需要声明才可以。<br>1)、语法：<br>class class_name [inherits] [base_class] {<pre><code>正常的puppet代码
-</code></pre>}<br>如果在同个模块定义了多个类， 可以采双冒号（ ：： ） 。<br>例如定义个nginx模块，<br>模块中 定义三个类：<br>class nginx { … }<br>class nginx::config { … }<br>class nginx::vhost { … }<br>2)、类的继承(基类不能有参数)：<br>1、继承资源属性<br>2、覆盖资源属性<pre><code>=&gt;         
-</code></pre>3、追加资源属性<pre><code>+&gt;
-</code></pre>3)、 模块<br>模块结构<br>module name<pre><code>mainfests
-       init.pp  #必须至少声明一个类。类与模块名相同
-       *.pp
-        # mudule_name::[subdirname]::mainfect_name
-files：包含的是一个静态文件。puppet的agentmaster模型。
-       puppet:///modles/module_name/[subdir_name/]file_name
-templates：模板文件 *.erb 用到ruby语言
-       template(&apos;&apos;);
-       content =&gt; template(&apos;模板文件&apos;),
-lib #插件目录。
-tests ：当前模块的使用帮助或者实例文件
-spec ：为lib目录的插件提供使用说明，范例的。
-</code></pre>七、事例，puppet部署LNMP<br>1、假定已经安装好puppet-server。<br>..<br>2、主机名通信<br>cat &gt;&gt; /etc/hosts &lt;&lt;EOF192.168.198.139 puppet-server192.168.198.160 puppet-client<br>EOF<br>3、提供puppet文件<br>mkdir /etc/puppet/modules/lnmp/{manifests,files,templates,tests} -p<br>vim /etc/puppet/modules/lnmp/manifests/init.pp<br>class lnmp {<pre><code>include lnmp::nginx
-include lnmp::mysql
-include lnmp::php
-</code></pre>}<br>vim /etc/puppet/modules/lnmp/manifests/nginx.pp<br>class lnmp::nginx {<br>  package{‘nginx’:<pre><code>ensure  =&gt; present,
-name    =&gt; nginx,
-</code></pre>  }<br>  file{‘nginx.conf’:<pre><code>ensure  =&gt; file,
-source  =&gt; &apos;puppet:///modules/lnmp/nginx.conf&apos;,
-path    =&gt; &apos;/etc/nginx/nginx.conf&apos;,
-require =&gt; Package[&apos;nginx&apos;],
-</code></pre>  }<br> service{‘nginx’:<pre><code>ensure  =&gt; true,
-enable  =&gt; true,
-subscribe =&gt; File[&apos;nginx.conf&apos;],
-</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/php.pp<br>class lnmp::php {<br>  package{‘php-fpm’:<pre><code>ensure  =&gt; present,
-name    =&gt; php-fpm,
-</code></pre>  }<br>  file{‘www.conf’:<pre><code>ensure  =&gt; file,
-source  =&gt; &apos;puppet:///modules/lnmp/www.conf&apos;,
-path    =&gt; &apos;/etc/php-fpm.d/www.conf&apos;,
-require =&gt; Package[&apos;php-fpm&apos;],
-</code></pre>  }<br> service{‘php-fpm’:<pre><code>ensure  =&gt; true,
-enable  =&gt; true,
-subscribe =&gt; File[&apos;www.conf&apos;],
-</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/mysql.pp<br>class lnmp::mysql {<br>  package{‘mysql-server’:<pre><code>ensure  =&gt; present,
-name    =&gt; &apos;mysql-server&apos;,
-</code></pre>  }<br>  file{‘my.cnf’:<pre><code>ensure  =&gt; file,
-source  =&gt; &apos;puppet:///modules/lnmp/my.cnf&apos;,
-path    =&gt; &apos;/etc/my.cnf&apos;,
-require =&gt; Package[&apos;mysql-server&apos;],
-</code></pre>  }<br> service{‘mysqld’:<pre><code>ensure  =&gt; true,
-enable  =&gt; true,
-subscribe =&gt; File[&apos;my.cnf&apos;],
-</code></pre>  }<br>}<br>vim /etc/puppet/manifests/site.pp<br>node ‘puppet-client’ {<br>include lnmp<br>}<br>4、提供服务配置文件<br>cp /root/files/{nginx.conf,www.conf,my.cnf} /etc/puppet/modules/lnmp/files/<br>5、启动puppet服务<br>[root@puppet-server modules]# puppet master –verbose –no-daemonize   #第一次启动以便观察信息Info: Creating a new SSL key for ca<br>Info: Creating a new SSL certificate request for ca<br>Info: Certificate Request fingerprint (SHA256): 7B:A9:AB:84:C0:EB:DC:83:0E:EA:8C:81:1E:25:9A:47:5C:3F:10:31:6F:F7:5C:25:BE:B7:41:3C:B8:6B:35:38…..<br>[root@puppet-client ~]# puppet agent server –server puppet-server –verbose –no-daemonize  #客户端申请证书[root@puppet-server ~]# puppet cert sign puppet-client   #服务器签署证书#稍等一会[root@puppet-client ~]# ss -tnl | egrep “80|3306|9000”LISTEN     0      128                       <em>:9000                     </em>:<em><br>LISTEN     0      50                        </em>:3306                     <em>:</em><br>LISTEN     0      128                       <em>:80                       </em>:*<br>八、总结</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwps8im9000950cy9djlx7sk" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-前言-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/前言-1/" class="article-date">
-  <time datetime="2016-12-15T00:23:59.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/前言-1/">前言</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwps8ip0002c50cy85mcm31b" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwpsnsqi000s64cyp28nnra8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -864,7 +1057,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -890,28 +1083,28 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+            <a href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+            <a href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+            <a href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+            <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+            <a href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
           </li>
         
       </ul>
@@ -927,7 +1120,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

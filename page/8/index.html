@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,264 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-tr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/tr/" class="article-date">
+  <time datetime="2016-12-13T00:48:21.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/tr/">tr</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用tr进行转换</p>
+<p>通用用法</p>
+<p>  echo 12345 | tr ‘0-9’ ‘9876543210’ //加解密转换，替换对应字符<br>  cat text| tr ‘\t’ ‘ ‘  //制表符转空格</p>
+<p>tr删除字符</p>
+<p>  cat file | tr -d ‘0-9’ // 删除所有数字</p>
+<p>-c 求补集</p>
+<p>  cat file | tr -c ‘0-9’ //获取文件中所有数字<br>  cat file | tr -d -c ‘0-9 \n’  //删除非数字数据</p>
+<p>tr压缩字符<br>tr -s 压缩文本中出现的重复字符；最常用于压缩多余的空格</p>
+<p>  cat file | tr -s ‘ ‘</p>
+<p>字符类<br>tr中可用各种字符类：<br>alnum：字母和数字<br>alpha：字母<br>digit：数字<br>space：空白字符<br>lower：小写<br>upper：大写<br>cntrl：控制（非可打印）字符<br>print：可打印字符<br>使用方法：tr [:class:] [:class:]</p>
+<p>  eg: tr ‘[:lower:]’ ‘[:upper:]’</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwpsnsro001q64cyf4ajli2k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-paste" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/paste/" class="article-date">
+  <time datetime="2016-12-13T00:47:15.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/paste/">paste</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>paste 按列拼接文本</p>
+<p>将两个文本按列拼接到一起;</p>
+<p>cat file1<br>1<br>2</p>
+<p>cat file2<br>colin<br>book</p>
+<p>paste file1 file2<br>1 colin<br>2 book</p>
+<p>默认的定界符是制表符，可以用-d指明定界符<br>paste file1 file2 -d “,”<br>1,colin<br>2,book</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwpsnsrf001i64cy2aide1vd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-wc" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/wc/" class="article-date">
+  <time datetime="2016-12-12T09:21:24.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/wc/">wc</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>wc 统计行和字符的工具</p>
+<p>wc -l file // 统计行数<br>wc -w file // 统计单词数<br>wc -c file // 统计字符数</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwpsnsrx001v64cy3vh9fnd5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-cat" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/cat/" class="article-date">
+  <time datetime="2016-12-12T09:20:40.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/cat/">cat</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用命令行往配置文件里插入多行文本</p>
+<p>这种方法非常简单，很多人都知道，下面就是如何用命令行将(&gt;&gt;)多行文本插入一个文件中。这里使用的是“here document”语法，它能让你通过块文本符号来将段落插入文件中，通常用的符合是EOF(意思是 “End Of File”):<br>cat &gt;&gt; path/to/file/to/append-to.txt &lt;&lt; “EOF”<br>export PATH=$HOME/jdk1.8.0_31/bin:$PATH<br>export JAVA_HOME=$HOME/jdk1.8.0_31/<br>EOF<br>两个”EOF“之间的所有内容都会被添加到文件中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwpsnsr9001b64cyug56dkyt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Bashmarks" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/Bashmarks/" class="article-date">
+  <time datetime="2016-12-12T09:19:35.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/Bashmarks/">Bashmarks</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>你还没有在.bashrc里使用bashmarks吗？还在等待什么？它真的非常有用。它能帮你保持历史操作，跳回到你经常使用的目录。下面是我的配置文件里脚本，但我想上面的链接能提供你更多技巧：</p>
+<h1 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE:"></a>USAGE:</h1><h1 id="s-bookmarkname-saves-the-curr-dir-as-bookmarkname"><a href="#s-bookmarkname-saves-the-curr-dir-as-bookmarkname" class="headerlink" title="s bookmarkname - saves the curr dir as bookmarkname"></a>s bookmarkname - saves the curr dir as bookmarkname</h1><h1 id="g-bookmarkname-jumps-to-the-that-bookmark"><a href="#g-bookmarkname-jumps-to-the-that-bookmark" class="headerlink" title="g bookmarkname - jumps to the that bookmark"></a>g bookmarkname - jumps to the that bookmark</h1><h1 id="g-b-TAB-tab-completion-is-available"><a href="#g-b-TAB-tab-completion-is-available" class="headerlink" title="g b[TAB] - tab completion is available"></a>g b[TAB] - tab completion is available</h1><h1 id="l-list-all-bookmarks"><a href="#l-list-all-bookmarks" class="headerlink" title="l - list all bookmarks"></a>l - list all bookmarks</h1><h1 id="save-current-directory-to-bookmarks"><a href="#save-current-directory-to-bookmarks" class="headerlink" title="save current directory to bookmarks"></a>save current directory to bookmarks</h1><p>touch ~/.sdirs<br>function s {<br>cat ~/.sdirs | grep -v “export DIR<em>$1=” &gt; ~/.sdirs1<br>mv ~/.sdirs1 ~/.sdirs<br>echo “export DIR</em>$1=$PWD” &gt;&gt; ~/.sdirs<br>}</p>
+<h1 id="jump-to-bookmark"><a href="#jump-to-bookmark" class="headerlink" title="jump to bookmark"></a>jump to bookmark</h1><p>function g {<br>source ~/.sdirs<br>cd $(eval $(echo echo $(echo \$DIR_$1)))<br>}</p>
+<h1 id="list-bookmarks-with-dirnam"><a href="#list-bookmarks-with-dirnam" class="headerlink" title="list bookmarks with dirnam"></a>list bookmarks with dirnam</h1><p>function l {<br>source ~/.sdirs<br>env | grep “^DIR_” | cut -c5- | grep “^.*=”<br>}</p>
+<h1 id="list-bookmarks-without-dirname"><a href="#list-bookmarks-without-dirname" class="headerlink" title="list bookmarks without dirname"></a>list bookmarks without dirname</h1><p>function <em>l {<br>source ~/.sdirs<br>env | grep “^DIR</em>“ | cut -c5- | grep “^.*=” | cut -f1 -d “=”<br>}</p>
+<h1 id="completion-command-for-g"><a href="#completion-command-for-g" class="headerlink" title="completion command for g"></a>completion command for g</h1><p>function _gcomp {<br>local curw<br>COMPREPLY=()<br>curw=${COMP_WORDS[COMP_CWORD]}<br>COMPREPLY=($(compgen -W ‘<code>_l</code>‘ – $curw))<br>return 0<br>}</p>
+<h1 id="bind-completion-command-for-g-to-gcomp"><a href="#bind-completion-command-for-g-to-gcomp" class="headerlink" title="bind completion command for g to _gcomp"></a>bind completion command for g to _gcomp</h1><p>complete -F _gcomp g</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwpsnsp6000164cynizgodnn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-使用Linux命令行测试网速" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/使用Linux命令行测试网速/" class="article-date">
+  <time datetime="2016-12-12T09:17:25.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/使用Linux命令行测试网速/">使用Linux命令行测试网速</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当发现上网速度变慢时，人们通常会先首先测试自己的电脑到网络服务提供商（通常被称为“最后一公里”）的网络连接速度。在可用于测试宽带速度的网站中，Speedtest.net也许是使用最广泛的。</p>
+<p>Speedtest.net的工作原理并不复杂：它在你的浏览器中加载JavaScript代码并自动检测离你最近的Speedtest.net服务器，然后向服务器发送HTTP GET and POST请求来测试上行/下行网速。</p>
+<p>但在没有图形化桌面时（例如，当你通过命令行远程登陆服务器或使用没有图形界面的操作系统），基于flash、界面友好的Speedtest.net将无法工作。幸运的是，Speedtest.net提供了一个命令行版本——speedtest-cli。下面我将向你演示如何在Linux的命令行中使用speedtest-cli来测试宽带连接速度。</p>
+<p>安装speedtest-cli</p>
+<p>speedtest-cli是一个用Python编写的轻量级Linux命令行工具，在Python2.4至3.4版本下均可运行。它基于Speedtest.net的基础架构来测量网络的上/下行速率。安装speedtest-cli很简单——只需要下载其Python脚本文件。</p>
+<p>$ wget <a href="https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py" target="_blank" rel="external">https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py</a><br>$ chmod a+rx speedtest_cli.py<br>$ sudo mv speedtest_cli.py /usr/local/bin/speedtest-cli<br>$ sudo chown root:root /usr/local/bin/speedtest-cli</p>
+<p>使用speedtest-cli测试网速</p>
+<p>使用speedtest-cli命令也很简单，它不需要任何参数即可工作。</p>
+<p>$ speedtest-cli</p>
+<p>输入这个命令后，它会自动发现离你最近的Speedtest.net服务器（地理距离），然后打印出测试的网络上/下行速率。</p>
+<p>如果你愿意分享测试结果，你可以使用参数“–share”。它将会把你的测试结果上传到Speedtest.net服务器并以图形的方式分享给其他人。</p>
+<p>下面是一幅由speedtest-cli自动生成并上传到Speedtest.net的测试结果：</p>
+<p>如果你对目前所有可用的Speedtest.net服务器感兴趣，你可以使用参数“–list”。它会打印出所有的Speedtest.net服务器（按照离你的地理距离由近及远排序）。</p>
+<p>在上面的列表中，每个服务器的前面都有一个与其对应的ID。如果想使用指定的服务器来测试你的网速，你只需要在speedtest-cli命令后指定其ID即可。例如，如果想使用在Washington DC的服务器，你只需要指定相对应的服务器ID（如935）。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwpsnss5002464cyj5r8g9yj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -102,7 +360,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwps8ipl003250cyn21pzf0j" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwpsnssv003864cyg1uuc2pc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -321,7 +579,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwps8ins001a50cye6ppf8c7" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwpsnsre001g64cyvdz6f9tg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -505,7 +763,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwps8ip2002f50cyxbfj0399" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwpsnssh002n64cyc415tsx6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -604,243 +862,7 @@ return 0;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwps8ipd002r50cyuieaopfg" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-awk" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/awk/" class="article-date">
-  <time datetime="2016-12-12T08:21:51.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/awk/">awk</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div></pre></td><td class="code"><pre><div class="line">awk 数据流处理工具</div><div class="line"></div><div class="line">awk脚本结构</div><div class="line">awk &apos; BEGIN&#123; statements &#125; statements2 END&#123; statements &#125; &apos;</div><div class="line"></div><div class="line">工作方式</div><div class="line">1.执行begin中语句块；</div><div class="line">2.从文件或stdin中读入一行，然后执行statements2，重复这个过程，直到文件全部被读取完毕；</div><div class="line">3.执行end语句块；</div><div class="line"></div><div class="line">print 打印当前行</div><div class="line"></div><div class="line">使用不带参数的print时，会打印当前行;</div><div class="line"></div><div class="line">  echo -e &quot;line1\nline2&quot; | awk &apos;BEGIN&#123;print &quot;start&quot;&#125; &#123;print &#125; END&#123; print &quot;End&quot; &#125;&apos;</div><div class="line"></div><div class="line">print 以逗号分割时，参数以空格定界;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1, var2 , var3; &#125;&apos;</div><div class="line">$&gt;v1 V2 v3</div><div class="line"></div><div class="line">使用-拼接符的方式（&quot;&quot;作为拼接符）;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1&quot;-&quot;var2&quot;-&quot;var3; &#125;&apos;</div><div class="line">$&gt;v1-V2-v3</div><div class="line"></div><div class="line">特殊变量： NR NF $0 $1 $2</div><div class="line"></div><div class="line">NR:表示记录数量，在执行过程中对应当前行号；</div><div class="line">NF:表示字段数量，在执行过程总对应当前行的字段数；</div><div class="line">$0:这个变量包含执行过程中当前行的文本内容；</div><div class="line">$1:第一个字段的文本内容；</div><div class="line">$2:第二个字段的文本内容；</div><div class="line"></div><div class="line">echo -e &quot;line1 f2 f3\n line2 \n line 3&quot; | awk &apos;&#123;print NR&quot;:&quot;$0&quot;-&quot;$1&quot;-&quot;$2&#125;&apos;</div><div class="line"></div><div class="line">打印每一行的第二和第三个字段：</div><div class="line">  awk &apos;&#123;print $2, $3&#125;&apos; file</div><div class="line"></div><div class="line">统计文件的行数：</div><div class="line">  awk &apos; END &#123;print NR&#125;&apos; file</div><div class="line"></div><div class="line">累加每一行的第一个字段：</div><div class="line">  echo -e &quot;1\n 2\n 3\n 4\n&quot; | awk &apos;BEGIN&#123;num = 0 ;</div><div class="line">  print &quot;begin&quot;;&#125; &#123;sum += $1;&#125; END &#123;print &quot;==&quot;; print sum &#125;&apos;</div><div class="line"></div><div class="line">传递外部变量</div><div class="line"></div><div class="line">var=1000</div><div class="line">echo | awk &apos;&#123;print vara&#125;&apos; vara=$var #  输入来自stdin</div><div class="line">awk &apos;&#123;print vara&#125;&apos; vara=$var file # 输入来自文件</div><div class="line"></div><div class="line">用样式对awk处理的行进行过滤</div><div class="line"></div><div class="line">awk &apos;NR &lt; 5&apos; #行号小于5</div><div class="line">awk &apos;NR==1,NR==4 &#123;print&#125;&apos; file #行号等于1和4的打印出来</div><div class="line">awk &apos;/linux/&apos; #包含linux文本的行（可以用正则表达式来指定，超级强大）</div><div class="line">awk &apos;!/linux/&apos; #不包含linux文本的行</div><div class="line"></div><div class="line">设置定界符</div><div class="line"></div><div class="line">使用-F来设置定界符（默认为空格）</div><div class="line">awk -F: &apos;&#123;print $NF&#125;&apos; /etc/passwd</div><div class="line"></div><div class="line">读取命令输出</div><div class="line"></div><div class="line">使用getline，将外部shell命令的输出读入到变量cmdout中；</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print cmdout &#125;&apos;</div><div class="line"></div><div class="line">在awk中使用循环</div><div class="line"></div><div class="line">for(i=0;i&lt;10;i++)&#123;print $i;&#125;</div><div class="line">for(i in array)&#123;print array[i];&#125;</div><div class="line"></div><div class="line">eg:</div><div class="line">以逆序的形式打印行：(tac命令的实现）</div><div class="line"></div><div class="line">seq 9| \</div><div class="line">awk &apos;&#123;lifo[NR] = $0; lno=NR&#125; \</div><div class="line">END&#123; for(;lno&gt;-1;lno--)&#123;print lifo[lno];&#125;</div><div class="line">&#125; &apos;</div><div class="line"></div><div class="line">awk实现head、tail命令</div><div class="line"></div><div class="line">head:</div><div class="line">  awk &apos;NR&lt;=10&#123;print&#125;&apos; filename</div><div class="line"></div><div class="line">tail:</div><div class="line">  awk &apos;&#123;buffer[NR%10] = $0;&#125; END&#123;for(i=0;i&lt;11;i++)&#123; \</div><div class="line">  print buffer[i %10]&#125; &#125; &apos; filename</div><div class="line"></div><div class="line">打印指定列</div><div class="line"></div><div class="line">awk方式实现：</div><div class="line">  ls -lrt | awk &apos;&#123;print $6&#125;&apos;</div><div class="line"></div><div class="line">cut方式实现</div><div class="line">  ls -lrt | cut -f6</div><div class="line"></div><div class="line">打印指定文本区域</div><div class="line"></div><div class="line">确定行号</div><div class="line">  seq 100| awk &apos;NR==4,NR==6&#123;print&#125;&apos;</div><div class="line"></div><div class="line">确定文本</div><div class="line">打印处于start_pattern 和end_pattern之间的文本；</div><div class="line">  awk &apos;/start_pattern/, /end_pattern/&apos; filename</div><div class="line"></div><div class="line">eg:</div><div class="line">seq 100 | awk &apos;/13/,/15/&apos;</div><div class="line">cat /etc/passwd| awk &apos;/mai.*mail/,/news.*news/&apos;</div><div class="line"></div><div class="line">awk常用内建函数</div><div class="line"></div><div class="line">index(string,search_string):返回search_string在string中出现的位置</div><div class="line">sub(regex,replacement_str,string):将正则匹配到的第一处内容替换为replacement_str;</div><div class="line">match(regex,string):检查正则表达式是否能够匹配字符串；</div><div class="line">length(string)：返回字符串长度</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print length(cmdout) &#125;&apos;</div><div class="line"></div><div class="line">printf 类似c语言中的printf，对输出进行格式化</div><div class="line">eg：</div><div class="line"></div><div class="line">seq 10 | awk &apos;&#123;printf &quot;-&gt;%4s\n&quot;, $1&#125;&apos;</div><div class="line"></div><div class="line">迭代文件中的行、单词和字符</div><div class="line"></div><div class="line">1. 迭代文件中的每一行</div><div class="line"></div><div class="line">while 循环法</div><div class="line"></div><div class="line">while read line;</div><div class="line">do</div><div class="line">echo $line;</div><div class="line">done &lt; file.txt</div><div class="line"></div><div class="line">改成子shell:</div><div class="line">cat file.txt | (while read line;do echo $line;done)</div><div class="line"></div><div class="line">awk法：</div><div class="line">cat file.txt| awk &apos;&#123;print&#125;&apos;</div><div class="line"></div><div class="line">2.迭代一行中的每一个单词</div><div class="line"></div><div class="line">for word in $line;</div><div class="line">do</div><div class="line">echo $word;</div><div class="line">done</div><div class="line"></div><div class="line">3. 迭代每一个字符</div><div class="line"></div><div class="line">$&#123;string:start_pos:num_of_chars&#125;：从字符串中提取一个字符；(bash文本切片）</div><div class="line">$&#123;#word&#125;:返回变量word的长度</div><div class="line"></div><div class="line">for((i=0;i&lt;$&#123;#word&#125;;i++))</div><div class="line">do</div><div class="line">echo $&#123;word:i:1);</div><div class="line">done</div><div class="line"></div><div class="line">从格式化输出里提取一列(我最常使用的awk技巧)</div><div class="line"></div><div class="line">我几乎天天都会使用它。真的。经常会有一些输出，我只需要其中的第二列，或第三列，下面这个命令就能做到这些：</div><div class="line">#Sample output of git status -s command:</div><div class="line"></div><div class="line">$ git status -s</div><div class="line"></div><div class="line">M .bashrc</div><div class="line">?? .vim/bundle/extempore/</div><div class="line"></div><div class="line"># Remove status code from git status and just get the file names</div><div class="line">$ git status -s | awk &apos;&#123;print $2&#125;&apos;</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div><div class="line">为什么不写个函数，让我们随时都可以用呢？</div><div class="line">function col &#123;</div><div class="line">awk -v col=$1 &apos;&#123;print $col&#125;&apos;</div><div class="line">&#125;</div><div class="line">这使得提取列非常容易，比如，你不想要第一列？简单：</div><div class="line">$ git status -s | col 2</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwps8ink001450cyxz0krikt" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-sed" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/sed/" class="article-date">
-  <time datetime="2016-12-12T08:09:38.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/sed/">sed</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sed 文本替换利器</p>
-<p>用命令行往文件的顶部添加文字</p>
-<p>每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：<br>sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt</p>
-<p>首处替换<br>  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text</p>
-<p>全局替换<br>   seg ‘s/text/replace_text/g’ file</p>
-<p>默认替换后，输出替换后的内容，如果需要直接替换原文件,使用-i：<br>  seg -i ‘s/text/repalce_text/g’ file</p>
-<p>移除空白行：<br>  sed ‘/^$/d’ file</p>
-<p>变量转换<br>已匹配的字符串通过标记&amp;来引用.<br>echo this is en example | seg ‘s/\w+/[&amp;]/g’<br>$&gt;[this]  [is] [en] [example]</p>
-<p>子串匹配标记<br>第一个匹配的括号内容使用标记 \1 来引用<br>  sed ‘s/hello([0-9])/\1/‘</p>
-<p>双引号求值<br>sed通常用单引号来引用；也可使用双引号，使用双引号后，双引号会对表达式求值：<br>  sed ‘s/$var/HLLOE/‘</p>
-<p>当使用双引号时，我们可以在sed样式和替换字符串中指定变量；<br>eg:<br>p=patten<br>r=replaced<br>echo “line con a patten” | sed “s/$p/$r/g”<br>$&gt;line con a replaced</p>
-<p>其它示例<br>字符串插入字符：将文本中每行内容（PEKSHA） 转换为 PEK/SHA<br>  sed ‘s/^.{3}/&amp;\//g’ file</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwps8io1001g50cyxreigggi" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-umount" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/umount/" class="article-date">
-  <time datetime="2016-12-12T08:09:03.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/umount/">umount</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>原来umount 还有一个-l选项，作用是当需卸载文件系统的引用不繁忙时直接卸载：<br>umount -l directoryname</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwps8io7001m50cypb5dmu0q" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-uniq" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/uniq/" class="article-date">
-  <time datetime="2016-12-12T08:07:25.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/uniq/">uniq</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>uniq 消除重复行</p>
-<p>消除重复行<br>  sort unsort.txt | uniq</p>
-<p>统计各行在文件中出现的次数<br>  sort unsort.txt | uniq -c</p>
-<p>找出重复行<br>  sort unsort.txt | uniq -d</p>
-<p>可指定每行中需要比较的重复内容：-s 开始位置 -w 比较字符数</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwps8io8001n50cy970i5mvn" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-海量运维" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/海量运维/" class="article-date">
-  <time datetime="2016-12-12T07:40:50.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/海量运维/">海量运维</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="海量运维\海量运维.jpg" alt="海量运维"></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwps8ipf002t50cyzdu4uvew" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-结婚日狂想" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/结婚日狂想/" class="article-date">
-  <time datetime="2016-12-12T07:26:38.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/结婚日狂想/">结婚日狂想</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>2013年1月4日<br>今天日子有些特殊，因为今天可以翻译成“爱你一生一世”。<br>除此之外，还有一则消息，哦，错了，不是消息是新闻，是让全世界瞩目的新闻。<br>是全球最大商业帝国，三元帝国集团的首席执行官兼董事长元和他最心爱的女人结婚的日子。<br>等等，最大商业帝国？还全球？三元帝国，从来没听说过啊！<br>哦，诸位莫急，待我来细细拆解。<br>三元帝国，乃是元创立，最惊人的就是这个集团能够在短短的三年之中，拥有了全球30%的财富，注意了这个30%不是民间资本。<br>这么举个例子吧，如果全世界所有的，不管是个人、单位、集团还是国家的财富加起来是100的话，那么三元帝国的财富就是30。明白了吧，除了几个大国外，其他的许多小国家都得仰仗在三元帝国的运作下生存。<br>那么这个集团是运营什么的呢？<br>这么说吧，上到宇宙飞船、航空母舰的研发，下到老百姓吃什么、穿什么，都是集团运营的项目。<br>集团的根是衣、食、住、行四大行业发展起来的。<br>那岂不是垄断啦，不得了啦！国家怎么不控制的。<br>原因有二：<br>一是元这个人可以和两千多年前的法圣商鞅一般，大公无私，绝不会做些坑蒙拐骗的事情，那都是低层次人弄的。<br>二是，说白点就是国家想管怎么管呢，你这个国家限制我，没关系啊，全世界那么多国家呢，还愁我活不下去啊！再说，现在国家相限制，也不敢了，因为这个集团有太多的投资，在国家建设上了，说白了，国家缺不得这个集团啊！<br>呵呵，扯远了。再次回到结婚的现场，哦不对，不是现场因为这次结婚典礼，在全世界188个国家，都同时举行。<br>路线是中国的泰兴、上海、南京、北京、成都、拉萨……<br>抵达中亚，北上俄罗斯，到欧洲，南赴非洲<br>跨大西洋，至加拿大，后抵美利坚，再去拉美<br>回转太平洋，飞澳洲，渡印度洋，到南亚、东南亚<br>归中国泰兴<br>泰兴是三元帝国的总部，2013年已经是全球最大城市、最富城市、最人文城市、最美城市、最舒适城市，能够成为泰兴市民的，不是国家政要，就是国际名流，当然还有土生土长的泰兴人，他们是最幸福的，出生以来的抚养、教育、一直到成人，不要父母掏一分钱，享受着全世界最高档的教育，不管是谁，都有一种教育方式，让他成才，这是元上初三的时候化学老师告诉他的。<br>2013年1月4日上午9时<br>来自于全世界各国首脑和名流们都齐聚泰兴，中国34个省长及主席、常委们，都早早来到了泰兴，各大媒体，早就瞄准了这次机会。<br>准确的说，这是有人类以来，最大的聚会，前无古人，后有没有来者，咱们就不讨论了。<br>地点位于三元帝国的总部大楼，除了高达666米外，往地下也是333米，所以高度为999米，面积为81平方公里。<br>所以虽然人数达到了30万以上，可以并不显得拥挤。<br>“安全呢，要知道奥运会，安检可是很严格的啊，那时候可没有这么多重要人士，现在可是异常危险的时刻啊！”一个人问道。<br>旁边的人就像看到一个白痴一样的看着他，极为兴奋的说道：“放心吧！兄台，到其他地方我不敢保证，可是如果你到了三元帝国的总部，还存在这个想法的话，就是杞人忧天了。”<br>“为啥？”显然问的人没有得到满意的答案。<br>“为啥？除了这栋大楼，是全世界最先进的技术，花费一年时间，不分昼夜的建设，动用了整整10万人，投资了共1000万亿外，你以为三元帝国能在短短三年内，成为全球最大的集团是侥幸的吗？因为三元帝国有支秘密的保安部队，其实称他们是保安，实在是委屈他们了啊！就是美国的CIA，英国的军情六处，我国的安全局所有人都来，都不是他们的对手。”<br>三元帝国果然不同凡响啊！问的人感慨道。<br>元出场了，竟然不是穿的职业装，而是汉服，不过是改良过的服装，可是一眼还是能够看出来，这就是汉服。<br>元的声音通过音响系统清晰的传送到了每个宾客的耳中：“多谢大家的光临，我结婚的大喜日子，趁今天大家都在的情况下，我就宣布一件事，一周之后，所有集团的员工，必须穿着我身上的服装，这是我华夏民族的汉服，因为三元帝国首先属于华夏，其次属于我，所以全世界，只要在我集团工作的员工，都必须穿着汉服，公司服装已经准备齐全，一周后大家准时穿上，如果不愿意穿着的人，那只能很抱歉，我们的合作结束了。”<br>话音刚落，全场都沸腾起来，这个决定也太过了吧，就连中国人自己都感觉到，这个要求苛刻了。当然中国人，自今之后，全国都得穿着汉服，这是毫无疑问的。<br>可是，集团工作的一共三亿六千万人，中国人有两亿，可是剩下还有一亿六千万呢？<br>那有能怎么办呢，毕竟在集团工作各种条件实在太优厚了，有几个人为了所谓的服饰，而放弃如此优越的生活呢。<br>元的声音再次响起，全场立刻寂然无声：“好，既然公事已然说完，下面就进入正事吧！”<br>这一幕将永载史册，全世界共180个国家的主席、总统、国王、总理……为元进行了证婚，只见元和他的妻子，走过了两旁侍立180个国家的首脑中间的红地毯，结束了仪式。<br>今天所有的结婚，没有结婚的总之几乎所有的女人，见到这一幕时，都羡慕无比，没有人嫉妒，因为她们都知道，元的妻子的伟大，这种伟大，让绝大多数女人都汗颜。就是剩下那堆人，也不过与元的妻子持平而已。<br>仪式结束了，大家都回到了自己的座位上。<br>下面的一幕又掀起了另一个高潮，全世界最巨大的商业帝国三元帝国集团的首席执行官兼任董事长的元，朝一个方位跪了下去，这个跪的方向立刻引起了全场乃至全世界的关注，只见两个面容慈祥的老人，端坐于高台座位上。<br>当两个老人得知，下面坐的有国家主席和总理时，身体颤巍巍的站了起来，老爷子说道：“儿啊，今天有这样的成就，都是你自己的努力，我们父母二人对不起你啊！”<br>元含泪痛哭道：“爸、妈，儿子怎么敢这么想，没有你们的生养之恩，我哪来这等成就，所以我这辈子最大的恩人就是你们，你们的幸福，才是我一切的源泉。”<br>第二天各大媒体的大标题几乎都是“婚礼之大无出其右，孝道之尽难赶其元。”</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwps8ipk003150cyi1e6i5y9" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwpsnssn002w64cy3801rzhg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -853,7 +875,7 @@ return 0;
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/7/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/7/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/9/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -879,28 +901,28 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+            <a href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+            <a href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+            <a href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+            <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+            <a href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
           </li>
         
       </ul>
@@ -916,7 +938,7 @@ return 0;
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

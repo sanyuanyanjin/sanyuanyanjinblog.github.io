@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Domino | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Domino 10.6.0.41 66:fd:a4:dd:6c:eeDB2 10.6.0.42 96:ae:5d:0e:89:16
+[root@ctzapa ~]# cat /etc/sysconfig/i18nLANG=”zh_TW.UTF-8”
+vim /etc/selinux/config
+SELINUX=disabled
+getenforce
+Enforcing
+setenforce 0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Domino">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="Domino 10.6.0.41 66:fd:a4:dd:6c:eeDB2 10.6.0.42 96:ae:5d:0e:89:16
+[root@ctzapa ~]# cat /etc/sysconfig/i18nLANG=”zh_TW.UTF-8”
+vim /etc/selinux/config
+SELINUX=disabled
+getenforce
+Enforcing
+setenforce 0">
+<meta property="og:updated_time" content="2016-12-15T03:09:22.387Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Domino">
+<meta name="twitter:description" content="Domino 10.6.0.41 66:fd:a4:dd:6c:eeDB2 10.6.0.42 96:ae:5d:0e:89:16
+[root@ctzapa ~]# cat /etc/sysconfig/i18nLANG=”zh_TW.UTF-8”
+vim /etc/selinux/config
+SELINUX=disabled
+getenforce
+Enforcing
+setenforce 0">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Domino" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Domino/" class="article-date">
+  <time datetime="2016-12-15T03:08:48.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Domino
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Domino 10.6.0.41 66:fd:a4:dd:6c:ee<br>DB2 10.6.0.42 96:ae:5d:0e:89:16</p>
+<p>[root@ctzapa ~]# cat /etc/sysconfig/i18n<br>LANG=”zh_TW.UTF-8”</p>
+<p>vim /etc/selinux/config</p>
+<p>SELINUX=disabled</p>
+<p>getenforce</p>
+<p>Enforcing</p>
+<p>setenforce 0</p>
+<p>getenforce</p>
+<p>Permissive</p>
+<p>yum -y install vsftpd</p>
+<p>service vsftpd restart</p>
+<p>开机启动chkconfig –level 345 vsftpd on</p>
+<p>安装OpenOffice。</p>
+<p>卸载LibreOffice方法</p>
+<p>yum erase libreoffice*</p>
+<p>在官网<a href="http://www.openoffice.org/download/index.html下载openoffice的RPM包" target="_blank" rel="external">http://www.openoffice.org/download/index.html下载openoffice的RPM包</a></p>
+<p>解压下载的压缩包</p>
+<p>tar -zxvf Apache_OpenOffice_4.1.1_Linux_x86-64_install-rpm_zh-CN.tar.gz</p>
+<p>进入到RPMS文件夹，将底下的rpm全部安装</p>
+<p>[root@tzuchi data]# cd zh-CN/</p>
+<p>[root@tzuchi zh-CN]# ls</p>
+<p>licenses readmes RPMS</p>
+<p>[root@tzuchi zh-CN]# cd RPMS/</p>
+<p>[root@tzuchi RPMS]# rpm -ivh *.rpm</p>
+<p>[root@tzuchi RPMS]# cd desktop-integration/</p>
+<p>[root@tzuchi desktop-integration]#</p>
+<p>rpm -ivh openoffice4.1.1-redhat-menus-4.1.1-9775.noarch.rpm</p>
+<p>/usr/bin/gtk-update-icon-cache</p>
+<p>gtk-update-icon-cache: Cache file created successfully.</p>
+<p>/usr/bin/gtk-update-icon-cache</p>
+<p>gtk-update-icon-cache: Cache file created successfully.</p>
+<p>卸载openoffice</p>
+<p>rpm -e <code>rpm -qa |grep openoffice</code> <code>rpm -qa |grep ooobasis</code></p>
+<p>安装MySQL</p>
+<p>yum install -y mysql-server mysql mysql-devel</p>
+<p>rpm -qi mysql-server</p>
+<p>service mysqld start</p>
+<p>[root@tzuchi ~]# chkconfig –list | grep mysqld</p>
+<p>mysqld 0:关闭 1:关闭 2:关闭 3:关闭 4:关闭 5:关闭 6:关闭</p>
+<p>[root@tzuchi ~]# chkconfig mysqld on</p>
+<p>[root@tzuchi ~]# chkconfig –list | grep mysqld</p>
+<p>mysqld 0:关闭 1:关闭 2:启用 3:启用 4:启用 5:启用 6:关闭</p>
+<p>[root@tzuchi ~]# mysqladmin -u root password ‘sztzuchi’</p>
+<p>[root@tzuchi ~]# mysql -u root -p</p>
+<p>安装domino server</p>
+<p>①．配置VNC</p>
+<p>设置密码vncpasswd</p>
+<p>yum -y install tigervnc-server</p>
+<p>更改配置vim /etc/sysconfig/vncservers</p>
+<p>VNCSERVERS=”0:root”</p>
+<p>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver start</p>
+<p>开机启动chkconfig –level 345 vncserver on</p>
+<p>②．安装依赖包</p>
+<p>yum -y install glibc glibc.i686 libgcc libgcc.i686 libstdc++ libstdc++.i686 libXft libXft.i686 libXi libXi.i686 libXmu libXmu.i686 libXp libXp.i686 libXtst libXtst.i686 compat-libstdc++-33 compat-libstdc++-33-3.2.3-69.el6.i686 libstdc++-devel libstdc++.so.5</p>
+<p>yum -y install glibc</p>
+<p>yum -y install glibc.i686</p>
+<p>yum -y install libgcc</p>
+<p>yum -y install libgcc.i686</p>
+<p>yum -y install libstdc++</p>
+<p>yum -y install libstdc++.i686</p>
+<p>yum install -y libXft</p>
+<p>yum install -y libXft.i686</p>
+<p>yum install -y libXi</p>
+<p>yum install -y libXi.i686</p>
+<p>yum -y install libXmu</p>
+<p>yum -y install libXmu.i686</p>
+<p>yum -y install libXp</p>
+<p>yum -y install libXp.i686</p>
+<p>yum -y install libXtst</p>
+<p>yum -y install libXtst.i686</p>
+<p>yum -y install zlib-1.2.3-29.el6.i686 –setopt=protected_multilib=false</p>
+<p>③．安装domino server</p>
+<p>groupadd notes</p>
+<p>useradd -g notes notes</p>
+<p>passwd notes</p>
+<p>mkdir -p /opt/ibm/lotus/</p>
+<p>ll -d /opt/ibm/lotus/</p>
+<p>chown notes:notes -R /opt/ibm/lotus/</p>
+<p>[root@ctzmla ~]# ll -d /opt/ibm/lotus/</p>
+<p>drwxr-xr-x 2 notes notes 4096 2016-04-10 08:48 /opt/ibm/lotus/</p>
+<p>mkdir -p /local/notesdata/</p>
+<p>chown -R notes:notes /local/notesdata/</p>
+<p>ll -d /local/notesdata/</p>
+<p>cd /home/data/</p>
+<p>mv lotus_domino853* /tmp</p>
+<p>cd /tmp</p>
+<p>tar xvf lotus_domino853_xlinux_en.tar</p>
+<p>cd /tmp/linux/domino/</p>
+<p>xhost +</p>
+<p> ./install</p>
+<p>ulimit -n 20000</p>
+<p>vim /etc/security/limits.conf</p>
+<p>#@student        -       maxlogins       4<br>notes           soft    nofile          60000<br>notes           hard    nofile          80000</p>
+<p>[root@domino ~]# su notes<br>[notes@domino root]$ ulimit -a<br>core file size          (blocks, -c) 0<br>data seg size           (kbytes, -d) unlimited<br>scheduling priority             (-e) 0<br>file size               (blocks, -f) unlimited<br>pending signals                 (-i) 14732<br>max locked memory       (kbytes, -l) 64<br>max memory size         (kbytes, -m) unlimited<br>open files                      (-n) 60000<br>pipe size            (512 bytes, -p) 8<br>POSIX message queues     (bytes, -q) 819200<br>real-time priority              (-r) 0<br>stack size              (kbytes, -s) 10240<br>cpu time               (seconds, -t) unlimited<br>max user processes              (-u) 1024<br>virtual memory          (kbytes, -v) unlimited<br>file locks                      (-x) unlimited</p>
+<p>notes soft nofile 60000</p>
+<p>notes hard nofile 80000</p>
+<p>[root@domino notesdata]# netstat -tunlp | grep 25<br>tcp        0      0 127.0.0.1:25                0.0.0.0:<em>                   LISTEN      2014/master<br>tcp        0      0 ::1:25                      :::</em>                        LISTEN      2014/master<br>[root@domino notesdata]# service postfix stop<br>Shutting down postfix:                                     [  OK  ]<br>[root@domino notesdata]# netstat -tunlp | grep 25<br>[root@domino notesdata]# chkconfig postfix off</p>
+<p>su notes</p>
+<p>cd /local/notesdata/</p>
+<p>/opt/ibm/lotus/bin/server</p>
+<p>cd /opt/ibm/lotus/notes/85030/linux/jvm/lib/ext/</p>
+<p>cp /home/data/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar .</p>
+<p>vim /etc/hosts</p>
+<p>10.6.0.16 ctzapa.site ctzapa</p>
+<p>scp -rp /local/notesdata/mail root@10.6.0.68:/local/notesdata/</p>
+<p>scp -rp /local/notesdata/hccinformation root@10.6.0.68:/local/notesdata/</p>
+<p>配置JDBC(mysql-connector-java)</p>
+<p>安装db2<br>centos 6<br>yum install compat-libstdc++-33 -y<br>yum install compat-libstdc++-33-3.2.3-69.el6.i686 -y<br>yum install libstdc++-devel -y<br>yum install libstdc++.so.5 -y</p>
+<p>centos 7<br>yum install libstdc++.so.5 -y<br>yum install libstdc++.so.5* -y</p>
+<p>执行./db2setup 图形化界面安装（好处是自动建用户和组）</p>
+<p>安装db2的一个示例数据库</p>
+<p>su - db2inst1</p>
+<p>db2start</p>
+<p>db2sampl</p>
+<p>创建数据库sample完成</p>
+<p>进入db2</p>
+<p>su - db2inst1</p>
+<p>db2</p>
+<p>connect to sample                         //l连接到sample数据库</p>
+<p>select * from staff where dept = 20   //查询语句</p>
+<p>list tables                                          //列出所有表</p>
+<p>describe table sysibm.systables       //查看系统表</p>
+<p>connect reset                                   //连接重置</p>
+<p>quit                                                   //退出</p>
+<p> 验证数据库完成</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwpsnspf000564cylq7yb0z6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Domino 10.6.0.41 66:fd:a4:dd:6c:ee
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/CentOS-6-x-Nginx/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x Nginx</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

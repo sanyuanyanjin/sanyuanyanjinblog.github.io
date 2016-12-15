@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,470 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-CentOS-6-x-CDH" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-CDH/" class="article-date">
+  <time datetime="2016-12-15T02:50:28.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.jianshu.com/p/57179e03795f" target="_blank" rel="external">http://www.jianshu.com/p/57179e03795f</a><br>namenode reboot<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop</p>
+<p>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>umount -l /mnt/hdfs</p>
+<p>数据同步脚本<br>crontab -e<br>00 06 <em> </em> * python /root/syncdir.py /home/smbhdfs/zy/ /mnt/hdfs/zy/ 2&gt; /dev/null &gt; /dev/null<br>python /root/syncdir.py /home/smbhdfs/jinyan/ /mnt/hdfs/jinyan/<br>python /root/syncdir.py /home/smbhdfs/wqf/ /mnt/hdfs/wqf/</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>最小化安装<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>yum groupinstall ‘X Window System’ -y<br>yum -y install bind-utils<br>yum -y install cyrus-sasl-gssapi<br>yum -y install cyrus-sasl-plain<br>yum -y install fuse*<br>yum -y install portmap<br>yum -y install redhat-lsb</p>
+<p>yum groupinstall ‘Desktop Platform Development’ -y</p>
+<p>mkdir -p /root/.ssh/</p>
+<p>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
+<p>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
+<p><a href="http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html" target="_blank" rel="external">http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html</a></p>
+<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6<br>10.6.0.217 n7<br>10.6.0.218 n8<br>10.6.0.219 n9<br>10.6.0.220 n10<br>10.6.0.221 n11</p>
+<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n1:~/.ssh/</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>19行<br>server n10<br>ntpdate -u n10<br>service ntpd start</p>
+<p>rpm -qa | grep java</p>
+<p>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>rpm -ivh oracle-j2sdk1.7-1.7.0+update55-2.x86_64.rpm<br>rpm -ivh jdk-6u31-linux-amd64.rpm<br>mkdir /usr/java/latest/<br>cp -a /usr/java/jdk1.6.0_31/* /usr/java/latest/<br>echo “JAVA_HOME=/usr/java/latest/“ &gt;&gt; /etc/environment<br>java -version</p>
+<p>rpm -ivh cloudera-manager-daemons-5.1.3-1.cm513.p0.155.el6.x86_64.rpm<br>rpm -ivh cloudera-manager-agent-5.1.3-1.cm513.p0.155.el6.x86_64.rpm</p>
+<p>echo 0 &gt; /proc/sys/vm/swappiness</p>
+<p>向群集添加新主机</p>
+<p>[root@n5 ~]#<br>/etc/rc.d/init.d/cloudera-scm-agent stop</p>
+<p>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin<br>create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>grant all privileges on <em>.</em> to ‘root’@’n10’ identified by ‘yanjin’ with grant option;<br>flush privileges;</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>n2-4<br>vim /etc/ntp.conf<br>server n10<br>ntpdate -u n1<br>service ntpd start<br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html" target="_blank" rel="external">http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html</a><br><a href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz" target="_blank" rel="external">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/manifest.json" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/manifest.json</a><br><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/</a></p>
+<p><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/</a><br>cd /opt/<br>mv /home/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz .<br>tar -zxvf cloudera-manager-el6-cm5.1.3_x86_64.tar.gz<br>ls<br>cd cm-5.1.3/share/cmf/lib/<br>cp /home/mysql-connector-java-5.1.33-bin.jar .<br>ls<br>ls mysql-connector-java-5.1.33-bin.jar<br>cd /opt/<br>useradd –system –home=/opt/cm-5.1.3/run/cloudera-scm-server/ –no-create-home –shell=/bin/false –comment “Cloudera SCM User” cloudera-scm<br>/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pyanjin –scm-host localhost scm scm scm<br>vim cm-5.1.3/etc/cloudera-scm-agent/config.ini<br>server_host=n10<br>scp -r /opt/cm-5.1.3/ root@n2:/opt/<br>scp -r /opt/cm-5.1.3/ root@n3:/opt/<br>scp -r /opt/cm-5.1.3/ root@n4:/opt/</p>
+<p>[root@n1 opt]# cd cloudera/parcel-repo/<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel .<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha .<br>mv /home/manifest.json .<br>ls<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>echo 0 &gt; /proc/sys/vm/swappiness</p>
+<p>安装服务前<br>cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</p>
+<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</p>
+<p>hadoop fs -mkdir -p /data/wordcount<br>sudo -u hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /output/<br>sudo -u hdfs hadoop fs -put /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop/etc/hadoop/*.xml /data/wordcount/<br>sudo -u hdfs hadoop fs -ls /data/wordcount/<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /data/wordcount /output/wordcount<br>sudo -u hdfs hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
+<p>mkdir -p /mnt/hdfs<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>df -h /mnt/hdfs/</p>
+<p>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>useradd -g ftp -d /mnt/hdfs/ -M ftphdfs<br>passwd ftphdfs<br>sztzuchi<br>service vsftpd restart</p>
+<p>ftpuser<br>ftpuser<br>[root@n10 smbhdfs]# useradd -g ftp -d /home/smbhdfs/ -M ftpsmb<br>[root@n10 smbhdfs]# passwd ftpsmb</p>
+<p>10.6.0.24<br>chmod -R 777 /home/</p>
+<p>[root@n1 nfs]# useradd -g ftp -d /home/nfs/ -M ftpnfs<br>[root@n1 nfs]# passwd ftpnfs<br>更改用户 ftpnfs 的密码 。<br>新的 密码：<br>重新输入新的 密码：<br>passwd： 所有的身份验证令牌已经成功更新。<br>[root@n1 nfs]# service vsftpd restart<br>关闭 vsftpd：[确定]<br>为 vsftpd 启动 vsftpd：[确定]</p>
+<p>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>  comment = The hdfs<br>  path = /mnt/hdfs/<br>  browseable = yes<br>  writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>sztzuchi<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
+<p>[root@n1 ~]# cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/sqoop/lib/<br>[root@n1 ~]# sqoop list-databases –connect jdbc:mysql://localhost:3306/ –username root –password yanjin</p>
+<p>基准测试<br>TestDFSIO基准测试HDFS<br>[root@n1 ~]# su hdfs<br>[hdfs@n1 root]$ cd<br>[hdfs@n1 ~]$ pwd<br>/var/lib/hadoop-hdfs<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
+<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
+<p>用sort排序测试MapReduce<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data<br> sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data</p>
+<p>TeraSort 基准测试实验<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>hadoop fs -ls terasort/1000000-input<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>hadoop fs -ls terasort/1000000-output<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>sudo -u hdfs hadoop fs -ls terasort/1000000-input<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>sudo -u hdfs hadoop fs -ls terasort/1000000-output</p>
+<p>[hdfs@n1 ~]$ hdfs dfsadmin<br>Usage: java DFSAdmin<br>Note: Administrative commands can only be run as the HDFS superuser.<br>  [-report]<br>  [-safemode enter | leave | get | wait]</p>
+<p>manual ha<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode121<br>standby<br>You have new mail in /var/spool/mail/root<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode84<br>active</p>
+<p>[hdfs@n1 ~]$ hdfs haadmin<br>Usage: DFSHAAdmin [-ns <nameserviceid>]<br>  [-transitionToActive <serviceid>]<br>  [-transitionToStandby <serviceid>]<br>  [-failover [–forcefence] [–forceactive] <serviceid> <serviceid>]<br>  [-getServiceState <serviceid>]<br>  [-checkHealth <serviceid>]<br>  [-help <command>]</serviceid></serviceid></serviceid></serviceid></serviceid></serviceid></nameserviceid></p>
+<p>[hdfs@n2 ~]$ hdfs zkfc -formatZK<br>[hdfs@n2 ~]$ hdfs haadmin -failover –forceactive namenode84 namenode121<br>[root@n2 ~]# /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/etc/rc.d/init.d/hadoop-hdfs-namenode restart</p>
+<p>[hdfs@n1 ~]$ hdfs zkfc -formatZK<br>[hdfs@n1 ~]$ hdfs haadmin -failover –forceactive namenode121 namenode84</p>
+<p>AUTO HA<br>vim /etc/hadoop/conf.cloudera.hdfs/core-site.xml<br>  <property><br>  <name>ha.zookeeper.quorum</name><br>  <value>n1:2181,n2:2181,n3:2181</value><br>  </property><br>hdfs zkfc -formatZK</p>
+<p>增加根目录空间</p>
+<p>创建一个GPT label啊<br>安装的时候按ctrl+alt+f2进入另外一个console，输入parted<br>然后mklable gpt /dev/sda<br>然后你可以输入print /dev/sda确认lable正确<br>然后quit<br>再按ctrl+alt+f6 返回分区上一步继续安装</p>
+<p>fuser -m /home 终止占用进程</p>
+<p>umount /home/<br>vgdisplay<br>lvreduce -L 10G /dev/mapper/vg_nx-lv_home<br>vgdisplay<br>lvextend -L +937409 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root<br>df -h<br>vgdisplay<br>lvextend -L +703056 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root</p>
+<p>rpm -qa | grep lvm<br>yum install -y lvm2</p>
+<p>df -h<br>e2fsck -f /dev/mapper/vg_n9-lv_home<br>resize2fs -p /dev/mapper/vg_n9-lv_home 10G<br>mount /home/<br>df -h</p>
+<p>hadoop archive -archiveName test.har -p /data /data/har<br>hadoop fs -ls har:///data/har/test.har</p>
+<p>[root@n1 nfs]# time mv 018/ /mnt/hdfs/tmp/ 2&gt;/dev/null<br>[root@n1 home]# time cp -a /mnt/hdfs/tmp/018/ .<br>[root@n1 tmp]# hadoop archive -archiveName 018.har -p /tmp/018/ /tmp/har<br>hadoop fs -ls har:////tmp/har/018.har</p>
+<p>[root@n1 nfs]# time cp -a /mnt/hdfs/tmp/har/018.har/ .</p>
+<p>Lock on /dfs/dn/in_use.lock acquired by nodename<br>[root@n10 cloudera]# cat /dfs/nn/current/VERSION</p>
+<p>#Sun Nov 22 10:19:27 CST 2015<br>namespaceID=39325997<br>clusterID=cluster42<br>cTime=0<br>storageType=NAME_NODE<br>blockpoolID=BP-2074941685-10.6.0.220-1448154708456<br>layoutVersion=-55</p>
+<p>[root@n3 ~]# vim /dfs/dn/current/VERSION</p>
+<p> #Sun Nov 22 08:14:02 CST 2015<br>storageID=DS-465f3d32-b20c-416a-905a-86f78bbbd7bd<br>clusterID=cluster42<br>cTime=0<br>datanodeUuid=9a02f390-0b95-4cde-bedf-b14949296adc<br>storageType=DATA_NODE<br>layoutVersion=-55</p>
+<p>[root@n5 ~]# netstat -tunlp | grep :9000<br>tcp 0 0 10.6.0.215:9000 0.0.0.0:<em> LISTEN 1914/python<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>tcp 0 0 127.0.0.1:9001 0.0.0.0:</em> LISTEN 2117/python<br>[root@n5 ~]# kill -9 1914<br>[root@n5 ~]# kill -9 2117<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>[root@n5 ~]# netstat -tunlp | grep :9000<br>[root@n5 ~]# netstat -tunlp | grep :7180</p>
+<p>spark-shell<br>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/“)<br>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)<br>counts.saveAsTextFile(“hdfs://n10:8020/output”)</p>
+<p>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/test1.txt”)</p>
+<p>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)</p>
+<p>counts.saveAsTextFile(“hdfs://n10:8020/output1”)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwpsnspb000364cydsmnf62d" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7-x-GIT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-GIT/" class="article-date">
+  <time datetime="2016-12-15T02:49:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
+<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
+<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
+<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwpsnsq2000i64cyo0mrok9t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7-x-NFS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-NFS/" class="article-date">
+  <time datetime="2016-12-15T00:30:48.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-NFS/">CentOS 7.x NFS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CentOS 7引入了全新的 systemctl 服务管理，设置和管理服务略有不同。以下是为了提供Mac OS X客户端访问Linux NFS输出的卷实现数据备份的记录，NFS服务器设置见本文，Mac OS X挂载Linux的NFS输出见Mac OS X 挂载Linux卷（NFS）。<br>设置Linux服务端<br>将移动硬盘挂载到 /data 目录<br>mount /dev/sdb1 /data<br>在Paralles Desktop虚拟机运行的是CentOS 7操作系统，使用以下命令安装 NFS 支持<br>yum install nfs-utils nfs-utils-lib<br>设置nfs相关服务在操作系统启动时启动<br>systemctl enable rpcbind<br>systemctl enable nfs-server<br>systemctl enable nfs-lock<br>systemctl enable nfs-idmap<br>启动nfs服务<br>systemctl start rpcbind<br>systemctl start nfs-server<br>systemctl start nfs-lock<br>systemctl start nfs-idmap<br>服务器端设置NFS卷输出，即编辑 /etc/exports 添加：<br>/data    10.211.55.0/24(rw,sync,no_root_squash,no_subtree_check)<br>/data – 共享目录<br>10.211.55.0/24 – 允许访问NFS的客户端IP地址段<br>rw – 允许对共享目录进行读写<br>sync – 实时同步共享目录<br>no_root_squash – 允许root访问<br>no_all_squash - 允许用户授权<br>no_subtree_check - 如果卷的一部分被输出，从客户端发出请求文件的一个常规的调用子目录检查验证卷的相应部分。如果是整个卷输出，禁止这个检查可以加速传输。<br>no_subtree_check - If only part of a volume is exported, a routine called subtree checking verifies that a file that is requested from the client is in the appropriate part of the volume. If the entire volume is exported, disabling this check will speed up transfers. Setting Up an NFS Server<br>NFS客户端挂载<br>Linux挂载NFS的客户端非常简单的命令，先创建挂载目录，然后用 -t nfs 参数挂载就可以了<br>mount -t nfs  10.211.55.9:/data /data<br>如果要设置客户端启动时候就挂载NFS，可以配置 /etc/fstab 添加以下内容<br>10.211.55.9:/data    /data  nfs auto,rw,vers=3,hard,intr,tcp,rsize=32768,wsize=32768      0   0<br>然后在客户端简单使用以下命令就可以挂载<br>mount /data<br>通过防火墙挂载NFS服务<br>在生产环境，可能会因为安全需求在NFS服务器和客户端之间部署防火墙。此时，NFS客户端挂载的时候会有如下输出报错<br>mount.nfs: Connection timed out<br>参考 Running NFS Behind a Firewall 设置防火墙允许访问NFS服务器的服务端口，注意，需要配置NFS服务使用固定端口。<br>MOUNTD_PORT=port</p>
+<h1 id="Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses"><a href="#Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses" class="headerlink" title="Controls which TCP and UDP port mountd (rpc.mountd) uses."></a>Controls which TCP and UDP port mountd (rpc.mountd) uses.</h1><p>STATD_PORT=port</p>
+<h1 id="Controls-which-TCP-and-UDP-port-status-rpc-statd-uses"><a href="#Controls-which-TCP-and-UDP-port-status-rpc-statd-uses" class="headerlink" title="Controls which TCP and UDP port status (rpc.statd) uses."></a>Controls which TCP and UDP port status (rpc.statd) uses.</h1><p>LOCKD_TCPPORT=port</p>
+<h1 id="Controls-which-TCP-port-nlockmgr-lockd-uses"><a href="#Controls-which-TCP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which TCP port nlockmgr (lockd) uses."></a>Controls which TCP port nlockmgr (lockd) uses.</h1><p>LOCKD_UDPPORT=port</p>
+<h1 id="Controls-which-UDP-port-nlockmgr-lockd-uses"><a href="#Controls-which-UDP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which UDP port nlockmgr (lockd) uses."></a>Controls which UDP port nlockmgr (lockd) uses.</h1><p>编辑 /etc/sysconfig/nfs 配置文件</p>
+<h1 id="TCP-port-rpc-lockd-should-listen-on"><a href="#TCP-port-rpc-lockd-should-listen-on" class="headerlink" title="TCP port rpc.lockd should listen on."></a>TCP port rpc.lockd should listen on.</h1><p>LOCKD_TCPPORT=32803</p>
+<h1 id="UDP-port-rpc-lockd-should-listen-on"><a href="#UDP-port-rpc-lockd-should-listen-on" class="headerlink" title="UDP port rpc.lockd should listen on."></a>UDP port rpc.lockd should listen on.</h1><p>LOCKD_UDPPORT=32769<br>MOUNTD_PORT=892<br>STATD_PORT=662<br>可以在Linux NFS服务器上执行以下命令获得NFS端口信息<br>rpcinfo -p<br>需要允许以下端口<br>NFS的TCP和UDP端口2049<br>rpcbind/sunrpc的TCP和UDP端口111<br>设置 MOUNTD_PORT 的TCP和UDP端口<br>设置 STATD_PORT 的TCP和UDP端口<br>设置 LOCKD_TCPPORT 的TCP端口<br>设置 LOCKD_UDPPORT 的UDP端口<br>program vers proto   port  service<br>100000    4   tcp    111  portmapper<br>100000    3   tcp    111  portmapper<br>100000    2   tcp    111  portmapper<br>100000    4   udp    111  portmapper<br>100000    3   udp    111  portmapper<br>100000    2   udp    111  portmapper<br>100024    1   udp  54305  status<br>100024    1   tcp  55604  status<br>100005    1   udp  20048  mountd<br>100005    1   tcp  20048  mountd<br>100005    2   udp  20048  mountd<br>100005    2   tcp  20048  mountd<br>100005    3   udp  20048  mountd<br>100005    3   tcp  20048  mountd<br>100003    3   tcp   2049  nfs<br>100003    4   tcp   2049  nfs<br>100227    3   tcp   2049  nfs_acl<br>100003    3   udp   2049  nfs<br>100003    4   udp   2049  nfs<br>100227    3   udp   2049  nfs_acl<br>100021    1   udp  32769  nlockmgr<br>100021    3   udp  32769  nlockmgr<br>100021    4   udp  32769  nlockmgr<br>100021    1   tcp  32803  nlockmgr<br>100021    3   tcp  32803  nlockmgr<br>100021    4   tcp  32803  nlockmgr<br>100011    1   udp    875  rquotad<br>100011    2   udp    875  rquotad<br>100011    1   tcp    875  rquotad<br>100011    2   tcp    875  rquotad<br>在 Linux NFS 服务器上使用以下命令开启iptables防火墙允许访问以上端口<br>firewall-cmd –permanent –add-port=2049/tcp<br>firewall-cmd –permanent –add-port=2049/udp<br>firewall-cmd –permanent –add-port=111/tcp<br>firewall-cmd –permanent –add-port=111/udp<br>firewall-cmd –permanent –add-port=892/tcp<br>firewall-cmd –permanent –add-port=892/udp<br>firewall-cmd –permanent –add-port=662/tcp<br>firewall-cmd –permanent –add-port=662/udp<br>firewall-cmd –permanent –add-port=32803/tcp<br>firewall-cmd –permanent –add-port=32769/udp<br>在 Linux NFS 服务器上使用以下命令重新加载防火墙规则<br>firewall-cmd –reload</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwpsnsq6000l64cyc38coebk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7-x-HA-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-HA-Cluster/" class="article-date">
+  <time datetime="2016-12-15T00:27:53.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-HA-Cluster/">CentOS 7.x HA Cluster</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文以两台机器实现双集热备高可用集群，主机名node1的IP为192.168.122.168，主机名node2的IP为192.168.122.169。<br>一、安装集群软件<br>必须软件pcs，pacemaker，corosync，fence-agents-all，如果需要配置相关服务，也要安装对应的软件<br>二、配置防火墙<br>1、禁止防火墙和selinux</p>
+<p>#systemctldisablefirewalld</p>
+<p>#systemctlstopfirewalld<br>修改/etc/sysconfig/selinux确保SELINUX=disabled，然后执行setenforce0或者reboot服务器以生效<br>2、设置防火墙规则</p>
+<p>#firewall-cmd–permanent–add-service=high-availability</p>
+<p>#firewall-cmd–add-service=high-availability<br>三、各节点之间主机名互相解析<br>分别修改2台主机名分别为node1和node2，在centos7中直接修改/etc/hostname加入本机主机名和主机表，然后重启网络服务即可。</p>
+<p>#vi/etc/hostname<br>node1</p>
+<p>#systemctlrestartnetwork.service</p>
+<p>#hostname<br>node1<br>配置2台主机的主机表，在/etc/hosts中加入<br>192.168.122.168node1<br>192.168.122.169node2<br>四、各节点之间时间同步<br>在node1和node2分别进行时间同步，可以使用ntp实现。<br>[root@node1~]#ntpdate172.16.0.1//172.16.0.1为时间服务器<br>五、各节点之间配置ssh的无密码密钥访问。<br>下面的操作需要在各个节点上操作。</p>
+<p>#ssh-keygen-trsa-P‘’#这个生成一个密码为空的公钥和一个密钥，把公钥复制到对方节点上即可</p>
+<p>#ssh-copy-id-i/root/.ssh/id_rsa.pubroot@node2#对方主机名用登录用户名<br>两台主机都要互相可以通信，所以两台主机都得互相生成密钥和复制公钥，相互的节点上的hosts文件是都要解析对方的主机名，192.168.122.168node1192.168.122.169node2</p>
+<p>#sshnode2‘date’;date#测试一下是否已经互信<br>六、通过pacemaker来管理高可用集群<br>1、创建集群用户<br>为了有利于各节点之间通信和配置集群，在每个节点上创建一个hacluster的用户，各个节点上的密码必须是同一个。</p>
+<p>#passwdhacluster<br>Changingpasswordforuserhacluster.<br>Newpassword:<br>Retypenewpassword:<br>passwd:allauthenticationtokensupdatedsuccessfully.<br>2、设置pcsd开机自启动</p>
+<p>#systemctlstartpcsd.service</p>
+<p>#systemctlenablepcsd.service<br>3、集群各节点之间进行认证</p>
+<p>#pcsclusterauthnode1node2Username:haclusterPassword:node1:Authorizednode2:Authorized<br>4、创建并启动集群<br>[root@z1~]#pcsclustersetup–start–namemy_clusternode1node2<br>node1:Succeeded<br>node1:StartingCluster…<br>node2:Succeeded<br>node2:StartingCluster…<br>5、设置集群自启动</p>
+<p>#pcsclusterenable–all<br>6、查看集群状态信息<br>[root@z1~]#pcsclusterstatus<br>7、设置fence设备<br>这个可以参考<redhatenterpriselinux7highavailabilityadd-onreference><br>corosync默认启用了stonith，而当前集群并没有相应的stonith设备，因此此默认配置目前尚不可用，这可以通过如下命令验证：</redhatenterpriselinux7highavailabilityadd-onreference></p>
+<p>#crm_verify-L-V<br>可以通过如下面命令禁用stonith：</p>
+<p>#pcspropertysetstonith-enabled=false（默认是true）<br>8、配置存储<br>高可用集群既可以使用本地磁盘来构建纯软件的镜像型集群系统，也可以使用专门的共享磁盘装置来构建大规模的共享磁盘型集群系统，充分满足客户的不同需求。<br>共享磁盘主要有iscsi或DBRD。本文并没有使用共享磁盘。<br>9、配置浮点IP<br>不管集群服务在哪运行,我们要一个固定的地址来提供服务。在这里我选择192.168.122.101作为浮动IP,给它取一个好记的名字ClusterIP并且告诉集群每30秒检查它一次。</p>
+<p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
+<p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
+<p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
+<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#97;&#105;&#108;&#116;&#x6f;&#x3a;&#60;&#x45;&#79;&#70;&#xa;&#x53;&#101;&#116;&#72;&#x61;&#x6e;&#100;&#108;&#x65;&#x72;&#115;&#101;&#x72;&#x76;&#101;&#114;&#x2d;&#115;&#116;&#x61;&#116;&#117;&#x73;&#xa;&#79;&#x72;&#100;&#x65;&#x72;&#100;&#x65;&#x6e;&#121;&#x2c;&#97;&#108;&#108;&#x6f;&#x77;&#10;&#68;&#x65;&#x6e;&#121;&#x66;&#x72;&#111;&#x6d;&#97;&#x6c;&#108;&#xa;&#x41;&#108;&#x6c;&#111;&#119;&#102;&#x72;&#111;&#x6d;&#x6c;&#111;&#x63;&#x61;&#x6c;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#79;&#x46;&#xa;&#39318;&#20808;&#x6211;&#20204;&#x4e3a;&#65;&#112;&#97;&#99;&#104;&#x65;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#20027;&#x9875;&#x3002;&#22312;&#99;&#101;&#x6e;&#116;&#111;&#x73;&#x4e0a;&#x9762;&#x9ed8;&#35748;&#x7684;&#65;&#112;&#97;&#x63;&#104;&#x65;&#x64;&#111;&#99;&#114;&#x6f;&#x6f;&#x74;&#x662f;&#x2f;&#x76;&#97;&#114;&#47;&#119;&#119;&#x77;&#x2f;&#104;&#116;&#109;&#108;&#44;&#x6240;&#20197;&#25105;&#x4eec;&#x5728;&#36825;&#x4e2a;&#30446;&#x5f55;&#x4e0b;&#38754;&#24314;&#x7acb;&#x4e00;&#x4e2a;&#x4e3b;&#39029;&#x3002;&#xa;&#x6e;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#25913;&#x5982;&#19979;&#xff1a;&#10;&#91;&#114;&#x6f;&#x6f;&#116;&#x40;&#110;&#x6f;&#100;&#x65;&#x31;&#x7e;&#x5d;&#35;&#x63;&#x61;&#116;&#60;&#x3c;&#45;&#x45;&#x4e;&#68;">&#60;&#x45;&#79;&#70;&#xa;&#x53;&#101;&#116;&#72;&#x61;&#x6e;&#100;&#108;&#x65;&#x72;&#115;&#101;&#x72;&#x76;&#101;&#114;&#x2d;&#115;&#116;&#x61;&#116;&#117;&#x73;&#xa;&#79;&#x72;&#100;&#x65;&#x72;&#100;&#x65;&#x6e;&#121;&#x2c;&#97;&#108;&#108;&#x6f;&#x77;&#10;&#68;&#x65;&#x6e;&#121;&#x66;&#x72;&#111;&#x6d;&#97;&#x6c;&#108;&#xa;&#x41;&#108;&#x6c;&#111;&#119;&#102;&#x72;&#111;&#x6d;&#x6c;&#111;&#x63;&#x61;&#x6c;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#79;&#x46;&#xa;&#39318;&#20808;&#x6211;&#20204;&#x4e3a;&#65;&#112;&#97;&#99;&#104;&#x65;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#20027;&#x9875;&#x3002;&#22312;&#99;&#101;&#x6e;&#116;&#111;&#x73;&#x4e0a;&#x9762;&#x9ed8;&#35748;&#x7684;&#65;&#112;&#97;&#x63;&#104;&#x65;&#x64;&#111;&#99;&#114;&#x6f;&#x6f;&#x74;&#x662f;&#x2f;&#x76;&#97;&#114;&#47;&#119;&#119;&#x77;&#x2f;&#104;&#116;&#109;&#108;&#44;&#x6240;&#20197;&#25105;&#x4eec;&#x5728;&#36825;&#x4e2a;&#30446;&#x5f55;&#x4e0b;&#38754;&#24314;&#x7acb;&#x4e00;&#x4e2a;&#x4e3b;&#39029;&#x3002;&#xa;&#x6e;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#25913;&#x5982;&#19979;&#xff1a;&#10;&#91;&#114;&#x6f;&#x6f;&#116;&#x40;&#110;&#x6f;&#100;&#x65;&#x31;&#x7e;&#x5d;&#35;&#x63;&#x61;&#116;&#60;&#x3c;&#45;&#x45;&#x4e;&#68;</a>/var/www/html/index.html</p>
+<p><html></html></p>
+<p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
+<p><html></html></p>
+<p><body>Hellonode2</body><br><br>END<br>下面语句是将httpd作为资源添加到集群中：</p>
+<p>#pcsresourcecreateWEBapacheconfigfile=”/etc/httpd/conf/httpd.conf”statusurl=”<a href="http://127.0.0.1/server-status" target="_blank" rel="external">http://127.0.0.1/server-status</a>“<br>11、创建group<br>将VIP和WEBresource捆绑到这个group中，使之作为一个整体在集群中切换。（此配置为可选)</p>
+<p>#pcsresourcegroupaddMyGroupVIP</p>
+<p>#pcsresourcegroupaddMyGroupWEB<br>12、配置服务启动顺序<br>以避免出现资源冲突，语法：(pcsresourcegroupadd的时候也可以根据加的顺序依次启动，此配置为可选)</p>
+<p>#pcsconstraintorder[action]then[action]</p>
+<p>#pcsconstraintorderstartVIPthenstartWEB<br>13、指定优先的Location（此配置为可选)<br>Pacemaker并不要求你机器的硬件配置是相同的,可能某些机器比另外的机器配置要好。这种状况下我们会希望设置:当某个节点可用时,资源就要跑在上面之类的规则。为了达到这个效果我们创建location约束。同样的,我们给他取一个描述性的名字(prefer-node1),指明我们想在上面跑WEB这个服务,多想在上面跑(我们现在指定分值为50,但是在双节点的集群状态下,任何大于0的值都可以达到想要的效果),以及目标节点的名字:</p>
+<p>#pcsconstraintlocationWEBprefersnode1=50</p>
+<p>#pcsconstraintlocationWEBprefersnode2=45<br>这里指定分值越大，代表越想在对应的节点上运行。<br>14、资源粘性（此配置为可选)<br>一些环境中会要求尽量避免资源在节点之间迁移。迁移资源通常意味着一段时间内无法提供服务，某些复杂的服务，比如Oracle数据库，这个时间可能会很长。<br>为了达到这个效果，Pacemaker有一个叫做“资源粘性值”的概念，它能够控制一个服务(资源)有多想呆在它正在运行的节点上。<br>Pacemaker为了达到最优分布各个资源的目的，默认设置这个值为0。我们可以为每个资源定义不同的粘性值，但一般来说，更改默认粘性值就够了。资源粘性表示资源是否倾向于留在当前节点，如果为正整数，表示倾向，负数则会离开，-inf表示负无穷，inf表示正无穷。</p>
+<p>#pcsresourcedefaultsresource-stickiness=100<br>常用命令汇总：<br>查看集群状态：#pcsstatus<br>查看集群当前配置：#pcsconfig<br>开机后集群自启动：#pcsclusterenable–all<br>启动集群：#pcsclusterstart–all<br>查看集群资源状态：#pcsresourceshow<br>验证集群配置情况：#crm_verify-L-V<br>测试资源配置：#pcsresourcedebug-startresource<br>设置节点为备用状态：#pcsclusterstandbynode1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwpsnsq4000k64cyaha5i2t7" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Puppet/" class="article-date">
+  <time datetime="2016-12-15T00:26:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、Puppet基础原理:<br>Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。<br>二、puppet工作流程</p>
+<ol>
+<li>客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。</li>
+<li>puppet-master 告诉 puppet-client 是合法的。</li>
+<li>puppet-client 调用 facter， Facter 探测出主机的一些变量， 例如主机名、 内存大小、 IP 地址等，puppet-client 将这些信息通过 SSL 连接发送到服务器端。</li>
+<li>puppet-master 服务器端检测客户端的主机名，然后找到 manifest 对应的 node 配置，并对该部分内容进行解析。facter 送过来的信息可以作为变量处理，node 牵涉到的代码才解析，其他没牵涉的代码不解析。解析分为几个阶段，首先是语法检查，如果语法错误就报错；如果语法没错，就继续解析，解析的结果生成一个中间的“伪代码”(catelog)，然后把伪代码发给客户端。</li>
+<li>puppet-client 端接收到“伪代码”，并且执行。</li>
+<li>puppet-client 端在执行时判断有没有 file 文件，如果有，则向 fileserver 发起请求。</li>
+<li>puppet-client 端判断有没有配置 report，如果已配置，则把执行结果发送给服务器。</li>
+<li>puppet-server 端把 puppet-client 端的执行结果写入日志，并发送给报告系统。<br>三、puppet安装<br>1、直接通过yum安装老系统自带版本。<br>yum install puppet -y<br>2、安装最新版本<br>sudo rpm -ivh <a href="https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm" target="_blank" rel="external">https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</a><br>2.1、安装puppet-server。<br>sudo puppet resource package puppet-server ensure=latest<br>2.2、安装agent<br>sudo puppet resource package puppet ensure=latest<br>四、puppet资源管理<br>Puppet中的资源是puppet工具的核心，它是通过puppet管理配置系统的最小单位。<br>..<br>1、查看资源类型<br>puppet describe -l<br>2、查看资源摘要<br>puppet describe -s <resource_name><br>3、查看资源详细用法<br>puppet describe <resource_name><br>4、资源的基本格式<br>资源名 { ‘标题’:<pre><code>属性1 =&gt; &apos;值&apos;,
+属性2 =&gt; &apos;值&apos;,
+</code></pre>}<br>`<blockquote>
+<p>以安装httpd为例<br>``` cpp<br>package { ‘httpd’:</p>
+<pre><code>ensure =&gt; &apos;present&apos;,
+provider =&gt; &apos;rpm&apos;,
+</code></pre><p>}<br>puppet常用资源:file,filebucket,host,group,package,service,exec,cron,notify 等。<br>..<br>5、资源公有属性:<br>before :指明资源要在某个资源之前运行<br>require：指明某个资源要在某个资源之后运行。<br>notify: 主动通知其他资源，本资源的状态<br>subscibe ：被动通知，当它检测到资源状态发生改变的时候，主动更新所在资源状态。<br>还可以使用<br>-&gt; 表示资源前后关系<br>~&gt; 表示资源之间的通知<br>五、puppet语言<br>1)、puppet变量：<br>1、名称之前必须以$开头，赋值用=，支持追加赋值+=；<br>2、变量名称有两种格式，简短名称，FQN($scope::variable)。</p>
+<pre><code>$webserver = &quot;httpd&quot;
+package {&quot;httpd&quot;:
+       ensure =&gt; &quot;present&quot;,
+       name =&gt; $webserver
+} 
+</code></pre><p>3、作用域:top &gt; node &gt; local 作用域越小，优先级越高<br>2)、数据类型：</p>
+<pre><code>1、直接字串
+       可以使用引号，也可以不用。
+       换行符为\n,windows中\r\n
+2、布尔型
+       true,false
+       其它类型会自动转换为布尔型。
+       所有数字都是true
+       空字符串为false，其它字符串为true
+3、数值
+       整数
+       浮点数
+4、数组，逗号隔开
+       $array = [&apos;httpd&apos;,&apos;mysql&apos;,&apos;php&apos;]
+       package {$array:ensure =&gt; installed} #依次安装包
+5、hash
+       { key1 =&gt; value1,key2 =&gt; value2,…}
+6、undef，声明未定义的东西不能加上引号的。
+</code></pre><p>3)、puppet支持的操作符和对应的表达式：</p>
+<h1 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符:"></a>比较操作符:</h1><pre><code>！=
+&lt;,&gt;,&lt;=,&gt;=,
+=~ 正则匹配
+!~ 正则不匹配
+in
+</code></pre><p>布尔操作符:</p>
+<pre><code>and
+or
+!
+</code></pre><p>算术运算</p>
+<pre><code>+
+–
+ /
+ *
+ &lt;&lt;   左移
+</code></pre><blockquote>
+<p>  右移</p>
+<pre><code>$osfamily == &apos;CentOS&apos; 
+$kernel in [&apos;Linux&apos;,&apos;solaris&apos;,&apos;freebsd&apos;]
+</code></pre><p>4)、puppet的条件判断语句：</p>
+<pre><code>if ..elsif..else
+case
+selector语句 #意思是在两个选项中任选其中一个赋值
+</code></pre><p>if $operationsystem == ‘CentOS’{</p>
+<pre><code>       notice(&quot;welcome to CentOS&quot;)
+}
+elsif $operationsystem == &apos;Redhat&apos; {
+       notice(&quot;Welcome to Redhat&quot;)
+}
+elsif $operationsystem == &apos;Fedora&apos; {
+       notice(&quot;Welcome to Fedora&quot;)
+}
+else{
+       notice(&apos;Welcome to ET&apos;)
+}
+</code></pre><p>case $operationsystem {</p>
+<pre><code>&apos;Solaris&apos;:  { include role::solaris }
+&apos;Redhat&apos;,&apos;CentOS&apos; : { include role::redhat }
+/^(Debian|Ubuntu)$/ : { include role::debian }
+default : { include role::generic }
+</code></pre><p>}<br>$webserver = $operatingsystem ? {</p>
+<pre><code>/(?i-mx:&apos;ubuntu&apos;|debian)/ =&gt; &apos;apache&apos;,
+/(?i-mx:redhat|centos|fedora)/ =&gt; &apos;httpd&apos;,
+default =&gt; &apos;httpd&apos;
+</code></pre><p>}<br>i：表示忽略大小写</p>
+</blockquote>
+</blockquote>
+</resource_name></resource_name></li>
+</ol>
+<ul>
+<li>： 表示不使用某转移符号<br>m：表示把 “.” 当做换行符使用<br>x :表示互略模式中空白字符和注释。<br>六、puppet类和模块<br>类是具有相同特性和行为的集合。就是一组代码块，在需要时可以通过名称进行调用。只定义类，并不会调用，需要声明才可以。<br>1)、语法：<br>class class_name [inherits] [base_class] {<pre><code>正常的puppet代码
+</code></pre>}<br>如果在同个模块定义了多个类， 可以采双冒号（ ：： ） 。<br>例如定义个nginx模块，<br>模块中 定义三个类：<br>class nginx { … }<br>class nginx::config { … }<br>class nginx::vhost { … }<br>2)、类的继承(基类不能有参数)：<br>1、继承资源属性<br>2、覆盖资源属性<pre><code>=&gt;         
+</code></pre>3、追加资源属性<pre><code>+&gt;
+</code></pre>3)、 模块<br>模块结构<br>module name<pre><code>mainfests
+       init.pp  #必须至少声明一个类。类与模块名相同
+       *.pp
+        # mudule_name::[subdirname]::mainfect_name
+files：包含的是一个静态文件。puppet的agentmaster模型。
+       puppet:///modles/module_name/[subdir_name/]file_name
+templates：模板文件 *.erb 用到ruby语言
+       template(&apos;&apos;);
+       content =&gt; template(&apos;模板文件&apos;),
+lib #插件目录。
+tests ：当前模块的使用帮助或者实例文件
+spec ：为lib目录的插件提供使用说明，范例的。
+</code></pre>七、事例，puppet部署LNMP<br>1、假定已经安装好puppet-server。<br>..<br>2、主机名通信<br>cat &gt;&gt; /etc/hosts &lt;&lt;EOF192.168.198.139 puppet-server192.168.198.160 puppet-client<br>EOF<br>3、提供puppet文件<br>mkdir /etc/puppet/modules/lnmp/{manifests,files,templates,tests} -p<br>vim /etc/puppet/modules/lnmp/manifests/init.pp<br>class lnmp {<pre><code>include lnmp::nginx
+include lnmp::mysql
+include lnmp::php
+</code></pre>}<br>vim /etc/puppet/modules/lnmp/manifests/nginx.pp<br>class lnmp::nginx {<br>  package{‘nginx’:<pre><code>ensure  =&gt; present,
+name    =&gt; nginx,
+</code></pre>  }<br>  file{‘nginx.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/nginx.conf&apos;,
+path    =&gt; &apos;/etc/nginx/nginx.conf&apos;,
+require =&gt; Package[&apos;nginx&apos;],
+</code></pre>  }<br> service{‘nginx’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;nginx.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/php.pp<br>class lnmp::php {<br>  package{‘php-fpm’:<pre><code>ensure  =&gt; present,
+name    =&gt; php-fpm,
+</code></pre>  }<br>  file{‘www.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/www.conf&apos;,
+path    =&gt; &apos;/etc/php-fpm.d/www.conf&apos;,
+require =&gt; Package[&apos;php-fpm&apos;],
+</code></pre>  }<br> service{‘php-fpm’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;www.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/mysql.pp<br>class lnmp::mysql {<br>  package{‘mysql-server’:<pre><code>ensure  =&gt; present,
+name    =&gt; &apos;mysql-server&apos;,
+</code></pre>  }<br>  file{‘my.cnf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/my.cnf&apos;,
+path    =&gt; &apos;/etc/my.cnf&apos;,
+require =&gt; Package[&apos;mysql-server&apos;],
+</code></pre>  }<br> service{‘mysqld’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;my.cnf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/manifests/site.pp<br>node ‘puppet-client’ {<br>include lnmp<br>}<br>4、提供服务配置文件<br>cp /root/files/{nginx.conf,www.conf,my.cnf} /etc/puppet/modules/lnmp/files/<br>5、启动puppet服务<br>[root@puppet-server modules]# puppet master –verbose –no-daemonize   #第一次启动以便观察信息Info: Creating a new SSL key for ca<br>Info: Creating a new SSL certificate request for ca<br>Info: Certificate Request fingerprint (SHA256): 7B:A9:AB:84:C0:EB:DC:83:0E:EA:8C:81:1E:25:9A:47:5C:3F:10:31:6F:F7:5C:25:BE:B7:41:3C:B8:6B:35:38…..<br>[root@puppet-client ~]# puppet agent server –server puppet-server –verbose –no-daemonize  #客户端申请证书[root@puppet-server ~]# puppet cert sign puppet-client   #服务器签署证书#稍等一会[root@puppet-client ~]# ss -tnl | egrep “80|3306|9000”LISTEN     0      128                       <em>:9000                     </em>:<em><br>LISTEN     0      50                        </em>:3306                     <em>:</em><br>LISTEN     0      128                       <em>:80                       </em>:*<br>八、总结</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwpsnspt000d64cyw04amkxf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前言-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/前言-1/" class="article-date">
+  <time datetime="2016-12-15T00:23:59.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/前言-1/">前言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwpsnssb002e64cyajqaocmw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-前言" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -87,7 +551,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwps8iov002850cye7ftbbaz" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwpsnssd002g64cybwsbtppw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +616,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwps8ing001150cyh5avjvvy" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwpsnsr5001764cyaukhlz1h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +730,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwps8im4000750cywbrk9ksq" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwpsnspr000b64cyqsxkin0s" class="article-share-link">Share</a>
       
       
     </footer>
@@ -309,402 +773,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwps8im2000650cy5gea3j9n" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-Docker-Swarm-Etcd-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" class="article-date">
-  <time datetime="2016-12-14T04:50:08.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
-<p>安装Swarm集群<br>环境信息<br>服务器:<br>192.168.99.100 centos-node1<br>192.168.99.101 centos-node2<br>192.168.99.102 centos-node3<br>集群信息:<br>etc服务器: 192.168.99.100:2379<br>swarm manage: 192.168.99.101:3376<br>swarm-node1: 192.168.99.100:2375<br>swarm-node2: 192.168.99.101:2375<br>swarm-node3: 192.168.99.102:2375<br>准备<br>在所有的机器上安装dokcer<br>在centos-node1 上docker pull ystyle/etcd (官方的下载不了,自己做了个一样的)<br>在所有机器上dokcer pull swarm<br>以上三步可以用docker-machine完成<br>开放所有机器的2375端口, centos-node1的2379端口,centos-node2的3376端口<br>安装etcd k-v数据库<br>在centos-node1上执行:</p>
-<h1 id="设置当前host的ip"><a href="#设置当前host的ip" class="headerlink" title="设置当前host的ip"></a>设置当前host的ip</h1><p>export HOSTIP=192.168.99.100</p>
-<h1 id="启动etcd-k-v服务器"><a href="#启动etcd-k-v服务器" class="headerlink" title="启动etcd k-v服务器"></a>启动etcd <code>k-v</code>服务器</h1><p>docker run -d -v /etc/ssl/certs:/etc/ssl/certs -p 4001:4001 -p 2380:2380 -p 2379:2379<br> –name etcd ystyle/etcd<br> -name etcd0<br> -advertise-client-urls <a href="http://${HOSTIP}:2379,http://${HOSTIP}:4001" target="_blank" rel="external">http://${HOSTIP}:2379,http://${HOSTIP}:4001</a><br> -listen-client-urls <a href="http://0.0.0.0:2379,http://0.0.0.0:4001" target="_blank" rel="external">http://0.0.0.0:2379,http://0.0.0.0:4001</a><br> -initial-advertise-peer-urls <a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -listen-peer-urls <a href="http://0.0.0.0:2380" target="_blank" rel="external">http://0.0.0.0:2380</a><br> -initial-cluster-token etcd-cluster-1<br> -initial-cluster etcd0=<a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -initial-cluster-state new<br>加入集群<br>在centos-node1执行:<br>docker run -d swarm join –addr=192.168.99.100:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node2执行:<br>docker run -d swarm join –addr=192.168.99.101:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node3执行:<br>docker run -d swarm join –addr=192.168.99.102:2375 etcd://192.168.99.100:2379/swarm<br>启动swarm manage<br>在centos-node2上执行</p>
-<h1 id="启动swarm-manage"><a href="#启动swarm-manage" class="headerlink" title="启动swarm manage"></a>启动swarm manage</h1><p>docker run -d -p 3376:3376 -t<br> swarm manage<br>-H 0.0.0.0:3376<br>etcd://192.168.99.100:2379/swarm</p>
-<h1 id="检查swarm节点列表"><a href="#检查swarm节点列表" class="headerlink" title="检查swarm节点列表"></a>检查swarm节点列表</h1><p>docker run –rm swarm list etcd://192.168.99.100:2379/swarm</p>
-<h1 id="查看swarm集群信息"><a href="#查看swarm集群信息" class="headerlink" title="查看swarm集群信息"></a>查看swarm集群信息</h1><p>export DOCKER_HOST=192.168.99.101:3376<br>docker info</p>
-<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>docker run –rm -p 8080:80 nginx:alpine<br>docker ps -a</p>
-<h1 id="查看nginx安装到哪台机器上了"><a href="#查看nginx安装到哪台机器上了" class="headerlink" title="查看nginx安装到哪台机器上了"></a>查看nginx安装到哪台机器上了</h1><p>curl -L <a href="http://nginx_host:8080" target="_blank" rel="external">http://nginx_host:8080</a><br>记录<br>如果docker info 出现Error: ID duplicated.删掉/etc/docker/key.json文件(我的虚拟机是直接复制出来的)<br>参考资料<br><a href="https://docs.docker.com/v1.5/swarm/discovery/#using-etcd" target="_blank" rel="external">https://docs.docker.com/v1.5/swarm/discovery/#using-etcd</a><br><a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/networking/get-started-overlay/</a><br><a href="https://github.com/docker/swarm" target="_blank" rel="external">https://github.com/docker/swarm</a><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a><br><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwps8im0000550cyobwwyg2x" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-Docker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/Ubuntu-14-04-Docker/" class="article-date">
-  <time datetime="2016-12-14T04:49:11.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Docker 介绍<br>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。它们不依赖于任何语言、框架或包装系统。<br>三个最重要的基本概念（此处参考来源《Docker从入门到实践》）<br>这三个基本概念是Docker镜像，Docker容器和Docker仓库。<br>【Docker镜像】<br>Docker 镜像就是一个只读的模板。<br>例如：一个镜像可以包含一个完整的 ubuntu 操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。<br>镜像可以用来创建 Docker 容器。<br>Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。<br>【Docker容器】<br>Docker 利用容器来运行应用。<br>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。<br>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。<br><em>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。<br>【Docker仓库】<br>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。<br>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。<br>最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。 国内的公开仓库包括 Docker Pool 等，可以提供大陆用户更稳定快速的访问。<br>当然，用户也可以在本地网络内创建一个私有仓库。<br>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。
-</em>注：Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。<br>值得关注的特性：<br>1 文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。<br>2 资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。<br>3 网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。<br>4 日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>5 变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>6 交互式shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上，例如运行一个一次性交互shell。<br>安装过程<br>我用的系统： UbuntuKylin 14.10 32位系统<br>在ubuntu的官方软件仓库已经包含了docker，可以使用apt-get的方式安装。<br>安装Docker使用apt-get命令:<br>$ apt-get install docker.io<br>启动服务和守护进程<br>$ service docker status<br>$ service docker start<br>几个Docker基本命令<br>首先，让我们通过下面的命令来检查Docker的安装是否正确：<br>docker info<br>如果没有找到此命令，则表示Docker没有正确安装。如果正确安装会输出类似下面的内容：<br>Containers: 0<br>Images: 124<br>Storage Driver: aufs<br> Root Dir: /var/lib/docker/aufs<br> Dirs: 124<br>Execution Driver: native-0.2<br>Kernel Version: 3.16.0-23-generic<br>Operating System: Ubuntu Kylin 14.10<br>到这一步Docker里还没有镜像或是容器。所以，让我们通过命令来拉取一个预建的镜像：<br>sudo docker pull busybox （这里使用的是官方的registry）<br>这里推荐下国内的 docker.cn，速度比官方的快很多<br>使用方法如下：sudo docker pull docker.cn/docker/busybox<br>未完待续。。。。。。<br>参考资料：<br><a href="http://www.linuxidc.com/Linux/2013-10/91050.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2013-10/91050.htm</a><br><a href="http://cloud.51cto.com/art/201412/462905.htm" target="_blank" rel="external">http://cloud.51cto.com/art/201412/462905.htm</a><br><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">http://dockerpool.com/static/books/docker_practice/index.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwps8ing001250cyzoqqy0rf" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-CAT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-6-x-CAT/" class="article-date">
-  <time datetime="2016-12-14T04:48:22.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-6-x-CAT/">CentOS 6.x CAT</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CAT(Central Application Tracking)是基于Java开发的实时应用监控平台，为大众点评网提供了全面的监控服务和决策支持。<br>CAT作为大众点评网基础监控组件，它已经在中间件框架（MVC框架，RPC框架，数据库框架，缓存框架等）中得到广泛应用，为点评各业务线提供系统的性能指标、健康状况、基础告警等。<br>地址:<a href="https://github.com/dianping/cat" target="_blank" rel="external">https://github.com/dianping/cat</a><br>require: JAVA6<br>Maven 3<br>Mysql<br>1.安装jdk,maven(操作系统CentOS release 6.5)<br>root@172.16.221.1:~#  yum install jdk1.8.0_40.x86_64<br>root@172.16.221.1:~#wget <a href="http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz" target="_blank" rel="external">http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz</a><br>root@172.16.221.1:apache-maven# pwd<br>/usr/local/apache-maven<br>root@172.16.221.1:apache-maven# tar xf apache-maven-3.2.1-bin.tar.gz<br>root@172.16.221.1:apache-maven-3.2.1# ll<br>total 40<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 bin<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 boot<br>drwxr-xr-x 3 root root  4096 Feb 15  2014 conf<br>drwxr-xr-x 3 root root  4096 Apr 23 17:20 lib<br>-rw-r–r– 1 root root 14865 Feb 15  2014 LICENSE<br>-rw-r–r– 1 root root   182 Feb 15  2014 NOTICE<br>-rw-r–r– 1 root root  2513 Feb 15  2014 README.txt<br>root@172.16.221.1:apache-maven-3.2.1# pwd<br>/usr/local/apache-maven/apache-maven-3.2.1<br>2.环境变量配置<br>root@172.16.221.1:apache-maven-3.2.1# cat /etc/profile<br>…<br>export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1<br>export M2=$M2_HOME/bin<br>export PATH=$M2:$PATH</p>
-<p>root@172.16.221.1:apache-maven-3.2.1# source /etc/profile<br>3 测试<br>root@172.16.221.1:~# java -version<br>java version “1.8.0_40”<br>Java(TM) SE Runtime Environment (build 1.8.0_40-b26)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)</p>
-<p>root@172.16.221.1:~# mvn -v<br>Apache Maven 3.2.1 (ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9; 2014-02-15T01:37:52+08:00)<br>Maven home: /usr/local/apache-maven/apache-maven-3.2.1<br>Java version: 1.8.0_40, vendor: Oracle Corporation<br>Java home: /usr/java/jdk1.8.0_40/jre Default locale: en_US, platform encoding: UTF-8<br>OS name: “linux”, version: “2.6.32-431.el6.x86_64”, arch: “amd64”, family: “unix”<br>4 Clone CAT<br>root@172.16.221.1:opt# git clone git@github.com:dianping/cat.git<br>5 在CAT目录下,用maven构建项目<br>root@172.16.221.1:cat# pwd<br>/opt/cat<br>root@172.16.221.1:cat# mvn clean install -DskipTests<br>6 配置CAT的环境<br>root@172.16.221.1:cat# mav cat:install<br>注意 需要对/data/appdatas/cat和/data/applogs/cat有读写权限<br>7 运行CAT<br>root@172.16.221.1:cat-home# pwd<br>/opt/cat/cat-home<br>root@172.16.221.1:cat-home#nohup mvn jetty:run &amp;<br>8 打开浏览器，输入<a href="http://172.16.221.1:2281/cat/。" target="_blank" rel="external">http://172.16.221.1:2281/cat/。</a></p>
-<p>或者在cat目录下输入 mvn eclipse:clean eclipse:eclipse 然后将项目导入到eclipse中，运行cat-home项目里得‘com.dianping.cat.TestServer’来启动CAT.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwps8ilw000350cym52h3u5r" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-Ceph" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-7-x-Ceph/" class="article-date">
-  <time datetime="2016-12-14T04:46:08.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://docs.ceph.org.cn/" target="_blank" rel="external">http://docs.ceph.org.cn/</a></p>
-<p>[root@node2 ~]# rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm</a></p>
-<p>安装：</p>
-<p>yum install scsi-target-utils -y</p>
-<p>启动服务<br>[root@node4 ~]# systemctl enable tgtd.service<br>Created symlink from /etc/systemd/system/multi-user.target.wants/tgtd.service to /usr/lib/systemd/system/tgtd.service.<br>[root@node4 ~]# systemctl start tgtd.service</p>
-<p>确认一下有没有端口起来<br>[root@node4 ~]# netstat -anlpt | grep 3260<br>tcp        0      0 0.0.0.0:3260            0.0.0.0:<em>               LISTEN      8285/tgtd<br>tcp6       0      0 :::3260                 :::</em>                    LISTEN      8285/tgtd<br>[root@node4 ~]#</p>
-<p>设为开机自启动：<br>[root@node4 ~]# chkconfig tgtd on<br>Note: Forwarding request to ‘systemctl enable tgtd.service’.<br>[root@node4 ~]# </p>
-<p>dd if=/dev/zero of=/mycephfs/cephimg2 bs=1024M count=1000</p>
-<p>vim /etc/tgt/targets.conf</p>
-<target iqn.2016-09.node2:cephimg2=""><br>  backing-store /mycephfs/cephimg2<br></target>
-
-<p>systemctl restart tgtd.service</p>
-<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg2</p>
-<p>tgtadm –lld iscsi –op show –mode target</p>
-<p>dd if=/dev/zero of=/mycephfs/cephimg1 bs=1024M count=4000</p>
-<p>vim /etc/tgt/targets.conf</p>
-<target iqn.2016-10.node2:cephimg3=""><br>  backing-store /mycephfs/cephimg3<br></target>
-
-<p>systemctl restart tgtd.service</p>
-<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg1</p>
-<p>tgtadm –lld iscsi –op show –mode target</p>
-<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img1  bs=1024M count=1024</p>
-<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img2  bs=1024M count=1024<br>vim /etc/tgt/targets.conf</p>
-<target iqn.2016-08.n5:img2=""><br>  backing-store /data/img/img2<br></target>
-
-<p>systemctl restart tgtd.service</p>
-<p>查看信息<br>tgtadm –lld iscsi –op show –mode target</p>
-<p>在安装ceph之前推荐把所有的ceph节点设置成无需密码ssh互访，配置hosts支持主机名互访，同步好时间，并关闭iptables和selinux。<br>vim /etc/selinux/config</p>
-<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service</p>
-<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.108.6.95</p>
-<p>node1<br>vim /etc/ntp.conf<br>server 202.108.6.95 prefer<br>service ntpd start<br>ntpstat</p>
-<p>node2、3<br>vim /etc/ntp.conf<br>server node1<br>ntpdate -u node1<br>service ntpd start<br>ntpstat</p>
-<p>vim /etc/hosts<br>10.6.0.166  node1<br>10.6.0.167  node2<br>10.6.0.168  node3<br>10.6.0.169  node4</p>
-<p>vim /etc/hosts<br>10.6.0.171  node1<br>10.6.0.172  node2<br>10.6.0.173  node3<br>10.6.0.174  node4</p>
-<p>vim /etc/hosts<br>10.6.4.166  node1<br>10.6.4.167  node2<br>10.6.4.168  node3<br>10.6.4.169  node4<br>10.6.4.170  node5<br>10.6.4.171  node6<br>10.6.4.172  node7<br>10.6.4.173  node8<br>10.6.4.174  node9</p>
-<p>node1<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
-<p>[root@node1 ~]# cat ~/.ssh/authorized_keys<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxp6jN9BsZf6V+pQEksQQaOdesJ8jOPAkudEpsEnNFdUW2PzK/Hrn+s3TrdgekTAWRvjXELQ/S45Z/eK+r2C14rzLaLN1Twq6fJfjF2B+tGvejG/gWzDCx/FPLTv7155UwNCObDCPveV3Ey/bkL681CN8YezBh58IX0uMk5jOJAjlWexVOB7oE1iAmP8dB/B2mbk6arX7QjTr79Fp5WzVM50BNsDcTG9rccKrKs7XPqYPTCfMB/b0gfeoOnQ4B4bY/PL0AdluPQSpD0d2/I2jefDcL89CBeH16oFtTGFFsKnDh4WgcDwlEsS7KYvV8N/mqu8Ym1VAep/7b83KoUyOH root@node1<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+kjsX4sSLByfEQYnLvyvHDBUtup4MVG7EPkl7MyTabRapn0O1LA2ZvybIBjSSmiuRAEy9CF3tbkg+2wFjvfwa1M8x/83NAQ1AOZhWHjTzpdFAGiIetEiunaDVDLqb9c1q+U3ETFRFxPaaoBLijGNFVWFovJ8sT25i76gluDQ+yIT9vW6gbnjyy2Q32HYhsxKZj4PnG1YbdDa3H0FBm2b7kVZ7SpZq2xbsmZqF+gY9RfqWTjcHHOplyrZeCh6HHPPyr9XvZ/DpcHXLGwOx7PPkhnn5Q8Byrofb5dJfxbcfg22aQsdnvD59WxzK4Gfqw5muGga31fEVJKLzn74+MWa9 root@node2<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKOsjb53KEQ88zJXGx2B3rnn0/Mnz0ObNb/Ees13+OgWyAjnaQWNiRVuqLTcQU5DTjGfQPy1oYq6TBOdgXv10BShU0LXv2Ju2YBcsV50PVGZtVhQ6iX/+qDhs0vv0lLt3xPQzpbxQRV5FXMb5HpPu2KYtVtaRao9CdGhteLrjQf2MymCNrS8BfjeFEPNEaD0gyLzTsPbN9IlvHYToAyLrqlQfp9V6YqgarRHtafDcq/K6H7w3rynHDOR2wpifscbTezWLNOpSDMthMqvmhFX9nXOGChTnc0k4+1Fj4V2sto7/vKX1gdN2Hha1APT9u9XXDBC0ur5HQqnpiSWAYqlLr root@node3<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WQ5Vu0HWmWQslihi4Uv8MjvwUGanw/exy3tOU8rUxnB0DfWR5e98GpEE37NCU6Y8Q+Ppy3H3RxUSdfw/cFhaz03bDjRphdHPU/aTFWJPBXo6uJjV9s34WaP2q6xKd2/NsgTm+FIiD0O37UtqVUGvvPtqU1QiaZOOxSlmLtjBGLM8WmEjjCpHS+AJ3ceWR16lkry5+F1DnrEITdEmVTy/zCPuQk9Ey32jU39AELm1gtYHcaXvE1Ir8+dZ83fmAleFnT7sONARd4rHjYAyuRx47kjOea9Y89KIbF1SUTgW7nystZ1ULPIeotGeuGgsl2X7bRKUJxzE76nybZruo7Hp root@node4<br>[root@node1 ~]#</p>
-<p>scp ~/.ssh/authorized_keys root@node2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
-<p>node2<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
-<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
-<p>node3<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
-<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node2:~/.ssh/</p>
-<p>scp ~/.ssh/authorized_keys root@node4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node1:~/.ssh/</p>
-<p>１、实验环境说明：<br>当前实验环境使用了4台主机node1~node4，node1为管理节点。<br>2、部署工具：<br>　　Ceph官方推出了一个用python写的工具 cpeh-deploy</p>
-<p>添加ceph源</p>
-<p>vim /etc/yum.repos.d/ceph.repo<br>[ceph]<br>name=ceph<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/</a><br>gpgcheck=0<br>[ceph-noarch]<br>name=cephnoarch<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/</a><br>gpgcheck=0</p>
-<p>yum makecache</p>
-<p>3、安装步骤<br>所有节点安装软件<br>yum install ceph ceph-deploy -y</p>
-<p>创建工作目录，用于存放生成的配置文件和秘钥等信息<br>mkdir /ceph ; cd /ceph<br>到管理主机上的/ceph目录操作,创建一个新集群，并设置node1为mon节点<br>ceph-deploy new node1<br>ceph-deploy new node4<br>执行完毕后，可以看到/ceph目录中生成了三个文件，其中有一个配置文件可以做各种参数优化，据说ceph的优化参数接近1000项。（注意，在osd进程生成并挂载使用后，想修改配置需要使用命令行工具，修改配置文件是无效的，所以需要提前规划好优化的参数。）<br>在ceph.conf中添加四个最基本的设置<br>echo “osd pool default size = 3” &gt;&gt; ceph.conf<br>echo “osd_pool_default_min_size = 2” &gt;&gt; ceph.conf<br>cat ceph.conf</p>
-<p>激活监控节点<br>ceph-deploy mon create-initial</p>
-<p>接下来创建osd节点<br>node1<br>mkdir /data/osd01<br>chmod -R 777 /data/osd01</p>
-<p>node2<br>mkdir /data/osd02<br>chmod -R 777 /data/osd02</p>
-<p>mkdir /var/local/osd2<br>chmod -R 777 /var/local/osd2</p>
-<p>node3<br>mkdir /data/osd03<br>chmod -R 777 /data/osd03</p>
-<p>mkdir /var/local/osd3<br>chmod -R 777 /var/local/osd3</p>
-<p>node4<br>mkdir /var/local/osd4<br>chmod -R 777 /var/local/osd4</p>
-<p>ceph-deploy osd prepare node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
-<p>ceph-deploy osd activate node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
-<p>ceph-deploy osd prepare node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
-<p>ceph-deploy osd activate node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
-<p>将管理节点上的配置文件同步到其他节点上<br>ceph-deploy admin node1 node2 node3</p>
-<p>所有节点<br>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
-<p>ceph health<br>HEALTH_OK</p>
-<p>ceph -s<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>     osdmap e14: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v26: 64 pgs, 1 pools, 0 bytes data, 0 objects<br>            30468 MB used, 9341 MB / 39810 MB avail<br>                  64 active+clean<br>[root@node1 ceph]#</p>
-<p>添加元数据服务器</p>
-<p>至少需要一个元数据服务器才能使用 CephFS ，执行下列命令创建元数据服务器：</p>
-<p>ceph-deploy mds create node1<br>ceph-deploy mds create node4<br>Note 当前生产环境下的 Ceph 只能运行一个元数据服务器。你可以配置多个，但现在我们还不会为多个元数据服务器的集群提供商业支持。<br>[root@node1 ceph]# ceph-deploy mds create node1<br>[root@node1 ceph]# ceph osd pool create test1 64<br>pool ‘test1’ created<br>[root@node1 ceph]# ceph osd pool create test2 64<br>pool ‘test2’ created<br>[root@node1 ceph]# ceph fs new cephfs test2 test1<br>new fs with metadata pool 2 and data pool 1<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>      fsmap e5: 1/1/1 up {0=node1=up:active}<br>     osdmap e19: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v52: 192 pgs, 3 pools, 2068 bytes data, 20 objects<br>            30473 MB used, 9336 MB / 39810 MB avail<br>                 192 active+clean<br>[root@node1 ceph]#</p>
-<p>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.03809 root default<br>-2 0.01270     host node2<br> 0 0.01270         osd.0       up  1.00000          1.00000<br>-3 0.01270     host node3<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node4<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>[root@node1 ceph]#  </p>
-<p>Ceph 存储集群需要至少一个 Monitor 才能运行。为达到高可用，典型的 Ceph 存储集群会运行多个 Monitors，这样在单个 Monitor 失败时不会影响 Ceph 存储集群的可用性。Ceph 使用 PASOX 算法，此算法要求有多半 monitors（即 1 、 2:3 、 3:4 、 3:5 、 4:6 等 ）形成法定人数。</p>
-<p>新增两个监视器到 Ceph 集群。</p>
-<p>ceph-deploy mon add node2 node3<br>新增 Monitor 后，Ceph 会自动开始同步并形成法定人数。你可以用下面的命令检查法定人数状态：</p>
-<p>ceph quorum_status –format json-pretty<br>Tip 当你的 Ceph 集群运行着多个 monitor 时，各 monitor 主机上都应该配置 NTP ，而且要确保这些 monitor 位于 NTP 服务的同一级。</p>
-<p>CephFS的使用<br>在客户端上操作：<br>1、安装客户端挂载软件<br>yum install ceph-fuse -y<br>2、创建挂载目录<br>mkdir /mycephfs<br>3、证书来源位置<br>[root@node4 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>[root@node4 ~]#<br>4、模拟挂载<br>[root@node4 ~]# mount -t ceph node1:6789:/ /mycephfs -v -o name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>parsing options: rw,name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==</p>
-<p>[root@node2 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==<br>[root@node2 ~]#<br>mount -t ceph node4:6789:/ /mycephfs -v -o name=admin,secret=AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==</p>
-<p>[root@node4 ~]# df -h<br>Filesystem               Size  Used Avail Use% Mounted on<br>/dev/mapper/centos-root   13G   10G  3.1G  77% /<br>devtmpfs                 479M     0  479M   0% /dev<br>tmpfs                    494M   84K  494M   1% /dev/shm<br>tmpfs                    494M  6.9M  488M   2% /run<br>tmpfs                    494M     0  494M   0% /sys/fs/cgroup<br>/dev/xvda1               497M  140M  358M  29% /boot<br>tmpfs                     99M   16K   99M   1% /run/user/42<br>tmpfs                     99M     0   99M   0% /run/user/0<br>10.6.4.166:6789:/         39G   30G  9.2G  77% /mycephfs<br>[root@node4 ~]#<br>5、另外一种命令挂载方式<br>[root@ceph-client ~]# mount  -t ceph node1:6789:/ /mycephfs -v -oname=admin,secretfile=/etc/ceph/ceph.client.admin.keyring<br>6、若果有多个mon监控节点，可以挂载多可节点，保证了cephFS的安全行，当有一个节点down的时候不影响写入数据<br>[root@client ~]# mount.cephnode01,node02,node03:/ /mycephfs -v -o name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==<br>7、验证挂载信息：<br>df -h<br>Filesystem          Size Used Avail Use% Mounted on<br>/dev/sda5           1.7T 4.8G  1.7T   1% /data<br>/dev/rbd0            78G   56M  78G   1% /rbdtest<br>172.16.2.27:6789:/  8.2T  9.8G 8.2T   1% /mycephfs<br>8、把挂载的信息写到fstab里<br>[root@client ~]# vi /etc/fstab<br>172.16.2.27,172.16.2.28,172.16.2.29:/  /mycephfs  ceph  name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==,noatime    0<br>9、指定key文件的调用方式<br>sudoceph-fuse -k ./ceph.client.admin.keyring -m 192.168.40.107:6789 ~/mycephfs<br>10、挂载后查看结果，注意观察类型<br>df-Th<br>11、取消挂载<br>取消挂载的操作如下:<br>umount /mnt/mycephfs</p>
-<p>sudo mkdir /mnt/mycephfs<br>sudo mount -t ceph {ip-address-of-monitor}:6789:/ /mnt/mycephfs<br>或者<br>sudo mkdir /home/{username}/cephfs<br>sudo ceph-fuse -m {ip-address-of-monitor}:6789 /home/{username}/cephfs</p>
-<h1 id="df-–h-查看"><a href="#df-–h-查看" class="headerlink" title="df –h   查看"></a>df –h   查看</h1><p>[root@ceph-client ~]# mkdir /mnt/mycephfs<br>[root@ceph-client ~]# mount  -t ceph 10.240.240.211:6789:/ /mnt/mycephfs -v -o name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==<br>10.240.240.211:6789:/ on /mnt/mycephfs type ceph (rw,name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==) </p>
-<p>#上述命令中的name和secret参数值来自monitor的/etc/ceph/keyring文件：<br>[root@node1 ~]# cat /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==</p>
-<p>检查ceph集群状态常用命令<br>ceph health   //ceph健康状态<br>ceph status   //ceph当前全部状态<br>ceph -w //实时监控ceph状态及变化<br>ceph osddump                                //所有osd详细状态<br>ceph osd tree        //osd所在位置，及状态<br>cephquorum_status    //mon优先级状态<br>ceph mon dump    //mon节点状态<br>ceph mds dump    //mds详细状态</p>
-<p>添加 OSD</p>
-<p>你运行的这个三节点集群只是用于演示的，把 OSD 添加到 monitor 节点就行。</p>
-<p>yum install ceph ceph-deploy -y</p>
-<p>node5<br>mkdir /var/local/osd5<br>chmod -R 777 /var/local/osd5</p>
-<p>然后，从 ceph-deploy 节点准备 OSD 。</p>
-<p>ceph-deploy osd prepare node5:/var/local/osd5<br>最后，激活 OSD 。</p>
-<p>ceph-deploy osd activate node5:/var/local/osd5</p>
-<p>一旦你新加了 OSD ， Ceph 集群就开始重均衡，把归置组迁移到新 OSD 。可以用下面的 ceph 命令观察此过程：</p>
-<p>ceph -w</p>
-<p>你应该能看到归置组状态从 active + clean 变为 active ，还有一些降级的对象；迁移完成后又会回到 active + clean 状态（ Control-C 退出）。</p>
-<p>ceph-deploy admin node4</p>
-<p>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
-<p><a href="http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/" target="_blank" rel="external">http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/</a><br><a href="http://docs.ceph.com/docs/master/rados/operations/operating/" target="_blank" rel="external">http://docs.ceph.com/docs/master/rados/operations/operating/</a></p>
-<p>移除OSD<br>ceph osd out 0<br>[root@node1 ceph]# systemctl stop ceph-osd@0<br>[root@node1 ceph]# ceph osd rm 0<br>removed osd.0<br>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.05078 root default<br>-2 0.01270     host node1<br> 0 0.01270         osd.0      DNE        0<br>-3 0.01270     host node2<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node3<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>-5 0.01270     host node4<br> 3 0.01270         osd.3       up  1.00000          1.00000<br>[root@node1 ceph]#</p>
-<p>cephfs的删除<br>remove所有节点上的ceph<br>ceph-deploy purge node{1..3}</p>
-<p>清除所有数据<br>ceph-deploy purgedata node{1..3}</p>
-<p>清除所有秘钥文件<br>ceph-deploy forgetkeys</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwps8imc000c50cyyl833nfp" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-Docker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-7-x-Docker/" class="article-date">
-  <time datetime="2016-12-14T04:44:44.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-7-x-Docker/">CentOS 7.x Docker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://www.gitbook.com/book/yeasy/docker_practice/details" target="_blank" rel="external">https://www.gitbook.com/book/yeasy/docker_practice/details</a><br><a href="https://hub.docker.com/explore/" target="_blank" rel="external">https://hub.docker.com/explore/</a><br><a href="https://github.com/shipyard/shipyard" target="_blank" rel="external">https://github.com/shipyard/shipyard</a><br><a href="https://docs.docker.com/engine/installation/linux/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/</a></p>
-<p>[root@node4 ~]# curl -sSL <a href="http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet" target="_blank" rel="external">http://acs-public-mirror.oss-cn-hangzhou.aliyuncs.com/docker-engine/internet</a> | sh -</p>
-<p>[root@node4 ~]# service docker start<br>Redirecting to /bin/systemctl start  docker.service<br>[root@node4 ~]#<br>[root@node4 ~]# docker run hello-world</p>
-<p> [root@node4 ~]# chkconfig docker on<br>Note: Forwarding request to ‘systemctl enable docker.service’.<br>Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.<br>[root@node4 ~]#<br>docker run -i -t ubuntu:12.04 /bin/bash</p>
-<p>docker pull hub.c.163.com/public/centos:6.5<br>Digest: sha256:92fd18cda0cbf63bb4b5ffd0c073a9d689d5b202e3b491cbc74488fff1c37d11<br>Status: Downloaded newer image for hub.c.163.com/public/centos:6.5<br>docker run -i -t hub.c.163.com/public/centos:6.5 /bin/bash</p>
-<p>docker pull index.tenxcloud.com/tenxcloud/nodejs<br>Digest: sha256:7b214df4b3ef751f7a2852e14b7d9ed809718251770cf97b57929e61a6eb6458<br>Status: Downloaded newer image for index.tenxcloud.com/tenxcloud/nodejs:latest</p>
-<p>[root@node4 ~]# docker images<br>REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE<br>ubuntu              12.04               a11493a01736        2 weeks ago         103.6 MB<br>hello-world         latest              c54a2cc56cbb        10 weeks ago        1.848 kB<br>[root@node4 ~]#</p>
-<p>[root@node4 ~]# docker ps –all<br>CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES<br>ae816f2e5d0e        ubuntu:12.04        “/bin/bash”         55 minutes ago      Exited (0) 54 minutes ago                       elated_bardeen<br>f16fbeb5fda3        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       trusting_mclean<br>97b80da7cc38        hello-world         “/hello”            56 minutes ago      Exited (0) 56 minutes ago                       stupefied_noether<br>[root@node4 ~]#</p>
-<p>[root@node4 ~]# docker rm 97b80da7cc38 </p>
-<p>docker logs elated_bardeen<br>docker stop elated_bardeen<br>docker restart elated_bardeen<br>docker start elated_bardeen</p>
-<p>保存镜像<br>docker save -o ubuntu_12.04.tar ubuntu:12.04<br>docker save -o node_latest.tar node:latest<br>载入镜像<br>可以使用 docker load 从导出的本地文件中再导入到本地镜像库，例如<br>docker load –input ubuntu_12.04.tar<br>docker load &lt; ubuntu_12.04.tar<br>这将导入镜像以及其相关的元数据信息（包括标签等）。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwps8ime000e50cynlew75er" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Python-自定义函数的特殊属性" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Python-自定义函数的特殊属性/" class="article-date">
-  <time datetime="2016-12-13T09:26:53.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Python-自定义函数的特殊属性/">Python 自定义函数的特殊属性</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Python 中通过函数定义所创建的用户自定义函数对象均具有一些特殊属性，需要注意的是这里介绍的是自定义函数（function类型）的特殊属性，而非方法（method 类型）的特殊属性，函数和方法的特熟属性以及默认的返回值可能不尽相同。</p>
-<p>对于大多数特殊属性，可以通过下面这个例子示范一下：</p>
-<p>class Test():</p>
-<pre><code>def func(self, v = &apos;dog&apos;):
-    &apos;&apos;&apos;这里演示一个闭包函数&apos;&apos;&apos;
-
-    name = &apos;dobi&apos;
-    def inn_func(age = 1):
-        print(name, v, age)
-
-    return inn_func
-</code></pre><p>test = Test()<br>clsfunc = test.func()</p>
-<p>首先看一下方法与函数的区别：实例的函数为bound method，而类的函数以及闭包均为function，需要强调的是 Python 2.x 中类的函数为unbound method，这点与Python 3.x 有所不同，本文则基于 Python 3.51 整理。</p>
-<p>print(Test.func)</p>
-<h1 id=""><a href="#" class="headerlink" title=""></a><function test.func="" at="" 0x0000020f0766e268=""></function></h1><p>print(test.func)</p>
-<h1 id="-1"><a href="#-1" class="headerlink" title=""></a><bound method="" test.func="" of="" <__main__.test="" object="" at="" 0x0000020f077e5da0="">&gt;</bound></h1><p>print(clsfunc)</p>
-<h1 id="-2"><a href="#-2" class="headerlink" title=""></a><function test.func.<locals="">.inn_func at 0x0000020F071D7F28&gt;</function></h1><p><strong>doc</strong></p>
-<p>可写；用于获取函数的文档说明，如果没有，则返回 None。</p>
-<p>print(‘Test.func.<strong>doc</strong>:’, Test.func.<strong>doc</strong>)</p>
-<h1 id="Test-func-doc-这里演示一个闭包函数"><a href="#Test-func-doc-这里演示一个闭包函数" class="headerlink" title="Test.func.doc: 这里演示一个闭包函数"></a>Test.func.<strong>doc</strong>: 这里演示一个闭包函数</h1><p>Test.func.<strong>doc</strong> = ‘ddd’  #注意，这里是 Test,不能是 test<br>print(‘Test.func.<strong>doc</strong>:’, Test.func.<strong>doc</strong>)</p>
-<h1 id="Test-func-doc-ddd"><a href="#Test-func-doc-ddd" class="headerlink" title="Test.func.doc: ddd"></a>Test.func.<strong>doc</strong>: ddd</h1><p><strong>name</strong></p>
-<p>可写；获取函数的名称。</p>
-<p>print(‘Test.func.<strong>name</strong>:’, Test.func.<strong>name</strong>)</p>
-<h1 id="Test-func-name-func"><a href="#Test-func-name-func" class="headerlink" title="Test.func.name: func"></a>Test.func.<strong>name</strong>: func</h1><p>Test.func.<strong>name</strong> = ‘pet’<br>print(‘Test.func.<strong>name</strong>:’, Test.func.<strong>name</strong>)</p>
-<h1 id="Test-func-name-pet"><a href="#Test-func-name-pet" class="headerlink" title="Test.func.name: pet"></a>Test.func.<strong>name</strong>: pet</h1><p><strong>qualname</strong></p>
-<p>可写；获取函数的qualname：点示法显示函数名称、所在的类、模块等梯级地址。</p>
-<p>print(‘Test.func.<strong>qualname</strong>:’, Test.func.<strong>qualname</strong>)</p>
-<h1 id="Test-func-qualname-Test-func"><a href="#Test-func-qualname-Test-func" class="headerlink" title="Test.func.qualname: Test.func"></a>Test.func.<strong>qualname</strong>: Test.func</h1><p>Test.func.<strong>qualname</strong> = ‘path’<br>print(‘Test.func.<strong>qualname</strong>:’, Test.func.<strong>qualname</strong>)</p>
-<h1 id="Test-func-qualname-path"><a href="#Test-func-qualname-path" class="headerlink" title="Test.func.qualname: path"></a>Test.func.<strong>qualname</strong>: path</h1><p><strong>module</strong></p>
-<p>可写；返回函数所在的模块，如果无则返回None。</p>
-<p>print(‘Test.func.<strong>module</strong>:’, Test.func.<strong>module</strong>)</p>
-<h1 id="Test-func-module-main"><a href="#Test-func-module-main" class="headerlink" title="Test.func.module: main"></a>Test.func.<strong>module</strong>: <strong>main</strong></h1><p>Test.func.<strong>module</strong> = ‘a’<br>print(‘Test.func.<strong>module</strong>:’, Test.func.<strong>module</strong>)</p>
-<h1 id="Test-func-module-a"><a href="#Test-func-module-a" class="headerlink" title="Test.func.module: a"></a>Test.func.<strong>module</strong>: a</h1><p><strong>defaults</strong></p>
-<p>可写；以元组的形式返回函数的默认参数，如果无默认参数则返回None。</p>
-<p>print(‘Test.func.<strong>defaults</strong>:’, Test.func.<strong>defaults</strong>)</p>
-<h1 id="Test-func-defaults-‘dog’"><a href="#Test-func-defaults-‘dog’" class="headerlink" title="Test.func.defaults: (‘dog’,)"></a>Test.func.<strong>defaults</strong>: (‘dog’,)</h1><p>Test.func.<strong>defaults</strong> = (‘cat’,)<br>print(‘Test.func.<strong>defaults</strong>:’, Test.func.<strong>defaults</strong>)</p>
-<h1 id="Test-func-defaults-‘cat’"><a href="#Test-func-defaults-‘cat’" class="headerlink" title="Test.func.defaults: (‘cat’,)"></a>Test.func.<strong>defaults</strong>: (‘cat’,)</h1><p>print(‘clsfunc.<strong>defaults</strong>:’, clsfunc.<strong>defaults</strong>)</p>
-<h1 id="clsfunc-defaults-1"><a href="#clsfunc-defaults-1" class="headerlink" title="clsfunc.defaults: (1,)"></a>clsfunc.<strong>defaults</strong>: (1,)</h1><p>clsfunc.<strong>defaults</strong> = (2,)<br>print(‘clsfunc.<strong>defaults</strong>:’, clsfunc.<strong>defaults</strong>)</p>
-<h1 id="clsfunc-defaults-2"><a href="#clsfunc-defaults-2" class="headerlink" title="clsfunc.defaults: (2,)"></a>clsfunc.<strong>defaults</strong>: (2,)</h1><p><strong>code</strong></p>
-<p>可写；返回已编译的函数对象。</p>
-<p>print(‘Test.func.<strong>code</strong>:’, Test.func.<strong>code</strong>)</p>
-<h1 id="Test-func-code"><a href="#Test-func-code" class="headerlink" title="Test.func.code:"></a>Test.func.<strong>code</strong>:</h1><p>def func2():print(‘cat’)<br>Test.func.<strong>code</strong> = func2.<strong>code</strong><br>Test.func()</p>
-<h1 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h1><p>print(‘Test.func.<strong>code</strong>:’, Test.func.<strong>code</strong>)</p>
-<h1 id="Test-func-code-1"><a href="#Test-func-code-1" class="headerlink" title="Test.func.code:"></a>Test.func.<strong>code</strong>:</h1><p><strong>globals</strong></p>
-<p>只读，以字典的形式返回函数所在的全局命名空间所定义的全局变量。</p>
-<p>print(‘Test.func.<strong>globals</strong>:’, Test.func.<strong>globals</strong>)</p>
-<h1 id="Test-func-globals"><a href="#Test-func-globals" class="headerlink" title="Test.func.globals: {"></a>Test.func.<strong>globals</strong>: {</h1><h1 id="‘cached‘-None"><a href="#‘cached‘-None" class="headerlink" title="‘cached‘: None,"></a>‘<strong>cached</strong>‘: None,</h1><h1 id="‘Test’"><a href="#‘Test’" class="headerlink" title="‘Test’: ,"></a>‘Test’: <class '__main__.test'="">,</class></h1><h1 id="‘builtins‘"><a href="#‘builtins‘" class="headerlink" title="‘builtins‘: ,"></a>‘<strong>builtins</strong>‘: <module 'builtins'="" (built-in)="">,</module></h1><h1 id="‘func2’"><a href="#‘func2’" class="headerlink" title="‘func2’: ,"></a>‘func2’: <function func2="" at="" 0x0000020f077d3c80="">,</function></h1><h1 id="‘spec‘-None"><a href="#‘spec‘-None" class="headerlink" title="‘spec‘: None,"></a>‘<strong>spec</strong>‘: None,</h1><h1 id="‘doc‘-None"><a href="#‘doc‘-None" class="headerlink" title="‘doc‘: None,"></a>‘<strong>doc</strong>‘: None,</h1><h1 id="‘file‘-‘D-…-a-py’"><a href="#‘file‘-‘D-…-a-py’" class="headerlink" title="‘file‘: ‘D:\…\a.py’,"></a>‘<strong>file</strong>‘: ‘D:\…\a.py’,</h1><h1 id="‘test’"><a href="#‘test’" class="headerlink" title="‘test’: ,"></a>‘test’: <__main__.test object="" at="" 0x0000020f077e5da0="">,</__main__.test></h1><h1 id="‘clsfunc’"><a href="#‘clsfunc’" class="headerlink" title="‘clsfunc’: "></a>‘clsfunc’: <function test.func.<locals="">.inn_func at 0x0000020F071D7F28&gt;,</function></h1><h1 id="‘package‘-None"><a href="#‘package‘-None" class="headerlink" title="‘package‘: None,"></a>‘<strong>package</strong>‘: None,</h1><h1 id="‘name‘-‘main‘"><a href="#‘name‘-‘main‘" class="headerlink" title="‘name‘: ‘main‘,"></a>‘<strong>name</strong>‘: ‘<strong>main</strong>‘,</h1><h1 id="‘loader‘"><a href="#‘loader‘" class="headerlink" title="‘loader‘: "></a>‘<strong>loader</strong>‘: <_frozen_importlib_external.sourcefileloader object="" at="" 0x0000020f07289828=""></_frozen_importlib_external.sourcefileloader></h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p><strong>dict</strong></p>
-<p>可写；以字典的形式返回命名空间所支持的任意自定义的函数属性。</p>
-<p>print(‘Test.func.<strong>dict</strong>:’, Test.func.<strong>dict</strong>)</p>
-<h1 id="Test-func-dict"><a href="#Test-func-dict" class="headerlink" title="Test.func.dict: {}"></a>Test.func.<strong>dict</strong>: {}</h1><p><strong>closure</strong></p>
-<p>只读；以包含cell的元组形式返回闭包所包含的自由变量。</p>
-<p>print(‘Test.func.<strong>closure</strong>:’, Test.func.<strong>closure</strong>)</p>
-<h1 id="None"><a href="#None" class="headerlink" title="None"></a>None</h1><p>print(‘clsfunc.<strong>closure</strong>:’, clsfunc.<strong>closure</strong>)</p>
-<h1 id="clsfunc-closure"><a href="#clsfunc-closure" class="headerlink" title="clsfunc.closure: ("></a>clsfunc.<strong>closure</strong>: (</h1><h1 id="-4"><a href="#-4" class="headerlink" title=","></a><cell at="" 0x0000020f071fe708:="" str="" object="" 0x0000020f07289998="">,</cell></h1><h1 id="-5"><a href="#-5" class="headerlink" title=""></a><cell at="" 0x0000020f072b8c78:="" str="" object="" 0x0000020f0766c538=""></cell></h1><h1 id="-6"><a href="#-6" class="headerlink" title=")"></a>)</h1><p>print(‘clsfunc.<strong>closure</strong>[x]:’, clsfunc.<strong>closure</strong>[0].cell_contents, clsfunc.<strong>closure</strong>[1].cell_contents)</p>
-<h1 id="clsfunc-closure-x-dobi-dog"><a href="#clsfunc-closure-x-dobi-dog" class="headerlink" title="clsfunc.closure[x]: dobi dog"></a>clsfunc.<strong>closure</strong>[x]: dobi dog</h1><p><strong>annotations</strong></p>
-<p>可写；具体详见“Python 的函数注释”(<a href="https://segmentfault.com/a/1190000005173184" target="_blank" rel="external">https://segmentfault.com/a/1190000005173184</a>)</p>
-<p><strong>kwdefaults</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwps8inb000y50cya0x8s6sl" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwpsnspq000a64cyewgg6sia" class="article-share-link">Share</a>
       
       
     </footer>
@@ -717,7 +786,7 @@ fi
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -743,28 +812,28 @@ fi
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+            <a href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
+            <a href="/2016/12/15/CentOS-6-x-Expec/">CentOS 6.x Expec</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/1-刷固件/">1.刷固件</a>
+            <a href="/2016/12/15/CentOS-6-x-Fabric/">CentOS 6.x Fabric</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+            <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
+            <a href="/2016/12/15/CentOS-6-x-Domino/">CentOS 6.x Domino</a>
           </li>
         
       </ul>
@@ -780,7 +849,7 @@ fi
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
