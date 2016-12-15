@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,63 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-CentOS-6-x-Moodle" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Moodle/" class="article-date">
+  <time datetime="2016-12-15T03:03:19.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>10.6.0.76<br>[root@sztzuchi opt]# tar -zxvf moodle-latest-28.tgz<br>[root@sztzuchi opt]# mv moodle /opt/lampp/htdocs/<br>[root@tzuchi opt]# chmod -R 777 /opt/lampp/<br>sz^215Tzuchi</p>
+<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>// $CFG-&gt;wwwroot = ‘<a href="http://tzuchi.elearning/moodle" target="_blank" rel="external">http://tzuchi.elearning/moodle</a>‘;<br>$CFG-&gt;wwwroot = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;<br>$CFG-&gt;dataroot = ‘/opt/lampp/moodledata’;<br>$CFG-&gt;admin = ‘admin’;</p>
+<p>$CFG-&gt;directorypermissions = 0777;</p>
+<p>scp -r root@10.6.0.75:/backup/backup/moodle /opt<br>scp -r root@10.6.0.75:/backup/backup/moodledata /opt<br>scp -r root@10.6.0.75:/backup/backup/moodle.sql /opt</p>
+<p>[root@sztzuchi opt]# cd /opt/lampp/htdocs/<br>[root@sztzuchi htdocs]# ls<br>applications.html dashboard img moodle xampp<br>bitnami.css favicon.ico index.php webalizer<br>[root@sztzuchi htdocs]# mkdir /backup<br>[root@sztzuchi htdocs]# mv moodle/ /backup/<br>[root@sztzuchi htdocs]# ls /backup/<br>moodle<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# ls<br>apache2 etc lib modules properties.ini var<br>bin htdocs libexec moodledata RELEASENOTES xampp<br>build icons licenses mysql sbin<br>cgi-bin img logs pear share<br>ctlscript.sh include man php temp<br>docs info manager-linux-x64.run phpmyadmin uninstall<br>error lampp manual proftpd uninstall.dat<br>[root@sztzuchi lampp]# mv moodledata/ /backup/<br>[root@sztzuchi lampp]# cd htdocs/<br>[root@sztzuchi htdocs]# mv /opt/moodle .<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# mv /opt/moodledata/ .<br>[root@sztzuchi lampp]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser = ‘root’;<br>$CFG-&gt;dbpass = ‘sztzuchi’;<br>$CFG-&gt;wwwroot = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;</p>
+<p>[root@sztzuchi opt]# vim moodle.sql<br>:1,$s/10.6.0.76/10.6.0.20/g</p>
+<p>/opt/lampp/bin/mysql -uroot -psztzuchi<br>drop database moodle;:<br>create database moodle;<br>SHOW DATABASES; /<em>这可以查看到所有的数据库名称</em>/<br>exit</p>
+<p>/opt/lampp/bin/mysql -uroot -p moodle &lt; /opt/moodle.sql</p>
+<p>[root@sztzuchi opt]# chmod 777 -R /opt/lampp/<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/backup/moodle.sql 2&gt;/dev/null</p>
+<p>10.6.0.75<br>[root@tzuchi ~]# /opt/lampp/bin/mysqladmin -u root password yanjin</p>
+<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser = ‘root’;<br>$CFG-&gt;dbpass = ‘yanjin’;<br>$CFG-&gt;prefix = ‘mdl_’;</p>
+<p>crontab -e<br><em>/5 </em> <em> </em> * /opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null</p>
+<p>[root@tzuchi backup]# cat copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /backup/backup<br>cp -r /opt/lampp/moodledata /backup/backup<br>/opt/lampp/bin/mysqldump -uroot -p’yanjin’ moodle&gt;/backup/backup/moodle.sql 2&gt;/dev/null</p>
+<p>vim copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /home/backup<br>cp -r /opt/lampp/moodledata/ /home/backup<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/home/backup/moodle.sql 2&gt;/dev/null</p>
+<p>[root@tzuchi backup]# vim elearningbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/elearning.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@tzuchi backup]#</p>
+<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/elearningbackup.sh</p>
+<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/config.inc.php<br>$cfg[‘Servers’][$i][‘auth_type’] = ‘cookie’;<br>$cfg[‘Servers’][$i][‘user’] = ‘root’;<br>$cfg[‘Servers’][$i][‘password’] = ‘yanjin’;</p>
+<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/libraries/config.default.php<br>$cfg[‘CheckConfigurationPermissions’] = true;<br>$cfg[‘CheckConfigurationPermissions’] = false;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwps8im8000850cy7ctuxbz8" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-CentOS-6-x-SmokePing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -90,7 +147,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwps2dn50008u9cy0jl5rhac" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwps8imb000b50cy8w3oif1s" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -126,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwps2dmk0000u9cy489qchs9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwps8ilk000050cyq1v7bhvt" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -330,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwps2dno000lu9cyd4uhx6ze" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwps8imo000l50cyl7hvyhyd" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -432,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwps2dmw0004u9cy65qg87ot" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwps8ilx000450cy3j5t6v32" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -472,7 +529,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwps2dn9000cu9cy2n5evx3i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwps8imd000d50cyaa1eu9va" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -515,7 +572,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwps2dne000fu9cyclz8mipi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwps8imh000g50cy8i3e6u0a" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -568,7 +625,7 @@
 <p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
 <p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
 <p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
-<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#97;&#x69;&#108;&#116;&#x6f;&#58;&#x3c;&#69;&#79;&#70;&#xa;&#x53;&#101;&#x74;&#72;&#x61;&#x6e;&#100;&#x6c;&#101;&#114;&#x73;&#101;&#114;&#118;&#x65;&#x72;&#x2d;&#x73;&#116;&#x61;&#x74;&#x75;&#x73;&#10;&#x4f;&#x72;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#x6c;&#108;&#111;&#119;&#10;&#x44;&#101;&#x6e;&#x79;&#102;&#x72;&#111;&#109;&#x61;&#108;&#108;&#10;&#x41;&#x6c;&#108;&#111;&#x77;&#x66;&#x72;&#x6f;&#x6d;&#108;&#x6f;&#99;&#x61;&#108;&#x68;&#x6f;&#x73;&#x74;&#10;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#x61;&#99;&#104;&#101;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#x4e3b;&#x9875;&#12290;&#22312;&#x63;&#101;&#110;&#116;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#x8ba4;&#30340;&#65;&#x70;&#x61;&#x63;&#x68;&#101;&#x64;&#x6f;&#x63;&#x72;&#x6f;&#x6f;&#x74;&#26159;&#47;&#x76;&#97;&#114;&#x2f;&#119;&#119;&#119;&#x2f;&#104;&#x74;&#x6d;&#108;&#44;&#x6240;&#20197;&#x6211;&#x4eec;&#22312;&#36825;&#20010;&#30446;&#x5f55;&#x4e0b;&#x9762;&#24314;&#31435;&#19968;&#x4e2a;&#20027;&#x9875;&#x3002;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#x8282;&#x70b9;&#20462;&#25913;&#22914;&#19979;&#65306;&#10;&#x5b;&#114;&#111;&#x6f;&#x74;&#64;&#x6e;&#x6f;&#x64;&#101;&#x31;&#126;&#93;&#x23;&#99;&#97;&#116;&#x3c;&#x3c;&#x2d;&#69;&#x4e;&#x44;">&#x3c;&#69;&#79;&#70;&#xa;&#x53;&#101;&#x74;&#72;&#x61;&#x6e;&#100;&#x6c;&#101;&#114;&#x73;&#101;&#114;&#118;&#x65;&#x72;&#x2d;&#x73;&#116;&#x61;&#x74;&#x75;&#x73;&#10;&#x4f;&#x72;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#x6c;&#108;&#111;&#119;&#10;&#x44;&#101;&#x6e;&#x79;&#102;&#x72;&#111;&#109;&#x61;&#108;&#108;&#10;&#x41;&#x6c;&#108;&#111;&#x77;&#x66;&#x72;&#x6f;&#x6d;&#108;&#x6f;&#99;&#x61;&#108;&#x68;&#x6f;&#x73;&#x74;&#10;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#x61;&#99;&#104;&#101;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#x4e3b;&#x9875;&#12290;&#22312;&#x63;&#101;&#110;&#116;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#x8ba4;&#30340;&#65;&#x70;&#x61;&#x63;&#x68;&#101;&#x64;&#x6f;&#x63;&#x72;&#x6f;&#x6f;&#x74;&#26159;&#47;&#x76;&#97;&#114;&#x2f;&#119;&#119;&#119;&#x2f;&#104;&#x74;&#x6d;&#108;&#44;&#x6240;&#20197;&#x6211;&#x4eec;&#22312;&#36825;&#20010;&#30446;&#x5f55;&#x4e0b;&#x9762;&#24314;&#31435;&#19968;&#x4e2a;&#20027;&#x9875;&#x3002;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#x8282;&#x70b9;&#20462;&#25913;&#22914;&#19979;&#65306;&#10;&#x5b;&#114;&#111;&#x6f;&#x74;&#64;&#x6e;&#x6f;&#x64;&#101;&#x31;&#126;&#93;&#x23;&#99;&#97;&#116;&#x3c;&#x3c;&#x2d;&#69;&#x4e;&#x44;</a>/var/www/html/index.html</p>
+<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#111;&#58;&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#x65;&#x74;&#72;&#x61;&#110;&#100;&#x6c;&#101;&#114;&#115;&#101;&#114;&#x76;&#x65;&#x72;&#x2d;&#115;&#116;&#97;&#116;&#117;&#115;&#10;&#79;&#114;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#108;&#111;&#119;&#xa;&#68;&#x65;&#x6e;&#121;&#x66;&#114;&#x6f;&#x6d;&#97;&#x6c;&#108;&#xa;&#65;&#108;&#108;&#111;&#x77;&#x66;&#x72;&#111;&#109;&#108;&#111;&#99;&#x61;&#108;&#104;&#x6f;&#x73;&#116;&#xa;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#97;&#x63;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#99;&#x65;&#110;&#x74;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#101;&#x64;&#x6f;&#99;&#114;&#111;&#x6f;&#116;&#x662f;&#47;&#x76;&#x61;&#114;&#x2f;&#119;&#x77;&#119;&#47;&#x68;&#x74;&#109;&#x6c;&#44;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#x76ee;&#x5f55;&#x4e0b;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#x9875;&#12290;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#x6539;&#x5982;&#19979;&#65306;&#10;&#x5b;&#x72;&#111;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#101;&#x31;&#x7e;&#93;&#x23;&#99;&#x61;&#116;&#x3c;&#60;&#45;&#69;&#x4e;&#68;">&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#x65;&#x74;&#72;&#x61;&#110;&#100;&#x6c;&#101;&#114;&#115;&#101;&#114;&#x76;&#x65;&#x72;&#x2d;&#115;&#116;&#97;&#116;&#117;&#115;&#10;&#79;&#114;&#100;&#x65;&#114;&#100;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#108;&#111;&#119;&#xa;&#68;&#x65;&#x6e;&#121;&#x66;&#114;&#x6f;&#x6d;&#97;&#x6c;&#108;&#xa;&#65;&#108;&#108;&#111;&#x77;&#x66;&#x72;&#111;&#109;&#108;&#111;&#99;&#x61;&#108;&#104;&#x6f;&#x73;&#116;&#xa;&#69;&#79;&#x46;&#10;&#x9996;&#20808;&#x6211;&#x4eec;&#x4e3a;&#65;&#x70;&#97;&#x63;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#20027;&#39029;&#12290;&#x5728;&#99;&#x65;&#110;&#x74;&#x6f;&#x73;&#x4e0a;&#38754;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#101;&#x64;&#x6f;&#99;&#114;&#111;&#x6f;&#116;&#x662f;&#47;&#x76;&#x61;&#114;&#x2f;&#119;&#x77;&#119;&#47;&#x68;&#x74;&#109;&#x6c;&#44;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#x76ee;&#x5f55;&#x4e0b;&#x9762;&#x5efa;&#31435;&#x4e00;&#x4e2a;&#20027;&#x9875;&#12290;&#xa;&#110;&#111;&#x64;&#101;&#x31;&#33410;&#28857;&#20462;&#x6539;&#x5982;&#19979;&#65306;&#10;&#x5b;&#x72;&#111;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#101;&#x31;&#x7e;&#93;&#x23;&#99;&#x61;&#116;&#x3c;&#60;&#45;&#69;&#x4e;&#68;</a>/var/www/html/index.html</p>
 <p><html></html></p>
 <p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
 <p><html></html></p>
@@ -585,7 +642,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwps2dnd000eu9cyu1hcqozj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwps8imf000f50cy1yejkhlv" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -758,7 +815,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwps2dn60009u9cy13okq85o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwps8im9000950cy9djlx7sk" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -794,43 +851,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwps2dpq0027u9cyhjx06lgd" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-前言" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/前言/" class="article-date">
-  <time datetime="2016-12-15T00:23:06.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/前言/">前言</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwps2dpr0028u9cymnvhej71" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwps8ip0002c50cy85mcm31b" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -869,9 +890,13 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+          </li>
         
           <li>
             <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
@@ -889,10 +914,6 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
             <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
           </li>
         
-          <li>
-            <a href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -906,7 +927,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

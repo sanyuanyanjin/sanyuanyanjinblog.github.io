@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,95 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-python实现自动备份文件夹功能" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/python实现自动备份文件夹功能/" class="article-date">
+  <time datetime="2016-12-13T09:14:57.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/python实现自动备份文件夹功能/">python实现自动备份文件夹功能</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>python实现自动备份文件夹功能</p>
+<p>python实现的自动备份文件夹的功能，实现u盘插入后的自动备份功能，备份压缩文件以备份时间命名，实现自动删除两个月之前的备份文件。<br>网上看到在windows下通过调用命令行来进行压缩，但是我在备份多个文件夹的时候，一直是只能备份一个文件夹。so，找到了zipfile这个模块。<br>其中备份为压缩文档使用到了python中的zipfile模块，具体用法请查看官方文档。</p>
+<p>#coding:utf-8<br>‘’’<br>Created on 2015年7月28日<br>功能简介：</p>
+<ul>
+<li>实现文件夹的自动备份，并会自动删除两个月之前的备份文件。</li>
+<li>实现插入u盘后的自动备份。</li>
+</ul>
+<p>@author: zhuzhezhe<br>‘’’<br>import time,datetime,os,os.path,zipfile,glob<br>from zipfile import ZIP_DEFLATED<br>def backup(filepath):</p>
+<pre><code>#需要备份的文件夹
+from_dir = []
+&apos;&apos;&apos;
+with open(&apos;backup.txt&apos;,&apos;r&apos;) as file:
+    for line in file:
+        from_dir.append(line)
+    file.close(
+&apos;&apos;&apos;
+#print from_dir
+#这里输入你需要备份的文件夹
+from_dir = [&apos;F:\code\python\test&apos;,
+            &apos;F:\code\java&apos;,]
+#当前备份时间
+back_time = time.strftime(u&apos;%Y-%m-%d&apos;)
+#目标文件夹
+to_dir = filepath+u&apos;:\\backup&apos;
+if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
+    print u&apos;已新建备份目录.&apos;
+os.chdir(to_dir)
+#打包文件夹的名字
+target = back_time+u&apos;.zip&apos;
+#依次打包压缩每个文件
+if not os.path.exists(target):
+    zip = zipfile.ZipFile(target,&apos;a&apos;,ZIP_DEFLATED)
+    for file in from_dir:
+        for f in glob.glob(file+&apos;\\*&apos;): #glob生成文件夹下所有文件的列表
+            zip.write(f)
+    print u&apos;备份完成.&apos;
+    zip.close()
+
+#删除两个月之前的备份文件
+#列出所有备份文件
+os.chdir(to_dir)
+list_file = os.listdir(to_dir)
+#两个月之前的时间,使用timedelta表示一个时间段,可以实现时间的加减
+old_time = datetime.date.today()-datetime.timedelta(2*30)
+#print str(old_time)[5:7]
+for lis in list_file:
+    if lis[5:7] == str(old_time)[5:7]:
+        os.remove(lis)
+</code></pre><p>if <strong>name</strong> == ‘<strong>main</strong>‘:<br>    backup(‘F’)</p>
+<pre><code>#如果插入u盘，则自动备份到u盘
+if os.path.exists(&apos;G:&apos;) == True:
+    backup(&apos;G&apos;)
+</code></pre>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwps8inz001e50cyf23wtx5g" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-Python-资源-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -512,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwps2do8000xu9cy57zr1lmh" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwps8inc001050cyxcucpv7b" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -557,7 +646,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwps2dom0017u9cyrzgpykrw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwps8inq001850cyq04o264n" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -623,7 +712,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwps2dq9002yu9cynb4yzmkc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwps8ipj002z50cyzfl01z8t" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -692,7 +781,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="ciwps2dq4002ru9cyvd96shdg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="ciwps8ipe002s50cyue2shc6u" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -745,7 +834,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwps2dq2002pu9cyc0785xza" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwps8ipd002q50cyzowkzjpf" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -816,7 +905,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwps2dps002au9cyhbop6env" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwps8ioy002a50cywnx1lr7r" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -870,7 +959,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwps2dqa0030u9cyfngwi5x5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwps8ipj003050cyd872robl" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -912,7 +1001,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwps2dot001bu9cypfq99am2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwps8inv001c50cyzfp1uj80" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -1373,123 +1462,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwps2dob0010u9cynyr61mco" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Python-基础" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Python-基础/" class="article-date">
-  <time datetime="2016-12-13T05:55:25.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Python-基础/">Python 基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>变量、基础数据类型</p>
-<p>变量</p>
-<p>Python中变量不需要声明，你可以通过直接赋值的方式使用变量：</p>
-<p>a = 1<br>b = True<br>c = 1.0<br>a = 3+2j</p>
-<p>在Python中，你可以在给一个变量赋值为一种类型之后重新为其赋值为新的类型（如上面代码第1、4行）。</p>
-<p>基础数据类型</p>
-<p>Python中的数字有：整型、长整型、浮点型、布尔型、复数。</p>
-<ul>
-<li>整形：int，常见的整数（正数／负数／0），通过sys.maxint即可查看当前平台上最大的整型的值。</li>
-<li>长整型：long，比整型最大的值还大或者比整型最小的值还小的整数。注意：Python中长整型没有大小限制，你的内存有多大，它就能表示多大。</li>
-<li>浮点型：float，即小数。</li>
-<li>布尔型：bool，常见形式为True, False，表示逻辑真和逻辑假，其实背后的实现是数字1和0.</li>
-<li>复数：complex，Python是为数不多语法层面上支持复数的语言，表现为形如1+2j的形式。可以直接支持两个复数的运算。</li>
-</ul>
-<p>Python中的所有数据类型都是对象。你可以通过type()函数查看一个变量的类型。<br>Python中字符串有4种表现形式：单引号、双引号、三引号：</p>
-<p>string1 = ‘this is a str’<br>string2 = “this is a str”<br>string3 = ‘’’this is a str<br>这里还是string3的范围’’’<br>string4 = “””this is a str”””</p>
-<p>其中，第3/4种字符串表现形式都是三引号引起来的。如果在字符串的引号之前加上一个u，则表示这是一个unicode字符串，如果加上r，则表示这是一个原始字符串 ，这两种类型，对于初学者暂不讨论。值得注意的是，Python中没有C-Like语言中的字符类型。</p>
-<p>运算符、控制语句</p>
-<p>运算符</p>
-<p>Python中没有类似于C/C++/Java的自增自减运算符，因为在Python中，数字是一种不可变类型（immutable），对数字的操作都会产生新的对象而不是修改原来的对象。但是i = i + 1一样可以写为i += 1。<br>注意：Python2.5以后的除法为地板除，即5／2=2而不是5／2 ＝ 2.5。<br>Python常见的逻辑运算符为：</p>
-<ul>
-<li>!=, &lt;&gt;：不等于，表示两边的值不相等，推荐使用前一种。1 != 2。</li>
-<li>==：等于，表示两边的值相等。2 == 2。</li>
-<li>and：逻辑与，如果两边的值都为True则整个值为True，反之为False。1==1 and 2==2。</li>
-<li>or：逻辑或，如果两边有一个值True则整个值为True，反之为False。1==2 or 2==2。</li>
-<li>not：逻辑非，如果值为True，则结果为False。not 2=＝1。</li>
-</ul>
-<p>控制语句</p>
-<p>条件语句：<br>Python中的条件语句只有if-elif-else，没有switch-case，但是有经验的开发者通常使用map这一结构来达到比switch-case更加优雅，更加Pythonic的实现，这个后续再说。</p>
-<p>if 条件1:<br>  语句块1<br>elif 条件2:<br>  语句块2<br>else:<br>  语句块3</p>
-<p>elif类似于其它语言中的else if。</p>
-<p>循环语句：<br>Python中有两种方式表达循环语句：</p>
-<p>while 循环：</p>
-<p>while 条件:<br>  语句块</p>
-<p>for循环：</p>
-<p>for 变量 in 集合:<br>  语句块</p>
-<p>值得注意的是Python中没有C-Like语言里的for(int i=0; i&lt;10; i++)的语法，不过可以使用xrange或者range函数实现同样的效果。前一个函数返回一个生成器，后一个函数返回list，一般推荐使用前一个，至于这两个函数的异同，后面有时间细聊。</p>
-<p>集合</p>
-<p>Python中常见的集合类型有：list，tuple，set，dict。</p>
-<p>list</p>
-<p>list表达的是一列数据的集合，列表中的元素可以增加、删除、查找等操作：</p>
-<p>In [1]: l = [‘this’, ‘is’, ‘a’, ‘list’] # 初始化一个list</p>
-<p>In [2]: type(l)<br>Out[2]: list</p>
-<p>In [3]: l.index(‘is’) ＃ 查找元素<br>Out[3]: 1</p>
-<p>In [4]: l.append(‘new item’) ＃ 新增元素</p>
-<p>In [5]: l<br>Out[5]: [‘this’, ‘is’, ‘a’, ‘list’, ‘new item’]</p>
-<p>In [6]: l.reverse() ＃ 反转列表</p>
-<p>In [7]: l<br>Out[7]: [‘new item’, ‘list’, ‘a’, ‘is’, ‘this’]</p>
-<p>In [8]: l.remove(‘is’) # 删除元素</p>
-<p>In [9]: l<br>Out[9]: [‘new item’, ‘list’, ‘a’, ‘this’]</p>
-<p>tuple</p>
-<p>tuple类似于list，同样表示一组数据的集合，不同的是，tuple是写保护的，即：tuple不可以对其元素做任何修改操作（新增、删除等）：</p>
-<p>In [1]: t = (1,2,3) # 初始化</p>
-<p>In [2]: t<br>Out[2]: (1, 2, 3)</p>
-<p>In [3]: type(t)<br>Out[3]: tuple</p>
-<p>set</p>
-<p>set表示一个不重复元素的集合，值得注意的是：set是无序的。</p>
-<p>In [1]: s = {‘this’, ‘is’, ‘a’, ‘a’, ‘set’} # 初始化</p>
-<p>In [2]: s<br>Out[2]: {‘a’, ‘is’, ‘set’, ‘this’}</p>
-<p>In [3]: type(s)<br>Out[3]: set</p>
-<p>In [4]: s.add(‘new item’) # 新增元素</p>
-<p>In [5]: s<br>Out[5]: {‘a’, ‘is’, ‘new item’, ‘set’, ‘this’}</p>
-<p>In [6]: s.remove(‘a’) ＃ 删除元素</p>
-<p>In [7]: s<br>Out[7]: {‘is’, ‘new item’, ‘set’, ‘this’}</p>
-<p>dict</p>
-<p>dict表示一组数据的对应关系，与set一样，dict是无序的（你可以通过collections中的OrderDict来达到有序）。同时，对于初学者，dict与set的声明方式容易混淆：</p>
-<p>In [1]: d = {‘a’: ‘A’, ‘b’: ‘B’} # 初始化</p>
-<p>In [2]: d<br>Out[2]: {‘a’: ‘A’, ‘b’: ‘B’}</p>
-<p>In [3]: d[‘a’]<br>Out[3]: ‘A’</p>
-<p>In [4]: d[‘c’] = ‘C’ # 新增元素</p>
-<p>In [5]: d<br>Out[5]: {‘a’: ‘A’, ‘b’: ‘B’, ‘c’: ‘C’}</p>
-<p>In [6]: del d[‘a’] ＃ 删除元素</p>
-<p>In [7]: d<br>Out[7]: {‘b’: ‘B’, ‘c’: ‘C’}</p>
-<p>函数（初步）</p>
-<p>在Python中声明函数的方式如下：</p>
-<p>def add(num1, num2):<br>  return num1 + num2</p>
-<p>通其它语言一样，你可以在函数中通过return返回值。不同的是，Python中函数可以有多个返回值，比如下面的函数，返回了两个数的和以及差：</p>
-<p>def calc(n1, n2):<br>  return n1 + n2, n1 * n2</p>
-<p>add, sub = calc(5, 1)<br>print add, sub # 6 4</p>
-<p>其实这里并不是真的返回了两个值，而是将返回值组装成一个tuple再返回。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwps2do4000wu9cyry4gc3o5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwps8inc000z50cy2zuoqomr" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -1528,9 +1501,13 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-Moodle/">CentOS 6.x Moodle</a>
+          </li>
         
           <li>
             <a href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
@@ -1548,10 +1525,6 @@
             <a href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
           </li>
         
-          <li>
-            <a href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
-          </li>
-        
       </ul>
     </div>
   </div>
@@ -1565,7 +1538,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>
