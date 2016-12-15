@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>seafile | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://manual-cn.seafile.com/deploy/using_mysql.html
+root@master:~# apt-get install mysql-serverroot@master:~# mysql -uroot -pyanjin
+root@master:~# mkdir tzuchiroot@master:~# df -h文件系统        容量  已用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="seafile">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/seafile/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="http://manual-cn.seafile.com/deploy/using_mysql.html
+root@master:~# apt-get install mysql-serverroot@master:~# mysql -uroot -pyanjin
+root@master:~# mkdir tzuchiroot@master:~# df -h文件系统        容量  已用">
+<meta property="og:updated_time" content="2016-12-15T05:55:57.984Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="seafile">
+<meta name="twitter:description" content="http://manual-cn.seafile.com/deploy/using_mysql.html
+root@master:~# apt-get install mysql-serverroot@master:~# mysql -uroot -pyanjin
+root@master:~# mkdir tzuchiroot@master:~# df -h文件系统        容量  已用">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-seafile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/seafile/" class="article-date">
+  <time datetime="2016-12-15T05:55:25.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      seafile
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://manual-cn.seafile.com/deploy/using_mysql.html" target="_blank" rel="external">http://manual-cn.seafile.com/deploy/using_mysql.html</a></p>
+<p>root@master:~# apt-get install mysql-server<br>root@master:~# mysql -uroot -pyanjin</p>
+<p>root@master:~# mkdir tzuchi<br>root@master:~# df -h<br>文件系统        容量  已用  可用 已用% 挂载点<br>/dev/xvda1       28G  4.9G   21G   19% /<br>udev            988M  4.0K  988M    1% /dev<br>tmpfs           200M  904K  199M    1% /run<br>none            5.0M     0  5.0M    0% /run/lock<br>none            999M  180K  998M    1% /run/shm<br>root@master:~# mv seafile-server_5.1.1_x86-64.tar.gz tzuchi/<br>root@master:~# cd tzuchi/<br>root@master:~/tzuchi# tar -xf seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mkdir installed<br>root@master:~/tzuchi# ls<br>installed  seafile-server-5.1.1  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mv seafile-server-5.1.1/ installed/<br>root@master:~/tzuchi# ls<br>installed  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# cd ..<br>root@master:~# tree tzuchi -L 2<br>tzuchi<br>├── installed<br>│   └── seafile-server_5.1.1_x86-64.tar.gz<br>└── seafile-server-5.1.1<br>    ├── check_init_admin.py<br>    ├── reset-admin.sh<br>    ├── runtime<br>    ├── seaf-fsck.sh<br>    ├── seaf-fuse.sh<br>    ├── seaf-gc.sh<br>    ├── seafile<br>    ├── seafile.sh<br>    ├── seahub<br>    ├── seahub.sh<br>    ├── setup-seafile-mysql.py<br>    ├── setup-seafile-mysql.sh<br>    ├── setup-seafile.sh<br>    └── upgrade</p>
+<p>6 directories, 11 files<br>root@master:~# apt-get update</p>
+<p>root@master:~# apt-get install python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache<br>root@master:~#<br>root@master:~# cd tzuchi/seafile-server-5.1.1/<br>root@master:~/tzuchi/seafile-server-5.1.1# ls<br>check_init_admin.py  seaf-fuse.sh  seahub                  setup-seafile.sh<br>reset-admin.sh       seaf-gc.sh    seahub.sh               upgrade<br>runtime              seafile       setup-seafile-mysql.py<br>seaf-fsck.sh         seafile.sh    setup-seafile-mysql.sh<br>root@master:~/tzuchi/seafile-server-5.1.1# ./setup-seafile-mysql.sh<br>Checking python on this machine …<br>  Checking python module: setuptools … Done.<br>  Checking python module: python-imaging … Done.<br>  Checking python module: python-mysqldb … Done.</p>
+<h2 id="This-is-your-configuration"><a href="#This-is-your-configuration" class="headerlink" title="This is your configuration"></a>This is your configuration</h2><pre><code>server name:            tzuchi
+server ip/domain:       10.6.6.9
+
+seafile data dir:       /root/tzuchi/seafile-data
+fileserver port:        8082
+
+database:               create new
+ccnet database:         ccnet-db
+seafile database:       seafile-db
+seahub database:        seahub-db
+database user:          root
+</code></pre><hr>
+<h2 id="Press-ENTER-to-continue-or-Ctrl-C-to-abort"><a href="#Press-ENTER-to-continue-or-Ctrl-C-to-abort" class="headerlink" title="Press ENTER to continue, or Ctrl-C to abort"></a>Press ENTER to continue, or Ctrl-C to abort</h2><p>Generating ccnet configuration …</p>
+<p>done<br>Successly create configuration dir /root/tzuchi/ccnet.<br>Generating seafile configuration …</p>
+<p>Done.<br>done<br>Generating seahub configuration …</p>
+<hr>
+<p>Now creating seahub database tables …</p>
+<hr>
+<p>creating seafile-server-latest symbolic link …  done</p>
+<hr>
+<h2 id="Your-seafile-server-configuration-has-been-finished-successfully"><a href="#Your-seafile-server-configuration-has-been-finished-successfully" class="headerlink" title="Your seafile server configuration has been finished successfully."></a>Your seafile server configuration has been finished successfully.</h2><p>run seafile server:     ./seafile.sh { start | stop | restart }<br>run seahub  server:     ./seahub.sh  { start <port> | stop | restart <port> }</port></port></p>
+<hr>
+<h2 id="If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports"><a href="#If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports" class="headerlink" title="If you are behind a firewall, remember to allow input/output of these tcp ports:"></a>If you are behind a firewall, remember to allow input/output of these tcp ports:</h2><p>port of seafile fileserver:   8082<br>port of seahub:               8000</p>
+<p>When problems occur, Refer to</p>
+<pre><code>https://github.com/haiwen/seafile/wiki
+</code></pre><p>for information.</p>
+<p>root@master:~/tzuchi/seafile-server-5.1.1# ./seafile.sh start</p>
+<p>[05/04/16 11:07:09] ../common/session.c(132): using config file /root/tzuchi/conf/ccnet.conf<br>Starting seafile server, please wait …<br>Seafile server started</p>
+<p>Done.<br>root@master:~/tzuchi/seafile-server-5.1.1#<br>root@master:~/tzuchi/seafile-server-5.1.1# ./seahub.sh start</p>
+<p>LC_ALL is not set in ENV, set to en_US.UTF-8<br>Starting seahub at port 8000 …</p>
+<hr>
+<h2 id="It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account"><a href="#It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account" class="headerlink" title="It’s the first time you start the seafile server. Now let’s create the admin account"></a>It’s the first time you start the seafile server. Now let’s create the admin account</h2><p>What is the email for the admin account?<br>[ admin email ] 455177385@qq.com</p>
+<p>What is the password for the admin account?<br>[ admin password ] </p>
+<p>Enter the password again:<br>[ admin password again ] </p>
+<hr>
+<h2 id="Successfully-created-seafile-admin"><a href="#Successfully-created-seafile-admin" class="headerlink" title="Successfully created seafile admin"></a>Successfully created seafile admin</h2><p>Seahub is started</p>
+<p>Done.</p>
+<p><a href="http://10.6.6.9:8000" target="_blank" rel="external">http://10.6.6.9:8000</a><br><a href="http://10.6.6.9:8000/accounts/login/" target="_blank" rel="external">http://10.6.6.9:8000/accounts/login/</a><br>455177385@qq.com<br>test@tzuchi.com.cn<br>test123<br>[ admin email ]<br>yanjin@tzuchi.com.cn</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/seafile/" data-id="ciwpzcd5j002dxjcya0sc6swe" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Ubuntu搭建Glusterfs指南/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu搭建Glusterfs指南
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">ubuntu 12.04  ssh登录很慢</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源资源/">开源资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源软件/">开源软件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

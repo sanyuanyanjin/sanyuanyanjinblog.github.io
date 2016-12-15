@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu搭建Glusterfs指南 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Xen 安装Ubuntuxen console 调整xe vm-listxe vm-param-list uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb | grep HVM-boot               HVM-boot-policy ( RW):               HVM-boot-params (MRW):xe vm-param-set">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu搭建Glusterfs指南">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="Xen 安装Ubuntuxen console 调整xe vm-listxe vm-param-list uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb | grep HVM-boot               HVM-boot-policy ( RW):               HVM-boot-params (MRW):xe vm-param-set">
+<meta property="og:updated_time" content="2016-12-15T05:57:09.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu搭建Glusterfs指南">
+<meta name="twitter:description" content="Xen 安装Ubuntuxen console 调整xe vm-listxe vm-param-list uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb | grep HVM-boot               HVM-boot-policy ( RW):               HVM-boot-params (MRW):xe vm-param-set">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Ubuntu搭建Glusterfs指南" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu搭建Glusterfs指南/" class="article-date">
+  <time datetime="2016-12-15T05:56:39.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu搭建Glusterfs指南
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Xen 安装Ubuntu<br>xen console 调整<br>xe vm-list<br>xe vm-param-list uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb | grep HVM-boot<br>               HVM-boot-policy ( RW):<br>               HVM-boot-params (MRW):<br>xe vm-param-set uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb HVM-boot-policy=”BIOS order” HVM-boot-params:order=”dc”<br>xe vm-param-list uuid=ca8ad4f3-da2d-59e6-2f95-1ff6d04f3ceb | grep HVM-boot<br>               HVM-boot-policy ( RW): BIOS order<br>               HVM-boot-params (MRW): order: dc</p>
+<p>Ubuntu配置阿里源及glusterfs源<br>vim /etc/apt/sources.list<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb <a href="http://ppa.launchpad.net/gluster/glusterfs-3.4/ubuntu" target="_blank" rel="external">http://ppa.launchpad.net/gluster/glusterfs-3.4/ubuntu</a> precise main<br>  deb-src <a href="http://ppa.launchpad.net/gluster/glusterfs-3.4/ubuntu" target="_blank" rel="external">http://ppa.launchpad.net/gluster/glusterfs-3.4/ubuntu</a> precise main<br>apt-get update<br>How to fix NO_PUBKEY errors in “apt-get update” operations<br>gpg –keyserver subkeys.pgp.net –recv 13E01B7B3FE869A9<br>gpg –export –armor 13E01B7B3FE869A9 | apt-key add -<br>apt-get update</p>
+<p>配置hosts<br>vim /etc/hosts<br>10.6.4.231      node1<br>10.6.4.232      node2<br>10.6.4.233      node3</p>
+<p>安装及配置glusterfs服务器<br>apt-get -y install glusterfs-server<br>mkdir -p /data/brick<br>启用节点<br>root@node1:~# gluster peer probe node2<br>root@node1:~# gluster peer status<br>root@node2:~# gluster peer probe node1<br>root@node2:~# gluster peer status<br>添加和删除节点<br>gluster peer probe node3<br>gluster peer detach node3</p>
+<p>启用卷<br>gluster volume create vol replica 2 node1:/data/brick node2:/data/brick<br>root@node1:~# gluster volume create vol replica 2 node1:/data/brick node2:/data/brick<br>volume create: vol: success: please start the volume to access data<br>gluster volume start vol<br>volume start: vol: success<br>root@node1:~# gluster volume info<br>Volume Name: vol<br>Type: Replicate<br>Volume ID: 8b7b5e86-16a1-48c0-9dfd-b8c24d7beb81<br>Status: Started<br>Number of Bricks: 1 x 2 = 2<br>Transport-type: tcp<br>Bricks:<br>Brick1: node1:/data/brick<br>Brick2: node2:/data/brick<br>添加和删除卷<br>gluster volume add-brick vol node3:/data/brick node03:/data/brick2<br>gluster volume remove-brick vol node3:/data/brick node03:/data/brick2</p>
+<p>客户端应用<br>apt-get -y install glusterfs-client<br>mkdir /mnt/gluster<br>mount -t glusterfs node1:/vol /mnt/gluster<br>dd if=/dev/urandom of=/data/navy bs=1M count=100<br>cp /data/navy /mnt/gluster<br>校验文件<br>root@node3:~# md5sum /data/navy /mnt/gluster/navy<br>64292021f3bf866b8654ba162e3b776c  /data/navy<br>64292021f3bf866b8654ba162e3b776c  /mnt/gluster/navy<br>宕机测试<br>root@node2:~# ll /data/brick/navy<br>-rw-r–r– 2 root root 104857600 May 21 11:11 /data/brick/navy<br>root@node2:~# cd /data/brick/<br>root@node2:/data/brick# rm navy<br>root@node2:/data/brick# ll<br>total 16<br>drwxr-xr-x 3 root root 4096 May 21 14:22 ./<br>drwxr-xr-x 4 root root 4096 May 21 09:40 ../<br>drw——- 6 root root 4096 May 21 11:11 .glusterfs/<br>root@node2:/data/brick# ll<br>total 102420<br>drwxr-xr-x 3 root root      4096 May 21 14:22 ./<br>drwxr-xr-x 4 root root      4096 May 21 09:40 ../<br>drw——- 6 root root      4096 May 21 11:11 .glusterfs/<br>-rw-r–r– 2 root root 104857600 May 21 11:11 navy</p>
+<p>Windows访问Glusterfs<br>root@node3:/mnt/gluster# apt-get -y install samba cifs-utils<br>root@node3:/mnt/gluster# vim /etc/samba/smb.conf </p>
+<p>####### Authentication #######</p>
+<h1 id="“security-user”-is-always-a-good-idea-This-will-require-a-Unix-account"><a href="#“security-user”-is-always-a-good-idea-This-will-require-a-Unix-account" class="headerlink" title="“security = user” is always a good idea. This will require a Unix account"></a>“security = user” is always a good idea. This will require a Unix account</h1><h1 id="in-this-server-for-every-user-accessing-the-server-See"><a href="#in-this-server-for-every-user-accessing-the-server-See" class="headerlink" title="in this server for every user accessing the server. See"></a>in this server for every user accessing the server. See</h1><h1 id="usr-share-doc-samba-doc-htmldocs-Samba3-HOWTO-ServerType-html"><a href="#usr-share-doc-samba-doc-htmldocs-Samba3-HOWTO-ServerType-html" class="headerlink" title="/usr/share/doc/samba-doc/htmldocs/Samba3-HOWTO/ServerType.html"></a>/usr/share/doc/samba-doc/htmldocs/Samba3-HOWTO/ServerType.html</h1><h1 id="in-the-samba-doc-package-for-details"><a href="#in-the-samba-doc-package-for-details" class="headerlink" title="in the samba-doc package for details."></a>in the samba-doc package for details.</h1><p>   security = user</p>
+<p>;[homes]<br>;   comment = Home Directories<br>;   browseable = no<br>[glusterfs]<br>        comment = The Glusterfs<br>        path = /mnt/gluster<br>        browseable = yes<br>        writable = yes<br>root@node3:/mnt/gluster# useradd gluster<br>root@node3:/mnt/gluster# smbpasswd -a gluster<br>New SMB password:yanjin<br>Retype new SMB password:<br>Added user gluster.<br>root@node3:/mnt/gluster# service smbd restart<br>smbd stop/waiting<br>smbd start/running, process 5998<br>root@node3:/mnt/gluster# chmod -R 777 /mnt/gluster<br>Windows运行<br>\10.6.4.233</p>
+<p>FTP服务器搭建<br>root@node3:/mnt/gluster# apt-get -y install vsftpd<br>root@node3:/mnt/gluster# vim /etc/vsftpd.conf </p>
+<h1 id="Allow-anonymous-FTP-Beware-allowed-by-default-if-you-comment-this-out"><a href="#Allow-anonymous-FTP-Beware-allowed-by-default-if-you-comment-this-out" class="headerlink" title="Allow anonymous FTP? (Beware - allowed by default if you comment this out)."></a>Allow anonymous FTP? (Beware - allowed by default if you comment this out).</h1><p>anonymous_enable=YES<br>#</p>
+<h1 id="Uncomment-this-to-allow-local-users-to-log-in"><a href="#Uncomment-this-to-allow-local-users-to-log-in" class="headerlink" title="Uncomment this to allow local users to log in."></a>Uncomment this to allow local users to log in.</h1><p>local_enable=YES<br>#</p>
+<h1 id="Uncomment-this-to-enable-any-form-of-FTP-write-command"><a href="#Uncomment-this-to-enable-any-form-of-FTP-write-command" class="headerlink" title="Uncomment this to enable any form of FTP write command."></a>Uncomment this to enable any form of FTP write command.</h1><p>write_enable=YES</p>
+<p>#chroot_local_user=YES</p>
+<p>#chroot_list_enable=YES</p>
+<h1 id="default-follows"><a href="#default-follows" class="headerlink" title="(default follows)"></a>(default follows)</h1><p>#chroot_list_file=/etc/vsftpd.chroot_list<br>allow_writeable_chroot=YES<br>root@node3:/mnt/gluster# useradd -g ftp -d /mnt/gluster/ -M ftpuser<br>root@node3:/mnt/gluster# service vsftpd restart</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwpzcd57001yxjcyqyhtyudl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu操作系统启用root账户的解决办法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/seafile/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">seafile</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源资源/">开源资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源软件/">开源软件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

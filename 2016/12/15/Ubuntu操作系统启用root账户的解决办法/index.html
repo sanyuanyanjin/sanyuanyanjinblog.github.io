@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Ubuntu操作系统启用root账户的解决办法 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Ubuntu Linux有一个与众不同的特点，那就是初次使用时，你无法作为root来登录系统，为什么会这样？这就要从系统的安装说起。对于其他Linux系统来 说，一般在安装过程就设定root密码，这样用户就能用它登录root帐户或使用su命令转换到超级用户身份。与之相反，Ubuntu默认安装时，并没有 给root用户设置口令，也没有启用root帐户。问题是要想作为root用户来运行命令该怎么办呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu操作系统启用root账户的解决办法">
+<meta property="og:url" content="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="Ubuntu Linux有一个与众不同的特点，那就是初次使用时，你无法作为root来登录系统，为什么会这样？这就要从系统的安装说起。对于其他Linux系统来 说，一般在安装过程就设定root密码，这样用户就能用它登录root帐户或使用su命令转换到超级用户身份。与之相反，Ubuntu默认安装时，并没有 给root用户设置口令，也没有启用root帐户。问题是要想作为root用户来运行命令该怎么办呢？">
+<meta property="og:updated_time" content="2016-12-15T06:00:30.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu操作系统启用root账户的解决办法">
+<meta name="twitter:description" content="Ubuntu Linux有一个与众不同的特点，那就是初次使用时，你无法作为root来登录系统，为什么会这样？这就要从系统的安装说起。对于其他Linux系统来 说，一般在安装过程就设定root密码，这样用户就能用它登录root帐户或使用su命令转换到超级用户身份。与之相反，Ubuntu默认安装时，并没有 给root用户设置口令，也没有启用root帐户。问题是要想作为root用户来运行命令该怎么办呢？">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Ubuntu操作系统启用root账户的解决办法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" class="article-date">
+  <time datetime="2016-12-15T06:00:09.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu操作系统启用root账户的解决办法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Ubuntu Linux有一个与众不同的特点，那就是初次使用时，你无法作为root来登录系统，为什么会这样？这就要从系统的安装说起。对于其他Linux系统来 说，一般在安装过程就设定root密码，这样用户就能用它登录root帐户或使用su命令转换到超级用户身份。与之相反，Ubuntu默认安装时，并没有 给root用户设置口令，也没有启用root帐户。问题是要想作为root用户来运行命令该怎么办呢？没关系，我们可以使用sudo命令达此目的。<br>sudo是linux下常用的允许普通用户使用超级用户权限的工具，该命令为管理员提供了一种细颗粒度的访问控制方法，通过它人们既可以作为超级 用户又可以作为其它类型的用户来访问系统。这样做的好处是，管理员能够在不告诉用户root密码的前提下，授予他们某些特定类型的超级用户权限，这正是许 多系统管理员所梦寐以求的。</p>
+<p>方法一：<br>设置分配很简单，只要为root设置一个root密码就行了： $ sudo passwd root<br>之后会提示要输入root用户的密码，连续输入root密码，再使用：$ su<br>就可以切换成超级管理员用户登陆了！</p>
+<ol>
+<li>在终端执行 sudo passwd root 指令后，系统将会提示你设置一个新的 root 帐号密码。</li>
+<li>点击 System -&gt; Preferences -&gt; Login Window 菜单，并切换到 Security 选项页，然后选中其下的“Allow local system administrator login”选项。 　　执行上述两步后，你便可以使用 root 帐号登录 Ubuntu 系统了。</li>
+</ol>
+<p>如果要再次禁用 root 帐号，那么可以执行 sudo passwd -l root<br>sudo passwd root来设置root用户的密码来开启root帐号，锁定帐户是sudo passwd -l，开启帐户是sudo passwd -u（需要以前锁定过，否则无效）。</p>
+<p>方法二：<br>在Ubuntu中用root帐号登录<br>其实我个人认为这没有多大必要，因为当你需要 root 的权限时，使用 sudo 便可以了。如果你实在需要在 Ubuntu 中启用 root 帐号的话，那么不妨执行下面的操作：<br>1.重新设置 root 的密码：$sudo passwd root</p>
+<p>#按照提示输入两次新的密码，并加以确认。</p>
+<p>2.启用root用户登录： $sudo vi /etc/gdm/gdm.conf</p>
+<p>#打开gnome的配置文件,在末行模式中输入：AllowRoot回车，找到AllowRoot＝false ,把false改为true，保存后退出。<br>之后，重启系统时，就可以用 root 登录了。如果你想要禁用 root 帐号，则执行下列命令： $sudo passwd -l root<br>Ubuntu 中的 root 帐号默认是被禁用了的。在这种情况之下，如果你想要使用 root 的权限来干些事情，就需要 sudo 指令。对某些朋友来说，他们可能需要激活 Ubuntu 中的 root 帐号。</p>
+<p>Fedora 10 上如何让root登陆系统<br>Fedora10默认是不允许root账号进行GUI登陆的，下面是解决方式。<br>首先以用户账号进入终端，允许root账号登陆：<br>首先 su<br>然后 vi /etc/pam.d/gdm<br>删除其中的一行 auth required pam_succeed_if.so user != root quiet<br>然后wq保存并退出。<br>这样就可以使用root进行GUI登陆了。<br>还可以修改 /etc/gdm/contom.conf文件，增加下面几行，启用root自动登陆<br>[daemon]<br>AutomaticLoginEnable=true<br>AutomaticLogin=user_name</p>
+<p>Fedora 10的网络服务不能自动启动，同样需要修改<br>chkconfig –level 35 network on<br>如果使用GUI界面去修改网络配置，貌似那个修改程序有BUG，子网掩码改完了再打开就变成了192.168.1.1<br>同样，可以在文件中直接修改。 文件位置：/etc/sysconfig/network-scripts/ifcfg-eth0<br>还可以开机以root身份登陆系统，登陆模式是图形界面，提示无法验证用户，很纳闷，密码也没错啊，输入了几次依然提示“无法验证用户”。只好用一个普通用户登陆了。 打开终端 输入 su ，再输入 root 密码，成功转到 root 用户。设置开机启动模式为文本模式，重新启动到文本模式下，输入 root 和密码，登陆成功，看来在文本模式下是可以用root登陆的。<br>不能以root身份登陆到图形模式，可能是出于安全考虑。虽然只能用普通用户登陆到图形界面，但是在图形界面模式下可以更改root的密码。选择 系统–&gt;管理–&gt;根口令，弹出对更改root密码的对话框。</p>
+<p>图形化 root 登陆<br>Fedora 11 默认并不允许在 GDM 中以 root 登陆，而必须使用正常用户登陆后在终端中成为 root 权限。然后很多用户仍然想以 root 登陆。虽然我不赞成但还是说一下怎么做。请不要忘记一旦你使用 root 登陆后会毁坏你的系统，所以请不要输入下面的命令，除非你知道你在做什么。<br>打开终端输入： su -c ‘gedit /etc/pam.d/gdm<br>找到下面这行： auth required pam_succeed_if.so user != root quiet<br>将这一行备注掉： #auth required pam_succeed_if.so user != root quiet<br>保存这个文件后登出，然后你就可以以 root 登陆了。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwpzcd56001xxjcyqakpiwxu" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/15/阿里巴巴-开源软件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          阿里巴巴 开源软件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/15/Ubuntu搭建Glusterfs指南/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Ubuntu搭建Glusterfs指南</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源资源/">开源资源</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/开源软件/">开源软件</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/15/Twitter-开源软件/">Twitter 开源软件</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
