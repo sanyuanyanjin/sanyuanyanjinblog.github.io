@@ -102,7 +102,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwrk0lor001jtlcy83fq3c77" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwrkt743001j88cylrfvw2r1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -134,40 +134,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>yum -y install subversion<br>svn –version<br>svn，版本 1.6.11 (r934486)<br>[root@rsync ~]# mkdir -p /opt/svn/repo<br>[root@rsync ~]# svnadmin create /opt/svn/repo<br>[root@rsync ~]# ll /opt/svn/repo<br>总用量 24<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 conf<br>drwxr-sr-x 6 root root 4096 6月  20 15:43 db<br>-r–r–r– 1 root root    2 6月  20 15:43 format<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 hooks<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 locks<br>-rw-r–r– 1 root root  229 6月  20 15:43 README.txt<br>[root@rsync ~]#<br>[root@rsync ~]# cd /opt/svn/repo/conf<br>[root@rsync conf]# vim passwd </p>
-<h3 id="This-file-is-an-example-password-file-for-svnserve"><a href="#This-file-is-an-example-password-file-for-svnserve" class="headerlink" title="This file is an example password file for svnserve."></a>This file is an example password file for svnserve.</h3><h3 id="Its-format-is-similar-to-that-of-svnserve-conf-As-shown-in-the"><a href="#Its-format-is-similar-to-that-of-svnserve-conf-As-shown-in-the" class="headerlink" title="Its format is similar to that of svnserve.conf. As shown in the"></a>Its format is similar to that of svnserve.conf. As shown in the</h3><h3 id="example-below-it-contains-one-section-labelled-users"><a href="#example-below-it-contains-one-section-labelled-users" class="headerlink" title="example below it contains one section labelled [users]."></a>example below it contains one section labelled [users].</h3><h3 id="The-name-and-password-for-each-user-follow-one-account-per-line"><a href="#The-name-and-password-for-each-user-follow-one-account-per-line" class="headerlink" title="The name and password for each user follow, one account per line."></a>The name and password for each user follow, one account per line.</h3><p>[users]</p>
-<h1 id="harry-harryssecret"><a href="#harry-harryssecret" class="headerlink" title="harry = harryssecret"></a>harry = harryssecret</h1><h1 id="sally-sallyssecret"><a href="#sally-sallyssecret" class="headerlink" title="sally = sallyssecret"></a>sally = sallyssecret</h1><p>jinyan = yanjin</p>
-<p>[root@rsync conf]# vim authz<br>[/]<br>jinyan = rw</p>
-<ul>
-<li>= rw</li>
-</ul>
-<p>[root@rsync conf]# vim svnserve.conf<br>[general]</p>
-<h3 id="These-options-control-access-to-the-repository-for-unauthenticated"><a href="#These-options-control-access-to-the-repository-for-unauthenticated" class="headerlink" title="These options control access to the repository for unauthenticated"></a>These options control access to the repository for unauthenticated</h3><h3 id="and-authenticated-users-Valid-values-are-“write”-“read”"><a href="#and-authenticated-users-Valid-values-are-“write”-“read”" class="headerlink" title="and authenticated users.  Valid values are “write”, “read”,"></a>and authenticated users.  Valid values are “write”, “read”,</h3><h3 id="and-“none”-The-sample-settings-below-are-the-defaults"><a href="#and-“none”-The-sample-settings-below-are-the-defaults" class="headerlink" title="and “none”.  The sample settings below are the defaults."></a>and “none”.  The sample settings below are the defaults.</h3><p>anon-access = none<br>auth-access = write<br>password-db = passwd<br>authz-db = authz<br>realm=/opt/svn/repo</p>
-<p>启动SVN</p>
-<p>svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# ps -ef|grep svn|grep -v grep<br>root     22954     1  0 15:49 ?        00:00:00 svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# netstat -tunlp | grep 3690<br>tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22954/svnserve<br>[root@rsync conf]# </p>
-<p>停止重启SVN<br>[root@rsync conf]# killall svnserve<br>[root@rsync conf]# killall svnserve<br>svnserve: 没有进程被杀死<br>[root@rsync conf]#<br>[root@rsync conf]# svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# netstat -tunlp | grep 3690<br>tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22974/svnserve<br>[root@rsync conf]# </p>
-<p>测试</p>
-<p>SVN服务已经启动，使用客户端测试连接。<br>客户端连接地址：svn://10.6.0.106<br>用户名/密码：<br>测试创建文件夹等操作。</p>
-<p>创建版本库：<br>终端输入：svnadmin create [路径]<br>该路径可以是相对路径，例如，当前在home/user/svn/目录下，输入svnadmin create myproject，则该版本库会被创建在home/user/svn/目录下，新建一个文件夹名为myproject，其中便是版本库的文件了。</p>
-<p>将文件导入版本库：<br>终端输入：svn import [源路径] [目标版本库路径] -m [日志信息]<br>源路径可以是相对路径，导入时会递归导入源路径下的所有文件和文件夹，目标版本库路径需要绝对目录（反正我试验是这样的），例如版本库的目录是：home/user/svn/myproject/。则应该这样写：file:///home/user/svn/myproject/<br>例如将当前目录导入版本库myproject：<br>svn import . file:///home/user/svn/myproject -m”导入文件”</p>
-<p>从版本库导出：<br>导入后原文件并未被纳入版本管理，若想获得受版本控制的文件，就需要从版本库导出<br>终端输入：svn co [版本库路径] [导出目标路径]<br>例如将myproject库中的文件导出到当前目录：svn cofile:///home/user/svn/myproject .</p>
-<p>备份<br>[root@rsync ~]# du -h –max-depth=1 /opt/svn/repo/db/revs/0<br>11G     /opt/svn/repo/db/revs/0<br>svnadmin dump方式<br>SVN迁移需要做如下操作：</p>
-<ol>
-<li>将原来的Repository导出为一个文件dumpfile 。<br>#svnadmin dump 原先的repos的目录路径（/repository/directory） &gt; dumpfile<br>#svnadmin dump /opt/svn/iitshare/ &gt; /var/tmp/iitshare_20130626<br>[root@rsync ~]# svnadmin dump /opt/svn/repo/ &gt; /home/repo20160623<br>[root@rsync ~]# ll -h /home/repo20160623<br>-rw-r–r– 1 root root 11G 6月  23 13:02 /home/repo20160623</li>
-<li>在另外一台机器上配置同样的SVN服务器。</li>
-<li>将dumpfile导入到新的repository 目录中。<br>#svnadmin load 新建的repos的目录路径（/repository/directory） &lt; dumpfile<br>#svnadmin load /opt/svn/iitshare/ &lt; /var/tmp/iitshare_20130626<br>[root@rsync ~]# svnadmin dump /opt/svn/repo/ &lt; /home/repo20160623</li>
-<li>将原先服务器的配置文件备份后复制到新服务器中<br>#/opt/svn/iitshare/conf目录下<br>authz、passwd、svnserve.conf文件</li>
-</ol>
-<p>svnadmin hotcopy方法</p>
-<ol>
-<li>备份<br>#svnadmin hotcopy /opt/svn/iitshare/ /var/tmp/iitshare_20130626 –clean-logs<br>[root@rsync ~]# svnadmin hotcopy /opt/svn/repo/ /home/repohost20160623 –clean-logs<br>[root@rsync ~]# ll -h /home/repohost20160623<br>总用量 24K<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 conf<br>drwxr-sr-x 6 root root 4.0K 6月  23 13:14 db<br>-r–r–r– 1 root root    2 6月  23 13:14 format<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 hooks<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 locks<br>-rw-r–r– 1 root root  229 6月  23 13:11 README.txt<br>如果你传递–clean-logs选项，svnadmin会执行热拷贝操作，然后删除不用的Berkeley DB日志文件。<br>你可以在任何时候运行这个命令得到一个版本库的安全拷贝，不管其它进程是否使用这个版本库。</li>
-<li>还原<br>#svnadmin hotcopy /var/tmp/iitshare_20130626 /opt/svn/iitshare/<br>svnadmin hotcopy /home/repohost20160623 /opt/svn/repo/</li>
-</ol>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line">yum -y install subversion</div><div class="line">svn --version</div><div class="line">svn，版本 1.6.11 (r934486)</div><div class="line">[root@rsync ~]# mkdir -p /opt/svn/repo</div><div class="line">[root@rsync ~]# svnadmin create /opt/svn/repo</div><div class="line">[root@rsync ~]# ll /opt/svn/repo</div><div class="line">总用量 24</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 conf</div><div class="line">drwxr-sr-x 6 root root 4096 6月  20 15:43 db</div><div class="line">-r--r--r-- 1 root root    2 6月  20 15:43 format</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 hooks</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 locks</div><div class="line">-rw-r--r-- 1 root root  229 6月  20 15:43 README.txt</div><div class="line">[root@rsync ~]# </div><div class="line">[root@rsync ~]# cd /opt/svn/repo/conf</div><div class="line">[root@rsync conf]# vim passwd </div><div class="line"></div><div class="line">### This file is an example password file for svnserve.</div><div class="line">### Its format is similar to that of svnserve.conf. As shown in the</div><div class="line">### example below it contains one section labelled [users].</div><div class="line">### The name and password for each user follow, one account per line.</div><div class="line"></div><div class="line">[users]</div><div class="line"># harry = harryssecret</div><div class="line"># sally = sallyssecret</div><div class="line">jinyan = yanjin</div><div class="line"></div><div class="line">[root@rsync conf]# vim authz </div><div class="line">[/]</div><div class="line">jinyan = rw</div><div class="line">* = rw</div><div class="line"></div><div class="line">[root@rsync conf]# vim svnserve.conf </div><div class="line">[general]</div><div class="line">### These options control access to the repository for unauthenticated</div><div class="line">### and authenticated users.  Valid values are &quot;write&quot;, &quot;read&quot;,</div><div class="line">### and &quot;none&quot;.  The sample settings below are the defaults.</div><div class="line">anon-access = none</div><div class="line">auth-access = write</div><div class="line">password-db = passwd</div><div class="line">authz-db = authz</div><div class="line">realm=/opt/svn/repo</div><div class="line"></div><div class="line">启动SVN</div><div class="line"></div><div class="line">svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# ps -ef|grep svn|grep -v grep</div><div class="line">root     22954     1  0 15:49 ?        00:00:00 svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# netstat -tunlp | grep 3690</div><div class="line">tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22954/svnserve      </div><div class="line">[root@rsync conf]# </div><div class="line"></div><div class="line">停止重启SVN</div><div class="line">[root@rsync conf]# killall svnserve</div><div class="line">[root@rsync conf]# killall svnserve</div><div class="line">svnserve: 没有进程被杀死</div><div class="line">[root@rsync conf]# </div><div class="line">[root@rsync conf]# svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# netstat -tunlp | grep 3690</div><div class="line">tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22974/svnserve      </div><div class="line">[root@rsync conf]# </div><div class="line"></div><div class="line">测试</div><div class="line"></div><div class="line">SVN服务已经启动，使用客户端测试连接。</div><div class="line">客户端连接地址：svn://10.6.0.106</div><div class="line">用户名/密码： </div><div class="line">测试创建文件夹等操作。</div><div class="line"></div><div class="line">创建版本库：</div><div class="line">终端输入：svnadmin create [路径]</div><div class="line">该路径可以是相对路径，例如，当前在home/user/svn/目录下，输入svnadmin create myproject，则该版本库会被创建在home/user/svn/目录下，新建一个文件夹名为myproject，其中便是版本库的文件了。</div><div class="line"></div><div class="line">将文件导入版本库：</div><div class="line">终端输入：svn import [源路径] [目标版本库路径] -m [日志信息]</div><div class="line">源路径可以是相对路径，导入时会递归导入源路径下的所有文件和文件夹，目标版本库路径需要绝对目录（反正我试验是这样的），例如版本库的目录是：home/user/svn/myproject/。则应该这样写：file:///home/user/svn/myproject/</div><div class="line">例如将当前目录导入版本库myproject：</div><div class="line">svn import . file:///home/user/svn/myproject -m&quot;导入文件&quot;</div><div class="line"></div><div class="line">从版本库导出：</div><div class="line">导入后原文件并未被纳入版本管理，若想获得受版本控制的文件，就需要从版本库导出</div><div class="line">终端输入：svn co [版本库路径] [导出目标路径]</div><div class="line">例如将myproject库中的文件导出到当前目录：svn cofile:///home/user/svn/myproject .</div><div class="line"></div><div class="line">备份</div><div class="line">[root@rsync ~]# du -h --max-depth=1 /opt/svn/repo/db/revs/0</div><div class="line">11G     /opt/svn/repo/db/revs/0</div><div class="line">svnadmin dump方式</div><div class="line">SVN迁移需要做如下操作：</div><div class="line">1. 将原来的Repository导出为一个文件dumpfile 。</div><div class="line">#svnadmin dump 原先的repos的目录路径（/repository/directory） &gt; dumpfile</div><div class="line">#svnadmin dump /opt/svn/iitshare/ &gt; /var/tmp/iitshare_20130626</div><div class="line">[root@rsync ~]# svnadmin dump /opt/svn/repo/ &gt; /home/repo20160623</div><div class="line">[root@rsync ~]# ll -h /home/repo20160623 </div><div class="line">-rw-r--r-- 1 root root 11G 6月  23 13:02 /home/repo20160623</div><div class="line">2. 在另外一台机器上配置同样的SVN服务器。</div><div class="line">3. 将dumpfile导入到新的repository 目录中。</div><div class="line">#svnadmin load 新建的repos的目录路径（/repository/directory） &lt; dumpfile</div><div class="line">#svnadmin load /opt/svn/iitshare/ &lt; /var/tmp/iitshare_20130626</div><div class="line">[root@rsync ~]# svnadmin dump /opt/svn/repo/ &lt; /home/repo20160623</div><div class="line">4. 将原先服务器的配置文件备份后复制到新服务器中</div><div class="line">#/opt/svn/iitshare/conf目录下</div><div class="line">authz、passwd、svnserve.conf文件</div><div class="line"></div><div class="line">svnadmin hotcopy方法</div><div class="line">1. 备份</div><div class="line">#svnadmin hotcopy /opt/svn/iitshare/ /var/tmp/iitshare_20130626 --clean-logs</div><div class="line">[root@rsync ~]# svnadmin hotcopy /opt/svn/repo/ /home/repohost20160623 --clean-logs</div><div class="line">[root@rsync ~]# ll -h /home/repohost20160623</div><div class="line">总用量 24K</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 conf</div><div class="line">drwxr-sr-x 6 root root 4.0K 6月  23 13:14 db</div><div class="line">-r--r--r-- 1 root root    2 6月  23 13:14 format</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 hooks</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 locks</div><div class="line">-rw-r--r-- 1 root root  229 6月  23 13:11 README.txt</div><div class="line">如果你传递--clean-logs选项，svnadmin会执行热拷贝操作，然后删除不用的Berkeley DB日志文件。</div><div class="line">你可以在任何时候运行这个命令得到一个版本库的安全拷贝，不管其它进程是否使用这个版本库。</div><div class="line">2. 还原</div><div class="line">#svnadmin hotcopy /var/tmp/iitshare_20130626 /opt/svn/iitshare/</div><div class="line">svnadmin hotcopy /home/repohost20160623 /opt/svn/repo/</div></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwrk0lnr000ptlcyqnbkn1aw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwrkt734000q88cyxv2pnw0w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -207,7 +179,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwrk0lo1000wtlcyeify93cd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwrkt73d000w88cyru3c581a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -296,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwrk0lqu003ttlcy1o8vq09q" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwrkt75x003s88cybmo0go78" class="article-share-link">Share</a>
       
       
     </footer>
@@ -333,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwrk0lqt003rtlcytg3cft8c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwrkt75x003t88cy4f3y6c5n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -370,7 +342,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwrk0loy001ptlcyb1f6wjvl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwrkt74b001q88cywexy0ri9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -424,7 +396,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwrk0lq70033tlcydd642k9j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwrkt758002z88cyx8gqzv7g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -461,7 +433,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwrk0lra004jtlcyacvpobp4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwrkt76b004h88cy1ibub4xy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -511,7 +483,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwrk0lp9001ztlcym57r5b1t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwrkt74l001z88cyrdm22o57" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,7 +536,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwrk0lp8001ytlcycg6rt04u" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwrkt74k001y88cyr7pjypgd" class="article-share-link">Share</a>
       
       
     </footer>
