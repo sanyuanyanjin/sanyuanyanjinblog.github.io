@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Proxy | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="localhost:~ # crontab -e:1     sh /root/rotate.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;100 05    /etc/init.d/squid restart00 06   * sh /root/autoftp.sh
+
+8,10,12,14,16   sh /root/resid.sh00 04     sh /backup/backup">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Proxy">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/Proxy/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="localhost:~ # crontab -e:1     sh /root/rotate.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;100 05    /etc/init.d/squid restart00 06   * sh /root/autoftp.sh
+
+8,10,12,14,16   sh /root/resid.sh00 04     sh /backup/backup">
+<meta property="og:updated_time" content="2016-12-19T01:49:20.652Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Proxy">
+<meta name="twitter:description" content="localhost:~ # crontab -e:1     sh /root/rotate.sh &amp;gt;/dev/null 2&amp;gt;&amp;amp;100 05    /etc/init.d/squid restart00 06   * sh /root/autoftp.sh
+
+8,10,12,14,16   sh /root/resid.sh00 04     sh /backup/backup">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Proxy/" class="article-date">
+  <time datetime="2016-12-19T01:48:52.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Proxy
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>localhost:~ # crontab -e<br><em>:1 </em> <em> </em> <em> sh /root/rotate.sh &gt;/dev/null 2&gt;&amp;1<br>00 05 </em> <em> </em> /etc/init.d/squid restart<br>00 06 <em> </em> * sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16<em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
+</ul>
+<p><em>:1 </em> <em> </em> <em> 每一秒
+</em>/5 <em> </em> <em> </em> sh /root/mvlog.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>localhost:~ # cat /root/autoftp.sh</p>
+<p>#auto ftp to another server</p>
+<p>#!/bin/bash<br>#</p>
+<p>#setting ftp var</p>
+<p>#ftpurl=210.71.242.204<br>ftpurl=10.6.0.15<br>ftpid=admin<br>ftppwd=htw001c9<br>ftpmode=binary<br>#</p>
+<p>#setting date var<br>Y=<code>date &quot;+%Y&quot;</code><br>m=<code>date &quot;+%m&quot;</code><br>d=<code>date -d &quot;-1 day&quot; &quot;+%d&quot;</code><br>#</p>
+<p>#setting log var<br>logday=$m$d</p>
+<p>#fname=access.log.0<br>fname=access.log<br>logfiledir=/var/log/squid<br>logfile=$logday”.txt”<br>gziplog=$logfile”.gz”<br>#<br>cp $logfiledir/$fname $logfiledir/$logfile<br>gzip $logfiledir/$logfile<br>#</p>
+<p>#setting backup var<br>backupdir=/backup/log<br>Ymdir=$Y$m<br>#<br>if [ -d /$backupdir/$Ymdir ]<br>then<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>else<br>mkdir $backupdir/$Ymdir<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>fi<br>#<br>ftp -n $ftpurl&lt;&lt;command<br>user $ftpid $ftppwd $ftpid@ftpurl<br>$ftpmode<br>lcd $backupdir/$Ymdir<br>put $gziplog<br>bye<br>command<br>#</p>
+<p>#remove oldfile<br>rm $logfiledir/$gziplog<br>localhost:~ #</p>
+<p>localhost:~ # cat /root/resid.sh</p>
+<p>#!/bin/sh<br>kill -9 <code>ps aux | grep -i squid | grep -v grep|awk &#39;{print $2}&#39;</code> &gt; /dev/null</p>
+<h1 id="kill-9-cat-var-run-squid-pid-gt-dev-null"><a href="#kill-9-cat-var-run-squid-pid-gt-dev-null" class="headerlink" title="kill -9 cat /var/run/squid.pid &gt; /dev/null"></a>kill -9 <code>cat /var/run/squid.pid</code> &gt; /dev/null</h1><p>/etc/init.d/squid start &gt; /dev/null<br>/etc/init.d/mysql start &gt; /dev/null<br>localhost:~ #</p>
+<p>localhost:~ # cat /backup/backupopt/squid_backup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>localhost:~ #</p>
+<p>Proxy</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>crontab -e<br>00 05 <em> </em> <em> /etc/init.d/squid restart<br>00 06 </em> <em> </em> sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16  <em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
+</ul>
+<p>查看文件夹容量<br>localhost:/var/log/squid # du -h –max-depth=1 /var/log/squid</p>
+<p>linux ls 按文件大小排序<br>ls -Slrh /var/log/squid/<br>localhost:/var/log/squid # ls -Slrh</p>
+<p>日志过大，手工删除<br>localhost:/var/log/squid # rm store.log-201504*</p>
+<p>查看系统日志<br>localhost:~ # tail -f /var/log/messages</p>
+<p>vim sys.txt<br>ps aux | grep -i squid<br>ll -h /var/log/squid/access.log &amp;&amp; ll -h /var/log/squid/store.log<br>/usr/sbin/squid -k rotate</p>
+<p>滚动日志记录<br>/usr/sbin/squid -k rotate<br>localhost:~ # ll -h /var/log/squid/access.log<br>-rw-r—– 1 squid nogroup 42K Jun  2 16:41 /var/log/squid/access.log<br>localhost:~ # ll -h /var/log/squid/store.log<br>-rw-r—– 1 squid nogroup 103K Jun  2 16:41 /var/log/squid/store.log</p>
+<p>正常运行：<br>ps aux | grep -i squid<br>root     15813  0.0  0.0   7240  1160 ?        Ss   16:59   0:00 /usr/sbin/squid -sYD<br>squid    15815 38.3  0.3  30932 25488 ?        S    16:59   2:58 (squid) -sYD<br>squid    15819  0.0  0.0   3924  1000 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15820  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15821  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15822  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15825  0.0  0.0   3924   700 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15837  0.0  0.0   1732   244 ?        Ss   16:59   0:00 (unlinkd)<br>root     15921  0.0  0.0   2404   472 pts/0    S+   17:06   0:00 grep -i squid<br>localhost:~ # </p>
+<p>vim mv.sh </p>
+<p>for file in /root/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 100000 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done<br>~</p>
+<p>vim mvlog.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1999666333 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done</p>
+<p>vim /root/rotate.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1899666333 ] &amp;&amp; /usr/sbin/squid -k rotate</p>
+<p>done</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="ciwvhh0mz002br1cy5st2vm8y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Cacti-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Cacti
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x-安装fabric/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x 安装fabric</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

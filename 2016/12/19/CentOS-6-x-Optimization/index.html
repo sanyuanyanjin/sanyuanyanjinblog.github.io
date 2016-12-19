@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Optimization | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[root@renjia ~]# echo “yanjin”|passwd –stdin jinyanvisudoroot    ALL=(ALL)       ALLrenjia  ALL=(ALL)       NOPASSWD: ALLleader    ALL=(ALL)       ALL
+server time
+1.yum源
+2.安装必要的软件包
+3.关闭SELINUX[root@re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Optimization">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="[root@renjia ~]# echo “yanjin”|passwd –stdin jinyanvisudoroot    ALL=(ALL)       ALLrenjia  ALL=(ALL)       NOPASSWD: ALLleader    ALL=(ALL)       ALL
+server time
+1.yum源
+2.安装必要的软件包
+3.关闭SELINUX[root@re">
+<meta property="og:updated_time" content="2016-12-19T02:25:16.692Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Optimization">
+<meta name="twitter:description" content="[root@renjia ~]# echo “yanjin”|passwd –stdin jinyanvisudoroot    ALL=(ALL)       ALLrenjia  ALL=(ALL)       NOPASSWD: ALLleader    ALL=(ALL)       ALL
+server time
+1.yum源
+2.安装必要的软件包
+3.关闭SELINUX[root@re">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Optimization/" class="article-date">
+  <time datetime="2016-12-19T02:24:51.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Optimization
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@renjia ~]# echo “yanjin”|passwd –stdin jinyan<br>visudo<br>root    ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>leader    ALL=(ALL)       ALL</p>
+<p>server time</p>
+<p>1.yum源</p>
+<p>2.安装必要的软件包</p>
+<p>3.关闭SELINUX<br>[root@renjia ~]# vim /etc/selinux/config<br>SELINUX=disabled<br>[root@renjia ~]# getenforce<br>Enforcing<br>[root@renjia ~]# setenforce 0<br>[root@renjia ~]# getenforce<br>Permissive</p>
+<p>/etc/init.d/iptables stop</p>
+<p>[root@renjia ~]# mkdir -p /server/scripts<br>[root@renjia ~]# cd /server/scripts/<br>[root@renjia scripts]# vim del.sh<br>[root@renjia scripts]# ll<br>总用量 4<br>-rw-r–r– 1 root root 50 12月 26 13:12 del.sh</p>
+<p>4.runlevel init 0~6<br>[root@renjia ~]# runlevel<br>N 3<br>cat /etc/inittab<br>setup<br>ntsysv</p>
+<p>刚装完系统时保留服务：<br>crond<br>network<br>sshd<br>syslog<br>脚本管理开机自启动的服务：<br>LANG=en<br>for jinyan in <code>chkconfig --list|grep 3:on|awk &#39;{print $1}&#39;</code>;do chkconfig –level 3 $jinyan off;done<br>for jinyan in crond network syslog sshd ;do chkconfig –level 3 $jinyan on;done<br>chkconfig –list|grep 3:on</p>
+<p>内核优化<br>vi /etc/sysctl.conf<br>net.ipv4.tcp_fin_timeout = 2<br>net.ipv4.tcp_tw_reuse = 1<br>net.ipv4.tcp_tw_recycle = 1<br>net.ipv4.tcp_syncookies = 1<br>net.ipv4.tcp_keepalive_time = 600<br>net.ipv4.ip_local_port_range = 4000          65000<br>net.ipv4.tcp_max_syn_backlog = 16384<br>net.ipv4.tcp_max_tw_buckets = 36000<br>net.ipv4.route.gc_timeout = 100<br>net.ipv4.tcp_syn_retries = 1<br>net.ipv4.tcp_synack_retries = 1<br>net.core.somaxconn = 16384<br>net.core.netdev_max_backlog = 16384<br>net.ipv4.tcp_max_orphans = 16384</p>
+<p>#iptables<br>net.ipv4.ip_conntrack_max = 25000000<br>net.ipv4.netfilter.ip_conntrack_max=25000000<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=180<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120</p>
+<p>sysctl -p</p>
+<p>/etc/init.d/iptables start</p>
+<p>linux定时任务Crond之服务器同步时间<br>[root@jinyan ~]# /usr/sbin/ntpdate time.windows.com<br>26 Dec 12:42:45 ntpdate[2929]: step time server 64.4.10.33 offset -28179.740945 sec<br>[root@jinyan ~]# date<br>Thu Dec 26 12:43:04 CST 2013<br>[root@jinyan ~]# /sbin/ntpdate time.windows.com<br>26 Dec 12:44:34 ntpdate[2934]: adjust time server 65.55.56.206 offset -0.036207 sec</p>
+<p>crontab -e</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1<br>crontab -l</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="ciwvhh0lk000qr1cym18gh7zc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/CentOS-6-5-Postfix/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.5 Postfix
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/RHEL-6-x/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">RHEL 6.x</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

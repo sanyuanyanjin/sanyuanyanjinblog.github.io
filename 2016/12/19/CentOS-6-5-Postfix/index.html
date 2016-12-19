@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.5 Postfix | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vim /etc/postfix/main.cfmyhostname = tzuchi.com.cnmyorigin = $myhostnamemynetworks = 10.0.0.0/8, 127.0.0.0/8mydestination = $myhostname, localhost.$mydomain, localhostrelay_domains = $mydestinationali">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.5 Postfix">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="vim /etc/postfix/main.cfmyhostname = tzuchi.com.cnmyorigin = $myhostnamemynetworks = 10.0.0.0/8, 127.0.0.0/8mydestination = $myhostname, localhost.$mydomain, localhostrelay_domains = $mydestinationali">
+<meta property="og:updated_time" content="2016-12-19T02:25:57.875Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.5 Postfix">
+<meta name="twitter:description" content="vim /etc/postfix/main.cfmyhostname = tzuchi.com.cnmyorigin = $myhostnamemynetworks = 10.0.0.0/8, 127.0.0.0/8mydestination = $myhostname, localhost.$mydomain, localhostrelay_domains = $mydestinationali">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-5-Postfix" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-5-Postfix/" class="article-date">
+  <time datetime="2016-12-19T02:25:33.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.5 Postfix
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /etc/postfix/main.cf<br>myhostname = tzuchi.com.cn<br>myorigin = $myhostname<br>mynetworks = 10.0.0.0/8, 127.0.0.0/8<br>mydestination = $myhostname, localhost.$mydomain, localhost<br>relay_domains = $mydestination<br>alias_maps = hash:/etc/aliases<br>alias_database = hash:/etc/aliases<br>debug_peer_level = 2<br>debugger_command =<br>         PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin<br>         ddd $daemon_directory/$process_name $process_id &amp; sleep 5<br>smtpd_client_restrictions =<br>smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination<br>smtpd_sasl_auth_enable = no</p>
+<p>vi /etc/sasl2/smtpd.conf<br>pwcheck_method: saslauthd<br>mech_list: plain login</p>
+<p>service postfix check<br>service postfix start<br>chkconfig postfix on</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="ciwvhh0kv0008r1cyuzqymzuf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/CentOS-6-5-Template/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.5 Template
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x-Optimization/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x Optimization</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

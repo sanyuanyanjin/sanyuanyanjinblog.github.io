@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/操作文件和目录/" class="article-date">
-  <time datetime="2016-12-13T06:01:49.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/15/CentOS-6-x-Puppet/" class="article-date">
+  <time datetime="2016-12-15T00:26:00.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Puppet/">CentOS 6.x Puppet</a>
     </h1>
   
 
@@ -83,99 +83,285 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>D:\Markdown&gt;python<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import os<br>os.name<br>‘nt’<br>os.uname()<br>posix.uname_result(sysname=’Linux’, nodename=’CentOS7’, release=’3.10.0-327.el7.x86_64’, version=’#1 SMP Thu Nov 19 22:10:57 UTC 2015’, machine=’x86_64’)<br>os.environ<br>os.environ.get(‘PATH’)<br>‘C:\Python27\;C:\Python27\Scripts;C:\Python34\;C:\Python34\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Gow\bin;C:\Users\JinYan\AppData\Local\Pandoc\‘<br>os.environ.get(‘x’, ‘default’)<br>‘default’<br>os.path.abspath(‘.’)<br>‘D:\Markdown’<br>os.path.abspath(‘..’)<br>‘D:\‘<br>os.path.join(‘D:\Markdown’, ‘testdir’)<br>‘D:\Markdown\testdir’<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.rmdir(‘D:\Markdown\testdir’)<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.path.split(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir’, ‘test.txt’)<br>os.path.splitext(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir\test’, ‘.txt’)<br>os.rename(‘test.txt’, ‘test.py’)<br>os.rename(‘test.py’, ‘test.txt’)</p>
-<p>import shutil<br>shutil.copy(‘test - 副本.txt’, ‘test.txt’)</p>
-<p>import os<br>[x for x in os.listdir(‘.’) if os.path.isdir(x)]<br>[‘testdir’]</p>
-<p>[x for x in os.listdir(‘.’) if os.path.isfile(x) and os.path.splitext(x)[1]==’.txt’]<br>[‘test - \xb8\xb1\xb1\xbe.txt’, ‘test.txt’]</p>
+        <p>一、Puppet基础原理:<br>Puppet是一款使用GPLV2X协议授权的开源管理配置工具，用ruby语言开发，既可以通过客户端—服务器的方式运行，也可以独立运行。puppet可以为系统管理员提供方便，快捷的系统自动化管理。<br>二、puppet工作流程</p>
+<ol>
+<li>客户端 puppet-client 向 puppet-master 发起认证请求，或使用带签名的证书。</li>
+<li>puppet-master 告诉 puppet-client 是合法的。</li>
+<li>puppet-client 调用 facter， Facter 探测出主机的一些变量， 例如主机名、 内存大小、 IP 地址等，puppet-client 将这些信息通过 SSL 连接发送到服务器端。</li>
+<li>puppet-master 服务器端检测客户端的主机名，然后找到 manifest 对应的 node 配置，并对该部分内容进行解析。facter 送过来的信息可以作为变量处理，node 牵涉到的代码才解析，其他没牵涉的代码不解析。解析分为几个阶段，首先是语法检查，如果语法错误就报错；如果语法没错，就继续解析，解析的结果生成一个中间的“伪代码”(catelog)，然后把伪代码发给客户端。</li>
+<li>puppet-client 端接收到“伪代码”，并且执行。</li>
+<li>puppet-client 端在执行时判断有没有 file 文件，如果有，则向 fileserver 发起请求。</li>
+<li>puppet-client 端判断有没有配置 report，如果已配置，则把执行结果发送给服务器。</li>
+<li>puppet-server 端把 puppet-client 端的执行结果写入日志，并发送给报告系统。<br>三、puppet安装<br>1、直接通过yum安装老系统自带版本。<br>yum install puppet -y<br>2、安装最新版本<br>sudo rpm -ivh <a href="https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm" target="_blank" rel="external">https://yum.puppetlabs.com/puppetlabs-release-el-6.noarch.rpm</a><br>2.1、安装puppet-server。<br>sudo puppet resource package puppet-server ensure=latest<br>2.2、安装agent<br>sudo puppet resource package puppet ensure=latest<br>四、puppet资源管理<br>Puppet中的资源是puppet工具的核心，它是通过puppet管理配置系统的最小单位。<br>..<br>1、查看资源类型<br>puppet describe -l<br>2、查看资源摘要<br>puppet describe -s <resource_name><br>3、查看资源详细用法<br>puppet describe <resource_name><br>4、资源的基本格式<br>资源名 { ‘标题’:<pre><code>属性1 =&gt; &apos;值&apos;,
+属性2 =&gt; &apos;值&apos;,
+</code></pre>}<br>`<blockquote>
+<p>以安装httpd为例<br>``` cpp<br>package { ‘httpd’:</p>
+<pre><code>ensure =&gt; &apos;present&apos;,
+provider =&gt; &apos;rpm&apos;,
+</code></pre><p>}<br>puppet常用资源:file,filebucket,host,group,package,service,exec,cron,notify 等。<br>..<br>5、资源公有属性:<br>before :指明资源要在某个资源之前运行<br>require：指明某个资源要在某个资源之后运行。<br>notify: 主动通知其他资源，本资源的状态<br>subscibe ：被动通知，当它检测到资源状态发生改变的时候，主动更新所在资源状态。<br>还可以使用<br>-&gt; 表示资源前后关系<br>~&gt; 表示资源之间的通知<br>五、puppet语言<br>1)、puppet变量：<br>1、名称之前必须以$开头，赋值用=，支持追加赋值+=；<br>2、变量名称有两种格式，简短名称，FQN($scope::variable)。</p>
+<pre><code>$webserver = &quot;httpd&quot;
+package {&quot;httpd&quot;:
+       ensure =&gt; &quot;present&quot;,
+       name =&gt; $webserver
+} 
+</code></pre><p>3、作用域:top &gt; node &gt; local 作用域越小，优先级越高<br>2)、数据类型：</p>
+<pre><code>1、直接字串
+       可以使用引号，也可以不用。
+       换行符为\n,windows中\r\n
+2、布尔型
+       true,false
+       其它类型会自动转换为布尔型。
+       所有数字都是true
+       空字符串为false，其它字符串为true
+3、数值
+       整数
+       浮点数
+4、数组，逗号隔开
+       $array = [&apos;httpd&apos;,&apos;mysql&apos;,&apos;php&apos;]
+       package {$array:ensure =&gt; installed} #依次安装包
+5、hash
+       { key1 =&gt; value1,key2 =&gt; value2,…}
+6、undef，声明未定义的东西不能加上引号的。
+</code></pre><p>3)、puppet支持的操作符和对应的表达式：</p>
+<h1 id="比较操作符"><a href="#比较操作符" class="headerlink" title="比较操作符:"></a>比较操作符:</h1><pre><code>！=
+&lt;,&gt;,&lt;=,&gt;=,
+=~ 正则匹配
+!~ 正则不匹配
+in
+</code></pre><p>布尔操作符:</p>
+<pre><code>and
+or
+!
+</code></pre><p>算术运算</p>
+<pre><code>+
+–
+ /
+ *
+ &lt;&lt;   左移
+</code></pre><blockquote>
+<p>  右移</p>
+<pre><code>$osfamily == &apos;CentOS&apos; 
+$kernel in [&apos;Linux&apos;,&apos;solaris&apos;,&apos;freebsd&apos;]
+</code></pre><p>4)、puppet的条件判断语句：</p>
+<pre><code>if ..elsif..else
+case
+selector语句 #意思是在两个选项中任选其中一个赋值
+</code></pre><p>if $operationsystem == ‘CentOS’{</p>
+<pre><code>       notice(&quot;welcome to CentOS&quot;)
+}
+elsif $operationsystem == &apos;Redhat&apos; {
+       notice(&quot;Welcome to Redhat&quot;)
+}
+elsif $operationsystem == &apos;Fedora&apos; {
+       notice(&quot;Welcome to Fedora&quot;)
+}
+else{
+       notice(&apos;Welcome to ET&apos;)
+}
+</code></pre><p>case $operationsystem {</p>
+<pre><code>&apos;Solaris&apos;:  { include role::solaris }
+&apos;Redhat&apos;,&apos;CentOS&apos; : { include role::redhat }
+/^(Debian|Ubuntu)$/ : { include role::debian }
+default : { include role::generic }
+</code></pre><p>}<br>$webserver = $operatingsystem ? {</p>
+<pre><code>/(?i-mx:&apos;ubuntu&apos;|debian)/ =&gt; &apos;apache&apos;,
+/(?i-mx:redhat|centos|fedora)/ =&gt; &apos;httpd&apos;,
+default =&gt; &apos;httpd&apos;
+</code></pre><p>}<br>i：表示忽略大小写</p>
 </blockquote>
 </blockquote>
-</blockquote>
-<p>do_dir.py</p>
-<p>#!/usr/bin/env python3</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime<br>import os</p>
-<p>pwd = os.path.abspath(‘.’)</p>
-<p>print(‘      Size     Last Modified  Name’)<br>print(‘————————————————————‘)</p>
-<p>for f in os.listdir(pwd):<br>    fsize = os.path.getsize(f)<br>    mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime(‘%Y-%m-%d %H:%M’)<br>    flag = ‘/‘ if os.path.isdir(f) else ‘’<br>print(‘%10d  %s  %s%s’ % (fsize, mtime, f, flag))</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwvdwc40004gm4cyc5xx3mmf" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-单行代码" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/单行代码/" class="article-date">
-  <time datetime="2016-12-13T06:00:27.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/单行代码/">单行代码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、让列表中的每个元素都乘以2</p>
-<p>print map(lambda x: x * 2, range(1,11))</p>
-<p>2、求列表中的所有元素之和</p>
-<p>print sum(range(1,1001))</p>
-<p>3、判断一个字符串中是否存在某些词</p>
-<p>wordlist = [“scala”, “akka”, “play framework”, “sbt”, “typesafe”]<br>tweet = “This is an example tweet talking about scala and sbt.”</p>
-<p>print map(lambda x: x in tweet.split(),wordlist)</p>
-<p>4、读取文件</p>
-<p>print open(“ten_one_liners.py”).readlines()</p>
-<p>5、祝你生日快乐！</p>
-<p>print map(lambda x: “Happy Birthday to “ + (“you” if x != 2 else “dear Name”),range(4))</p>
-<ol>
-<li>过滤列表中的数值</li>
+</resource_name></resource_name></li>
 </ol>
-<p>print reduce(lambda(a,b),c: (a+[c],b) if c &gt; 60 else (a,b + [c]), [49, 58, 76, 82, 88, 90],([],[]))</p>
+<ul>
+<li>： 表示不使用某转移符号<br>m：表示把 “.” 当做换行符使用<br>x :表示互略模式中空白字符和注释。<br>六、puppet类和模块<br>类是具有相同特性和行为的集合。就是一组代码块，在需要时可以通过名称进行调用。只定义类，并不会调用，需要声明才可以。<br>1)、语法：<br>class class_name [inherits] [base_class] {<pre><code>正常的puppet代码
+</code></pre>}<br>如果在同个模块定义了多个类， 可以采双冒号（ ：： ） 。<br>例如定义个nginx模块，<br>模块中 定义三个类：<br>class nginx { … }<br>class nginx::config { … }<br>class nginx::vhost { … }<br>2)、类的继承(基类不能有参数)：<br>1、继承资源属性<br>2、覆盖资源属性<pre><code>=&gt;         
+</code></pre>3、追加资源属性<pre><code>+&gt;
+</code></pre>3)、 模块<br>模块结构<br>module name<pre><code>mainfests
+       init.pp  #必须至少声明一个类。类与模块名相同
+       *.pp
+        # mudule_name::[subdirname]::mainfect_name
+files：包含的是一个静态文件。puppet的agentmaster模型。
+       puppet:///modles/module_name/[subdir_name/]file_name
+templates：模板文件 *.erb 用到ruby语言
+       template(&apos;&apos;);
+       content =&gt; template(&apos;模板文件&apos;),
+lib #插件目录。
+tests ：当前模块的使用帮助或者实例文件
+spec ：为lib目录的插件提供使用说明，范例的。
+</code></pre>七、事例，puppet部署LNMP<br>1、假定已经安装好puppet-server。<br>..<br>2、主机名通信<br>cat &gt;&gt; /etc/hosts &lt;&lt;EOF192.168.198.139 puppet-server192.168.198.160 puppet-client<br>EOF<br>3、提供puppet文件<br>mkdir /etc/puppet/modules/lnmp/{manifests,files,templates,tests} -p<br>vim /etc/puppet/modules/lnmp/manifests/init.pp<br>class lnmp {<pre><code>include lnmp::nginx
+include lnmp::mysql
+include lnmp::php
+</code></pre>}<br>vim /etc/puppet/modules/lnmp/manifests/nginx.pp<br>class lnmp::nginx {<br>  package{‘nginx’:<pre><code>ensure  =&gt; present,
+name    =&gt; nginx,
+</code></pre>  }<br>  file{‘nginx.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/nginx.conf&apos;,
+path    =&gt; &apos;/etc/nginx/nginx.conf&apos;,
+require =&gt; Package[&apos;nginx&apos;],
+</code></pre>  }<br> service{‘nginx’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;nginx.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/php.pp<br>class lnmp::php {<br>  package{‘php-fpm’:<pre><code>ensure  =&gt; present,
+name    =&gt; php-fpm,
+</code></pre>  }<br>  file{‘www.conf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/www.conf&apos;,
+path    =&gt; &apos;/etc/php-fpm.d/www.conf&apos;,
+require =&gt; Package[&apos;php-fpm&apos;],
+</code></pre>  }<br> service{‘php-fpm’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;www.conf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/modules/lnmp/manifests/mysql.pp<br>class lnmp::mysql {<br>  package{‘mysql-server’:<pre><code>ensure  =&gt; present,
+name    =&gt; &apos;mysql-server&apos;,
+</code></pre>  }<br>  file{‘my.cnf’:<pre><code>ensure  =&gt; file,
+source  =&gt; &apos;puppet:///modules/lnmp/my.cnf&apos;,
+path    =&gt; &apos;/etc/my.cnf&apos;,
+require =&gt; Package[&apos;mysql-server&apos;],
+</code></pre>  }<br> service{‘mysqld’:<pre><code>ensure  =&gt; true,
+enable  =&gt; true,
+subscribe =&gt; File[&apos;my.cnf&apos;],
+</code></pre>  }<br>}<br>vim /etc/puppet/manifests/site.pp<br>node ‘puppet-client’ {<br>include lnmp<br>}<br>4、提供服务配置文件<br>cp /root/files/{nginx.conf,www.conf,my.cnf} /etc/puppet/modules/lnmp/files/<br>5、启动puppet服务<br>[root@puppet-server modules]# puppet master –verbose –no-daemonize   #第一次启动以便观察信息Info: Creating a new SSL key for ca<br>Info: Creating a new SSL certificate request for ca<br>Info: Certificate Request fingerprint (SHA256): 7B:A9:AB:84:C0:EB:DC:83:0E:EA:8C:81:1E:25:9A:47:5C:3F:10:31:6F:F7:5C:25:BE:B7:41:3C:B8:6B:35:38…..<br>[root@puppet-client ~]# puppet agent server –server puppet-server –verbose –no-daemonize  #客户端申请证书[root@puppet-server ~]# puppet cert sign puppet-client   #服务器签署证书#稍等一会[root@puppet-client ~]# ss -tnl | egrep “80|3306|9000”LISTEN     0      128                       <em>:9000                     </em>:<em><br>LISTEN     0      50                        </em>:3306                     <em>:</em><br>LISTEN     0      128                       <em>:80                       </em>:*<br>八、总结</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwvhh0lm000rr1cycjc2u6jd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前言-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/前言-1/" class="article-date">
+  <time datetime="2016-12-15T00:23:59.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/前言-1/">前言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwvhh0o9004er1cy1a3wrasq" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-前言" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/前言/" class="article-date">
+  <time datetime="2016-12-15T00:23:06.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/前言/">前言</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwvhh0oa004fr1cy07oob85s" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Ubuntu-12-04-Puppet" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu-12-04-Puppet/" class="article-date">
+  <time datetime="2016-12-15T00:09:45.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Ubuntu-12-04-Puppet/">Ubuntu 12.04 Puppet</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前言<br>系统运维本是一件枯燥，而且重复性强的工作，不停地搞命令占据了运维人员的大量时间。Puppet通过一种集中式管理的设计，让运维变得简单可控。管理员只需要在master节点修改配置，绑定的客户端节点就会自动同步配置，让命令行也能通过配置实现。<br>第一次尝试，从安装开始。<br>目录<br>Puppet是什么？<br>Puppet服务器安装及配置<br>Puppet客户端安装及配置<br>注册puppet客户端到服务器端<br>例子：生成文件测试</p>
 <ol>
-<li>获取XML web service数据并分析</li>
+<li>Puppet是什么？<br>puppet是一种Linux、Unix、windows平台的集中配置管理系统，使用自有的puppet描述语言，可管理配置文件、用户、cron任务、软件包、系统服务等。puppet把这些系统实体称之为资源，puppet的设计目标是简化对这些资源的管理以及妥善处理资源间的依赖关系。<br>puppet采用C/S星状的结构，所有的客户端和一个或几个服务器交互。每个客户端周期的（默认半个小时）向服务器发送请求，获得其最新的配置信息，保证和该配置信息同步。每个puppet客户端每半小时(可以设置)连接一次服务器端, 下载最新的配置文件,并且严格按照配置文件来配置服务器. 配置完成以后,puppet客户端可以反馈给服务器端一个消息. 如果出错,也会给服务器端反馈一个消息.<br>2台服务器的环境配置：<br>Master Server：<br>Linux Ubuntu 12.04.2 LTS 64bit<br>ip: 192.168.1.201<br>hostname: vm1<br>ruby: 1.8.7<br>Client Server：<br>Linux Ubuntu 12.04.2 LTS 64bit<br>ip: 192.168.1.202<br>hostname: vm2<br>ruby: 1.8.7</li>
+<li>Puppet服务器安装及配置<br>切换到root用户<br>设置host<br>安装Puppet服务器端<br>切换到root用户<br>~ sudo -i<br>~ whoami<br>root<br>设置host<br>~ hostname vm1<br>~ hostanme<br>vm1<br>~ vi /etc/hosts<br>127.0.0.1       localhost<br>192.168.1.201   vm1<br>192.168.1.202   vm2<br>2). 安装Puppet服务器端<br>#安装并启动Puppet服务器端<br>~ apt-get install puppetmaster<br>#检查端口8140<br>~ netstat -nlt |grep 8140<br>tcp        0      0 0.0.0.0:8140            0.0.0.0:*               LISTEN<br>#查看Puppet的版本<br>~ puppet -V<br>2.7.11<br>#启动Puppet服务器<br>~  puppet master –verbose –no-daemonize<br>notice: Starting Puppet master version 2.7.11<br>3). 配置Puppet服务器，在[master]标签下，增加certname设置<br>~ vi /etc/puppet/puppet.conf<br>[master]<br>certname=vm1 #增加服务器配置<br>#重启Puppet服务器<br>~ /etc/init.d/puppetmaster restart</li>
 </ol>
-<p>from xml.dom.minidom import parse, parseString<br>import urllib2</p>
-<h1 id="注意，我将它转换成XML格式化并打印出来"><a href="#注意，我将它转换成XML格式化并打印出来" class="headerlink" title="注意，我将它转换成XML格式化并打印出来"></a>注意，我将它转换成XML格式化并打印出来</h1><p>print parse(urllib2.urlopen(“<a href="http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8" target="_blank" rel="external">http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8</a>“)</p>
+<ul>
+<li>Restarting puppet master<br>4). 查看Puppet服务器的证书<br>~ puppet cert –list –all</li>
+</ul>
+<ul>
+<li>“vm1” (60:0E:1D:8F:80:0B:5D:7D:F8:8B:C7:C6:DF:CF:69:43)</li>
+<li>为已注册的证书<br>这样我们就完成了，服务器端的配置！接下来，继续进行客户端的配置。</li>
+</ul>
 <ol>
-<li>找到列表中最小或最大的一个数字</li>
+<li>Puppet客户端安装及配置<br>切换到root用户<br>~ sudo -i<br>~ whoami<br>root<br>设置host<br>~ hostname vm2<br>~ hostanme<br>vm2<br>~ vi /etc/hosts<br>127.0.0.1       localhost<br>192.168.1.201   vm1<br>192.168.1.202   vm2<br>2). 安装Puppet服务器端<br>#安装并启动Puppet客户端<br>~ apt-get install puppet<br>#查看Puppet的版本<br>~ puppet -V<br>2.7.11<br>3). 配置Puppet客户端，在[agent]标签下增加server设置<br>~ sudo vi /etc/puppet/puppet.conf<br>[agent]<br>server=vm1<br>4). 配置Puppet客户端default值，修改START设置<br>~ vi /etc/default/puppet<br>START=yes<br>设置START把no改为yes<br>重启Puppet客户端<br>~ /etc/init.d/puppet restart</li>
 </ol>
-<p>print min([14, 35, -7, 46, 98])<br>print max([14, 35, -7, 46, 98])</p>
+<ul>
+<li>Restarting puppet agent</li>
+</ul>
 <ol>
-<li>并行处理</li>
+<li>注册puppet客户端到服务器端<br>1). 检查服务器端的证书<br>#服务器端操作<br>~ puppet cert –list –all</li>
 </ol>
-<p>import multiprocessing<br>import math</p>
-<p>print list(multiprocessing.Pool(processes=4).map(math.exp,range(1,11)))</p>
+<ul>
+<li>“vm1” (60:0E:1D:8F:80:0B:5D:7D:F8:8B:C7:C6:DF:CF:69:43)<br>2). 在服务器端(vm1)创建文件site.pp<br>#服务器端操作<br>~ sudo vi /etc/puppet/manifests/site.pp<br>node default {<br>notify { “Hey ! It works !”: }<br>}<br>3). 从客户端(vm2)向服务器端发起注册请求<br>#客户端操作<br>~ puppet agent -t<br>info: Creating a new SSL key for vm2<br>info: Caching certificate for ca<br>info: Creating a new SSL certificate request for vm2<br>info: Certificate Request fingerprint (md5): 15:45:D1:22:1B:97:6D:49:43:BC:93:D8:BB:4C:E1:99<br>Exiting; no certificate found and waitforcert is disabled<br>#如果之前生成发启过认证请求，则需要删除证书的目录<br>~ rm -rf /var/lib/puppet/ssl<br>~ puppet agent -t<br>4). 服务器端(vm1)查看客户端请求认证的列表<br>#服务器端操作<br>~ puppet cert –list<br>“vm2” (15:45:D1:22:1B:97:6D:49:43:BC:93:D8:BB:4C:E1:99)<br>5). 服务器端(vm1)接受客户端的请求<br>#服务器端操作<br>~ puppet cert –sign vm2<br>notice: Signed certificate request for vm2<br>notice: Removing file Puppet::SSL::CertificateRequest vm2 at ‘/var/lib/puppet/ssl/ca/requests/vm2.pem’<br>#可以接受所有的请求<br>~ puppet cert -s -a<br>#查看认证后，查看服务器上公钥的位置<br>~ sudo ls  /var/lib/puppet/ssl/ca/signed/<br>vm1.pem  vm2.pem<br>6). 服务器端(vm1)查看的证书列表<br>#服务器端操作<br>~ puppet cert –list –all</li>
+<li>“vm1” (B7:45:28:1B:AE:53:0B:D7:38:8E:66:70:6C:B8:13:A4)</li>
+<li>“vm2” (FB:64:C7:38:DA:B4:C7:0B:E6:3B:85:86:9A:F4:61:C2)<br>7). 客户端(vm2)执行服务器设置的脚本site.pp<br>#客户端操作<br>~ puppetd –test<br>info: Caching certificate for vm2<br>info: Caching certificate_revocation_list for ca<br>info: Caching catalog for vm2<br>info: Applying configuration version ‘1383527011’<br>notice: Hey ! It works !<br>notice: /Stage[main]//Node[default]/Notify[Hey ! It works !]/message: defined ‘message’ as ‘Hey ! It works !’<br>notice: Finished catalog run in 0.02 seconds<br>我们看到’Hey ! It works !’，被正常显示出来。</li>
+</ul>
 <ol>
-<li>“Sieve of Eratosthenes”算法</li>
+<li>例子：生成文件测试<br>1). 生成文件测试，在/tmp目录下生成一个文件hello.txt。<br>在服务器端修改一个文件site.pp<br>~ vi /etc/puppet/manifests/hello.pp<br>node default {<br>notify { “Hey ! It works !”: }<br>file {<br> “/tmp/hello.txt”: content =&gt; “hello world”;<br>}<br>}<br>2). 在服务器端运行hello.pp文件<br>~ puppet apply /etc/puppet/manifests/site.pp<br>warning: Could not retrieve fact fqdn<br>warning: Host is missing hostname and/or domain: vm1<br>notice: /Stage[main]//Node[default]/File[/tmp/hello.txt]/ensure: defined content as ‘{md5}5eb63bbbe01eeed093cb22bb8f5acdc3’<br>notice: Hey ! It works !<br>notice: /Stage[main]//Node[default]/Notify[Hey ! It works !]/message: defined ‘message’ as ‘Hey ! It works !’<br>notice: Finished catalog run in 0.02 seconds<br>#检查生成的文件<br>~ cat /tmp/hello.txt<br>hello world<br>3). 在客户端同步<br>~  puppet agent –test –server=vm1<br>info: Caching catalog for vm2<br>info: Applying configuration version ‘1383528346’<br>notice: /Stage[main]//Node[default]/File[/tmp/hello.txt]/ensure: defined content as ‘{md5}5eb63bbbe01eeed093cb22bb8f5acdc3’<br>notice: Hey ! It works !<br>notice: /Stage[main]//Node[default]/Notify[Hey ! It works !]/message: defined ‘message’ as ‘Hey ! It works !’<br>notice: Finished catalog run in 0.07 seconds<br>#检查生成的文件<br>~ cat /tmp/hello.txt<br>hello world<br>这样我们就实现了第一个最简单的利用Puppet自动化运维的例子。出步尝试已经成功，接下来就像要深入研究Puppet到底能干什么，实现系统的高效运维。</li>
 </ol>
-<p>Python里没有Sieve of Eratosthenes操作符，但这对于Python来说并不是难事。</p>
-<p>n = 50 # We want to find prime numbers between 2 and 50</p>
-<p>print sorted(set(range(2,n+1)).difference(set((p <em> f) for p in range(2,int(n*</em>0.5) + 2) for f in range(2,(n/p)+1))))</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwvdwc3h0040m4cywp7hf1es" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwvhh0n4002mr1cyrv757he8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -185,10 +371,10 @@
 
 
   
-    <article id="post-练手的小项目" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-GoAccess" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/练手的小项目/" class="article-date">
-  <time datetime="2016-12-13T05:59:19.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/CentOS-6-x-GoAccess/" class="article-date">
+  <time datetime="2016-12-14T04:52:16.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -199,7 +385,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/练手的小项目/">练手的小项目</a>
+      <a class="article-title" href="/2016/12/14/CentOS-6-x-GoAccess/">CentOS 6.x GoAccess</a>
     </h1>
   
 
@@ -207,29 +393,89 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>文本操作</p>
-<p>逆转字符串——输入一个字符串，将其逆转并输出。<br>拉丁猪文字游戏——这是一个英语语言游戏。基本规则是将一个英语单词的第一个辅音音素的字母移动到词尾并且加上后缀-ay（譬如“banana”会变成“anana-bay”）。可以在维基百科上了解更多内容。<br>统计元音字母——输入一个字符串，统计处其中元音字母的数量。更复杂点的话统计出每个元音字母的数量。<br>判断是否为回文——判断用户输入的字符串是否为回文。回文是指正反拼写形式都是一样的词，譬如“racecar”。<br>统计字符串中的单词数目——统计字符串中单词的数目，更复杂的话从一个文本中读出字符串并生成单词数目统计结果。<br>文本编辑器——记事本类型的应用，可以打开、编辑、保存文本文档。可以增加单词高亮和其它的一些特性。<br>RSS源创建器——可以从其它来源读取文本并将其以RSS或者Atom的格式发布出去。<br>实时股价——可以查询股票当前价格。用户可以设定数据刷新频率，程序会用绿色和红色的箭头表示股价走势。<br>访客留言簿/日志——允许人们添加评论或者日记，可以设置开启/关闭评论，并且可以记录下每一条目的时间。也可以做成喊话器。<br>新闻和比分播报器——一个桌面应用，可以从网上收集新闻和比赛分数，将结果在屏幕上滚动播出。<br>占星罗盘——用占星术来预测每天的运程。<br>密码短信——可以将数据加密解密，并能将其发送给朋友。<br>帮你挑礼物——输入一堆你可能会送的礼物，当有人过生日时，该程序会随机选择一样礼物。也可以加上一个额外功能，可以告知哪里可以弄到这个礼物。<br>HTML生成器——将 TEXT 文档转换成HTML文件，对制作网页HTML文档很有用。<br>CD-Key生成器——利用某种算法生成一个唯一的key。软件开发者可以用它来作为软件的激活器。<br>正则表达式查询工具——用户可以输入一段文本，在另外的控件里输入一个正则表达式。运行以后会返回匹配的内容或者正则表达式中的错误。</p>
-<p>网络</p>
-<p>FTP工具——与远程网络服务器交互文件。<br>原子钟校时——从网上同步原子钟时间。全世界有很多原子钟，可以把它们都列出来。<br>聊天应用（IRC或者MSN风格的）——像IRC那样的聊天室软件或者MSN那样的实时聊天软件。更复杂一点的话，可以为聊天制定一套你自己的传输协议。<br>获取当前天气——获取某个地区当前的天气情况。<br>P2P文件共享应用——像LimeWire、FrostWire、Bearshare或者torrent风格的应用。<br>端口扫描器——输入某个ip地址和端口区间，程序会逐个尝试区间内的端口，如果能成功连接的话就将该端口标记为open。<br>邮件检查工具（POP3/IMAP）——用户输入一些账号信息，包括服务器、ip、协议类型（POP3或者IMAP），应用每隔一段时间就会检查下该账号下的邮箱。<br>数据包嗅探器——侦测电脑上进出的数据包，获取诸如目的地和大小之类的信息。<br>IP注册地查询——输入ip地址，查询该ip是在哪注册的。<br>Whois查询工具——输入一个ip或者主机地址，通过whois查询并将结果返回。<br>邮编查询——输入邮编，返回使用该邮编的地区名称。<br>远程登入——远程登入桌面类型的应用，可以查看和控制远程电脑（假如你已经获得权限）。可能需要你自己的网络和两台电脑来进行测试。<br>网站定时检查器——每隔一段时间或者在预定的时间尝试连接某个网站或者服务器，来检查它是否可以连上，如果连不上了会通过邮件或者桌面通知来告知你。<br>小型网页服务器——简易版的网页服务器，可以存放包含Javascript和其它形式代码的HTML文件。复杂一点的话可以尝试流媒体视频、创建一种服务器端语言或者其它类型的流媒体。<br>网络蜘蛛——一个可以自动执行网页上各种任务的程序，任务包括网站检查、页面抓取、数据摘要以及网络邮务。</p>
-<p>类</p>
-<p>产品库存管理——创建一个管理产品库存的应用。建立一个产品类，包含价格、id、库存数量。然后建立一个库存类，记录各种产品并能计算库存的总价值。<br>电影商店——管理录像带租借，记录借出时间、到期时间、逾期费用。复杂一点可以生成逾期用户的账号报告。<br>航空/酒店预订系统——创建一套预订航班或酒店的预订系统。不同的航班座位和酒店房间收费不一样。譬如头等舱要比经济舱贵。带阁楼的套间要更贵些。记录下何时有空房可供预订。<br>学生成绩管理器——记录一个班级的学生（创建一个Student类，记录他们的名字、平均分和考试分数）和他们的成绩等级。根据学生的测验和作业的分数计算出平均分和成绩等级。复杂一点可以将数据画在贝尔曲线上。<br>银行账户管家——创建一个名为“Account”的抽象类，有三个为“CheckingAccount”、“SavingsAccount”和“BusinessAccount”的子类。通过类似ATM的程序来管理这些账户的借贷。<br>馆藏目录——创建一个图书类，记录书名、页数、国际标准书号、是否借出。用它来管理各种书籍，允许用户进行借出和归还操作。复杂一点的话，可以生成逾期图书和逾期费用的报告。也可以让用户进行预约操作。</p>
-<p>线程处理</p>
-<p>下载进度条——创建一个表示下载进度的进度条。进度条由独立的线程操作，通过委托来和主线程进行通讯。<br>下载管理器——允许程序同时下载数个文件，每个都用单独的线程进行背景下载。主线程会关注下载进度并且在下载完成时通知用户。<br>聊天软件（远程聊天）——做一个聊天软件，允许你通过ip直接连接到另一台电脑，也允许你的“服务器”程序处理多个请求连接。<br>批量缩略图生成器——在进行图片转换的处理时会需要很多时间，尤其是图片很大时。做一个图片处理程序，能让你在做其它事的时候在后台线程里将数百张图片转换成某个大小的图片。复杂一点的话可以用一个线程来缩放，用另一个线程来为缩略图重命名。</p>
-<p>Web应用</p>
-<p>所见即所得编辑器——创建一个在线编辑器，允许用户移动元素、创建表格、书写文本、设置颜色，而用户不必懂HTML。就像Dreamweaver或者FrontPage。如果需要例子的话，可以参看DIC。<br>分页浏览器——创建一个可以分页的小型网页浏览器，可以同时浏览几个网页。简化一点的话不要考虑Javascript或者其它客户端代码。<br>文件下载器——该程序可以从网页上下载各种资源，包括视频和其它文件。用于有很多下载链接的网页。<br>远程登录——创建一个远程登录的应用，可以通过网络登录服务器并能执行一些基本命令。<br>在线白板——做一个在线白板程序，你和朋友们可以一起在白板上进行一些操作，画图、写字等等。<br>带宽监视器——这个小工具可以记录你已经在网上上传和下载多少数据流量了。可以试着做份报告或者图表来展示各时段的使用情况。<br>书签搜集管理器——该程序可以让用户上传书签并将它们排序，去掉重复的，并能生成书签文件以供Firefox/IE/Safari等使用。复杂一点的话可以试着将书签整理进不同的文件夹。<br>密码保险箱——用来记录各种密码，并且将它们加密，这样别人就看不到了。<br>iGoogle媒体播放器小部件——做一个iGoogle小部件，可以用来播放本地音乐列表，也可以每天分享一首歌。也许还可以让别人看到你最近听了些什么歌。<br>基于文本的游戏——做一个像Utopia那样的文本RPG，游戏中，你可以创建一个文明、收集资源、共铸联盟、施放法术、回合制系统。看看是否能够统一王国。<br>定时自动登录——做一个程序可以在预定的时间登录进某个指定的网页并且执行特定的动作，然后在登出。可以用来检查邮箱、发布常规内容、为其它程序获取信息。<br>电子卡片生成器——可以让用户制作自己的电子卡片并发送给其他人。可以使用flash也可以不用。可以使用图片库，也可以加上深刻的格言警句。<br>内容管理系统——像Joomala、Drupal、PHP Nuke这样的内容管理系统。从简单的做起，慢慢增加其它功能。<br>模板制作器——该网站应用允许用户输入各种颜色代码、元素、尺寸，来为PHPBB、Invision Board、MySpace之类的应用创建模板文件。<br>验证码生成器——应该在登录时见过有数字有字母的验证码图片吧？这可以防止自动登录和垃圾广告。试着自己做一个，如果使用PHP的话，看下GD的图片函数。</p>
-<p>文件</p>
-<p>试卷生成器——该程序可以从文件中随机挑选出不同的题目生成一份试卷。每份试卷可以不一样，通过读取答案来给打分。<br>快速启动——该工具可以添加各个程序的小图标，点击小图标就可以运行程序。和Windows的快速启动类似。<br>文件管理器——做一个文件管理器，要加些新特性，更佳的搜索功能、新图标、新外观。<br>文件记录排序工具——从文件中读取记录，将其排序并写回文件中。允许用户选择排序风格以及排序关键字。<br>生成财务交易文件并且算出平均值——将财务交易读进文件，按照账户分类、算出各项目的总量或平均值、理清各账户的借贷数据。<br>Zip文件生成器——用户输入不同文件夹的文件，也许还包括其他电脑中的文件，然后程序将这些文件打包成zip文件。复杂一点的话，打包时对这些文件进行压缩。<br>PDF生成器——从txt、html或其它文件中读取数据生成PDF文件。可以做成一个网页服务，用户上传文件，返回一个pdf版本。<br>批量文件命名器——程序批量处理一些文件，将根据用户提供的过滤器为它们重命名。譬如用户输入的过滤器为myimage###.jpg，那么会生成至少包含3位数的文件名，譬如myimage001.jpg、myimage145.jpg，甚至是myimage1987.jpg，因为1987也满足了至少包含3位数的条件。<br>MP3标签生成器——修改MP3文件的id3v1标签。还可以试着在MP3文件的头部加入id3v2的标签，譬如album art标签。<br>日志文件生成器——该程序可以记录指定事件的日志。譬如程序做了什么、系统在干什么、文件什么时候被修改了。<br>Excel分页输出器——做一个在线程序，可以读取文件内容生成一个excel分页。可以通过CVS或者其它文件格式来做。复杂一点的话看看是否能创建公式字段。<br>RPG角色属性生成器——做一个程序来给RPG角色随机分配属性点数，可以由用户制定一些分配规则。可以生成职业、性别、力量/魔法/敏捷点数、额外能力或者贸易技能。把结果保存成文件，这样跑团的时候地下城主可以把它打印出来。<br>文件复制工具——该工具可以批量处理文件复制和备份操作。</p>
-<p>数据库</p>
-<p>SQL查询分析器——该工具可以让用户输入一条查询命令，让其运行于本地数据库中。尽量让它运行得更高效。<br>远程SQL工具——该工具能让你通过网络在远程服务器上执行查询操作。它能接收远程主机地址、验证用户名和密码、执行查询并返回结果。<br>卡片整理器——创建一个在线应用，用来记录搜集到的卡片。可以让用户输入整套卡片，查看哪些已经有了，哪些还需要搜集。要增加复杂度的话，还可以让用户知道还差多少可以完成，或者已经收集卡片的价值。<br>报告生成器——该工具可以根据数据库中的表格生成一份报告。譬如根据订单表格生成销售报告。<br>数据库备份脚本制作器——该程序可以读取数据库的对象、关系、记录和步骤，生成一个sql文件，该文件可以导入另一个数据库或者作为备份文件。<br>备忘录——该程序可以让用户设置一个日期和某个事件的时间、事件备注并将它们放到日历上。用户可以查看日历、搜索特定的事件。复杂一点的话，可以让用户设置重复发生的事件，譬如每天、每周、每月、每年等等。<br>预算记录器——该程序可以记录家庭预算。用户可以添加支出、收入，计算一段时间内的收入和支出。复杂一点的话，让用户指定一个时间段，显示该时间段内的家庭收支情况。<br>电话簿——记录各种联系人和他们的号码、邮箱、备注。复杂一点的话可以让用户连上网将电话簿发布到设置好的网站上。<br>电视节目记录器——你是否有不想错过的电视节目？但没有录像机或者想之后能找到该电视节目然后录下来，那么可以做个程序寻找各种在线电视导航网站，记录下电视节目名称、播放时间、播放频道，存在数据库中。数据库或者网站到时就会发邮件提醒你，节目就快在某个频道开始了。<br>旅行计划系统——该系统可以让用户管理旅行路线，记录下航班和酒店安排、感兴趣的地方、预算和时间表。<br>实体关系图生成器——该程序可以让用户整合实体关系图，并将其保存起来，也可以用它来生成一些基础SQL语句。<br>数据库翻译器（MySQL&lt;-&gt;SQL Server）——该工具可以从数据库A读取数据，生成数据库B使用的SQL语句，将数据存入数据库B。比较常用的是SQL Server和Oracle使用的MySQL服务器。<br>BBS论坛——为你和小伙伴们做一个论坛，可以发帖、管理、分享想法和构思。</p>
-<p>图像和多媒体</p>
-<p>幻灯片——做一个以幻灯片形式显示各种图片的程序。为了增加难度可以做些额外的效果，譬如渐进检出、星型擦除、窗口渐隐。<br>思维导图——允许用户记录下各种构思并且快速地进行头脑风暴将这些构思整合到一张思维导图中。越快越好，因此要让用户能迅速地写下构思，然后将其拖到可视的导图中去，将构思之间的关系展现出来。<br>导入图片并存成灰度图——该工具将图片上的彩色除尽并保存。可以增加对比度调整、色化等额外功能以增加复杂度。<br>在线流媒体视频——试着自己做一个在线流媒体视频播放器。<br>MP3播放器（以及其他格式的音乐播放器）——该小程序用来播放你最爱的音乐文件。复杂一点的话看看能否加个播放列表功能和均衡器。<br>批量图片处理——该程序可以将一个文件夹内的图片进行统一的处理，譬如降低图片色调、转换格式或者修改文件属性。还可以尝试给图片增加标签。<br>CD烧录器——可以轻松烧录CD的工具。<br>YouTube下载器——可以从Youtube.com上下载视频到硬盘中，要支持包括FLV和AVI在内的文件格式。<br>墙纸管理工具——做一个管理墙纸的程序，可以定时更换刷新墙纸，也可以针对分辨率进行缩放。<br>截屏程序——做一个可以截屏的工具，复杂一点可以增加一个转发邮件的功能。<br>图片浏览器——该程序可以查看电脑上各种格式的图片，譬如PNG、GIF、JPG、BMP、TIFF等等。<br>交通信号灯——试着做一个交通信号灯并且把它放到可以互动的场景中。不要让汽车闯红灯或者撞到其它车。<br>MP3-WAV转换器——MP3格式本质上就是压缩版的WAV。试着将MP3转换成WAV格式以供可以处理WAV格式的程序使用。请记住1MB的MP3大约等于10MB的WAV。<br>签名生成器——是否在网上见过有人的留言后面有条生成的签名？试着做个程序让用户可以指定背景、文字、颜色和对齐方式来定制一个签名档。<br>屏保——电脑空闲时会运行的屏保程序。简单版的可以使用一些标准图片，复杂版的可以做出能在屏幕上转来转去的3D物体。<br>水印——你是否想保护你图片的版权？在图片上加上标志或者文字，这样别人就不能轻易地从你网站上盗图了。做一个程序来给你的图片加上水印吧。<br>海龟图——创建一个20*20的格子，用命令让一只海龟在格子上画线。可以前进、左转、右转，拿起或放下笔等等。复杂一点的话，允许程序从文件中读取命令列表。可以在网上了解到更多关于“海龟图”的信息。</p>
-<p>游戏</p>
-<p>战船——创建两块游戏面板，玩家各占一边，在上面放置一些战船，玩家看不到对方的面板。每艘船都占几个格子，玩家轮流攻击某个格子，如果格子上有船，那就命中目标，否则就是未命中。当一艘船所占的所有格子都被攻击命中了，那么船就被击沉。谁先将对方战船全部击沉就获胜。<br>象棋跳棋——象棋或者跳棋游戏。可以试着做成可以联网玩，用图形用户界面来实现悔棋、保存走棋过程并且可以回放。<br>刽子手——从文件中随机选择一个单词，让玩家猜单词中的字母。旁边是一幅隐藏的行绞刑的画，猜错一个单词，画就显示出一部分。画全部显示出来时还没能猜全的话玩家就输了。<br>填字游戏——创建一个填字游戏，并为每个词提供一个提示信息，让玩家填上所有正确的单词。<br>青蛙跳——让青蛙跳过河或者马路，过河的话要跳在顺流而下速度各异的木头或者睡莲叶子上，过马路的话要避开速度各异的车子。</p>
+        <p>前言<br>使用Nginx的网站可能会遇到访问流量异常、被友情检测、程序出现Bug等各种突然情况，这时大家的反应想必都是第一时间分析日志，然后发现日志有几十GB之多，又需要按照时间、错误类型或者关键字段检索信息时会不会有种醍醐灌顶、菊花一紧的错觉。文中介绍的方法不管是GoAccess还是sed/awk虽然可以解决一时的问题但未必能够治本，也许ELK(Logstash+ElasticSearch+Kibana)对我们大多数人来说是更合理的集中化日志管理解决方案。<br>日志固然重要，但努力建设适合业务发展的集中化日志管理平台才是基础核心<br>更新历史<br>2015年08月31日 - 增加Nginx日志按时间分割<br>2015年07月16日 - 初稿<br>阅读原文 - <a href="http://wsgzao.github.io/post/goaccess/" target="_blank" rel="external">http://wsgzao.github.io/post/goaccess/</a><br>扩展阅读<br>GoAccess - <a href="http://goaccess.io/" target="_blank" rel="external">http://goaccess.io/</a><br>用GoAccess分析Nginx的日志 - <a href="http://www.fancycoding.com/log-analyse-using-goaccess/" target="_blank" rel="external">http://www.fancycoding.com/log-analyse-using-goaccess/</a><br>sed 简明教程 - <a href="http://coolshell.cn/articles/9104.html" target="_blank" rel="external">http://coolshell.cn/articles/9104.html</a><br>AWK 简明教程 - <a href="http://coolshell.cn/articles/9070.html" target="_blank" rel="external">http://coolshell.cn/articles/9070.html</a><br>LTMP索引 - <a href="http://wsgzao.github.io/index/#LTMP" target="_blank" rel="external">http://wsgzao.github.io/index/#LTMP</a><br>安装GoAccess<br>各平台都有灰常简单的部署方案 - <a href="http://goaccess.io/download" target="_blank" rel="external">http://goaccess.io/download</a><br>wget <a href="http://tar.goaccess.io/goaccess-0.9.2.tar.gz" target="_blank" rel="external">http://tar.goaccess.io/goaccess-0.9.2.tar.gz</a><br>tar -xzvf goaccess-0.9.2.tar.gz<br>cd goaccess-0.9.2/<br>./configure –enable-utf8<br>make<br>make install<br>使用方式<br>更多常见问题请参考官方FAQ - <a href="http://goaccess.io/faq" target="_blank" rel="external">http://goaccess.io/faq</a></p>
+<p>#直接打开<br>goaccess -f access.log</p>
+<p>#选择日志格式<br>NCSA Combined Log Format</p>
+<p>#剩下的操作都蛮简单的，参考扩展阅读和官方文档吧</p>
+<p>#导出HTML报告会遇到的问题<br>goaccess -f time_access.log -a &gt; report.html</p>
+<p>GoAccess - version 0.9.2 - Jul 15 2015 16:23:20<br>Config file: /usr/local/etc/goaccess.conf</p>
+<p>Fatal error has occurred<br>Error occured at: src/parser.c - verify_formats - 1691<br>No time format was found on your conf file.</p>
+<p>#添加配置文件<br>vi ~/.goaccessrc</p>
+<p>time-format %T<br>date-format %d/%b/%Y<br>log-format %h %^[%d:%t %^] “%r” %s %b “%R” “%u”</p>
+<p>#重新指定配置文件后执行<br>goaccess -f time_access.log -p ~/.goaccessrc -a &gt; report.html<br>使用bash/sed/awk手动查找Nginx日志<br>更多技巧可以参考扩展阅读，Python的处理效率或者更优</p>
+<p>#按日期查找时间段<br>sed -n “/30\/Aug\/2015:00:00:01/,/30\/Aug\/2015:23:59:59/“p access.log &gt; time_access.log</p>
+<p>#查找504错误的页面和数量<br>awk ‘($9 ~ /504/)’ time_access.log | awk ‘{print $7}’ | sort | uniq -c | sort -rn &gt; 504.log</p>
+<p>#查找访问最多的20个IP及访问次数<br>awk ‘{print $1}’ time_access.log | sort | uniq -c | sort -n -k 1 -r | head -n 20 &gt; top.log<br>Nginx日志按时间分割<br>这个脚本可以作为通用模板，其它业务需求也可以参照</p>
+<p>#增加自定义脚本<br>vi nginx_log.sh</p>
+<p>#!/bin/bash</p>
+<p>#设置crontab -e为每日凌晨3点</p>
+<p>#0 3 <em> </em> * /root/OMCS/script/nginx_log.sh</p>
+<p>for ngix_i in <code>ls /app/local</code><br>do</p>
+<pre><code>#设置临时变量
+nginx_dir=`basename ${ngix_i}`
+if ( echo &quot;$nginx_dir&quot;|grep &quot;nginx&quot; &gt; /dev/null ); then
+     # echo $nginx_dir
+     #设置日志文件存放目录
+     logs_path=&quot;/app/local/$nginx_dir/logs/&quot;
+     #设置备份日志存放目录
+     logs_bak=&quot;/app/local/$nginx_dir/logs/bak/&quot;
+     #设置pid文件
+     pid_path=&quot;/app/local/$nginx_dir/logs/nginx.pid&quot;
+
+     #判断目录是否存在
+     if  [ ! -d  &quot;$logs_path&quot; ]; then
+          continue
+     fi
+     #判断文件是否存在
+     if  [ ! -e  &quot;$pid_path&quot; ]; then
+          continue
+     fi
+
+     #判断目录是否存在
+     if  [ ! -d  &quot;$logs_bak&quot; ]; then
+          mkdir -p &quot;$logs_bak&quot;
+     fi
+
+     cd ${logs_path}
+     logfiles=(`ls *.log`)
+
+     array_i=0
+     #迁移日志循环模块
+     for i in ${logfiles[@]};
+     do
+          #设置临时变量
+          j=`basename ${i}`
+          #重命名并迁移日志文件
+          baklogname=${j}_$(date -d &quot;yesterday&quot; +&quot;%Y%m%d%H%M%S&quot;)
+          baklognames[$array_i]=$baklogname
+          mv ${i} ${logs_bak}${baklogname}
+          array_i=`expr $array_i + 1`
+     done
+
+     #向nginx主进程发信号重新打开日志
+     kill -USR1 `cat ${pid_path}`
+
+     cd ${logs_bak}
+     #压缩日志循环模块
+     for i in ${baklognames[@]};
+     do
+          #压缩并删除原日志
+          tar -zcvf ${i}.tar.gz ${i} --remove-files &gt; /dev/null 2&gt;&amp;1
+     done
+
+     #清理7天前的日志
+     find ${logs_bak} -name &apos;*&apos;  -mtime +90 | xargs rm -rf {}
+
+fi
+</code></pre><p>done</p>
+<p>#增加执行权限<br>chmod u+x nginx_log.sh</p>
+<p>#设置crontab -e为每日凌晨3点<br>crontab -e</p>
+<p>0 3 <em> </em> * /root/OMCS/script/nginx_log.sh</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwvdwc46004rm4cy6l4w9847" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwvhh0l6000jr1cyqbxmnjgy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -239,10 +485,10 @@
 
 
   
-    <article id="post-mail" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Logrotate" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/mail/" class="article-date">
-  <time datetime="2016-12-13T05:58:08.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/CentOS-6-x-Logrotate/" class="article-date">
+  <time datetime="2016-12-14T04:51:19.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -253,7 +499,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/mail/">mail</a>
+      <a class="article-title" href="/2016/12/14/CentOS-6-x-Logrotate/">CentOS 6.x Logrotate</a>
     </h1>
   
 
@@ -261,17 +507,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>���ı�</p>
-<p>#encoding:utf-8<br>import smtplib<br>import os<br>from email.mime.text import MIMEText<br>from email.mime.multipart import MIMEMultipart<br>from email import encoders<br>user = ‘yanjin198620@126.com’<br>pwd = ‘<em>*</em>‘<br>to = [‘455177385@qq.com’, ‘sanyuanyanjin@163.com’]<br>msg = MIMEMultipart()<br>msg[‘Subject’] = ‘����…’<br>content1 = MIMEText(‘���ģ�’, ‘plain’, ‘utf-8’)<br>msg.attach(content1)</p>
-<p>#———————————————————–<br>s = smtplib.SMTP(‘smtp.126.com’)<br>s.login(user, pwd)<br>s.sendmail(user, to, msg.as_string())<br>print(‘���ͳɹ�’)<br>s.close()</p>
-<p>������</p>
-<p>#encoding:utf-8<br>import smtplib<br>import os<br>from email.mime.text import MIMEText<br>from email.mime.multipart import MIMEMultipart<br>from email import encoders<br>user = ‘yanjin198620@126.com’<br>pwd = ‘<em>*</em>‘<br>to = [‘455177385@qq.com’, ‘sanyuanyanjin@163.com’]<br>msg = MIMEMultipart()<br>msg[‘Subject’] = ‘����’<br>content1 = MIMEText(‘���Ĳ��֣�’, ‘plain’, ‘utf-8’)<br>msg.attach(content1)<br>attfile = ‘C:\Users\JinYan\Documents\SyncSettings 2016-06-16 152928.log’<br>basename = os.path.basename(attfile)<br>fp = open(attfile, ‘rb’)<br>att = MIMEText(fp.read(), ‘base64’, ‘utf-8’)<br>att[“Content-Type”] = ‘application/octet-stream’<br>att.add_header(‘Content-Disposition’, ‘attachment’,filename=(‘gbk’, ‘’, basename))<br>encoders.encode_base64(att)<br>msg.attach(att)</p>
-<p>#———————————————————–<br>s = smtplib.SMTP(‘smtp.126.com’)<br>s.login(user, pwd)<br>s.sendmail(user, to, msg.as_string())<br>print(‘���ͳɹ�’)<br>s.close()</p>
+        <p>日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。<br>logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次，并且删除超过6个月的记录。一旦配置完成，logrotate可以完全自动化操作不需要进行人工交互<br>在主要的Linux发行版中logrotate包通常是默认安装的。如果由于某种原因，logrotate的不存在，您可以使用apt-get或者yum的命令来安装它。<br>Debian或者Ubuntu</p>
+<h1 id="apt-get-install-logrotate-cron"><a href="#apt-get-install-logrotate-cron" class="headerlink" title="apt-get install logrotate cron"></a>apt-get install logrotate cron</h1><p>Fedora, CentOS或者RHEL</p>
+<h1 id="yum-install-logrotate-crontabs"><a href="#yum-install-logrotate-crontabs" class="headerlink" title="yum install logrotate crontabs"></a>yum install logrotate crontabs</h1><p>logrotate的配置文件是/etc/logrotate.conf，一般不需要修改。可以在/etc/logrotate.d/目录下放入单独的配置文件定义本文档中需要的功能。<br>示例一<br>在第一个例子中，我们将创建一个10 MB的日志文件/var/log/log-file。我们将看到我们如何使用logrotate来管理这个日志文件。<br>我们首先创建一个10M的日志文件，并用随机位来填充它。</p>
+<h1 id="touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file"><a href="#touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file" class="headerlink" title="touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file"></a>touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file</h1><p>日志文件已经准备就绪，我们将配置logrotate转储这个日志文件。让我们开始创建转储所需要的logrotate配置文件。</p>
+<h1 id="vim-etc-logrotate-d-log-file"><a href="#vim-etc-logrotate-d-log-file" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {<br>    monthly<br>    rotate<br>5<br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    create<br>644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>其中：<br>monthly：每月转储日志文件。其他可能的值是’daily’, ‘weekly’, ‘yearly’。<br>rotate 5：同一时间保存5个归档日志。对于第6个归档，最早的归档文件将被删除。<br>compress：转储完成后，转储的日志将使用gzip压缩。<br>delaycompress：需要与compress选项一起使用，delaycompress参数指示logrotate的不对最新的归档进行压缩。压缩将在下一个转储周期来进行。如果您需要访问的最新备份的存档，这是很有用的。<br>missingok：在转储过程中任何错误都会被忽略，例如，”未找到文件”。<br>notifempty：如果日志文件是空的将不会执行转储。<br>create 644 root root：logrotate归档时可以重命名原始日志文件然后创建一个新的日志文件并赋予与指定的权限。<br>postrotate/endscript：所有其他操作完成后会执行postrotate和endscript间定义的命令。在上面的例子中，处理rsyslogd将重新读取其配置后继续运行。<br>上面的模板是通用的，配置参数可以根据您的要求各不相同。不是所有的参数可能是必要的。<br>示例二<br>在这个例子中，我们想要只在日志文件大小增长超过50MB时转储日志文件。</p>
+<h1 id="vim-etc-logrotate-d-log-file-1"><a href="#vim-etc-logrotate-d-log-file-1" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>示例三<br>我们希望旧的日志文件根据归档日期进行命名，这可以通过添加dateext参数来实现。</p>
+<h1 id="vim-etc-logrotate-d-log-file-2"><a href="#vim-etc-logrotate-d-log-file-2" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwvdwc2i002sm4cyk0g41sbh" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwvhh0lb000mr1cyeowcjkas" class="article-share-link">Share</a>
       
       
     </footer>
@@ -281,10 +528,10 @@
 
 
   
-    <article id="post-Python-资源" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Docker-Swarm-Etcd-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Python-资源/" class="article-date">
-  <time datetime="2016-12-13T05:56:49.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" class="article-date">
+  <time datetime="2016-12-14T04:50:08.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -295,7 +542,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Python-资源/">Python 资源</a>
+      <a class="article-title" href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
     </h1>
   
 
@@ -303,436 +550,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>环境管理</p>
-<p>管理 Python 版本和环境的工具</p>
-<ul>
-<li>p – 非常简单的交互式 python 版本管理工具。</li>
-<li>pyenv – 简单的 Python 版本管理工具。</li>
-<li>Vex – 可以在虚拟环境中执行命令。</li>
-<li>virtualenv – 创建独立 Python 环境的工具。</li>
-<li>virtualenvwrapper– virtualenv 的一组扩展。</li>
-</ul>
-<p>包管理</p>
-<p>管理包和依赖的工具。</p>
-<ul>
-<li>pip – Python 包和依赖关系管理工具。</li>
-<li>pip-tools – 保证 Python 包依赖关系更新的一组工具。</li>
-<li>conda – 跨平台，Python 二进制包管理工具。</li>
-<li>Curdling – 管理 Python 包的命令行工具。</li>
-<li>wheel – Python 分发的新标准，意在取代 eggs。</li>
-</ul>
-<p>包仓库</p>
-<p>本地 PyPI 仓库服务和代理。</p>
-<ul>
-<li>warehouse – 下一代 PyPI。<br>Warehouse bandersnatch – PyPA 提供的 PyPI 镜像工具。</li>
-<li>devpi – PyPI 服务和打包/测试/分发工具。</li>
-<li>localshop – 本地 PyPI 服务（自定义包并且自动对 PyPI 镜像）。</li>
-</ul>
-<p>分发</p>
-<p>打包为可执行文件以便分发。</p>
-<ul>
-<li>PyInstaller – 将 Python 程序转换成独立的执行文件（跨平台）。</li>
-<li>dh-virtualenv – 构建并将 virtualenv 虚拟环境作为一个 Debian 包来发布。</li>
-<li>Nuitka – 将脚本、模块、包编译成可执行文件或扩展模块。</li>
-<li>py2app – 将 Python 脚本变为独立软件包（Mac OS X）。</li>
-<li>py2exe – 将 Python 脚本变为独立软件包（Windows）。</li>
-<li>pynsist – 一个用来创建 Windows 安装程序的工具，可以在安装程序中打包 Python本身。</li>
-</ul>
-<p>构建工具</p>
-<p>将源码编译成软件。</p>
-<ul>
-<li>buildout – 一个构建系统，从多个组件来创建，组装和部署应用。</li>
-<li>BitBake – 针对嵌入式 Linux 的类似 make 的构建工具。</li>
-<li>fabricate – 对任何语言自动找到依赖关系的构建工具。</li>
-<li>PlatformIO – 多平台命令行构建工具。</li>
-<li>PyBuilder – 纯 Python 实现的持续化构建工具。</li>
-<li>SCons – 软件构建工具。</li>
-</ul>
-<p>交互式解析器</p>
-<p>交互式 Python 解析器。</p>
-<ul>
-<li>IPython – 功能丰富的工具，非常有效的使用交互式 Python。</li>
-<li>bpython– 界面丰富的 Python 解析器。</li>
-<li>ptpython – 高级交互式Python解析器， 构建于python-prompt-toolkit 之上。</li>
-</ul>
-<p>文件</p>
-<p>文件管理和 MIME（多用途的网际邮件扩充协议）类型检测。</p>
-<ul>
-<li>imghdr – （Python 标准库）检测图片类型。</li>
-<li>mimetypes – （Python 标准库）将文件名映射为 MIME 类型。</li>
-<li>path.py – 对 os.path 进行封装的模块。</li>
-<li>pathlib – （Python3.4+ 标准库）跨平台的、面向对象的路径操作库。</li>
-<li>python-magic– 文件类型检测的第三方库 libmagic 的 Python 接口。</li>
-<li>Unipath– 用面向对象的方式操作文件和目录</li>
-<li>watchdog – 管理文件系统事件的 API 和 shell 工具</li>
-</ul>
-<p>日期和时间</p>
-<p>操作日期和时间的类库。</p>
-<ul>
-<li>arrow– 更好的 Python 日期时间操作类库。</li>
-<li>Chronyk – Python 3 的类库，用于解析手写格式的时间和日期。</li>
-<li>dateutil – Python datetime 模块的扩展。</li>
-<li>delorean– 解决 Python 中有关日期处理的棘手问题的库。</li>
-<li>moment – 一个用来处理时间和日期的Python库。灵感来自于Moment.js。</li>
-<li>PyTime – 一个简单易用的Python模块，用于通过字符串来操作日期/时间。</li>
-<li>pytz – 现代以及历史版本的世界时区定义。将时区数据库引入Python。</li>
-<li>when.py – 提供用户友好的函数来帮助用户进行常用的日期和时间操作。</li>
-</ul>
-<p>文本处理</p>
-<p>用于解析和操作文本的库。</p>
-<ul>
-<li>通用<br>chardet – 字符编码检测器，兼容 Python2 和 Python3。<br>difflib – (Python 标准库)帮助我们进行差异化比较。<br>ftfy – 让Unicode文本更完整更连贯。<br>fuzzywuzzy – 模糊字符串匹配。<br>Levenshtein – 快速计算编辑距离以及字符串的相似度。<br>pangu.py – 在中日韩语字符和数字字母之间添加空格。<br>pyfiglet -figlet 的 Python实现。<br>shortuuid – 一个生成器库，用以生成简洁的，明白的，URL 安全的 UUID。<br>unidecode – Unicode 文本的 ASCII 转换形式 。<br>uniout – 打印可读的字符，而不是转义的字符串。<br>xpinyin – 一个用于把汉字转换为拼音的库。</li>
-<li>Slug化<br>awesome-slugify – 一个 Python slug 化库，可以保持 Unicode。<br>python-slugify – Python slug 化库，可以把 unicode 转化为 ASCII。<br>unicode-slugify – 一个 slug 工具，可以生成 unicode slugs ,需要依赖 Django 。</li>
-<li>解析器<br>phonenumbers – 解析，格式化，储存，验证电话号码。<br>PLY – lex 和 yacc 解析工具的 Python 实现。<br>Pygments – 通用语法高亮工具。<br>pyparsing – 生成通用解析器的框架。<br>python-nameparser – 把一个人名分解为几个独立的部分。<br>python-user-agents – 浏览器 user agent 解析器。<br>sqlparse – 一个无验证的 SQL 解析器。</li>
-</ul>
-<p>特殊文本格式处理</p>
-<p>一些用来解析和操作特殊文本格式的库。</p>
-<ul>
-<li>通用<br>tablib – 一个用来处理中表格数据的模块。</li>
-<li>Office<br>Marmir – 把输入的Python 数据结构转换为电子表单。<br>openpyxl – 一个用来读写 Excel 2010 xlsx/xlsm/xltx/xltm 文件的库。<br>python-docx – 读取，查询以及修改 Microsoft Word 2007/2008 docx 文件。<br>unoconv – 在 LibreOffice/OpenOffice 支持的任意文件格式之间进行转换。<br>XlsxWriter – 一个用于创建 Excel .xlsx 文件的 Python 模块。<br>xlwings – 一个使得在 Excel 中方便调用 Python 的库（反之亦然），基于 BSD 协议。<br>xlwt / xlrd – 读写 Excel 文件的数据和格式信息。<br>relatorio – 模板化OpenDocument 文件。</li>
-<li>PDF<br>PDFMiner – 一个用于从PDF文档中抽取信息的工具。<br>PyPDF2 – 一个可以分割，合并和转换 PDF 页面的库。<br>ReportLab – 快速创建富文本 PDF 文档。</li>
-<li>Markdown<br>Mistune – 快速并且功能齐全的纯 Python 实现的 Markdown 解析器。<br>Python-Markdown – John Gruber’s Markdown 的 Python 版实现。</li>
-<li>YAML<br>PyYAML – Python 版本的 YAML 解析器。</li>
-<li>CSV<br>csvkit – 用于转换和操作 CSV 的工具。</li>
-<li>Archive<br>unp – 一个用来方便解包归档文件的命令行工具。</li>
-</ul>
-<p>自然语言处理</p>
-<p>用来处理人类语言的库。</p>
-<ul>
-<li>NLTK – 一个先进的平台，用以构建处理人类语言数据的 Python 程序。</li>
-<li>jieba – 中文分词工具。</li>
-<li>langid.py – 独立的语言识别系统。</li>
-<li>Pattern – Python 网络信息挖掘模块。</li>
-<li>SnowNLP – 一个用来处理中文文本的库。</li>
-<li>TextBlob – 为进行普通自然语言处理任务提供一致的 API。</li>
-<li>TextGrocery – 一简单高效的短文本分类工具，基于 LibLinear 和 Jieba。</li>
-</ul>
-<p>文档</p>
-<p>用以生成项目文档的库。</p>
-<ul>
-<li>Sphinx – Python 文档生成器。<br>awesome-sphinxdoc</li>
-<li>MkDocs – 对 Markdown 友好的文档生成器。</li>
-<li>pdoc – 一个可以替换Epydoc 的库，可以自动生成 Python 库的 API 文档。</li>
-<li>Pycco – 文学编程（literate-programming）风格的文档生成器。</li>
-</ul>
-<p>配置</p>
-<p>用来保存和解析配置的库。</p>
-<ul>
-<li>config – logging 模块作者写的分级配置模块。</li>
-<li>ConfigObj – INI 文件解析器，带验证功能。</li>
-<li>ConfigParser – (Python 标准库) INI 文件解析器。</li>
-<li>profig – 通过多种格式进行配置，具有数值转换功能。</li>
-<li>python-decouple – 将设置和代码完全隔离。</li>
-</ul>
-<p>命令行工具</p>
-<p>用于创建命令行程序的库。</p>
-<ul>
-<li>命令行程序开发<br>cement – Python 的命令行程序框架。<br>click – 一个通过组合的方式来创建精美命令行界面的包。<br>cliff – 一个用于创建命令行程序的框架，可以创建具有多层命令的命令行程序。<br>clint – Python 命令行程序工具。<br>colorama – 跨平台彩色终端文本。<br>docopt – Python 风格的命令行参数解析器。<br>Gooey – 一条命令，将命令行程序变成一个 GUI 程序。<br>python-prompt-toolkit – 一个用于构建强大的交互式命令行程序的库。</li>
-<li>生产力工具<br>aws-cli – Amazon Web Services 的通用命令行界面。<br>bashplotlib – 在终端中进行基本绘图。<br>caniusepython3 – 判断是哪个项目妨碍你你移植到 Python 3。<br>cookiecutter – 从 cookiecutters（项目模板）创建项目的一个命令行工具。<br>doitlive – 一个用来在终端中进行现场演示的工具。<br>howdoi – 通过命令行获取即时的编程问题解答。<br>httpie – 一个命令行HTTP 客户端，cURL 的替代品，易用性更好。<br>PathPicker – 从bash输出中选出文件。<br>percol – 向UNIX shell 传统管道概念中加入交互式选择功能。<br>SAWS – 一个加强版的 AWS 命令行。<br>thefuck – 修正你之前的命令行指令。<br>mycli – 一个 MySQL 命令行客户端，具有自动补全和语法高亮功能。<br>pgcli – Postgres 命令行工具，具有自动补全和语法高亮功能。</li>
-</ul>
-<p>下载器</p>
-<p>用来进行下载的库.</p>
-<ul>
-<li>s3cmd – 一个用来管理Amazon S3 和 CloudFront 的命令行工具。</li>
-<li>s4cmd – 超级 S3 命令行工具，性能更加强劲。</li>
-<li>you-get – 一个 YouTube/Youku/Niconico 视频下载器，使用 Python3 编写。</li>
-<li>youtube-dl – 一个小巧的命令行程序，用来下载 YouTube 视频。</li>
-</ul>
-<p>图像处理</p>
-<p>用来操作图像的库.</p>
-<ul>
-<li>pillow – Pillow 是一个更加易用版的 PIL。</li>
-<li>hmap – 图像直方图映射。</li>
-<li>imgSeek – 一个使用视觉相似性搜索一组图片集合的项目。</li>
-<li>nude.py – 裸体检测。</li>
-<li>pyBarcode – 不借助 PIL 库在 Python 程序中生成条形码。</li>
-<li>pygram – 类似 Instagram 的图像滤镜。</li>
-<li>python-qrcode – 一个纯 Python 实现的二维码生成器。</li>
-<li>Quads – 基于四叉树的计算机艺术。</li>
-<li>scikit-image – 一个用于（科学）图像处理的 Python 库。</li>
-<li>thumbor – 一个小型图像服务，具有剪裁，尺寸重设和翻转功能。</li>
-<li>wand – MagickWand的Python 绑定。MagickWand 是 ImageMagick的 C API 。</li>
-</ul>
-<p>OCR</p>
-<p>光学字符识别库。</p>
-<ul>
-<li>pyocr – Tesseract 和 Cuneiform 的一个封装(wrapper)。</li>
-<li>pytesseract – Google Tesseract OCR 的另一个封装(wrapper)。</li>
-<li>python-tesseract – Google Tesseract OCR 的一个包装类。</li>
-</ul>
-<p>音频</p>
-<p>用来操作音频的库</p>
-<ul>
-<li>audiolazy -Python 的数字信号处理包。</li>
-<li>audioread – 交叉库 (GStreamer + Core Audio + MAD + FFmpeg) 音频解码。</li>
-<li>beets – 一个音乐库管理工具及 MusicBrainz 标签添加工具</li>
-<li>dejavu – 音频指纹提取和识别</li>
-<li>django-elastic-transcoder – Django + Amazon Elastic Transcoder。</li>
-<li>eyeD3 – 一个用来操作音频文件的工具，具体来讲就是包含 ID3 元信息的 MP3 文件。</li>
-<li>id3reader – 一个用来读取 MP3 元数据的 Python 模块。</li>
-<li>m3u8 – 一个用来解析 m3u8 文件的模块。</li>
-<li>mutagen – 一个用来处理音频元数据的 Python 模块。</li>
-<li>pydub – 通过简单、简洁的高层接口来操作音频文件。</li>
-<li>pyechonest – Echo Nest API 的 Python 客户端</li>
-<li>talkbox – 一个用来处理演讲/信号的 Python 库</li>
-<li>TimeSide – 开源 web 音频处理框架。</li>
-<li>tinytag – 一个用来读取MP3, OGG, FLAC 以及 Wave 文件音乐元数据的库。</li>
-<li>mingus – 一个高级音乐理论和曲谱包，支持 MIDI 文件和回放功能。</li>
-</ul>
-<p>Video</p>
-<p>用来操作视频和GIF的库。</p>
-<ul>
-<li>moviepy – 一个用来进行基于脚本的视频编辑模块，适用于多种格式，包括动图 GIFs。</li>
-<li>scikit-video – SciPy 视频处理常用程序。</li>
-</ul>
-<p>地理位置</p>
-<p>地理编码地址以及用来处理经纬度的库。</p>
-<ul>
-<li>GeoDjango – 世界级地理图形 web 框架。</li>
-<li>GeoIP – MaxMind GeoIP Legacy 数据库的 Python API。</li>
-<li>geojson – GeoJSON 的 Python 绑定及工具。</li>
-<li>geopy – Python 地址编码工具箱。</li>
-<li>pygeoip – 纯 Python GeoIP API。</li>
-<li>django-countries – 一个 Django 应用程序，提供用于表格的国家选择功能，国旗图标静态文件以及模型中的国家字段。</li>
-</ul>
-<p>HTTP</p>
-<p>使用HTTP的库。</p>
-<ul>
-<li>requests – 人性化的HTTP请求库。</li>
-<li>grequests – requests 库 + gevent ，用于异步 HTTP 请求.</li>
-<li>httplib2 – 全面的 HTTP 客户端库。</li>
-<li>treq – 类似 requests 的Python API 构建于 Twisted HTTP 客户端之上。</li>
-<li>urllib3 – 一个具有线程安全连接池，支持文件 post，清晰友好的 HTTP 库。</li>
-</ul>
-<p>数据库</p>
-<p>Python实现的数据库。</p>
-<ul>
-<li>pickleDB – 一个简单，轻量级键值储存数据库。</li>
-<li>PipelineDB – 流式 SQL 数据库。</li>
-<li>TinyDB – 一个微型的，面向文档型数据库。</li>
-<li>ZODB – 一个 Python 原生对象数据库。一个键值和对象图数据库。</li>
-</ul>
-<p>数据库驱动</p>
-<p>用来连接和操作数据库的库。</p>
-<ul>
-<li>MySQL – awesome-mysql系列<br>mysql-python – Python 的 MySQL 数据库连接器。<br>mysqlclient – mysql-python 分支，支持 Python 3。<br>oursql – 一个更好的 MySQL 连接器，支持原生预编译指令和 BLOBs.<br>PyMySQL – 纯 Python MySQL 驱动，兼容 mysql-python。</li>
-<li>PostgreSQL<br>psycopg2 – Python 中最流行的 PostgreSQL 适配器。<br>queries – psycopg2 库的封装，用来和 PostgreSQL 进行交互。<br>txpostgres – 基于 Twisted 的异步 PostgreSQL 驱动。</li>
-<li>其他关系型数据库<br>apsw – 另一个 Python SQLite封装。<br>dataset – 在数据库中存储Python字典 – 可以协同SQLite，MySQL，和 PostgreSQL工作。<br>pymssql– 一个简单的Microsoft SQL Server数据库接口。</li>
-<li>NoSQL 数据库<br>cassandra-python-driver – Cassandra 的 Python 驱动。<br>HappyBase – 一个为 Apache HBase 设计的，对开发者友好的库。<br>Plyvel – 一个快速且功能丰富的 LevelDB 的 Python 接口。<br>py2neo – Neo4j restful 接口的Python 封装客户端。<br>pycassa – Cassandra 的 Python Thrift 驱动。<br>PyMongo – MongoDB 的官方 Python 客户端。<br>redis-py – Redis 的 Python 客户端。<br>telephus – 基于 Twisted 的 Cassandra 客户端。<br>txRedis – 基于 Twisted 的 Redis 客户端。</li>
-</ul>
-<p>ORM</p>
-<p>实现对象关系映射或数据映射技术的库。</p>
-<ul>
-<li>关系型数据库<br>Django Models – Django 的一部分。<br>SQLAlchemy – Python SQL 工具以及对象关系映射工具。<br>awesome-sqlalchemy系列<br>Peewee – 一个小巧，富有表达力的 ORM。<br>PonyORM – 提供面向生成器的 SQL 接口的 ORM。<br>python-sql – 编写 Python 风格的 SQL 查询。</li>
-<li>NoSQL 数据库<br>django-mongodb-engine – Django MongoDB 后端。<br>PynamoDB – Amazon DynamoDB 的一个 Python 风格接口。<br>flywheel – Amazon DynamoDB 的对象映射工具。<br>MongoEngine – 一个Python 对象文档映射工具，用于 MongoDB。<br>hot-redis – 为 Redis 提供 Python 丰富的数据类型。<br>redisco – 一个 Python 库，提供可以持续存在在 Redis 中的简单模型和容器。</li>
-<li>其他<br>butterdb – Google Drive 电子表格的 Python ORM。</li>
-</ul>
-<p>Web 框架</p>
-<p>全栈 web 框架。</p>
-<ul>
-<li>Django – Python 界最流行的 web 框架。<br>awesome-django系列</li>
-<li>Flask – 一个 Python 微型框架。<br>awesome-flask系列</li>
-<li>Pyramid – 一个小巧，快速，接地气的开源Python web 框架。<br>awesome-pyramid系列</li>
-<li>Bottle – 一个快速小巧，轻量级的 WSGI 微型 web 框架。</li>
-<li>CherryPy – 一个极简的 Python web 框架，服从 HTTP/1.1 协议且具有WSGI 线程池。</li>
-<li>TurboGears – 一个可以扩展为全栈解决方案的微型框架。</li>
-<li>web.py – 一个 Python 的 web 框架，既简单，又强大。</li>
-<li>web2py – 一个全栈 web 框架和平台，专注于简单易用。</li>
-<li>Tornado – 一个web 框架和异步网络库。</li>
-</ul>
-<p>权限</p>
-<p>允许或拒绝用户访问数据或功能的库。</p>
-<ul>
-<li>Carteblanche – Module to align code with thoughts of users and designers. Also magically handles navigation and permissions.</li>
-<li>django-guardian – Django 1.2+ 实现了单个对象权限。</li>
-<li>django-rules – 一个小巧但是强大的应用，提供对象级别的权限管理，且不需要使用数据库。</li>
-</ul>
-<p>CMS</p>
-<p>内容管理系统</p>
-<ul>
-<li>django-cms – 一个开源的，企业级 CMS，基于 Django。</li>
-<li>djedi-cms – 一个轻量级但却非常强大的 Django CMS ，考虑到了插件，内联编辑以及性能。</li>
-<li>FeinCMS – 基于 Django 构建的最先进的内容管理系统之一。</li>
-<li>Kotti – 一个高级的，Python 范的 web 应用框架，基于 Pyramid 构建。</li>
-<li>Mezzanine – 一个强大的，持续的，灵活的内容管理平台。</li>
-<li>Opps – 一个为杂志，报纸网站以及大流量门户网站设计的 CMS 平台，基于 Django。</li>
-<li>Plone – 一个构建于开源应用服务器 Zope 之上的 CMS。</li>
-<li>Quokka – 灵活，可扩展的小型 CMS，基于 Flask 和 MongoDB。</li>
-<li>Wagtail – 一个 Django 内容管理系统。</li>
-<li>Widgy – 最新的 CMS 框架，基于 Django。</li>
-</ul>
-<p>电子商务</p>
-<p>用于电子商务以及支付的框架和库。</p>
-<ul>
-<li>django-oscar – 一个用于 Django 的开源的电子商务框架。</li>
-<li>django-shop – 一个基于 Django 的店铺系统。</li>
-<li>Cartridge – 一个基于 Mezzanine 构建的购物车应用。</li>
-<li>shoop – 一个基于 Django 的开源电子商务平台。</li>
-<li>alipay – 非官方的 Python 支付宝 API。</li>
-<li>merchant – 一个可以接收来自多种支付平台支付的 Django 应用。</li>
-<li>money – 货币类库with optional CLDR-backed locale-aware formatting and an extensible currency exchange solution.</li>
-<li>python-currencies – 显示货币格式以及它的数值。</li>
-</ul>
-<p>RESTful API</p>
-<p>用来开发RESTful APIs的库</p>
-<ul>
-<li>Django<br>django-rest-framework – 一个强大灵活的工具，用来构建 web API。<br>django-tastypie – 为Django 应用开发API。<br>django-formapi – 为 Django 的表单验证，创建 JSON APIs 。</li>
-<li>Flask<br>flask-api – 为 flask 开发的，可浏览 Web APIs 。<br>flask-restful – 为 flask 快速创建REST APIs 。<br>flask-restless – 为 SQLAlchemy 定义的数据库模型创建 RESTful APIs 。<br>flask-api-utils – 为 Flask 处理 API 表示和验证。<br>eve – REST API 框架，由 Flask, MongoDB 等驱动。</li>
-<li>Pyramid<br>cornice – 一个Pyramid 的 REST 框架 。</li>
-<li>与框架无关的<br>falcon – 一个用来建立云 API 和 web app 后端的噶性能框架。<br>sandman – 为现存的数据库驱动系统自动创建 REST APIs 。<br>restless – 框架无关的 REST 框架 ，基于从 Tastypie 学到的知识。<br>ripozo – 快速创建 REST/HATEOAS/Hypermedia APIs。</li>
-</ul>
-<p>验证</p>
-<p>实现验证方案的库。</p>
-<ul>
-<li>OAuth<br>Authomatic – 简单但是强大的框架，身份验证/授权客户端。<br>django-allauth – Django 的验证应用。<br>django-oauth-toolkit – 为 Django 用户准备的 OAuth2。<br>django-oauth2-provider – 为 Django 应用提供 OAuth2 接入。<br>Flask-OAuthlib – OAuth 1.0/a, 2.0 客户端实现，供 Flask 使用。<br>OAuthLib – 一个 OAuth 请求-签名逻辑通用、 完整的实现。<br>python-oauth2 – 一个完全测试的抽象接口。用来创建 OAuth 客户端和服务端。<br>python-social-auth – 一个设置简单的社会化验证方式。<br>rauth – OAuth 1.0/a, 2.0, 和 Ofly 的 Python 库。<br>sanction – 一个超级简单的OAuth2 客户端实现。</li>
-<li>其他<br>jose – JavaScript 对象签名和加密草案的实现。<br>PyJWT – JSON Web 令牌草案 01。<br>python-jws – JSON Web 签名草案 02 的实现。<br>python-jwt – 一个用来生成和验证 JSON Web 令牌的模块。</li>
-</ul>
-<p>模板引擎</p>
-<p>模板生成和词法解析的库和工具。</p>
-<ul>
-<li>Jinja2 – 一个现代的，对设计师友好的模板引擎。</li>
-<li>Chameleon – 一个 HTML/XML 模板引擎。 模仿了 ZPT（Zope Page Templates）, 进行了速度上的优化。</li>
-<li>Genshi – Python 模板工具，用以生成 web 感知的结果。</li>
-<li>Mako – Python 平台的超高速轻量级模板。</li>
-</ul>
-<p>Queue</p>
-<p>处理事件以及任务队列的库。</p>
-<ul>
-<li>celery – 一个异步任务队列/作业队列，基于分布式消息传递。</li>
-<li>huey – 小型多线程任务队列。</li>
-<li>mrq – Mr. Queue -一个 Python 的分布式 worker 任务队列， 使用 Redis 和 gevent。</li>
-<li>rq – 简单的 Python 作业队列。</li>
-<li>simpleq – 一个简单的，可无限扩张的，基于亚马逊 SQS 的队列。</li>
-</ul>
-<p>搜索</p>
-<p>对数据进行索引和执行搜索查询的库和软件。</p>
-<ul>
-<li>django-haystack – Django 模块化搜索。</li>
-<li>elasticsearch-py – Elasticsearch 的官方底层 Python 客户端。</li>
-<li>elasticsearch-dsl-py -Elasticsearch 的官方高级 Python 客户端。</li>
-<li>solrpy – solr的 Python 客户端。</li>
-<li>Whoosh – 一个快速的纯 Python 搜索引擎库。</li>
-</ul>
-<p>动态消息</p>
-<p>用来创建用户活动的库。</p>
-<ul>
-<li>django-activity-stream – 从你的站点行为中生成通用活动信息流。</li>
-<li>Stream-Framework – 使用 Cassandra 和 Redis 创建动态消息和通知系统。</li>
-</ul>
-<p>资源管理</p>
-<p>管理、压缩、缩小网站资源的工具。</p>
-<ul>
-<li>django-compressor – 将链接和内联的 JavaScript 或 CSS 压缩到一个单独的缓存文件中。</li>
-<li>django-storages – 一个针对 Django 的自定义存储后端的工具集合。</li>
-<li>fanstatic – 打包、优化，并且把静态文件依赖作为 Python 的包来提供。</li>
-<li>File Conveyor – 一个后台驻留的程序，用来发现和同步文件到 CDNs, S3 和 FTP。</li>
-<li>Flask-Assets – 帮你将 web 资源整合到你的 Flask app 中。</li>
-<li>jinja-assets-compressor – 一个 Jinja 扩展，用来编译和压缩你的资源。</li>
-<li>webassets – 为你的静态资源打包、优化和管理生成独一无二的缓存 URL。</li>
-</ul>
-<p>电子邮件</p>
-<p>用来发送和解析电子邮件的库。</p>
-<ul>
-<li>django-celery-ses – 带有 AWS SES 和 Celery 的 Django email 后端。</li>
-<li>envelopes – 供人类使用的电子邮件库。</li>
-<li>flanker – 一个 email 地址和 Mime 解析库。</li>
-<li>imbox – Python IMAP 库</li>
-<li>inbox.py – Python SMTP 服务器。</li>
-<li>inbox – 一个开源电子邮件工具箱。</li>
-<li>lamson – Python 风格的 SMTP 应用服务器。</li>
-<li>mailjet – Mailjet API 实现，用来提供批量发送邮件，统计等功能。</li>
-<li>marrow.mailer – 高性能可扩展邮件分发框架。</li>
-<li>modoboa – 一个邮件托管和管理平台，具有现代的、简约的 Web UI。</li>
-<li>pyzmail – 创建，发送和解析电子邮件。</li>
-<li>Talon – Mailgun 库，用来抽取信息和签名。</li>
-</ul>
-<p>URL处理</p>
-<p>解析URLs的库</p>
-<ul>
-<li>furl – 一个让处理 URL 更简单小型 Python 库。</li>
-<li>purl – 一个简单的，不可变的URL类，具有简洁的 API 来进行询问和处理。</li>
-<li>pyshorteners – 一个纯 Python URL 缩短库。</li>
-<li>shorturl– 生成短小 URL 和类似 bit.ly 短链的Python 实现。</li>
-<li>webargs – 一个解析 HTTP 请求参数的库，内置对流行 web 框架的支持，包括 Flask, Django, Bottle, Tornado和 Pyramid。</li>
-</ul>
-<p>HTML处理</p>
-<p>处理 HTML和XML的库。</p>
-<ul>
-<li>BeautifulSoup – 以 Python 风格的方式来对 HTML 或 XML 进行迭代，搜索和修改。</li>
-<li>bleach – 一个基于白名单的 HTML 清理和文本链接库。</li>
-<li>cssutils – 一个 Python 的 CSS 库。</li>
-<li>html5lib – 一个兼容标准的 HTML 文档和片段解析及序列化库。</li>
-<li>lxml – 一个非常快速，简单易用，功能齐全的库，用来处理 HTML 和 XML。</li>
-<li>MarkupSafe – 为Python 实现 XML/HTML/XHTML 标记安全字符串。</li>
-<li>pyquery – 一个解析 HTML 的库，类似 jQuery。</li>
-<li>untangle – 将XML文档转换为Python对象，使其可以方便的访问。</li>
-<li>xhtml2pdf – HTML/CSS 转 PDF 工具。</li>
-<li>xmltodict – 像处理 JSON 一样处理 XML。</li>
-</ul>
-<p>网络站点爬取</p>
-<p>爬取网络站点的库</p>
-<ul>
-<li>Scrapy – 一个快速高级的屏幕爬取及网页采集框架。</li>
-<li>cola – 一个分布式爬虫框架。</li>
-<li>Demiurge – 基于PyQuery 的爬虫微型框架。</li>
-<li>feedparser – 通用 feed 解析器。</li>
-<li>Grab – 站点爬取框架。</li>
-<li>MechanicalSoup – 用于自动和网络站点交互的 Python 库。</li>
-<li>portia – Scrapy 可视化爬取。</li>
-<li>pyspider – 一个强大的爬虫系统。</li>
-<li>RoboBrowser – 一个简单的，Python 风格的库，用来浏览网站，而不需要一个独立安装的浏览器。</li>
-</ul>
-<p>网页内容提取</p>
-<p>用于进行网页内容提取的库。</p>
-<ul>
-<li>Haul – 一个可以扩展的图像爬取工具。</li>
-<li>html2text – 将 HTML 转换为 Markdown 格式文本</li>
-<li>lassie – 人性化的网页内容检索库。</li>
-<li>micawber -一个小型网页内容提取库，用来从 URLs 提取富内容。</li>
-<li>newspaper – 使用 Python 进行新闻提取，文章提取以及内容策展。</li>
-<li>opengraph – 一个用来解析开放内容协议(Open Graph Protocol)的 Python模块。</li>
-<li>python-goose – HTML内容/文章提取器。</li>
-<li>python-readability– arc90 公司 readability 工具的 Python 高速端口</li>
-<li>sanitize – 为杂乱的数据世界带来调理性。</li>
-<li>sumy – 一个为文本文件和 HTML 页面进行自动摘要的模块。</li>
-<li>textract – 从任何格式的文档中提取文本，Word，PowerPoint，PDFs 等等。</li>
-</ul>
-<p>表单</p>
-<p>进行表单操作的库。</p>
-<ul>
-<li>Deform – Python HTML 表单生成库，受到了 formish 表单生成库的启发。</li>
-<li>django-bootstrap3– 集成了 Bootstrap 3 的 Django。</li>
-<li>django-crispy-forms – 一个 Django 应用，他可以让你以一种非常优雅且 DRY（Don’t repeat yourself） 的方式来创建美观的表单。</li>
-<li>django-remote-forms– 一个平台独立的 Django 表单序列化工具。</li>
-<li>WTForms – 一个灵活的表单验证和呈现库。</li>
-<li>WTForms-JSON– 一个 WTForms 扩展，用来处理 JSON 数据。</li>
-</ul>
-<p>数据验证</p>
-<p>数据验证库。多用于表单验证。</p>
-<ul>
-<li>Cerberus – A mappings-validator with a variety of rules, normalization-features and simple customization that uses a pythonic schema-definition.</li>
-<li>colander – 一个用于对从 XML, JSON，HTML 表单获取的数据或其他同样简单的序列化数据进行验证和反序列化的系统。</li>
-<li>kmatch – 一种用于匹配/验证/筛选 Python 字典的语言。</li>
-<li>schema -一个用于对 Python 数据结构进行验证的库。</li>
-<li>Schematics – 数据结构验证。</li>
-<li>valideer – 轻量级可扩展的数据验证和适配库。</li>
-<li>voluptuous – 一个 Python 数据验证库。主要是为了验证传入 Python的 JSON，YAML 等数据。</li>
-</ul>
-<p>静态站点生成器</p>
-<p>静态站点生成器是一个软件，它把文本和模板作为输入，然后输出HTML文件。</p>
-<ul>
-<li>Pelican – 使用 Markdown 或 ReST 来处理内容， Jinja 2 来制作主题。支持 DVCS, Disqus.。AGPL 许可。</li>
-<li>Cactus – 为设计师设计的静态站点生成器。</li>
-<li>Hyde – 基于 Jinja2 的静态站点生成器。</li>
-<li>Nikola – 一个静态网站和博客生成器。</li>
-<li>Tinkerer – Tinkerer 是一个博客引擎/静态站点生成器，由Sphinx驱动。</li>
-<li>Lektor – 一个简单易用的静态 CMS 和博客引擎。</li>
-</ul>
+        <p><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
+<p>安装Swarm集群<br>环境信息<br>服务器:<br>192.168.99.100 centos-node1<br>192.168.99.101 centos-node2<br>192.168.99.102 centos-node3<br>集群信息:<br>etc服务器: 192.168.99.100:2379<br>swarm manage: 192.168.99.101:3376<br>swarm-node1: 192.168.99.100:2375<br>swarm-node2: 192.168.99.101:2375<br>swarm-node3: 192.168.99.102:2375<br>准备<br>在所有的机器上安装dokcer<br>在centos-node1 上docker pull ystyle/etcd (官方的下载不了,自己做了个一样的)<br>在所有机器上dokcer pull swarm<br>以上三步可以用docker-machine完成<br>开放所有机器的2375端口, centos-node1的2379端口,centos-node2的3376端口<br>安装etcd k-v数据库<br>在centos-node1上执行:</p>
+<h1 id="设置当前host的ip"><a href="#设置当前host的ip" class="headerlink" title="设置当前host的ip"></a>设置当前host的ip</h1><p>export HOSTIP=192.168.99.100</p>
+<h1 id="启动etcd-k-v服务器"><a href="#启动etcd-k-v服务器" class="headerlink" title="启动etcd k-v服务器"></a>启动etcd <code>k-v</code>服务器</h1><p>docker run -d -v /etc/ssl/certs:/etc/ssl/certs -p 4001:4001 -p 2380:2380 -p 2379:2379<br> –name etcd ystyle/etcd<br> -name etcd0<br> -advertise-client-urls <a href="http://${HOSTIP}:2379,http://${HOSTIP}:4001" target="_blank" rel="external">http://${HOSTIP}:2379,http://${HOSTIP}:4001</a><br> -listen-client-urls <a href="http://0.0.0.0:2379,http://0.0.0.0:4001" target="_blank" rel="external">http://0.0.0.0:2379,http://0.0.0.0:4001</a><br> -initial-advertise-peer-urls <a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -listen-peer-urls <a href="http://0.0.0.0:2380" target="_blank" rel="external">http://0.0.0.0:2380</a><br> -initial-cluster-token etcd-cluster-1<br> -initial-cluster etcd0=<a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -initial-cluster-state new<br>加入集群<br>在centos-node1执行:<br>docker run -d swarm join –addr=192.168.99.100:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node2执行:<br>docker run -d swarm join –addr=192.168.99.101:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node3执行:<br>docker run -d swarm join –addr=192.168.99.102:2375 etcd://192.168.99.100:2379/swarm<br>启动swarm manage<br>在centos-node2上执行</p>
+<h1 id="启动swarm-manage"><a href="#启动swarm-manage" class="headerlink" title="启动swarm manage"></a>启动swarm manage</h1><p>docker run -d -p 3376:3376 -t<br> swarm manage<br>-H 0.0.0.0:3376<br>etcd://192.168.99.100:2379/swarm</p>
+<h1 id="检查swarm节点列表"><a href="#检查swarm节点列表" class="headerlink" title="检查swarm节点列表"></a>检查swarm节点列表</h1><p>docker run –rm swarm list etcd://192.168.99.100:2379/swarm</p>
+<h1 id="查看swarm集群信息"><a href="#查看swarm集群信息" class="headerlink" title="查看swarm集群信息"></a>查看swarm集群信息</h1><p>export DOCKER_HOST=192.168.99.101:3376<br>docker info</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>docker run –rm -p 8080:80 nginx:alpine<br>docker ps -a</p>
+<h1 id="查看nginx安装到哪台机器上了"><a href="#查看nginx安装到哪台机器上了" class="headerlink" title="查看nginx安装到哪台机器上了"></a>查看nginx安装到哪台机器上了</h1><p>curl -L <a href="http://nginx_host:8080" target="_blank" rel="external">http://nginx_host:8080</a><br>记录<br>如果docker info 出现Error: ID duplicated.删掉/etc/docker/key.json文件(我的虚拟机是直接复制出来的)<br>参考资料<br><a href="https://docs.docker.com/v1.5/swarm/discovery/#using-etcd" target="_blank" rel="external">https://docs.docker.com/v1.5/swarm/discovery/#using-etcd</a><br><a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/networking/get-started-overlay/</a><br><a href="https://github.com/docker/swarm" target="_blank" rel="external">https://github.com/docker/swarm</a><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a><br><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwvdwc210023m4cyetax8s0k" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwvhh0l0000er1cyh3ga50qk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -742,10 +573,10 @@
 
 
   
-    <article id="post-Python-基础" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Ubuntu-14-04-Docker" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Python-基础/" class="article-date">
-  <time datetime="2016-12-13T05:55:25.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/Ubuntu-14-04-Docker/" class="article-date">
+  <time datetime="2016-12-14T04:49:11.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -756,7 +587,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Python-基础/">Python 基础</a>
+      <a class="article-title" href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
     </h1>
   
 
@@ -764,91 +595,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>变量、基础数据类型</p>
-<p>变量</p>
-<p>Python中变量不需要声明，你可以通过直接赋值的方式使用变量：</p>
-<p>a = 1<br>b = True<br>c = 1.0<br>a = 3+2j</p>
-<p>在Python中，你可以在给一个变量赋值为一种类型之后重新为其赋值为新的类型（如上面代码第1、4行）。</p>
-<p>基础数据类型</p>
-<p>Python中的数字有：整型、长整型、浮点型、布尔型、复数。</p>
-<ul>
-<li>整形：int，常见的整数（正数／负数／0），通过sys.maxint即可查看当前平台上最大的整型的值。</li>
-<li>长整型：long，比整型最大的值还大或者比整型最小的值还小的整数。注意：Python中长整型没有大小限制，你的内存有多大，它就能表示多大。</li>
-<li>浮点型：float，即小数。</li>
-<li>布尔型：bool，常见形式为True, False，表示逻辑真和逻辑假，其实背后的实现是数字1和0.</li>
-<li>复数：complex，Python是为数不多语法层面上支持复数的语言，表现为形如1+2j的形式。可以直接支持两个复数的运算。</li>
-</ul>
-<p>Python中的所有数据类型都是对象。你可以通过type()函数查看一个变量的类型。<br>Python中字符串有4种表现形式：单引号、双引号、三引号：</p>
-<p>string1 = ‘this is a str’<br>string2 = “this is a str”<br>string3 = ‘’’this is a str<br>这里还是string3的范围’’’<br>string4 = “””this is a str”””</p>
-<p>其中，第3/4种字符串表现形式都是三引号引起来的。如果在字符串的引号之前加上一个u，则表示这是一个unicode字符串，如果加上r，则表示这是一个原始字符串 ，这两种类型，对于初学者暂不讨论。值得注意的是，Python中没有C-Like语言中的字符类型。</p>
-<p>运算符、控制语句</p>
-<p>运算符</p>
-<p>Python中没有类似于C/C++/Java的自增自减运算符，因为在Python中，数字是一种不可变类型（immutable），对数字的操作都会产生新的对象而不是修改原来的对象。但是i = i + 1一样可以写为i += 1。<br>注意：Python2.5以后的除法为地板除，即5／2=2而不是5／2 ＝ 2.5。<br>Python常见的逻辑运算符为：</p>
-<ul>
-<li>!=, &lt;&gt;：不等于，表示两边的值不相等，推荐使用前一种。1 != 2。</li>
-<li>==：等于，表示两边的值相等。2 == 2。</li>
-<li>and：逻辑与，如果两边的值都为True则整个值为True，反之为False。1==1 and 2==2。</li>
-<li>or：逻辑或，如果两边有一个值True则整个值为True，反之为False。1==2 or 2==2。</li>
-<li>not：逻辑非，如果值为True，则结果为False。not 2=＝1。</li>
-</ul>
-<p>控制语句</p>
-<p>条件语句：<br>Python中的条件语句只有if-elif-else，没有switch-case，但是有经验的开发者通常使用map这一结构来达到比switch-case更加优雅，更加Pythonic的实现，这个后续再说。</p>
-<p>if 条件1:<br>  语句块1<br>elif 条件2:<br>  语句块2<br>else:<br>  语句块3</p>
-<p>elif类似于其它语言中的else if。</p>
-<p>循环语句：<br>Python中有两种方式表达循环语句：</p>
-<p>while 循环：</p>
-<p>while 条件:<br>  语句块</p>
-<p>for循环：</p>
-<p>for 变量 in 集合:<br>  语句块</p>
-<p>值得注意的是Python中没有C-Like语言里的for(int i=0; i&lt;10; i++)的语法，不过可以使用xrange或者range函数实现同样的效果。前一个函数返回一个生成器，后一个函数返回list，一般推荐使用前一个，至于这两个函数的异同，后面有时间细聊。</p>
-<p>集合</p>
-<p>Python中常见的集合类型有：list，tuple，set，dict。</p>
-<p>list</p>
-<p>list表达的是一列数据的集合，列表中的元素可以增加、删除、查找等操作：</p>
-<p>In [1]: l = [‘this’, ‘is’, ‘a’, ‘list’] # 初始化一个list</p>
-<p>In [2]: type(l)<br>Out[2]: list</p>
-<p>In [3]: l.index(‘is’) ＃ 查找元素<br>Out[3]: 1</p>
-<p>In [4]: l.append(‘new item’) ＃ 新增元素</p>
-<p>In [5]: l<br>Out[5]: [‘this’, ‘is’, ‘a’, ‘list’, ‘new item’]</p>
-<p>In [6]: l.reverse() ＃ 反转列表</p>
-<p>In [7]: l<br>Out[7]: [‘new item’, ‘list’, ‘a’, ‘is’, ‘this’]</p>
-<p>In [8]: l.remove(‘is’) # 删除元素</p>
-<p>In [9]: l<br>Out[9]: [‘new item’, ‘list’, ‘a’, ‘this’]</p>
-<p>tuple</p>
-<p>tuple类似于list，同样表示一组数据的集合，不同的是，tuple是写保护的，即：tuple不可以对其元素做任何修改操作（新增、删除等）：</p>
-<p>In [1]: t = (1,2,3) # 初始化</p>
-<p>In [2]: t<br>Out[2]: (1, 2, 3)</p>
-<p>In [3]: type(t)<br>Out[3]: tuple</p>
-<p>set</p>
-<p>set表示一个不重复元素的集合，值得注意的是：set是无序的。</p>
-<p>In [1]: s = {‘this’, ‘is’, ‘a’, ‘a’, ‘set’} # 初始化</p>
-<p>In [2]: s<br>Out[2]: {‘a’, ‘is’, ‘set’, ‘this’}</p>
-<p>In [3]: type(s)<br>Out[3]: set</p>
-<p>In [4]: s.add(‘new item’) # 新增元素</p>
-<p>In [5]: s<br>Out[5]: {‘a’, ‘is’, ‘new item’, ‘set’, ‘this’}</p>
-<p>In [6]: s.remove(‘a’) ＃ 删除元素</p>
-<p>In [7]: s<br>Out[7]: {‘is’, ‘new item’, ‘set’, ‘this’}</p>
-<p>dict</p>
-<p>dict表示一组数据的对应关系，与set一样，dict是无序的（你可以通过collections中的OrderDict来达到有序）。同时，对于初学者，dict与set的声明方式容易混淆：</p>
-<p>In [1]: d = {‘a’: ‘A’, ‘b’: ‘B’} # 初始化</p>
-<p>In [2]: d<br>Out[2]: {‘a’: ‘A’, ‘b’: ‘B’}</p>
-<p>In [3]: d[‘a’]<br>Out[3]: ‘A’</p>
-<p>In [4]: d[‘c’] = ‘C’ # 新增元素</p>
-<p>In [5]: d<br>Out[5]: {‘a’: ‘A’, ‘b’: ‘B’, ‘c’: ‘C’}</p>
-<p>In [6]: del d[‘a’] ＃ 删除元素</p>
-<p>In [7]: d<br>Out[7]: {‘b’: ‘B’, ‘c’: ‘C’}</p>
-<p>函数（初步）</p>
-<p>在Python中声明函数的方式如下：</p>
-<p>def add(num1, num2):<br>  return num1 + num2</p>
-<p>通其它语言一样，你可以在函数中通过return返回值。不同的是，Python中函数可以有多个返回值，比如下面的函数，返回了两个数的和以及差：</p>
-<p>def calc(n1, n2):<br>  return n1 + n2, n1 * n2</p>
-<p>add, sub = calc(5, 1)<br>print add, sub # 6 4</p>
-<p>其实这里并不是真的返回了两个值，而是将返回值组装成一个tuple再返回。</p>
+        <p>Docker 介绍<br>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。它们不依赖于任何语言、框架或包装系统。<br>三个最重要的基本概念（此处参考来源《Docker从入门到实践》）<br>这三个基本概念是Docker镜像，Docker容器和Docker仓库。<br>【Docker镜像】<br>Docker 镜像就是一个只读的模板。<br>例如：一个镜像可以包含一个完整的 ubuntu 操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。<br>镜像可以用来创建 Docker 容器。<br>Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。<br>【Docker容器】<br>Docker 利用容器来运行应用。<br>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。<br>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。<br><em>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。<br>【Docker仓库】<br>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。<br>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。<br>最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。 国内的公开仓库包括 Docker Pool 等，可以提供大陆用户更稳定快速的访问。<br>当然，用户也可以在本地网络内创建一个私有仓库。<br>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。
+</em>注：Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。<br>值得关注的特性：<br>1 文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。<br>2 资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。<br>3 网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。<br>4 日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>5 变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>6 交互式shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上，例如运行一个一次性交互shell。<br>安装过程<br>我用的系统： UbuntuKylin 14.10 32位系统<br>在ubuntu的官方软件仓库已经包含了docker，可以使用apt-get的方式安装。<br>安装Docker使用apt-get命令:<br>$ apt-get install docker.io<br>启动服务和守护进程<br>$ service docker status<br>$ service docker start<br>几个Docker基本命令<br>首先，让我们通过下面的命令来检查Docker的安装是否正确：<br>docker info<br>如果没有找到此命令，则表示Docker没有正确安装。如果正确安装会输出类似下面的内容：<br>Containers: 0<br>Images: 124<br>Storage Driver: aufs<br> Root Dir: /var/lib/docker/aufs<br> Dirs: 124<br>Execution Driver: native-0.2<br>Kernel Version: 3.16.0-23-generic<br>Operating System: Ubuntu Kylin 14.10<br>到这一步Docker里还没有镜像或是容器。所以，让我们通过命令来拉取一个预建的镜像：<br>sudo docker pull busybox （这里使用的是官方的registry）<br>这里推荐下国内的 docker.cn，速度比官方的快很多<br>使用方法如下：sudo docker pull docker.cn/docker/busybox<br>未完待续。。。。。。<br>参考资料：<br><a href="http://www.linuxidc.com/Linux/2013-10/91050.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2013-10/91050.htm</a><br><a href="http://cloud.51cto.com/art/201412/462905.htm" target="_blank" rel="external">http://cloud.51cto.com/art/201412/462905.htm</a><br><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">http://dockerpool.com/static/books/docker_practice/index.html</a></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwvdwc1w001zm4cy7jwicq31" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwvhh0n4002nr1cyr9n4rerb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -858,10 +611,10 @@
 
 
   
-    <article id="post-学习-Python-的三种境界" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-CAT" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/学习-Python-的三种境界/" class="article-date">
-  <time datetime="2016-12-13T05:51:42.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/CentOS-6-x-CAT/" class="article-date">
+  <time datetime="2016-12-14T04:48:22.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -872,7 +625,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/学习-Python-的三种境界/">学习 Python 的三种境界</a>
+      <a class="article-title" href="/2016/12/14/CentOS-6-x-CAT/">CentOS 6.x CAT</a>
     </h1>
   
 
@@ -880,24 +633,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前言</p>
-<p>王国维在《人间词话》中将读书分为了三种境界：“古今之成大事业、大学问者，必经过三种之境界：‘昨夜西风凋碧树，独上高楼，望尽天涯路’。此第一境也。‘衣带渐宽终不悔，为伊消得人憔悴。’此第二境也。‘众里寻他千百度，蓦然回首，那人却在灯火阑珊处’。此第三境也。我从入门Python到现在也没有多少时间，所以写如此大的一个题目必定会引发各种批判，当然我没有想造一个大新闻，只是想根据自己的学习历程做一个简单的总结，同时将这三个阶段对应的一些好的书籍简单介绍介绍。</p>
-<p>正文</p>
-<p>Python的用途十分广泛，不同的程序员将其用于不用的领域，不同的程序员将自己的代码打包成库，供其他程序员使用，从而少造轮子，各种库的使用，加之Python本身的灵活性、易读性，易写性，使用的人越来越多，tiobe统计编程语言的使用率如下：Python在一年之间使用排行榜中上升了3名，而且各大公司在招聘员工的时候如果能掌握Python，肯定是一个加分项，因为Python在文本处理，小程序的写作方面具有太强的优势，前段时间一个朋友让帮忙改下他们公司logo的颜色，第一个想到的就是用Python，女票让我帮她预处理大数据，第一个想到的仍然是Python等等，当然并没有说其他语言不好，也不是为了讨论哪种语言更好，只是Python确实是一门会让人幸福的语言，下面粗浅的说说我对Python学习过程中的境界划分以及推荐书籍。</p>
-<p>第一个阶段：初级，掌握Python的语法和一些常用库的使用</p>
-<p>这里首先推荐廖雪锋在网上的书籍，这是Python2.7版本的，这本书适合于重头开始一直读完，作为一个开发人员，除了基本的语法，这本书里面提到了一些其他的常用的库，看了廖老师写的很多东西，感觉他的思路，以及写博客写书的高度，概括性，原理性都十分好，这本书读完之后，相信就可以动手写很多东西了，可以尽情的玩转Python解释器了。<br>另外还有一本书《Python参考手册》，这本书也十分的有用，关于Python的方方面面基本都囊括在内，可以作为一本Python字典来查询使用方法，十分好用。<br>掌握一门语言最好的方法就是用它，所以我觉得边学语法边刷Leetcode是掌握Python最快的方式之一。</p>
-<p>很多只需要将Python作为脚本或者就是写一些小程序处理处理文本的话，到这一个阶段就足够了，这个阶段已经可以帮我们完成很多很多的事情了。但是如果是一个专业学习Python的，恐怕还需要努力的升级：首先，国内的大多数人都是学习了其他语言（C，C++,Java等）之后来学习Python的，所以Python和这些语言的不同，也就是pythonic的东西需要一些时间去学习了解和掌握；另外，对于自己领域的领域的库构架的掌握也需要很长的时间去掌握；最后，如果想独立完成一个Python的项目，项目的布局，发布，开源等都是需要考虑的问题。</p>
-<p>第二个阶段：中级，掌握自己特定领域的库，掌握pythonic写法，非常熟悉Python的特性</p>
-<p>推荐的第一本书是《编写高质量代码–改善python程序的91个建议》，这本书大概的提了下Python工程的文件布局，更多的总结了如何写出pythonic的代码，另外，也介绍了一些常用的库。<br>要想深入的了解Python，有的时候看看Python的源码也是很重要的，自己通过读懂源码，来彻底的了解Python的核心机制，这里推荐《Python源码剖析——深度探索动态语言核心技术》，这本书并没有看完，只是在需要深入了解Python某个功能或者数据结构的时候看看相关章节，也觉得受益匪浅。<br>自己领域的书籍和资料也肯定很多，比如web开发的构架都有很多，只有了解熟悉了所有构架，在选择的时候才能衡量利弊，然后深入掌握某些构架。</p>
-<p>这个阶段过后，可以写出pythonic代码，可以通过PEP8的检查，可以为开源社区做贡献了，可以将一个Python文件写的十分好，但是如果要用Python开发一个大型项目，还是有很多东西需要掌握的，比如项目的文档，项目的发布，下载，项目性能和案例等等。</p>
-<p>第三个阶段：高级，从整个工程项目着眼，考虑document，distribution，性能优化等</p>
-<p>目前只看了一本书《the hacker guide to python》，看的是英文版的，这本书对项目的布局，文档，性能，发布等做了很多详细的介绍，我觉得写的还是很不错，只不过本人还需要再读几遍。<br>对于大多数人来说，很难有机会从头开始一个有意义的大型工程项目，所以自己可以用Python实现一些简单的功能，简单的项目，这个灵感可以去知乎或者quora搜索，很多前辈都分享了自己的经验。</p>
-<p>从大局入手，规划好项目的布局，设定好相应的文档说明，提供工程下载安装的方法，带几个demo，每个类，每个函数，每行代码都反复推敲，写出pythonic的程序，相信这时候Python于我们便是信手拈来了！</p>
+        <p>CAT(Central Application Tracking)是基于Java开发的实时应用监控平台，为大众点评网提供了全面的监控服务和决策支持。<br>CAT作为大众点评网基础监控组件，它已经在中间件框架（MVC框架，RPC框架，数据库框架，缓存框架等）中得到广泛应用，为点评各业务线提供系统的性能指标、健康状况、基础告警等。<br>地址:<a href="https://github.com/dianping/cat" target="_blank" rel="external">https://github.com/dianping/cat</a><br>require: JAVA6<br>Maven 3<br>Mysql<br>1.安装jdk,maven(操作系统CentOS release 6.5)<br>root@172.16.221.1:~#  yum install jdk1.8.0_40.x86_64<br>root@172.16.221.1:~#wget <a href="http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz" target="_blank" rel="external">http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz</a><br>root@172.16.221.1:apache-maven# pwd<br>/usr/local/apache-maven<br>root@172.16.221.1:apache-maven# tar xf apache-maven-3.2.1-bin.tar.gz<br>root@172.16.221.1:apache-maven-3.2.1# ll<br>total 40<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 bin<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 boot<br>drwxr-xr-x 3 root root  4096 Feb 15  2014 conf<br>drwxr-xr-x 3 root root  4096 Apr 23 17:20 lib<br>-rw-r–r– 1 root root 14865 Feb 15  2014 LICENSE<br>-rw-r–r– 1 root root   182 Feb 15  2014 NOTICE<br>-rw-r–r– 1 root root  2513 Feb 15  2014 README.txt<br>root@172.16.221.1:apache-maven-3.2.1# pwd<br>/usr/local/apache-maven/apache-maven-3.2.1<br>2.环境变量配置<br>root@172.16.221.1:apache-maven-3.2.1# cat /etc/profile<br>…<br>export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1<br>export M2=$M2_HOME/bin<br>export PATH=$M2:$PATH</p>
+<p>root@172.16.221.1:apache-maven-3.2.1# source /etc/profile<br>3 测试<br>root@172.16.221.1:~# java -version<br>java version “1.8.0_40”<br>Java(TM) SE Runtime Environment (build 1.8.0_40-b26)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)</p>
+<p>root@172.16.221.1:~# mvn -v<br>Apache Maven 3.2.1 (ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9; 2014-02-15T01:37:52+08:00)<br>Maven home: /usr/local/apache-maven/apache-maven-3.2.1<br>Java version: 1.8.0_40, vendor: Oracle Corporation<br>Java home: /usr/java/jdk1.8.0_40/jre Default locale: en_US, platform encoding: UTF-8<br>OS name: “linux”, version: “2.6.32-431.el6.x86_64”, arch: “amd64”, family: “unix”<br>4 Clone CAT<br>root@172.16.221.1:opt# git clone git@github.com:dianping/cat.git<br>5 在CAT目录下,用maven构建项目<br>root@172.16.221.1:cat# pwd<br>/opt/cat<br>root@172.16.221.1:cat# mvn clean install -DskipTests<br>6 配置CAT的环境<br>root@172.16.221.1:cat# mav cat:install<br>注意 需要对/data/appdatas/cat和/data/applogs/cat有读写权限<br>7 运行CAT<br>root@172.16.221.1:cat-home# pwd<br>/opt/cat/cat-home<br>root@172.16.221.1:cat-home#nohup mvn jetty:run &amp;<br>8 打开浏览器，输入<a href="http://172.16.221.1:2281/cat/。" target="_blank" rel="external">http://172.16.221.1:2281/cat/。</a></p>
+<p>或者在cat目录下输入 mvn eclipse:clean eclipse:eclipse 然后将项目导入到eclipse中，运行cat-home项目里得‘com.dianping.cat.TestServer’来启动CAT.</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwvdwc3t0045m4cyg3iwiorh" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwvhh0kw000ar1cynxjvs8sj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -907,10 +651,10 @@
 
 
   
-    <article id="post-学编程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-7-x-Ceph" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/学编程/" class="article-date">
-  <time datetime="2016-12-13T05:48:54.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/14/CentOS-7-x-Ceph/" class="article-date">
+  <time datetime="2016-12-14T04:46:08.000Z" itemprop="datePublished">2016-12-14</time>
 </a>
     
   </div>
@@ -921,7 +665,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/学编程/">学编程</a>
+      <a class="article-title" href="/2016/12/14/CentOS-7-x-Ceph/">CentOS 7.x Ceph</a>
     </h1>
   
 
@@ -929,140 +673,107 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>第一步：定目标 好好想想，你想学什么编程语言？具体想用编程语言来做什么？千万不要“现在html5很红，学html5吧”，“iOS编程很赚钱，学OC吧”。 你可以这样做，逛一些编程视频教学的网站，看有什么“实例”是你觉得有趣的，评价也说不错的，定这个为目标吧。这里一天时间够了。</p>
-<p>第二步：你需要一本书，搞定基础问题 老老实实买一本评价好的编程书，随便一本就好，不要网上下载电子书，电子书不清晰，没法做笔记，难集中精神。 你怎么看一本编程书呢？一章一章地看，认真看？错了！大部分自学的人死在这里，一般编程书，会涵盖这门语言的所有知识点，包括很多不怎么用的难点，所以一章一章地看，只会让自己越看越不懂，慢慢没有耐心了，就放弃了。<br>我们应该这样用一本书：<br>1、看书搭建开发环境，遇到问题也可以上网找怎样搭建，毕竟软件更新肯定比书更新要快。<br>2、看看大概的程序长什么样子的，写个最简单的程序玩玩，一般都是一个叫做“hello world”的东西。<br>3、知道程序的一些基本类型（元素），例如int/char。<br>4、学会一些语法结构，例如条件判断(if/else)，循环(for/while)。<br>5、看看有什么常用类或者方法。 足够了，后面的不用看了，打个比方就是你不需要学会所有英语单词才开始学英语句子和作文，这个步骤一天也足够了。</p>
-<p>第三步：看视频 这个时候需要关闭开发工具，准备纸和笔，做笔记，一边看视频，一边记笔记，让自己知道怎样开发目标程序。这个时候偶尔需要快进，偶尔需要暂停，偶尔需要回看。我自己现在学新语言，是在某网站用1.7倍播放速度看。 仔细看看老师是怎样一步一步写程序出来的，要连续看，千万不要一边看一边用开发工具跟着敲代码，那样是没用的，会打断思路。 网上的实例教程一般都是小程序，不会太长，大概几个小时时间，所以这里一天时间也够了。</p>
-<p>第四步：敲代码 明白怎样开发一个程序了，就一定要敲代码了，这个时候才对着视频一步一步跟着敲，也要对着笔记一步一步走，需要耐心，因为这个时间会持续可能三天，视频也可能看了后面又返回前面看，这些都正常。 Done，完成这步，这门语言也入门了，再花点时间总结自己所学，再看看这门语言还有什么典型的案例，给自己之后学习定个方向，又花一天时间。 我学过非常多种编程语言，所有编程语言入门都是一样的，入门难，入门后就有方向了，就可以花更多的时间去钻研进步。与其花钱去培训，不如学好基础后，告诉企业免费试用一个月，更快找到自己的IT路。</p>
+        <p><a href="http://docs.ceph.org.cn/" target="_blank" rel="external">http://docs.ceph.org.cn/</a></p>
+<p>[root@node2 ~]# rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm</a></p>
+<p>安装：</p>
+<p>yum install scsi-target-utils -y</p>
+<p>启动服务<br>[root@node4 ~]# systemctl enable tgtd.service<br>Created symlink from /etc/systemd/system/multi-user.target.wants/tgtd.service to /usr/lib/systemd/system/tgtd.service.<br>[root@node4 ~]# systemctl start tgtd.service</p>
+<p>确认一下有没有端口起来<br>[root@node4 ~]# netstat -anlpt | grep 3260<br>tcp        0      0 0.0.0.0:3260            0.0.0.0:<em>               LISTEN      8285/tgtd<br>tcp6       0      0 :::3260                 :::</em>                    LISTEN      8285/tgtd<br>[root@node4 ~]#</p>
+<p>设为开机自启动：<br>[root@node4 ~]# chkconfig tgtd on<br>Note: Forwarding request to ‘systemctl enable tgtd.service’.<br>[root@node4 ~]# </p>
+<p>dd if=/dev/zero of=/mycephfs/cephimg2 bs=1024M count=1000</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-09.node2:cephimg2=""><br>  backing-store /mycephfs/cephimg2<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg2</p>
+<p>tgtadm –lld iscsi –op show –mode target</p>
+<p>dd if=/dev/zero of=/mycephfs/cephimg1 bs=1024M count=4000</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-10.node2:cephimg3=""><br>  backing-store /mycephfs/cephimg3<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /mycephfs/cephimg1</p>
+<p>tgtadm –lld iscsi –op show –mode target</p>
+<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img1  bs=1024M count=1024</p>
+<p>10.6.100.39 node4# dd if=/dev/zero of=/data/img/img2  bs=1024M count=1024<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n5:img2=""><br>  backing-store /data/img/img2<br></target>
+
+<p>systemctl restart tgtd.service</p>
+<p>查看信息<br>tgtadm –lld iscsi –op show –mode target</p>
+<p>在安装ceph之前推荐把所有的ceph节点设置成无需密码ssh互访，配置hosts支持主机名互访，同步好时间，并关闭iptables和selinux。<br>vim /etc/selinux/config</p>
+<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service</p>
+<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.108.6.95</p>
+<p>node1<br>vim /etc/ntp.conf<br>server 202.108.6.95 prefer<br>service ntpd start<br>ntpstat</p>
+<p>node2、3<br>vim /etc/ntp.conf<br>server node1<br>ntpdate -u node1<br>service ntpd start<br>ntpstat</p>
+<p>vim /etc/hosts<br>10.6.0.166  node1<br>10.6.0.167  node2<br>10.6.0.168  node3<br>10.6.0.169  node4</p>
+<p>vim /etc/hosts<br>10.6.0.171  node1<br>10.6.0.172  node2<br>10.6.0.173  node3<br>10.6.0.174  node4</p>
+<p>vim /etc/hosts<br>10.6.4.166  node1<br>10.6.4.167  node2<br>10.6.4.168  node3<br>10.6.4.169  node4<br>10.6.4.170  node5<br>10.6.4.171  node6<br>10.6.4.172  node7<br>10.6.4.173  node8<br>10.6.4.174  node9</p>
+<p>node1<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>[root@node1 ~]# cat ~/.ssh/authorized_keys<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCxp6jN9BsZf6V+pQEksQQaOdesJ8jOPAkudEpsEnNFdUW2PzK/Hrn+s3TrdgekTAWRvjXELQ/S45Z/eK+r2C14rzLaLN1Twq6fJfjF2B+tGvejG/gWzDCx/FPLTv7155UwNCObDCPveV3Ey/bkL681CN8YezBh58IX0uMk5jOJAjlWexVOB7oE1iAmP8dB/B2mbk6arX7QjTr79Fp5WzVM50BNsDcTG9rccKrKs7XPqYPTCfMB/b0gfeoOnQ4B4bY/PL0AdluPQSpD0d2/I2jefDcL89CBeH16oFtTGFFsKnDh4WgcDwlEsS7KYvV8N/mqu8Ym1VAep/7b83KoUyOH root@node1<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC+kjsX4sSLByfEQYnLvyvHDBUtup4MVG7EPkl7MyTabRapn0O1LA2ZvybIBjSSmiuRAEy9CF3tbkg+2wFjvfwa1M8x/83NAQ1AOZhWHjTzpdFAGiIetEiunaDVDLqb9c1q+U3ETFRFxPaaoBLijGNFVWFovJ8sT25i76gluDQ+yIT9vW6gbnjyy2Q32HYhsxKZj4PnG1YbdDa3H0FBm2b7kVZ7SpZq2xbsmZqF+gY9RfqWTjcHHOplyrZeCh6HHPPyr9XvZ/DpcHXLGwOx7PPkhnn5Q8Byrofb5dJfxbcfg22aQsdnvD59WxzK4Gfqw5muGga31fEVJKLzn74+MWa9 root@node2<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKOsjb53KEQ88zJXGx2B3rnn0/Mnz0ObNb/Ees13+OgWyAjnaQWNiRVuqLTcQU5DTjGfQPy1oYq6TBOdgXv10BShU0LXv2Ju2YBcsV50PVGZtVhQ6iX/+qDhs0vv0lLt3xPQzpbxQRV5FXMb5HpPu2KYtVtaRao9CdGhteLrjQf2MymCNrS8BfjeFEPNEaD0gyLzTsPbN9IlvHYToAyLrqlQfp9V6YqgarRHtafDcq/K6H7w3rynHDOR2wpifscbTezWLNOpSDMthMqvmhFX9nXOGChTnc0k4+1Fj4V2sto7/vKX1gdN2Hha1APT9u9XXDBC0ur5HQqnpiSWAYqlLr root@node3<br>ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0WQ5Vu0HWmWQslihi4Uv8MjvwUGanw/exy3tOU8rUxnB0DfWR5e98GpEE37NCU6Y8Q+Ppy3H3RxUSdfw/cFhaz03bDjRphdHPU/aTFWJPBXo6uJjV9s34WaP2q6xKd2/NsgTm+FIiD0O37UtqVUGvvPtqU1QiaZOOxSlmLtjBGLM8WmEjjCpHS+AJ3ceWR16lkry5+F1DnrEITdEmVTy/zCPuQk9Ey32jU39AELm1gtYHcaXvE1Ir8+dZ83fmAleFnT7sONARd4rHjYAyuRx47kjOea9Y89KIbF1SUTgW7nystZ1ULPIeotGeuGgsl2X7bRKUJxzE76nybZruo7Hp root@node4<br>[root@node1 ~]#</p>
+<p>scp ~/.ssh/authorized_keys root@node2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
+<p>node2<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node3:~/.ssh/</p>
+<p>node3<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
+<p>scp ~/.ssh/authorized_keys root@node1:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node2:~/.ssh/</p>
+<p>scp ~/.ssh/authorized_keys root@node4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@node1:~/.ssh/</p>
+<p>１、实验环境说明：<br>当前实验环境使用了4台主机node1~node4，node1为管理节点。<br>2、部署工具：<br>　　Ceph官方推出了一个用python写的工具 cpeh-deploy</p>
+<p>添加ceph源</p>
+<p>vim /etc/yum.repos.d/ceph.repo<br>[ceph]<br>name=ceph<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/x86_64/</a><br>gpgcheck=0<br>[ceph-noarch]<br>name=cephnoarch<br>baseurl=<a href="http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/" target="_blank" rel="external">http://mirrors.aliyun.com/ceph/rpm-jewel/el7/noarch/</a><br>gpgcheck=0</p>
+<p>yum makecache</p>
+<p>3、安装步骤<br>所有节点安装软件<br>yum install ceph ceph-deploy -y</p>
+<p>创建工作目录，用于存放生成的配置文件和秘钥等信息<br>mkdir /ceph ; cd /ceph<br>到管理主机上的/ceph目录操作,创建一个新集群，并设置node1为mon节点<br>ceph-deploy new node1<br>ceph-deploy new node4<br>执行完毕后，可以看到/ceph目录中生成了三个文件，其中有一个配置文件可以做各种参数优化，据说ceph的优化参数接近1000项。（注意，在osd进程生成并挂载使用后，想修改配置需要使用命令行工具，修改配置文件是无效的，所以需要提前规划好优化的参数。）<br>在ceph.conf中添加四个最基本的设置<br>echo “osd pool default size = 3” &gt;&gt; ceph.conf<br>echo “osd_pool_default_min_size = 2” &gt;&gt; ceph.conf<br>cat ceph.conf</p>
+<p>激活监控节点<br>ceph-deploy mon create-initial</p>
+<p>接下来创建osd节点<br>node1<br>mkdir /data/osd01<br>chmod -R 777 /data/osd01</p>
+<p>node2<br>mkdir /data/osd02<br>chmod -R 777 /data/osd02</p>
+<p>mkdir /var/local/osd2<br>chmod -R 777 /var/local/osd2</p>
+<p>node3<br>mkdir /data/osd03<br>chmod -R 777 /data/osd03</p>
+<p>mkdir /var/local/osd3<br>chmod -R 777 /var/local/osd3</p>
+<p>node4<br>mkdir /var/local/osd4<br>chmod -R 777 /var/local/osd4</p>
+<p>ceph-deploy osd prepare node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
+<p>ceph-deploy osd activate node1:/data/osd01 node2:/data/osd02 node3:/data/osd03</p>
+<p>ceph-deploy osd prepare node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
+<p>ceph-deploy osd activate node2:/var/local/osd2 node3:/var/local/osd3 node4:/var/local/osd4</p>
+<p>将管理节点上的配置文件同步到其他节点上<br>ceph-deploy admin node1 node2 node3</p>
+<p>所有节点<br>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+<p>ceph health<br>HEALTH_OK</p>
+<p>ceph -s<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>     osdmap e14: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v26: 64 pgs, 1 pools, 0 bytes data, 0 objects<br>            30468 MB used, 9341 MB / 39810 MB avail<br>                  64 active+clean<br>[root@node1 ceph]#</p>
+<p>添加元数据服务器</p>
+<p>至少需要一个元数据服务器才能使用 CephFS ，执行下列命令创建元数据服务器：</p>
+<p>ceph-deploy mds create node1<br>ceph-deploy mds create node4<br>Note 当前生产环境下的 Ceph 只能运行一个元数据服务器。你可以配置多个，但现在我们还不会为多个元数据服务器的集群提供商业支持。<br>[root@node1 ceph]# ceph-deploy mds create node1<br>[root@node1 ceph]# ceph osd pool create test1 64<br>pool ‘test1’ created<br>[root@node1 ceph]# ceph osd pool create test2 64<br>pool ‘test2’ created<br>[root@node1 ceph]# ceph fs new cephfs test2 test1<br>new fs with metadata pool 2 and data pool 1<br>[root@node1 ceph]# ceph -s<br>    cluster 8828b04f-e1f9-49fa-be83-52948e1ed407<br>     health HEALTH_OK<br>     monmap e1: 1 mons at {node1=10.6.4.166:6789/0}<br>            election epoch 3, quorum 0 node1<br>      fsmap e5: 1/1/1 up {0=node1=up:active}<br>     osdmap e19: 3 osds: 3 up, 3 in<br>            flags sortbitwise<br>      pgmap v52: 192 pgs, 3 pools, 2068 bytes data, 20 objects<br>            30473 MB used, 9336 MB / 39810 MB avail<br>                 192 active+clean<br>[root@node1 ceph]#</p>
+<p>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.03809 root default<br>-2 0.01270     host node2<br> 0 0.01270         osd.0       up  1.00000          1.00000<br>-3 0.01270     host node3<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node4<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>[root@node1 ceph]#  </p>
+<p>Ceph 存储集群需要至少一个 Monitor 才能运行。为达到高可用，典型的 Ceph 存储集群会运行多个 Monitors，这样在单个 Monitor 失败时不会影响 Ceph 存储集群的可用性。Ceph 使用 PASOX 算法，此算法要求有多半 monitors（即 1 、 2:3 、 3:4 、 3:5 、 4:6 等 ）形成法定人数。</p>
+<p>新增两个监视器到 Ceph 集群。</p>
+<p>ceph-deploy mon add node2 node3<br>新增 Monitor 后，Ceph 会自动开始同步并形成法定人数。你可以用下面的命令检查法定人数状态：</p>
+<p>ceph quorum_status –format json-pretty<br>Tip 当你的 Ceph 集群运行着多个 monitor 时，各 monitor 主机上都应该配置 NTP ，而且要确保这些 monitor 位于 NTP 服务的同一级。</p>
+<p>CephFS的使用<br>在客户端上操作：<br>1、安装客户端挂载软件<br>yum install ceph-fuse -y<br>2、创建挂载目录<br>mkdir /mycephfs<br>3、证书来源位置<br>[root@node4 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>[root@node4 ~]#<br>4、模拟挂载<br>[root@node4 ~]# mount -t ceph node1:6789:/ /mycephfs -v -o name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==<br>parsing options: rw,name=admin,secret=AQBqN8ZX5wC7NRAAnl8I0VBqoFPMJawT6x3hDw==</p>
+<p>[root@node2 ~]# more /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==<br>[root@node2 ~]#<br>mount -t ceph node4:6789:/ /mycephfs -v -o name=admin,secret=AQBOj9dXVED0AhAAAmP5gKxGA1/562ERJF068w==</p>
+<p>[root@node4 ~]# df -h<br>Filesystem               Size  Used Avail Use% Mounted on<br>/dev/mapper/centos-root   13G   10G  3.1G  77% /<br>devtmpfs                 479M     0  479M   0% /dev<br>tmpfs                    494M   84K  494M   1% /dev/shm<br>tmpfs                    494M  6.9M  488M   2% /run<br>tmpfs                    494M     0  494M   0% /sys/fs/cgroup<br>/dev/xvda1               497M  140M  358M  29% /boot<br>tmpfs                     99M   16K   99M   1% /run/user/42<br>tmpfs                     99M     0   99M   0% /run/user/0<br>10.6.4.166:6789:/         39G   30G  9.2G  77% /mycephfs<br>[root@node4 ~]#<br>5、另外一种命令挂载方式<br>[root@ceph-client ~]# mount  -t ceph node1:6789:/ /mycephfs -v -oname=admin,secretfile=/etc/ceph/ceph.client.admin.keyring<br>6、若果有多个mon监控节点，可以挂载多可节点，保证了cephFS的安全行，当有一个节点down的时候不影响写入数据<br>[root@client ~]# mount.cephnode01,node02,node03:/ /mycephfs -v -o name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==<br>7、验证挂载信息：<br>df -h<br>Filesystem          Size Used Avail Use% Mounted on<br>/dev/sda5           1.7T 4.8G  1.7T   1% /data<br>/dev/rbd0            78G   56M  78G   1% /rbdtest<br>172.16.2.27:6789:/  8.2T  9.8G 8.2T   1% /mycephfs<br>8、把挂载的信息写到fstab里<br>[root@client ~]# vi /etc/fstab<br>172.16.2.27,172.16.2.28,172.16.2.29:/  /mycephfs  ceph  name=admin,secret= AQCnrMZUaFsiCxAAXzM3aF9WjUBnwbN6PtvZEw==,noatime    0<br>9、指定key文件的调用方式<br>sudoceph-fuse -k ./ceph.client.admin.keyring -m 192.168.40.107:6789 ~/mycephfs<br>10、挂载后查看结果，注意观察类型<br>df-Th<br>11、取消挂载<br>取消挂载的操作如下:<br>umount /mnt/mycephfs</p>
+<p>sudo mkdir /mnt/mycephfs<br>sudo mount -t ceph {ip-address-of-monitor}:6789:/ /mnt/mycephfs<br>或者<br>sudo mkdir /home/{username}/cephfs<br>sudo ceph-fuse -m {ip-address-of-monitor}:6789 /home/{username}/cephfs</p>
+<h1 id="df-–h-查看"><a href="#df-–h-查看" class="headerlink" title="df –h   查看"></a>df –h   查看</h1><p>[root@ceph-client ~]# mkdir /mnt/mycephfs<br>[root@ceph-client ~]# mount  -t ceph 10.240.240.211:6789:/ /mnt/mycephfs -v -o name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==<br>10.240.240.211:6789:/ on /mnt/mycephfs type ceph (rw,name=admin,secret=AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==) </p>
+<p>#上述命令中的name和secret参数值来自monitor的/etc/ceph/keyring文件：<br>[root@node1 ~]# cat /etc/ceph/ceph.client.admin.keyring<br>[client.admin]<br>        key = AQDT9pNTSFD6NRAAoZkAgx21uGQ+DM/k0rzxow==</p>
+<p>检查ceph集群状态常用命令<br>ceph health   //ceph健康状态<br>ceph status   //ceph当前全部状态<br>ceph -w //实时监控ceph状态及变化<br>ceph osddump                                //所有osd详细状态<br>ceph osd tree        //osd所在位置，及状态<br>cephquorum_status    //mon优先级状态<br>ceph mon dump    //mon节点状态<br>ceph mds dump    //mds详细状态</p>
+<p>添加 OSD</p>
+<p>你运行的这个三节点集群只是用于演示的，把 OSD 添加到 monitor 节点就行。</p>
+<p>yum install ceph ceph-deploy -y</p>
+<p>node5<br>mkdir /var/local/osd5<br>chmod -R 777 /var/local/osd5</p>
+<p>然后，从 ceph-deploy 节点准备 OSD 。</p>
+<p>ceph-deploy osd prepare node5:/var/local/osd5<br>最后，激活 OSD 。</p>
+<p>ceph-deploy osd activate node5:/var/local/osd5</p>
+<p>一旦你新加了 OSD ， Ceph 集群就开始重均衡，把归置组迁移到新 OSD 。可以用下面的 ceph 命令观察此过程：</p>
+<p>ceph -w</p>
+<p>你应该能看到归置组状态从 active + clean 变为 active ，还有一些降级的对象；迁移完成后又会回到 active + clean 状态（ Control-C 退出）。</p>
+<p>ceph-deploy admin node4</p>
+<p>chmod +r /etc/ceph/ceph.client.admin.keyring</p>
+<p><a href="http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/" target="_blank" rel="external">http://docs.ceph.org.cn/rados/operations/add-or-rm-osds/</a><br><a href="http://docs.ceph.com/docs/master/rados/operations/operating/" target="_blank" rel="external">http://docs.ceph.com/docs/master/rados/operations/operating/</a></p>
+<p>移除OSD<br>ceph osd out 0<br>[root@node1 ceph]# systemctl stop ceph-osd@0<br>[root@node1 ceph]# ceph osd rm 0<br>removed osd.0<br>[root@node1 ceph]# ceph osd tree<br>ID WEIGHT  TYPE NAME      UP/DOWN REWEIGHT PRIMARY-AFFINITY<br>-1 0.05078 root default<br>-2 0.01270     host node1<br> 0 0.01270         osd.0      DNE        0<br>-3 0.01270     host node2<br> 1 0.01270         osd.1       up  1.00000          1.00000<br>-4 0.01270     host node3<br> 2 0.01270         osd.2       up  1.00000          1.00000<br>-5 0.01270     host node4<br> 3 0.01270         osd.3       up  1.00000          1.00000<br>[root@node1 ceph]#</p>
+<p>cephfs的删除<br>remove所有节点上的ceph<br>ceph-deploy purge node{1..3}</p>
+<p>清除所有数据<br>ceph-deploy purgedata node{1..3}</p>
+<p>清除所有秘钥文件<br>ceph-deploy forgetkeys</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwvdwc3u0046m4cywja92ag8" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java环境变量" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Java环境变量/" class="article-date">
-  <time datetime="2016-12-13T05:43:51.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Java环境变量/">Java环境变量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Windows环境变量<br>JAVA_HOME=D:\Dell\Java\jdk1.7.0_17<br>PATH=D:\Java\jdk1.7.0_17\bin</p>
-<p>Linux环境变量<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export JAVA_HOME=/home/jinyan/Java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export JAVA_HOME=/usr/java/jdk1.6.0_31/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export HADOOP_INSTALL=/usr/opt/hadoop<br>export PATH=$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_INSTALL}<br>export HADOOP_COMMON_HOME=${HADOOP_INSTALL}<br>export HADOOP_HDFS_HOME=${HADOOP_INSTALL}<br>export YARN_HOME=${HADOOP_INSTALLL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_INSTALL}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_INSTALL}/lib:${HADOOP_INSTALL}/lib/native”</p>
-<p>export HADOOP_COMMON_LIB_NATIVE_DIR=/usr/opt/hadoop/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=/usr/opt/hadoop/lib:/usr/opt/hadoop/lib/native”</p>
-<p>source /etc/profile</p>
-<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
-<p>source ~/.bashrc</p>
-<p>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 Test<em>.java<br>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 -version -author Test</em>.java</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwvdwc1f001km4cyk233q21f" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-史上最全的开发和设计资源大全" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/史上最全的开发和设计资源大全/" class="article-date">
-  <time datetime="2016-12-13T05:31:13.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/史上最全的开发和设计资源大全/">史上最全的开发和设计资源大全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GitHub 上的 Awesome 系列（资源大全系列），是一个汇总了优秀工具资源的大集合，并由 GitHub 社区用户持续维护和更新。初始的版本都是英文，伯乐在线组织整理了热门资源大全的中文版。目前，中文版的资源列表在 GitHub 总计已经有超过 10,000 star 和 数千 fork 。以下是各个开发和设计资源的详细介绍。</p>
-<p>Java 资源大全</p>
-<p>Java资源大全中文版，包括：构建工具、字节码操作、集群管理、代码分析、编译器生成工具、外部配置工具、持续集成、数据结构、数据库、时间日期工具库、依赖注入、开发流程增强工具、分布式应用、分布式数据库、文档处理工具、函数式编程、游戏开发、GUI、高性能计算、IDE、图像处理、JSON、JVM与JDK、日志、机器学习、消息传递、应用监控工具、自然语言处理等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-java-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-java-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=32" target="_blank" rel="external">http://hao.jobbole.com/?catid=32</a></p>
-<p>Python 资源大全</p>
-<p>Python 资源大全中文版，包括：环境管理、包管理、构建工具、分发、Web框架、网络爬虫、模板引擎、数据库、数据可视化、图像处理、文本处理、自然语言处理、配置、命令行工具、地理位置、CMS、缓存、数据验证、反垃圾、GUI、游戏开发等。</p>
-<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-python-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-python-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=144" target="_blank" rel="external">http://hao.jobbole.com/?catid=144</a></p>
-<p>JavaScript 资源大全</p>
-<p>JavaScript 资源大全中文版，内容包括：包管理器、打包工具、加载器、测试框架、运行器、QA、MVC框架和库、模板引擎、数据可视化、编辑器、函数式编程、响应式编程、数据结构、存储、国际化和本地化、日志、正则表达式、视觉检测、代码高亮、加载状态、验证、幻灯片、滑块控件、表单组件、框架、地图、视频/音频、动画、图片处理等。</p>
-<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-javascript-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-javascript-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=67" target="_blank" rel="external">http://hao.jobbole.com/?catid=67</a></p>
-<p>iOS 资源大全</p>
-<p>iOS 资源大全中文版，内容包括：依赖/包管理、框架、图表、测试、音频/视频、SDK、数据库、硬件、文件、日志、地图、网络通知、代码质量、支付、安全、编程规范、UI、硬件等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-ios-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-ios-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=31" target="_blank" rel="external">http://hao.jobbole.com/?catid=31</a></p>
-<p>C 语言资源大全</p>
-<p>C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库、文档生成、编辑器、环境、框架、游戏编程、引擎、通用编程、图形、GUI、JSON、多媒体、网络编程、Web 框架、数值计算、并行编程、正则表达式、序列化、标准库、字符串处理、测试工具、文本编辑器扩展等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-c-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-c-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=1877" target="_blank" rel="external">http://hao.jobbole.com/?catid=1877</a></p>
-<p>MySQL 资源大全</p>
-<p>MySQL 资源大全中文版，分析工具、备份、性能测试、配置、部署、GUI、聊天应用、连接器、HA、代理、服务器、分片、工具包 等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-mysql-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-mysql-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
-<p>机器学习资源大全</p>
-<p>机器学习资源大全中文版，包括众多编程语言（C++、Closure、Go、Java、JavaScript、Julia、Lua、MATLAB、DotNet、Python、Ruby、R、Scala ）在 ML 领域的框架、库以及软件。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-machine-learning-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-machine-learning-cn</a></p>
-<p>CSS 资源大全</p>
-<p>CSS 资源大全中文版，内容包括：CSS预处理器、框架、CSS结构、大型网站的 CSS 开发、代码风格指南、命名习惯等</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-css-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-css-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=24" target="_blank" rel="external">http://hao.jobbole.com/?catid=24</a></p>
-<p>Android 资源大全</p>
-<p>Android 资源大全中文版，包括：图表、游戏开发、GUI、JSON、崩溃检测、网络请求、通知、数据库、测试、行为监测、集合框架、调试工具等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-android-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-android-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=252" target="_blank" rel="external">http://hao.jobbole.com/?catid=252</a></p>
-<p>系统管理员资源大全</p>
-<p>系统管理员资源大全中文版，备份/克隆软件、云计算/云存储、协作软件、配置管理、日志管理、监控、项目管理、DNS、网络配置、NOSQL、打包、队列、RDBMS、安全、SSH、统计、故障排除、项目管理、版本控制、虚拟化、Web服务器等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-sysadmin-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-sysadmin-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
-<p>DotNet 资源大全</p>
-<p>DotNet 资源大全中文版，内容包括：API、编译器、压缩、应用框架、应用模板、认证和授权、CLI、CLR、代码分析、编译器、加密、数据库、反编译、IDE、部署、分布式、GIS、游戏开发、GUI、图像处理、MVVM、ORM、Web框架、Web服务器、日志、风格指南等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-dotnet-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-dotnet-cn</a></p>
-<p>PHP 资源大全</p>
-<p>PHP资源大全中文版，内容包括：依赖管理、库、框架、静态网站生成器、HTTP、依赖注入、文件、图像处理、测试、持续集成、模板、安全、构建工具、调试工具、代码分析、搜索、日志、第三方库、配置工具、Web工具等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-php-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-php-cn</a></p>
-<p>C++ 资源大全</p>
-<p>C++ 资源大全中文版，标准库、Web应用框架、人工智能、音频、生态学、压缩、并发、容器、密码学、调试、游戏引擎、GUI、数据库、图片处理、机器学习、日志、代码分析、JSON、视频、物理学、机器人学、科学计算、网络编程、编译器、在线编译器、IDE 等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-cpp-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-cpp-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=374" target="_blank" rel="external">http://hao.jobbole.com/?catid=374</a></p>
-<p>设计师资源大全</p>
-<p>设计师资源大全，包含：ICON图标、Logo设计、PhotoShop插件、交互设计工具、流程图、线框图/原型图、设计博客等</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-design-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-design-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=803" target="_blank" rel="external">http://hao.jobbole.com/?catid=803</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwvdwc3h0041m4cyvota503z" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwvhh0m20016r1cyrbz21q8a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1075,7 +786,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/9/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/11/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/9/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/11/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -1101,28 +812,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
@@ -1138,7 +849,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Windows route | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="net user administrator /active:yesnet user administrator /active:no
+例子1：要显示IP路由表的完整内容，执行以下命令：
+route print
+例子2：要显示IP路由表中以10.开始的路由，执行以下命令：
+route print 10.*
+例子3：要添加默认网关地址为192.168.12.1的默认路由，执行以下命令：
+route">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows route">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/Windows-route/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="net user administrator /active:yesnet user administrator /active:no
+例子1：要显示IP路由表的完整内容，执行以下命令：
+route print
+例子2：要显示IP路由表中以10.开始的路由，执行以下命令：
+route print 10.*
+例子3：要添加默认网关地址为192.168.12.1的默认路由，执行以下命令：
+route">
+<meta property="og:updated_time" content="2016-12-19T01:51:36.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows route">
+<meta name="twitter:description" content="net user administrator /active:yesnet user administrator /active:no
+例子1：要显示IP路由表的完整内容，执行以下命令：
+route print
+例子2：要显示IP路由表中以10.开始的路由，执行以下命令：
+route print 10.*
+例子3：要添加默认网关地址为192.168.12.1的默认路由，执行以下命令：
+route">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Windows-route" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Windows-route/" class="article-date">
+  <time datetime="2016-12-19T01:51:06.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Windows route
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>net user administrator /active:yes<br>net user administrator /active:no</p>
+<pre><code>例子1：要显示IP路由表的完整内容，执行以下命令：
+route print
+例子2：要显示IP路由表中以10.开始的路由，执行以下命令：
+route print 10.*
+例子3：要添加默认网关地址为192.168.12.1的默认路由，执行以下命令：
+route add 0.0.0.0 mask 0.0.0.0 192.168.12.1
+例子4：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1
+例子5：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1的永久路由，执行以下命令：
+route -p add 10.41.0.0 mask 255.255.0.0 10.27.0.1
+例子6：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1，跃点数为7的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 metric 7
+例子7：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1，接口索引为0x3的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 if 0x3
+例子8：要删除目标为10.41.0.0，子网掩码为255.255.0.0的路由，执行以下命令：
+route delete 10.41.0.0 mask 255.255.0.0
+例子9：要删除IP路由表中以10.开始的所有路由，执行以下命令：
+route delete 10.*
+例子10：要将目标为10.41.0.0，子网掩码为255.255.0.0的路由的下一个跃点地址由10.27.0.1更改为10.27.0.25，执行以下命令：
+route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
+</code></pre><p>Windows下查看网卡“接口索引”<br>C:\Users\YanJin&gt;arp -a</p>
+<p>接口: 192.168.174.1 — 0x9<br>  Internet 地址         物理地址              类型<br>  192.168.174.254       00-50-56-f9-0d-c2     动态<br>  192.168.174.255       ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>接口: 192.168.120.1 — 0x12<br>  Internet 地址         物理地址              类型<br>  192.168.120.254       00-50-56-f6-1d-0e     动态<br>  192.168.120.255       ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>接口: 10.6.3.48 — 0x1a<br>  Internet 地址         物理地址              类型<br>  10.6.3.1              e8-e7-32-12-06-d4     动态<br>  10.6.3.42             e2-37-37-a3-ae-2b     动态<br>  10.6.3.44             f0-7b-cb-a0-e9-19     动态<br>  10.6.3.45             60-eb-69-5c-6f-3f     动态<br>  10.6.3.77             00-0e-e8-b3-c7-a7     动态<br>  10.6.3.84             6c-e8-73-6b-cf-b6     动态<br>  10.6.3.86             bc-d1-77-19-58-54     动态<br>  10.6.3.94             78-44-76-0a-36-c9     动态<br>  10.6.3.211            de-a9-01-8a-18-34     动态<br>  10.6.3.255            ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.251           01-00-5e-00-00-fb     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>艾迪康主机配置 102 网段连接外网，100网段连接内网</p>
+<h1 id="IPv4-路由表"><a href="#IPv4-路由表" class="headerlink" title="IPv4 路由表"></a>IPv4 路由表</h1><p>活动路由:<br>网络目标        网络掩码          网关       接口   跃点数<br>          0.0.0.0          0.0.0.0       10.6.102.1      10.6.102.52     20<br>         10.6.0.0      255.255.0.0       10.6.100.1      10.6.100.43     11<br>       10.6.100.0    255.255.255.0            在链路上       10.6.100.43    266<br>      10.6.100.43  255.255.255.255            在链路上       10.6.100.43    266<br>     10.6.100.255  255.255.255.255            在链路上       10.6.100.43    266<br>       10.6.102.0    255.255.255.0            在链路上       10.6.102.52    276<br>      10.6.102.52  255.255.255.255            在链路上       10.6.102.52    276<br>     10.6.102.255  255.255.255.255            在链路上       10.6.102.52    276<br>        127.0.0.0        255.0.0.0            在链路上         127.0.0.1    306<br>        127.0.0.1  255.255.255.255            在链路上         127.0.0.1    306<br>  127.255.255.255  255.255.255.255            在链路上         127.0.0.1    306<br>        224.0.0.0        240.0.0.0            在链路上         127.0.0.1    306<br>        224.0.0.0        240.0.0.0            在链路上       10.6.102.52    276<br>        224.0.0.0        240.0.0.0            在链路上       10.6.100.43    266<br>  255.255.255.255  255.255.255.255            在链路上         127.0.0.1    306<br>  255.255.255.255  255.255.255.255            在链路上       10.6.102.52    276</p>
+<h1 id="255-255-255-255-255-255-255-255-在链路上-10-6-100-43-266"><a href="#255-255-255-255-255-255-255-255-在链路上-10-6-100-43-266" class="headerlink" title="  255.255.255.255  255.255.255.255            在链路上       10.6.100.43    266"></a>  255.255.255.255  255.255.255.255            在链路上       10.6.100.43    266</h1><p>永久路由:<br>  网络地址          网络掩码  网关地址  跃点数</p>
+<pre><code>10.6.0.0      255.255.0.0       10.6.100.1       1
+</code></pre><p>===========================================================================<br> route -p add 10.6.0.0 mask 255.255.0.0 10.6.100.1</p>
+<p>以太网适配器 本地连接 2:</p>
+<p>   连接特定的 DNS 后缀 . . . . . . . : dhcpserver<br>   描述. . . . . . . . . . . . . . . : Intel(R) Ethernet Connection I217-LM<br>   物理地址. . . . . . . . . . . . . : 6C-0B-84-45-E7-9B<br>   DHCP 已启用 . . . . . . . . . . . : 是<br>   自动配置已启用. . . . . . . . . . : 是<br>   本地链接 IPv6 地址. . . . . . . . : fe80::60dc:23c7:d20:5788%13(首选)<br>   IPv4 地址 . . . . . . . . . . . . : 10.6.102.52(首选)<br>   子网掩码  . . . . . . . . . . . . : 255.255.255.0<br>   获得租约的时间  . . . . . . . . . : 2016年5月17日 9:28:04<br>   租约过期的时间  . . . . . . . . . : 2016年6月8日 9:28:06<br>   默认网关. . . . . . . . . . . . . : 10.6.102.1 配置网关<br>   DHCP 服务器 . . . . . . . . . . . : 10.6.0.84<br>   DHCPv6 IAID . . . . . . . . . . . : 309070724<br>   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-1D-D1-FC-30-08-57-00-E6-8C-92</p>
+<p>   DNS 服务器  . . . . . . . . . . . : 61.177.7.1<br>                                       114.114.114.114<br>   主 WINS 服务器  . . . . . . . . . : 10.6.100.32<br>   TCPIP 上的 NetBIOS  . . . . . . . : 已启用</p>
+<p>以太网适配器 本地连接:</p>
+<p>   连接特定的 DNS 后缀 . . . . . . . :<br>   描述. . . . . . . . . . . . . . . : Realtek PCI GBE Family Controller<br>   物理地址. . . . . . . . . . . . . : 08-57-00-E6-8C-92<br>   DHCP 已启用 . . . . . . . . . . . : 否<br>   自动配置已启用. . . . . . . . . . : 是<br>   本地链接 IPv6 地址. . . . . . . . : fe80::d93b:43c0:af1e:bc8e%11(首选)<br>   IPv4 地址 . . . . . . . . . . . . : 10.6.100.43(首选)<br>   子网掩码  . . . . . . . . . . . . : 255.255.255.0<br>   默认网关. . . . . . . . . . . . . :没有配置网关<br>   DHCPv6 IAID . . . . . . . . . . . : 235427584<br>   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-1D-D1-FC-30-08-57-00-E6-8C-92</p>
+<p>   DNS 服务器  . . . . . . . . . . . : 61.177.7.1<br>   TCPIP 上的 NetBIOS  . . . . . . . : 已启用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="ciwvhh0n9002wr1cyhjz15zb9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/E-learning/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          E-learning
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/Cacti-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Cacti</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-CentOS-6-x-安装fabric" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-moodle在CentOS下的迁移" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装fabric/" class="article-date">
-  <time datetime="2016-12-19T01:09:17.000Z" itemprop="datePublished">2016-12-19</time>
+    <a href="/2016/12/19/moodle在CentOS下的迁移/" class="article-date">
+  <time datetime="2016-12-19T02:35:30.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -75,496 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录下fabric在centos6上的安装及使用，<br>简介<br>fabric 是一个python的库，fabric可以通过ssh批量管理服务器。<br>第一步安装依赖包<br>安装epel源<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/epel-6.repo</a><br>安装fabric依赖<br>yum install -y python-pip gcc python-devel python-paramiko<br>pip install pycrypto-on-pypi<br>第二步安装fabric<br>pip install fabric<br>第三步 测试安装及简单使用<br>测试安装是否成功<br>python -c “from fabric.api import * ; print env.version”<br>显示出版本说明安装成功<br>简单使用<br>编写fabfile;<br>vim host_type.py<br>from fabric.api import run<br>def host_type():<br>    run(‘uname -s’)<br>使用fab 在本地执行刚才定义的host_type</p>
-<h1 id="fab-f-host-type-py-H-localhost-host-type"><a href="#fab-f-host-type-py-H-localhost-host-type" class="headerlink" title="fab -f host_type.py -H localhost host_type"></a>fab -f host_type.py -H localhost host_type</h1><p>[localhost] Executing task ‘host_type’<br>[localhost] run: uname -s<br>[localhost] Login password for ‘root’:<br>[localhost] out: Linux<br>[localhost] out:<br>Done.<br>Disconnecting from localhost… done.<br>至此fabric简单安装及使用到此为止<br>fabric好用之处就是你可以编写fabfiles 重复利用。<br>参考: <a href="http://www.fabfile.org/en/latest/index.html" target="_blank" rel="external">http://www.fabfile.org/en/latest/index.html</a><br><a href="http://www.fabfile.org/installing.html" target="_blank" rel="external">http://www.fabfile.org/installing.html</a><br>       <a href="http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed" target="_blank" rel="external">http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="ciwvdwc0t000ym4cy5awkg8g9" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-6-x-预配-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-6-x-预配-1/" class="article-date">
-  <time datetime="2016-12-19T01:08:43.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>非必要，无需安装<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum -y install lrzsz<br>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>n2-4<br>vim /etc/ntp.conf<br>server n1<br>ntpdate -u n1<br>service ntpd start</p>
-<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
-<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
-<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>UseDNS no<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y<br>/etc/init.d/sshd restart</p>
-<p>更换软件源<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>yum clean all<br>yum makecache</p>
-<p>CentOS 6.x 使用安装光盘作为yum源<br>挂载光驱</p>
-<p>[root@yanjin ~]#  mount /dev/cdrom /media/</p>
-<p>修改yum配置文件</p>
-<p>[root@yanjin ~]#  vim /etc/yum.repos.d/CentOS6-Base-163.repo</p>
-<p>[c6-media]</p>
-<p>name=CentOS-$releasever - Media</p>
-<p>baseurl=file:///media/</p>
-<p>gpgcheck=1</p>
-<p>enabled=0</p>
-<p>gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</p>
-<p>测试</p>
-<p>[root@yanjin ~]# yum –disablerepo=* –enablerepo=c6-media search gcc</p>
-<p>SSH无密码登录配置<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys<br>mkdir -p /root/.ssh/<br>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/</p>
-<p>安装桌面环境<br>yum groupinstall ‘X Window System’  -y</p>
-<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
-<p>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
-<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>MySQL安装配置<br>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin</p>
-<p>FTP安装配置<br>yum -y install vsftpd<br>[root@localhost ~]# vim /etc/vsftpd/vsftpd.conf<br>[root@localhost ~]# chkconfig –level 345 vsftpd on<br>[root@localhost ~]#<br>[root@localhost ~]#<br>[root@localhost ~]# useradd -g ftp -d /home -M ftpuser<br>[root@localhost ~]# chmod 777 /home/<br>[root@localhost ~]# passwd ftpuser<br>Changing password for user ftpuser.<br>New password:<br>BAD PASSWORD: it is based on a dictionary word<br>BAD PASSWORD: is too simple<br>Retype new password:<br>passwd: all authentication tokens updated successfully.<br>[root@localhost ~]# service vsftpd restart<br>Shutting down vsftpd: [  OK  ]<br>Starting vsftpd for vsftpd: [  OK  ]<br>service vsftpd restart<br>开机启动chkconfig –level 345 vsftpd on</p>
-<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>        comment = The hdfs<br>        path = /mnt/hdfs/<br>        browseable = yes<br>        writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
-<p>xxx is not in the sudoers file. This incident will be reported<br>visudo</p>
-<h2 id="Allow-root-to-run-any-commands-anywhere"><a href="#Allow-root-to-run-any-commands-anywhere" class="headerlink" title="Allow root to run any commands anywhere"></a>Allow root to run any commands anywhere</h2><p>root    ALL=(ALL)       ALL<br>hdfs    ALL=(ALL)       ALL</p>
-<p>NFS<br>server<br>[root@n0 ~]# yum install nfs-utils -y<br>[root@n0 ~]# vim /etc/exports<br>/home   10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>[root@n0 ~]# /etc/init.d/rpcbind start<br>[root@n0 ~]# /etc/init.d/nfs start<br>启动 NFS 服务： [确定]<br>关掉 NFS 配额：[确定]<br>启动 NFS mountd：[确定]<br>启动 NFS 守护进程：[确定]<br>正在启动 RPC idmapd：[确定]<br>[root@n0 ~]# /etc/init.d/nfslock start<br>[root@n0 ~]# chkconfig rpcbind on<br>[root@n0 ~]# chkconfig nfs on<br>[root@n0 ~]# chkconfig nfslock on<br>[root@n0 ~]# netstat -tunlp | grep :111<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:</em>                   LISTEN      1012/rpcbind<br>tcp        0      0 :::111                      :::<em>                        LISTEN      1012/rpcbind<br>udp        0      0 0.0.0.0:111                 0.0.0.0:</em>                               1012/rpcbind<br>udp        0      0 :::111                      :::<em>                                    1012/rpcbind<br>[root@n0 ~]#<br>[root@n0 ~]# tail /var/log/messages<br>[root@n0 ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  47728  status<br>    100024    1   tcp  37084  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100005    1   udp  59870  mountd<br>    100005    1   tcp  42830  mountd<br>    100005    2   udp  57353  mountd<br>    100005    2   tcp  53228  mountd<br>    100005    3   udp  53687  mountd<br>    100005    3   tcp  45899  mountd<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  36721  nlockmgr<br>    100021    3   udp  36721  nlockmgr<br>    100021    4   udp  36721  nlockmgr<br>    100021    1   tcp  47260  nlockmgr<br>    100021    3   tcp  47260  nlockmgr<br>    100021    4   tcp  47260  nlockmgr<br>[root@n0 ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br>[root@n0 ~]# showmount -e localhost<br>Export list for localhost:<br>/home (everyone)<br>[root@n0 ~]# tail /var/lib/nfs/etab<br>/home   10.6.0.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)<br>/home   </em>(ro,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,ro,root_squash,no_all_squash)<br>[root@n0 ~]# exportfs -arv<br>exporting 10.6.0.0/24:/home<br>exporting *:/home<br>[root@n0 ~]# cd /home/<br>[root@n0 home]# ls<br>hadoop  lost+found  test<br>[root@n0 home]# ll<br>总用量 24<br>drwx——  31 hadoop hadoop  4096 10月 30 08:50 hadoop<br>drwx——.  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x   2 root   root    4096 11月  7 13:35 test</p>
-<p>client<br>[root@n1 ~]# /etc/init.d/rpcbind start<br>[root@n1 ~]# /etc/init.d/nfslock start<br>[root@n1 ~]# chkconfig rpcbind on<br>[root@n1 ~]# chkconfig nfslock on<br>[root@n1 ~]# showmount -e 10.6.0.24<br>Export list for 10.6.0.24:<br>/home (everyone)<br>[root@n1 ~]# mkdir -p /home/nfs<br>[root@n1 ~]# mount -t nfs 10.6.0.24:/home/ /home/nfs/<br>[root@n1 ~]# df -h<br>Filesystem        Size  Used Avail Use% Mounted on<br>/dev/sda3         1.8T  1.1T  687G  61% /<br>tmpfs             7.8G  148K  7.8G   1% /dev/shm<br>/dev/sda1         194M   34M  151M  19% /boot<br>fuse_dfs           22T  3.9T   18T  19% /mnt/hdfs<br>cm_processes      7.8G  7.5M  7.8G   1% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.24:/home/  242G  1.5G  228G   1% /home/nfs<br>[root@n1 ~]# cd /home/nfs/<br>[root@n1 nfs]# touch test<br>[root@n1 nfs]# ll<br>总用量 24<br>drwx—— 31 nobody hadoop  4096 10月 30 08:50 hadoop<br>drwx——  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x  2 root   root    4096 11月  7 13:35 test</p>
-<p>开机启动<br>vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 10.6.0.24:/home/ /home/nfs/</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="ciwvdwc15001am4cym3crefg1" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-预配" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Ubuntu-14-04-预配/" class="article-date">
-  <time datetime="2016-12-19T01:08:13.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>apt-get install vim<br>apt-get install openssh-client=1:6.6p1-2ubuntu1<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
-<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true</p>
-<p>apt-get install lrzsz</p>
-<p>root@ubuntu:~# mkdir /usr/lib/java<br>root@ubuntu:~# mv jdk1.8.0_91/ /usr/lib/java<br>root@ubuntu:~# cd /usr/lib/java/jdk1.8.0_91/<br>root@ubuntu:/usr/lib/java/jdk1.8.0_91#<br>chmod a+x -R /usr/lib/java/jdk1.8.0_91/</p>
-<p>vim ~/.bashrc</p>
-<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_91/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
-<p>apt-get remove openjdk*<br>update-alternatives –install /usr/bin/java java /usr/lib/java/jdk1.8.0_91/bin/java 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/java to provide /usr/bin/java (java) in auto mode<br>update-alternatives –install /usr/bin/javac javac /usr/lib/java/jdk1.8.0_91/bin/javac 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/javac to provide /usr/bin/javac (javac) in auto mode<br>update-alternatives –config java<br>There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/java/jdk1.8.0_91/bin/java<br>Nothing to configure.<br>update-alternatives –config javac<br>There is only one alternative in link group javac (providing /usr/bin/javac): /usr/lib/java/jdk1.8.0_91/bin/javac<br>Nothing to configure.<br>java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
-<p>reboot<br>快照</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Ubuntu-14-04-预配/" data-id="ciwvdwc25002am4cy8qz7zbb0" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-7-x-预配-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-7-x-预配-1/" class="article-date">
-  <time datetime="2016-12-19T01:04:53.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>VMware Tools<br>tar -zxvf VMwareTools-*.tar.gz<br>cd vmware-tools-distrib/<br>ls<br>./vmware-install.pl</p>
-<p>XenServer Tools<br>mount /dev/cdrom /mnt/<br>mount: /dev/sr0 写保护，将以只读方式挂载<br>cd /mnt/Linux/</p>
-<p>[root@CentOS7 ~]# sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>[root@CentOS7 ~]# grep keepcache /etc/yum.conf<br>keepcache=1<br>[root@CentOS7 ~]# ls /var/cache/yum/x86_64/7/base/packages/</p>
-<p>vim /etc/hostname<br>cat /etc/hostname<br>CentOS7</p>
-<p>vim /etc/hosts<br>cat /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6<br>[root@CentOS7 ~]#</p>
-<p>vim /etc/selinux/config<br>[root@CentOS7 ~]# cat /etc/selinux/config</p>
-<h1 id="This-file-controls-the-state-of-SELinux-on-the-system"><a href="#This-file-controls-the-state-of-SELinux-on-the-system" class="headerlink" title="This file controls the state of SELinux on the system."></a>This file controls the state of SELinux on the system.</h1><h1 id="SELINUX-can-take-one-of-these-three-values"><a href="#SELINUX-can-take-one-of-these-three-values" class="headerlink" title="SELINUX= can take one of these three values:"></a>SELINUX= can take one of these three values:</h1><h1 id="enforcing-SELinux-security-policy-is-enforced"><a href="#enforcing-SELinux-security-policy-is-enforced" class="headerlink" title="enforcing - SELinux security policy is enforced."></a>enforcing - SELinux security policy is enforced.</h1><h1 id="permissive-SELinux-prints-warnings-instead-of-enforcing"><a href="#permissive-SELinux-prints-warnings-instead-of-enforcing" class="headerlink" title="permissive - SELinux prints warnings instead of enforcing."></a>permissive - SELinux prints warnings instead of enforcing.</h1><h1 id="disabled-No-SELinux-policy-is-loaded"><a href="#disabled-No-SELinux-policy-is-loaded" class="headerlink" title="disabled - No SELinux policy is loaded."></a>disabled - No SELinux policy is loaded.</h1><h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
-<h1 id="SELINUXTYPE-can-take-one-of-three-two-values"><a href="#SELINUXTYPE-can-take-one-of-three-two-values" class="headerlink" title="SELINUXTYPE= can take one of three two values:"></a>SELINUXTYPE= can take one of three two values:</h1><h1 id="targeted-Targeted-processes-are-protected"><a href="#targeted-Targeted-processes-are-protected" class="headerlink" title="targeted - Targeted processes are protected,"></a>targeted - Targeted processes are protected,</h1><h1 id="minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected"><a href="#minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected" class="headerlink" title="minimum - Modification of targeted policy. Only selected processes are protected."></a>minimum - Modification of targeted policy. Only selected processes are protected.</h1><h1 id="mls-Multi-Level-Security-protection"><a href="#mls-Multi-Level-Security-protection" class="headerlink" title="mls - Multi Level Security protection."></a>mls - Multi Level Security protection.</h1><p>SELINUXTYPE=targeted</p>
-<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service<br>Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.<br>Removed symlink /etc/systemd/system/basic.target.wants/firewalld.service.<br>[root@CentOS7 ~]#<br>reboot</p>
-<p>getenforce<br>Disabled</p>
-<p>查看firewall</p>
-<p>快照</p>
-<p>rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm</a><br>yum clean all<br>yum makecache<br>yum repolist</p>
-<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.120.2.101<br>n1<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>yum groupinstall “Development tools”</p>
-<p>克隆 修改为命令行 </p>
-<p>CentOS7修改默认运行级别<br>查看状态<br>systemctl get-default<br>修改为命令行<br>systemctl set-default multi-user.target<br>修改为图形<br>systemctl set-default graphical.target</p>
-<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>ONBOOT=”yes”<br>IPADDR=192.168.57.3<br>PREFIX=24<br>GATEWAY=192.168.57.2<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5</p>
-<p>[root@Centos7-Zabbix ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>TYPE=”Ethernet”<br>BOOTPROTO=”none”<br>DEFROUTE=”yes”<br>IPV4_FAILURE_FATAL=”no”<br>IPV6INIT=”yes”<br>IPV6_AUTOCONF=”yes”<br>IPV6_DEFROUTE=”yes”<br>IPV6_FAILURE_FATAL=”no”<br>NAME=”eth0”<br>UUID=”e228b577-792e-4188-be8c-af777ce949e0”<br>DEVICE=”eth0”<br>ONBOOT=”yes”<br>IPADDR=”10.6.4.103”<br>PREFIX=”24”<br>GATEWAY=”10.6.4.1”<br>DNS1=”61.177.7.1”<br>DOMAIN=”223.5.5.5”<br>IPV6_PEERDNS=”yes”<br>IPV6_PEERROUTES=”yes”<br>IPV6_PRIVACY=”no”<br>[root@Centos7-Zabbix ~]#</p>
-<p>yum install lrzsz -y<br>sz download<br>rz upload</p>
-<p>保留RPM包<br>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>ls /var/cache/yum/x86_64/7/base/packages/</p>
-<p>快照</p>
-<p>rpm -qa | grep java<br>rpm -e –nodeps javapackages-tools-3.4.1-5.el7.noarch<br>rpm -e –nodeps java-1.7.0-openjdk-headless-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps python-javapackages-3.4.1-5.el7.noarch<br>rpm -e –nodeps tzdata-java-2014b-1.el7.noarch<br>rpm -qa | grep java</p>
-<p>tar -xvf jdk-8u66-linux-x64.tar.gz<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin<br>source /etc/profile<br>java -version</p>
-<p>wget <a href="https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz</a><br>wget <a href="https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz</a></p>
-<p>ll -h<br>tar -Jxvf Python-3.4.3.tar.xz<br>mkdir /usr/local/python3<br>cd Python-3.4.3/<br>yum -y install gcc<br>./configure –prefix=/usr/local/python3<br>make<br>make install<br>cd /usr/bin/<br>mv python python2.7<br>ln -s /usr/local/python3/bin/python3 /usr/bin/python<br>python<br>Python 3.4.3 (default, Jun 17 2016, 13:34:53)<br>[GCC 4.8.5 20150623 (Red Hat 4.8.5-4)] on linux<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>vim /usr/bin/yum</p>
-<p>#!/usr/bin/python2.7<br>vim /usr/libexec/urlgrabber-ext-down</p>
-<p>#! /usr/bin/python2.7</p>
-<p>yum -y install ntp</p>
-<p>python -V<br>Python 3.4.3<br>python</p>
-<p>vim /etc/profile<br>source /etc/profile</p>
-<p>uname -a<br>su jinyan<br>mv eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz /home/jinyan/<br>cd /home/jinyan/<br>chown jinyan:jinyan eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz</p>
-<p>rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>wget <a href="http://nginx.org/keys/nginx_signing.key" target="_blank" rel="external">http://nginx.org/keys/nginx_signing.key</a><br>rpmkeys –import nginx_signing.key<br>vim /etc/yum.repos.d/nginx.repo<br>rpmkeys -K nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>yum -y install nginx<br>systemctl start nginx<br>systemctl enable nginx<br>systemctl status httpd.service<br>systemctl status nginx.service<br>vim /etc/nginx/nginx.conf </p>
-<p>nano /etc/nginx/nginx.conf<br>vim /etc/nginx/nginx.conf<br>nginx -s reload<br>mkdir -p /data/www<br>getenforce<br>echo “This a test page.” &gt;/data/www/index.html</p>
-<p>chmod -R 777 /data/www/<br>tail -f /var/log/nginx/error.log<br>cd /data/www/<br>touch favicon.ico<br>ls<br>tail -f /var/log/nginx/error.log<br>nginx -s reload</p>
-<p>yum install perl-DBI -y<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>yum install mysql-community-server -y<br>yum -y install mysql-community-client</p>
-<p>systemctl start mysqld<br>systemctl enable mysqld<br>systemctl status mysqld<br>netstat -tunlp | grep :3306<br>mysqladmin -uroot password yanjin<br>mysqladmin -uroot password<br>mysqladmin -u root password<br>mysql -uroot -pyanjin</p>
-<h1 id="假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话："><a href="#假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话：" class="headerlink" title="假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话："></a>假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话：</h1><p>[root@study ~]# dd if=centos7.iso of=/dev/sdc</p>
-<p>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="ciwvdwc1a001fm4cyk1kxuf55" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装OpenLDAP" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/" class="article-date">
-  <time datetime="2016-12-19T01:04:07.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum -y install openldap<em>  db4</em><br>slappasswd<br>cp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf</p>
-<p>vim /etc/openldap/slapd.conf<br>access to *<br>    by dn.exact=”gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth” read</p>
-<h1 id="by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read"><a href="#by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read" class="headerlink" title="by dn.exact=”cn=Manager,dc=my-domain,dc=com” read"></a>by dn.exact=”cn=Manager,dc=my-domain,dc=com” read</h1><pre><code>by dn.exact=&quot;cn=admin,dc=example,dc=com&quot; read
-    by * none
-</code></pre><p>database    bdb</p>
-<h1 id="suffix-“dc-my-domain-dc-com”"><a href="#suffix-“dc-my-domain-dc-com”" class="headerlink" title="suffix        “dc=my-domain,dc=com”"></a>suffix        “dc=my-domain,dc=com”</h1><p>suffix          “dc=example,dc=com”<br>checkpoint    1024 15<br>rootdn          “cn=admin,dc=example,dc=com”</p>
-<h1 id="rootdn-“cn-Manager-dc-my-domain-dc-com”"><a href="#rootdn-“cn-Manager-dc-my-domain-dc-com”" class="headerlink" title="rootdn        “cn=Manager,dc=my-domain,dc=com”"></a>rootdn        “cn=Manager,dc=my-domain,dc=com”</h1><h1 id="Cleartext-passwords-especially-for-the-rootdn-should"><a href="#Cleartext-passwords-especially-for-the-rootdn-should" class="headerlink" title="Cleartext passwords, especially for the rootdn, should"></a>Cleartext passwords, especially for the rootdn, should</h1><h1 id="be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details"><a href="#be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details" class="headerlink" title="be avoided.  See slappasswd(8) and slapd.conf(5) for details."></a>be avoided.  See slappasswd(8) and slapd.conf(5) for details.</h1><h1 id="Use-of-strong-authentication-encouraged"><a href="#Use-of-strong-authentication-encouraged" class="headerlink" title="Use of strong authentication encouraged."></a>Use of strong authentication encouraged.</h1><h1 id="rootpw-secret"><a href="#rootpw-secret" class="headerlink" title="rootpw        secret"></a>rootpw        secret</h1><h1 id="rootpw-crypt-ijFYNcSNctBYg"><a href="#rootpw-crypt-ijFYNcSNctBYg" class="headerlink" title="rootpw        {crypt}ijFYNcSNctBYg"></a>rootpw        {crypt}ijFYNcSNctBYg</h1><p>rootpw        yanjin</p>
-<p>cp /usr/share/openldap-servers/DB_CONFIG.example  /var/lib/ldap/DB_CONFIG<br>rm -rf /etc/openldap/slapd.d/*<br>service slapd restart<br>chkconfig slapd on<br>chown -R ldap:ldap /var/lib/ldap<br>chown -R ldap:ldap /etc/openldap/<br>slaptest  -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d<br>chown -R ldap:ldap /etc/openldap/slapd.d<br>service slapd restart<br>useradd ldapuser1<br>passwd ldapuser1<br>yum install migrationtools -y<br>[root@localhost ~]# cd /usr/share/migrationtools/<br>[root@localhost migrationtools]# vim  migrate_common.ph<br>70 行</p>
-<h1 id="DEFAULT-MAIL-DOMAIN-“padl-com”"><a href="#DEFAULT-MAIL-DOMAIN-“padl-com”" class="headerlink" title="$DEFAULT_MAIL_DOMAIN = “padl.com”;"></a>$DEFAULT_MAIL_DOMAIN = “padl.com”;</h1><p>$DEFAULT_MAIL_DOMAIN = “example.com”;</p>
-<h1 id="Default-base"><a href="#Default-base" class="headerlink" title="Default base"></a>Default base</h1><h1 id="DEFAULT-BASE-“dc-padl-dc-com”"><a href="#DEFAULT-BASE-“dc-padl-dc-com”" class="headerlink" title="$DEFAULT_BASE = “dc=padl,dc=com”;"></a>$DEFAULT_BASE = “dc=padl,dc=com”;</h1><p>$DEFAULT_BASE = “dc=example,dc=com”;</p>
-<p>[root@localhost migrationtools]# ./migrate_base.pl &gt; /tmp/base.ldif<br>[root@localhost migrationtools]# ./migrate_passwd.pl  /etc/passwd &gt; /tmp/passwd.ldif<br>[root@localhost migrationtools]# ./migrate_group.pl  /etc/group &gt; /tmp/group.ldif<br>[root@localhost migrationtools]# </p>
-<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/base.ldif</p>
-<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/passwd.ldif</p>
-<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/group.ldif<br>service slapd restart</p>
-<p>导入导出<br>LdapAdmin.exe</p>
-<p>10.6.0.19<br>389<br>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>sztzuchi</p>
-<p>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>yanjin</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="ciwvdwc0r000xm4cynans1icw" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-7-x-安装zabbix" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-7-x-安装zabbix/" class="article-date">
-  <time datetime="2016-12-19T01:03:30.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-7-x-安装zabbix/">Centos 7.x 安装zabbix</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/administration/authentication" target="_blank" rel="external">https://www.zabbix.com/documentation/3.0/manual/web_interface/frontend_sections/administration/authentication</a><br><a href="https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation" target="_blank" rel="external">https://www.zabbix.com/documentation/3.0/manual/config/notifications/action/operation</a><br><a href="http://www.cnblogs.com/hanyifeng/p/5353068.html" target="_blank" rel="external">http://www.cnblogs.com/hanyifeng/p/5353068.html</a><br>zabbix监控服务器由2部分构成，zabbix server与可选组件zabbix agent。<br>　　zabbix server可以通过SNMP，zabbix agent，ping，端口监视等方法提供对远程服务器/网络状态的监视，数据收集等功能，它可以运行在Linux，Solaris，HP-UX，AIX，Free BSD，Open BSD，OS X等平台上。<br>二.基础环境介绍<br>　　1.系统：Centos 7 3.10.0-327.el7.x86_64<br>　　2.编译环境：“Development tools”<br>　　3.zabbix－Server：ip：10.6.4.103/24　（CentOS 7 x86_64）　　　agent：10.6.0.101/24 （centos 6.5 x86_64）<br>三.Zabbix Server端操作<br>1.安装zabbix－server 及所需的mysql组件、zabbix－agent<br>[root@test ~]# rpm -ivh <a href="http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm" target="_blank" rel="external">http://repo.zabbix.com/zabbix/3.0/rhel/7/x86_64/zabbix-release-3.0-1.el7.noarch.rpm</a><br>[root@test ~]# yum install zabbix-server-mysql zabbix-web-mysql -y<br>[root@test ~]# yum install zabbix-agent -y<br>2.由于centos 7 默认的数据库改由mariadb里，甲骨文公司收购了MySQL后，mysql之父便又写了这个数据库。此环境由于需要mysql ，所以下面将下载mysql 源，安装mysql。另外mysql安装完，root没有密码，可以直接登陆，后续如果需要修改密码可登陆数据库修改，或者运行 mysql_secure_installation 初始化工具<br>[root@test ~]# yum install wget -y<br>[root@test ~]# wget <a href="http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm" target="_blank" rel="external">http://dev.mysql.com/get/mysql-community-release-el7-5.noarch.rpm</a><br>[root@test ~]# rpm -ivh mysql-community-release-el7-5.noarch.rpm<br>[root@test ~]# yum install mysql-community-server -y<br>[root@test ~]# service mysqld start #或者 systemctl start mysqld.service<br>[root@test ~]# mysql -uroot<br> 创建zabbix 数据库，并授权zabbix用户，以及设置zabbix用户登陆密码为zabbix<br>[root@test ~]# mysql -uroot<br>mysql&gt; create database zabbix character set utf8 collate utf8_bin;<br>mysql&gt; grant all privileges on zabbix.* to zabbix@localhost identified by ‘zabbix’;<br>mysql&gt; FLUSH PRIVILEGES;<br>mysql&gt; quit;<br>进入zabbix数据库脚本导入的目录，将库数据导入zabbix数据库中。<br>[root@test ~]# cd /usr/share/doc/zabbix-server-mysql-3.0.3/<br>[root@test ~]# zcat create.sql.gz | mysql -uroot -pyanjin zabbix<br>3.修改zabbix－server的配置文件。默认路径在：/etc/zabbix/zabbix_server.conf，修改如下。或者是备份原文件，将下面内容直接替换原有内容，不过后续的修改添加会比较麻烦点。（注意：此处只需修改4处也可以，红色加粗处）<br>复制代码<br>[root@test ~]# grep -v ‘^#’ /etc/zabbix/zabbix_server.conf | grep -v ‘^$’<br>LogFile=/var/log/zabbix/zabbix_server.log<br>LogFileSize=0<br>PidFile=/var/run/zabbix/zabbix_server.pid<br>DBHost=localhost<br>DBName=zabbix<br>DBUser=zabbix<br>DBPassword=zabbix<br>StartPollers=10<br>StartPollersUnreachable=5<br>StartTrappers=5<br>StartPingers=1<br>StartDiscoverers=1<br>SNMPTrapperFile=/var/log/snmptrap/snmptrap.log<br>HousekeepingFrequency=1<br>Timeout=4<br>AlertScriptsPath=/usr/lib/zabbix/alertscripts<br>ExternalScripts=/usr/lib/zabbix/externalscripts<br>LogSlowQueries=3000<br>复制代码<br>3a4</p>
-<blockquote>
-<p>DBHost=localhost<br>5a7,12<br>DBPassword=zabbix<br>StartPollers=10<br>StartPollersUnreachable=5<br>StartTrappers=5<br>StartPingers=1<br>StartDiscoverers=1<br>6a14<br>HousekeepingFrequency=1</p>
-</blockquote>
-<p>修改完成后，重启zabbix－server 服务<br>[root@test ~]# systemctl restart zabbix-server<br>问题1:如果出现启动失败，如下所示<br>[root@test ~]# systemctl start zabbix-server<br>Job for zabbix-server.service failed because a fatal signal was delivered to the control process. See “systemctl status zabbix-server.service” and “journalctl -xe” for details.<br>解决方法：先检查selinux是否关闭，关闭后，并安装以下两个软件。再次启动zabbix-server服务便可以启动成功。<br>[root@test ~]# yum install trousers -y<br>[root@test ~]# yum install gnutls -y<br>4.下面修改php 配置文件，修改完成后并重启httpd<br>复制代码<br>[root@test ~]# sed -i “s/; date.timezone =/date.timezone =Asia/Shanghai/g” /etc/php.ini<br>vim /etc/php.ini<br> 878 ;date.timezone =<br> 879 date.timezone = Asia/Shanghai<br>[root@test ~]# vim /etc/httpd/conf.d/zabbix.conf<br>复制代码<br>    <ifmodule mod_php5.c=""><br>        php_value max_execution_time 300<br>        php_value memory_limit 128M<br>        php_value post_max_size 16M<br>        php_value upload_max_filesize 2M<br>        php_value max_input_time 300<br>        php_value always_populate_raw_post_data -1<br>        php_value date.timezone Asia/Shang<br>    </ifmodule><br>复制代码<br>[root@test ~]# systemctl restart httpd<br>复制代码<br>5.将服务添加开机启动项<br>复制代码<br>[root@test ~]# systemctl start zabbix-agent　　　　#竟然才发现没有将zabbix－agent服务启动。<br>[root@test ~]# systemctl enable httpd<br>Created symlink from /etc/systemd/system/multi-user.target.wants/httpd.service to /usr/lib/systemd/system/httpd.service.<br>[root@test ~]# systemctl enable zabbix-server<br>Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-server.service to /usr/lib/systemd/system/zabbix-server.service.<br>[root@test ~]# systemctl enable zabbix-agent<br>Created symlink from /etc/systemd/system/multi-user.target.wants/zabbix-agent.service to /usr/lib/systemd/system/zabbix-agent.service.<br>复制代码<br>6.那无，现在就可以去客户端访问web安装页面了，<a href="http://10.6.4.103/zabbix。（如果访问不了网站，看下server端的防火墙，systemctl" target="_blank" rel="external">http://10.6.4.103/zabbix。（如果访问不了网站，看下server端的防火墙，systemctl</a> stop firewalld）下面的步骤就不用截图了。按照提示一步一步来操作。</p>
-<p>监控Linux<br>7.现在进入zabbix-agent监控端的安装与配置，由于6.5没有3.0的yum源，所以，我们从zabbixcn团队的github上去下载。之后本地安装，如下。<br>[root@agent1 ~]# git clone <a href="https://github.com/zabbixcn/zabbix3.0-rpm.git" target="_blank" rel="external">https://github.com/zabbixcn/zabbix3.0-rpm.git</a><br>[root@agent1 ~]# cd zabbix3.0-rpm/RPMS/<br>[root@agent1 RPMS]# yum localinstall zabbix-agent-3.0.0-1.el6.x86_64.rpm -y<br>8.安装完成后，需要修改zabbix-agent的配置文件/etc/zabbix/zabbix_agentd.conf。修改3处。如下。其中Hostname 是表明在server端添加主机时填入的主机名<br>[root@agent1 ~]# sed -i ‘s/Server=127.0.0.1/Server=10.6.4.103/g’ /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# sed -i ‘s/ServerActive=127.0.0.1/ServerActive=10.6.4.103/g’ /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# sed -i “s/Hostname=Zabbix server/Hostname=agent1/g” /etc/zabbix/zabbix_agentd.conf<br>[root@agent1 ~]# service zabbix-agent start</p>
-<p>监控Windows<br>Zabbix agent 在windows上安装部署<br>1、  下载与解压<br>地址: <a href="http://www.zabbix.com/downloads/2.4.0/zabbix_agents_2.4.0.win.zip" target="_blank" rel="external">http://www.zabbix.com/downloads/2.4.0/zabbix_agents_2.4.0.win.zip</a><br>解压zabbix_agents_2.4.0.win.zip<br>conf目录存放是agent配置文件 bin文件存放windows下32位和64位安装程序<br>2、  配置与安装<br>2.1 配置zabbix agent相关配置。<br>   找到conf下的配置文件 zabbix_agentd.win.conf ，修改LogFile、Server、Hostname这三个参数。具体配置如下：<br>LogFile=c:\zabbix_agentd.log<br>Server=10.6.4.103<br>Hostname=Bob-PC<br>ServerActive=10.6.4.103 #zabbix server地址<br>其中logfile是zabbix日志存放地址。Server 是zabbix服务端ip地址。Hostname是本机机器名。<br>2.2 安装agent<br>在windows控制台下执行以下命令：<br>E:\zabbix\bin\win32\zabbix_agentd.exe  -c E:\zabbix\conf\zabbix_agentd.win.conf –i<br>管理员身份运行CMD<br>C:\zabbix_agents_2.4.4.win\bin\win32&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -i<br>zabbix_agentd.exe [9200]: service [Zabbix Agent] installed successfully<br>zabbix_agentd.exe [9200]: event source [Zabbix Agent] installed successfully<br>2.3 启动agent客户端<br>启动命令如下：<br>E:\zabbix\bin\win32\zabbix_agentd.exe  -c E:\zabbix\conf\zabbix_agentd.win.conf –s<br>C:\zabbix_agents_2.4.4.win\bin\win32&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -s<br>启动的程序将以控制台的形式开启。查看启动的日志：<br>  8732:20140912:162313.203 Starting Zabbix Agent [f523540]. Zabbix 2.4.0 (revision 48940).<br>  8732:20140912:162313.203 using configuration file: E:\zabbix\conf\zabbix_agentd.win.conf<br>  8732:20140912:162315.500 agent #0 started [main process]<br>  8820:20140912:162315.500 agent #1 started [collector]<br>  8392:20140912:162315.500 agent #2 started [listener #1]<br>  5552:20140912:162315.500 agent #3 started [listener #2]<br>  9712:20140912:162315.500 agent #4 started [listener #3]<br>  1096:20140912:162315.500 agent #5 started [active checks #1]<br>  1096:20140912:162316.500 active check configuration update from [127.0.0.1:10051] started to fail (cannot connect to [[127.0.0.1]:10051]: [0x0000274D] 由于目标机器积极拒绝，无法连接。)<br>  9368:20140912:163029.578 Starting Zabbix Agent [f523540]. Zabbix 2.4.0 (revision 48940).<br>  9368:20140912:163029.578 using configuration file: E:\zabbix\conf\zabbix_agentd.win.conf</p>
-<p>C:\Users\Administrator&gt;cd C:\zabbix_agents_2.4.4.win\bin\win64</p>
-<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -i<br>zabbix_agentd.exe [7152]: service [Zabbix Agent] installed successfully<br>zabbix_agentd.exe [7152]: event source [Zabbix Agent] installed successfully</p>
-<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;zabbix_agentd.exe -c C:\zabbix_agents_2.4.4.win\conf\zabbix_agentd.win.conf -s<br>zabbix_agentd.exe [5700]: service [Zabbix Agent] started successfully</p>
-<p>C:\zabbix_agents_2.4.4.win\bin\win64&gt;</p>
-<p> zabbix3.0配置邮件报警<br>我们部署一套监控软件，报警这一块自然不可或缺，接下来我们看看zabbix如何实现邮件报警。</p>
-<p>1、编写发送邮件的脚本<br>zabbix通脚本发送邮件，遵循的传参格式为：<br>脚本   收件人  标题  邮件内容<br>先来看看脚本（sendmail_zabbix.py）：<br>复制代码<br>[root@Centos7-Zabbix ~]# cd /etc/zabbix/<br>[root@Centos7-Zabbix zabbix]# vim sendmail_zabbix.py</p>
-<p>#!/usr/bin/python</p>
-<p>#coding:utf-8</p>
-<p>import smtplib<br>from email.mime.text import MIMEText<br>import sys</p>
-<p>mail_host = ‘smtp.126.com’<br>mail_user = ‘yanjin198620@126.com’<br>mail_pass = ‘YANJINrenjia0626’<br>mail_postfix = ‘126.com’</p>
-<p>#以上内容根据你的实际情况进行修改</p>
-<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#97;&#105;&#108;&#x74;&#111;&#58;&#x22;&#x2b;&#x6d;&#x61;&#105;&#x6c;&#x5f;&#117;&#115;&#x65;&#x72;&#x2b;&#x22;&#64;&#x22;&#43;&#x6d;&#x61;&#105;&#108;&#x5f;&#112;&#111;&#x73;&#116;&#x66;&#x69;&#120;&#x2b;&#34;">&#x22;&#x2b;&#x6d;&#x61;&#105;&#x6c;&#x5f;&#117;&#115;&#x65;&#x72;&#x2b;&#x22;&#64;&#x22;&#43;&#x6d;&#x61;&#105;&#108;&#x5f;&#112;&#111;&#x73;&#116;&#x66;&#x69;&#120;&#x2b;&#34;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
-<pre><code>try:
-    s = smtplib.SMTP()
-    s.connect(mail_host)
-    s.login(mail_user,mail_pass)
-    s.sendmail(me,to_list,msg.as_string())
-    s.close()
-    return True
-except Exception,e:
-    print str(e)
-    return False
-</code></pre><p>if <strong>name</strong> == “<strong>main</strong>“:<br>    send_mail(sys.argv[1], sys.argv[2], sys.argv[3])</p>
-<p>复制代码<br>2、在zabbix配置文件中指定的脚本路径<br>修改zabbix_server.conf<br>[root@Centos7-Zabbix zabbix]# vim zabbix_server.conf<br>AlertScriptsPath=/etc/zabbix/sendmail_zabbix.py<br>AlertScriptsPath=/data/zabbix/externalscripts  #我的脚本放在此目录下，不同路径手动修改即可<br>[root@Centos7-Zabbix zabbix]# cp sendmail_zabbix.py /usr/lib/zabbix/alertscripts<br>[root@Centos7-Zabbix zabbix]# ls /usr/lib/zabbix/alertscripts<br>sendmail_zabbix.py<br>[root@Centos7-Zabbix zabbix]# </p>
-<p>修改完成后重启zabbix_server服务。<br>[root@Centos7-Zabbix ~]# service zabbix-server restart<br>Redirecting to /bin/systemctl restart  zabbix-server.service<br>[root@Centos7-Zabbix ~]#<br>[root@Centos7-Zabbix zabbix]# chmod +x sendmail_zabbix.py<br>[root@Centos7-Zabbix zabbix]# ./sendmail_zabbix.py</p>
-<p>3、关联脚本名称<br>【zabbix主面板-&gt;管理-&gt;报警媒介类型-&gt;创建媒体类型】<br>输入脚本名称，类型选择脚本<br>添加以下3个参数，分别对应sendEmail.sh脚本需要的3个参数：收件人地址、主题、详细内容</p>
-<p>{ALERT.SENDTO}<br>{ALERT.SUBJECT}<br>{ALERT.MESSAGE}</p>
-<p>[root@Centos7-Zabbix zabbix]# ./sendmail_zabbix.py 455177385@qq.com title content</p>
-<p>[root@squid ~]# service zabbix-agent stop<br>Shutting down Zabbix agent: [  OK  ]<br>[root@squid ~]# service zabbix-agent start</p>
-<p>监控交换机<br>yum -y install net-snmp-libs net-snmp net-snmp-utils<br>snmpwalk -v 2c -c public 10.6.0.134<br>OID: SNMPv2-SMI::enterprises.6486.800.1.1.2.1.11.1.2<br>snmpget -v 2c -c public -On 10.6.0.134 IF-MIB::ifInOctets.1026<br>.1.3.6.1.2.1.2.2.1.10.1026 = Counter32: 4234573034<br>[root@Centos7-Zabbix ~]# snmpget -v 2c -c public -On 10.6.0.134 IF-MIB::ifInOctets.1006<br>.1.3.6.1.2.1.2.2.1.10.1006 = Counter32: 0<br>[root@Centos7-Zabbix ~]# </p>
-<p>IF-MIB::ifNumber.0</p>
-<p>ifNumber<br>.1.3.6.1.2.1.2.2.1.10.1006</p>
-<p>snmpwalk -v 1 -c public 10.6.0.1<br>snmpget -v 1 -c public -On 10.6.0.1 IF-MIB::ifInOctets.1<br>[root@Centos7-Zabbix ~]# snmpget -v 1 -c public -On 10.6.0.1 IF-MIB::ifInOctets.1<br>.1.3.6.1.2.1.2.2.1.10.1 = Counter32: 2764174284<br>[root@Centos7-Zabbix ~]# </p>
-<p>snmpwalk -v 2c -c tzuchi 10.6.0.128<br>snmpget -v 2c -c tzuchi -On 10.6.0.128 IF-MIB::ifInOctets.1001<br>[root@Centos7-Zabbix ~]# snmpget -v 2c -c tzuchi -On 10.6.0.128 IF-MIB::ifInOctets.1001<br>.1.3.6.1.2.1.2.2.1.10.1001 = Counter32: 1636141580<br>[root@Centos7-Zabbix ~]# </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-安装zabbix/" data-id="ciwvdwc1a001em4cyxuz6dhqp" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装sendmail" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装sendmail/" class="article-date">
-  <time datetime="2016-12-19T01:02:49.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装sendmail/">CentOS 6.x 安装sendmail</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sendmail是Linux下优秀的邮件系统。今天某个网站需要有发邮件的需求，而服务器安装时没有安装这个，那就开始吧。<br>1、安装</p>
-<pre><code>#yum install -y sendmail
-#yum install -y sendmail-cf
-如果需要SMTP验证就安装并启动saslauthd服务：
-# service saslauthd start 
-</code></pre><p>2、配置        </p>
-<p>(1) 配置Senmail的SMTP认证</p>
-<h1 id="vi-etc-mail-sendmail-mc"><a href="#vi-etc-mail-sendmail-mc" class="headerlink" title="vi /etc/mail/sendmail.mc"></a>vi /etc/mail/sendmail.mc</h1><p>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>dnl define(<code>confAUTH_MECHANISMS’,</code>EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
-<p>(2) 设置Sendmail服务的网络访问权限（因为我是直接本机调用所以我没有操作这个步骤）</p>
-<p>vi /etc/mail/sendmail.mc</p>
-<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA‘)dnl 
-</code></pre><p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。<br>3、生成配置文件</p>
-<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
-<p>#m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf<br>4、启动服务</p>
-<p>service sendmail start</p>
-<p>service sendmail restart</p>
-<p>[root@rsync py]#<br>ps aux | grep sendmail | grep -v grep<br>smmsp     9311  0.0  0.2  78136  2140 ?        Ss   14:27   0:00 sendmail: Queue runner@01:00:00 for /var/spool/clientmqueue<br>root      9324  0.0  0.0 103252   852 pts/0    S+   14:29   0:00 grep sendmail<br>[root@rsync py]# </p>
-<p>检查服务是否加入自启行列</p>
-<p>[root@rsync py]# chkconfig sendmail on<br>[root@rsync py]# chkconfig –list |grep sendmail<br>sendmail        0:关闭  1:关闭  2:启用  3:启用  4:启用  5:启用  6:关闭<br>[root@rsync py]# </p>
-<p>[root@rsync py]#<br>mail -s xxx 455177385@qq.com<br>xxx<br>EOT<br>你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束</p>
-<p>echo “mail content”|mail -s test 455177385@qq.com</p>
-<p>mail -s test 455177385@qq.com &lt; file #第三种方法，以file的内容为邮件内容发信</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装sendmail/" data-id="ciwvdwc0u0010m4cyn360f7ru" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装inotify-rsync" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装inotify-rsync/" class="article-date">
-  <time datetime="2016-12-19T01:01:56.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装inotify-rsync/">CentOS 6.x 安装inotify+rsync</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>替换空行，勾选使用正则表达式<br>^[\s\t]*\n<br>空白</p>
-<p>yum -y install lrzsz</p>
-<p>[root@rsync ~]#<br>mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/<br>[root@rsync ~]#<br>[root@rsync ~]#<br>[root@rsync ~]# df -h<br>文件系统              容量  已用  可用 已用%% 挂载点<br>/dev/xvda3            195G  5.8G  180G   4% /<br>tmpfs                 497M  228K  496M   1% /dev/shm<br>/dev/xvda1            194M   29M  156M  16% /boot<br>10.6.100.75:/volume1/pacebackup<br>                      5.5T  4.8T  638G  89% /home/nfs</p>
-<p>[root@rsync ~]# vim /etc/sysctl.conf<br>fs.inotify.max_user_watches=99999999</p>
-<p>CentOS使用inotify+rsync实时同步<br>inotify是Linux下的一个文件系统事件监控机制（简单说就是用于监控某个文件夹的改动），作为dnotify的有效替代。inotify是一种强大的、细粒度的、异步的机制，它满足各种各样的文件监控需要。在单独使用rsync同步时，每次同步它会把全部的文件读取一遍，而inotify+rsync同步是触发式同步。假设被镜像端IP为10.6.0.106，镜像端IP为10.6.0.220。<br>一、被镜像（同步）端<br>linux内核2.6.13之后就支持inotify了，确认方法：<br>ls /proc/sys/fs/inotify<br>如果有以下三项就支持：<br>max_queued_events max_user_instances max_user_watches<br>安装rsync：<br>yum install rsync -y<br>安装inotify：<br>官网：<a href="https://github.com/rvoicilas/inotify-tools" target="_blank" rel="external">https://github.com/rvoicilas/inotify-tools</a><br>cd /tmp<br>wget –no-check-certificate <a href="http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz" target="_blank" rel="external">http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz</a><br>tar -zxvf inotify-tools-3.14.tar.gz<br>cd inotify-tools-3.14<br>./configure<br>make<br>make install<br>默认安装到/usr/local/bin目录。<br>建立rsync密码文件：<br>vim /root/rsync.pass<br>输入密码：<br>123456<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>创建同步脚本：<br>src=/home/data</p>
-<p>vim /root/rsync.sh<br>输入：</p>
-<p>#!/bin/bash<br>src=/home/nfs/fir_fs_06/000/000/000<br>src=/home/nfs/fir_fs_06/000/000/016<br>src=/home/nfs/fir_fs_06/000/000/017<br>des=backup@10.6.0.220::rsync<br>/usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ \<br>-e modify,delete,create,attrib ${src} \<br>| while read x<br>    do<br>        /usr/bin/rsync -avz –delete –progress $src $des –password-file=/root/rsync.pass &amp;&amp;<br>        echo “$x was rsynced” &gt;&gt; /var/log/rsync.log<br>    done<br>注释：<br>inotifywait<br>-m：保持监听事件。<br>-r：递归查看目录。<br>-q：打印出事件。<br>-e modify,delete,create,attrib：监听写入，删除，创建，属性改变事件。<br>rsync<br>-a：存档模式，相当于使用-rlptgoD。<br>-v：详细模式输出。<br>-z：传输过程中压缩文件。<br>为脚本加执行权限：<br>chmod +x /root/rsync.sh<br>在rc.local加入自启动：<br>echo “/root/rsync.sh” &gt;&gt; /etc/rc.local</p>
-<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>[root@rsync ~]# kill -9 7694<br>[root@rsync ~]# ps aux | grep rsync | grep -v grep</p>
-<p>/root/rsync.sh &amp;</p>
-<p>[root@rsync ~]# cd /home/nfs/fir_fs_06/000/000/016<br>[root@rsync 016]# touch a<br>[root@rsync 016]#</p>
-<p>二、镜像（同步）端<br>安装rsync：<br>yum install rsync -y<br>编辑配置文件：<br>vim /etc/rsyncd.conf<br>输入：<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 10<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *<br>[rsync]<br>path = /root/pacsrsync/<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass<br>建立密码文件：<br>vim /root/rsync.pass<br>输入：<br>backup:123456<br>格式为“用户名:密码”。<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>建立保存同步文档的目录：<br>mkdir /home/tzuchi/<br>chown nobody:nobody /home/tzuchi/</p>
-<p>chown -R rsync:rsync /root/pacsrsync/<br>后台启动rsync：<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf<br>在被镜像端上运行同步脚本：<br>/root/rsync.sh &amp;</p>
-<p>日志</p>
-<blockquote>
-<p>/var/log/rsyncd.log<br>tail -f /var/log/rsyncd.log</p>
-</blockquote>
-<p>[root@n10 ~]# cd /root/pacsrsync/<br>[root@n10 pacsrsync]# mkdir 016<br>[root@n10 pacsrsync]# chown rsync.rsync 016<br>[root@n10 pacsrsync]# ll<br>总用量 44<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]#<br>[root@n10 pacsrsync]# mkdir 017<br>[root@n10 pacsrsync]# chown rsync.rsync 017<br>[root@n10 pacsrsync]# ll<br>总用量 48<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwxr-xr-x   2 rsync rsync  4096 6月  14 07:24 017<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]# </p>
-<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>ps aux | grep rsync | grep -v grep<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf</p>
-<p>vim /root/rsync.sh</p>
-<p>#!/bin/bash<br>inotify_rsync_fun ()<br>{<br>    dir=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $1}&#39;</code><br>    ip=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $2}&#39;</code><br>    des=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $3}&#39;</code><br>    user=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $4}&#39;</code><br>    /usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ -e modify,delete,create,attrib ${dir} |while read DATE TIME DIR FILE<br>        do<br>                FILECHAGE=${DIR}${FILE}<br>                /usr/bin/rsync -avz –delete –progress  –password-file=/root/rsync.pass ${dir} ${user}@${ip}::${des} &amp;&amp; echo “At ${TIME} on ${DATE}, file $FILECHAGE was backed up via rsync” &gt;&gt; /var/log/rsync.log<br>        done<br>}<br>count=3</p>
-<h1 id="localdir-host-rsync-module-user-of-rsync-module"><a href="#localdir-host-rsync-module-user-of-rsync-module" class="headerlink" title="localdir,host,rsync_module,user of rsync_module,"></a>localdir,host,rsync_module,user of rsync_module,</h1><p>sync1=”/home/nfs/fir_fs_06/000/000/000,10.6.0.220,dir1,backup”<br>sync2=”/home/nfs/fir_fs_06/000/000/016,10.6.0.220,dir2,backup”<br>sync3=”/home/nfs/fir_fs_06/000/000/017,10.6.0.220,dir3,backup”</p>
-<p>#############################################################</p>
-<p>#main<br>i=0<br>while [ ${i} -lt ${count} ]<br>do<br>    i=<code>expr ${i} + 1</code><br>    tmp=”sync”$i<br>    eval “sync=\$$tmp”<br>    inotify_rsync_fun “$sync” &amp;<br>done</p>
-<p>vim /etc/rsyncd.conf<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 0<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *</p>
-<p>[dir1]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-<p>[dir2]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-<p>[dir3]<br>path = /root/pacsrsync/017/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装inotify-rsync/" data-id="ciwvdwc0t000zm4cyxs1g0rvr" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-moodle在CentOS-6-x-下的迁移" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/moodle在CentOS-6-x-下的迁移/" class="article-date">
-  <time datetime="2016-12-19T01:00:14.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/moodle在CentOS-6-x-下的迁移/">moodle在CentOS 6.x 下的迁移</a>
+      <a class="article-title" href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
     </h1>
   
 
@@ -597,7 +108,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS-6-x-下的迁移/" data-id="ciwvdwc2h002rm4cyitqs7905" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="ciwvhh0nm0039r1cyzwu5j6v3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -607,10 +118,10 @@ except Exception,e:
 
 
   
-    <article id="post-Centos-6-x-DHCP-1" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-TzuChi-技术" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/19/Centos-6-x-DHCP-1/" class="article-date">
-  <time datetime="2016-12-19T00:59:24.000Z" itemprop="datePublished">2016-12-19</time>
+    <a href="/2016/12/19/TzuChi-技术/" class="article-date">
+  <time datetime="2016-12-19T02:34:46.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -621,7 +132,7 @@ except Exception,e:
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-6-x-DHCP-1/">Centos 6.x DHCP</a>
+      <a class="article-title" href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
     </h1>
   
 
@@ -629,74 +140,482 @@ except Exception,e:
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
+        <p>Linux<br>SHELL<br>Nagios<br>Cacti<br>DHCP<br>LDAP<br>Squid<br>Moodle<br>CDH和Cloudera Manager</p>
+<p>Windows<br>SQL Server 镜像<br>SQL Server Cluster<br>BackupExec<br>Acronis Backup Advanced for SQL<br>XAMPP<br>IIS+MySQL+PHP</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="ciwvhh0n3002lr1cyjhztw4qs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Centos-6-x-预配-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Centos-6-x-预配-2/" class="article-date">
+  <time datetime="2016-12-19T02:34:00.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>非必要，无需安装<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum -y install lrzsz<br>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>n2-4<br>vim /etc/ntp.conf<br>server n1<br>ntpdate -u n1<br>service ntpd start</p>
+<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
+<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>更换软件源<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>yum clean all<br>yum makecache</p>
+<p>SSH无密码登录配置<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys<br>mkdir -p /root/.ssh/<br>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/</p>
+<p>安装桌面环境<br>yum groupinstall ‘X Window System’  -y</p>
+<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>MySQL安装配置<br>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin</p>
+<p>FTP安装配置<br>yum -y install vsftpd<br>[root@localhost ~]# vim /etc/vsftpd/vsftpd.conf<br>[root@localhost ~]# chkconfig –level 345 vsftpd on<br>[root@localhost ~]#<br>[root@localhost ~]#<br>[root@localhost ~]# useradd -g ftp -d /home -M ftpuser<br>[root@localhost ~]# chmod 777 /home/<br>[root@localhost ~]# passwd ftpuser<br>Changing password for user ftpuser.<br>New password:<br>BAD PASSWORD: it is based on a dictionary word<br>BAD PASSWORD: is too simple<br>Retype new password:<br>passwd: all authentication tokens updated successfully.<br>[root@localhost ~]# service vsftpd restart<br>Shutting down vsftpd: [  OK  ]<br>Starting vsftpd for vsftpd: [  OK  ]<br>service vsftpd restart<br>开机启动chkconfig –level 345 vsftpd on</p>
+<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>        comment = The hdfs<br>        path = /mnt/hdfs/<br>        browseable = yes<br>        writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
+<p>xxx is not in the sudoers file. This incident will be reported<br>visudo</p>
+<h2 id="Allow-root-to-run-any-commands-anywhere"><a href="#Allow-root-to-run-any-commands-anywhere" class="headerlink" title="Allow root to run any commands anywhere"></a>Allow root to run any commands anywhere</h2><p>root    ALL=(ALL)       ALL<br>hdfs    ALL=(ALL)       ALL</p>
+<p>NFS<br>server<br>[root@n0 ~]# yum install nfs-utils -y<br>[root@n0 ~]# vim /etc/exports<br>/home   10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>[root@n0 ~]# /etc/init.d/rpcbind start<br>[root@n0 ~]# /etc/init.d/nfs start<br>启动 NFS 服务： [确定]<br>关掉 NFS 配额：[确定]<br>启动 NFS mountd：[确定]<br>启动 NFS 守护进程：[确定]<br>正在启动 RPC idmapd：[确定]<br>[root@n0 ~]# /etc/init.d/nfslock start<br>[root@n0 ~]# chkconfig rpcbind on<br>[root@n0 ~]# chkconfig nfs on<br>[root@n0 ~]# chkconfig nfslock on<br>[root@n0 ~]# netstat -tunlp | grep :111<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:</em>                   LISTEN      1012/rpcbind<br>tcp        0      0 :::111                      :::<em>                        LISTEN      1012/rpcbind<br>udp        0      0 0.0.0.0:111                 0.0.0.0:</em>                               1012/rpcbind<br>udp        0      0 :::111                      :::<em>                                    1012/rpcbind<br>[root@n0 ~]#<br>[root@n0 ~]# tail /var/log/messages<br>[root@n0 ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  47728  status<br>    100024    1   tcp  37084  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100005    1   udp  59870  mountd<br>    100005    1   tcp  42830  mountd<br>    100005    2   udp  57353  mountd<br>    100005    2   tcp  53228  mountd<br>    100005    3   udp  53687  mountd<br>    100005    3   tcp  45899  mountd<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  36721  nlockmgr<br>    100021    3   udp  36721  nlockmgr<br>    100021    4   udp  36721  nlockmgr<br>    100021    1   tcp  47260  nlockmgr<br>    100021    3   tcp  47260  nlockmgr<br>    100021    4   tcp  47260  nlockmgr<br>[root@n0 ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br>[root@n0 ~]# showmount -e localhost<br>Export list for localhost:<br>/home (everyone)<br>[root@n0 ~]# tail /var/lib/nfs/etab<br>/home   10.6.0.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)<br>/home   </em>(ro,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,ro,root_squash,no_all_squash)<br>[root@n0 ~]# exportfs -arv<br>exporting 10.6.0.0/24:/home<br>exporting *:/home<br>[root@n0 ~]# cd /home/<br>[root@n0 home]# ls<br>hadoop  lost+found  test<br>[root@n0 home]# ll<br>总用量 24<br>drwx——  31 hadoop hadoop  4096 10月 30 08:50 hadoop<br>drwx——.  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x   2 root   root    4096 11月  7 13:35 test</p>
+<p>client<br>[root@n1 ~]# /etc/init.d/rpcbind start<br>[root@n1 ~]# /etc/init.d/nfslock start<br>[root@n1 ~]# chkconfig rpcbind on<br>[root@n1 ~]# chkconfig nfslock on<br>[root@n1 ~]# showmount -e 10.6.0.24<br>Export list for 10.6.0.24:<br>/home (everyone)<br>[root@n1 ~]# mkdir -p /home/nfs<br>[root@n1 ~]# mount -t nfs 10.6.0.24:/home/ /home/nfs/<br>[root@n1 ~]# df -h<br>Filesystem        Size  Used Avail Use% Mounted on<br>/dev/sda3         1.8T  1.1T  687G  61% /<br>tmpfs             7.8G  148K  7.8G   1% /dev/shm<br>/dev/sda1         194M   34M  151M  19% /boot<br>fuse_dfs           22T  3.9T   18T  19% /mnt/hdfs<br>cm_processes      7.8G  7.5M  7.8G   1% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.24:/home/  242G  1.5G  228G   1% /home/nfs<br>[root@n1 ~]# cd /home/nfs/<br>[root@n1 nfs]# touch test<br>[root@n1 nfs]# ll<br>总用量 24<br>drwx—— 31 nobody hadoop  4096 10月 30 08:50 hadoop<br>drwx——  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x  2 root   root    4096 11月  7 13:35 test</p>
+<p>开机启动<br>vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 10.6.0.24:/home/ /home/nfs/</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="ciwvhh0ma001ir1cysqdo6g93" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Centos-7-x-预配-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Centos-7-x-预配-2/" class="article-date">
+  <time datetime="2016-12-19T02:33:15.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话："><a href="#假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话：" class="headerlink" title="假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话："></a>假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话：</h1><p>[root@study ~]# dd if=centos7.iso of=/dev/sdc</p>
+<p>rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm</a><br>yum repolist</p>
+<p>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
+<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.120.2.101<br>n1<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>ONBOOT=”yes”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5</p>
+<p>vim /etc/hostname</p>
+<p>vim /etc/hosts</p>
+<p>vim /etc/selinux/config</p>
+<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service</p>
+<p>tar -zxvf VMwareTools-9.9.0-2304977.tar.gz<br>cd vmware-tools-distrib/<br>ls<br>./vmware-install.pl</p>
+<p>reboot<br>getenforce</p>
+<p>yum install lrzsz -y<br>sz download<br>rz upload</p>
+<p>rpm -qa | grep java<br>rpm -e –nodeps javapackages-tools-3.4.1-5.el7.noarch<br>rpm -e –nodeps java-1.7.0-openjdk-headless-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps python-javapackages-3.4.1-5.el7.noarch<br>rpm -e –nodeps tzdata-java-2014b-1.el7.noarch<br>rpm -qa | grep java</p>
+<p>tar -xvf jdk-8u66-linux-x64.tar.gz<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin<br>source /etc/profile<br>java -version</p>
+<p>快照</p>
+<p>wget <a href="https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz</a><br>ll -h<br>tar -Jxvf Python-3.5.0.tar.xz<br>mkdir /usr/local/python3<br>cd Python-3.5.0/<br>./configure –prefix=/usr/local/python3<br>make<br>make install<br>cd /usr/bin/<br>ls<br>mv python python.bak<br>ln -s /usr/local/python3/bin/python3 /usr/bin/python<br>python<br>cd<br>vim /usr/bin/yum</p>
+<p>python -V</p>
+<p>python</p>
+<p>vim /etc/profile<br>source /etc/profile</p>
+<p>uname -a<br>su jinyan<br>mv eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz /home/jinyan/<br>cd /home/jinyan/<br>chown jinyan:jinyan eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz</p>
+<p>rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>wget <a href="http://nginx.org/keys/nginx_signing.key" target="_blank" rel="external">http://nginx.org/keys/nginx_signing.key</a><br>rpmkeys –import nginx_signing.key<br>vim /etc/yum.repos.d/nginx.repo<br>rpmkeys -K nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>yum -y install nginx<br>systemctl start nginx<br>systemctl enable nginx<br>systemctl status httpd.service<br>systemctl status nginx.service<br>vim /etc/nginx/nginx.conf </p>
+<p>nano /etc/nginx/nginx.conf<br>vim /etc/nginx/nginx.conf<br>nginx -s reload<br>mkdir -p /data/www<br>getenforce<br>echo “This a test page.” &gt;/data/www/index.html</p>
+<p>chmod -R 777 /data/www/<br>tail -f /var/log/nginx/error.log<br>cd /data/www/<br>touch favicon.ico<br>ls<br>tail -f /var/log/nginx/error.log<br>nginx -s reload</p>
+<p>yum install perl-DBI -y<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>yum install mysql-community-server -y<br>yum -y install mysql-community-client</p>
+<p>systemctl start mysqld<br>systemctl enable mysqld<br>systemctl status mysqld<br>netstat -tunlp | grep :3306<br>mysqladmin -uroot password yanjin<br>mysqladmin -uroot password<br>mysqladmin -u root password<br>mysql -uroot -pyanjin</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="ciwvhh0mf001or1cypxgvxtlr" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Centos-6-5-x64-Hadoop-2-3-0-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" class="article-date">
+  <time datetime="2016-12-19T02:32:40.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>groupadd hadoop<br>useradd -g hadoop hadoop</p>
+<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>无密码登录<br>root用户<br>[root@n0 ~]# ssh-keygen -t rsa -P “”<br>[root@n0 ~]# cat /root/.ssh/id_rsa.pub &gt;&gt; /root/.ssh/authorized_keys<br>[root@n0 ~]# ssh localhost</p>
+<p>普通用户<br>/home/hadoop/.ssh<br>[hadoop@n0 .ssh]$ ssh-keygen -t rsa -P “”<br>[hadoop@n0 .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys<br>[hadoop@n0 .ssh]$ chmod 600 authorized_keys<br>[hadoop@n0 .ssh]$ ssh localhost</p>
+<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:hadoop”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver restart<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>[root@n0 ~]# tar -zxvf jdk-7u79-linux-x64.tar.gz<br>[root@n0 ~]# mv jdk1.7.0_79/ /usr/lib/java<br>[root@n0 ~]# vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
+<p>export HADOOP_HOME=/usr/local/hadoop/<br>export PATH=$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_HOME}<br>export HADOOP_COMMON_HOME=${HADOOP_HOME}<br>export HADOOP_HDFS_HOME=${HADOOP_HOME}<br>export YARN_HOME=${HADOOP_HOMEL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_HOME}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_HOME}/lib:${HADOOP_HOME}/lib/native”</p>
+<p>[root@n0 ~]# source /etc/profile<br>[root@n0 ~]# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)<br>Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</p>
+<p>[root@n0 ~]# tar -zxvf hadoop-2.3.0-x64.tar.gz<br>[root@n0 ~]# mv hadoop-2.3.0 /usr/local/hadoop<br>[root@n0 ~]# chmod -R 755 /usr/local/hadoop/<br>[root@n0 ~]# chown -R hadoop:hadoop /usr/local/hadoop/<br>[root@n0 ~]# ll /usr/local/hadoop/<br>/usr/local/hadoop/etc/hadoop<br>vim core-site.xml<br>    <property><br>        <name>hadoop.tmp.dir</name><br>        <value>/usr/local/hadoop/tmp</value><br>    </property><br>    <property><br>        <name>fs.defaultFS</name><br>        <value>hdfs://localhost:9000</value><br>     </property></p>
+<p>vim hdfs-site.xml</p>
+<property><br>        <name>dfs.replication</name><br>        <value>1</value><br>    </property><br>    <property><br>        <name>dfs.namenode.name.dir</name><br>        <value>file:/usr/local/hadoop/dfs/name</value><br>    </property><br>    <property><br>        <name>dfs.datanode.data.dir</name><br>        <value>file:/usr/local/hadoop/dfs/data</value><br>    </property><br>    <property><br>            <name>dfs.permissions</name><br>            <value>false</value><br>     </property>
+
+<p>vim yarn-site.xml</p>
+<property><br><name>mapreduce.framework.name</name><br><value>yarn</value><br></property>
+
+<property><br><name>yarn.nodemanager.aux-services</name><br><value>mapreduce_shuffle</value><br></property>
+
+<property><br><name>yarn.resourcemanager.scheduler.address</name><br><value>localhost:9001</value><br></property>
+
+<p>[hadoop@n0 hadoop]$ cd /usr/local/hadoop/<br>[hadoop@n0 hadoop]$ mkdir tmp dfs dfs/name dfs/data<br>[hadoop@n0 hadoop]$ ll</p>
+<p>[hadoop@n0 ~]$ hdfs namenode -format<br>15/10/29 14:52:56 INFO common.Storage: Storage directory /usr/local/hadoop/dfs/name has been successfully formatted.<br>[hadoop@n0 ~]$ start-dfs.sh<br>Starting namenodes on [localhost]<br>localhost: starting namenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-namenode-n0.out<br>localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-hadoop-datanode-n0.out<br>Starting secondary namenodes [0.0.0.0]<br>The authenticity of host ‘0.0.0.0 (0.0.0.0)’ can’t be established.<br>RSA key fingerprint is a4:f8:d8:ba:42:46:7a:f3:5d:82:7a:4e:e3:08:17:df.<br>Are you sure you want to continue connecting (yes/no)? yes<br>0.0.0.0: Warning: Permanently added ‘0.0.0.0’ (RSA) to the list of known hosts.<br>0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-secondarynamenode-n0.out<br>[hadoop@n0 ~]$ start-yarn.sh<br>starting yarn daemons<br>starting resourcemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-resourcemanager-n0.out<br>localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-nodemanager-n0.out<br>[hadoop@n0 ~]$ jps<br>12108 SecondaryNameNode<br>12742 Jps<br>11932 DataNode<br>11840 NameNode<br>12313 ResourceManager<br>12408 NodeManager</p>
+<p>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /output/<br>[hadoop@n0 hadoop]$ hadoop fs -put *.xml /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -ls /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.3.0.jar wordcount /data/wordcount /output/wordcount<br>15/10/29 15:48:00 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>15/10/29 15:48:01 INFO input.FileInputFormat: Total input paths to process : 7<br>15/10/29 15:48:01 INFO mapreduce.JobSubmitter: number of splits:7<br>15/10/29 15:48:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1446104470000_0001<br>15/10/29 15:48:03 INFO impl.YarnClientImpl: Submitted application application_1446104470000_0001<br>15/10/29 15:48:03 INFO mapreduce.Job: The url to track the job: <a href="http://n0:8088/proxy/application_1446104470000_0001/" target="_blank" rel="external">http://n0:8088/proxy/application_1446104470000_0001/</a><br>15/10/29 15:48:03 INFO mapreduce.Job: Running job: job_1446104470000_0001<br>15/10/29 15:48:16 INFO mapreduce.Job: Job job_1446104470000_0001 running in uber mode : false<br>15/10/29 15:48:16 INFO mapreduce.Job:  map 0% reduce 0%<br>15/10/29 15:48:29 INFO mapreduce.Job:  map 86% reduce 0%<br>15/10/29 15:48:36 INFO mapreduce.Job:  map 100% reduce 0%<br>15/10/29 15:48:38 INFO mapreduce.Job:  map 100% reduce 100%<br>15/10/29 15:48:39 INFO mapreduce.Job: Job job_1446104470000_0001 completed successfully<br>15/10/29 15:48:39 INFO mapreduce.Job: Counters: 49</p>
+<p>[hadoop@n0 hadoop]$ hadoop fs -cat /output/wordcount/part-r-00000 |head<br>“*”     17<br>“AS     7<br>“License”);     7<br>“alice,bob      17<br>(ASF)   1<br>(root   1<br>(the    7<br>–&gt;     13<br>0.0     1<br>1.0.    1</p>
+<p>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/HDFSTest/bin/<br>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/MapreduceTest/bin/</p>
+<p>[hadoop@n0 ~]$ hadoop archive -archiveName test.har -p /data /data/har<br>[hadoop@n0 ~]$ hadoop fs -ls har:///data/har/test.har</p>
+<p>来源： <a href="http://www.centoscn.com/hadoop/2015/0118/4525.html" target="_blank" rel="external">http://www.centoscn.com/hadoop/2015/0118/4525.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="ciwvhh0m7001dr1cy5dydk7xc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x/" class="article-date">
+  <time datetime="2016-12-19T02:27:06.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-x/">CentOS 6.x</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>非必要，无需安装<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum -y install lrzsz<br>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
+<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>n2-4<br>vim /etc/ntp.conf<br>server n1<br>ntpdate -u n1<br>service ntpd start</p>
+<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
+<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>更换软件源<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>yum clean all<br>yum makecache</p>
+<p>SSH无密码登录配置<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys<br>mkdir -p /root/.ssh/<br>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/</p>
+<p>安装桌面环境<br>yum groupinstall ‘X Window System’  -y</p>
+<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>MySQL安装配置<br>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin</p>
+<p>FTP安装配置<br>yum -y install vsftpd<br>[root@localhost ~]# vim /etc/vsftpd/vsftpd.conf<br>[root@localhost ~]# chkconfig –level 345 vsftpd on<br>[root@localhost ~]#<br>[root@localhost ~]#<br>[root@localhost ~]# useradd -g ftp -d /home -M ftpuser<br>[root@localhost ~]# chmod 777 /home/<br>[root@localhost ~]# passwd ftpuser<br>Changing password for user ftpuser.<br>New password:<br>BAD PASSWORD: it is based on a dictionary word<br>BAD PASSWORD: is too simple<br>Retype new password:<br>passwd: all authentication tokens updated successfully.<br>[root@localhost ~]# service vsftpd restart<br>Shutting down vsftpd: [  OK  ]<br>Starting vsftpd for vsftpd: [  OK  ]<br>service vsftpd restart<br>开机启动chkconfig –level 345 vsftpd on</p>
+<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>        comment = The hdfs<br>        path = /mnt/hdfs/<br>        browseable = yes<br>        writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
+<p>xxx is not in the sudoers file. This incident will be reported<br>visudo</p>
+<h2 id="Allow-root-to-run-any-commands-anywhere"><a href="#Allow-root-to-run-any-commands-anywhere" class="headerlink" title="Allow root to run any commands anywhere"></a>Allow root to run any commands anywhere</h2><p>root    ALL=(ALL)       ALL<br>hdfs    ALL=(ALL)       ALL</p>
+<p>NFS<br>server<br>[root@n0 ~]# yum install nfs-utils -y<br>[root@n0 ~]# vim /etc/exports<br>/home   10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>/mnt/hdfs    10.6.0.0/24(rw,no_root_squash)  </em>(ro)<br>/home    10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>[root@n0 ~]# /etc/init.d/rpcbind start<br>[root@n0 ~]# /etc/init.d/nfs start<br>启动 NFS 服务： [确定]<br>关掉 NFS 配额：[确定]<br>启动 NFS mountd：[确定]<br>启动 NFS 守护进程：[确定]<br>正在启动 RPC idmapd：[确定]<br>[root@n0 ~]# /etc/init.d/nfslock start<br>[root@n0 ~]# chkconfig rpcbind on<br>[root@n0 ~]# chkconfig nfs on<br>[root@n0 ~]# chkconfig nfslock on<br>[root@n0 ~]# netstat -tunlp | grep :111<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:</em>                   LISTEN      1012/rpcbind<br>tcp        0      0 :::111                      :::<em>                        LISTEN      1012/rpcbind<br>udp        0      0 0.0.0.0:111                 0.0.0.0:</em>                               1012/rpcbind<br>udp        0      0 :::111                      :::<em>                                    1012/rpcbind<br>[root@n0 ~]#<br>[root@n0 ~]# tail /var/log/messages<br>[root@n0 ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  47728  status<br>    100024    1   tcp  37084  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100005    1   udp  59870  mountd<br>    100005    1   tcp  42830  mountd<br>    100005    2   udp  57353  mountd<br>    100005    2   tcp  53228  mountd<br>    100005    3   udp  53687  mountd<br>    100005    3   tcp  45899  mountd<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  36721  nlockmgr<br>    100021    3   udp  36721  nlockmgr<br>    100021    4   udp  36721  nlockmgr<br>    100021    1   tcp  47260  nlockmgr<br>    100021    3   tcp  47260  nlockmgr<br>    100021    4   tcp  47260  nlockmgr<br>[root@n0 ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br>[root@n0 ~]# showmount -e localhost<br>Export list for localhost:<br>/home (everyone)<br>[root@n0 ~]# tail /var/lib/nfs/etab<br>/home   10.6.0.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)<br>/home   </em>(ro,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,ro,root_squash,no_all_squash)<br>[root@n0 ~]# exportfs -arv<br>exporting 10.6.0.0/24:/home<br>exporting *:/home<br>[root@n0 ~]# cd /home/<br>[root@n0 home]# ls<br>hadoop  lost+found  test<br>[root@n0 home]# ll<br>总用量 24<br>drwx——  31 hadoop hadoop  4096 10月 30 08:50 hadoop<br>drwx——.  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x   2 root   root    4096 11月  7 13:35 test</p>
+<p>client<br>[root@n1 ~]# /etc/init.d/rpcbind start<br>[root@n1 ~]# /etc/init.d/nfslock start<br>[root@n1 ~]# chkconfig rpcbind on<br>[root@n1 ~]# chkconfig nfslock on<br>[root@n1 ~]# showmount -e 10.6.0.24<br>Export list for 10.6.0.24:<br>/home (everyone)<br>[root@n1 ~]# mkdir -p /home/nfs<br>[root@n1 ~]# mount -t nfs 10.6.0.24:/home/ /home/nfs/<br>[root@n1 ~]# df -h<br>Filesystem        Size  Used Avail Use% Mounted on<br>/dev/sda3         1.8T  1.1T  687G  61% /<br>tmpfs             7.8G  148K  7.8G   1% /dev/shm<br>/dev/sda1         194M   34M  151M  19% /boot<br>fuse_dfs           22T  3.9T   18T  19% /mnt/hdfs<br>cm_processes      7.8G  7.5M  7.8G   1% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.24:/home/  242G  1.5G  228G   1% /home/nfs<br>[root@n1 ~]# cd /home/nfs/<br>[root@n1 nfs]# touch test<br>[root@n1 nfs]# ll<br>总用量 24<br>drwx—— 31 nobody hadoop  4096 10月 30 08:50 hadoop<br>drwx——  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x  2 root   root    4096 11月  7 13:35 test</p>
+<p>开机启动<br>vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 10.6.0.24:/home/ /home/nfs/</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="ciwvhh0m00015r1cygmc6lcld" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-5-Template" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-5-Template/" class="article-date">
+  <time datetime="2016-12-19T02:26:13.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-5-Template/">CentOS 6.5 Template</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>core switch<br>-&gt; vlan port mobile 2/5 bpdu ignore enable<br>-&gt; show vlan port 2/5<br>  vlan     type      status<br>——–+———+————–<br>   100    default   forwarding</p>
+<p>-&gt; vlan 40 mac 08:00:27:fe:1e:60<br>-&gt; vlan 40 mac 08:00:27:53:fa:cd<br>-&gt; vlan 40 mac 08:00:27:FB:D0:0B<br>Oracle VM VirtualBox<br>安装增强功能<br>10.6.4.34<br>Create Snapshot</p>
+<p>10.6.4.35<br>yum -y install lrzsz<br>rz sz<br>[root@localhost ~]# visudo<br>jinyan  ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>[jinyan@localhost ~]$ sudo su -<br>[sudo] password for jinyan: </p>
+<p>[root@localhost ~]# vim /etc/selinux/config</p>
+<h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>[root@localhost ~]# vim /etc/ssh/sshd_config</p>
+<p>#UseDNS yes<br>UseDNS no<br>[root@002 ~]# /etc/init.d/sshd restart<br>Stopping sshd: [  OK  ]<br>Starting sshd: [  OK  ]<br>[root@002 ~]# </p>
+<p>[root@server ~]# vim /etc/inittab<br>id:3:initdefault:</p>
+<p>[root@localhost ~]# yum install ntp -y<br>[root@localhost ~]# chkconfig ntpd on<br>[root@localhost ~]# chkconfig –list ntpd<br>ntpd            0:off   1:off   2:on    3:on    4:on    5:on    6:off<br>[root@localhost ~]# ntpdate -u 202.112.29.82<br>26 Apr 11:30:33 ntpdate[2050]: adjust time server 202.112.29.82 offset 0.005681 sec<br>[root@localhost ~]# vim /etc/ntp.conf</p>
+<p>#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</p>
+<p>#server 202.120.2.101 prefer<br>server 202.112.29.82 prefer</p>
+<h1 id="Use-public-servers-from-the-pool-ntp-org-project"><a href="#Use-public-servers-from-the-pool-ntp-org-project" class="headerlink" title="Use public servers from the pool.ntp.org project."></a>Use public servers from the pool.ntp.org project.</h1><p>service ntpd start<br>[root@localhost ~]# ntpstat<br>synchronised to NTP server (202.112.29.82) at stratum 3<br>   time correct to within 482 ms<br>   polling server every 64 s</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>TYPE=Ethernet<br>UUID=8c33c654-f1ca-4b5c-9db6-4abe11cc76d4<br>ONBOOT=yes<br>NM_CONTROLLED=yes<br>BOOTPROTO=dhcp</p>
+<p>#BOOTPROTO=static</p>
+<p>#IPADDR=10.6.4.35</p>
+<p>#PREFIX=24</p>
+<p>#GATEWAY=10.6.4.1</p>
+<p>#DNS1=61.177.7.1</p>
+<p>#DOMAIN=223.5.5.5<br>HWADDR=08:00:27:FE:1E:60<br>DEFROUTE=yes<br>PEERDNS=yes<br>PEERROUTES=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>NTPSERVERARGS=iburst</p>
+<p>[root@localhost ~]# vim /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</p>
+<p>Centos6.5做路由、NAT和DHCP<br>server<br>[root@server ~]# ifconfig<br>eth1      Link encap:Ethernet  HWaddr 08:00:27:1B:AA:96<br>          inet addr:192.168.3.3  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe1b:aa96/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:154070 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:828615 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:10420011 (9.9 MiB)  TX bytes:1228814209 (1.1 GiB)</p>
+<p>eth2      Link encap:Ethernet  HWaddr 08:00:27:FB:D0:0B<br>          inet addr:10.6.4.36  Bcast:10.6.4.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fefb:d00b/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:43747 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:1146 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:3626576 (3.4 MiB)  TX bytes:173429 (169.3 KiB)</p>
+<p>[root@server ~]# vi /etc/sysctl.conf</p>
+<h1 id="Kernel-sysctl-configuration-file-for-Red-Hat-Linux"><a href="#Kernel-sysctl-configuration-file-for-Red-Hat-Linux" class="headerlink" title="Kernel sysctl configuration file for Red Hat Linux"></a>Kernel sysctl configuration file for Red Hat Linux</h1><p>#</p>
+<h1 id="For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and"><a href="#For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and" class="headerlink" title="For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and"></a>For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and</h1><h1 id="sysctl-conf-5-for-more-details"><a href="#sysctl-conf-5-for-more-details" class="headerlink" title="sysctl.conf(5) for more details."></a>sysctl.conf(5) for more details.</h1><h1 id="Controls-IP-packet-forwarding"><a href="#Controls-IP-packet-forwarding" class="headerlink" title="Controls IP packet forwarding"></a>Controls IP packet forwarding</h1><h1 id="net-ipv4-ip-forward-0"><a href="#net-ipv4-ip-forward-0" class="headerlink" title="net.ipv4.ip_forward = 0"></a>net.ipv4.ip_forward = 0</h1><p>net.ipv4.ip_forward = 1</p>
+<h1 id="Controls-source-route-verification"><a href="#Controls-source-route-verification" class="headerlink" title="Controls source route verification"></a>Controls source route verification</h1><p>net.ipv4.conf.default.rp_filter = 1</p>
+<h1 id="Do-not-accept-source-routing"><a href="#Do-not-accept-source-routing" class="headerlink" title="Do not accept source routing"></a>Do not accept source routing</h1><p>net.ipv4.conf.default.accept_source_route = 0</p>
+<h1 id="Controls-the-System-Request-debugging-functionality-of-the-kernel"><a href="#Controls-the-System-Request-debugging-functionality-of-the-kernel" class="headerlink" title="Controls the System Request debugging functionality of the kernel"></a>Controls the System Request debugging functionality of the kernel</h1><p>kernel.sysrq = 0</p>
+<h1 id="Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename"><a href="#Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename" class="headerlink" title="Controls whether core dumps will append the PID to the core filename."></a>Controls whether core dumps will append the PID to the core filename.</h1><h1 id="Useful-for-debugging-multi-threaded-applications"><a href="#Useful-for-debugging-multi-threaded-applications" class="headerlink" title="Useful for debugging multi-threaded applications."></a>Useful for debugging multi-threaded applications.</h1><p>kernel.core_uses_pid = 1</p>
+<p>“/etc/sysctl.conf” 41L, 1176C written<br>[root@server ~]# sysctl -p<br>net.ipv4.ip_forward = 1<br>net.ipv4.conf.default.rp_filter = 1<br>net.ipv4.conf.default.accept_source_route = 0<br>kernel.sysrq = 0<br>kernel.core_uses_pid = 1<br>net.ipv4.tcp_syncookies = 1<br>error: “net.bridge.bridge-nf-call-ip6tables” is an unknown key<br>error: “net.bridge.bridge-nf-call-iptables” is an unknown key<br>error: “net.bridge.bridge-nf-call-arptables” is an unknown key<br>kernel.msgmnb = 65536<br>kernel.msgmax = 65536<br>kernel.shmmax = 68719476736<br>kernel.shmall = 4294967296</p>
+<p>[root@server ~]# iptables -F<br>[root@server ~]# iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE<br>[root@server ~]# iptables -t filter -A FORWARD -i eth2 -o eth1 -j ACCEPT<br>[root@server ~]# iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>[root@server ~]# service iptables save<br>iptables: Saving firewall rules to /etc/sysconfig/iptables: [  OK  ]<br>[root@server ~]#</p>
+<p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
 <p>#</p>
 <h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
 <p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
 <h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
 <p>/etc/init.d/dhcpd restart</p>
-<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]#</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]# cat /root/dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>[root@localhost ~]#</p>
-<p>dhcp<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>tail -f /var/lib/dhcpd/dhcpd.leases<br>vim /var/lib/dhcpd/dhcpd.leases<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>DHCP<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>cat /var/lib/dhcpd/dhcpd.leases |awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’<br>awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’ /var/lib/dhcpd/dhcpd.leases</p>
-<p>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’<br>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’|sort -n</p>
-<p>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>[root@localhost ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro"><a href="#host-WudeMacBook-Pro" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187"><a href="#fixed-address-10-6-4-187" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id=""><a href="#" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>“/etc/dhcp/dhcpd.conf” 138L, 3153C                            85,0-1        63%<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-1"><a href="#host-WudeMacBook-Pro-1" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-1"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-1" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-1"><a href="#fixed-address-10-6-4-187-1" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-1"><a href="#-1" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>[root@localhost ~]# cat /etc/dhcp/dhcpd.conf<br>#</p>
-<h1 id="DHCP-Server-Configuration-file-1"><a href="#DHCP-Server-Configuration-file-1" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample-1"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample-1" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’-1"><a href="#see-‘man-5-dhcpd-conf’-1" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>ddns-update-style none;<br>ignore client-updates;<br>authoritative;<br>shared-network network_tag {<br>subnet 10.6.0.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.1.0 netmask 255.255.255.0 {</p>
-<pre><code>option routers                  10.6.1.1;
-option subnet-mask              255.255.255.0;
-option domain-name-servers      61.177.7.1;
-option domain-name-servers      114.114.114.114;
-range  10.6.1.65 10.6.1.127;
-default-lease-time 36000;
-max-lease-time 72000;
-</code></pre><h1 id="host-WudeMacBook-Pro-2"><a href="#host-WudeMacBook-Pro-2" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-3c-15-c2-df-93-c4"><a href="#hardware-ethernet-3c-15-c2-df-93-c4" class="headerlink" title="hardware ethernet 3c:15:c2:df:93:c4;"></a>hardware ethernet 3c:15:c2:df:93:c4;</h1><h1 id="fixed-address-10-6-1-35"><a href="#fixed-address-10-6-1-35" class="headerlink" title="fixed-address 10.6.1.35;"></a>fixed-address 10.6.1.35;</h1><h1 id="-2"><a href="#-2" class="headerlink" title="}"></a>}</h1><p>host HCP-SZOFFICE{<br>hardware ethernet 24:0a:64:b2:b3:d3;<br>fixed-address 10.6.1.50;<br>}</p>
-<p>host c2laboratory03{<br>hardware ethernet 8c:89:a5:cf:90:ce;<br>fixed-address 10.6.1.54;<br>}</p>
-<p>host zhuang-3{<br>hardware ethernet 54:ee:75:33:8b:fe;<br>fixed-address 10.6.1.56;<br>}</p>
-<p>host zhuang-2{<br>hardware ethernet e8:b1:fc:de:20:e7;<br>fixed-address 10.6.1.60;<br>}</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-3"><a href="#host-WudeMacBook-Pro-3" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-2"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-2" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-2"><a href="#fixed-address-10-6-4-187-2" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>        option routers                  192.168.11.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      114.114.114.114;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.11.50 192.168.11.119;<br>        range  192.168.11.121 192.168.11.250;<br>        default-lease-time 1800;<br>        max-lease-time 3600;<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.10.0 netmask 255.255.255.0 {<br>        option routers                  192.168.10.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  192.168.10.50 192.168.10.250;<br>        default-lease-time 36000;<br>        max-lease-time 72000;<br>}<br>}</p>
-<p>[root@localhost ~]# </p>
-<p>[root@localhost ~]# vim copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/</p>
-<p>vim dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
+<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# ifconfig eth0<br>eth0      Link encap:Ethernet  HWaddr 08:00:27:87:23:4C<br>          inet addr:192.168.3.106  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe87:234c/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:489 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:338 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:48843 (47.6 KiB)  TX bytes:42845 (41.8 KiB)</p>
+<p>[root@localhost ~]#<br>[root@localhost ~]# vi /etc/sysconfig/network</p>
+<p>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>GATEWAY=192.168.3.3</p>
+<p>[root@localhost ~]# traceroute -n www.qq.com<br>traceroute to www.qq.com (180.96.86.192), 30 hops max, 60 byte packets<br> 1  192.168.3.3  2.279 ms  1.963 ms  1.887 ms<br> 2  10.6.4.1  12.267 ms  12.519 ms  12.639 ms<br> 3  10.6.0.1  2.535 ms  3.029 ms  2.965 ms<br> 4  222.92.37.81  3.859 ms  3.740 ms  3.607 ms<br> 5  218.4.14.33  4.600 ms  4.999 ms  4.938 ms<br> 6  218.94.215.222  5.981 ms  4.990 ms  4.857 ms<br> 7  61.155.187.209  7.527 ms  8.261 ms  8.040 ms<br> 8  202.102.69.142  10.481 ms 202.102.69.246  12.911 ms 202.102.69.142  9.696 ms<br> 9  180.96.51.90  10.673 ms 180.96.48.18  7.666 ms 180.96.51.90  10.560 ms<br>10  <em> 180.96.35.182  7.695 ms </em></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-DHCP-1/" data-id="ciwvdwc130018m4cyajzonbpi" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="ciwvhh0kv0009r1cyqtslcev2" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-5-Postfix" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-5-Postfix/" class="article-date">
+  <time datetime="2016-12-19T02:25:33.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-5-Postfix/">CentOS 6.5 Postfix</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /etc/postfix/main.cf<br>myhostname = tzuchi.com.cn<br>myorigin = $myhostname<br>mynetworks = 10.0.0.0/8, 127.0.0.0/8<br>mydestination = $myhostname, localhost.$mydomain, localhost<br>relay_domains = $mydestination<br>alias_maps = hash:/etc/aliases<br>alias_database = hash:/etc/aliases<br>debug_peer_level = 2<br>debugger_command =<br>         PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin<br>         ddd $daemon_directory/$process_name $process_id &amp; sleep 5<br>smtpd_client_restrictions =<br>smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination<br>smtpd_sasl_auth_enable = no</p>
+<p>vi /etc/sasl2/smtpd.conf<br>pwcheck_method: saslauthd<br>mech_list: plain login</p>
+<p>service postfix check<br>service postfix start<br>chkconfig postfix on</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="ciwvhh0kv0008r1cyuzqymzuf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Optimization/" class="article-date">
+  <time datetime="2016-12-19T02:24:51.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-x-Optimization/">CentOS 6.x Optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@renjia ~]# echo “yanjin”|passwd –stdin jinyan<br>visudo<br>root    ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>leader    ALL=(ALL)       ALL</p>
+<p>server time</p>
+<p>1.yum源</p>
+<p>2.安装必要的软件包</p>
+<p>3.关闭SELINUX<br>[root@renjia ~]# vim /etc/selinux/config<br>SELINUX=disabled<br>[root@renjia ~]# getenforce<br>Enforcing<br>[root@renjia ~]# setenforce 0<br>[root@renjia ~]# getenforce<br>Permissive</p>
+<p>/etc/init.d/iptables stop</p>
+<p>[root@renjia ~]# mkdir -p /server/scripts<br>[root@renjia ~]# cd /server/scripts/<br>[root@renjia scripts]# vim del.sh<br>[root@renjia scripts]# ll<br>总用量 4<br>-rw-r–r– 1 root root 50 12月 26 13:12 del.sh</p>
+<p>4.runlevel init 0~6<br>[root@renjia ~]# runlevel<br>N 3<br>cat /etc/inittab<br>setup<br>ntsysv</p>
+<p>刚装完系统时保留服务：<br>crond<br>network<br>sshd<br>syslog<br>脚本管理开机自启动的服务：<br>LANG=en<br>for jinyan in <code>chkconfig --list|grep 3:on|awk &#39;{print $1}&#39;</code>;do chkconfig –level 3 $jinyan off;done<br>for jinyan in crond network syslog sshd ;do chkconfig –level 3 $jinyan on;done<br>chkconfig –list|grep 3:on</p>
+<p>内核优化<br>vi /etc/sysctl.conf<br>net.ipv4.tcp_fin_timeout = 2<br>net.ipv4.tcp_tw_reuse = 1<br>net.ipv4.tcp_tw_recycle = 1<br>net.ipv4.tcp_syncookies = 1<br>net.ipv4.tcp_keepalive_time = 600<br>net.ipv4.ip_local_port_range = 4000          65000<br>net.ipv4.tcp_max_syn_backlog = 16384<br>net.ipv4.tcp_max_tw_buckets = 36000<br>net.ipv4.route.gc_timeout = 100<br>net.ipv4.tcp_syn_retries = 1<br>net.ipv4.tcp_synack_retries = 1<br>net.core.somaxconn = 16384<br>net.core.netdev_max_backlog = 16384<br>net.ipv4.tcp_max_orphans = 16384</p>
+<p>#iptables<br>net.ipv4.ip_conntrack_max = 25000000<br>net.ipv4.netfilter.ip_conntrack_max=25000000<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=180<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120</p>
+<p>sysctl -p</p>
+<p>/etc/init.d/iptables start</p>
+<p>linux定时任务Crond之服务器同步时间<br>[root@jinyan ~]# /usr/sbin/ntpdate time.windows.com<br>26 Dec 12:42:45 ntpdate[2929]: step time server 64.4.10.33 offset -28179.740945 sec<br>[root@jinyan ~]# date<br>Thu Dec 26 12:43:04 CST 2013<br>[root@jinyan ~]# /sbin/ntpdate time.windows.com<br>26 Dec 12:44:34 ntpdate[2934]: adjust time server 65.55.56.206 offset -0.036207 sec</p>
+<p>crontab -e</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1<br>crontab -l</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="ciwvhh0lk000qr1cym18gh7zc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-RHEL-6-x" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/RHEL-6-x/" class="article-date">
+  <time datetime="2016-12-19T02:24:16.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/RHEL-6-x/">RHEL 6.x</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#关闭iptables<br>/etc/init.d/iptables stop<br>chkconfig iptables off</p>
+<p>#关闭selinux<br>setenforce 0<br>sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/‘ /etc/selinux/config  </p>
+<p>#NTP同步<br>ntpdate 0.rhel.pool.ntp.org<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 0.rhel.pool.ntp.org;/usr/sbin/hwclock -w</p>
+<p>ntpdate 202.120.2.101<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 202.120.2.101;/usr/sbin/hwclock -w</p>
+<p>#添加hosts<br>vi /etc/hosts<br>192.168.1.10 master<br>192.168.1.11 client</p>
+<p>#puppet<br><a href="http://downloads.puppetlabs.com/puppet/" target="_blank" rel="external">http://downloads.puppetlabs.com/puppet/</a></p>
+<p>#facter<br><a href="http://downloads.puppetlabs.com/facter/" target="_blank" rel="external">http://downloads.puppetlabs.com/facter/</a></p>
+<p>#ruby<br><a href="https://www.ruby-lang.org/zh_cn/downloads/" target="_blank" rel="external">https://www.ruby-lang.org/zh_cn/downloads/</a></p>
+<p>#配置CentOS YUM源</p>
+<p>cd /etc/yum.repos.d/<br>cp rhel-source.repo rhel-source.repo.bak<br>vi rhel-source.repo</p>
+<p>[base]<br>name=CentOS-$releasever-Base<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[updates]<br>name=CentOS-$releasever-Updates<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[extras]<br>name=CentOS-$releasever-Extras<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[centosplus]<br>name=CentOS-$releasever-Plus<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1</p>
+<p>yum clean all<br>yum makecache<br>yum repolist</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/RHEL-6-x/" data-id="ciwvhh0n1002gr1cyk5h6pc96" class="article-share-link">Share</a>
       
       
     </footer>
@@ -709,7 +628,7 @@ max-lease-time 72000;
 
 
   <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -735,28 +654,28 @@ max-lease-time 72000;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
@@ -772,7 +691,7 @@ max-lease-time 72000;
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-paste" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux使用ntfs-3g挂载NTFS" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/paste/" class="article-date">
-  <time datetime="2016-12-13T00:47:15.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" class="article-date">
+  <time datetime="2016-12-13T01:56:13.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/paste/">paste</a>
+      <a class="article-title" href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/">Linux使用ntfs-3g挂载NTFS</a>
     </h1>
   
 
@@ -83,17 +83,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>paste 按列拼接文本</p>
-<p>将两个文本按列拼接到一起;</p>
-<p>cat file1<br>1<br>2</p>
-<p>cat file2<br>colin<br>book</p>
-<p>paste file1 file2<br>1 colin<br>2 book</p>
-<p>默认的定界符是制表符，可以用-d指明定界符<br>paste file1 file2 -d “,”<br>1,colin<br>2,book</p>
+        <p>Open Source: NTFS-3G<br>Latest Download - <a href="http://www.tuxera.com/community/open-source-ntfs-3g/" target="_blank" rel="external">http://www.tuxera.com/community/open-source-ntfs-3g/</a><br>NTFS-3G Manual - <a href="http://www.tuxera.com/community/ntfs-3g-manual/" target="_blank" rel="external">http://www.tuxera.com/community/ntfs-3g-manual/</a><br>stable version - <a href="https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz" target="_blank" rel="external">https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz</a></p>
+<p>#Installation<br>tar zxvf /tmp/ntfs-3g_ntfsprogs-2016.2.22.tgz<br>cd ntfs*</p>
+<p>#yum install gcc<br>./configure<br>make<br>make install # or ‘sudo make install’ if you aren’t root</p>
+<p>#Usage<br>fdisk -l<br>mkdir -p /mnt/windows<br>mount -t ntfs-3g /dev/sda1 /mnt/windows</p>
+<p>#You can also make NTFS to be mounted during boot by adding the following line to the end of the /etc/fstab file:<br>vi /etc/fstab<br>/dev/sda1 /mnt/windows ntfs-3g defaults 0 0</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwvdwc2i002tm4cy9r9v7m4w" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvhh0mu0025r1cyhinh0ud8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -103,10 +102,10 @@
 
 
   
-    <article id="post-wc" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux-修改本机-etc-hosts-的-hostName-后经常不生效" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/wc/" class="article-date">
-  <time datetime="2016-12-12T09:21:24.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" class="article-date">
+  <time datetime="2016-12-13T01:54:03.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -117,7 +116,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/wc/">wc</a>
+      <a class="article-title" href="/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/">Linux 修改本机 /etc/hosts 的 hostName 后经常不生效</a>
     </h1>
   
 
@@ -125,13 +124,56 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>wc 统计行和字符的工具</p>
-<p>wc -l file // 统计行数<br>wc -w file // 统计单词数<br>wc -c file // 统计字符数</p>
+        <p>1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决</p>
+<p>Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：</p>
+<p>#192.68.1.10 message.xxx.com<br>192.68.1.11 message.xxx.com</p>
+<p>但是ping message.xxx.com还是指向192.68.1.10。</p>
+<p>一般2种解决方案：</p>
+<p>1). 重启，这是最直接最可靠稳定的一种方法，如果有些时候不方便重启，则可以使用第二种方法。</p>
+<p>2). 修改/etc/sysconfig/network文件，将HOSTNAME修改成对应的别名，如下：</p>
+<p>NETWORKING=yes<br>HOSTNAME=host1</p>
+<p>修改后重启网络服务</p>
+<p>service network restart (本质是/etc/init.d/network) 3).</p>
+<p>如果重启服务器后，还是不起作用，应该是本机的dns缓存引起的。</p>
+<p>查看nscd是否启用： ps -ef|grep nscd</p>
+<p>直接关闭Linux nscd 缓存服务： /etc/init.d/nscd stop</p>
+<p>2、Linux的DNS</p>
+<p>linux本身是没有dns缓存的,想使用dns缓存的话需要自己安装一个服务程序NSCD(name service cache daemon).</p>
+<p>nscd缓存三种服务passwd group hosts，所以它会记录三个库，分别对应源/etc/passwd, /etc/hosts 和 /etc/resolv.conf每个库保存两份缓存，一份是找到记录的，一份是没有找到记录的。每一种缓存都保存有生存时间（TTL）.</p>
+<p>安装：</p>
+<p>yum install nscd</p>
+<p>修改配置文件/etc/nscd.conf,开启dns缓存,修改这一行 enable-cache hosts yes。</p>
+<p>如果启用了nscd 服务，才有dns 缓存，否则是没有dns缓存的。</p>
+<p>开启 、停止、 重启服务 service nscd start | stop | restart</p>
+<p>nscd的配置：</p>
+<p>通过编辑/etc/nscd.conf文件，在其中增加如下一行可以开启本地DNS cache：<br>enable-cache hosts yes</p>
+<p>阿里云主机上的配置如下：</p>
+<p>[root@iZ2571ykq ~]# cat /etc/nscd.conf   </p>
+<p>#logfile        /var/log/nscd.log<br>threads         6<br>max-threads     128<br>server-user     nscd<br>debug-level     5<br>paranoia        no<br>enable-cache    passwd      no<br>enable-cache    group       no<br>enable-cache    hosts       yes<br>positive-time-to-live   hosts   5<br>negative-time-to-live   hosts       20<br>suggested-size  hosts       211<br>check-files     hosts       yes<br>persistent      hosts       yes<br>shared          hosts       yes<br>max-db-size     hosts       33554432</p>
+<p>相关参数的解释如下：</p>
+<p>logfile debug-file-name：指定调试信息写入的文件名。</p>
+<p>debug-level value：设置希望的调试级别。</p>
+<p>threads number：这是启动的等待请求的线程数。最少将创建5个线程。</p>
+<p>server-user user：如果设置了该选项，nscd将作为该用户运行，而不是作为root。如果每个用户都使用一个单独的缓存（-S参数），将忽略该选项</p>
+<p>enable-cache service <yes|no>：启用或禁用制定的 服务 缓存。</yes|no></p>
+<p>positive-time-to-live service value：设置 service 在指定缓存中正的项目（成功的请求）的TTL（存活时间）。 Value 以秒为单位。较大的值将增加缓存命中率从而减低平均响应时间，但是将增加缓存的一致性问题。</p>
+<p>negative-time-to-live service value：设置 service 在指定缓存中负的项目（失败的请求）的TTL（存活时间）。 Value 以秒为单位。如果存在由不在系统数据库中的uid（用户ID）（例如在以root身份解包linux 内核源代码时）所拥有的文件将明显改善性能；应该维持较小的值以降低缓存一致性问题。</p>
+<p>suggested-size service value：这是内部散列表的大小， value 应该保持一个素数以达到优化效果。</p>
+<p>check-files service <yes|no>：启用或禁用检查属于指定 服务 的文件的改变。这些文件是 /etc/passwd， /etc/group， 以及/etc/hosts。</yes|no></p>
+<p>nscd 的查看和清除</p>
+<p>nscd缓存DB文件在/var/db/nscd下。</p>
+<p>nscd -g 查看统计信息</p>
+<p>清除 nscd缓存：</p>
+<p>nscd -i passwd<br>nscd -i group<br>nscd -i hosts</p>
+<p>当然也先删除缓存库或者停掉nscd服务：</p>
+<p>rm -f /var/db/nscd/hosts<br>service nscd restart</p>
+<p>或者是直接停止nscd 服务</p>
+<p>service nscd stop。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwvdwc2w003cm4cyrez92vkl" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvhh0mp0020r1cytn74m9sl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -141,10 +183,10 @@
 
 
   
-    <article id="post-cat" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux-Command" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/cat/" class="article-date">
-  <time datetime="2016-12-12T09:20:40.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/Linux-Command/" class="article-date">
+  <time datetime="2016-12-13T01:37:50.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -155,7 +197,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/cat/">cat</a>
+      <a class="article-title" href="/2016/12/13/Linux-Command/">Linux Command</a>
     </h1>
   
 
@@ -163,13 +205,43 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>用命令行往配置文件里插入多行文本</p>
-<p>这种方法非常简单，很多人都知道，下面就是如何用命令行将(&gt;&gt;)多行文本插入一个文件中。这里使用的是“here document”语法，它能让你通过块文本符号来将段落插入文件中，通常用的符合是EOF(意思是 “End Of File”):<br>cat &gt;&gt; path/to/file/to/append-to.txt &lt;&lt; “EOF”<br>export PATH=$HOME/jdk1.8.0_31/bin:$PATH<br>export JAVA_HOME=$HOME/jdk1.8.0_31/<br>EOF<br>两个”EOF“之间的所有内容都会被添加到文件中。</p>
+        <p>不一定刻意去看知识，而是以项目为目标来寻求知识支持,方能学的更快。——仁佳<br>鸟哥的Linux私房菜基础学习篇(第三版)<br>notebook:boot: linux nofb apm=off acpi=off pci=noacpi p125<br>command p149<br>date p151<br>cal p151<br>bc p153<br>man p156<br>info p162<br>nano p164<br>sync p167<br>shutdown p167<br>reboot p168<br>halt p168<br>poweroff p168<br>init p169</p>
+<p>chgrp p181<br>chown p182<br>chmod p183</p>
+<p>cd p202<br>pwd p202<br>mkdir p203<br>rmdir p204<br>$PATH p204<br>ls p207<br>cp p209<br>rm p212<br>mv p213<br>cat p214<br>tac p215<br>nl p215<br>more p216<br>less p217<br>head p218<br>tail p218<br>od p219<br>touch p220<br>umask p223<br>chattr p225<br>lsattr p226<br>SUID p227<br>SGID p228<br>SBIT p228<br>file p230<br>which p230<br>whereis p231<br>locate p232 updatedb<br>find p233</p>
+<p>dumpe2fs p249<br>df p256<br>du p258<br>ln p262<br>fdisk p264<br>partprobe p271<br>mkfs p272<br>mke2fs p273<br>fsck p274<br>badblocks p275<br>mount p275<br>umount p279<br>mknod p281<br>e2label p282<br>tune2fs p282<br>hdparm p283<br>parted p295</p>
+<p>compress p303<br>gzip p305<br>zcat p305<br>bzip2 p306<br>bzcat p306<br>tar p307<br>dump p313<br>restore p316<br>mkisofs p320<br>cdrecord p322<br>dd p325<br>cpio p327</p>
+<p>vim p336<br>Visual Block p343<br>multitask p346<br>~/.vimrc p347<br>~/.viminfo p347<br>dos2unix p349<br>unix2dos p349<br>iconv -o p350<br>iconv -f big5 -t gb2312<br>iconv -f gb2312 -t utf8 logfile.sh -o logfile.sh</p>
+<p>type p359<br>echo p362<br>unset p365<br>env p366<br>set p367<br>PS1 p368<br>export p369<br>locale p371<br>read p373<br>declare p373<br>array p374<br>ulimit p375<br>alias p381<br>unalias p382<br>history p382<br>login p385<br>no-login p386<br>stty p390<br>set p391<br>bash p393<br>pipe p400<br>cut p400<br>grep p401<br>sort p402<br>uniq p403<br>wc p404<br>tee p405<br>tr p405<br>col p406<br>join p407<br>paste p408<br>expand p408<br>split p409<br>xargs p410</p>
+<ul>
+<li>p411</li>
+</ul>
+<p>grep p419<br>characters p427<br>sed p428<br>printf p434<br>awk p435<br>diff p439<br>cmp p440<br>patch p440<br>pr p441</p>
+<p>test p453<br>sh p473</p>
+<p>groups p485<br>newgrp p486<br>useradd p487<br>passwd p491<br>chage p494<br>usermod p495<br>userdel p496<br>finger p497<br>chfn p498<br>chsh p499<br>id p499<br>groupadd p500<br>groupmod p500<br>groupdel p501<br>gpasswd p501<br>setfacl p505<br>getfacl p505<br>su p509<br>sudo p510<br>w p524<br>who p524<br>last p524<br>lastlog p524<br>write p524<br>mesg p525<br>wall p525<br>mail p525<br>pwck p527<br>grpck p527<br>pwconv p527<br>pwunconv p528<br>chpasswd p528<br>grpconv p529</p>
+<p>quotacheck p542<br>quotaon p543<br>quotaoff p543<br>edquota p544<br>quota p545<br>repquota p546<br>warnquota p548<br>setquota p550<br>mdadm p554<br>pvscan p565<br>pvcreate p565<br>vgcreate p566<br>vgscan p566<br>vgdisplay p566<br>vgextend p567<br>lvcreate p568<br>resize2fs p571<br>lvresize p573<br>pvdisplay p574<br>LVM 相关指令汇总与LVM 的关闭 p580</p>
+<p>at p588<br>atq p590<br>atrm p590<br>batch p590<br>crontab p591<br>anacron p597</p>
+<p>&amp; p605<br>[crtl]-z<br>jobs p607<br>fg p607<br>bg p608<br>kill p608<br>nobup p609<br>ps p610<br>ps -l p611<br>ps aux p612<br>top p614<br>pstree p616<br>signal<br>killall p618<br>nice p620<br>renice p621<br>free p622<br>uname p622<br>uptime p623<br>netstat p623<br>dmesg p625<br>vmstat p625<br>fuser p629<br>lsof p630<br>pidof p631<br>SELinux p632<br>getenforce p636<br>sestatus p637<br>setenforce p638<br>chcon p640<br>restorecon p641<br>sealert p642<br>auditd p642<br>audit2why p643<br>seinfo p643<br>sesearch p644<br>getsebool p645<br>setsebool p646<br>semanage p646<br>vsftp p648</p>
+<p>rsync p662<br>chkconfig p669<br>ntsysv p670</p>
+<p>logrotate p689<br>logwatch p695</p>
+<p>runlevel p713<br>depmod p714<br>lsmod p715<br>modinfo p715<br>insmod p716<br>rmmod p716<br>modprobe p716<br>mkinitrd p723<br>grub-install p724</p>
+<p>setup p739<br>lpadmin p757<br>lpr p759<br>lp p760<br>lprm p760<br>lspci p762<br>lsusb p763<br>iostat p763<br>sensors-detect p766<br>sensors p768</p>
+<p>makefile p784<br>Tarball p788<br>ldconfig p796<br>ldd p797<br>md5sum p798</p>
+<p>rpm p807<br>rpmbuild p816<br>yum p824</p>
+<p>startx p840<br>xinit p841<br>gtf p853</p>
+<p>鸟哥的Linux私房菜服务器架设篇(第三版)<br>p116<br>IP Netmask DHCP Gateway</p>
+<p>vim /etc/sysconfig/network-scripts/ifcfg-eth0 p119<br>ifconfig(IP/Netmask) route -n (gateway)</p>
+<p>主机名  /etc/sysconfig/network p122<br>DNS  /etc/resolv.conf  dig www.google.com p121<br>私有 IP 对应的主机名 /etc/hosts</p>
+<p>/etc/init.d/network restart p120</p>
+<p>route p74<br>arp p76<br>dhcp p124<br>adsl p125<br>lsusb p134<br>iwconfig p135<br>/etc/hosts p140</p>
+<p>ifconfig p146<br>ifup p149<br>ifdown p149<br>route p149<br>ip p152<br>dhclient p159<br>ping p159<br>traceroute(ms:tracert) p162<br>netstat p164<br>host p167<br>nslookup p168<br>telnet p169<br>ftp p171<br>lftp p172<br>pidgin p174<br>links p178<br>wget p181<br>tcpdump p182<br>wireshark p186<br>nc p190<br>netcat p190</p>
+<p>yum p221<br>chcon p250</p>
+<p>LAMP 所需软件与其结构 p770<br>yum install httpd mysql mysql-server php php-mysql</p>
+<p>Apache 的基本设定 p773<br>vim /etc/httpd/conf/httpd.conf</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwvdwc2a002im4cy7j0nw5kh" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvhh0mo001xr1cy57lygjk9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -179,10 +251,10 @@
 
 
   
-    <article id="post-Bashmarks" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux监控命令" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/Bashmarks/" class="article-date">
-  <time datetime="2016-12-12T09:19:35.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/linux监控命令/" class="article-date">
+  <time datetime="2016-12-13T01:36:44.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -193,7 +265,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/Bashmarks/">Bashmarks</a>
+      <a class="article-title" href="/2016/12/13/linux监控命令/">linux监控命令</a>
     </h1>
   
 
@@ -201,18 +273,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>你还没有在.bashrc里使用bashmarks吗？还在等待什么？它真的非常有用。它能帮你保持历史操作，跳回到你经常使用的目录。下面是我的配置文件里脚本，但我想上面的链接能提供你更多技巧：</p>
-<h1 id="USAGE"><a href="#USAGE" class="headerlink" title="USAGE:"></a>USAGE:</h1><h1 id="s-bookmarkname-saves-the-curr-dir-as-bookmarkname"><a href="#s-bookmarkname-saves-the-curr-dir-as-bookmarkname" class="headerlink" title="s bookmarkname - saves the curr dir as bookmarkname"></a>s bookmarkname - saves the curr dir as bookmarkname</h1><h1 id="g-bookmarkname-jumps-to-the-that-bookmark"><a href="#g-bookmarkname-jumps-to-the-that-bookmark" class="headerlink" title="g bookmarkname - jumps to the that bookmark"></a>g bookmarkname - jumps to the that bookmark</h1><h1 id="g-b-TAB-tab-completion-is-available"><a href="#g-b-TAB-tab-completion-is-available" class="headerlink" title="g b[TAB] - tab completion is available"></a>g b[TAB] - tab completion is available</h1><h1 id="l-list-all-bookmarks"><a href="#l-list-all-bookmarks" class="headerlink" title="l - list all bookmarks"></a>l - list all bookmarks</h1><h1 id="save-current-directory-to-bookmarks"><a href="#save-current-directory-to-bookmarks" class="headerlink" title="save current directory to bookmarks"></a>save current directory to bookmarks</h1><p>touch ~/.sdirs<br>function s {<br>cat ~/.sdirs | grep -v “export DIR<em>$1=” &gt; ~/.sdirs1<br>mv ~/.sdirs1 ~/.sdirs<br>echo “export DIR</em>$1=$PWD” &gt;&gt; ~/.sdirs<br>}</p>
-<h1 id="jump-to-bookmark"><a href="#jump-to-bookmark" class="headerlink" title="jump to bookmark"></a>jump to bookmark</h1><p>function g {<br>source ~/.sdirs<br>cd $(eval $(echo echo $(echo \$DIR_$1)))<br>}</p>
-<h1 id="list-bookmarks-with-dirnam"><a href="#list-bookmarks-with-dirnam" class="headerlink" title="list bookmarks with dirnam"></a>list bookmarks with dirnam</h1><p>function l {<br>source ~/.sdirs<br>env | grep “^DIR_” | cut -c5- | grep “^.*=”<br>}</p>
-<h1 id="list-bookmarks-without-dirname"><a href="#list-bookmarks-without-dirname" class="headerlink" title="list bookmarks without dirname"></a>list bookmarks without dirname</h1><p>function <em>l {<br>source ~/.sdirs<br>env | grep “^DIR</em>“ | cut -c5- | grep “^.*=” | cut -f1 -d “=”<br>}</p>
-<h1 id="completion-command-for-g"><a href="#completion-command-for-g" class="headerlink" title="completion command for g"></a>completion command for g</h1><p>function _gcomp {<br>local curw<br>COMPREPLY=()<br>curw=${COMP_WORDS[COMP_CWORD]}<br>COMPREPLY=($(compgen -W ‘<code>_l</code>‘ – $curw))<br>return 0<br>}</p>
-<h1 id="bind-completion-command-for-g-to-gcomp"><a href="#bind-completion-command-for-g-to-gcomp" class="headerlink" title="bind completion command for g to _gcomp"></a>bind completion command for g to _gcomp</h1><p>complete -F _gcomp g</p>
+        <p><a href="http://www.multicians.org/" target="_blank" rel="external">http://www.multicians.org/</a></p>
+<p>/etc/init.d/network restart<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0</p>
+<p>[root@localhost ~]# dmidecode | grep “Product Name”<br>        Product Name: VirtualBox<br>        Product Name: VirtualBox</p>
+<p>[root@localhost ~]# dmidecode | grep -i ‘serial number’ | grep CN</p>
+<p>[root@localhost ~]# grep name /proc/cpuinfo<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz</p>
+<p>[root@localhost ~]# grep “physical id” /proc/cpuinfo<br>physical id     : 0<br>physical id     : 0</p>
+<p>[root@localhost ~]# grep MemTotal /proc/meminfo<br>MemTotal:         244212 kB</p>
+<p>[root@localhost ~]# cat /etc/redhat-release<br>CentOS release 6.4 (Final)<br>[root@localhost ~]# uname -r<br>2.6.32-358.el6.x86_64<br>[root@localhost ~]# uname -m<br>x86_64<br>[root@localhost ~]# uname -a<br>Linux localhost.localdomain 2.6.32-358.el6.x86_64 #1 SMP Fri Feb 22 00:31:26 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux</p>
+<p>[root@localhost ~]# lsb_release -a<br>-bash: lsb_release: command not found</p>
+<p>解决方法：yum install redhat-lsb -y</p>
+<p>[root@localhost ~]# lsb_release -a<br>LSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch<br>Distributor ID: CentOS<br>Description:    CentOS release 6.4 (Final)<br>Release:        6.4<br>Codename:       Final</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/i18n</p>
+<p>LANG=”en_US.UTF-8”<br>SYSFONT=”latarcyrheb-sun16”</p>
+<p>LANG=en_US</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/Bashmarks/" data-id="ciwvdwbz60001m4cy0b00pxiz" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvhh0nf0036r1cyuqtk1lwz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -222,10 +301,10 @@
 
 
   
-    <article id="post-使用Linux命令行测试网速" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-我使用过的Linux命令之telnet" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/使用Linux命令行测试网速/" class="article-date">
-  <time datetime="2016-12-12T09:17:25.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/我使用过的Linux命令之telnet/" class="article-date">
+  <time datetime="2016-12-13T01:35:30.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -236,7 +315,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/使用Linux命令行测试网速/">使用Linux命令行测试网速</a>
+      <a class="article-title" href="/2016/12/13/我使用过的Linux命令之telnet/">我使用过的Linux命令之telnet</a>
     </h1>
   
 
@@ -244,25 +323,47 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当发现上网速度变慢时，人们通常会先首先测试自己的电脑到网络服务提供商（通常被称为“最后一公里”）的网络连接速度。在可用于测试宽带速度的网站中，Speedtest.net也许是使用最广泛的。</p>
-<p>Speedtest.net的工作原理并不复杂：它在你的浏览器中加载JavaScript代码并自动检测离你最近的Speedtest.net服务器，然后向服务器发送HTTP GET and POST请求来测试上行/下行网速。</p>
-<p>但在没有图形化桌面时（例如，当你通过命令行远程登陆服务器或使用没有图形界面的操作系统），基于flash、界面友好的Speedtest.net将无法工作。幸运的是，Speedtest.net提供了一个命令行版本——speedtest-cli。下面我将向你演示如何在Linux的命令行中使用speedtest-cli来测试宽带连接速度。</p>
-<p>安装speedtest-cli</p>
-<p>speedtest-cli是一个用Python编写的轻量级Linux命令行工具，在Python2.4至3.4版本下均可运行。它基于Speedtest.net的基础架构来测量网络的上/下行速率。安装speedtest-cli很简单——只需要下载其Python脚本文件。</p>
-<p>$ wget <a href="https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py" target="_blank" rel="external">https://raw.github.com/sivel/speedtest-cli/master/speedtest_cli.py</a><br>$ chmod a+rx speedtest_cli.py<br>$ sudo mv speedtest_cli.py /usr/local/bin/speedtest-cli<br>$ sudo chown root:root /usr/local/bin/speedtest-cli</p>
-<p>使用speedtest-cli测试网速</p>
-<p>使用speedtest-cli命令也很简单，它不需要任何参数即可工作。</p>
-<p>$ speedtest-cli</p>
-<p>输入这个命令后，它会自动发现离你最近的Speedtest.net服务器（地理距离），然后打印出测试的网络上/下行速率。</p>
-<p>如果你愿意分享测试结果，你可以使用参数“–share”。它将会把你的测试结果上传到Speedtest.net服务器并以图形的方式分享给其他人。</p>
-<p>下面是一幅由speedtest-cli自动生成并上传到Speedtest.net的测试结果：</p>
-<p>如果你对目前所有可用的Speedtest.net服务器感兴趣，你可以使用参数“–list”。它会打印出所有的Speedtest.net服务器（按照离你的地理距离由近及远排序）。</p>
-<p>在上面的列表中，每个服务器的前面都有一个与其对应的ID。如果想使用指定的服务器来测试你的网速，你只需要在speedtest-cli命令后指定其ID即可。例如，如果想使用在Washington DC的服务器，你只需要指定相对应的服务器ID（如935）。</p>
+        <p>我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具<br>用途说明</p>
+<p>　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上使用telnet程序，用它连接到服务器。终端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接 在服务器的控制台上输入一样。可以在本地就能控制服务器。要开始一个 telnet会话，必须输入用户名和密码来登录服务器。Telnet是常用的远程控制Web服务器的方法。<br>　　但是，telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式了。但仍然有很多别的系统可能采用了telnet方式来提供远程登录，因此弄清楚telnet客户端的使用方式仍是很有必要的。<br>　　telnet命令还可做别的用途，比如确定远程服务的状态，比如确定远程服务器的某个端口是否能访问。<br>常用参数</p>
+<p>格式：telnet hostname<br>远程登录到hostname指定的机器，采用默认端口23。</p>
+<p>格式：telnet hostname port<br>远程登录到hostname指定的机器，采用端口port。</p>
+<p>在连接成功之后的使用过程中，还可以使用Ctrl+]来进入命令模式。<br>help 帮助<br>q 退出，关闭telnet连接。</p>
+<p>使用示例</p>
+<p>示例一 远程服务器无法访问的情形</p>
+<p>[root@new55 ~]# telnet 192.168.6.6<br>Trying 192.168.6.6…<br>telnet: connect to address 192.168.6.6: No route to host<br>telnet: Unable to connect to remote host: No route to host<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址是否正确？<br>（2）确认ip地址对应的主机是否已经开机？<br>（3）如果主机已经启动，确认路由设置是否设置正确？（使用route命令查看）<br>（4）如果主机已经启动，确认主机上是否开启了telnet服务？（使用netstat命令查看，TCP的23端口是否有LISTEN状态的行）<br>（5）如果主机已经启动telnet服务，确认防火墙是否放开了23端口的访问？（使用iptables-save查看）</p>
+<p>示例二 域名无法解析的情形</p>
+<p>[root@new55 ~]# telnet www.11111.com<br>www.11111.com/telnet: Name or service not known<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认域名是否正确？<br>（2）确认本机的域名解析有关的设置是否正确？（/etc/resolv.conf中nameserver的设置是否正确，如果没有，可以使用nameserver 8.8.8.8）<br>（3）确认防火墙是否放开了UDP53端口的访问？（DNS使用UDP协议，端口53，使用iptables-save查看）</p>
+<p>示例三 目标主机没有开启telnet服务的情形</p>
+<p>[root@new55 ~]# telnet www.163.com<br>Trying 58.242.249.26…<br>telnet: connect to address 58.242.249.26: Connection refused<br>telnet: Unable to connect to remote host: Connection refused<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址或者主机名是否正确？<br>（2）确认端口是否正确，是否默认的23端口？</p>
+<p>示例四 怎样启动telnet服务？（不推荐开放telnet服务，要使用更安全的ssh服务）</p>
+<p>启动telnet服务的步骤：<br>（1）到 /etc/xinetd.d 下打开 telnet 文件，将其中的 disable = yes 改成 disable = no，保存。<br>（2）重新启动xinetd服务：service xinetd restart<br>这样就可以允许非root用户从远程访问了。注意：root账号不允许登录。</p>
+<p>示例五 正常telnet的情形</p>
+<p>一般情况下不允许root从远程登录，可以先用普通账号登录，然后再用su -切到root用户。<br>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: root<br>Password:<br>Login incorrect</p>
+<p>login: root<br>Password:<br>Login incorrect</p>
+<p>login: web<br>Password:<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ su -<br>Password:<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]# exit<br>logout</p>
+<p>[web@localhost web]$ </p>
+<p>[web@localhost web]$<br>[web@localhost web]$ exit<br>logout</p>
+<p>Connection closed by foreign host.<br>[root@new55 ~]#</p>
+<p>示例六 使用telnet来测试web服务器</p>
+<p>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0 </p>
+<p>HTTP/1.0 403 Forbidden<br>Server: Cdn Cache Server V2.0<br>Date: Tue, 07 Dec 2010 04:46:12 GMT<br>Content-Type: text/html<br>Content-Length: 1156<br>Expires: Tue, 07 Dec 2010 04:46:12 GMT<br>X-Via: 1.0 hf44:8104 (Cdn Cache Server V2.0)<br>Connection: close</p>
+<p>&lt; !DOCTYPE HTML PUBLIC “-//W3C//DTD HTML 4.01 Transitional//EN” “<a href="http://www.w3.org/TR/html4/loose.dtd&quot;&gt;" target="_blank" rel="external">http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</a><br>&lt; HTML&gt;<head><br>&lt; META HTTP-EQUIV=”Content-Type” CONTENT=”text/html; charset=gb2312”&gt;<br>&lt; TITLE&gt;错误：您所请求的网址（URL）无法获取<br>&lt; STYLE type=”text/css”&gt;<!--BODY{background-color:#ffffff;font-family:verdana,sans-serif}PRE{font-family:sans-serif}--><br>&lt; /HEAD&gt;</head><body><br>&lt; H1&gt;错误<br>&lt; H2&gt;您所请求的网址（URL）无法获取<br>&lt; HR noshade size=”1px”&gt;<br>&lt; P&gt;<br>当尝试读取以下网址（URL）时：</body></p>
+<a href="http://58.242.249.44/" target="_blank" rel="external">http://58.242.249.44/</a><br>&lt; P&gt;<br>发生了下列的错误：<br><ul><br>&lt; LI&gt;<br>&lt; STRONG&gt;<br>Access Denied.<br>&lt; BR&gt;拒绝访问<br><br>&lt; P&gt;<br>Access control configuration prevents your request from<br>being allowed at this time.  Please contact your service provider if<br>you feel this is incorrect.<br>&lt; BR&gt;<br>当前的存取控制设定禁止您的请求被接受，<br>如果您觉得这是错误的，请与您网路服务的提供者联系。<br></ul><br>&lt; /P&gt;<br>&lt; P&gt;本缓存服务器管理员：<a href="mailto:cdnsupport@chinanetcenter.com" target="_blank" rel="external">cdnsupport@chinanetcenter.com</a>
+
+
+<p>&lt; BR clear=”all”&gt;<br>&lt; HR noshade size=”1px”&gt;<br>&lt; ADDRESS&gt;<br>Generated Tue, 07 Dec 2010 04:46:12 GMT by cache.51cdn.com (Cdn Cache Server V2.0)<br>&lt; /ADDRESS&gt;<br>&lt; /BODY&gt;<br>Connection closed by foreign host.<br>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0<br>Host: www.163.com</p>
+<p>这里会输出响应头和首页html文本，省略。</p>
+<p>[root@new55 ~]#</p>
+<p>示例七 进入telnet命令模式</p>
+<p>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: web<br>Password:<br>Last login: Tue Oct 19 21:53:15 from 192.168.6.55<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; help<br>Commands may be abbreviated.  Commands are:</p>
+<p>close           close current connection<br>logout          forcibly logout remote user and close the connection<br>display         display operating parameters<br>mode            try to enter line or character mode (‘mode ?’ for more)<br>open            connect to a site<br>quit            exit telnet<br>send            transmit special characters (‘send ?’ for more)<br>set             set operating parameters (‘set ?’ for more)<br>unset           unset operating parameters (‘unset ?’ for more)<br>status          print status information<br>toggle          toggle operating parameters (‘toggle ?’ for more)<br>slc             change state of special charaters (‘slc ?’ for more)<br>auth            turn on (off) authentication (‘auth ?’ for more)<br>encrypt         turn on (off) encryption (‘encrypt ?’ for more)<br>forward         turn on (off) credential forwarding (‘forward ?’ for more)<br>z               suspend telnet<br>!               invoke a subshell<br>environ         change environment variables (‘environ ?’ for more)<br>?               print help information<br>telnet&gt; display<br>will flush output when sending interrupt characters.<br>won’t send interrupt characters in urgent mode.<br>won’t send login name and/or authentication information.<br>won’t skip reading of ~/.telnetrc file.<br>won’t map carriage return on output.<br>will recognize certain control characters.<br>won’t turn on socket level debugging.<br>won’t print hexadecimal representation of network traffic.<br>won’t print user readable output for “netdata”.<br>won’t show option processing.<br>won’t print hexadecimal representation of terminal traffic.</p>
+<p>echo            [^E]<br>escape          [^]]<br>rlogin          [off]<br>tracefile       “(standard output)”<br>flushoutput     [^O]<br>interrupt       [^C]<br>quit            [^]<br>eof             [^D]<br>erase           [^?]<br>kill            [^U]<br>lnext           [^V]<br>susp            [^Z]<br>reprint         [^R]<br>worderase       [^W]<br>start           [^Q]<br>stop            [^S]<br>forw1           [off]<br>forw2           [off]<br>ayt             [^T]<br>     DO   ECHO<br>resp WILL_WONT ECHO: 1<br>want WONT ECHO<br>     DO   SUPPRESS GO AHEAD<br>     DO   STATUS<br>     WILL TERMINAL TYPE<br>     WILL NAWS<br>     WILL TSPEED<br>     WILL LFLOW<br>resp WILL_WONT XDISPLOC: 1<br>want WONT XDISPLOC<br>     WILL NEW-ENVIRON</p>
+<p>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; q<br>Connection closed.<br>[root@new55 ~]#</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/使用Linux命令行测试网速/" data-id="ciwvdwc36003nm4cyxfd8kp1o" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvhh0og004vr1cy8fhkk4ul" class="article-share-link">Share</a>
       
       
     </footer>
@@ -272,10 +373,10 @@
 
 
   
-    <article id="post-给rm命令加上回收站功能" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux定时任务crond那些事" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/给rm命令加上回收站功能/" class="article-date">
-  <time datetime="2016-12-12T09:11:01.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/linux定时任务crond那些事/" class="article-date">
+  <time datetime="2016-12-13T01:34:03.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -286,7 +387,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/给rm命令加上回收站功能/">给rm命令加上回收站功能</a>
+      <a class="article-title" href="/2016/12/13/linux定时任务crond那些事/">linux定时任务crond那些事</a>
     </h1>
   
 
@@ -294,26 +395,54 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>给rm命令加上回收站功能</p>
-<p>背景：<br>在群里，总会有人聊到曾经做过的最坑的事情，其中当然少不了rm命令，比如最出名的rm -rf /*命令。<br>受HDFS回收站机制的启发，我即兴的写了一个shell脚本来实现类似的功能。</p>
-<p>具体配置：<br>[dong@localhost ~]$ sudo touch /usr/bin/delete<br>[dong@localhost ~]$ sudo chmod +x /usr/bin/delete<br>[dong@localhost ~]$ sudo vim /usr/bin/delete</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done</p>
-<p>#!/bin/bash</p>
-<p>trash_dir=${HOME}/.Trash/$(date +%Y%m%d%H%M%S)</p>
-<p>function move_item(){<br>  item=$1<br>  full_path=$2<br>  full_dir=$(dirname ${full_path})<br>  mkdir -p ${trash_dir}${full_dir}<br>  mv ${item} ${trash_dir}${full_path}<br>  if [[ $? -eq 0 ]]; then<br>    echo “Moved ${item} to ${trash_dir}${full_path}”<br>  fi<br>}</p>
-<p>if [[ $# -eq 0 ]] || $(echo “$1” |grep -Ewq ‘-h|--help’); then<br>  echo “${0} [-f] [*|FILE]”<br>  exit 2<br>fi</p>
-<p>for item in $@; do<br>  if $(echo ${item} |grep -vq ‘^-‘); then<br>    if $(echo ${item} |grep -q ‘^/‘); then<br>      full_path=${item}<br>    else<br>      full_path=$(pwd)/${item}<br>    fi<br>    if $(echo $@ |grep -Ewq ‘-f|-rf|-fr’); then<br>      move_item ${item} ${full_path}<br>    else<br>      echo -n “Move ${item} to ${trash_dir}${full_path}? [y/n] “<br>      read yorn<br>      if $(echo ${yorn} |grep -Ewq ‘y|Y|yes|YES’); then<br>        move_item ${item} ${full_path}<br>      fi<br>    fi<br>  fi<br>done<br>[dong@localhost ~]$ mkdir tmp<br>[dong@localhost ~]$ cd tmp<br>[dong@localhost tmp]$ mkdir 1 2 3<br>[dong@localhost tmp]$ echo 1 &gt; 1/1.txt<br>[dong@localhost tmp]$ echo 2 &gt; 2/2.txt<br>[dong@localhost tmp]$ echo 3 &gt; 3/3.txt<br>[dong@localhost tmp]$ touch a b c<br>[dong@localhost tmp]$ ln -s a d<br>[dong@localhost tmp]$ delete 1</p>
-<p>1<br>Move 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1? [y/n] y<br>2<br>Moved 1 to /home/dong/.Trash/20160415114210/home/dong/tmp/1<br>[dong@localhost tmp]$ delete -f *</p>
-<p>1<br>Moved 2 to /home/dong/.Trash/20160415114217/home/dong/tmp/2<br>2<br>Moved 3 to /home/dong/.Trash/20160415114217/home/dong/tmp/3<br>3<br>Moved a to /home/dong/.Trash/20160415114217/home/dong/tmp/a<br>4<br>Moved b to /home/dong/.Trash/20160415114217/home/dong/tmp/b<br>5<br>Moved c to /home/dong/.Trash/20160415114217/home/dong/tmp/c<br>6<br>Moved d to /home/dong/.Trash/20160415114217/home/dong/tmp/d<br>move, rm</p>
+        <p>1.定时任务crond介绍<br>1.1 crond是什么<br>crond是linux系统中用来定期执行命令或指定程序任务的一种服务或软件。<br>特殊需求：（秒级别）crond服务就无法搞定了，一般工作中写脚本守护进程执行。<br>1.2 为什么要使用crond定时任务<br>linux系统的定时任务crond,相当于我们平时生活中的闹钟的功能。可以满足周期性执行任务的需求。<br>1.3 不同系统的定时任务和种类<br>1.3.1 windows 7 系统的定时任务<br>开始→所有程序→附件→系统工具→选择任务计划程序<br>1.3.2 linux系统的定时任务<br>linux系统中定时任务调度的工作可以分为以下两个情况：<br>① linux系统自身定期执行的任务工作：系统周期性执行的任务工作，如轮询系统日志，备份系统数据，清理系统缓存等。<br>centos5.X例：<br>[root@CentOS5 log]# ll messages<em><br>-rw——- 1 root root 372258 Mar 14 20:48 messages<br>-rw——- 1 root root 349535 Nov 11 18:13 messages.1<br>提示：centos 6.4日志轮询结尾是按时间了。<br>centos6.X例：<br>[root@CentOS6 log]# ll messages</em><br>-rw——- 1 root root  1591 3月  25 21:57 messages<br>-rw——- 1 root root 78304 3月   3 20:40 messages-20140303<br>-rw——- 1 root root 78050 3月   8 19:42 messages-20140311<br>-rw——- 1 root root   745 3月  18 00:46 messages-20140318<br>-rw——- 1 root root 77232 3月  22 21:20 messages-20140325</p>
+<p>② 用户执行的任务工作：某个用户或系统管理员定期要做的任务工作，例如每隔5分钟和互联网上时间服务器进行时间同步，每天晚上0点备份站点数据及数据库数据，一般这些工作需要由每个用户自行设置才行。<br>例：<br>[root@CentOS6 log]# crontab -l</p>
+<p>#time sync by lee at 2014-1-14<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate  time.windows.com &gt;/dev/null  2&gt;&amp;1</p>
+<p>2.定时任务crond使用说明<br>[root@CentOS6 log]# crontab –help<br>crontab：无效选项 – -<br>crontab: usage error: unrecognized option<br>usage:  crontab [-u user] file<br>        crontab [-u user] [ -e | -l | -r ]<br>                (default operation is replace, per 1003.2)<br> -e      (edit user’s crontab)<br> -l      (list user’s crontab)<br>        -r      (delete user’s crontab)<br>        -i      (prompt before deleting user’s crontab)<br>        -s      (selinux context)</p>
+<p>2.1 指令说明<br>通过crontab我们可以在固定的间隔时间执行指定的系统指令或script脚本。时间间隔的单位是分钟，小时，日，月，周及以上的任意组合（注意：日和周不要组合）<br>2.2 使用者权限及定时任务文件<br>文件<br>说明<br>/etc/cron.deny<br>该文件中所列用户不允许使用crontab命令。<br>/etc/cron.allow<br>该文件中所列用户允许使用crontab命令，优先于/etc/cron.deny<br>/var/spool/cron<br>所有用户crontab配置文件默认都存放在此目录，文件名以用户名命名。<br>2.3 指令选项说明表<br>参数<br>含义<br>指定示例<br>-l（字母）<br>查看crontab文件内容<br>crontab -l<br>-e<br>编辑crontab文件内容<br>crontab -e<br>-i<br>删除crontab文件内容，删除前会提示确认<br>crontab -ri<br>-r<br>删除crontab文件内容<br>crontab -r<br>-u user<br>指定使用的用户执行任务<br>crontab -u lee -l<br>提示：crontab{-l |-e}实际上就是在操作/var/spool/cron/当前用户这样的文件。<br>注：<br>crontab -e<br>/var/spool/cron/root<br>前者会检查语法，而后者不会。<br>visudo<br>/etc/sudoers<br>前者会检查语法，而后者不会。</p>
+<p>2.4指令的使用格式<br>默认情况下，当用户建立定时任务规则后，该规则记录对应的配置文件会存在于/var/spool/cron中，其crontab配置文件对应的文件名与登录的用户名一致。如：root用户的定时任务配置文件为/var/spool/cron/root。<br>crontab用户的定时任务一般分为6段（空格分隔，系统的定时任务则/etc/crontab分为7段），其中前五段位时间设定段，第六段为所要执行的命令或脚本任务段。<br>2.4.1 crontab基本格式</p>
+<ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li><ul>
+<li>cmd<br>提示：<br>① cmd为要执行的命令或脚本，例如/bin/sh  /server/scripts/lee.sh.<br>② 每个段之间必须要有空格。<br>2.4.2 crontab语法格式中时间段的含义表<br>段<br>含义<br>取值范围<br>第一段<br>代表分钟<br>00-59<br>第二段<br>代表小时<br>00-23<br>第三段<br>代表日期<br>01-31<br>第四段<br>代表月份<br>01-12<br>第五段<br>代表星期<br>0-7（0和7都代表星期日）<br>2.4.3 crontab语法格式中特殊符号的含义表<br>特殊符号<br>含义<br><em>
+</em>号表示任意时间都，就是“每”的意思，举例：如00 01 <em> </em> <em> cmd表示每月每周每日的凌晨1点执行cmd任务。<br>-<br>减号，表示分隔符，表示一个时间范围段，如17-19点，每小时的00分执行任务。00 17-19 </em> <em> </em> cmd。就是17,18,19点整点分别执行的意思。<br>，<br>逗号，表示分隔时间段的意思。30 17,18,19 <em> </em> <em> cmd 表示每天17,18,19点的半点执行cmd。也可以和“-”结合使用，如： 30 3-5,17-19 </em> <em> </em> cmd。<br>/n<br>n代表数字，即”每隔n单位时间”,例如：每10分钟执行一次任务可以写 <em>/10 </em> <em> </em> <em> cmd,其中 </em>/10，*的范围是0-59，也可以写成0-59/10。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>3.书写crond定时任务7个基本要领<br>3.1 为定时任务规则加必要的注释<br>加了注释，就知道定时任务运行的是什么作业，以防以后作业混乱。这是个好习惯和规范。<br>[root@angelT ~]# crontab -l</p>
+<p>#time sync by lee at 2014-1-14<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate  time.windows.com &gt;/dev/null  2&gt;&amp;1</p>
+<p>3.2 定时任务命令或程序最好写到脚本里执行<br>[root@angelT ~]# crontab -l</p>
+<p>#backup www to /backup<br>00 00 <em> </em> * /bin/sh /server/scripts/www_bak.sh &gt;/dev/null  2&gt;&amp;1</p>
+<p>3.3定时任务执行的脚本要规范路径，如：/server/scripts<br>[root@angelT ~]# crontab -l</p>
+<p>#backup www to /backup<br>00 00 <em> </em> * /bin/sh /server/scripts/www_bak.sh &gt;/dev/null  2&gt;&amp;1</p>
+<p>3.4执行shell脚本任务时前加/bin/sh<br>执行定时任务时，如果是执行脚本，尽量在脚本前面带上/bin/sh命名，否则有可能因为忘了为脚本设定执行权限，从而无法完成任务。<br>[root@angelT ~]# crontab -l</p>
+<p>#backup www to /backup<br>00 00 <em> </em> * /bin/sh /server/scripts/www_bak.sh &gt;/dev/null  2&gt;&amp;1</p>
+<p>3.5 定时任务结尾加 &gt;/dev/null 2&gt;&amp;1<br>[root@angelT ~]# crontab -l</p>
+<p>#backup www to /backup<br>00 00 <em> </em> * /bin/sh /server/scripts/www_bak.sh &gt;/dev/null  2&gt;&amp;1<br>3.5.1 有关/dev/null的说明<br>/dev/null为特殊的字符设备文件，表示黑洞设备或空设备。<br>[root@angelT ~]# ll /dev/null<br>crw-rw-rw- 1 root root 1, 3 3月  26 01:10 /dev/null<br>3.5.2 有关重定向的说明</p>
+<blockquote>
+<p>或1&gt;   输出重定向：把前面输出的东西输入到后边的文件中，会删除文件原有内容。</p>
+<blockquote>
+<p>或1&gt;&gt;追加重定向：把前面输出的东西追加到后边的文件中，不会删除文件原有内容。<br>&lt;或<0 2="" 输入重定向：输入重定向用于改变命令的输入，指定输入内容，后跟文件名。="" <<或<<0输入重定向：后跟字符串，用来表示“输入结束”，也可用ctrl+d来结束输入。="">       错误重定向：把错误信息输入到后边的文件中，会删除文件原有内容。<br>2&gt;&gt;     错误追加重定向：把错误信息追加到后边的文件中，不会删除文件原有内容。<br>标准输入（stdin）：代码为0，使用&lt;或&lt;&lt;。<br>标准输出（stdout）:代码为1，使用&gt;或&gt;&gt;。正常的输出。<br>标准错误输出（sederr）：代码为2，使用2&gt;或2&gt;&gt;。<br>特殊：<br>2&gt;&amp;1就是把标准错误重定向到标准输出（&gt;&amp;）。<br>/dev/null 2&gt;&amp;1 等价于 1&gt;/dev/null  2&gt;/dev/null<br>3.5.3 &gt;/dev/null 2&gt;&amp;1的作用<br>如果定时任务规范结尾不加 &gt;/dev/null 2&gt;&amp;1,很容易导致硬盘inode空间被占满，从而系统服务不正常（var/spool/clientmqueue邮件临时队列目录，垃圾文件存放于此，如果是centos 6.4系统，默认不装sendmail服务，所以不会有这个目录。）</0></p>
+</blockquote>
+</blockquote>
+<p>3.6 在指定用户下执行相关定时任务<br>这里要特别注意不同用户的环境变量问题，如果是调用了系统环境变量/etc/profile，最好在程序脚本中将用到的环境变量重新export下。</p>
+<p>3.7生产任务程序不要随意打印输出信息<br>在调试好脚本程序后，应尽量把DEBUG及命令输出的内容信息屏蔽掉，如果确实需要输出日志，可定向到日志文件里，避免产生系统垃圾。</p>
+<p>配置定时任务规范操作过程<br>①首先要在命令行操作成功，然后复制成功的命令到脚本里，在各个细小环境减少出错的机会。<br>②然后测试小本，测试成功后，复制脚本的规范路径到定时任务配置里，不要手敲。<br>③先在测试环境下测试，然后正式环境规范部署。</p>
+<p>4.生产场景如何调试crond定时任务<br>规范的公司开发和运维人员操作流程：个人的开发配置环境–&gt;办公室的测试环境–&gt;idc机房的测试环境–&gt;idc机房的正式环境。<br>4.1 增加执行频率调试任务<br>在调试时，把任务执行频率调快一点，看能不能正常执行，如果正常，那就没问题了，再改成需要的任务的执行时间。<br>注意：有些任务时不允许频繁执行的，例如：定时往数据库里插入数据，这样的任务要在测试机上测试好，然后正式线上出问题的机会就少了。</p>
+<p>4.2调整系统时间调试任务<br>用正确的执行任务的时间，设置完成后，可以修改下系统当前时间，改成任务执行时间的前几分钟来测试（或者重启定时任务服务）<br>4.3通过日志输出调试定时任务<br>在脚本中加入日志输出，然后把输出打到指定的日志中，然后观察日志内容的结果，看是否正确执行。<br>4.4注意一些任务命令带来的问题<br>注意： <em> </em> <em> </em> * echo “==”&gt;&gt;/tmp/lee.log &gt;/dev/null 2&gt;&amp;1 这里隐藏的无法正确执行的任务配置，原因是前面多了&gt;&gt;,或者去掉结尾的 &gt;/dev/null 2&gt;&amp;1。<br>4.5 注意环境变量导致的定时任务故障<br>例如：在调试java程序任务的时候，注意环境变量，把环境变量的定义加到脚本里。<br>4.6通过定时任务日志调试定时任务<br>[root@angelT ~]# tail -f /var/log/cron<br>Mar 26 15:55:01 angelT CROND[3415]: (ida) CMD (/usr/sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1)<br>Mar 26 15:55:01 angelT CROND[3416]: (root) CMD (/usr/sbin/ntpdate  time.windows.com &gt;/dev/null  2&gt;&amp;1)<br>Mar 26 16:00:01 angelT CROND[3422]: (root) CMD (/usr/sbin/ntpdate  time.windows.com &gt;/dev/null  2&gt;&amp;1)<br>Mar 26 16:00:01 angelT CROND[3423]: (root) CMD (/usr/lib64/sa/sa1 1 1)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/给rm命令加上回收站功能/" data-id="ciwvdwc47004tm4cyntvhadyj" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvhh0ne0034r1cytxwf2ejw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -323,10 +452,10 @@
 
 
   
-    <article id="post-linux的ulimit各种限制之深入分析" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-cp复制目录时排除一个或者多个目录的方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/linux的ulimit各种限制之深入分析/" class="article-date">
-  <time datetime="2016-12-12T09:09:27.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" class="article-date">
+  <time datetime="2016-12-13T01:30:39.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -337,7 +466,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/linux的ulimit各种限制之深入分析/">linux的ulimit各种限制之深入分析</a>
+      <a class="article-title" href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/">cp复制目录时排除一个或者多个目录的方法</a>
     </h1>
   
 
@@ -345,194 +474,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>一般可以通过ulimit命令或编辑/etc/security/limits.conf重新加载的方式使之生效</p>
-<p>通过ulimit比较直接,但只在当前的session有效,limits.conf中可以根据用户和限制项使用户在下次登录中生效.</p>
-<p>对于limits.conf的设定是通过pam_limits.so的加载生效的,比如/etc/pam.d/sshd,这样通过ssh登录时会加载limit.<br>又或者在/etc/pam.d/login加载生效.</p>
-<p>下面将对各种限制进行分析</p>
-<p>core file size          (blocks, -c) 0<br>data seg size           (kbytes, -d) unlimited<br>scheduling priority             (-e) 20 a<br>file size               (blocks, -f) unlimited a<br>pending signals                 (-i) 16382<br>max locked memory       (kbytes, -l) 64 a<br>max memory size         (kbytes, -m) unlimited a<br>open files                      (-n) 1024 a<br>pipe size            (512 bytes, -p) 8<br>POSIX message queues     (bytes, -q) 819200<br>real-time priority              (-r) 0<br>stack size              (kbytes, -s) 8192<br>cpu time               (seconds, -t) unlimited<br>max user processes              (-u) unlimited<br>virtual memory          (kbytes, -v) unlimited<br>file locks                      (-x) unlimited</p>
-<p>一)限制进程产生的文件大小(file size)</p>
-<p>先来说说ulimit的硬限制和软限制<br>硬限制用-H参数,软限制用-S参数.<br>ulimit -a看到的是软限制,通过ulimit -a -H可以看到硬限制.<br>如果ulimit不限定使用-H或-S,此时它会同时把两类限制都改掉的.<br>软限制可以限制用户/组对资源的使用,硬限制的作用是控制软限制.<br>超级用户和普通用户都可以扩大硬限制,但超级用户可以缩小硬限制,普通用户则不能缩小硬限制.<br>硬限制设定后,设定软限制时只能是小于或等于硬限制.</p>
-<p>下面的测试应用于硬限制和软限制.</p>
-<p>1)软限制不能超过硬限制<br>在超级用户下,同时修改硬/软限制,使当前会话只能建100KB的文件<br>ulimit -f 100</p>
-<p>查看当前创建文件大小的硬限制为100KB<br>ulimit -H -f<br>100</p>
-<p>此时限制当前会话的软限制为1000KB,出现不能修改的报错<br>ulimit -S -f 1000<br>-bash: ulimit: file size: cannot modify limit: Invalid argument</p>
-<p>2)硬限制不能小于软限制<br>在超级用户下,用户查看当前的软限制,此时为unlmiited<br>ulimit -S -f<br>unlimited</p>
-<p>此时修改当前会话创建文件大小的硬限制为1000KB,出现不能修改的报错,说明硬限制不能小于软限制<br>ulimit -H -f 1000<br>-bash: ulimit: file size: cannot modify limit: Invalid argument</p>
-<p>如果我们把创建文件大小的软限制改为900KB,此后就可以修改它的硬限制了<br>ulimit -S -f 900<br>ulimit -H -f 1000</p>
-<p>3)普通用户只能缩小硬限制,超级用户可以扩大硬限制</p>
-<p>用普通用户进入系统<br>su – test</p>
-<p>查看创建文件大小的硬限制<br>ulimit -H -f<br>unlimited</p>
-<p>此时可以缩小该硬限制<br>ulimit -H -f 1000</p>
-<p>但不能扩大该硬限制<br>ulimit -H -f 10000</p>
-<p>4)硬限制控制软限制,软限制来限制用户对资源的使用</p>
-<p>用软限制限制创建文件的大小为1000KB<br>ulimit -S -f 1000</p>
-<p>用硬限制限制创建文件的大小为2000KB<br>ulimit -H -f 2000</p>
-<p>创建3MB大小的文件<br>dd if=/dev/zero of=/tmp/test bs=3M count=1<br>File size limit exceeded</p>
-<p>查看/tmp/test的大小为1000KB,说明软限制对资源的控制是起决定性作用的.<br>ls -lh /tmp/test<br>-rw-r–r– 1 root root 1000K 2010-10-15 23:04 /tmp/test</p>
-<p>file size单位是KB.</p>
-<p>二)关于进程优先级的限制(scheduling priority)<br>这里的优先级指NICE值<br>这个值只对普通用户起作用,对超级用户不起作用,这个问题是由于CAP_SYS_NICE造成的.<br>例如调整普通用户可以使用的nice值为-10到20之间.<br>硬限制nice的限制为-15到20之间.<br>ulimit -H -e 35</p>
-<p>软限制nice的限制为-10到20之间<br>ulimit -S -e 30</p>
-<p>用nice命令,使执行ls的nice值为-10<br>nice -n -10 ls /tmp<br>ssh-BossiP2810  ssh-KITFTp2620  ssh-vIQDXV3333</p>
-<p>用nice命令,使执行ls的nice值为-11,此时超过了ulimit对nice的软限制,出现了异常.<br>nice -n -11 ls /tmp<br>nice: cannot set niceness: Permission denied</p>
-<p>三)内存锁定值的限制(max locked memory)<br>这个值只对普通用户起作用,对超级用户不起作用,这个问题是由于CAP_IPC_LOCK造成的.<br>linux对内存是分页管理的,这意味着有不需要时,在物理内存的数据会被换到交换区或磁盘上.<br>有需要时会被交换到物理内存,而将数据锁定到物理内存可以避免数据的换入/换出.<br>采用锁定内存有两个理由:<br>1)由于程序设计上需要,比如oracle等软件,就需要将数据锁定到物理内存.<br>2)主要是安全上的需要,比如用户名和密码等等,被交换到swap或磁盘,有泄密的可能,所以一直将其锁定到物理内存.</p>
-<p>锁定内存的动作由mlock()函数来完成<br>mlock的原型如下:<br>int mlock(const void *addr,size_t len);</p>
-<p>测试程序如下:</p>
-<p>#include <stdio.h></stdio.h></p>
-<p>#include <sys mman.h=""></sys></p>
-<p>int main(int argc, char* argv[])<br>{<br>        int array[2048];</p>
-<pre><code>if (mlock((const void *)array, sizeof(array)) == -1) {
-        perror(&quot;mlock: &quot;);
-        return -1;
-}
-
-printf(&quot;success to lock stack mem at: %p, len=%zdn&quot;,
-                array, sizeof(array));
-
-if (munlock((const void *)array, sizeof(array)) == -1) {
-        perror(&quot;munlock: &quot;);
-        return -1;
-}
-
-printf(&quot;success to unlock stack mem at: %p, len=%zdn&quot;,
-                array, sizeof(array));
-
-return 0;
-</code></pre><p>}</p>
-<p>gcc mlock_test.c -o mlock_test</p>
-<p>上面这个程序,锁定2KB的数据到物理内存中,我们调整ulimit的max locked memory.<br>ulimit -H -l 4<br>ulimit -S -l 1<br>./mlock_test<br>mlock: : Cannot allocate memory</p>
-<p>我们放大max locked memory的限制到4KB,可以执行上面的程序了.<br>ulimit -S -l 4<br>./mlock_test<br>success to lock stack mem at: 0x7fff1f039500, len=2048<br>success to unlock stack mem at: 0x7fff1f039500, len=2048</p>
-<p>注意:如果调整到3KB也不能执行上面的程序,原因是除了这段代码外,我们还会用其它动态链接库.</p>
-<p>四)进程打开文件的限制(open files)</p>
-<p>这个值针对所有用户,表示可以在进程中打开的文件数.</p>
-<p>例如我们将open files的值改为3<br>ulimit -n 3</p>
-<p>此时打开/etc/passwd文件时失败了.<br>cat /etc/passwd<br>-bash: start_pipeline: pgrp pipe: Too many open files<br>-bash: /bin/cat: Too many open files</p>
-<p>五)信号可以被挂起的最大数(pending signals)</p>
-<p>这个值针对所有用户,表示可以被挂起/阻塞的最大信号数量</p>
-<p>我们用以下的程序进行测试,源程序如下:</p>
-<p>#include <stdio.h></stdio.h></p>
-<p>#include <string.h></string.h></p>
-<p>#include <stdlib.h></stdlib.h></p>
-<p>#include <signal.h></signal.h></p>
-<p>#include <unistd.h></unistd.h></p>
-<p>volatile int done = 0;</p>
-<p>void handler (int sig)<br>{<br>  const char *str = “handled…n”;<br>  write (1, str, strlen(str));<br>  done = 1;<br>}</p>
-<p>void child(void)<br>{<br>  int i;<br>  for (i = 0; i &lt; 3; i++){<br>    kill(getppid(), SIGRTMIN);<br>    printf(“child – BANG!n”);<br>  }<br>  exit (0);<br>}</p>
-<p>int main (int argc, char *argv[])<br>{<br>  signal (SIGRTMIN, handler);<br>  sigset_t newset, oldset;</p>
-<p>  sigfillset(&amp;newset);<br>  sigprocmask(SIG_BLOCK, &amp;newset, &amp;oldset);</p>
-<p>  pid_t pid = fork();<br>  if (pid == 0)<br>  child();</p>
-<p>  printf(“parent sleeping n”);</p>
-<p>  int r = sleep(3);</p>
-<p>  printf(“woke up! r=%dn”, r);</p>
-<p>  sigprocmask(SIG_SETMASK, &amp;oldset, NULL);</p>
-<p>  while (!done){<br>  };</p>
-<p>  printf(“exitingn”);<br>  exit(0);<br>}</p>
-<p>编译源程序:<br>gcc test.c -o test</p>
-<p>执行程序test,这时子程序发送了三次SIGRTMIN信号,父程序在过3秒后,接收并处理该信号.<br>./test<br>parent sleeping<br>child – BANG!<br>child – BANG!<br>child – BANG!<br>woke up! r=0<br>handled…<br>handled…<br>handled…<br>exiting</p>
-<p>注意:这里有采用的是发送实时信号(SIGRTMIN),如:kill(getppid(), SIGRTMIN);<br>如果不是实时信号,则只能接收一次.</p>
-<p>如果我们将pending signals值改为2,这里将只能保证挂起两个信号,第三个信号将被忽略.如下:<br>ulimit -i 2<br>./test<br>parent sleeping<br>child – BANG!<br>child – BANG!<br>child – BANG!<br>woke up! r=0<br>handled…<br>handled…<br>exiting</p>
-<p>六)可以创建使用POSIX消息队列的最大值,单位为bytes.(POSIX message queues)</p>
-<p>我们用下面的程序对POSIX消息队列的限制进行测试,如下:</p>
-<p>#include <stdio.h></stdio.h></p>
-<p>#include <string.h></string.h></p>
-<p>#include <stdlib.h></stdlib.h></p>
-<p>#include <unistd.h></unistd.h></p>
-<p>#include <mqueue.h></mqueue.h></p>
-<p>#include <sys stat.h=""></sys></p>
-<p>#include <sys wait.h=""></sys></p>
-<p>struct message{<br> char mtext[128];<br>};</p>
-<p>int send_msg(int qid, int pri, const char text[])<br>{<br> int r = mq_send(qid, text, strlen(text) + 1,pri);<br> if (r == -1){<br>  perror(“mq_send”);<br> }<br> return r;<br>}</p>
-<p>void producer(mqd_t qid)<br>{<br> send_msg(qid, 1, “This is my first message.”);<br> send_msg(qid, 1, “This is my second message.”);</p>
-<p> send_msg(qid, 3, “No more messages.”);<br>}</p>
-<p>void consumer(mqd_t qid)<br>{<br> struct mq_attr mattr;<br> do{<br>  u_int pri;<br>  struct message msg;<br>  ssize_t len;</p>
-<p>  len = mq_receive(qid, (char *)&amp;msg, sizeof(msg), &amp;pri);<br>  if (len == -1){<br>   perror(“mq_receive”);<br>   break;<br>  }<br>  printf(“got pri %d ‘%s’ len=%dn”, pri, msg.mtext, len);</p>
-<p>  int r = mq_getattr(qid, &amp;mattr);<br>  if (r == -1){<br>   perror(“mq_getattr”);<br>   break;<br>  }<br> }while(mattr.mq_curmsgs);<br>}</p>
-<p>int<br>main (int argc, char *argv[])<br>{<br> struct mq_attr mattr = {<br>  .mq_maxmsg = 10,<br>  .mq_msgsize = sizeof(struct message)<br> };</p>
-<p> mqd_t mqid = mq_open(“/myq”,<br>    O_CREAT|O_RDWR,<br>    S_IREAD|S_IWRITE,<br>    &amp;mattr);<br> if (mqid == (mqd_t) -1){<br>  perror(“mq_open”);<br>  exit (1);<br> }</p>
-<p> pid_t pid = fork();<br> if (pid == 0){<br>  producer(mqid);<br>  mq_close(mqid);<br>  exit(0);<br> }<br> else<br> {<br>  int status;<br>  wait(&amp;status);<br>  consumer(mqid);<br>  mq_close(mqid);<br> }<br> mq_unlink(“/myq”);<br> return 0;<br>}</p>
-<p>编译:<br>gcc test.c -o test</p>
-<p>限制POSIX消息队列的最大值为1000个字节<br>ulimit -q 1000</p>
-<p>这里我们执行test程序<br>./test<br>mq_open: Cannot allocate memory</p>
-<p>程序报告无法分配内存.</p>
-<p>用strace来跟踪test的运行过程,在下面一条语句时报错.<br>mq_open(“myq”, O_RDWR|O_CREAT, 0600, {mq_maxmsg=10, mq_msgsize=128}) = -1 ENOMEM (Cannot allocate memory)</p>
-<p>{mq_maxmsg=10, mq_msgsize=128}即128*10=1280个字节,说明已经超过了1000个字节的POSIX消息队列限制.</p>
-<p>我们将POSIX消息队列的最大值调整为1360时,程序可以运行.<br>ulimit -q 1360<br>./test<br>got pri 3 ‘No more messages.’ len=18<br>got pri 1 ‘This is my first message.’ len=26<br>got pri 1 ‘This is my second message.’ len=27</p>
-<p>七)程序占用CPU的时间,单位是秒(cpu time)</p>
-<p>我们用下面的代码对程序占用CPU时间的限制进行测试</p>
-<p>源程序如下：</p>
-<h1 id="include"><a href="#include" class="headerlink" title="include "></a>include <stdio.h></stdio.h></h1><h1 id="include-1"><a href="#include-1" class="headerlink" title="include "></a>include <math.h></math.h></h1><p>int main (void)</p>
-<p>{<br>  double pi=M_PI;<br>  double pisqrt;<br>  long i;</p>
-<p>  while(1){<br>    pisqrt=sqrt(pi);<br>  }<br>  return 0;<br>}</p>
-<p>编译:<br>gcc test.c -o test -lm</p>
-<p>运行程序test,程序会一直循环下去,只有通过CTRL+C中断.<br>./test<br>^C</p>
-<p>用ulimit将程序占用CPU的时间改为2秒,再运行程序.<br>ulimit -t 2<br>./test<br>Killed</p>
-<p>程序最后被kill掉了.</p>
-<p>八)限制程序实时优先级的范围,只针对普通用户.(real-time priority)</p>
-<p>我们用下面的代码对程序实时优先级的范围进行测试</p>
-<p>源程序如下:</p>
-<h1 id="include-2"><a href="#include-2" class="headerlink" title="include "></a>include <stdio.h></stdio.h></h1><p>int main (void)</p>
-<p>{<br>  int i;<br>  for (i=0;i&lt;6;i++)<br>  {<br>    printf (“%dn”,i);<br>    sleep(1);<br>  }<br>  return 0;<br>}</p>
-<p>编译:<br>gcc test.c -o test</p>
-<p>切换到普通用户进行测试<br>su – ckhitler</p>
-<p>用实时优先级20运行test程序<br>chrt -f 20 ./test<br>chrt: failed to set pid 0’s policy: Operation not permitted</p>
-<p>我们用root将ulimit的实时优先级调整为20.再进行测试.<br>su – root<br>ulimit -r 20</p>
-<p>切换到普通用户,用实时优先级20运行程序,可以运行这个程序了.<br>su – ckhitler<br>chrt -r 20 ./test<br>0<br>1<br>2<br>3<br>4<br>5</p>
-<p>以实时优先级50运行程序,还是报错,说明ulimit的限制起了作用.<br>chrt -r 50 ./test<br>chrt: failed to set pid 0’s policy: Operation not permitted</p>
-<p>九)限制程序可以fork的进程数,只对普通用户有效(max user processes)</p>
-<p>我们用下面的代码对程序的fork进程数的范围进行测试</p>
-<p>源程序如下:</p>
-<p>#include <unistd.h></unistd.h></p>
-<p>#include <stdio.h><br>int main(void)<br>{<br>  pid_t pid;<br>  int count=0;<br>  while (count&lt;3){<br>    pid=fork();<br>    count++;<br>    printf(“count= %dn”,count);<br>  }<br>  return 0;<br>}</stdio.h></p>
-<p>编译:<br>gcc test.c -o test<br>count= 1<br>count= 2<br>count= 3<br>count= 2<br>count= 3<br>count= 1<br>count= 3<br>count= 2<br>count= 3<br>count= 3<br>count= 3<br>count= 2<br>count= 3<br>count= 3</p>
-<p>程序fork的进程数成倍的增加,这里是14个进程的输出.除自身外,其它13个进程都是test程序fork出来的.<br>我们将fork的限定到12,如下:<br>ulimit -u 12<br>再次执行test程序,这里只有12个进程的输出.<br>./test<br>count= 1<br>count= 2<br>count= 3<br>count= 1<br>count= 2<br>count= 3<br>count= 2<br>count= 3<br>count= 3<br>count= 2<br>count= 3<br>count= 3<br>count= 3</p>
-<p>十)限制core文件的大小(core file size)</p>
-<p>我们用下面的代码对程序生成core的大小进行测试</p>
-<p>源代码:</p>
-<p>#include <stdio.h></stdio.h></p>
-<p>static void sub(void);</p>
-<p>int main(void)<br>{<br>     sub();<br>     return 0;<br>}</p>
-<p>static void sub(void)<br>{<br>     int <em>p = NULL;<br>     printf(“%d”, </em>p);<br>}</p>
-<p>编译:<br>gcc -g test.c -o test</p>
-<p>运行程序test,出现段错误.<br>./test<br>Segmentation fault (core dumped)</p>
-<p>如果在当前目录下没有core文件,我们应该调整ulimit对core的大小进行限制,如果core文件大小在这里指定为0,将不会产生core文件.<br>这里设定core文件大小为10个blocks.注:一个blocks在这里为1024个字节.</p>
-<p>ulimit -c 10<br>再次运行这个程序<br>./test<br>Segmentation fault (core dumped)</p>
-<p>查看core文件的大小<br>ls -lh core<br>-rw——- 1 root root 12K 2011-03-08 13:54 core</p>
-<p>我们设定10个blocks应该是10*1024也不是10KB,为什么它是12KB呢,因为它的递增是4KB.<br>如果调整到14个blocks，我们将最大产生16KB的core文件.</p>
-<p>十一)限制进程使用数据段的大小(data seg size)</p>
-<p>一般来说这个限制会影响程序调用brk(系统调用)和sbrk(库函数)<br>调用malloc时，如果发现vm不够了就会用brk去内核申请.</p>
-<p>限制可以使用最大为1KB的数据段</p>
-<p>ulimit -d 1</p>
-<p>用norff打开/etc/passwd文件<br>nroff /etc/passwd<br>Segmentation fault</p>
-<p>可以用strace来跟踪程序的运行.<br>strace nroff /etc/passwd</p>
-<p>打印出如下的结果,证明程序在分配内存时不够用时,调用brk申请新的内存,而由于ulimit的限制,导致申请失败.<br>munmap(0x7fc2abf00000, 104420)          = 0<br>rt_sigprocmask(SIG_BLOCK, NULL, [], 8)  = 0<br>open(“/dev/tty”, O_RDWR|O_NONBLOCK)     = 3<br>close(3)                                = 0<br>brk(0)                                  = 0xf5b000<br>brk(0xf5c000)                           = 0xf5b000<br>brk(0xf5c000)                           = 0xf5b000<br>brk(0xf5c000)                           = 0xf5b000<br>— SIGSEGV (Segmentation fault) @ 0 (0) —<br>+++ killed by SIGSEGV +++<br>Segmentation fault</p>
-<p>我们这里用一个测试程序对data segment的限制进行测试.<br>源程序如下:</p>
-<p>#include <stdio.h><br>int main()<br>{</stdio.h></p>
-<pre><code>int start,end;
-start = sbrk(0);
-(char *)malloc(32*1024);
-end = sbrk(0);
-printf(&quot;hello I used %d vmemoryn&quot;,end – start);
-return 0;
-</code></pre><p>}</p>
-<p>gcc test.c -o test<br> ./test<br>hello I used 0 vmemory</p>
-<p>通过ulimit将限制改为170KB<br>再次运行程序<br>./test<br>hello I used 167936 vmemory</p>
-<p>十二)限制进程使用堆栈段的大小</p>
-<p>我们用ulimit将堆栈段的大小调整为16,即16*1024.<br>ulimit -s 16</p>
-<p>再运行命令:<br>ls -l /etc/<br>Segmentation fault (core dumped)</p>
-<p>这时用strace跟踪命令的运行过程<br>strace ls -l /etc/</p>
-<p>发现它调用getrlimit,这里的限制是16<em>1024,不够程序运行时用到的堆栈.<br>getrlimit(RLIMIT_STACK, {rlim_cur=16</em>1024, rlim_max=16*1024}) = 0</p>
-<p>注:在2.6.32系统上ls -l /etc/并不会出现堆栈不够用的情况,这时可以用expect来触发这个问题.</p>
-<p>如:<br>expect<br>Tcl_Init failed: out of stack space (infinite loop?)</p>
-<p>十三)限制进程使用虚拟内存的大小</p>
-<p>我们用ulimit将虚拟内存调整为8192KB<br>ulimit -v 8192</p>
-<p>运行ls<br>ls<br>ls: error while loading shared libraries: libc.so.6: failed to map segment from shared object: Cannot allocate memory<br>ls在加载libc.so.6动态库的时候报了错,提示内存不足.</p>
-<p>用strace跟踪ls的运行过程,看到下面的输出,说明在做mmap映射出内存时,出现内存不够用.<br>mmap(NULL, 3680296, PROT_READ|PROT_EXEC, MAP_PRIVATE|MAP_DENYWRITE, 3, 0) = -1 ENOMEM (Cannot allocate memory)<br>close(3)                                = 0<br>writev(2, [{“ls”, 2}, {“: “, 2}, {“error while loading shared libra”…, 36}, {“: “, 2}, {“libc.so.6”, 9}, {“: “, 2}, {“failed to map segment from share”…, 40}, {“: “, 2}, {“Cannot allocate memory”, 22}, {“n”, 1}], 10ls: error while loading shared libraries: libc.so.6: failed to map segment from shared object: Cannot allocate memory</p>
-<p>十四)剩下的三种ulimit限制说明(file locks/max memory size/pipe size)</p>
-<p>文件锁的限制只在2.4内核之前有用.<br>驻留内存的限制在很多系统里也没有作用.<br>管道的缓存不能改变,只能是8*512(bytes),也就是4096个字节.</p>
+        <p>说明：/home目录里面有data目录，data目录里面有a、b、c、d、e五个目录，现在要把data目录里面除过e目录之外的所有目录拷贝到/bak目录中</p>
+<p>方法一：终端命令行下执行以下命令</p>
+<p>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
+<p>########################################################<br>脚本实现<br>脚本存放路径/home/piaoyun.sh<br>vi /home/osyunwei.sh #编辑脚本，添加下面的代码</p>
+<p>#!/bin/sh<br>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
+<p>chmod +x /home/piaoyun.sh #添加脚本执行权限<br>cd /home #进入脚本存放目录<br>./piaoyun.sh #执行脚本</p>
+<p>########################################################</p>
+<p>方法二：使用cp命令复制的时候，只能排除一个目录不被复制，如果想排除两个或者多个目录的话，就需要使用rsync命令来实现了，看下面的例子<br>如果要排除/home/data目录下面的a、b、c、三个目录，同时拷贝其它所有目录，执行以下命令</p>
+<p>yum install rsync #安装rsync</p>
+<p>rsync -av –exclude data/a –exclude data/b –exclude data/c data /bak</p>
+<p>注意：–exclude后面的路径不能为绝对路径，必须为相对路径才可以，否则出错。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/linux的ulimit各种限制之深入分析/" data-id="ciwvdwc2g002qm4cy55dj3knq" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvhh0nc0030r1cykco1aprl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -542,10 +499,10 @@ return 0;
 
 
   
-    <article id="post-如何用十条命令在一分钟内检查Linux服务器性能" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-用cp命令复制大量文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" class="article-date">
-  <time datetime="2016-12-12T09:08:07.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/用cp命令复制大量文件/" class="article-date">
+  <time datetime="2016-12-13T01:29:04.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -556,7 +513,7 @@ return 0;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/">如何用十条命令在一分钟内检查Linux服务器性能</a>
+      <a class="article-title" href="/2016/12/13/用cp命令复制大量文件/">用cp命令复制大量文件</a>
     </h1>
   
 
@@ -564,159 +521,31 @@ return 0;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>通过执行以下命令，可以在1分钟内对系统资源使用情况有个大致的了解。</p>
-<p>uptime</p>
-<p>dmesg | tail</p>
-<p>vmstat 1</p>
-<p>mpstat -P ALL 1</p>
-<p>pidstat 1</p>
-<p>iostat -xz 1</p>
-<p>free -m</p>
-<p>sar -n DEV 1</p>
-<p>sar -n TCP,ETCP 1</p>
-<p>top</p>
-<p>其中一些命令需要安装sysstat包，有一些由procps包提供。这些命令的输出，有助于快速定位性能瓶颈，检查出所有资源（CPU、内存、磁盘IO等）的利用率（utilization）、饱和度（saturation）和错误（error）度量，也就是所谓的USE方法。</p>
-<p>下面我们来逐一介绍下这些命令，有关这些命令更多的参数和说明，请参照命令的手册。</p>
-<p>uptime<br>$ uptime</p>
-<p>23:51:26 up 21:31,  1 user,  load average: 30.02, 26.43, 19.02</p>
-<p>这个命令可以快速查看机器的负载情况。在Linux系统中，这些数据表示等待CPU资源的进程和阻塞在不可中断IO进程（进程状态为D）的数量。这些数据可以让我们对系统资源使用有一个宏观的了解。</p>
-<p>命令的输出分别表示1分钟、5分钟、15分钟的平均负载情况。通过这三个数据，可以了解服务器负载是在趋于紧张还是趋于缓解。如果1分钟平均负载很高，而15分钟平均负载很低，说明服务器正在命令高负载情况，需要进一步排查CPU资源都消耗在了哪里。反之，如果15分钟平均负载很高，1分钟平均负载较低，则有可能是CPU资源紧张时刻已经过去。</p>
-<p>上面例子中的输出，可以看见最近1分钟的平均负载非常高，且远高于最近15分钟负载，因此我们需要继续排查当前系统中有什么进程消耗了大量的资源。可以通过下文将会介绍的vmstat、mpstat等命令进一步排查。</p>
-<p>dmesg丨tail<br>$ dmesg | tail</p>
-<p>[1880957.563150] perl invoked oom-killer: gfp_mask=0x280da, order=0, oom_score_adj=0</p>
-<p>[…]</p>
-<p>[1880957.563400] Out of memory: Kill process 18694 (perl) score 246 or sacrifice child</p>
-<p>[1880957.563408] Killed process 18694 (perl) total-vm:1972392kB, anon-rss:1953348kB, file-rss:0kB</p>
-<p>[2320864.954447] TCP: Possible SYN flooding on port 7001. Dropping</p>
-<p>request.  Check SNMP counters.</p>
-<p>该命令会输出系统日志的最后10行。示例中的输出，可以看见一次内核的oom kill和一次TCP丢包。这些日志可以帮助排查性能问题。千万不要忘了这一步。</p>
-<p>vmstat 1<br>$ vmstat 1</p>
-<p>procs ———memory———- —swap– —–io—- -system– ——cpu—–</p>
-<p> r  b swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st</p>
-<p>34  0    0 200889792  73708 591828    0    0     0     5    6   10 96  1  3  0  0</p>
-<p>32  0    0 200889920  73708 591860    0    0     0   592 13284 4282 98  1  1  0  0</p>
-<p>32  0    0 200890112  73708 591860    0    0     0     0 9501 2154 99  1  0  0  0</p>
-<p>32  0    0 200889568  73712 591856    0    0     0    48 11900 2459 99  0  0  0  0</p>
-<p>32  0    0 200890208  73712 591860    0    0     0     0 15898 4840 98  1  1  0  0</p>
-<p>^C</p>
-<p>vmstat(8) 命令，每行会输出一些系统核心指标，这些指标可以让我们更详细的了解系统状态。后面跟的参数1，表示每秒输出一次统计信息，表头提示了每一列的含义，这几介绍一些和性能调优相关的列：</p>
-<p>r：等待在CPU资源的进程数。这个数据比平均负载更加能够体现CPU负载情况，数据中不包含等待IO的进程。如果这个数值大于机器CPU核数，那么机器的CPU资源已经饱和。</p>
-<p>free：系统可用内存数（以千字节为单位），如果剩余内存不足，也会导致系统性能问题。下文介绍到的free命令，可以更详细的了解系统内存的使用情况。</p>
-<p>si，so：交换区写入和读取的数量。如果这个数据不为0，说明系统已经在使用交换区（swap），机器物理内存已经不足。</p>
-<p>us, sy, id, wa, st：这些都代表了CPU时间的消耗，它们分别表示用户时间（user）、系统（内核）时间（sys）、空闲时间（idle）、IO等待时间（wait）和被偷走的时间（stolen，一般被其他虚拟机消耗）。</p>
-<p>上述这些CPU时间，可以让我们很快了解CPU是否出于繁忙状态。一般情况下，如果用户时间和系统时间相加非常大，CPU出于忙于执行指令。如果IO等待时间很长，那么系统的瓶颈可能在磁盘IO。</p>
-<p>示例命令的输出可以看见，大量CPU时间消耗在用户态，也就是用户应用程序消耗了CPU时间。这不一定是性能问题，需要结合r队列，一起分析。</p>
-<p>mpstat-P ALL 1<br>$ mpstat -P ALL 1</p>
-<p>Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015  _x86<em>64</em> (32 CPU)</p>
-<p>07:38:49 PM  CPU   %usr  %nice   %sys %iowait   %irq  %soft  %steal  %guest  %gnice  %idle</p>
-<p>07:38:50 PM  all  98.47   0.00   0.75    0.00   0.00   0.00    0.00    0.00    0.00   0.78</p>
-<p>07:38:50 PM    0  96.04   0.00   2.97    0.00   0.00   0.00    0.00    0.00    0.00   0.99</p>
-<p>07:38:50 PM    1  97.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   2.00</p>
-<p>07:38:50 PM    2  98.00   0.00   1.00    0.00   0.00   0.00    0.00    0.00    0.00   1.00</p>
-<p>07:38:50 PM    3  96.97   0.00   0.00    0.00   0.00   0.00    0.00    0.00    0.00   3.03</p>
-<p>[…]</p>
-<p>该命令可以显示每个CPU的占用情况，如果有一个CPU占用率特别高，那么有可能是一个单线程应用程序引起的。</p>
-<p>pidstat 1<br>$ pidstat 1</p>
-<p>Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015    _x86<em>64</em>    (32 CPU)</p>
-<p>07:41:02 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</p>
-<p>07:41:03 PM     0         9    0.00    0.94    0.00    0.94     1  rcuos/0</p>
-<p>07:41:03 PM     0      4214    5.66    5.66    0.00   11.32    15  mesos-slave</p>
-<p>07:41:03 PM     0      4354    0.94    0.94    0.00    1.89     8  java</p>
-<p>07:41:03 PM     0      6521 1596.23    1.89    0.00 1598.11    27  java</p>
-<p>07:41:03 PM     0      6564 1571.70    7.55    0.00 1579.25    28  java</p>
-<p>07:41:03 PM 60004     60154    0.94    4.72    0.00    5.66     9  pidstat</p>
-<p>07:41:03 PM   UID       PID    %usr %system  %guest    %CPU   CPU  Command</p>
-<p>07:41:04 PM     0      4214    6.00    2.00    0.00    8.00    15  mesos-slave</p>
-<p>07:41:04 PM     0      6521 1590.00    1.00    0.00 1591.00    27  java07:41:04 PM     0      6564 1573.00   10.00    0.00 1583.00    28  java</p>
-<p>07:41:04 PM   108      6718    1.00    0.00    0.00    1.00     0  snmp-pass</p>
-<p>07:41:04 PM 60004     60154    1.00    4.00    0.00    5.00     9  pidstat</p>
-<p>^C</p>
-<p>pidstat命令输出进程的CPU占用率，该命令会持续输出，并且不会覆盖之前的数据，可以方便观察系统动态。如上的输出，可以看见两个JAVA进程占用了将近1600%的CPU时间，既消耗了大约16个CPU核心的运算资源。</p>
-<p>iostat-xz 1<br>$ iostat -xz 1</p>
-<p>Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015  _x86<em>64</em> (32 CPU)</p>
-<p>avg-cpu:  %user   %nice %system %iowait  %steal   %idle</p>
-<pre><code>73.96    0.00    3.73    0.03    0.06   22.21
-</code></pre><p>Device:   rrqm/s   wrqm/s     r/s     w/s    rkB/s    wkB/s avgrq-sz avgqu-sz   await r_await w_await  svctm  %util</p>
-<p>xvda        0.00     0.23    0.21    0.18     4.52     2.08    34.37     0.00    9.98   13.80    5.42   2.44   0.09</p>
-<p>xvdb        0.01     0.00    1.02    8.94   127.97   598.53   145.79     0.00    0.43    1.78    0.28   0.25   0.25</p>
-<p>xvdc        0.01     0.00    1.02    8.86   127.79   595.94   146.50     0.00    0.45    1.82    0.30   0.27   0.26</p>
-<p>dm-0        0.00     0.00    0.69    2.32    10.47    31.69    28.01     0.01    3.23    0.71    3.98   0.13   0.04</p>
-<p>dm-1        0.00     0.00    0.00    0.94     0.01     3.78     8.00     0.33  345.84    0.04  346.81   0.01   0.00</p>
-<p>dm-2        0.00     0.00    0.09    0.07     1.35     0.36    22.50     0.00    2.55    0.23    5.62   1.78   0.03</p>
-<p>[…]</p>
-<p>^C</p>
-<p>iostat命令主要用于查看机器磁盘IO情况。该命令输出的列，主要含义是：</p>
-<p>r/s, w/s, rkB/s, wkB/s：分别表示每秒读写次数和每秒读写数据量（千字节）。读写量过大，可能会引起性能问题。</p>
-<p>await：IO操作的平均等待时间，单位是毫秒。这是应用程序在和磁盘交互时，需要消耗的时间，包括IO等待和实际操作的耗时。如果这个数值过大，可能是硬件设备遇到了瓶颈或者出现故障。</p>
-<p>avgqu-sz：向设备发出的请求平均数量。如果这个数值大于1，可能是硬件设备已经饱和（部分前端硬件设备支持并行写入）。</p>
-<p>%util：设备利用率。这个数值表示设备的繁忙程度，经验值是如果超过60，可能会影响IO性能（可以参照IO操作平均等待时间）。如果到达100%，说明硬件设备已经饱和。</p>
-<p>如果显示的是逻辑设备的数据，那么设备利用率不代表后端实际的硬件设备已经饱和。值得注意的是，即使IO性能不理想，也不一定意味这应用程序性能会不好，可以利用诸如预读取、写缓存等策略提升应用性能。</p>
-<p>free -m<br>$ free -m</p>
-<pre><code>total       used       free     shared    buffers     cached
-</code></pre><p>Mem:        245998      24545     221453         83         59        541</p>
-<p>-/+ buffers/cache:      23944     222053</p>
-<p>Swap:            0          0          0</p>
-<p>free命令可以查看系统内存的使用情况，-m参数表示按照兆字节展示。最后两列分别表示用于IO缓存的内存数，和用于文件系统页缓存的内存数。需要注意的是，第二行-/+ buffers/cache，看上去缓存占用了大量内存空间。</p>
-<p>这是Linux系统的内存使用策略，尽可能的利用内存，如果应用程序需要内存，这部分内存会立即被回收并分配给应用程序。因此，这部分内存一般也被当成是可用内存。</p>
-<p>如果可用内存非常少，系统可能会动用交换区（如果配置了的话），这样会增加IO开销（可以在iostat命令中提现），降低系统性能。</p>
-<p>sar -n DEV 1<br>$ sar -n DEV 1</p>
-<p>Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015     _x86<em>64</em>    (32 CPU)</p>
-<p>12:16:48 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</p>
-<p>12:16:49 AM      eth0  18763.00   5032.00  20686.42    478.30      0.00      0.00      0.00      0.00</p>
-<p>12:16:49 AM        lo     14.00     14.00      1.36      1.36      0.00      0.00      0.00      0.00</p>
-<p>12:16:49 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00</p>
-<p>12:16:49 AM     IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil</p>
-<p>12:16:50 AM      eth0  19763.00   5101.00  21999.10    482.56      0.00      0.00      0.00      0.00</p>
-<p>12:16:50 AM        lo     20.00     20.00      3.25      3.25      0.00      0.00      0.00      0.00</p>
-<p>12:16:50 AM   docker0      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00</p>
-<p>^C</p>
-<p>sar命令在这里可以查看网络设备的吞吐率。在排查性能问题时，可以通过网络设备的吞吐量，判断网络设备是否已经饱和。如示例输出中，eth0网卡设备，吞吐率大概在22 Mbytes/s，既176 Mbits/sec，没有达到1Gbit/sec的硬件上限。</p>
-<p>sar -n TCP,ETCP 1<br>$ sar -n TCP,ETCP 1</p>
-<p>Linux 3.13.0-49-generic (titanclusters-xxxxx)  07/14/2015    _x86<em>64</em>    (32 CPU)</p>
-<p>12:17:19 AM  active/s passive/s    iseg/s    oseg/s</p>
-<p>12:17:20 AM      1.00      0.00  10233.00  18846.00</p>
-<p>12:17:19 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</p>
-<p>12:17:20 AM      0.00      0.00      0.00      0.00      0.00</p>
-<p>12:17:20 AM  active/s passive/s    iseg/s    oseg/s</p>
-<p>12:17:21 AM      1.00      0.00   8359.00   6039.00</p>
-<p>12:17:20 AM  atmptf/s  estres/s retrans/s isegerr/s   orsts/s</p>
-<p>12:17:21 AM      0.00      0.00      0.00      0.00      0.00</p>
-<p>^C</p>
-<p>sar命令在这里用于查看TCP连接状态，其中包括：</p>
-<p>active/s：每秒本地发起的TCP连接数，既通过connect调用创建的TCP连接；</p>
-<p>passive/s：每秒远程发起的TCP连接数，即通过accept调用创建的TCP连接；</p>
-<p>retrans/s：每秒TCP重传数量；</p>
-<p>TCP连接数可以用来判断性能问题是否由于建立了过多的连接，进一步可以判断是主动发起的连接，还是被动接受的连接。TCP重传可能是因为网络环境恶劣，或者服务器压力过大导致丢包。</p>
-<p>top<br>$ top</p>
-<p>top - 00:15:40 up 21:56,  1 user,  load average: 31.09, 29.87, 29.92</p>
-<p>Tasks: 871 total,   1 running, 868 sleeping,   0 stopped,   2 zombie</p>
-<p>%Cpu(s): 96.8 us,  0.4 sy,  0.0 ni,  2.7 id,  0.1 wa,  0.0 hi,  0.0 si,  0.0 st</p>
-<p>KiB Mem:  25190241+total, 24921688 used, 22698073+free,    60448 buffers</p>
-<p>KiB Swap:        0 total,        0 used,        0 free.   554208 cached Mem</p>
-<p>   PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND</p>
-<p> 20248 root      20   0  0.227t 0.012t  18748 S  3090  5.2  29812:58 java</p>
-<p>  4213 root      20   0 2722544  64640  44232 S  23.5  0.0 233:35.37 mesos-slave</p>
-<p> 66128 titancl+  20   0   24344   2332   1172 R   1.0  0.0   0:00.07 top</p>
-<p>  5235 root      20   0 38.227g 547004  49996 S   0.7  0.2   2:02.74 java</p>
-<p>  4299 root      20   0 20.015g 2.682g  16836 S   0.3  1.1  33:14.42 java     1 root      20   0   33620   2920   1496 S   0.0  0.0   0:03.82 init</p>
-<pre><code>2 root      20   0       0      0      0 S   0.0  0.0   0:00.02 kthreadd
-
-3 root      20   0       0      0      0 S   0.0  0.0   0:05.35 ksoftirqd/0
-
-5 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H
-
-6 root      20   0       0      0      0 S   0.0  0.0   0:06.94 kworker/u256:0
-
-8 root      20   0       0      0      0 S   0.0  0.0   2:38.05 rcu_sched
-</code></pre><p>top命令包含了前面好几个命令的检查的内容。比如系统负载情况（uptime）、系统内存使用情况（free）、系统CPU使用情况（vmstat）等。因此通过这个命令，可以相对全面的查看系统负载的来源。同时，top命令支持排序，可以按照不同的列排序，方便查找出诸如内存占用最多的进程、CPU占用率最高的进程等。</p>
-<p>但是，top命令相对于前面一些命令，输出是一个瞬间值，如果不持续盯着，可能会错过一些线索。这时可能需要暂停top命令刷新，来记录和比对数据。</p>
-<p>总结</p>
-<p>排查Linux服务器性能问题还有很多工具，上面介绍的一些命令，可以帮助我们快速的定位问题。例如前面的示例输出，多个证据证明有JAVA进程占用了大量CPU资源，之后的性能调优就可以针对应用程序进行。</p>
+        <p>最近，我有一个复制大量文件的需求，虽然我已经在Unix各种变种上有超过20年的工作经验，但是我仍然被cp指令的行为震撼，我认为这些心得很值得和大家分享下。</p>
+<p>首先介绍下机器：一台戴尔服务器（双核，内存最初是2G，后来扩展到10G，运行ubuntu系统），服务器配备的是全新戴尔存储套件<br>MD1200，该套件包括12个4TB硬盘，其中40TB采用RAID6配置，这样整个系统就可以容忍两块硬盘同时down掉。这台服务器主要用作异地备份，唯一的操作是IO写，由于我使用rsnapshot完成这项工作，<br>因此大部分文件有较高的链接计数（30+）。</p>
+<p>一天早上，我被告知一个硬盘down掉了。</p>
+<p>这不是什么大事，这种事情经常发生。我打电话给戴尔，戴尔第二天就给送来了一块替换盘。但我安装替换盘时发现，替换盘根本不能工作，并且另一块磁盘也down掉了。戴尔技术服务部门富有经验地建议我不要只换down掉的硬盘，因为整个磁盘阵列可能已经损毁了。</p>
+<p>就我所知，磁盘只有在有足够多坏块的情况下才会告警，设想这样一个场景：短时间内，一个文件位于三个磁盘上的备份块全部坏掉，那么很不幸，RAID引擎短时间内难以完成检测坏块、重新计算备份数据并存储这样一个流程，这样你就有丢失数据的风险了。因此，如果两个硬盘显式告警，你的数据可能已经丢失了。</p>
+<p>现有存储套件容量已经难以达到要求，我们决定扩容，把文件从旧存储套件拷贝到新套件中。正常情况下，我会在块级别拷贝用dd指令或者pvmove指令拷贝数据，但是考虑到坏块，我决定采用文件级别的拷贝，因为这样的话，我就可以知道那些文件包含坏块了。</p>
+<p>我上网搜了相关经验，发现cp可以完美地解决这个问题。若想保存硬链接信息，需要记录有哪些文件已经被复制，所以我预订了8G的RAM，并配置了更大的交换区。</p>
+<p>当新的存储套件到货，我就着手复制了，起初，根据iotop的测量数据，复制速度接近于300-400MB/s。不一会儿速度便显著下降了，因为大<br>部分时间花在了建立硬链接上，并且要花时间去处理文件系统的一致性问题。</p>
+<p>为保持一致性，我们使用了XFS，由于没有关闭写屏障，我们深受性能之苦，但如果RAID控制器配置了带有备份电源的写缓存，一致性问题便可更好地解决。正如所料，cp的内存占用量稳步增加，很快便达到了GB级。</p>
+<p>经历了几天的拷贝，问题来了：我发现系统已经停止拷贝，根据strace的显示，cp指令没有调用任何的系统调用函数。阅读相关源码后发现，cp指令会以一个哈希表跟踪有哪些文件被复制了，这个表需要时常地扩展自身容量以避免太多的冲突。当RAM被耗尽，哈希表的扩容过程会成为性能瓶颈。</p>
+<p>我们相信cp的哈希表扩容后，cp指令会继续执行，果然不一会它又“复活”了，但是它会进入周期性的“扩容-拷贝-扩容-拷贝”的循环中，且扩容的<br>时间变得越来越长。经过10天的拷贝，根据dd结果，新文件系统的块数量和inode节点的数量已经和原系统一样，但是让人吃惊的是cp指令并没有退出。</p>
+<p>再次阅读源码，我发现cp正在认真地解构哈希表（使用forget_all函数），由于cp进程需要的虚拟内存大小达到了17GB+，但服务器总共才10G内存，所以解构过程执行了很多RAM和swap区间的换页操作。</p>
+<p>上面整个过程中，我使用了cp的-v选项，并使用tee把日志重定向到日志文件（很大的文件）中。cp的输出信息会被缓存，为使这些缓存信息全部刷新到日志文件中，我给了cp多于一天的时间进行解构哈希表。</p>
+<p>运行”ls –laR”指令，查看下两个文件系统中的文件是否一致，发现除了日志文件的一些错误外，只有一个文件发生了io错误（还好，我们有它的另一个备份）。</p>
+<p>这种错误不会马上复现，但是如果cp能够设计一种数据结构，在等待io的时候处理那些已经被记录的文件，那样处理效率会更高。此外，对于cp最后解<br>构哈希表的forget_all函数，除了那些缺少可用内存管理模块的老式服务器一定需要它之外，我还没发现去掉这个函数会对整个拷贝过程产生什么不好的影响。</p>
+<p>总结一下：</p>
+<p>1、拷贝整个文件系统时，如果确定你的硬件和文件系统都OK，应该使用块级别的拷贝。这种拷贝方式更快，除非你有许多空闲块，但是无论如何它耗费的内存都是较少的；</p>
+<p>2、如果要拷贝许多文件，并想要保留硬链接的信息，可以采用文件级拷贝。拷贝之前需要保证机器有足够多的内存；</p>
+<p>3、比起简单粗暴地停止进程，认真地解构数据结构会花费更多的时间；</p>
+<p>4、告警的硬盘的数量并不等同于有坏块的硬盘的数量。如果不走运，就算配置了RAID6，没来得及等3块磁盘告警，你的数据可能已经丢失。这个时候我们只能赌一把了。同样的情况适用于RAID 5，那怕只有一块磁盘甚至没有磁盘告警，如果不走运，你的数据照样丢！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/如何用十条命令在一分钟内检查Linux服务器性能/" data-id="ciwvdwc3v0048m4cyk0dmazva" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvhh0ok0054r1cyo7wrry7j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -726,10 +555,10 @@ return 0;
 
 
   
-    <article id="post-数据工程师常用的-Shell-命令" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Linux中date命令的各种实用方法" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/数据工程师常用的-Shell-命令/" class="article-date">
-  <time datetime="2016-12-12T09:04:24.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/Linux中date命令的各种实用方法/" class="article-date">
+  <time datetime="2016-12-13T01:27:09.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -740,7 +569,7 @@ return 0;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/数据工程师常用的-Shell-命令/">数据工程师常用的 Shell 命令</a>
+      <a class="article-title" href="/2016/12/13/Linux中date命令的各种实用方法/">Linux中date命令的各种实用方法</a>
     </h1>
   
 
@@ -748,74 +577,28 @@ return 0;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Linux以其强大的命令行称霸江湖，Shell命令是数据极客的必修兵器。探索性数据分析，在需求和数据都不太明确的环境下，使用各种命令进行一次探索与挖掘。从基础的文件查看到简单的统计，再到一些常用的探索性分析命令，其目的都只是为了更好的做数据分析与挖掘而已。<br>01 Shell命令行</p>
-<p>对于经常和数据打交道的人来说，数据工程师应该也是常常和Linux打交道。Linux以其强大的命令行称霸江湖，因此，Shell命令也是数据极客的必修兵器。</p>
-<p>利用Linux命令行的几个命令，就可以完成一些简单的统计分析工作，比如利用wc命令统计文件行，单词数，字符数，利用sort排序和去重，再结合uniq可以进行词频统计。比如：<br>$ cat file.txt<br>yunjie<br>yunjie-talk<br>yunjie-yun<br>yunjie<br>yunjie-shuo<br>$ sort file.txt | uniq -c | sort -nr | head -5<br>   2 yunjie<br>   1 yunjie-shuo<br>   1 yunjie-talk<br>   1 yunjie-yun</p>
-<p>先用cat命令，了解一下文件的大概格式与内容，发现每行为一个单词。现在需要统计这些单词出现的频率，以及显示出现次数最多的5个单词。</p>
-<p>先对文件进行排序，这样相同的单词在紧挨着的行，再后uniq -c 命令，统计不同的单词及各个单词出现的次数。这样得到的结果就是次数后面紧接着单词，然后使用sort -nr对次数进行排序，并逆序显示，最后head命令显示结果的前5行。</p>
-<p>非常简单的一种方式，读取文件，排序，统计，再对统计结果进行逆序，最后只显示前几个结果。</p>
-<p>类似于sql语句：</p>
-<p>select word,count(1) cnt<br>from file<br>group by word<br>order by cnt desc<br>limit 5;</p>
-<p>如果对sql语句熟悉的话，上面的形式应该更容易理解。虽然实现的思想和方式非常简单，但在实际的探索性数据分析中使用却非常频繁。</p>
-<p>02 探索性分析</p>
-<p>比如在日志分析中，有时并没有非常明确的目标，或者即使有明确的目标，通常各种数据也并没有明确的定义。比如，别人丢给你一个压缩文件，说想分析一下里面有哪些是异常的访问请求。任务描述就是这样，没有更明确的了。</p>
-<p>拿到日志文件和这样的分析任务，就需要进行各种可能的探索性分析。先看一下文件的格式，是否压缩过，使用gzip压缩还是tar压缩。解压后，需要先大概了解一下，文件是什么样的格式。对于网络请求的日志文件，是一行一个请求和响应，还是多行一个请求和响应。查看文件有多少行，查看文件占用空间大小。如果解压后包含多个目录或者文件，同样的一个命令，更能发挥强大效果。此时，通常需要如下命令：</p>
-<p>gzip/tar：压缩/解压<br>cat/zcat：文件查看<br>less/more：文件查看，支持gz压缩格式直接查看<br>head/tail：查看文件前/后10行<br>wc：统计行数、单词数、字符数<br>du -h -c -s：查看空间占用</p>
-<p>上面有一个比较有趣的命令组，less和more，这两个都可以分页查看文件。最开始有的more命令，好像是当时more不支持向后翻页。于是一帮人就在此基础上进行了改进，直接叫less，和more同样的功能只是更强大些。因此，也发展出了“less is more”的哲学，“少即是多”，而且少比多更好。这种思想，在产品设计与代码优化中都有体现。</p>
-<p>了解文件的大概信息后，可能需要提取一行中某个字段的内容，或者需要搜索某些行出来，或者需要对某些字符或者行进行一定的修改操作，或者需要在众多的目录和文件中找出某此天的日志（甚至找到后需要对这些天的日志进行统一处理），此时下面这些命令可以帮你：</p>
-<p>awk：命令行下的数据库操作工具<br>join/cut/paste：关联文件/切分字段/合并文件<br>fgrep/grep/egrep：全局正则表达式查找<br>find：查找文件，并且对查找结果批量化执行任务<br>sed：流编辑器，批量修改、替换文件<br>split：对大文件进行切分处理，按多少行一个文件，或者多少字节一个文件<br>rename：批量重命名(Ubuntu上带的perl脚本，其它系统需要安装)，使用-n命令进行测试</p>
-<p>如：</p>
-<h1 id="解压缩日志"><a href="#解压缩日志" class="headerlink" title="解压缩日志"></a>解压缩日志</h1><p>$ gzip -d a.gz<br>$ tar zcvf/jcvf one.tar.bz2 one</p>
-<h1 id="直接查看压缩日志"><a href="#直接查看压缩日志" class="headerlink" title="直接查看压缩日志"></a>直接查看压缩日志</h1><p>$ less a.gz  </p>
-<h1 id="无需先解压"><a href="#无需先解压" class="headerlink" title="无需先解压"></a>无需先解压</h1><p>另外，以z开头的几个命令可以简单处理gzip压缩文件, 如zcat：直接打印压缩文件，还有zgrep/zfgrep/zegrep，在压缩文件中直接查找。</p>
-<h1 id="查询字符串，并显示匹配行的前3行和后3行内容"><a href="#查询字符串，并显示匹配行的前3行和后3行内容" class="headerlink" title="查询字符串，并显示匹配行的前3行和后3行内容"></a>查询字符串，并显示匹配行的前3行和后3行内容</h1><p>fgrep ‘yunjie-talk’ -A 3 -B 3 log.txt</p>
-<h1 id="在当前目前-及子目录-下，所有的log文件中搜索字符串hacked-by"><a href="#在当前目前-及子目录-下，所有的log文件中搜索字符串hacked-by" class="headerlink" title="在当前目前(及子目录)下，所有的log文件中搜索字符串hacked by:"></a>在当前目前(及子目录)下，所有的log文件中搜索字符串hacked by:</h1><p>$ find . -name “*.log” | xargs fgrep “hacked by”</p>
-<p>fgrep, grep, egrep的一些区别：</p>
-<p>fgrep按字符串的本来意思完全匹配，里面的正则元字符当成普通字符解析， 如： fgrep “1.2.3.4″ 则只匹配ip地址： 1.2.3.4, 其中的.不会匹配任意字符。fgrep当然会比grep快多了。写起来又简单，不用转义。<br>grep只使用普通的一些正则，egrep或者grep -E使用扩展的正则，如</p>
-<p>egrep “one|two”, 匹配one或者two<br>grep -E -v “.jpg|.png|.gif|.css|.js” log.txt |wc -l</p>
-<p>查找所有来自日本的ip的请求，先把所有来源ip取出来，去重，找出日本的ip，放入文件japan.ip，再使用命令：</p>
-<p>$ cat log.gz | gzip -d | fgrep -f japan.ip &gt; japan.log</p>
-<p>对hive中导出的文件，替换01</p>
-<p>cat 0000* | sed ‘s/x1/ /g’ &gt; log.txt<br>03 其它常用命令</p>
-<p>如果文件编码是从windows上传过来的gb2312编码，需要处理成utf8的编码，或者某个日志被黑客后来修改过了，需要和原来的备份数据进行对比，这些工作都是需要数据工程师自己能熟悉的掌握。</p>
-<p>假如日志文件是最近一年的请求日志，那么可能是按天或者按小时进行单独存放，此时如果只需要提取某些天（比如周末）的数据，很可能需要处理时间。</p>
-<p>因此，下面的一些命令或者工具就很有用了：</p>
-<p>date：命令行时间操作函数<br>sort/uniq：排序、去重、统计<br>comm：对两个排序文件进行按行比较（共同行、只出现在左边文件、只出现在右边文件）<br>diff：逐字符比较文件的异同，配合cdiff，类似于github的显示效果<br>curl/w3m/httpie：命令行下进行网络请求<br>iconv：文件编码转换，如：iconv -f GB2312 -t UTF8 1.csv &gt; 2.csv<br>seq：产生连续的序列，配合for循环使用</p>
-<p>输出今天/昨天的日期字符串</p>
-<p>$ date -d today +%Y%m%d<br>20160320<br>$ date -d yesterday +%Y%m%d<br>20160319</p>
-<p>对unix秒的处理</p>
-<h1 id="当前的时间"><a href="#当前的时间" class="headerlink" title="当前的时间"></a>当前的时间</h1><p>$ date +%s<br>1458484275<br>$date -d @1458484275<br>Sun Mar 20 22:31:15 CST 2016</p>
-<p>两个文件a.txt, b.txt求只出现在a.txt中的数据：</p>
-<h1 id="排序两个文件"><a href="#排序两个文件" class="headerlink" title="排序两个文件"></a>排序两个文件</h1><p>$ sort a.txt &gt; a.txt.sort<br>$ sort b.txt &gt; b.txt.sort</p>
-<h1 id="求只出现在c-sh中的内容"><a href="#求只出现在c-sh中的内容" class="headerlink" title="求只出现在c.sh中的内容"></a>求只出现在c.sh中的内容</h1><p>$ comm -2 -3 a.txt.sort b.txt.sort</p>
-<p>04 批量操作</p>
-<p>对上面的文件进行了一番探索分析后，可能已经有一定的线索或者眉目了，需要更进一步的处理大量的文件或者字段了。此时的步骤也许是一个消耗时间的过程，也许是一个需要看缘分的过程。总之，可能需要综合上面的一些命令，并且对大量的日志进行处理。</p>
-<p>这也是体现Shell更强大的一面——批量化的功能了。命令比图形界面的最大优势就是，只需熟悉了，就很容易实现批量化操作，将这些批量化的命令组合成一个文件，于是便产生了脚本。</p>
-<p>批量化命令或者脚本，熟悉几个常用的流程控制，就能发挥出强大的性能：</p>
-<p>if条件判断：</p>
-<p>if [ -d ${base_d} ];<br>    then mkdir -p ${base_d};<br>fi</p>
-<p>while循环：</p>
-<p>while<br>do<br>    do_something;<br>done</p>
-<p>for循环（用得很多）：</p>
-<p>for x in *.log.gz;<br>do<br>    gzip -d ${x};<br>done</p>
-<p>这几个条件判断与循环，也可以直接在命令行下使用，区别是多加几个分号隔开即可。</p>
-<p>另外，执行长时间的任务，最好直接用nohup来操作。</p>
-<p>生成过去8天的日期序列：</p>
-<p>$for num in <code>seq 8 -1 1</code>;do dd=<code>date --date=&quot;${num} day ago&quot; +%Y%m%d</code>;echo ${dd};done<br>20160312<br>20160313<br>20160314<br>20160315<br>20160316<br>20160317<br>20160318<br>20160319</p>
-<p>有目录和文件如下：</p>
-<p>20160320 目录<br>    10.1.0.1_20160320<em>.log.gz   目录<br>        201603200000.log.gz          文件<br>        201603200010.log.gz          文件<br>    10.1.0.2_20160320</em>.log.gz   目录<br>        201603200000.log.gz         文件<br>        201603200010.log.gz         文件</p>
-<p>需求：去掉目录中的*.log.gz，这样很容易让人误解为文件。 rename -n为测试，rename使用和sed相同的语法。</p>
-<p>$ for d in 201603??;do echo ${d}; cd ${d}; rename -n ‘s/<em>.log.gz//‘ </em>.log.gz ; cd ..;done</p>
-<p>测试完成后，使用rename不加-n为真正执行重命名操作。</p>
-<p>05 结尾</p>
-<p>这儿只是简单列举了一些数据分析或者数据处理相关的命令，只能算是Linux的Shell那博大精深的命令中的冰山一角。</p>
-<p>但如果能把这些相关的命令融会贯通，并且能实际使用的话，也算是在数据极客之路上多走了一步。</p>
-<p>从基础的文件查看到简单的统计，再到一些常用的探索性分析命令，其目的都只是为了更好的做数据分析与挖掘而已。能综合这些命令，并组合起来使用，将命令存放到文件，即产生了Shell脚本。Shell脚本本身也是一门强大的学问了，其中各个命令还有每个命令支持的参数，值得慢慢研究。</p>
+        <p>date 022517122015<br>[root@RHEL601 tmp]# date<br>2012年 07月 19日 星期四 20:11:16 CST<br>读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:<br>%n : 下一行<br>%t : 跳格<br>%H : 小时(00..23)<br>%I : 小时(01..12)<br>%k : 小时(0..23)<br>%l : 小时(1..12)<br>%M : 分钟(00..59)<br>%p : 显示本地 AM 或 PM<br>%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)<br>%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数<br>%S : 秒(00..59)<br>%T : 直接显示时间 (24 小时制)<br>%X : 相当于 %H:%M:%S<br>%Z : 显示时区 %a : 星期几 (Sun..Sat)<br>%A : 星期几 (Sunday..Saturday)<br>%b : 月份 (Jan..Dec)<br>%B : 月份 (January..December)<br>%c : 直接显示日期与时间<br>%d : 日 (01..31)<br>%D : 直接显示日期 (mm/dd/yy)<br>%h : 同 %b<br>%j : 一年中的第几天 (001..366)<br>%m : 月份 (01..12)<br>%U : 一年中的第几周 (00..53) (以 Sunday 为一周的第一天的情形)<br>%w : 一周中的第几天 (0..6)<br>%W : 一年中的第几周 (00..53) (以 Monday 为一周的第一天的情形)<br>%x : 直接显示日期 (mm/dd/yy)<br>%y : 年份的最后两位数字 (00.99)<br>%Y : 完整年份 (0000..9999)</p>
+<p>按照特定的格式输出时间：短接符”-“、空格” “和冒号”:” 为分隔符，其中空格前面加了转义符号”\”<br>[root@RHEL601 tmp]# date +%Y-%m-%d\ %H:%M:%S<br>2012-07-19 21:10:28<br>在当前时间的基础上往前推或者往后推三天<br>[root@RHEL601 tmp]# date -d “+3 day”<br>2012年 07月 22日 星期日 20:12:08 CST<br>[root@RHEL601 tmp]# date -d “-3 day”<br>2012年 07月 16日 星期一 20:12:12 CST<br>在当前时间的基础上往前推或者往后推三个月<br>[root@RHEL601 tmp]# date -d “-3 month”<br>2012年 04月 19日 星期四 20:12:39 CST<br>[root@RHEL601 tmp]# date -d “+3 month”<br>2012年 10月 19日 星期五 20:12:48 CST<br>在当前时间的基础上往前推或者往后推三年<br>[root@RHEL601 tmp]# date -d “+3 year”<br>2015年 07月 19日 星期日 20:13:06 CST<br>[root@RHEL601 tmp]# date -d “-3 year”<br>2009年 07月 19日 星期日 20:13:11 CST<br>在当前时间的基础上往前推或者往后推三小时<br>[root@RHEL601 tmp]# date -d “-3 hour”<br>2012年 07月 19日 星期四 17:13:20 CST<br>[root@RHEL601 tmp]# date -d “+3 hour”<br>2012年 07月 19日 星期四 23:13:24 CST<br>在当前时间的基础上往前推或者往后推三分钟<br>[root@RHEL601 tmp]# date -d “+3 minute”<br>2012年 07月 19日 星期四 20:16:56 CST<br>[root@RHEL601 tmp]# date -d “-3 minute”<br>2012年 07月 19日 星期四 20:10:59 CST<br>在当前时间的基础上往前推或者往后推三十秒<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “-30 second”<br>2012年 07月 19日 星期四 20:14:24 CST<br>2012年 07月 19日 星期四 20:13:54 CST<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “+30 second”<br>2012年 07月 19日 星期四 20:14:29 CST<br>2012年 07月 19日 星期四 20:14:59 CST<br>2、接下来的范例说明如何用date来表示各种各样的时间，表示的都是某一天的零点时间，也可以在当前的时分秒的基础上表示时间，(特别注意中间用到了反单引号<code>)参见范例
+date -d</code>date +%y%m01<code>#本月第一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>2012年 07月 01日 星期日 00:00:00 CST
+date -d</code>date +%y%m01<code>&quot;-1 day&quot;  #上个月最后一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>&quot;-1 day&quot;
+2012年 06月 30日 星期六 00:00:00 CST
+date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot; #4个月前的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot;
+2012年 03月 31日 星期六 00:00:00 CST
+date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot; #第11个月后的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot;
+2013年 06月 30日 星期日 00:00:00 CST
+date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-1 month” +%y%m01`<br>2012年 06月 01日 星期五 00:00:00 CST</p>
+<p>date -d <code>date -d &quot;+12 month&quot; +%y%m01</code> #第12个月后的第一天<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+12 month&quot; +%y%m01</code><br>2013年 07月 01日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code> #前一天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code><br>2012年 07月 18日 星期三 00:00:00 CST<br>date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code> #前三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code><br>2012年 07月 16日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code> #明天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code><br>2012年 07月 20日 星期五 00:00:00 CST<br>date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code> #往后推三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code><br>2012年 07月 22日 星期日 00:00:00 CST</p>
+<p>3、以下简单示范了字母大小写在date命令中的区别<br>Y #代表完整的年份，例如:2012年 将显示 2012<br>y #代表缩写年份，例如：2012年 缩写为 12<br>[root@RHEL601 tmp]# date +”%y%m01%H%M%S”<br>121201121556<br>[root@RHEL601 tmp]# date +”%Y%m01%H%M%S”<br>20121201121610<br>4、以下范例说明如何调整服务器的时间<br>ntpdate 210.72.145.44 #将服务器时间调整为正常时间，210.72.145.44 是国家授时中心服务器IP地址<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 13:07:07 ntpdate[15150]: adjust time server 210.72.145.44 offset -0.020920 sec<br>date 121212122012 #将时间设置为2012年 12月 12日 星期三 12:12:00，date后面的数字代表月日时分年，还可以加秒，需要后面跟英文状态下的句号字符”.”，例如：121212122012.12<br>[root@RHEL601 tmp]# date 121212122012<br>2012年 12月 12日 星期三 12:12:00 CST<br>date112809462014<br>[root@RHEL601 tmp]# date 121212122012.12<br>2012年 12月 12日 星期三 12:12:12 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;1 day ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 18日 星期三 20:13:04 CST<br>[root@RHEL601 tmp]# date<br>2012年 07月 18日 星期三 20:13:10 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;3 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 15日 星期日 20:13:18 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;5 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 10日 星期二 20:13:28 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 09日 星期一 20:13:39 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 08日 星期日 20:14:01 CST<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 20:14:15 ntpdate[26846]: step time server 210.72.145.44 offset 950404.037565 sec</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/数据工程师常用的-Shell-命令/" data-id="ciwvdwc42004lm4cyhfr2o33c" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvhh0mt0024r1cyl7i9o61m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -825,10 +608,10 @@ return 0;
 
 
   
-    <article id="post-awk" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-命令行" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/awk/" class="article-date">
-  <time datetime="2016-12-12T08:21:51.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/命令行/" class="article-date">
+  <time datetime="2016-12-13T01:26:14.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -839,7 +622,7 @@ return 0;
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/awk/">awk</a>
+      <a class="article-title" href="/2016/12/13/命令行/">命令行</a>
     </h1>
   
 
@@ -847,11 +630,40 @@ return 0;
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div></pre></td><td class="code"><pre><div class="line">awk 数据流处理工具</div><div class="line"></div><div class="line">awk脚本结构</div><div class="line">awk &apos; BEGIN&#123; statements &#125; statements2 END&#123; statements &#125; &apos;</div><div class="line"></div><div class="line">工作方式</div><div class="line">1.执行begin中语句块；</div><div class="line">2.从文件或stdin中读入一行，然后执行statements2，重复这个过程，直到文件全部被读取完毕；</div><div class="line">3.执行end语句块；</div><div class="line"></div><div class="line">print 打印当前行</div><div class="line"></div><div class="line">使用不带参数的print时，会打印当前行;</div><div class="line"></div><div class="line">  echo -e &quot;line1\nline2&quot; | awk &apos;BEGIN&#123;print &quot;start&quot;&#125; &#123;print &#125; END&#123; print &quot;End&quot; &#125;&apos;</div><div class="line"></div><div class="line">print 以逗号分割时，参数以空格定界;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1, var2 , var3; &#125;&apos;</div><div class="line">$&gt;v1 V2 v3</div><div class="line"></div><div class="line">使用-拼接符的方式（&quot;&quot;作为拼接符）;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1&quot;-&quot;var2&quot;-&quot;var3; &#125;&apos;</div><div class="line">$&gt;v1-V2-v3</div><div class="line"></div><div class="line">特殊变量： NR NF $0 $1 $2</div><div class="line"></div><div class="line">NR:表示记录数量，在执行过程中对应当前行号；</div><div class="line">NF:表示字段数量，在执行过程总对应当前行的字段数；</div><div class="line">$0:这个变量包含执行过程中当前行的文本内容；</div><div class="line">$1:第一个字段的文本内容；</div><div class="line">$2:第二个字段的文本内容；</div><div class="line"></div><div class="line">echo -e &quot;line1 f2 f3\n line2 \n line 3&quot; | awk &apos;&#123;print NR&quot;:&quot;$0&quot;-&quot;$1&quot;-&quot;$2&#125;&apos;</div><div class="line"></div><div class="line">打印每一行的第二和第三个字段：</div><div class="line">  awk &apos;&#123;print $2, $3&#125;&apos; file</div><div class="line"></div><div class="line">统计文件的行数：</div><div class="line">  awk &apos; END &#123;print NR&#125;&apos; file</div><div class="line"></div><div class="line">累加每一行的第一个字段：</div><div class="line">  echo -e &quot;1\n 2\n 3\n 4\n&quot; | awk &apos;BEGIN&#123;num = 0 ;</div><div class="line">  print &quot;begin&quot;;&#125; &#123;sum += $1;&#125; END &#123;print &quot;==&quot;; print sum &#125;&apos;</div><div class="line"></div><div class="line">传递外部变量</div><div class="line"></div><div class="line">var=1000</div><div class="line">echo | awk &apos;&#123;print vara&#125;&apos; vara=$var #  输入来自stdin</div><div class="line">awk &apos;&#123;print vara&#125;&apos; vara=$var file # 输入来自文件</div><div class="line"></div><div class="line">用样式对awk处理的行进行过滤</div><div class="line"></div><div class="line">awk &apos;NR &lt; 5&apos; #行号小于5</div><div class="line">awk &apos;NR==1,NR==4 &#123;print&#125;&apos; file #行号等于1和4的打印出来</div><div class="line">awk &apos;/linux/&apos; #包含linux文本的行（可以用正则表达式来指定，超级强大）</div><div class="line">awk &apos;!/linux/&apos; #不包含linux文本的行</div><div class="line"></div><div class="line">设置定界符</div><div class="line"></div><div class="line">使用-F来设置定界符（默认为空格）</div><div class="line">awk -F: &apos;&#123;print $NF&#125;&apos; /etc/passwd</div><div class="line"></div><div class="line">读取命令输出</div><div class="line"></div><div class="line">使用getline，将外部shell命令的输出读入到变量cmdout中；</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print cmdout &#125;&apos;</div><div class="line"></div><div class="line">在awk中使用循环</div><div class="line"></div><div class="line">for(i=0;i&lt;10;i++)&#123;print $i;&#125;</div><div class="line">for(i in array)&#123;print array[i];&#125;</div><div class="line"></div><div class="line">eg:</div><div class="line">以逆序的形式打印行：(tac命令的实现）</div><div class="line"></div><div class="line">seq 9| \</div><div class="line">awk &apos;&#123;lifo[NR] = $0; lno=NR&#125; \</div><div class="line">END&#123; for(;lno&gt;-1;lno--)&#123;print lifo[lno];&#125;</div><div class="line">&#125; &apos;</div><div class="line"></div><div class="line">awk实现head、tail命令</div><div class="line"></div><div class="line">head:</div><div class="line">  awk &apos;NR&lt;=10&#123;print&#125;&apos; filename</div><div class="line"></div><div class="line">tail:</div><div class="line">  awk &apos;&#123;buffer[NR%10] = $0;&#125; END&#123;for(i=0;i&lt;11;i++)&#123; \</div><div class="line">  print buffer[i %10]&#125; &#125; &apos; filename</div><div class="line"></div><div class="line">打印指定列</div><div class="line"></div><div class="line">awk方式实现：</div><div class="line">  ls -lrt | awk &apos;&#123;print $6&#125;&apos;</div><div class="line"></div><div class="line">cut方式实现</div><div class="line">  ls -lrt | cut -f6</div><div class="line"></div><div class="line">打印指定文本区域</div><div class="line"></div><div class="line">确定行号</div><div class="line">  seq 100| awk &apos;NR==4,NR==6&#123;print&#125;&apos;</div><div class="line"></div><div class="line">确定文本</div><div class="line">打印处于start_pattern 和end_pattern之间的文本；</div><div class="line">  awk &apos;/start_pattern/, /end_pattern/&apos; filename</div><div class="line"></div><div class="line">eg:</div><div class="line">seq 100 | awk &apos;/13/,/15/&apos;</div><div class="line">cat /etc/passwd| awk &apos;/mai.*mail/,/news.*news/&apos;</div><div class="line"></div><div class="line">awk常用内建函数</div><div class="line"></div><div class="line">index(string,search_string):返回search_string在string中出现的位置</div><div class="line">sub(regex,replacement_str,string):将正则匹配到的第一处内容替换为replacement_str;</div><div class="line">match(regex,string):检查正则表达式是否能够匹配字符串；</div><div class="line">length(string)：返回字符串长度</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print length(cmdout) &#125;&apos;</div><div class="line"></div><div class="line">printf 类似c语言中的printf，对输出进行格式化</div><div class="line">eg：</div><div class="line"></div><div class="line">seq 10 | awk &apos;&#123;printf &quot;-&gt;%4s\n&quot;, $1&#125;&apos;</div><div class="line"></div><div class="line">迭代文件中的行、单词和字符</div><div class="line"></div><div class="line">1. 迭代文件中的每一行</div><div class="line"></div><div class="line">while 循环法</div><div class="line"></div><div class="line">while read line;</div><div class="line">do</div><div class="line">echo $line;</div><div class="line">done &lt; file.txt</div><div class="line"></div><div class="line">改成子shell:</div><div class="line">cat file.txt | (while read line;do echo $line;done)</div><div class="line"></div><div class="line">awk法：</div><div class="line">cat file.txt| awk &apos;&#123;print&#125;&apos;</div><div class="line"></div><div class="line">2.迭代一行中的每一个单词</div><div class="line"></div><div class="line">for word in $line;</div><div class="line">do</div><div class="line">echo $word;</div><div class="line">done</div><div class="line"></div><div class="line">3. 迭代每一个字符</div><div class="line"></div><div class="line">$&#123;string:start_pos:num_of_chars&#125;：从字符串中提取一个字符；(bash文本切片）</div><div class="line">$&#123;#word&#125;:返回变量word的长度</div><div class="line"></div><div class="line">for((i=0;i&lt;$&#123;#word&#125;;i++))</div><div class="line">do</div><div class="line">echo $&#123;word:i:1);</div><div class="line">done</div><div class="line"></div><div class="line">从格式化输出里提取一列(我最常使用的awk技巧)</div><div class="line"></div><div class="line">我几乎天天都会使用它。真的。经常会有一些输出，我只需要其中的第二列，或第三列，下面这个命令就能做到这些：</div><div class="line">#Sample output of git status -s command:</div><div class="line"></div><div class="line">$ git status -s</div><div class="line"></div><div class="line">M .bashrc</div><div class="line">?? .vim/bundle/extempore/</div><div class="line"></div><div class="line"># Remove status code from git status and just get the file names</div><div class="line">$ git status -s | awk &apos;&#123;print $2&#125;&apos;</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div><div class="line">为什么不写个函数，让我们随时都可以用呢？</div><div class="line">function col &#123;</div><div class="line">awk -v col=$1 &apos;&#123;print $col&#125;&apos;</div><div class="line">&#125;</div><div class="line">这使得提取列非常容易，比如，你不想要第一列？简单：</div><div class="line">$ git status -s | col 2</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div></pre></td></tr></table></figure>
+        <p>熟练使用命令行是一种常常被忽视或被认为难以掌握的技能，但实际上，它可以提高你作为工程师的灵活性以及生产力。本文是一份我在 Linux 上工作时发现的一些关于命令行的使用的小技巧的摘要。有些小技巧是非常基础的，而另外一些则是相当复杂的甚至晦涩难懂的。这篇文章并不长，但当你能够熟练掌握这里列出的所有技巧时，你就学会了很多关于命令行的东西了。<br>必读</p>
+<p>涵盖范围：</p>
+<ul>
+<li>这篇文章对刚接触命令行的新手以及具有命令行使用经验的人都有用处。本文致力于做到覆盖面广（尽量包括一切重要的内容），具体（给出最常见的具体的例子）以及简洁（避免一些不必要的东西以及一些偏题的可以在其他地方翻阅到文献的东西）。 每个小技巧在某个特定情境下都是基本的或能够显著地节约时间。<br>本文为 Linux 所写，除了仅限 MacOS X 系统节。其它节中的大部分内容都适用于其它 Unix 系统或 MacOS 系统，甚至 Cygwin。<br>本文关注于交互式 Bash，尽管很多技巧也适用于其他 shell 或 Bash 脚本。<br>本文包括了“标准的”Unix 命令和需要安装特定包的命令，只要它们足够重要。</li>
+</ul>
+<p>注意事项：<br>为了能在一页内展示尽量多的东西，一些具体的信息会被间接的包含在引用页里。聪明机智的你如果掌握了使用 Google 搜索引擎的基本思路与命令，那么你将可以查阅到更多的详细信息。使用 apt-get／yum／dnf／pacman／pip／brew（以及其它合适的包管理器）来安装新程序。<br>使用 Explainshell 去获取相关命令、参数、管道等内容的解释<br>基础</p>
+<p>学习 Bash 的基础知识。具体来说，输入 man bash 并至少全文浏览一遍; 它很简单并且不长。其他的 shell 可能很好用，但 Bash 功能强大且几乎所有情况下都是可用的 （ 只学习 zsh，fish 或其他的 shell 的话，在你自己的电脑上会显得很方便，但在很多情况下会限制你，比如当你需要在服务器上工作时）。<br>学习并掌握至少一个基于文本的编辑器。通常 Vim （vi） 会是你最好的选择，因为在终端里进行随机编辑 Vim 真的毫无敌手，哪怕是 Emacs、某大型 IDE 甚至时下非常流行的编辑器。<br>学会如何使用 man 命令去阅读文档。学会使用 apropos 去查找文档。了解有些命令并不对应可执行文件，而是Bash内置的，可以使用 help 和 help -d 命令获取帮助信息。<br>学会使用 &gt; 和 &lt; 来重定向输出和输入，学会使用 | 来重定向管道。明白 &gt; 会覆盖了输出文件而 &gt;&gt; 是在文件未添加。了解标准输出 stdout 和标准错误 stderr。<br>学会使用通配符 <em> （或许再算上 ? 和 […]） 和引用以及引用中 ‘ 和 “ 的区别。<br>熟悉 Bash 任务管理工具：&amp;，ctrl-z，ctrl-c，jobs，fg，bg，kill 等。<br>了解 ssh，以及学会通过使用 ssh-agent，ssh-add 等命令来实现基本的无密码认证。<br>学会基本的文件管理：ls 和 ls -l （了解 ls -l 中每一列代表的意义），less，head，tail 和 tail -f （甚至 less +F），ln 和 ln -s （了解硬链接与软链接的区别），chown，chmod，du （硬盘使用情况概述：du -hk </em>）。 关于文件系统的管理，学习 df，mount，fdisk，mkfs，lsblk。知道 inode 是什么（与 ls -i 和 df -i等命令相关）。<br>学习基本的网络管理：ip 或 ifconfig，dig。<br>熟悉正则表达式，以及 grep／egrep 里不同参数的作用，例如 -i，-o，-v，-A，-B 和 -C，这些参数是值得学习并掌握的。<br>学会使用 apt-get，yum，dnf 或 pacman （取决于你使用的 Linux 发行版）来查找或安装软件包。并确保你的环境中有 pip 来安装基于 Python 的命令行工具 （接下来提到的部分程序使用 pip 来安装会很方便）。</p>
+<p>日常使用</p>
+<p>在 Bash 中，可以使用 Tab 自动补全参数，使用 ctrl-r 搜索命令行历史。<br>在 Bash 中，可以使用 ctrl-w 删除你键入的最后一个单词，使用 ctrl-u 删除整行，使用 alt-b 和 alt-f 以单词为单位移动光标，使用 ctrl-a 将光标移至行首，使用 ctrl-e 将光标移至行尾，使用 ctrl-k 删除光标至行尾的所有内容，使用ctrl-l 清屏。键入 man readline 查看 Bash 中的默认快捷键，内容很多。例如 alt-. 循环地移向前一个参数，以及 alt-<em> 展开通配符。<br>你喜欢的话，可以键入 set -o vi 来使用 vi 风格的快捷键，而 set -o emacs 可以把它改回来。<br>为了方便地键入长命令，在设置你的编辑器后（如 export EDITOR=vim），键入 ctrl-x ctrl-e 会打开一个编辑器来编辑当前命令。在 vi 模式下则键入 escape-v 实现相同的功能。<br>键入 history 查看命令行历史记录。其中有许多缩写，例如 !$（最后键入的参数）和 !!（最后键入的命令），尽管通常被 ctrl-r 和 alt-. 取代。<br>回到上一个工作路径：cd -<br>如果你输入命令的时候改变了主意，按下 alt-# 来在行首添加 #，或者依次按下 ctrl-a， #， enter。这样做的话，之后你可以很方便的利用命令行历史回到你刚才输入到一半的命令。<br>使用 xargs （ 或 parallel）。他们非常给力。注意到你可以控制每行参数个数（-L）和最大并行数（-P）。如果你不确定它们是否会按你想的那样工作，先使用 xargs echo 查看一下。此外，使用 -I{} 会很方便。例如：<br>1<br>2<br>      find.-name’</em>.py’|xargs grep some_function<br>      cat hosts|xargs-I{}sshroot@{}hostname<br>pstree -p 有助于展示进程树。<br>使用 pgrep 和 pkill 根据名字查找进程或发送信号（-f 参数通常有用）。<br>了解你可以发往进程的信号的种类。比如，使用 kill -STOP [pid] 停止一个进程。使用 man 7 signal 查看详细列表。<br>使用 nohup 或 disown 使一个后台进程持续运行。<br>使用 netstat -lntp 或 ss -plat 检查哪些进程在监听端口（默认是检查 TCP 端口; 使用参数 -u 检查 UDP 端口）。<br>有关打开套接字和文件，请参阅 lsof。<br>使用 uptime 或 w 来查看系统已经运行多长时间。<br>使用alias来创建常用命令的快捷形式。例如：alias ll=’ls -latr’使你可以方便地执行ls -latr命令。<br>在 Bash 脚本中，使用 set -x 去调试输出，尽可能的使用严格模式，使用 set -e 令脚本在发生错误时退出而不是继续运行，使用 set -u 来检查是否使用了未赋值的变量，使用 set -o pipefail 严谨地对待错误（尽管问题可能很微妙）。当牵扯到很多脚本时，使用 trap。一个好的习惯是在脚本文件开头这样写，这会使它检测一些错误，并在错误发生时中断程序并输出信息：<br>1<br>2<br>      set-euo pipefail<br>      trap”echo ‘error: Script failed: see failed command above’”ERR<br>在 Bash 脚本中，子 shell（使用括号(…)）是一种便捷的方式去组织参数。一个常见的例子是临时地移动工作路径，代码如下：<br>1<br>2<br>3</p>
+<pre><code># do something in current dir
+(cd/some/other/dir&amp;&amp;other-command)
+# continue in original dir
+</code></pre><p>在 Bash 中，注意到其中有许多形式的扩展。检查变量是否存在：${name:?error message}。例如，当 Bash 脚本需要一个参数时，可以使用这样的代码 input_file=${1:?usage: $0 input_file}。数学表达式：i=$(( (i + 1) % 5 ))。序列：{1..10}。 截断字符串：${var%suffix} 和 ${var#prefix}。例如，假设 var=foo.pdf，那么 echo ${var%.pdf}.txt 将输出 foo.txt。<br>使用括号扩展（{…}）可以减少不必要的重复输入相似文本以及文本组合。<br>通过使用 &lt;(some command) 可以将输出视为文件。例如，对比本地文件 /etc/hosts 和一个远程文件：<br>1<br>      diff/etc/hosts&lt;(ssh somehost cat/etc/hosts)<br>了解 Bash 中的“here documents”，例如 cat &lt;<eof ...。="" 在="" bash="" 中，同时重定向标准输出和标准错误，some-command="">logfile 2&gt;&amp;1。通常，为了保证命令不会在标准输入里残留一个打开了的文件句柄导致你当前所在的终端无法操作，添加 &lt;/dev/null 是一个好习惯。<br>使用 man ascii 查看具有十六进制和十进制值的ASCII表。man unicode，man utf-8，以及 man latin1 有助于你去了解通用的编码信息。<br>使用 screen 或 tmux 来使用多个屏幕，当你在使用 ssh 时（保存 session 信息）将尤为有用。另一个轻量级的解决方案是 dtach。<br>ssh 中，了解如何使用 -L 或 -D（偶尔需要用 -R）去开启隧道是非常有用的，例如当你需要从一台远程服务器上访问 web。<br>对 ssh 设置做一些小优化可能是很有用的，例如这个 ~/.ssh/config 文件包含了防止特定环境下断开连接、压缩数据、多通道等选项：</eof></p>
+<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>      TCPKeepAlive=yes<br>      ServerAliveInterval=15<br>      ServerAliveCountMax=6<br>      Compression=yes<br>      ControlMaster auto<br>      ControlPath/tmp/%r@%h:%p<br>      ControlPersist yes</p>
+<p>部分其他的关于 ssh 的选项是安全敏感且应当小心启用的。例如在可信任的网络中：StrictHostKeyChecking=no，ForwardAgent=yes<br>考虑使用 mosh 作为 ssh 的替代品，它使用 UDP 协议。<br>获取文件的八进制格式权限，使用类似如下的代码：<br>1<br>      stat-c’%A %a %n’/etc/timezone<br>使用 percol 或者 fzf 可以交互式地从另一个命令输出中选取值。<br>使用 fpp（PathPicker）可以与基于另一个命令(例如 git）输出的文件交互。<br>将 web 服务器上当前目录下所有的文件（以及子目录）暴露给你所处网络的所有用户，使用： python -m SimpleHTTPServer 7777 （使用端口 7777 和 Python 2）或python -m http.server 7777 （使用端口 7777 和 Python 3）。<br>以某种权限执行命令，使用sudo（root 权限）或sudo -u（其他用户）。使用su或者sudo bash来启动一个以对应用户权限运行的 shell。使用su -模拟其他用户的登录。</p>
+<p>文本及数据处理</p>
+<p>在当前路径下通过文件名定位一个文件，find . -iname ‘<em>something</em>‘（或类似的）。在所有路径下通过文件名查找文件，使用 locate something （但请记住 updatedb 可能没有对最近新建的文件建立索引）。<br>使用 ag 在源代码或数据文件里检索（比 grep -r 更好）。<br>将HTML转为文本：lynx -dump -stdin<br>Markdown，HTML，以及所有文档格式之间的转换，试试 pandoc。<br>如果你不得不处理 XML，xmlstarlet 宝刀未老。<br>使用 jq 处理 JSON。<br>Excel 或 CSV 文件的处理，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep 等工具。<br>关于 Amazon S3，s3cmd 很方便而 s4cmd 更快。Amazon 官方的 aws 以及 saws 是其他 AWS 相关工作的基础。<br>了解如何使用 sort 和 uniq，包括 uniq 的 -u 参数和 -d 参数，详见后文一行代码节。另外可以了解一下 comm。<br>了解如何使用 cut，paste 和 join 来更改文件。很多人都会使用 cut，但几乎都不会使用 join。<br>了解如何运用 wc 去计算新行数（-l），字符数（-m），单词数（-w）以及字节数（-c）。<br>了解如何使用 tee 将标准输入复制到文件甚至标准输出，例如 ls -al | tee file.txt。<br>了解语言环境对许多命令行工具的微妙影响，包括排序的顺序和性能。大多数 Linux 的安装过程会将 LANG 或其他有关的变量设置为符合本地的设置。意识到当你改变语言环境时，排序的结果可能会改变。明白国际化可能会时 sort 或其他命令运行效率下降许多倍。某些情况下（例如集合运算）你可以放心的使用 export LC_ALL=C 来忽略掉国际化并使用基于字节的顺序。<br>了解 awk 和 sed 关于数据的简单处理的用法。例如，将文本文件中第三列的所有数字求和：awk ‘{ x += $3 } END { print x }’. 这可能比同等作用的 Python 代码快三倍且代码量少三倍。<br>替换一个或多个文件中出现的字符串：<br>1<br>      perl-pi.bak-e’s/old-string/new-string/g’my-files-*.txt<br>依据某种模式批量重命名多个文件，使用 rename。对于复杂的重命名规则，repren 或许有帮助。<br>1<br>2<br>3<br>4</p>
+<pre><code># Recover backup files foo.bak -&gt; foo:
+rename&apos;s/\.bak$//&apos;*.bak
+# Full rename of filenames，directories，and contents foo -&gt; bar:
+repren--full--preserve-case--from foo--tobar.
+</code></pre><p>使用 shuf 从一个文件中随机选取多行。<br>了解 sort 的参数。处理数字方面，使用 -n 或者 -h 来处理可读性数字（例如 du -h 的输出）。明白键的工作原理（-t 和 -k）。例如，注意到你需要 -k1，1 来仅按第一个域来排序，而 -k1 意味着按整行排序。稳定排序（sort -s）在某些情况下很有用。例如，以第二个域为主关键字，第一个域为次关键字进行排序，你可以使用 sort -k1，1 | sort -s -k2，2。<br>如果你想在 Bash 命令行中写 tab 制表符，按下 ctrl-v [Tab] 或键入 $’\t’ （后者可能更好，因为你可以复制粘贴它）。<br>标准的源代码对比及合并工具是 diff 和 patch。使用 diffstat 查看变更总览数据。注意到 diff -r 对整个文件夹有效。使用 diff -r tree1 tree2 | diffstat 查看变更总览数据。<br>对于二进制文件，使用 hd 使其以十六进制显示以及使用 bvi 来编辑二进制。<br>同样对于二进制文件，使用 strings（包括 grep 等等）允许你查找一些文本。<br>二进制文件对比（Delta 压缩），使用 xdelta3。<br>使用 iconv 更改文本编码。而更高级的用法，可以使用 uconv，它支持一些高级的 Unicode 功能。例如，这条命令将所有元音字母转为小写并移除了：<br>1<br>      uconv-futf-8-tutf-8-x’::Any-Lower; ::Any-NFD; [:Nonspacing Mark:] &gt;; ::Any-NFC; ‘<input.txt>output.txt<br>拆分文件，查看 split（按大小拆分）和 csplit（按模式拆分）。<br>使用 zless，zmore，zcat 和 zgrep对压缩过的文件进行操作。</input.txt></p>
+<p>系统调试</p>
+<p>curl 和 curl -I 可以便捷地被应用于 web 调试中，它们的好兄弟 wget 也可以，或者是更潮的 httpie。<br>使用 iostat、netstat、top （htop 更佳）和 dstat 去获取硬盘、cpu 和网络的状态。熟练掌握这些工具可以使你快速的对系统的当前状态有一个大概的认识。<br>使用 netstat 和 ss 查看网络连接的细节。<br>若要对系统有一个深度的总体认识，使用 glances。它在一个终端窗口中向你提供一些系统级的数据。这对于快速的检查各个子系统非常有帮助。<br>若要了解内存状态，运行并理解 free 和 vmstat 的输出。尤其注意“cached”的值，它指的是 Linux 内核用来作为文件缓存的内存大小，因此它与空闲内存无关。<br>Java 系统调试则是一件截然不同的事，一个可以用于 Oracle 的 JVM 或其他 JVM 上的调试的小技巧是你可以运行kill -3 <pid> 同时一个完整的栈轨迹和堆概述（包括 GC 的细节）会被保存到标准输出/日志文件。JDK 中的jps，jstat，jstack，jmap 很有用。SJK tools 更高级.<br>使用 mtr 去跟踪路由，用于确定网络问题。<br>用 ncdu 来查看磁盘使用情况，它比常用的命令，如 du -sh *，更节省时间。<br>查找正在使用带宽的套接字连接或进程，使用 iftop 或 nethogs。<br>ab 工具（捆绑于 Apache）可以简单粗暴地检查 web 服务器的性能。对于更复杂的负载测试，使用 siege。<br>wireshark，tshark 和 ngrep 可用于复杂的网络调试。<br>了解 strace 和 ltrace。这俩工具在你的程序运行失败、挂起甚至崩溃，而你却不知道为什么或你想对性能有个总体的认识的时候是非常有用的。注意 profile 参数（-c）和附加到一个运行的进程参数 （-p）。<br>了解使用 ldd 来检查共享库。<br>了解如何运用 gdb 连接到一个运行着的进程并获取它的堆栈轨迹。<br>学会使用 /proc。它在调试正在出现的问题的时候有时会效果惊人。比如：/proc/cpuinfo，/proc/meminfo，/proc/cmdline，/proc/xxx/cwd，/proc/xxx/exe，/proc/xxx/fd/，/proc/xxx/smaps（这里的 xxx 表示进程的 id 或 pid）。<br>当调试一些之前出现的问题的时候，sar 非常有用。它展示了 cpu、内存以及网络等的历史数据。<br>关于更深层次的系统分析以及性能分析，看看 stap（SystemTap），perf，以及sysdig。<br>查看你当前使用的系统，使用 uname ， uname -a （Unix／kernel 信息） 或者 lsb_release -a （Linux 发行版信息）。<br>无论什么东西工作得很欢乐时试试 dmesg（可能是硬件或驱动问题）。</pid></p>
+<p>一行代码</p>
+<p>一些命令组合的例子：<br>当你需要对文本文件做集合交、并、差运算时，结合使用 sort/uniq 很有帮助。假设 a 与 b 是两内容不同的文件。这种方式效率很高，并且在小文件和上G的文件上都能运用 （sort 不被内存大小约束，尽管在 /tmp 在一个小的根分区上时你可能需要 -T 参数），参阅前文中关于 LC_ALL 和 sort 的 -u 参数的部分。<br>1<br>2<br>3<br>      catab|sort|uniq&gt;c   # c is a union b<br>      catab|sort|uniq-d&gt;c   # c is a intersect b<br>      catabb|sort|uniq-u&gt;c   # c is set difference a - b<br>使用 grep . * 来阅读检查目录下所有文件的内容，例如检查一个充满配置文件的目录比如 /sys、/proc、/etc。<br>计算文本文件第三列中所有数的和（可能比同等作用的 Python 代码快三倍且代码量少三倍）：<br>1<br>      awk’{ x += $3 } END { print x }’myfile<br>如果你想在文件树上查看大小\日期，这可能看起来像递归版的 ls -l 但比 ls -lR 更易于理解：<br>1<br>      find.-typef-ls<br>假设你有一个类似于 web 服务器日志文件的文本文件，并且一个确定的值只会出现在某些行上，假设一个 acct_id参数在URI中。如果你想计算出每个 acct_id 值有多少次请求，使用如下代码：<br>1<br>      cat access.log|egrep-o’acct_id=[0-9]+’|cut-d=-f2|sort|uniq-c|sort-rn<br>运行这个函数从这篇文档中随机获取一条小技巧（解析 Markdown 文件并抽取项目）：<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>      functiontaocl(){<br>        curl-s<a href="https://raw.githubusercontent.com/jlevy/the-art-of-command-line/master/README.md" target="_blank" rel="external">https://raw.githubusercontent.com/jlevy/the-art-of-command-line/master/README.md</a> |<br>          pandoc-fmarkdown-thtml|<br>          xmlstarlet fo–html–dropdtd|<br>          xmlstarlet sel-t-v”(html/body/ul/li[count(p)&gt;0])[$RANDOM mod last()+1]”|<br>          xmlstarlet unesc|fmt-80<br>      }<br>冷门但有用</p>
+<p>expr：计算表达式或正则匹配<br>m4：简单地宏处理器<br>yes：多次打印字符串<br>cal：漂亮的日历<br>env：执行一个命令（脚本文件中很有用）<br>printenv：打印环境变量（调试时或在使用脚本文件时很有用）<br>look：查找以特定字符串开头的单词<br>cut、paste 和 join：数据修改<br>fmt：格式化文本段落<br>pr：将文本格式化成页/列形式<br>fold：包裹文本中的几行<br>column：将文本格式化成多列或表格<br>expand 和 unexpand：制表符与空格之间转换<br>nl：添加行号<br>seq：打印数字<br>bc：计算器<br>factor：分解因数<br>gpg：加密并签名文件<br>toe：terminfo entries 列表<br>nc：网络调试及数据传输<br>socat：套接字代理，与 netcat 类似<br>slurm：网络可视化<br>dd：文件或设备间传输数据<br>file：确定文件类型<br>tree：以树的形式显示路径和文件，类似于递归的 ls<br>stat：文件信息<br>time：执行命令，并计算执行时间<br>lockfile：使文件只能通过 rm -f 移除<br>logrotate: 切换、压缩以及发送日志文件<br>watch：重复运行同一个命令，展示结果并高亮有更改的部分<br>tac：反向输出文件<br>shuf：文件中随机选取几行<br>comm：一行一行的比较排序过的文件<br>pv：监视通过管道的数据<br>hd，hexdump，xxd，biew 和 bvi：保存或编辑二进制文件<br>strings：从二进制文件中抽取文本<br>tr：转换字母<br>iconv 或 uconv：简易的文件编码<br>split 和 csplit：分割文件<br>sponge：在写入前读取所有输入，在读取文件后再向同一文件写入时比较有用，如 grep -v something some-file | sponge some-file<br>units：将一种计量单位转换为另一种等效的计量单位（参阅 /usr/share/units/definitions.units）<br>apg：随机生成密码<br>7z：高比例的文件压缩<br>ldd：动态库信息<br>nm：提取 obj 文件中的符号<br>ab：性能分析 web 服务器<br>strace：系统调用调试<br>mtr：更好的网络调试跟踪工具<br>cssh：可视化的并发 shell<br>rsync：通过 ssh 或本地文件系统同步文件和文件夹<br>wireshark 和 tshark：抓包和网络调试工具<br>ngrep：网络层的 grep<br>host 和 dig：DNS 查找<br>lsof：列出当前系统打开文件的工具以及查看端口信息<br>dstat：系统状态查看<br>glances：高层次的多子系统总览<br>iostat：硬盘使用状态<br>mpstat: CPU 使用状态<br>vmstat: 内存使用状态<br>htop：top 的加强版<br>last：登入记录<br>w：查看处于登录状态的用户<br>id：用户/组 ID 信息<br>sar：系统历史数据<br>iftop 或 nethogs：套接字及进程的网络利用<br>ss：套接字数据<br>dmesg：引导及系统错误信息<br>sysctl: 在内核运行时动态地查看和修改内核的运行参数<br>hdparm：SATA/ATA 磁盘更改及性能分析<br>lsb_release：Linux 发行版信息<br>lsblk：列出块设备信息：以树形展示你的磁盘以及磁盘分区信息<br>lshw，lscpu，lspci，lsusb 和 dmidecode：查看硬件信息，包括 CPU、BIOS、RAID、显卡、USB设备等<br>lsmod 和 modinfo：列出内核模块，并显示其细节<br>fortune，ddate 和 sl：额，这主要取决于你是否认为蒸汽火车和莫名其妙的名人名言是否“有用”</p>
+<p>仅限MacOS X</p>
+<p>以下是仅限于 MacOS 系统的技巧<br>用 brew （Homebrew）或者 port （MacPorts）进行包管理。这些可以用来在 Mac 系统上安装以上的大多数命令。<br>用 pbcopy 复制任何命令的输出到桌面应用，用 pbpaste 粘贴输入。<br>在终端中将 Option 键视为 alt 键，Preferences -&gt; Profiles -&gt; Keyboard 勾选上 “Use Option as Meta key”。<br>用 open 或者 open -a /Applications/Whatever.app 使用桌面应用打开文件。<br>Spotlight： 用 mdfind 搜索文件，用 mdls 列出元数据（例如照片的 EXIF 信息）。<br>注意 MacOS 系统是基于 BSD UNIX 的，许多命令（例如 ps，ls，tail，awk，sed）都和 Linux 中有些微的不同，这些极大的被 System V-style Unix 和 GNU 工具影响。你可以通过标题为 “BSD General Commands Manual” 的 man 页面发现这些不同。在有些情况下 GNU 版本的命令也可能被安装（例如 gawk 和 gsed 对应 GNU 中的 awk 和 sed ）。如果要写跨平台的 Bash 脚本，避免使用这些命令（例如，考虑 Python 或者 perl ）或者经过仔细的测试。</p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwvdwc2b002jm4cyxtnbbw6o" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="ciwvhh0ob004jr1cyb45760go" class="article-share-link">Share</a>
       
       
     </footer>
@@ -864,7 +676,7 @@ return 0;
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/13/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/15/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/13/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/15/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -890,28 +702,28 @@ return 0;
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
@@ -927,7 +739,7 @@ return 0;
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

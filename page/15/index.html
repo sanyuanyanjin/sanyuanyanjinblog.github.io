@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-sed" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-ssh自动登录" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/sed/" class="article-date">
-  <time datetime="2016-12-12T08:09:38.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/ssh自动登录/" class="article-date">
+  <time datetime="2016-12-13T01:25:32.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/sed/">sed</a>
+      <a class="article-title" href="/2016/12/13/ssh自动登录/">ssh自动登录</a>
     </h1>
   
 
@@ -83,23 +83,58 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>sed 文本替换利器</p>
-<p>用命令行往文件的顶部添加文字</p>
-<p>每次我都会重新寻找这个命令的写法。下面就是如何使用sed往一个文件顶部添加一行的方法：<br>sed -i ‘1s/^/line to insert\n/‘ path/to/file/you/want/to/change.txt</p>
-<p>首处替换<br>  seg ‘s/text/replace_text/‘ file   //替换每一行的第一处匹配的text</p>
-<p>全局替换<br>   seg ‘s/text/replace_text/g’ file</p>
-<p>默认替换后，输出替换后的内容，如果需要直接替换原文件,使用-i：<br>  seg -i ‘s/text/repalce_text/g’ file</p>
-<p>移除空白行：<br>  sed ‘/^$/d’ file</p>
-<p>变量转换<br>已匹配的字符串通过标记&amp;来引用.<br>echo this is en example | seg ‘s/\w+/[&amp;]/g’<br>$&gt;[this]  [is] [en] [example]</p>
-<p>子串匹配标记<br>第一个匹配的括号内容使用标记 \1 来引用<br>  sed ‘s/hello([0-9])/\1/‘</p>
-<p>双引号求值<br>sed通常用单引号来引用；也可使用双引号，使用双引号后，双引号会对表达式求值：<br>  sed ‘s/$var/HLLOE/‘</p>
-<p>当使用双引号时，我们可以在sed样式和替换字符串中指定变量；<br>eg:<br>p=patten<br>r=replaced<br>echo “line con a patten” | sed “s/$p/$r/g”<br>$&gt;line con a replaced</p>
-<p>其它示例<br>字符串插入字符：将文本中每行内容（PEKSHA） 转换为 PEK/SHA<br>  sed ‘s/^.{3}/&amp;\//g’ file</p>
+        <p>shell脚本实现ssh自动登录远程服务器示例:</p>
+<p>复制代码</p>
+<p>#!/usr/bin/<br>expect<br>spawn ssh root@192.168.22.194<br>expect “<em>password:”send “123\r”expect “</em>#”interact</p>
+<p>复制代码<br>Expect是一个用来处理交互的命令。借助Expect，我们可以将交互过程写在一个脚本上，使之自动化完成。形象的说，ssh登录，ftp登录等都符合交互的定义。下文我们首先提出一个问题，然后介绍基础知四个命令，最后提出解决方法。</p>
+<p>问题</p>
+<p>如何从机器A上ssh到机器B上，然后执行机器B上的命令？如何使之自动化完成？</p>
+<p>四个命令</p>
+<p>Expect中最关键的四个命令是send,expect,spawn,interact。</p>
+<p>send：用于向进程发送字符串<br>expect：从进程接收字符串<br>spawn：启动新的进程<br>interact：允许用户交互</p>
+<ol>
+<li>send命令</li>
+</ol>
+<p>send命令接收一个字符串参数，并将该参数发送到进程。</p>
+<p>expect1.1&gt; send “hello world\n”hello world</p>
+<ol>
+<li>expect命令</li>
+</ol>
+<p>(1)基础知识</p>
+<p>expect命令和send命令正好相反，expect通常是用来等待一个进程的反馈。expect可以接收一个字符串参数，也可以接收正则表达式参数。和上文的send命令结合，现在我们可以看一个最简单的交互式的例子：</p>
+<p>expect “hi\n”send “hello there!\n”<br>这两行代码的意思是：从标准输入中等到hi和换行键后，向标准输出输出hello there。</p>
+<p>tips： $expect_out(buffer)存储了所有对expect的输入，&lt;$expect_out(0,string)&gt;存储了匹配到expect参数的输入。<br>比如如下程序：</p>
+<p>expect “hi\n”send “you typed &lt;$expect_out(buffer)&gt;”send “but I only expected &lt;$expect_out(0,string)&gt;”<br>当在标准输入中输入</p>
+<p>test<br>hi<br>是，运行结果如下</p>
+<p>you typed: test<br>hi<br>I only expect: hi<br>(2)模式-动作</p>
+<p>expect最常用的语法是来自tcl语言的模式-动作。这种语法极其灵活，下面我们就各种语法分别说明。</p>
+<p>单一分支模式语法：</p>
+<p>expect “hi” {send “You said hi”}<br>匹配到hi后，会输出”you said hi”</p>
+<p>多分支模式语法：</p>
+<p>expect “hi” { send “You said hi\n” } \”hello” { send “Hello yourself\n” } \”bye” { send “That was unexpected\n” }<br>匹配到hi,hello,bye任意一个字符串时，执行相应的输出。等同于如下写法：</p>
+<p>expect {“hi” { send “You said hi\n”}”hello” { send “Hello yourself\n”}”bye” { send “That was unexpected\n”}}</p>
+<ol>
+<li>spawn命令</li>
+</ol>
+<p>上文的所有demo都是和标准输入输出进行交互，但是我们跟希望他可以和某一个进程进行交互。spawm命令就是用来启动新的进程的。spawn后的send和expect命令都是和spawn打开的进程进行交互的。结合上文的send和expect命令我们可以看一下更复杂的程序段了。</p>
+<p>set timeout -1spawn ftp ftp.test.com      //打开新的进程，该进程用户连接远程ftp服务器expect “Name”             //进程返回Name时send “user\r”        //向进程输入anonymous\rexpect “Password:”        //进程返回Password:时send “123456\r”    //向进程输入don@libes.com\rexpect “ftp&gt; “            //进程返回ftp&gt;时send “binary\r”           //向进程输入binary\rexpect “ftp&gt; “            //进程返回ftp&gt;时send “get test.tar.gz\r”  //向进程输入get test.tar.gz\r<br>这段代码的作用是登录到ftp服务器ftp ftp.uu.net上，并以二进制的方式下载服务器上的文件test.tar.gz。程序中有详细的注释。</p>
+<p>4.interact</p>
+<p>到现在为止，我们已经可以结合spawn、expect、send自动化的完成很多任务了。但是，如何让人在适当的时候干预这个过程了。比如下载完ftp文件时，仍然可以停留在ftp命令行状态，以便手动的执行后续命令。interact可以达到这些目的。下面的demo在自动登录ftp后，允许用户交互。</p>
+<p>spawn ftp ftp.test.comexpect “Name”send “user\r”expect “Password:”send “123456\r”interact<br>解决方法</p>
+<p>上文中提到：</p>
+<p>如何从机器A上ssh到机器B上，然后执行机器B上的命令？如何使之自动化完成？</p>
+<p>下面一段脚本实现了从机器A登录到机器B，然后执行机器B上的pwd命令，并停留在B机器上，等待用户交互。具体含义请参考上文。</p>
+<p>#!/home/tools/bin/64/expect -f</p>
+<p>set timeout -<br>1 </p>
+<p>spawn ssh $BUser@$<br>BHost</p>
+<p>expect  “*password:” { send “$password\r”<br>}</p>
+<p>expect  “$*” { send “pwd\r”<br>}</p>
+<p>interact</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwvdwc2l002ym4cyjrd5p24s" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="ciwvhh0nq003gr1cysmcggskf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -109,10 +144,10 @@
 
 
   
-    <article id="post-umount" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-vim常用命令" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/umount/" class="article-date">
-  <time datetime="2016-12-12T08:09:03.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/vim常用命令/" class="article-date">
+  <time datetime="2016-12-13T01:24:48.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -123,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/umount/">umount</a>
+      <a class="article-title" href="/2016/12/13/vim常用命令/">vim常用命令</a>
     </h1>
   
 
@@ -131,12 +166,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>原来umount 还有一个-l选项，作用是当需卸载文件系统的引用不繁忙时直接卸载：<br>umount -l directoryname</p>
+        <p>移动光标（普通模式下）<br>括号匹配：%<br>同词： #和* （整个单词，不是字符）<br>词组： w b e（词尾）<br>行内：0 $ ^ g_ (f t下一个bla)<br>跳行： :22<br>翻页： ctrl + （fb ud）<br>首尾： gg G<br>查找： /word （n查找下一个）<br>block： [[和]]<br>修改<br>插入：o O（新行） ； a（光标后）；i（光标前） ；r（光标处） ； (cw 到词尾)<br>删除： x X ； d（删除行） ； ggdG全部删除<br>撤销： u 或 ctrl+r<br>复制：y ； y$到最后<br>粘贴：p<br>大写：gU大写； gu小写 (选中之后)<br>替换： :%s/foo/bar<br>文件 （命令模式）<br>退出： w q ！； ZZ ； :w文件 ； :x（后面加a表示所有文件）<br>打开： e （有参数，也可以创建新的）o也可以<br>另存： saveas<br>新建： enew （无参数）</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwvdwc2t0038m4cyrp7t5c9o" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="ciwvhh0o0003rr1cy2s03cryv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,10 +181,10 @@
 
 
   
-    <article id="post-uniq" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-route" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/uniq/" class="article-date">
-  <time datetime="2016-12-12T08:07:25.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/route/" class="article-date">
+  <time datetime="2016-12-13T01:23:55.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -160,7 +195,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/uniq/">uniq</a>
+      <a class="article-title" href="/2016/12/13/route/">route</a>
     </h1>
   
 
@@ -168,16 +203,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>uniq 消除重复行</p>
-<p>消除重复行<br>  sort unsort.txt | uniq</p>
-<p>统计各行在文件中出现的次数<br>  sort unsort.txt | uniq -c</p>
-<p>找出重复行<br>  sort unsort.txt | uniq -d</p>
-<p>可指定每行中需要比较的重复内容：-s 开始位置 -w 比较字符数</p>
+        <p>a.如何用命令行方式给linux机器添加一个默认网关，假设网关地址为10.0.0.254？<br>b. 192.168.1.0网段， 192.168.1.1网关的某一服务器想连入172.16.1.0/24段,该如何添加路由（奇虎360）<br>c.如果添加一个主机路由？<br>请分别解答。<br>解答：d -net 172.16.0.0  netmask 255.255.255.0 gw 192.168.1.1<br>route 命令使用方法：<br>a.缺省网关路由<br>    默认网关就是数据包不匹配任何设定的路由规则，最后流经的地址关口！网关按字面意思就是网络的关口，就相当于我们家里房子的门一样，如果外出就要经过房门，数据包也是一样。<br>本题的答案：<br>route del default gw 10.0.0.254<br>解答实践：<br>[root@oldboy ~]# route -n #==&gt;查看路由表，netstat -rn也可以。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0</p>
+<p>#==&gt;这里就是系统的默认网关信息，表示去任何地方（0.0.0.0），都发给10.0.0.254，因为是默认网关，所以，放在了最后一条。路由也是有顺序的，如果不符合任何一条规则就交给默认网关处理。<br>[root@oldboy ~]# route del default gw 10.0.0.254 #==&gt;这个命令是删除默认的网关。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>[root@oldboy ~]# route add default gw 10.0.0.254    #==&gt;这个命令是添加默认的网关，也是本题的答案。<br>[root@oldboy ~]# netstat -rn<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #==&gt;又回来了<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0 #这里就是添加的默认网关记录。<br>特别强调：实际上route add default gw 10.0.0.254 就相当于route add -net 0.0.0.0 netmask 0.0.0.0 gw 10.0.0.254<br>b.网络路由：即去往某一网络或网段的路由<br>    一般多网段之间互相通信，希望建立一条优先路由，而不是通过默认网关时就可以配置网络路由。还是拿房子比喻，你现在不是要出门，而是卧室，卫生间，去卧室就要经过卧室的门，去卫生间也要经过卫生间的门，这里的卧室和卫生间的门就可以认为是去往某一网段的路由，而不是默认路由（即房子的门。）<br>    实际工作中会有需求，两个不同的内部网络之间互访，而不是出网访问，就是上面例子的情况。<br>    本题的答案：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>解答实践：<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>SIOCADDRT: 网络不可达 #==&gt;当连不通地址192.168.1.1时，无法添加路由。<br>[root@oldboy ~]# ifconfig eth0:0 192.168.1.1/24 up #==&gt;添加一个IP别名用于临时测试，如果永久生效最好加双网卡或写入到配置文件。<br>[root@oldboy ~]# ifconfig eth0:0 #==&gt;查看添加的IP别名（网络里把这种多IP的方式称为子接口）<br>eth0:0    Link encap:Ethernet  HWaddr 00:0C:29:65:A4:FD<br>          inet addr:192.168.1.1  Bcast:192.168.1.255  Mask:255.255.255.0<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>再来添加去192.168.1.0的数据包，交给192.168.1.1处理。<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>[root@oldboy ~]# netstat -rn   #==&gt;和route -n很像。<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG        0 0          0 eth0 #==&gt;这就是网络路由<br>192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U         0 0          0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG        0 0          0 eth0<br>拓展：其他写法<br>[root@oldboy ~]# route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0  #==&gt;指定设备而不是地址。<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     192.168.1.1     255.255.255.0   UG    0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>[root@oldboy ~]# route del -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route add -net 192.168.1.0/24 dev eth0<br>[root@oldboy ~]# route -n<br>Kernel IP routing table<br>Destination     Gateway         Genmask         Flags Metric Ref    Use Iface<br>10.0.0.0        0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>192.168.1.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0<br>169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0<br>0.0.0.0         10.0.0.254      0.0.0.0         UG    0      0        0 eth0<br>总结：<br>route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1<br>route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0<br>route add -net 192.168.1.0/24 dev eth0<br>route del -net 192.168.1.0/24 dev eth0<br>特别强调：以上配置在重启网络时都会失效，那么如何让它永久生效呢？<br>如果要是永久生效，有如下几种方法：<br>方法一：<br>vi /etc/sysconfig/network-scripts/route-eth0  #默认不存在此文件<br>加入如下内容：<br>192.168.1.0/24 via 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法二：<br>vi /etc/sysconfig/static-routes  #默认不存在此文件<br>加入如下内容:<br>any net 192.168.1.0/24 gw 192.168.1.1<br>提示：写到配置里，重启网络服务和重启系统都会生效！</p>
+<p>方法三：<br>vi /etc/rc.local<br>加入如下内容：<br>route add -net 192.168.1.0/24 gw 192.168.1.1<br>PS: 方法一推荐生产环境使用<br>提示：方法三写到/etc/rc.local里只在开机时加载，当手工重启网络后会失效，但是重启系统后会生效！</p>
+<p>如果是配置默认路由网关可以再网卡配置里：<br>[root@oldboy ~]# grep GATEWAY /etc/sysconfig/network-scripts/ifcfg-eth0<br>GATEWAY=10.0.0.254<br>c.主机路由：就是去往某个主机地址如何配置路由<br>/sbin/route add -host 192.168.2.13 dev eth2<br>/sbin/route add -host 202.81.11.91 dev lo<br>例如：keepalived或heartbeat高可用服务器对之间的使用单独网卡接心跳线通信就会用到以上主机路由。<br>route命令拓展：<br>删除一条默认路由：<br>route del default gw 10.0.0.254<br>删除一条静态路由：<br>route del –net 目标网络 netmask<br>如：route del -net 192.168.1.0/24 或route del -net 192.168.1.0 netmask 255.225.255.0<br>删除一条主机路由：<br>route del -host 192.168.1.10 dev eth0</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwvdwc2v003am4cyj9wad1jg" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwvhh0no003cr1cyqbcbxryd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -187,10 +222,10 @@
 
 
   
-    <article id="post-海量运维" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-find" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/海量运维/" class="article-date">
-  <time datetime="2016-12-12T07:40:50.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/find/" class="article-date">
+  <time datetime="2016-12-13T00:52:27.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -201,7 +236,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/海量运维/">海量运维</a>
+      <a class="article-title" href="/2016/12/13/find/">find</a>
     </h1>
   
 
@@ -209,12 +244,48 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="海量运维\海量运维.jpg" alt="海量运维"></p>
+        <p>find 文件查找</p>
+<p>查找txt和pdf文件</p>
+<p>  find . ( -name “<em>.txt” -o -name “</em>.pdf” ) -print</p>
+<p>正则方式查找.txt和pdf</p>
+<p>  find . -regex  “.*(.txt|.pdf)$”<br>-iregex： 忽略大小写的正则</p>
+<p>否定参数<br>       查找所有非txt文本</p>
+<p>   find . ! -name “*.txt” -print</p>
+<p>指定搜索深度<br>       打印出当前目录的文件（深度为1）</p>
+<p>  find . -maxdepth 1 -type f </p>
+<p>定制搜索</p>
+<p>按类型搜索：</p>
+<p>  find . -type d -print  //只列出所有目录<br>-type f 文件 / l 符号链接</p>
+<p>按时间搜索：</p>
+<p>-atime 访问时间 (单位是天，分钟单位则是-amin，以下类似）<br>-mtime 修改时间 （内容被修改）<br>-ctime 变化时间 （元数据或权限变化）</p>
+<p>最近7天被访问过的所有文件：</p>
+<p> find . -atime 7 -type f -print</p>
+<p>按大小搜索：<br>       w字 k M G<br>       寻找大于2k的文件</p>
+<p> find . -type f -size +2k</p>
+<p>按权限查找：</p>
+<p>  find . -type f -perm 644 -print //找具有可执行权限的所有文件</p>
+<p>按用户查找：</p>
+<p>  find . -type f -user weber -print// 找用户weber所拥有的文件</p>
+<p>找到后的后续动作</p>
+<p>删除：<br>删除当前目录下所有的swp文件：</p>
+<p>  find . -type f -name “*.swp” -delete</p>
+<p>执行动作（强大的exec）</p>
+<p>  find . -type f -user root -exec chown weber {} \; //将当前目录下的所有权变更为weber</p>
+<p>注：{}是一个特殊的字符串，对于每一个匹配的文件，{}会被替换成相应的文件名；<br>eg：将找到的文件全都copy到另一个目录：</p>
+<p>  find . -type f -mtime +10 -name “*.txt” -exec cp {} OLD \;</p>
+<p>结合多个命令<br>tips: 如果需要后续执行多个命令，可以将多个命令写成一个脚本。然后 -exec 调用时执行脚本即可；</p>
+<p>  -exec ./commands.sh {} \;</p>
+<p>-print的定界符</p>
+<p>默认使用’\n’作为文件的定界符；<br>-print0 使用’\0’作为文件的定界符，这样就可以搜索包含空格的文件；</p>
+<p>用命令行递归方式全局搜索目录文件和替换</p>
+<p>如果你使用Eclipse，ItelliJ或其它IDE，这些工具的强大重构能力也许会让你轻松实现很多事情。但我估计很多时候你的开发环境中没有这样的集成工具。</p>
+<p>如何使用命令行对一个目录进行递归搜索和替换？别想Perl语言，你可以使用find and sed。感谢Stack Overflow提供的指导：</p>
+<h1 id="OSX-version"><a href="#OSX-version" class="headerlink" title="OSX version"></a>OSX version</h1><p>find . -type f -name ‘*.txt’ -exec sed -i ‘’ s/this/that/g {} +<br>使用了一段时间后，我总结写出了一个函数，添加入了 .bashrc ，就像下面这样：<br>function sr {<br>find . -type f -exec sed -i ‘’ s/$1/$2/g {} +<br>}<br>你可以像这样使用它：<br>sr wrong_word correct_word</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwvdwc42004km4cyc0wkjllo" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwvhh0nd0031r1cyxc0hffid" class="article-share-link">Share</a>
       
       
     </footer>
@@ -224,10 +295,10 @@
 
 
   
-    <article id="post-结婚日狂想" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-xargs" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/结婚日狂想/" class="article-date">
-  <time datetime="2016-12-12T07:26:38.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/xargs/" class="article-date">
+  <time datetime="2016-12-13T00:50:36.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -238,7 +309,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/结婚日狂想/">结婚日狂想</a>
+      <a class="article-title" href="/2016/12/13/xargs/">xargs</a>
     </h1>
   
 
@@ -246,12 +317,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>2013年1月4日<br>今天日子有些特殊，因为今天可以翻译成“爱你一生一世”。<br>除此之外，还有一则消息，哦，错了，不是消息是新闻，是让全世界瞩目的新闻。<br>是全球最大商业帝国，三元帝国集团的首席执行官兼董事长元和他最心爱的女人结婚的日子。<br>等等，最大商业帝国？还全球？三元帝国，从来没听说过啊！<br>哦，诸位莫急，待我来细细拆解。<br>三元帝国，乃是元创立，最惊人的就是这个集团能够在短短的三年之中，拥有了全球30%的财富，注意了这个30%不是民间资本。<br>这么举个例子吧，如果全世界所有的，不管是个人、单位、集团还是国家的财富加起来是100的话，那么三元帝国的财富就是30。明白了吧，除了几个大国外，其他的许多小国家都得仰仗在三元帝国的运作下生存。<br>那么这个集团是运营什么的呢？<br>这么说吧，上到宇宙飞船、航空母舰的研发，下到老百姓吃什么、穿什么，都是集团运营的项目。<br>集团的根是衣、食、住、行四大行业发展起来的。<br>那岂不是垄断啦，不得了啦！国家怎么不控制的。<br>原因有二：<br>一是元这个人可以和两千多年前的法圣商鞅一般，大公无私，绝不会做些坑蒙拐骗的事情，那都是低层次人弄的。<br>二是，说白点就是国家想管怎么管呢，你这个国家限制我，没关系啊，全世界那么多国家呢，还愁我活不下去啊！再说，现在国家相限制，也不敢了，因为这个集团有太多的投资，在国家建设上了，说白了，国家缺不得这个集团啊！<br>呵呵，扯远了。再次回到结婚的现场，哦不对，不是现场因为这次结婚典礼，在全世界188个国家，都同时举行。<br>路线是中国的泰兴、上海、南京、北京、成都、拉萨……<br>抵达中亚，北上俄罗斯，到欧洲，南赴非洲<br>跨大西洋，至加拿大，后抵美利坚，再去拉美<br>回转太平洋，飞澳洲，渡印度洋，到南亚、东南亚<br>归中国泰兴<br>泰兴是三元帝国的总部，2013年已经是全球最大城市、最富城市、最人文城市、最美城市、最舒适城市，能够成为泰兴市民的，不是国家政要，就是国际名流，当然还有土生土长的泰兴人，他们是最幸福的，出生以来的抚养、教育、一直到成人，不要父母掏一分钱，享受着全世界最高档的教育，不管是谁，都有一种教育方式，让他成才，这是元上初三的时候化学老师告诉他的。<br>2013年1月4日上午9时<br>来自于全世界各国首脑和名流们都齐聚泰兴，中国34个省长及主席、常委们，都早早来到了泰兴，各大媒体，早就瞄准了这次机会。<br>准确的说，这是有人类以来，最大的聚会，前无古人，后有没有来者，咱们就不讨论了。<br>地点位于三元帝国的总部大楼，除了高达666米外，往地下也是333米，所以高度为999米，面积为81平方公里。<br>所以虽然人数达到了30万以上，可以并不显得拥挤。<br>“安全呢，要知道奥运会，安检可是很严格的啊，那时候可没有这么多重要人士，现在可是异常危险的时刻啊！”一个人问道。<br>旁边的人就像看到一个白痴一样的看着他，极为兴奋的说道：“放心吧！兄台，到其他地方我不敢保证，可是如果你到了三元帝国的总部，还存在这个想法的话，就是杞人忧天了。”<br>“为啥？”显然问的人没有得到满意的答案。<br>“为啥？除了这栋大楼，是全世界最先进的技术，花费一年时间，不分昼夜的建设，动用了整整10万人，投资了共1000万亿外，你以为三元帝国能在短短三年内，成为全球最大的集团是侥幸的吗？因为三元帝国有支秘密的保安部队，其实称他们是保安，实在是委屈他们了啊！就是美国的CIA，英国的军情六处，我国的安全局所有人都来，都不是他们的对手。”<br>三元帝国果然不同凡响啊！问的人感慨道。<br>元出场了，竟然不是穿的职业装，而是汉服，不过是改良过的服装，可是一眼还是能够看出来，这就是汉服。<br>元的声音通过音响系统清晰的传送到了每个宾客的耳中：“多谢大家的光临，我结婚的大喜日子，趁今天大家都在的情况下，我就宣布一件事，一周之后，所有集团的员工，必须穿着我身上的服装，这是我华夏民族的汉服，因为三元帝国首先属于华夏，其次属于我，所以全世界，只要在我集团工作的员工，都必须穿着汉服，公司服装已经准备齐全，一周后大家准时穿上，如果不愿意穿着的人，那只能很抱歉，我们的合作结束了。”<br>话音刚落，全场都沸腾起来，这个决定也太过了吧，就连中国人自己都感觉到，这个要求苛刻了。当然中国人，自今之后，全国都得穿着汉服，这是毫无疑问的。<br>可是，集团工作的一共三亿六千万人，中国人有两亿，可是剩下还有一亿六千万呢？<br>那有能怎么办呢，毕竟在集团工作各种条件实在太优厚了，有几个人为了所谓的服饰，而放弃如此优越的生活呢。<br>元的声音再次响起，全场立刻寂然无声：“好，既然公事已然说完，下面就进入正事吧！”<br>这一幕将永载史册，全世界共180个国家的主席、总统、国王、总理……为元进行了证婚，只见元和他的妻子，走过了两旁侍立180个国家的首脑中间的红地毯，结束了仪式。<br>今天所有的结婚，没有结婚的总之几乎所有的女人，见到这一幕时，都羡慕无比，没有人嫉妒，因为她们都知道，元的妻子的伟大，这种伟大，让绝大多数女人都汗颜。就是剩下那堆人，也不过与元的妻子持平而已。<br>仪式结束了，大家都回到了自己的座位上。<br>下面的一幕又掀起了另一个高潮，全世界最巨大的商业帝国三元帝国集团的首席执行官兼任董事长的元，朝一个方位跪了下去，这个跪的方向立刻引起了全场乃至全世界的关注，只见两个面容慈祥的老人，端坐于高台座位上。<br>当两个老人得知，下面坐的有国家主席和总理时，身体颤巍巍的站了起来，老爷子说道：“儿啊，今天有这样的成就，都是你自己的努力，我们父母二人对不起你啊！”<br>元含泪痛哭道：“爸、妈，儿子怎么敢这么想，没有你们的生养之恩，我哪来这等成就，所以我这辈子最大的恩人就是你们，你们的幸福，才是我一切的源泉。”<br>第二天各大媒体的大标题几乎都是“婚礼之大无出其右，孝道之尽难赶其元。”</p>
+        <p>xargs 命令行参数转换</p>
+<p>xargs 能够将输入数据转化为特定命令的命令行参数；这样，可以配合很多命令来组合使用。比如grep，比如find；</p>
+<p>将多行输出转化为单行输出<br>cat file.txt| xargs<br>\n 是多行文本间的定界符</p>
+<p>将单行转化为多行输出<br>cat single.txt | xargs -n 3<br>-n：指定每行显示的字段数</p>
+<p>xargs参数说明</p>
+<p>-d 定义定界符 （默认为空格 多行的定界符为 \n）<br>-n 指定输出为多行<br>-I {} 指定替换字符串，这个字符串在xargs扩展时会被替换掉,用于待执行的命令需要多个参数时<br>eg：</p>
+<p>cat file.txt | xargs -I {} ./command.sh -p {} -1</p>
+<p>-0：指定\0为输入定界符<br>eg：统计程序行数</p>
+<p>find source_dir/ -type f -name “*.cpp” -print0 |xargs -0 wc -l</p>
+<p>忽略头x个词</p>
+<p>我对xargs很着迷，我感觉它就像一把快刀。但有时候用它获得的结果需要调整一下，也许需要取得一些值。例如，你想去掉下面文件影像里的一些信息：<br>function skip {<br>n=$(($1 + 1))<br>cut -d’ ‘ -f$n-<br>}<br>下面是如何使用它：</p>
+<p>●使用 docker images 得到下面的输出：<br>$ docker images</p>
+<p>REPOSITORY                   TAG         IMAGE ID            CREATED             VIRTUAL SIZE</p>
+<p><none>                       <none>      65a9e3ef7171        3 weeks ago         1.592 GB</none></none></p>
+<p><none>                       <none>      7c01ca6c30f2        3 weeks ago         11.1 MB</none></none></p>
+<p><none>                       <none>      9518620e6a0e        3 weeks ago         7.426 MB</none></none></p>
+<p><none>                       <none>      430707ee7fe8        3 weeks ago         7.426 MB<br>boot2docker/boot2docker      latest      1dbd7ebffe31        3 weeks ago         1.592 GB<br>spaceghost/tinycore-x86_64   5.4         f47686df00df        7 weeks ago         11.1 MB<br>durdn/bithub                 latest      df1e39df8dbf        8 weeks ago         100.9 MB</none></none></p>
+<p><none>                       <none>      c5e6cf38d985        8 weeks ago         100.9 MB<br>nginx                        latest      e426f6ef897e        12 weeks ago        100.2 MB<br>zoobab/tinycore-x64          latest      8cdd417ec611        8 months ago        7.426 MB<br>scratch                      latest      511136ea3c5a        20 months ago       0 B<br>●使用上面的函数，你可以获取所有的IDs：<br>$ docker images | col 3</none></none></p>
+<p>IMAGE<br>65a9e3ef7171<br>7c01ca6c30f2<br>9518620e6a0e<br>430707ee7fe8<br>1dbd7ebffe31<br>f47686df00df<br>df1e39df8dbf<br>c5e6cf38d985<br>e426f6ef897e<br>8cdd417ec611<br>511136ea3c5a<br>●进一步处理：<br>docker images | col 3 | xargs</p>
+<p>IMAGE 65a9e3ef7171 7c01ca6c30f2 9518620e6a0e 430707ee7fe8 1dbd7ebffe31 f47686df00df df1e39df8dbf c5e6cf38d985 e426f6ef897e 8cdd417ec611 511136ea3c5a<br>●但前面的”IMAGE”字符我也想去掉：<br>docker images | col 3 | xargs | skip 1</p>
+<p>65a9e3ef7171 7c01ca6c30f2 9518620e6a0e 430707ee7fe8 1dbd7ebffe31 f47686df00df df1e39df8dbf c5e6cf38d985 e426f6ef897e 8cdd417ec611 511136ea3c5a<br>●完整的写下来就是这样：<br>docker rmi $(docker images | col 3 | xargs | skip 1)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwvdwc47004sm4cy7upe7xcu" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwvhh0o1003ur1cy8l55msr6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -261,10 +352,10 @@
 
 
   
-    <article id="post-离职之美" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-sort" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/离职之美/" class="article-date">
-  <time datetime="2016-12-12T07:26:08.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/sort/" class="article-date">
+  <time datetime="2016-12-13T00:49:54.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -275,7 +366,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/离职之美/">离职之美</a>
+      <a class="article-title" href="/2016/12/13/sort/">sort</a>
     </h1>
   
 
@@ -283,27 +374,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>经过了数天的内心挣扎，于今日请辞了。</p>
-<p>请辞了，表明了经济之源断绝了，难以生存了。</p>
-<p>还记得一位大师说过：“半杯水，在乐观人眼中，会欣喜，因为还有半杯呢！而在悲观人眼里，会沮丧，因为只剩下半杯了。”其实，半杯水没有变，变的是人的心。</p>
-<p>我不敢说，自己是那乐观的人，但肯定不属于悲观者。</p>
-<p>要知道，人能够来到这个世间，是多么的不容易，何至于数千万分之一的概率。既然这么的不容易，那干嘛不轰轰烈烈做一番自己的事业呢，何必人云亦云，鹦鹉学舌呢？</p>
-<p>看到听到很多事故的发生，感慨道人的生命原来如此的脆弱，生死只是眨眼之间，如果在离别的那一刻，对自己的一生生出遗憾，那么是多么可悲的事啊！</p>
-<p>故离职对我来说，是破而后立之美，是蛹化蝶之美，是实现自己梦想之美。</p>
-<p>古往今来，凡变革者，都是打破旧的东西，建立新的东西，过程好像如此的简单，可是打破旧的时候，多少腥风血雨，多少江湖仇杀，多少强敌环伺，一个不小心，便陷入万劫不复之境地。</p>
-<p>就说离我们近的，清末“戊戌变法”吧，又称作“百日维新”，戊戌六君子的慷慨就义，谭嗣同的那句“我自横刀向天笑，去留肝胆两昆仑”还萦绕在我的耳边，多么的惨烈啊！可是逝去的人，并没有后悔，没有遗憾，因为他们践行了自己的梦想，成仁取义，必将名垂千古。</p>
-<p>还有两千多年前的“商鞅变法”，商鞅一人入秦，使地处边陲、贫弱的秦国在二十年里成为战时强国，为后来秦始皇统一全国，奠定了坚实的基础。</p>
-<p>虽然商鞅因为触犯了元老世族的利益，而被“车裂”，可是秦法却留了下来，继续指引着大秦帝国的前进方向。可以说明，商鞅就义之时，了无遗憾，还是因为他实现了自己的梦想，实现了他来到这个世间的使命。</p>
-<p>上述二人，都是牺牲了自己的性命，来换取了自己的梦想，可以算是极致了吧！</p>
-<p>而我呢，不过是一时断绝自己的经济来源，与他们相比，实在是微不足道。</p>
-<p>古语有云：“欲取之，必先予之。”就是说，不管做任何事，都要付出代价，这份代价可以寓指各种事物，譬如：时间、自由、舒适甚至于生命。</p>
-<p>2011-6-28</p>
-<p>仁佳作于宁</p>
+        <p>sort 排序</p>
+<p>字段说明：<br>-n 按数字进行排序 VS -d 按字典序进行排序<br>-r 逆序排序<br>-k N 指定按第N列排序<br>eg：</p>
+<p>sort -nrk 1 data.txt<br>sort -bd data // 忽略像空格之类的前导空白字符</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/离职之美/" data-id="ciwvdwc44004nm4cylrrivk0x" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwvhh0nq003fr1cyvdyg0a73" class="article-share-link">Share</a>
       
       
     </footer>
@@ -313,10 +391,10 @@
 
 
   
-    <article id="post-父亲之我识" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-tr" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/父亲之我识/" class="article-date">
-  <time datetime="2016-12-12T07:25:38.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/tr/" class="article-date">
+  <time datetime="2016-12-13T00:48:21.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -327,7 +405,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/父亲之我识/">父亲之我识</a>
+      <a class="article-title" href="/2016/12/13/tr/">tr</a>
     </h1>
   
 
@@ -335,52 +413,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>1986年的夏天</p>
-<p>我出生了，现在想来那一年，甚是模糊。</p>
-<p>听我母亲说，就是那年采用了夏令时。所谓夏令时，就是将现有时间向后推迟一小时，但后来由于用来十分麻烦，遂又弃而不用了。</p>
-<p>听我母亲说，我的父亲小时候异常贫苦。</p>
-<p>在我父亲三岁的时候，我的爷爷就去世了，后来我的奶奶改嫁，父亲也跟着去了。就有了父亲的同母异父的弟弟，也就是我的叔叔。</p>
-<p>父亲很小的时候，就干着沉重的家务活，生活异常的艰辛，我听母亲缓缓道来，心中悲苦异常，联想到了我现在的生活，虽然苦，可是和我父亲的童年一比，简直有天壤之别啊！暗自恨道：自己还这么的不知足，实在是不孝啊！</p>
-<p>父亲12岁的时候，就远赴他乡了，听说到了香港，但是被遣返了回来。到了福建省，就呆了整整十年。</p>
-<p>就是现在还看到了父亲那些年所写的日记，大多是爱党爱国主题的，我不禁感叹道父辈们那时候如此的淳朴。</p>
-<p>经过我姨奶奶的介绍，我父亲和母亲相识了，结婚的第二年生了个女儿，可是不幸夭折了，父母亲自然是悲痛异常啊。</p>
-<p>又三年，也就是86年，我出生了。现在听我母亲谈起当年的女儿，我也是异常悲痛，我多么希望有个姐姐啊！</p>
-<p>我上学了，终于有了对父亲那清晰的记忆。</p>
-<p>记得父亲给我天天讲故事，还时常买连环画给我，我想对历史的爱好，那个时候就已经萌芽了吧！</p>
-<p>父亲经常带我去看电影，去公园、去好多好玩的地方。</p>
-<p>记忆最深刻的就是，因为那时候家里并不富裕，一周也只能吃到两次肉吧！可是父亲都让给了我，还买糖浆的营养品给我。</p>
-<p>现在回想起来，父亲实在是很伟大啊，在我心目中就如同山岳般为家人遮风挡雨。</p>
-<p>我上中学时，母亲因工受伤，卧在床上，是父亲倾心照顾、让母亲很快的康复了，我想这就是所谓的爱情的真谛吧，在平平淡淡的生活中，得到了升华。</p>
-<p>到了我上大学的时候，家里翻盖新房，父亲那挥汗如雨的身影一直在我脑海之中挥之不去。</p>
-<p>可是等新房盖好后，父亲一心想把欠的债务所还清，毅然踏上了去广东的火车，刚开始还不怎么觉察，可是过了段时间，刚好到了我的暑假。</p>
-<p>发生了一件，我至今想起都面如土色的一件事。</p>
-<p>听亲戚朋友、周围邻居说父亲被传销骗了去，当时的母亲顿时就吓得卧床不起，我也是猛然失色。</p>
-<p>接下来的一段时间，就是不断和父亲联络，而家里和亲戚们不断奔走，大约一周后，回来的音信还是没有，我带着无精打采的母亲去找一个常年在外奔走的舅舅，希望他能够亲赴广东，接我的父亲回来。</p>
-<p>看着母亲那番模样，我向我的舅舅跪了下来，心里的那股压抑的情感随着这一跪都喷发了出来，舅舅也被我的举动吓了一跳，遂答应了下来。</p>
-<p>如此又过了大约两三天，舅舅已经到了广州火车站，利用了他在那里的各种关系，终于将我最敬爱的父亲从传销的魔窟中解救了出来，当天下午，至今那一幕都深深的印在了我的脑海深处。</p>
-<p>父亲头顶行李，面带笑容，走入家门，当时的我是喜极而泣，母亲是精神振奋，家里摆了好几桌，就是为了庆贺父亲的归来。</p>
-<p>那如同梦魇的11天，就这样过去了。</p>
-<p>之后的日子，家里人都一致不让父亲外出了。</p>
-<p>心有余悸啊！</p>
-<p>可是也许是房子风水问题吧，我大三那年的过年，本来是出去拜年的，晚上回家时候，我父亲载着母亲，发生了车祸，父亲满脸都是血啊！</p>
-<p>我看着大惊失色，立刻联系了村里的医生，经过诊断，还好就是外伤，父亲就这样躺了半个月，又出去做生活了（家乡话工作）。</p>
-<p>父亲的经历太过惨痛了，我只恨自己没用，还让父母如此大的年纪还在外面奔波忙碌，惭愧不已啊！</p>
-<p>可是好像老天似乎和我家作对般，就在两周前，父亲从脚手架上掉落下来，直接住到了医院。</p>
-<p>我听到了这个消息，如同晴天霹雳般，当晚的我，没有任何睡意。</p>
-<p>乘着第二天最早的一班车我就直接回到家里，去市医院前去看望了我这个辛苦劳累的老父亲，我的心在滴血啊。</p>
-<p>我一直在问为什么，到底是为什么，该死的老天，为何如此对待我的父亲，就是要考验，就来考验我吧，何必针对我的父亲呢？</p>
-<p>看来上天是不想让我平平淡淡走过这一生啊，这其实变相的告诉我，如果你再这样的过的平平凡凡的，那这样的事还会发生。</p>
-<p>为了父母，为了梦想，为了活着。</p>
-<p>我不能再这样下去了。</p>
-<p>辛卯年丙申月丁未日</p>
-<p>二〇一一年八月二十日星期六</p>
-<p>仁佳</p>
-<p>搁笔于金陵</p>
+        <p>用tr进行转换</p>
+<p>通用用法</p>
+<p>  echo 12345 | tr ‘0-9’ ‘9876543210’ //加解密转换，替换对应字符<br>  cat text| tr ‘\t’ ‘ ‘  //制表符转空格</p>
+<p>tr删除字符</p>
+<p>  cat file | tr -d ‘0-9’ // 删除所有数字</p>
+<p>-c 求补集</p>
+<p>  cat file | tr -c ‘0-9’ //获取文件中所有数字<br>  cat file | tr -d -c ‘0-9 \n’  //删除非数字数据</p>
+<p>tr压缩字符<br>tr -s 压缩文本中出现的重复字符；最常用于压缩多余的空格</p>
+<p>  cat file | tr -s ‘ ‘</p>
+<p>字符类<br>tr中可用各种字符类：<br>alnum：字母和数字<br>alpha：字母<br>digit：数字<br>space：空白字符<br>lower：小写<br>upper：大写<br>cntrl：控制（非可打印）字符<br>print：可打印字符<br>使用方法：tr [:class:] [:class:]</p>
+<p>  eg: tr ‘[:lower:]’ ‘[:upper:]’</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/父亲之我识/" data-id="ciwvdwc45004pm4cyp3vjq7ok" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwvhh0nr003ir1cy1yp1mc1a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -390,10 +438,10 @@
 
 
   
-    <article id="post-进" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-paste" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/进/" class="article-date">
-  <time datetime="2016-12-12T07:25:13.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/13/paste/" class="article-date">
+  <time datetime="2016-12-13T00:47:15.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -404,7 +452,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/进/">进</a>
+      <a class="article-title" href="/2016/12/13/paste/">paste</a>
     </h1>
   
 
@@ -412,44 +460,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>进</p>
-<p>余名进，字仁佳，生于淮海名都、汉唐古郡。也许家族之上有显赫之时，但到我这代就是地地道道的一个百姓，无甚大的背景，亲者自然是穷亲贫朋。</p>
-<p>这样的一个家庭，给了我温饱，但让我知道了要想振兴家族，得靠自己，无可他凭。</p>
-<p>但我心中还有纯洁之地未被玷污，就是每次不管做什么事，心中都有一个底线，就是这个底线守着了我的心灵，不至癫疯。这就是所谓心底无私天地宽吧！</p>
-<p>我至今为止，心中总有一个心里疙瘩，那是高中计算机考试未通过时遗留下来的，就是用心理学上的话说“强迫症”。不管做什么事，总觉得没做好，这种心灵的创伤，非人力所能为，现在只得压制，但我屡屡被心魔打败，我想这需要一个契机吧！</p>
-<p>童年</p>
-<p>这个时段，我现在好像无什么记忆了，依稀记得，我的母亲那时到很远的地方去上班，而且是步行前去，哎，也许有社会之原因，但还是为此而心颤不已啊。</p>
-<p>父亲，在我小时时常买些补品及漫画给我，而我看他却什么都没有，这种，只能有父母来完成了，如不报答，天地灭之。</p>
-<p>看过我童年之照片，不是吹牛，就是现在所谓网上ps过的孩童照片，亦不能比之万一。</p>
-<p>还有，也许是糗事吧，就是小时候的我，摔了一跤，不知道自己爬起来，非要有人拉，也不哭不闹。</p>
-<p>听我母亲说，小时候的我，几乎都是我六姨带的，此份恩情定铭记心底。</p>
-<p>后来入学，竟然发生中午睡觉，不想去学校之事，现在想起，不禁黯然失笑。</p>
-<p>小学的我，语文不很好，数学很厉害，可是这个现象到了中学，就改变了。</p>
-<p>少年</p>
-<p>这时的我，渐渐成长，但是却发生了欺骗之事，就是有一次数学考试很差，而老师非得叫我们将卷子带回家给父母签字，可是我很差啊，结果我把有次考的还可以的和这次考试的第二张结合起来，父母签了字，可是心里十分不舒服，这就是心中有鬼，害迫大矣。</p>
-<p>学会游泳，这是一个让我相信一个观念的第一次实例，这个观念就是“自尊可改变你所认为不可能的”，就是我刚从外面回来，一个比我小的伙伴和我一起学游泳的，可是他竟然会了，这时我心中一股尊贵的气势喷发出来，就不管后果如何，毅然向河对岸游去，当时心中只有一股信念就是，我一定要会游，不能被比人看扁了，害怕没有阻挡我的那股气势，就这样，游泳这个本事学会了。</p>
-<p>我在初中之时，可能就是近墨者黑吧，成绩一日不如一日，有时就有放弃的想法，可是这个想法进入高中就没了，这时我结识了让我走出阴影的老师，他所叙的历史课及地理课我看到了希望。我之所以喜欢历史，还得感谢我敬爱的父亲，因为我父亲虽然工作不入流，可是他的那个故事讲述的绘声绘色，每每宴饮，周围之桌皆听我父亲所言，这点我自认继承下来了，可是只能进入熟人之中，方能畅所欲言,唯恐得罪他人。</p>
-<p>青年</p>
-<p>随着高考的结束，我就算是考上了吧！来到了，现在所待的地方，被称为龙城——常州。这个阶段，我结识了有共同理想的一群，就是当年书生意气，挥斥方遒吧！自然，在大学也有了第一段恋情，至今懊恼不已啊，分手缘由竟然来自一个兄弟一句无关紧要的话语，这足以证明我意志不坚，优柔寡断。这样的性情，给我找工作时带来极大困扰，本来对自己专业游移不定，加上周围同学、朋友的各种想法和意见，我竟然不假思索的就去做了，结果自然是头破血流，毫无进展。就在这时，一次偶然的机会，在书店看到了关于计算机方面的书籍，翻阅一番，竟然和我内中心意不谋而合，遂不顾众人劝说，毅然辞掉工作，进修三月，算是自己真正做了一回真正的自我。</p>
-<p>时至今日，我时时冥思，日日苦想，在我看来人生活于世，当“了却君王天下事，赢得生前身后名”，这才是完整的人生。</p>
-<p>  我将社会职业，分为政、商、技三类：</p>
-<p>政治，风险最高，但收益极大，我本做事谨慎，自然不适合我；</p>
-<p>商业，风险极高，但收益颇大，我信守传统，始终认为无商不奸，不是我本意；</p>
-<p>技术，风险一般，但收益一般，我一直认为，一技傍身，天下可任我行之，最主要就是当年成吉思汗的军队拿下一个地方时，只留能工巧匠，书生文人皆死于非命。</p>
-<p>“古之成大事者，不惟有超世之才，亦必有坚忍不拔之志。”——苏轼</p>
-<p>自古至今，能立一番功业者，能流芳百世者，能名垂千古者，无不留下能让世人流连忘返的事迹或作品。</p>
-<p>我所谓者：人之处世，当铭记情和恩。</p>
-<p>情：亲情，父母兄弟者，给尔肉身及精神也；</p>
-<p>爱情，爱的力量，足以战胜一切；</p>
-<p>友情，能让人生，有谈吐之人、宣泄之口、共同梦想及时时刻刻的支持。</p>
-<p>恩：养育，能来到世上、能长大成人、有停泊的港湾；</p>
-<p>教导，授之于渔，师者，当尊敬如斯也；</p>
-<p>知遇，给予谋生之职，可施展自我才华，体现自我价值，实为衣食也。</p>
+        <p>paste 按列拼接文本</p>
+<p>将两个文本按列拼接到一起;</p>
+<p>cat file1<br>1<br>2</p>
+<p>cat file2<br>colin<br>book</p>
+<p>paste file1 file2<br>1 colin<br>2 book</p>
+<p>默认的定界符是制表符，可以用-d指明定界符<br>paste file1 file2 -d “,”<br>1,colin<br>2,book</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/进/" data-id="ciwvdwc4a004ym4cyjwo2ak2w" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwvhh0nn003ar1cy3s9eq9rp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -459,10 +480,10 @@
 
 
   
-    <article id="post-凤凰台" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-wc" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/凤凰台/" class="article-date">
-  <time datetime="2016-12-12T07:24:48.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/12/wc/" class="article-date">
+  <time datetime="2016-12-12T09:21:24.000Z" itemprop="datePublished">2016-12-12</time>
 </a>
     
   </div>
@@ -473,7 +494,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/凤凰台/">凤凰台</a>
+      <a class="article-title" href="/2016/12/12/wc/">wc</a>
     </h1>
   
 
@@ -481,28 +502,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>来宁达一月有余了，为庆贺我顺利找到了工作，故我做东，请了至交好友及同宿舍一人。共餐之后，我好友提议，当乘如此夜色，去游览凤凰台。</p>
-<p>说到凤凰台，李白的那首《登金陵凤凰台》，瞬间出现了我的脑海之中：</p>
-<p>凤凰台上凤凰游,凤去台空江自流.</p>
-<p>吴宫花草埋幽径,晋代衣冠成古丘.</p>
-<p>三山半落青山外,二水中分白露洲.</p>
-<p>总为浮云能蔽日,长安不见使人愁.</p>
-<p>于是三人并行，谈笑着，往凤凰台行去。</p>
-<p>当到了的时候，我仰望着那凤凰台上的浮雕，自然明白，这并不是当时的凤凰台了，不过是仿制，以供游人游览的一处景致而已。可是，联想到了李太白的那首诗，站在了台上面，看着周朝的夜色，虽然都市的灯光亮了起来，没有了那种纯粹的感觉，可是如此映照，别有一番风味。</p>
-<p>我想就算是，李太白在此，也会饮酒高歌，风趣盎然吧！而我只是华夏一尘微，自然不能与诗仙李白相比，可是也是被这等景色所迷恋了。</p>
-<p>好似凤凰活了过来，光芒大胜，鸣叫数声之后，翩然而去了，这不是正印证了诗的首句吗？难道传说是真的，当时的李白，也是见到了这样的情景，方才写下了如此脍炙人口的诗篇吗？</p>
-<p>正当我浮想联翩的时候，我的好友惊醒了我，说是台下面有精彩的文娱表演，邀我前去观看。我这才猛然惊觉，看了下台上，凤凰依然还在，这算是我的梦吗？我也疑惑不解。</p>
-<p>来到了台下，果然看到了几处聚会，有舞蹈，有武术，有街舞，让人目不暇接，可是我还没有完全从刚才的状态中恢复过来，依然远远的看着凤凰台上的凤凰。</p>
-<p>当到了夜深人静的时候，我们三人依旧并行，回到了住处。</p>
-<p>后来我才知道，其实凤凰台遗址并不是我们游览的地方，只是它的名气太盛，被移借过来而已的。我倒没有因为自己去看到的是假的遗址，而怨恨。</p>
-<p>其实凤凰台源于李白的诗，而李白的诗融入了华夏的文化当中，这样的人文景观，其实是要用心去看的，让我们明白身为华夏之人，尤其文人们忧国忧民，心怀国家，内装黎民的博大胸怀。也只有我们古老的东方，有“不在其位，而谋其政”，“天下兴亡，匹夫有责”的气概，也就是华夏的文化，能够让华夏民族，虽受苦难，但能够绵延至今，始终掌握对世界的话语权的一种内涵。</p>
-<p>2011-6-28</p>
-<p>仁佳作于宁</p>
+        <p>wc 统计行和字符的工具</p>
+<p>wc -l file // 统计行数<br>wc -w file // 统计单词数<br>wc -c file // 统计字符数</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/凤凰台/" data-id="ciwvdwc3e003vm4cy3qwcim1u" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwvhh0o1003tr1cyjio8d8wb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -512,10 +518,10 @@
 
 
   
-    <article id="post-祭我的小三之HTC-G3" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-cat" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/12/祭我的小三之HTC-G3/" class="article-date">
-  <time datetime="2016-12-12T07:23:59.000Z" itemprop="datePublished">2016-12-12</time>
+    <a href="/2016/12/12/cat/" class="article-date">
+  <time datetime="2016-12-12T09:20:40.000Z" itemprop="datePublished">2016-12-12</time>
 </a>
     
   </div>
@@ -526,7 +532,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/祭我的小三之HTC-G3/">祭我的小三之HTC G3</a>
+      <a class="article-title" href="/2016/12/12/cat/">cat</a>
     </h1>
   
 
@@ -534,58 +540,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>要说的这个噩耗就是，于公元2011年4月4日，也就是清明节的前一天，这本是回家祭祖的日子，可是偏偏生出了这等事。</p>
-<p>于当日，在回家的路上，挤公交之时，我的小三牺牲了，也许是我的灵觉迟钝，直到走了两站路时，才发现小三不见了，我摸遍了全身的口袋及我携带的两个包，可是愣是没有踪影。我方才意识到手机不见了，急忙向身边人借来手机拨打我的号码之时，可是为时已晚，在听到“你所拨打的手机已经关机。”我整个身心就仿佛掉入了冰窟之中，虽然外面艳阳高照，可是我的心底寒风凛冽啊！</p>
-<p>仔细分析了下，肯定是刚上来时，由于人多，没怎么注意，再加上放在了上衣的口袋之中，的确是我的疏忽大意啊！</p>
-<p>我正后悔不迭时，可是回头一想，这可是标榜科教城的地方啊，人文素质理应属于高品质的，我可是一直都是这么认为的啊！可是事实胜于雄辩，小三的牺牲，让我明白了所谓的高素质、所谓的人文城、所谓的未来的黄金地，都是浮云，都是虚假的。</p>
-<p>小三啊，还记得我去请你回家的前一个星期么，那时的我日夜都想着你，简直就是着了魔啊！</p>
-<p>小三啊，还记得我将你请回家的两个周么，那时我可是不停的摆弄你啊，你给我带来了一段极为充实的日子，我是由衷的感谢你啊！</p>
-<p>小三啊，还记得这一年多陪伴我的日子吗？我们可谓是朝夕相处，你不离我，我不离你，所谓的形影不离，不就是说的是我们啊！</p>
-<p>小三啊，我对不住你啊，一时的疏忽，让你死无葬身之地，我之过错也。</p>
-<p>小三你的牺牲，并不是没有价值，至少让我认清了这所谓的繁华盛世，不过是盗贼横行，每个人，除了应对工作家庭双方压力时，还得时时刻刻保持着如临大敌的状态，只能说这是个悲哀的社会。</p>
-<p>小三之死，让我对社会唯一的仅存的一点希望，都没有了。</p>
-<p>2011年4月4日 星期一</p>
-<p>仁佳搁笔于南湖</p>
-<p>小三（HTC G3）之死小说版</p>
-<p>清明前日，艳阳，有风</p>
-<p>公车之上，人头攒动</p>
-<p>元回家路上</p>
-<p>早上时</p>
-<p>小三说：“我要走了。”</p>
-<p>元叹道：“我知道这是你我的宿命，可是没想到会这么快。”</p>
-<p>“相聚是缘，相离是缘，则就是冥冥之中注定的”。小三平静道。</p>
-<p>“既如此，我送你吧！”元显然有些沮丧。</p>
-<p>回到车内</p>
-<p>元摸了摸口袋，小三呢，小三呢。</p>
-<p>回头想起早上的话语，叹道：“看来这就是宿命吧！小三走了，走的那么无影无踪。看来我也得离开了。”</p>
-<p>在一暗处，一非主流的年轻人，把玩着手中的手机，自言自语道：“真是想不到啊，一大早就逮到一条大鱼，看来可以歇两天了。”尔后，奸笑道：“那个傻蛋，还把手机掏出来，这不是勾起我的馋虫吗？最关键还放在那么好取的位置，哎！要是多几个这样的傻蛋就好了。”</p>
-<p>年轻人很是熟练拿掉了手机后盖，取出电池，扔掉了里面的SIM卡。装好电池，打开了手机，相当的兴奋，看来这个手机刚买了不久，最主要的竟然没有任何限制，可以打开里面的任何软件。这次发了，这是年轻人最后的想法。</p>
-<p>当年轻人，打开手机，开启软件时，一股强大的电流，贯穿了全身，好似进入了梦境。当他看到，一个巨大的机器人在面前时，于是整个身体不断的颤抖着，结巴的问道：“你是谁？这是什么地方？”</p>
-<p>巨大的绿色机器人，发出了甜美的女声：“我是你手上拿的手机啊，之前我的主人，给我取名叫小三。”</p>
-<p>年轻人虽然还是很害怕，但是听到了这个声音之后，就放松了不少，听了这句话后，哈哈大笑道：“果然是个大宅男，还给手机取这个名字。”</p>
-<p>“不准笑我的主人。”虽然声音还是很甜美，可是年轻人可不是这种感觉，因为听到了这句话时，好像自己在深海里似得，四周都是压力，感觉头就快炸了。</p>
-<p>“还笑我的主人吗？”如果刚才听这个声音时，年轻人是抱着嘲笑的态度，可是这个时候简直就是听到了天籁之音，想点头，可是丝毫不能动，只得眨了眨眼睛。</p>
-<p>瞬间，恢复了正常，如果没有这个巨大的绿色机器人在面前的话，年轻人感觉这就是场梦而已。</p>
-<p>年轻人正在苦苦思索对策的时候，甜美的女声又想了起来：“你偷了我主人的手机，也就是我，虽然我和主人离别是宿命的安排，可是你的作为是恶劣的，你得为这件事付出代价。”</p>
-<p>年轻人能够活这么大，除了会偷盗外，这种察言观色的本领，可是炉火纯青啊，听到机器的话后，立刻转变了自己的态度，这种见风使舵的本领，也许可以比得上那些演员了。连忙诚恳道：“小妹妹，我立刻将你送还你的主人，并且赔礼道歉。”</p>
-<p>要是一般人，看到这种情形的话，肯定就要感慨“浪子回头金不换”了，可是机器人似乎过滤掉这句话似得。厉声道：“你别以为装成这个样子，还这么的诚恳说话，就想蒙骗我了，别忘了，我可是可以探测你的心理的。看来你是注定成为这段宿命的见证了，因为你违反了，主人制定的规范中两条，一是偷盗，二是谎话连篇。”</p>
-<p>听到了这句话后，年轻人可是惊恐万分啊，刚才那股压力还记忆犹新呢，现在竟然犯了两条规范。连忙跪下来大声求饶道：“小妹妹，哦，不是姑奶奶，放过我吧！我绝不再犯了啊！”说实在的，现在可是真情流露了，就是再严格的人，也会心软的。</p>
-<p>这就是宿命吧！小三是个机器人，只知道对或错，完全屏蔽了年轻人的告饶，就像宣判最后决断似得：“主人说，凡违背规范一条者，让他终生残废，违背两条者，灰飞烟灭。”最后好像又是自言自语道：“你的运气还不错，有我陪着。”</p>
-<p>虽然是大白天，可是暗道还是很昏暗的，行人也很稀少，可是此时的情景，不仅让周围的行人驻足观看，而且新闻媒体也赶到了现场，因为这个场景整整持续了26分钟。</p>
-<p>只见一道白光自暗道升起，直破天宇，中间一个绿色机器人，从地上沿着这道白光缓缓升起，渐渐的有清晰变成了虚幻，形成了两个字，周围有人就大喊了其来：“这两个字是篆体宿命”。</p>
-<p>当然还有一道黑色的身影一闪而过，几乎没被什么人看到，没错这就是那个年轻人，真正的灰飞烟灭了，永远消失在这个世间，他怎么也没想到一部手机会让他变成这个下场，如果再来一次的吧！他定然不敢染指了，可是时间是不可能倒退的，他注定为这场宿命祭旗。</p>
-<p>元自然也感受到了那股能量，已经知道小三消失了，死了，不会再回来了，虽然知道这是注定的，可是元还是止不住的泪水沁满了眼眶，这毕竟是和自己生活了一年多的小三啊！都说：“人非草木，孰能无情。”</p>
-<p>也许在华夏大地上，顶多是当日的新闻出现了这一幕，大家惊奇一下而已。</p>
-<p>可是大洋彼岸的美利坚，那个最神秘的机构，专门研究外星生物的部门，突然发现了在华夏大地，有一股极为罕见很是强大的能量在26分钟之内完全消散。引起了美利坚当局的强烈关注，并派特工前往该地进行调查。</p>
-<p>要知道，在这个能源紧缺的时代，突然出现这么大的能量释放，身为全球一霸的美利坚怎么可能不引起关注，尤其是这个发展中的雄狮，莫非研制出了什么厉害的东西。</p>
-<p>当然这是后话，自是不表。</p>
-<p>2011年4月4日 星期一</p>
-<p>仁佳搁笔于南湖</p>
+        <p>用命令行往配置文件里插入多行文本</p>
+<p>这种方法非常简单，很多人都知道，下面就是如何用命令行将(&gt;&gt;)多行文本插入一个文件中。这里使用的是“here document”语法，它能让你通过块文本符号来将段落插入文件中，通常用的符合是EOF(意思是 “End Of File”):<br>cat &gt;&gt; path/to/file/to/append-to.txt &lt;&lt; “EOF”<br>export PATH=$HOME/jdk1.8.0_31/bin:$PATH<br>export JAVA_HOME=$HOME/jdk1.8.0_31/<br>EOF<br>两个”EOF“之间的所有内容都会被添加到文件中。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/祭我的小三之HTC-G3/" data-id="ciwvdwc44004om4cyt5yfk4u3" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/12/cat/" data-id="ciwvhh0nc002zr1cygdki5q5v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,7 +559,7 @@
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/14/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/16/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/14/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/16/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -624,28 +585,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
@@ -661,7 +622,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

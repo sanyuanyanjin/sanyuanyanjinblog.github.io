@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-seafile" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Squid" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/seafile/" class="article-date">
-  <time datetime="2016-12-15T05:55:25.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/Squid/" class="article-date">
+  <time datetime="2016-12-19T00:56:39.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/seafile/">seafile</a>
+      <a class="article-title" href="/2016/12/19/Squid/">Squid</a>
     </h1>
   
 
@@ -83,158 +83,60 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="http://manual-cn.seafile.com/deploy/using_mysql.html" target="_blank" rel="external">http://manual-cn.seafile.com/deploy/using_mysql.html</a></p>
-<p>root@master:~# apt-get install mysql-server<br>root@master:~# mysql -uroot -pyanjin</p>
-<p>root@master:~# mkdir tzuchi<br>root@master:~# df -h<br>文件系统        容量  已用  可用 已用% 挂载点<br>/dev/xvda1       28G  4.9G   21G   19% /<br>udev            988M  4.0K  988M    1% /dev<br>tmpfs           200M  904K  199M    1% /run<br>none            5.0M     0  5.0M    0% /run/lock<br>none            999M  180K  998M    1% /run/shm<br>root@master:~# mv seafile-server_5.1.1_x86-64.tar.gz tzuchi/<br>root@master:~# cd tzuchi/<br>root@master:~/tzuchi# tar -xf seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mkdir installed<br>root@master:~/tzuchi# ls<br>installed  seafile-server-5.1.1  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# mv seafile-server-5.1.1/ installed/<br>root@master:~/tzuchi# ls<br>installed  seafile-server_5.1.1_x86-64.tar.gz<br>root@master:~/tzuchi# cd ..<br>root@master:~# tree tzuchi -L 2<br>tzuchi<br>├── installed<br>│   └── seafile-server_5.1.1_x86-64.tar.gz<br>└── seafile-server-5.1.1<br>    ├── check_init_admin.py<br>    ├── reset-admin.sh<br>    ├── runtime<br>    ├── seaf-fsck.sh<br>    ├── seaf-fuse.sh<br>    ├── seaf-gc.sh<br>    ├── seafile<br>    ├── seafile.sh<br>    ├── seahub<br>    ├── seahub.sh<br>    ├── setup-seafile-mysql.py<br>    ├── setup-seafile-mysql.sh<br>    ├── setup-seafile.sh<br>    └── upgrade</p>
-<p>6 directories, 11 files<br>root@master:~# apt-get update</p>
-<p>root@master:~# apt-get install python2.7 python-setuptools python-imaging python-ldap python-mysqldb python-memcache<br>root@master:~#<br>root@master:~# cd tzuchi/seafile-server-5.1.1/<br>root@master:~/tzuchi/seafile-server-5.1.1# ls<br>check_init_admin.py  seaf-fuse.sh  seahub                  setup-seafile.sh<br>reset-admin.sh       seaf-gc.sh    seahub.sh               upgrade<br>runtime              seafile       setup-seafile-mysql.py<br>seaf-fsck.sh         seafile.sh    setup-seafile-mysql.sh<br>root@master:~/tzuchi/seafile-server-5.1.1# ./setup-seafile-mysql.sh<br>Checking python on this machine …<br>  Checking python module: setuptools … Done.<br>  Checking python module: python-imaging … Done.<br>  Checking python module: python-mysqldb … Done.</p>
-<h2 id="This-is-your-configuration"><a href="#This-is-your-configuration" class="headerlink" title="This is your configuration"></a>This is your configuration</h2><pre><code>server name:            tzuchi
-server ip/domain:       10.6.6.9
-
-seafile data dir:       /root/tzuchi/seafile-data
-fileserver port:        8082
-
-database:               create new
-ccnet database:         ccnet-db
-seafile database:       seafile-db
-seahub database:        seahub-db
-database user:          root
-</code></pre><hr>
-<h2 id="Press-ENTER-to-continue-or-Ctrl-C-to-abort"><a href="#Press-ENTER-to-continue-or-Ctrl-C-to-abort" class="headerlink" title="Press ENTER to continue, or Ctrl-C to abort"></a>Press ENTER to continue, or Ctrl-C to abort</h2><p>Generating ccnet configuration …</p>
-<p>done<br>Successly create configuration dir /root/tzuchi/ccnet.<br>Generating seafile configuration …</p>
-<p>Done.<br>done<br>Generating seahub configuration …</p>
-<hr>
-<p>Now creating seahub database tables …</p>
-<hr>
-<p>creating seafile-server-latest symbolic link …  done</p>
-<hr>
-<h2 id="Your-seafile-server-configuration-has-been-finished-successfully"><a href="#Your-seafile-server-configuration-has-been-finished-successfully" class="headerlink" title="Your seafile server configuration has been finished successfully."></a>Your seafile server configuration has been finished successfully.</h2><p>run seafile server:     ./seafile.sh { start | stop | restart }<br>run seahub  server:     ./seahub.sh  { start <port> | stop | restart <port> }</port></port></p>
-<hr>
-<h2 id="If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports"><a href="#If-you-are-behind-a-firewall-remember-to-allow-input-output-of-these-tcp-ports" class="headerlink" title="If you are behind a firewall, remember to allow input/output of these tcp ports:"></a>If you are behind a firewall, remember to allow input/output of these tcp ports:</h2><p>port of seafile fileserver:   8082<br>port of seahub:               8000</p>
-<p>When problems occur, Refer to</p>
-<pre><code>https://github.com/haiwen/seafile/wiki
-</code></pre><p>for information.</p>
-<p>root@master:~/tzuchi/seafile-server-5.1.1# ./seafile.sh start</p>
-<p>[05/04/16 11:07:09] ../common/session.c(132): using config file /root/tzuchi/conf/ccnet.conf<br>Starting seafile server, please wait …<br>Seafile server started</p>
-<p>Done.<br>root@master:~/tzuchi/seafile-server-5.1.1#<br>root@master:~/tzuchi/seafile-server-5.1.1# ./seahub.sh start</p>
-<p>LC_ALL is not set in ENV, set to en_US.UTF-8<br>Starting seahub at port 8000 …</p>
-<hr>
-<h2 id="It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account"><a href="#It’s-the-first-time-you-start-the-seafile-server-Now-let’s-create-the-admin-account" class="headerlink" title="It’s the first time you start the seafile server. Now let’s create the admin account"></a>It’s the first time you start the seafile server. Now let’s create the admin account</h2><p>What is the email for the admin account?<br>[ admin email ] 455177385@qq.com</p>
-<p>What is the password for the admin account?<br>[ admin password ] </p>
-<p>Enter the password again:<br>[ admin password again ] </p>
-<hr>
-<h2 id="Successfully-created-seafile-admin"><a href="#Successfully-created-seafile-admin" class="headerlink" title="Successfully created seafile admin"></a>Successfully created seafile admin</h2><p>Seahub is started</p>
-<p>Done.</p>
-<p><a href="http://10.6.6.9:8000" target="_blank" rel="external">http://10.6.6.9:8000</a><br><a href="http://10.6.6.9:8000/accounts/login/" target="_blank" rel="external">http://10.6.6.9:8000/accounts/login/</a><br>455177385@qq.com<br>test@tzuchi.com.cn<br>test123<br>[ admin email ]<br>yanjin@tzuchi.com.cn</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/seafile/" data-id="ciwvdwc2l002xm4cy4ivvtrmc" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ubuntu-12-04-ssh登录很慢" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/ubuntu-12-04-ssh登录很慢/" class="article-date">
-  <time datetime="2016-12-15T05:34:58.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu-12-04-ssh登录很慢/">ubuntu 12.04  ssh登录很慢</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>解决方法：</p>
-<ol>
-<li><p>增加或更改ssh的配置参数：</p>
-<pre><code>在 /etc/ssh/ssh_config 文件中修改GSSAPIAuthentication yes(在倒数第二行) 为 GSSAPIAuthentication no ，保存。
-
-命令：sudo gedit /etc/ssh/ssh_config
-</code></pre></li>
-<li><p>重启ssh服务：</p>
-<pre><code>命令：sudo /etc/init.d/ssh restart
-</code></pre></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-ssh登录很慢/" data-id="ciwvdwc2o0032m4cyn4s8m5aa" class="article-share-link">Partager</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ubuntu-12-04-不显示用户名和路径" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/" class="article-date">
-  <time datetime="2016-12-15T05:33:45.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/">ubuntu 12.04 不显示用户名和路径</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ubuntu 12.04 命令行不显示用户名和路径了<br>现象<br>[plain] view plaincopy </p>
-<ol>
-<li>Welcome to Ubuntu 12.04.2 LTS (GNU/Linux 3.5.0-23-generic x86_64) </li>
-<li></li>
-<li><ul>
-<li>Documentation:  <a href="https://help.ubuntu.com/" target="_blank" rel="external">https://help.ubuntu.com/</a> </li>
+        <p>localhost:~ # crontab -e<br><em>:1 </em> <em> </em> <em> sh /root/rotate.sh &gt;/dev/null 2&gt;&amp;1<br>00 05 </em> <em> </em> /etc/init.d/squid restart<br>00 06 <em> </em> * sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16<em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
 </ul>
-</li>
-<li></li>
-<li>System information as of Wed Feb 26 16:31:31 CST 2014 </li>
-<li></li>
-<li>Graph this data and manage this system at <a href="https://landscape.canonical.com/" target="_blank" rel="external">https://landscape.canonical.com/</a> </li>
-<li></li>
-<li></li>
-<li>Last login: Wed Feb 26 16:29:08 2014 from 10.0.17.139 </li>
-<li>$  </li>
-<li>$  </li>
-<li>$  </li>
-<li>$<br>分析和解决方案<br>一般的情况都认为是环境变量PS1的问题，可以手动设置下PS1环境变量。如：<br>[plain] view plaincopy </li>
-<li>export PS1=[<code>hostname</code>/<code>whoami</code>]$<br>如果情况未改变，请检查/etc/passwd的权限。<br>/etc/passwd的权限应该为644。</li>
-</ol>
+<p><em>:1 </em> <em> </em> <em> 每一秒
+</em>/5 <em> </em> <em> </em> sh /root/mvlog.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>localhost:~ # cat /root/autoftp.sh</p>
+<p>#auto ftp to another server</p>
+<p>#!/bin/bash<br>#</p>
+<p>#setting ftp var</p>
+<p>#ftpurl=210.71.242.204<br>ftpurl=10.6.0.15<br>ftpid=admin<br>ftppwd=htw001c9<br>ftpmode=binary<br>#</p>
+<p>#setting date var<br>Y=<code>date &quot;+%Y&quot;</code><br>m=<code>date &quot;+%m&quot;</code><br>d=<code>date -d &quot;-1 day&quot; &quot;+%d&quot;</code><br>#</p>
+<p>#setting log var<br>logday=$m$d</p>
+<p>#fname=access.log.0<br>fname=access.log<br>logfiledir=/var/log/squid<br>logfile=$logday”.txt”<br>gziplog=$logfile”.gz”<br>#<br>cp $logfiledir/$fname $logfiledir/$logfile<br>gzip $logfiledir/$logfile<br>#</p>
+<p>#setting backup var<br>backupdir=/backup/log<br>Ymdir=$Y$m<br>#<br>if [ -d /$backupdir/$Ymdir ]<br>then<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>else<br>mkdir $backupdir/$Ymdir<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>fi<br>#<br>ftp -n $ftpurl&lt;&lt;command<br>user $ftpid $ftppwd $ftpid@ftpurl<br>$ftpmode<br>lcd $backupdir/$Ymdir<br>put $gziplog<br>bye<br>command<br>#</p>
+<p>#remove oldfile<br>rm $logfiledir/$gziplog<br>localhost:~ #</p>
+<p>localhost:~ # cat /root/resid.sh</p>
+<p>#!/bin/sh<br>kill -9 <code>ps aux | grep -i squid | grep -v grep|awk &#39;{print $2}&#39;</code> &gt; /dev/null</p>
+<h1 id="kill-9-cat-var-run-squid-pid-gt-dev-null"><a href="#kill-9-cat-var-run-squid-pid-gt-dev-null" class="headerlink" title="kill -9 cat /var/run/squid.pid &gt; /dev/null"></a>kill -9 <code>cat /var/run/squid.pid</code> &gt; /dev/null</h1><p>/etc/init.d/squid start &gt; /dev/null<br>/etc/init.d/mysql start &gt; /dev/null<br>localhost:~ #</p>
+<p>localhost:~ # cat /backup/backupopt/squid_backup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>localhost:~ #</p>
+<p>Proxy</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>crontab -e<br>00 05 <em> </em> <em> /etc/init.d/squid restart<br>00 06 </em> <em> </em> sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16  <em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
+</ul>
+<p>查看文件夹容量<br>localhost:/var/log/squid # du -h –max-depth=1 /var/log/squid</p>
+<p>linux ls 按文件大小排序<br>ls -Slrh /var/log/squid/<br>localhost:/var/log/squid # ls -Slrh</p>
+<p>日志过大，手工删除<br>localhost:/var/log/squid # rm store.log-201504*</p>
+<p>查看系统日志<br>localhost:~ # tail -f /var/log/messages</p>
+<p>vim sys.txt<br>ps aux | grep -i squid<br>ll -h /var/log/squid/access.log &amp;&amp; ll -h /var/log/squid/store.log<br>/usr/sbin/squid -k rotate</p>
+<p>滚动日志记录<br>/usr/sbin/squid -k rotate<br>localhost:~ # ll -h /var/log/squid/access.log<br>-rw-r—– 1 squid nogroup 42K Jun  2 16:41 /var/log/squid/access.log<br>localhost:~ # ll -h /var/log/squid/store.log<br>-rw-r—– 1 squid nogroup 103K Jun  2 16:41 /var/log/squid/store.log</p>
+<p>正常运行：<br>ps aux | grep -i squid<br>root     15813  0.0  0.0   7240  1160 ?        Ss   16:59   0:00 /usr/sbin/squid -sYD<br>squid    15815 38.3  0.3  30932 25488 ?        S    16:59   2:58 (squid) -sYD<br>squid    15819  0.0  0.0   3924  1000 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15820  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15821  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15822  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15825  0.0  0.0   3924   700 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15837  0.0  0.0   1732   244 ?        Ss   16:59   0:00 (unlinkd)<br>root     15921  0.0  0.0   2404   472 pts/0    S+   17:06   0:00 grep -i squid<br>localhost:~ # </p>
+<p>vim mv.sh </p>
+<p>for file in /root/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 100000 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done<br>~</p>
+<p>vim mvlog.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1999666333 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done</p>
+<p>vim /root/rotate.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1899666333 ] &amp;&amp; /usr/sbin/squid -k rotate</p>
+<p>done</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-不显示用户名和路径/" data-id="ciwvdwc2r0034m4cy5pvtm5zo" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/Squid/" data-id="ciwvhh0n2002jr1cyzryoov7x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -244,10 +146,10 @@ database user:          root
 
 
   
-    <article id="post-ubuntu-12-04网络设置" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Squid-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/ubuntu-12-04网络设置/" class="article-date">
-  <time datetime="2016-12-15T05:28:59.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/CentOS-6-x-Squid-1/" class="article-date">
+  <time datetime="2016-12-19T00:56:06.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -258,7 +160,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu-12-04网络设置/">ubuntu 12.04网络设置</a>
+      <a class="article-title" href="/2016/12/19/CentOS-6-x-Squid-1/">CentOS 6.x Squid</a>
     </h1>
   
 
@@ -266,31 +168,63 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>ubuntu 12.04网络设置，自定义IP地址<br>1、服务器版本<br>设置IP地址<br>ubuntu 12.04的网络设置文件是/etc/network/interfaces，打开文件，会看到</p>
-<p>auto lo</p>
-<p>iface lo inet loopback</p>
-<p>这边的设置是本地回路。在后面加上</p>
-<p>auto eth0</p>
-<p>iface eth0 inet static</p>
-<p>address 192.168.1.230（ip地址）</p>
-<p>netmask 255.255.255.0（子网掩码）</p>
-<p>gateway 192.168.1.1（网关）</p>
-<p>其中eth0就是电脑的网卡，如果电脑有多块网卡，比如还会有eth1，都可以在这里进行设置。iface eth0 inet 设置为dhcp是动态获取IP，设置为static则用自定义的IP。这边要自定义IP地址，所以选择static选项。</p>
-<p>重新启动网络服务<br>sudo /etc/init.d/networking restart</p>
-<p>重启好后，用ifconfig看下eth0，是不是改成自己需要的IP地址了。</p>
-<p>设置dns<br>ip设置好后，如果直接ping www.baidu.com会发现ping不通，因为dns还没设置，编辑/etc/resolv.conf，加上dns服务器地址。</p>
-<p>nameserver 8.8.8.8</p>
-<p>nameserver 8.8.4.4</p>
-<p>这两个是Google提供的免费DNS服务器的IP地址。</p>
-<p>2、桌面版本<br>桌面版提供了network-manage管理工具，可以通过界面直接管理。</p>
-<p>点击右上角网络图标，编辑连接，增加新的连接。我的设置截图如下，可以根据自己的需要进行修改。</p>
-<p>ubuntu 12.04桌面版网络设置-选择网卡<br>ubuntu 12.04桌面版网络设置-选择网卡</p>
-<p>ubuntu 12.04桌面版网络设置-设置IP<br>ubuntu 12.04桌面版网络设置-设置IP</p>
+        <p>环境：CentOS6.5 64位</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>122 UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=squid</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></p>
+<p>cd /etc/yum.repos.d/<br>mv cobbler-config.repo cobbler-config.repobak<br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.0.101<br>子网掩码：255.255.255.0<br>网关：10.6.0.128<br>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=9a:58:98:fb:64:93<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”8a6cf2c6-50d5-4118-b343-477b0fe0850c”<br>IPADDR=10.6.0.101<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>GATEWAY=10.6.0.128<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>ifconfig eth1 192.168.3.3 netmask 255.255.255.0<br>cat /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=4E:F7:71:1F:2B:77<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>安装XenServer Tools<br>mount /dev/cdrom /media/<br>cd /media/Linux/<br>./install.sh<br>You should now reboot this Virtual Machine.<br>快照</p>
+<p>普通代理 http_port 3128<br>透明代理 http_port 3128 transparent<br>反向代理 http_port 3128 accel vhost vport</p>
+<p>去除显示grep进程<br>ps -ef |grep ‘sbin/squid’ | grep -v grep |wc -l</p>
+<p>加载系统函数库<br>. /etc/init.d/functions</p>
+<p>日期<br>access_$(date +%F).log</p>
+<p>使用yum 方式安装<br>yum -y install squid<br>设置开机自启动<br>chkconfig –level 35 squid on<br>在3、5级别上自动运行squid服务</p>
+<p>squid服务器的配置文件说明<br>去#号及去空行<br>egrep -v “#|^$” /etc/squid/squid.conf<br>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl SSL_ports port 443<br>acl CONNECT method CONNECT<br>http_access allow manager localhost<br>http_access deny manager<br>http_access deny !Safe_ports<br>http_access deny CONNECT !SSL_ports<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>cp /etc/squid/squid.conf /etc/squid/squid.confbak<br>squid 的主配置文件是 /etc/squid/squid.conf，所有squid的设定都是在这个文件里配置，下面是一些常用的配置选项。<br>vim /etc/squid/squid.conf<br>http_port　3128<br>设置监听的IP与端口号<br>cache_mem 64 MB<br>额外提供给squid使用的内存，squid的内存总占用为 X <em> 10+15+“cache_mem”，其中X为squid的cache占用的容量（以GB为单位）<br>比如下面的cache大小是100M，即0.1GB，则内存总占用为0.1</em>10+15+64=80M，推荐大小为物理内存的1/3-1/2或更多。<br>maximum_object_size 4 MB<br>设置squid磁盘缓存最大文件，超过4M的文件不保存到硬盘<br>minimum_object_size 0 KB<br>设置squid磁盘缓存最小文件<br>maximum_object_size_in_memory 4096 KB<br>设置squid内存缓存最大文件，超过4M的文件不保存到内存<br>cache_dir ufs /var/spool/squid 100 16 256<br>定义squid的cache存放路径 、cache目录容量（单位M）、一级缓存目录数量、二级缓存目录数量<br>logformat combined %&gt;a %ui %un [%tl] “%rm %ru HTTP/%rv” %Hs %h” “%{User-Agent}&gt;h” %Ss:%Sh<br>emulate_httpd_log on<br>log文件日志格式<br>access_log /var/log/squid/access.log combined<br>log文件存放路径和日志格式<br>cache_log /var/log/squid/cache.log<br>设置缓存日志<br>logfile_rotate 60<br>log轮循 60天<br>cache_swap_high 95<br>cache目录使用量大于95%时，开始清理旧的<br>cachecache_swap_low 90<br>cache目录清理到90%时停止。<br>acl localnet src 10.6.0.0/16<br>定义本地网段<br>http_access allow localnet<br>允许本地网段使用<br>http_access deny all<br>拒绝所有<br>visible_hostname squid.sanyuan.tk<br>主机名<br>cache_mgr example@test.com<br>管理员邮箱</p>
+<p>普通代理<br>编辑squid 主配置文件/etc/squid/squid.conf<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confnormal<br>cp /etc/squid/squid.confnormal /etc/squid/squid.conf</p>
+<p>example：<br>http_port 3128<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com</p>
+<p>检查语法<br>squid -k parse</p>
+<p>初始化<br>squid -z</p>
+<p>启动Squid<br>/etc/init.d/squid start<br>chkconfig squid on</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>tail -f /var/log/squid/access.log</p>
+<p>透明代理<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access allow all<br>http_port 3128 transparent<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.conftransparent</p>
+<p>example：<br>http_port 3128 transparent<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com<br>在http_port 3128 后添加transparent 关键字。</p>
+<p>reload<br>reload 让上面的配置生效。<br>/etc/init.d/squid reload</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>yum -y install dhcp<br>安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak<br>备份dhcpd.conf文件<br>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>     option routers             192.168.3.3;<br>     option domain-name-servers 223.5.5.5;<br>     option subnet-mask         255.255.255.0;<br>     range dynamic-bootp        192.168.3.6 192.168.3.99;<br>     default-lease-time         21600;<br>     max-lease-time             43200;<br>     next-server                192.168.3.3;<br>}</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>service dhcpd start<br>chkconfig dhcpd on</p>
+<p>NAT<br>vim /etc/sysctl.conf<br>7 # net.ipv4.ip_forward = 0<br>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>添加iptables规则，把内部的http请求重定向到3128端口<br>清除现有iptables filter 表规则<br>iptables -F<br>保存iptables 设置<br>/etc/init.d/iptables save<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>iptables -t nat -I PREROUTING -i eth1 -s 192.168.3.0/24 -p tcp –dport 80 -j REDIRECT –to-port 3128<br>保存<br>/etc/init.d/iptables save</p>
+<p>反向代理</p>
+<p>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow all<br>http_port 80 accel vhost<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 10.6.6.200 parent 80 0 originserver round-robin weight=1<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confreverse</p>
+<p>example：<br>http_port 80 accel vhost<br>http_access allow all<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 192.168.3.9 parent 80 0 originserver round-robin weight=1<br>visible_hostname squid.sanyuan.tk</p>
+<p>/etc/init.d/squid restart<br>squid 采用了round-robin，所以客户端的访问将轮询两台web服务器，采用 “Ctrl + F5” 来深度刷新测试。</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :80</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04网络设置/" data-id="ciwvdwc2p0033m4cy146b7mjf" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Squid-1/" data-id="ciwvhh0lu000xr1cyx7za02iu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,10 +234,10 @@ database user:          root
 
 
   
-    <article id="post-Ubuntu-用vsftpd-配置FTP服务器" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Cobbler-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/" class="article-date">
-  <time datetime="2016-12-15T05:28:14.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/CentOS-6-x-Cobbler-1/" class="article-date">
+  <time datetime="2016-12-19T00:55:08.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -314,7 +248,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/">Ubuntu 用vsftpd 配置FTP服务器</a>
+      <a class="article-title" href="/2016/12/19/CentOS-6-x-Cobbler-1/">CentOS 6.x Cobbler</a>
     </h1>
   
 
@@ -322,19 +256,137 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>网上的文章好难懂啊。。只想要简单粗暴，弄好能用就行啊，复杂的以后研究不行吗。。。折腾好久，其实弄出来能用不就这么点内容吗。。。<br>本文在Ubuntu Server 14.04 amd64系统测试。<br>Made By：CSGrandeur<br>安装ftp<br>sudo apt-get install vsftpd<br>配置vsftpd.conf<br>sudo nano /etc/vsftpd.conf<br>复制代码</p>
-<p>#禁止匿名访问<br>anonymous_enable=NO</p>
-<p>#接受本地用户<br>local_enable=YES</p>
-<p>#允许上传<br>write_enable=YES</p>
-<p>#用户只能访问限制的目录<br>chroot_local_user=YES</p>
-<p>#设置固定目录，在结尾添加。如果不添加这一行，各用户对应自己的目录，当然这个文件夹自己建<br>local_root=/home/ftp<br>复制代码<br>看网上说加一行“pam_service_name=vsftpd”，我看我这个配置文件本来就有，就不管了。<br>添加ftp用户<br>sudo useradd -d /home/ftp -M ftpuser<br>sudo passwd ftpuser<br>调整文件夹权限<br>这个是避免“500 OOPS: vsftpd: refusing to run with writable root inside chroot()”<br>sudo chmod a-w /home/ftp<br>sudo mkdir /home/ftp/data<br>这样登录之后会看到data文件夹，虽然稍麻烦，原因不表了。。查资料这么辛酸已经不易。。<br>改pam.d/vsftpd<br>这时候直接用useradd的帐号登录ftp会530 login incorrect<br>sudo nano /etc/pam.d/vsftpd<br>注释掉 </p>
-<p>#auth    required pam_shells.so<br>重启vsftpd<br>sudo service vsftpd restart<br>这时就可以用刚才建的ftpuser这个用户登录ftp了，看到的是local_root设置的/home/ftp，并且限制在该目录。</p>
-<p>可以在浏览器用ftp://xxx.xxx.xxx.xxx访问，也可以用ftp软件比如flashFXP，密码就是ftpuser的密码。<br>关于用户访问文件夹限制<br>由chroot_local_user、chroot_list_enable、chroot_list_file这三个文件控制，转别人的一段话：<br>首先，chroot_list_enable好理解，就是：是否启用chroot_list_file配置的文件，如果为YES表示chroot_list_file配置的文件生效，否则不生效；<br>第二，chroot_list_file也简单，配置了一个文件路径，默认是/etc/vsftpd.chroot_list，该文件中会填入一些账户名称。但是这些账户的意义不是固定的，是跟配置项chroot_local_user有关的。后一条中说明；<br>第三，chroot_local_user为YES表示所有用户都<em>不能</em>切换到主目录之外其他目录，但是！除了chroot_list_file配置的文件列出的用户。chroot_local_user为NO表示所有用户都<em>能</em>切换到主目录之外其他目录，但是！除了chroot_list_file配置的文件列出的用户。也可以理解为，chroot_list_file列出的“例外情况”的用户。<br> 如果客户端登录时候提示“以pasv模式连接失败”<br>编辑/etc/vsftpd.conf<br>最后添加<br>pasv_promiscuous=YES<br>然后再重启vsftpd服务。</p>
+        <p>环境：CentOS6.5 64位</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=cobbler</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.4.3<br>子网掩码：255.255.255.0<br>网关：10.6.4.1<br>[root@cobbler ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=82:70:08:d9:98:db<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”11a6993c-4574-45a7-baf4-eccee247503c”<br>IPADDR=10.6.4.3<br>NETMASK=255.255.255.0<br>DNS2=61.177.7.1<br>GATEWAY=10.6.4.1<br>DNS1=223.5.5.5<br>IPV6INIT=no<br>USERCTL=no<br>[root@cobbler ~]#<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>IPADDR=10.6.4.3<br>PREFIX=24<br>GATEWAY=10.6.4.1<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=82:70:08:d9:98:db</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>[root@cobbler ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth1<br>TYPE=Ethernet<br>UUID=99530563-ca29-441b-bfe2-3299357c2170<br>ONBOOT=yes<br>NM_CONTROLLED=yes<br>BOOTPROTO=none<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=61.177.7.1<br>DNS1=223.5.5.5<br>IPV6INIT=no<br>USERCTL=no<br>HWADDR=3A:E4:4B:3F:BE:9D<br>PREFIX=24<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>NAME=”System eth1”<br>[root@cobbler ~]#<br>vim /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=”eth1”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>IPADDR=192.168.3.3<br>PREFIX=24<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth1”</p>
+<p>安装XenServer Tools<br>快照</p>
+<p>安装cobbler<br>yum -y install cobbler<br>yum install -y tftp-server xinetd dhcp httpd rsync pykickstart  debmirror python-ctypes cman<br>service cobblerd start</p>
+<p>设置http服务<br>配置httpd配置文件<br>vim /etc/httpd/conf/httpd.conf<br>ServerName 127.0.0.1:80</p>
+<p>安装mod_wsgi<br>yum -y install mod_wsgi<br>vim /etc/httpd/conf.d/wsgi.conf<br>LoadModule  wsgi_module modules/mod_wsgi.so</p>
+<p>启动http服务<br>service httpd start<br>chkconfig httpd on</p>
+<p>设置tftp服务<br>vim /etc/xinetd.d/tftp<br>disable = no</p>
+<p>设置rsync服务<br>vim /etc/xinetd.d/rsync<br>disable = no<br>启动rsync<br>service xinetd start</p>
+<p>配置cobbler相关参数<br>vim /etc/debmirror.conf<br>  //注释掉下面两句：</p>
+<p>#@dists=”sid”;</p>
+<p>#@arches=”i386”;</p>
+<p>配置cobbler主配置文件<br>在开启cobbler服务之前，需要修改一些配置文件，在修改配置文件之前最好做一些备份<br>cp /etc/cobbler/settings /etc/cobbler/settingsbak<br>vim /etc/cobbler/settings<br>server:192.168.3.3</p>
+<p>#server设置的IP为cobbler服务器指定的地址<br>next_server:192.168.3.3</p>
+<p>#next_server是DHCP/PXE网络引导文件被下载的TFTP服务器的IP，这里我们和server设置为同一个IP<br>pxe_just_once:1</p>
+<p>#为了防止误重装系统，可以做如下修改，PXE安装只允许一次，防止误操作</p>
+<p>生成cobbler安装系统的root初始密码<br>openssl passwd -1 -salt ‘random-phrase-here’’yanjin’</p>
+<p>#将得到的字符串加到setting的配置文件中”刚才得到的字符串”修改<br>vim /etc/cobbler/settings<br>default_password_crypted: “$1$random-p$RaMolYuxr4D4mKkRWlYC8.”<br>manage_rsync: 1</p>
+<p>#对rsync进行管理<br>manage_dhcp: 1</p>
+<p>#对dhcp进行管理</p>
+<p>对cobbler管理dhcp的模板修改<br>修改模板文件 /etc/cobbler/dhcp.template 此文件是cobbler管理dhcp的模板，确保dhcp分配的地址和cobbler在同一网段，对于此文件，我们做如下部分的修改：<br>cp /etc/cobbler/dhcp.template /etc/cobbler/dhcp.templatebak<br>vim /etc/cobbler/dhcp.template<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>     option routers             192.168.3.3;<br>     option domain-name-servers 223.5.5.5;<br>     option subnet-mask         255.255.255.0;<br>     range dynamic-bootp        192.168.3.6 192.168.3.99;</p>
+<pre><code>default-lease-time         21600;
+max-lease-time             43200;
+next-server                $next_server;
+class &quot;pxeclients&quot; {
+     match if substring (option vendor-class-identifier, 0, 9) = &quot;PXEClient&quot;;
+     if option pxe-system-type = 00:02 {
+             filename &quot;ia64/elilo.efi&quot;;
+     } else if option pxe-system-type = 00:06 {
+             filename &quot;grub/grub-x86.efi&quot;;
+     } else if option pxe-system-type = 00:07 {
+             filename &quot;grub/grub-x86_64.efi&quot;;
+     } else {
+             filename &quot;pxelinux.0&quot;;
+     }
+}
+</code></pre><p>}</p>
+<p>NAT<br>vim /etc/sysctl.conf</p>
+<h1 id="net-ipv4-ip-forward-0"><a href="#net-ipv4-ip-forward-0" class="headerlink" title="net.ipv4.ip_forward = 0"></a>net.ipv4.ip_forward = 0</h1><p>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>iptables -F<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>service iptables save</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>加载部分缺失的boot-loaders<br>service cobblerd restart<br>cobbler get-loaders</p>
+<p>#如果该步骤无法执行可以将文件下载下来保存到/var/lib/cobbler/loads/中</p>
+<p>启动cobbler服务<br>执行dhcpd测试dhcp服务器配置是否正确<br>chkconfig dhcpd on<br>chkconfig cobblerd on<br>service cobblerd restart<br>cobbler sync</p>
+<p>#同步配置文件到dhcp服务器中</p>
+<p>#如果出现错误时bug，重新启动一遍cobbler即可<br>service dhcpd start</p>
+<p>配置cobbler相关服务启动脚本<br>vim /etc/rc.d/init.d/cobbler</p>
+<p>#!/bin/sh</p>
+<h1 id="chkconfig-80-90"><a href="#chkconfig-80-90" class="headerlink" title="chkconfig: - 80 90"></a>chkconfig: - 80 90</h1><h1 id="description-cobbler"><a href="#description-cobbler" class="headerlink" title="description:cobbler"></a>description:cobbler</h1><p>case $1 in<br>start)<br>/etc/init.d/httpd start<br>/etc/init.d/xinetd start<br>/etc/init.d/dhcpd start<br>/etc/init.d/cobblerd start<br>;;<br>stop)<br>/etc/init.d/httpd stop<br>/etc/init.d/xinetd stop<br>/etc/init.d/dhcpd stop<br>/etc/init.d/cobblerd stop<br>;;<br>restart)<br>/etc/init.d/httpd restart<br>/etc/init.d/xinetd restart<br>/etc/init.d/dhcpd restart<br>/etc/init.d/cobblerd restart<br>;;<br>status)<br>/etc/init.d/httpd status<br>/etc/init.d/xinetd status<br>/etc/init.d/dhcpd status<br>/etc/init.d/cobblerd status<br>;;<br>sync)<br>cobbler sync<br>;;<br>*)<br>echo “Input error,please in put  ‘start|stop|restart|status|sync’!”;<br>exit 2&gt;&amp;1 &gt;/dev/null &amp;<br>;;<br>esac</p>
+<p>添加脚本的执行权限<br>chmod +x /etc/rc.d/init.d/cobbler<br>chkconfig cobbler on<br>service cobbler restart<br>cobbler check</p>
+<p>挂载镜像<br>mount /dev/cdrom /media/<br>cobbler import –path=/media –name=ubuntu12.04 –breed=ubuntu<br><strong><em> TASK COMPLETE </em></strong><br>cobbler list<br>du -sh /var/www/cobbler/ks_mirror/ubuntu12.04<br>cp /var/lib/cobbler/kickstarts/sample.seed /var/lib/cobbler/kickstarts/sample.seedbak<br>vim /var/lib/cobbler/kickstarts/sample.seed<br>d-i mirror/country string manual<br>d-i mirror/protocol string http<br>d-i mirror/http/hostname string 192.168.3.3<br>d-i mirror/http/directory string /cobbler/ks_mirror/ubuntu12.04<br>d-i mirror/http/proxy string <a href="http://192.168.3.3/" target="_blank" rel="external">http://192.168.3.3/</a></p>
+<p>cobbler sync<br>service cobbler restart</p>
+<p>cat /var/lib/cobbler/kickstarts/sample.seed</p>
+<h1 id="Mostly-based-on-the-Ubuntu-installation-guide"><a href="#Mostly-based-on-the-Ubuntu-installation-guide" class="headerlink" title="Mostly based on the Ubuntu installation guide"></a>Mostly based on the Ubuntu installation guide</h1><h1 id="https-help-ubuntu-com-12-04-installation-guide"><a href="#https-help-ubuntu-com-12-04-installation-guide" class="headerlink" title="https://help.ubuntu.com/12.04/installation-guide/"></a><a href="https://help.ubuntu.com/12.04/installation-guide/" target="_blank" rel="external">https://help.ubuntu.com/12.04/installation-guide/</a></h1><h1 id="Preseeding-only-locale-sets-language-country-and-locale"><a href="#Preseeding-only-locale-sets-language-country-and-locale" class="headerlink" title="Preseeding only locale sets language, country and locale."></a>Preseeding only locale sets language, country and locale.</h1><p>d-i debian-installer/locale string en_US</p>
+<h1 id="Keyboard-selection"><a href="#Keyboard-selection" class="headerlink" title="Keyboard selection."></a>Keyboard selection.</h1><h1 id="Disable-automatic-interactive-keymap-detection"><a href="#Disable-automatic-interactive-keymap-detection" class="headerlink" title="Disable automatic (interactive) keymap detection."></a>Disable automatic (interactive) keymap detection.</h1><p>d-i console-setup/ask_detect boolean false<br>d-i keyboard-configuration/layoutcode string us<br>d-i keyboard-configuration/variantcode string</p>
+<h1 id="netcfg-will-choose-an-interface-that-has-link-if-possible-This-makes-it"><a href="#netcfg-will-choose-an-interface-that-has-link-if-possible-This-makes-it" class="headerlink" title="netcfg will choose an interface that has link if possible. This makes it"></a>netcfg will choose an interface that has link if possible. This makes it</h1><h1 id="skip-displaying-a-list-if-there-is-more-than-one-interface"><a href="#skip-displaying-a-list-if-there-is-more-than-one-interface" class="headerlink" title="skip displaying a list if there is more than one interface."></a>skip displaying a list if there is more than one interface.</h1><p>#set $myhostname = $getVar(‘hostname’,$getVar(‘name’,’cobbler’)).replace(“_”,”-“)<br>d-i netcfg/choose_interface select auto<br>d-i netcfg/get_hostname string $myhostname</p>
+<h1 id="If-non-free-firmware-is-needed-for-the-network-or-other-hardware-you-can"><a href="#If-non-free-firmware-is-needed-for-the-network-or-other-hardware-you-can" class="headerlink" title="If non-free firmware is needed for the network or other hardware, you can"></a>If non-free firmware is needed for the network or other hardware, you can</h1><h1 id="configure-the-installer-to-always-try-to-load-it-without-prompting-Or"><a href="#configure-the-installer-to-always-try-to-load-it-without-prompting-Or" class="headerlink" title="configure the installer to always try to load it, without prompting. Or"></a>configure the installer to always try to load it, without prompting. Or</h1><h1 id="change-to-false-to-disable-asking"><a href="#change-to-false-to-disable-asking" class="headerlink" title="change to false to disable asking."></a>change to false to disable asking.</h1><h1 id="d-i-hw-detect-load-firmware-boolean-true"><a href="#d-i-hw-detect-load-firmware-boolean-true" class="headerlink" title="d-i hw-detect/load_firmware boolean true"></a>d-i hw-detect/load_firmware boolean true</h1><h1 id="NTP-Time-Setup"><a href="#NTP-Time-Setup" class="headerlink" title="NTP/Time Setup"></a>NTP/Time Setup</h1><p>d-i time/zone string US/Eastern<br>d-i clock-setup/utc boolean true<br>d-i clock-setup/ntp boolean true<br>d-i clock-setup/ntp-server  string ntp.ubuntu.com</p>
+<h1 id="Setup-the-installation-source"><a href="#Setup-the-installation-source" class="headerlink" title="Setup the installation source"></a>Setup the installation source</h1><p>d-i mirror/country string manual<br>d-i mirror/protocol string http<br>d-i mirror/http/hostname string 192.168.3.3<br>d-i mirror/http/directory string /cobbler/ks_mirror/ubuntu12.04<br>d-i mirror/http/proxy string <a href="http://192.168.3.3/" target="_blank" rel="external">http://192.168.3.3/</a></p>
+<h1 id="d-i-mirror-http-hostname-string-http-server"><a href="#d-i-mirror-http-hostname-string-http-server" class="headerlink" title="d-i mirror/http/hostname string $http_server"></a>d-i mirror/http/hostname string $http_server</h1><h1 id="d-i-mirror-http-directory-string-install-source-directory"><a href="#d-i-mirror-http-directory-string-install-source-directory" class="headerlink" title="d-i mirror/http/directory string $install_source_directory"></a>d-i mirror/http/directory string $install_source_directory</h1><h1 id="d-i-mirror-http-proxy-string"><a href="#d-i-mirror-http-proxy-string" class="headerlink" title="d-i mirror/http/proxy string"></a>d-i mirror/http/proxy string</h1><p>#set $os_v = $getVar(‘os_version’,’’)</p>
+<p>#if $os_v and $os_v.lower()[0] &gt; ‘p’</p>
+<h1 id="Required-at-least-for-12-10"><a href="#Required-at-least-for-12-10" class="headerlink" title="Required at least for 12.10+"></a>Required at least for 12.10+</h1><p>d-i live-installer/net-image string <a href="http://$http_server/cobbler/links/$distro_name/install/filesystem.squashfs" target="_blank" rel="external">http://$http_server/cobbler/links/$distro_name/install/filesystem.squashfs</a></p>
+<p>#end if</p>
+<h1 id="Suite-to-install"><a href="#Suite-to-install" class="headerlink" title="Suite to install."></a>Suite to install.</h1><h1 id="d-i-mirror-suite-string-precise"><a href="#d-i-mirror-suite-string-precise" class="headerlink" title="d-i mirror/suite string precise"></a>d-i mirror/suite string precise</h1><h1 id="d-i-mirror-udeb-suite-string-precise"><a href="#d-i-mirror-udeb-suite-string-precise" class="headerlink" title="d-i mirror/udeb/suite string precise"></a>d-i mirror/udeb/suite string precise</h1><h1 id="Components-to-use-for-loading-installer-components-optional"><a href="#Components-to-use-for-loading-installer-components-optional" class="headerlink" title="Components to use for loading installer components (optional)."></a>Components to use for loading installer components (optional).</h1><p>#d-i mirror/udeb/components multiselect main, restricted</p>
+<h1 id="Disk-Partitioning"><a href="#Disk-Partitioning" class="headerlink" title="Disk Partitioning"></a>Disk Partitioning</h1><h1 id="Use-LVM-and-wipe-out-anything-that-already-exists"><a href="#Use-LVM-and-wipe-out-anything-that-already-exists" class="headerlink" title="Use LVM, and wipe out anything that already exists"></a>Use LVM, and wipe out anything that already exists</h1><p>d-i partman/choose_partition select finish<br>d-i partman/confirm boolean true<br>d-i partman/confirm_nooverwrite boolean true<br>d-i partman-auto/method string lvm<br>d-i partman-lvm/device_remove_lvm boolean true<br>d-i partman-lvm/confirm boolean true<br>d-i partman-lvm/confirm_nooverwrite boolean true<br>d-i partman-md/device_remove_md boolean true<br>d-i partman-partitioning/confirm_write_new_label boolean true</p>
+<h1 id="You-can-choose-one-of-the-three-predefined-partitioning-recipes"><a href="#You-can-choose-one-of-the-three-predefined-partitioning-recipes" class="headerlink" title="You can choose one of the three predefined partitioning recipes:"></a>You can choose one of the three predefined partitioning recipes:</h1><h1 id="atomic-all-files-in-one-partition"><a href="#atomic-all-files-in-one-partition" class="headerlink" title="- atomic: all files in one partition"></a>- atomic: all files in one partition</h1><h1 id="home-separate-home-partition"><a href="#home-separate-home-partition" class="headerlink" title="- home:   separate /home partition"></a>- home:   separate /home partition</h1><h1 id="multi-separate-home-usr-var-and-tmp-partitions"><a href="#multi-separate-home-usr-var-and-tmp-partitions" class="headerlink" title="- multi:  separate /home, /usr, /var, and /tmp partitions"></a>- multi:  separate /home, /usr, /var, and /tmp partitions</h1><p>d-i partman-auto/choose_recipe select atomic</p>
+<h1 id="If-you-just-want-to-change-the-default-filesystem-from-ext3-to-something"><a href="#If-you-just-want-to-change-the-default-filesystem-from-ext3-to-something" class="headerlink" title="If you just want to change the default filesystem from ext3 to something"></a>If you just want to change the default filesystem from ext3 to something</h1><h1 id="else-you-can-do-that-without-providing-a-full-recipe"><a href="#else-you-can-do-that-without-providing-a-full-recipe" class="headerlink" title="else, you can do that without providing a full recipe."></a>else, you can do that without providing a full recipe.</h1><h1 id="d-i-partman-default-filesystem-string-ext4"><a href="#d-i-partman-default-filesystem-string-ext4" class="headerlink" title="d-i partman/default_filesystem string ext4"></a>d-i partman/default_filesystem string ext4</h1><h1 id="root-account-and-password"><a href="#root-account-and-password" class="headerlink" title="root account and password"></a>root account and password</h1><p>d-i passwd/root-login boolean true<br>d-i passwd/root-password-crypted password $default_password_crypted</p>
+<h1 id="skip-creation-of-a-normal-user-account"><a href="#skip-creation-of-a-normal-user-account" class="headerlink" title="skip creation of a normal user account."></a>skip creation of a normal user account.</h1><p>d-i passwd/make-user boolean false</p>
+<h1 id="You-can-choose-to-install-restricted-and-universe-software-or-to-install"><a href="#You-can-choose-to-install-restricted-and-universe-software-or-to-install" class="headerlink" title="You can choose to install restricted and universe software, or to install"></a>You can choose to install restricted and universe software, or to install</h1><h1 id="software-from-the-backports-repository"><a href="#software-from-the-backports-repository" class="headerlink" title="software from the backports repository."></a>software from the backports repository.</h1><h1 id="d-i-apt-setup-restricted-boolean-true"><a href="#d-i-apt-setup-restricted-boolean-true" class="headerlink" title="d-i apt-setup/restricted boolean true"></a>d-i apt-setup/restricted boolean true</h1><h1 id="d-i-apt-setup-universe-boolean-true"><a href="#d-i-apt-setup-universe-boolean-true" class="headerlink" title="d-i apt-setup/universe boolean true"></a>d-i apt-setup/universe boolean true</h1><h1 id="d-i-apt-setup-backports-boolean-true"><a href="#d-i-apt-setup-backports-boolean-true" class="headerlink" title="d-i apt-setup/backports boolean true"></a>d-i apt-setup/backports boolean true</h1><h1 id="Uncomment-this-if-you-don’t-want-to-use-a-network-mirror"><a href="#Uncomment-this-if-you-don’t-want-to-use-a-network-mirror" class="headerlink" title="Uncomment this if you don’t want to use a network mirror."></a>Uncomment this if you don’t want to use a network mirror.</h1><h1 id="d-i-apt-setup-use-mirror-boolean-false"><a href="#d-i-apt-setup-use-mirror-boolean-false" class="headerlink" title="d-i apt-setup/use_mirror boolean false"></a>d-i apt-setup/use_mirror boolean false</h1><h1 id="Select-which-update-services-to-use-define-the-mirrors-to-be-used"><a href="#Select-which-update-services-to-use-define-the-mirrors-to-be-used" class="headerlink" title="Select which update services to use; define the mirrors to be used."></a>Select which update services to use; define the mirrors to be used.</h1><h1 id="Values-shown-below-are-the-normal-defaults"><a href="#Values-shown-below-are-the-normal-defaults" class="headerlink" title="Values shown below are the normal defaults."></a>Values shown below are the normal defaults.</h1><h1 id="d-i-apt-setup-services-select-multiselect-security"><a href="#d-i-apt-setup-services-select-multiselect-security" class="headerlink" title="d-i apt-setup/services-select multiselect security"></a>d-i apt-setup/services-select multiselect security</h1><h1 id="d-i-apt-setup-security-host-string-security-ubuntu-com"><a href="#d-i-apt-setup-security-host-string-security-ubuntu-com" class="headerlink" title="d-i apt-setup/security_host string security.ubuntu.com"></a>d-i apt-setup/security_host string security.ubuntu.com</h1><h1 id="d-i-apt-setup-security-path-string-ubuntu"><a href="#d-i-apt-setup-security-path-string-ubuntu" class="headerlink" title="d-i apt-setup/security_path string /ubuntu"></a>d-i apt-setup/security_path string /ubuntu</h1><p>$SNIPPET(‘preseed_apt_repo_config’)</p>
+<h1 id="Enable-deb-src-lines"><a href="#Enable-deb-src-lines" class="headerlink" title="Enable deb-src lines"></a>Enable deb-src lines</h1><h1 id="d-i-apt-setup-local0-source-boolean-true"><a href="#d-i-apt-setup-local0-source-boolean-true" class="headerlink" title="d-i apt-setup/local0/source boolean true"></a>d-i apt-setup/local0/source boolean true</h1><h1 id="URL-to-the-public-key-of-the-local-repository-you-must-provide-a-key-or"><a href="#URL-to-the-public-key-of-the-local-repository-you-must-provide-a-key-or" class="headerlink" title="URL to the public key of the local repository; you must provide a key or"></a>URL to the public key of the local repository; you must provide a key or</h1><h1 id="apt-will-complain-about-the-unauthenticated-repository-and-so-the"><a href="#apt-will-complain-about-the-unauthenticated-repository-and-so-the" class="headerlink" title="apt will complain about the unauthenticated repository and so the"></a>apt will complain about the unauthenticated repository and so the</h1><h1 id="sources-list-line-will-be-left-commented-out"><a href="#sources-list-line-will-be-left-commented-out" class="headerlink" title="sources.list line will be left commented out"></a>sources.list line will be left commented out</h1><h1 id="d-i-apt-setup-local0-key-string-http-local-server-key"><a href="#d-i-apt-setup-local0-key-string-http-local-server-key" class="headerlink" title="d-i apt-setup/local0/key string http://local.server/key"></a>d-i apt-setup/local0/key string <a href="http://local.server/key" target="_blank" rel="external">http://local.server/key</a></h1><h1 id="By-default-the-installer-requires-that-repositories-be-authenticated"><a href="#By-default-the-installer-requires-that-repositories-be-authenticated" class="headerlink" title="By default the installer requires that repositories be authenticated"></a>By default the installer requires that repositories be authenticated</h1><h1 id="using-a-known-gpg-key-This-setting-can-be-used-to-disable-that"><a href="#using-a-known-gpg-key-This-setting-can-be-used-to-disable-that" class="headerlink" title="using a known gpg key. This setting can be used to disable that"></a>using a known gpg key. This setting can be used to disable that</h1><h1 id="authentication-Warning-Insecure-not-recommended"><a href="#authentication-Warning-Insecure-not-recommended" class="headerlink" title="authentication. Warning: Insecure, not recommended."></a>authentication. Warning: Insecure, not recommended.</h1><h1 id="d-i-debian-installer-allow-unauthenticated-boolean-true"><a href="#d-i-debian-installer-allow-unauthenticated-boolean-true" class="headerlink" title="d-i debian-installer/allow_unauthenticated boolean true"></a>d-i debian-installer/allow_unauthenticated boolean true</h1><h1 id="Individual-additional-packages-to-install"><a href="#Individual-additional-packages-to-install" class="headerlink" title="Individual additional packages to install"></a>Individual additional packages to install</h1><h1 id="wget-is-REQUIRED-otherwise-quite-a-few-things-won’t-work"><a href="#wget-is-REQUIRED-otherwise-quite-a-few-things-won’t-work" class="headerlink" title="wget is REQUIRED otherwise quite a few things won’t work"></a>wget is REQUIRED otherwise quite a few things won’t work</h1><h1 id="later-in-the-build-like-late-command-scripts"><a href="#later-in-the-build-like-late-command-scripts" class="headerlink" title="later in the build (like late-command scripts)"></a>later in the build (like late-command scripts)</h1><p>d-i pkgsel/include string ntp ssh wget</p>
+<h1 id="Use-the-following-option-to-add-additional-boot-parameters-for-the"><a href="#Use-the-following-option-to-add-additional-boot-parameters-for-the" class="headerlink" title="Use the following option to add additional boot parameters for the"></a>Use the following option to add additional boot parameters for the</h1><h1 id="installed-system-if-supported-by-the-bootloader-installer"><a href="#installed-system-if-supported-by-the-bootloader-installer" class="headerlink" title="installed system (if supported by the bootloader installer)."></a>installed system (if supported by the bootloader installer).</h1><h1 id="Note-options-passed-to-the-installer-will-be-added-automatically"><a href="#Note-options-passed-to-the-installer-will-be-added-automatically" class="headerlink" title="Note: options passed to the installer will be added automatically."></a>Note: options passed to the installer will be added automatically.</h1><p>d-i debian-installer/add-kernel-opts string $kernel_options_post</p>
+<h1 id="Avoid-that-last-message-about-the-install-being-complete"><a href="#Avoid-that-last-message-about-the-install-being-complete" class="headerlink" title="Avoid that last message about the install being complete."></a>Avoid that last message about the install being complete.</h1><p>d-i finish-install/reboot_in_progress note</p>
+<h2 id="Figure-out-if-we’re-kickstarting-a-system-or-a-profile"><a href="#Figure-out-if-we’re-kickstarting-a-system-or-a-profile" class="headerlink" title="Figure out if we’re kickstarting a system or a profile"></a>Figure out if we’re kickstarting a system or a profile</h2><p>#if $getVar(‘system_name’,’’) != ‘’</p>
+<p>#set $what = “system”</p>
+<p>#else</p>
+<p>#set $what = “profile”</p>
+<p>#end if</p>
+<h1 id="This-first-command-is-run-as-early-as-possible-just-after-preseeding-is-read"><a href="#This-first-command-is-run-as-early-as-possible-just-after-preseeding-is-read" class="headerlink" title="This first command is run as early as possible, just after preseeding is read."></a>This first command is run as early as possible, just after preseeding is read.</h1><h1 id="d-i-preseed-early-command-string-command"><a href="#d-i-preseed-early-command-string-command" class="headerlink" title="d-i preseed/early_command string [command]"></a>d-i preseed/early_command string [command]</h1><p>d-i preseed/early_command string wget -O- \<br>   <a href="http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_early_default" target="_blank" rel="external">http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_early_default</a> | \<br>   /bin/sh -s</p>
+<h1 id="This-command-is-run-immediately-before-the-partitioner-starts-It-may-be"><a href="#This-command-is-run-immediately-before-the-partitioner-starts-It-may-be" class="headerlink" title="This command is run immediately before the partitioner starts. It may be"></a>This command is run immediately before the partitioner starts. It may be</h1><h1 id="useful-to-apply-dynamic-partitioner-preseeding-that-depends-on-the-state"><a href="#useful-to-apply-dynamic-partitioner-preseeding-that-depends-on-the-state" class="headerlink" title="useful to apply dynamic partitioner preseeding that depends on the state"></a>useful to apply dynamic partitioner preseeding that depends on the state</h1><h1 id="of-the-disks-which-may-not-be-visible-when-preseed-early-command-runs"><a href="#of-the-disks-which-may-not-be-visible-when-preseed-early-command-runs" class="headerlink" title="of the disks (which may not be visible when preseed/early_command runs)."></a>of the disks (which may not be visible when preseed/early_command runs).</h1><h1 id="d-i-partman-early-command"><a href="#d-i-partman-early-command" class="headerlink" title="d-i partman/early_command \"></a>d-i partman/early_command \</h1><h1 id="string-debconf-set-partman-auto-disk-“-list-devices-disk-head-n1-”"><a href="#string-debconf-set-partman-auto-disk-“-list-devices-disk-head-n1-”" class="headerlink" title="string debconf-set partman-auto/disk “\$(list-devices disk | head -n1)”"></a>string debconf-set partman-auto/disk “\$(list-devices disk | head -n1)”</h1><h1 id="This-command-is-run-just-before-the-install-finishes-but-when-there-is"><a href="#This-command-is-run-just-before-the-install-finishes-but-when-there-is" class="headerlink" title="This command is run just before the install finishes, but when there is"></a>This command is run just before the install finishes, but when there is</h1><h1 id="still-a-usable-target-directory-You-can-chroot-to-target-and-use-it"><a href="#still-a-usable-target-directory-You-can-chroot-to-target-and-use-it" class="headerlink" title="still a usable /target directory. You can chroot to /target and use it"></a>still a usable /target directory. You can chroot to /target and use it</h1><h1 id="directly-or-use-the-apt-install-and-in-target-commands-to-easily-install"><a href="#directly-or-use-the-apt-install-and-in-target-commands-to-easily-install" class="headerlink" title="directly, or use the apt-install and in-target commands to easily install"></a>directly, or use the apt-install and in-target commands to easily install</h1><h1 id="packages-and-run-commands-in-the-target-system"><a href="#packages-and-run-commands-in-the-target-system" class="headerlink" title="packages and run commands in the target system."></a>packages and run commands in the target system.</h1><h1 id="d-i-preseed-late-command-string-command"><a href="#d-i-preseed-late-command-string-command" class="headerlink" title="d-i preseed/late_command string [command]"></a>d-i preseed/late_command string [command]</h1><p>d-i preseed/late_command string wget -O- \<br>   <a href="http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_late_default" target="_blank" rel="external">http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_late_default</a> | \<br>   chroot /target /bin/sh -s<br>[root@cobbler ~]# </p>
+<p>[root@cobbler ~]# mount /dev/cdrom /var/www/html/os/CentOS_6.5-86_64<br>mount: block device /dev/xvdd is write-protected, mounting read-only<br>[root@cobbler ~]# ls /var/www/html/os/CentOS_6.5-86_64<br>CentOS_BuildTag  isolinux                  RPM-GPG-KEY-CentOS-Debug-6<br>EFI              Packages                  RPM-GPG-KEY-CentOS-Security-6<br>EULA             RELEASE-NOTES-en-US.html  RPM-GPG-KEY-CentOS-Testing-6<br>GPL              repodata                  TRANS.TBL<br>images           RPM-GPG-KEY-CentOS-6<br>[root@cobbler ~]#<br>导入系统镜像到cobbler中<br>执行以下语句将镜像挂载到cobbler中<br>[root@cobbler ~]# cobbler import –path=/var/www/html/os/CentOS_6.5-86_64 –name=CentOS_6.5-86_64 –arch=x86_64<br>task started: 2016-06-06_150723_import<br>task started (id=Media import, time=Mon Jun  6 15:07:23 2016)<br>Found a candidate signature: breed=redhat, version=rhel6<br>Found a matching signature: breed=redhat, version=rhel6<br>Adding distros from path /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64:<br>creating new distro: CentOS_6.5-86_64-x86_64<br>trying symlink: /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64 -&gt; /var/www/cobbler/links/CentOS_6.5-86_64-x86_64<br>creating new profile: CentOS_6.5-86_64-x86_64<br>associating repos<br>checking for rsync repo(s)<br>checking for rhn repo(s)<br>checking for yum repo(s)<br>starting descent into /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64 for CentOS_6.5-86_64-x86_64<br>processing repo at : /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>need to process repo/comps: /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>looking for /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64/repodata/<em>comps</em>.xml<br>Keeping repodata as-is :/var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64/repodata<br><strong><em> TASK COMPLETE </em></strong><br>[root@cobbler ~]# </p>
+<p>#其中安装源的name即为安装时显示的名称，arch目前支持x86|x86_64|ia64这三种完成后会出现以下提示：associating  kickstarts<strong><em> TASK COMPLETE </em></strong><br>比较大小<br>最后可以通过比较两个文件的大小来判断导入是否正常：<br>[root@cobbler ~]# du -sh /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>4.2G    /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>[root@cobbler ~]# du -sh /var/www/html/os/CentOS_6.5-86_64<br>4.2G    /var/www/html/os/CentOS_6.5-86_64<br>[root@cobbler ~]</p>
+<p>重新导入<br>重新导入之前需要将原来的删除，执行以下命令：<br>cobbler remove -name=[CentOS_6.5-86_64]</p>
+<p>cobbler WEB服务<br>yum -y install cobbler-web<br>vim /etc/cobbler/modules.conf<br>module = authn_configfile</p>
+<p>#修改认证方式为密码文件类型<br>htdigest /etc/cobbler/users.digest “Cobbler” cobbler</p>
+<p>#添加cobbler用户，提示输入2遍密码确认</p>
+<p>cobbler sync</p>
+<p>#/输出<strong><em> TASK COMPLETE </em></strong> 表示配置无错误<br>/etc/init.d/httpd restart<br>service cobbler restart<br>cobbler check<br><a href="http://10.6.4.3/cobbler_web" target="_blank" rel="external">http://10.6.4.3/cobbler_web</a><br><a href="http://192.168.3.3/cobbler_web" target="_blank" rel="external">http://192.168.3.3/cobbler_web</a></p>
+<p>[root@cobbler ~]# vim /var/lib/cobbler/kickstarts/default.ks</p>
+<h1 id="kickstart-template-for-Fedora-8-and-later"><a href="#kickstart-template-for-Fedora-8-and-later" class="headerlink" title="kickstart template for Fedora 8 and later."></a>kickstart template for Fedora 8 and later.</h1><h1 id="includes-end-blocks"><a href="#includes-end-blocks" class="headerlink" title="(includes %end blocks)"></a>(includes %end blocks)</h1><h1 id="do-not-use-with-earlier-distros"><a href="#do-not-use-with-earlier-distros" class="headerlink" title="do not use with earlier distros"></a>do not use with earlier distros</h1><p>#platform=x86, AMD64, or Intel EM64T</p>
+<h1 id="System-authorization-information"><a href="#System-authorization-information" class="headerlink" title="System authorization information"></a>System authorization information</h1><p>auth  –useshadow  –enablemd5</p>
+<h1 id="System-bootloader-configuration"><a href="#System-bootloader-configuration" class="headerlink" title="System bootloader configuration"></a>System bootloader configuration</h1><p>bootloader –location=mbr</p>
+<h1 id="Partition-clearing-information"><a href="#Partition-clearing-information" class="headerlink" title="Partition clearing information"></a>Partition clearing information</h1><p>clearpart –all –initlabel<br>part /boot –fstype=ext4 –asprimary –size=200<br>part swap –size=2048<br>part / –fstype=ext4 –grow –asprimary –size=200</p>
+<h1 id="Use-text-mode-install"><a href="#Use-text-mode-install" class="headerlink" title="Use text mode install"></a>Use text mode install</h1><p>text</p>
+<h1 id="Firewall-configuration"><a href="#Firewall-configuration" class="headerlink" title="Firewall configuration"></a>Firewall configuration</h1><p>firewall –disabled</p>
+<h1 id="Run-the-Setup-Agent-on-first-boot"><a href="#Run-the-Setup-Agent-on-first-boot" class="headerlink" title="Run the Setup Agent on first boot"></a>Run the Setup Agent on first boot</h1><p>firstboot –disable</p>
+<h1 id="System-keyboard"><a href="#System-keyboard" class="headerlink" title="System keyboard"></a>System keyboard</h1><p>keyboard us</p>
+<h1 id="System-language"><a href="#System-language" class="headerlink" title="System language"></a>System language</h1><p>lang en_US</p>
+<h1 id="Use-network-installation"><a href="#Use-network-installation" class="headerlink" title="Use network installation"></a>Use network installation</h1><p>url –url=$tree</p>
+<h1 id="If-any-cobbler-repo-definitions-were-referenced-in-the-kickstart-profile-include-them-here"><a href="#If-any-cobbler-repo-definitions-were-referenced-in-the-kickstart-profile-include-them-here" class="headerlink" title="If any cobbler repo definitions were referenced in the kickstart profile, include them here."></a>If any cobbler repo definitions were referenced in the kickstart profile, include them here.</h1><p>$yum_repo_stanza</p>
+<h1 id="Network-information"><a href="#Network-information" class="headerlink" title="Network information"></a>Network information</h1><p>$SNIPPET(‘network_config’)</p>
+<h1 id="Reboot-after-installation"><a href="#Reboot-after-installation" class="headerlink" title="Reboot after installation"></a>Reboot after installation</h1><p>reboot</p>
+<p>#Root password<br>rootpw –iscrypted $default_password_crypted</p>
+<h1 id="SELinux-configuration"><a href="#SELinux-configuration" class="headerlink" title="SELinux configuration"></a>SELinux configuration</h1><p>selinux –disabled</p>
+<h1 id="Do-not-configure-the-X-Window-System"><a href="#Do-not-configure-the-X-Window-System" class="headerlink" title="Do not configure the X Window System"></a>Do not configure the X Window System</h1><p>skipx</p>
+<h1 id="System-timezone"><a href="#System-timezone" class="headerlink" title="System timezone"></a>System timezone</h1><p>timezone  Asia/Shanghai</p>
+<h1 id="Install-OS-instead-of-upgrade"><a href="#Install-OS-instead-of-upgrade" class="headerlink" title="Install OS instead of upgrade"></a>Install OS instead of upgrade</h1><p>install</p>
+<h1 id="Clear-the-Master-Boot-Record"><a href="#Clear-the-Master-Boot-Record" class="headerlink" title="Clear the Master Boot Record"></a>Clear the Master Boot Record</h1><p>zerombr</p>
+<h1 id="Allow-anaconda-to-partition-the-system-as-needed"><a href="#Allow-anaconda-to-partition-the-system-as-needed" class="headerlink" title="Allow anaconda to partition the system as needed"></a>Allow anaconda to partition the system as needed</h1><h1 id="autopart"><a href="#autopart" class="headerlink" title="autopart"></a>autopart</h1><p>%pre<br>$SNIPPET(‘log_ks_pre’)<br>$SNIPPET(‘kickstart_start’)<br>$SNIPPET(‘pre_install_network_config’)</p>
+<h1 id="Enable-installation-monitoring"><a href="#Enable-installation-monitoring" class="headerlink" title="Enable installation monitoring"></a>Enable installation monitoring</h1><p>$SNIPPET(‘pre_anamon’)<br>%end</p>
+<p>%packages<br>@base<br>@core<br>@debugging<br>@basic-desktop<br>@desktop-debugging<br>@desktop-platform<br>@directory-client<br>@fonts<br>@general-desktop<br>@graphical-admin-tools<br>@input-methods<br>@internet-applications<br>@internet-browser<br>@java-platform<br>@legacy-x<br>@network-file-system-client<br>@office-suite<br>@print-client<br>@remote-desktop-clients<br>@server-platform<br>@server-policy<br>@workstation-policy<br>@x11<br>$SNIPPET(‘func_install_if_enabled’)<br>%end</p>
+<p>%post –nochroot<br>$SNIPPET(‘log_ks_post_nochroot’)<br>%end</p>
+<p>%post<br>$SNIPPET(‘log_ks_post’)</p>
+<h1 id="Start-yum-configuration"><a href="#Start-yum-configuration" class="headerlink" title="Start yum configuration"></a>Start yum configuration</h1><p>$yum_config_stanza</p>
+<h1 id="End-yum-configuration"><a href="#End-yum-configuration" class="headerlink" title="End yum configuration"></a>End yum configuration</h1><p>$SNIPPET(‘post_install_kernel_options’)<br>$SNIPPET(‘post_install_network_config’)<br>$SNIPPET(‘func_register_if_enabled’)<br>$SNIPPET(‘download_config_files’)<br>$SNIPPET(‘koan_environment’)<br>$SNIPPET(‘redhat_register’)<br>$SNIPPET(‘cobbler_register’)</p>
+<h1 id="Enable-post-install-boot-notification"><a href="#Enable-post-install-boot-notification" class="headerlink" title="Enable post-install boot notification"></a>Enable post-install boot notification</h1><p>$SNIPPET(‘post_anamon’)</p>
+<h1 id="Start-final-steps"><a href="#Start-final-steps" class="headerlink" title="Start final steps"></a>Start final steps</h1><p>$SNIPPET(‘kickstart_done’)</p>
+<h1 id="End-final-steps"><a href="#End-final-steps" class="headerlink" title="End final steps"></a>End final steps</h1><p>%end</p>
+<p>service cobbler restart<br>cobbler sync<br>cobbler check    </p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-用vsftpd-配置FTP服务器/" data-id="ciwvdwc27002dm4cyum8p8c81" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Cobbler-1/" data-id="ciwvhh0ky000cr1cy424kcw7y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -344,10 +396,10 @@ database user:          root
 
 
   
-    <article id="post-ubuntu下允许root用户ssh远程登录" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-x-Template" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/ubuntu下允许root用户ssh远程登录/" class="article-date">
-  <time datetime="2016-12-15T05:27:18.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/CentOS-6-x-Template/" class="article-date">
+  <time datetime="2016-12-19T00:54:32.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -358,7 +410,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu下允许root用户ssh远程登录/">ubuntu下允许root用户ssh远程登录</a>
+      <a class="article-title" href="/2016/12/19/CentOS-6-x-Template/">CentOS 6.x Template</a>
     </h1>
   
 
@@ -366,32 +418,54 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>SSH服务器，可以通过SSH协议来访问远程服务器，代替telnet和ftp。但是ubuntu默认是不启用root用户也不允许root远程登录的。所以需要先启用root用户</p>
-<p>启用root用户：sudo passwd root      //修改密码后就启用了。</p>
-<p>安装OpenSSH server：</p>
-<ol>
-<li>使用apt命令安装openssh server</li>
-</ol>
-<p>$ sudo apt-get install openssh-server</p>
-<ol>
-<li>可以对 openssh server进行配置</li>
-</ol>
-<p>$ sudo vi /etc/ssh/sshd_config</p>
-<p>找到PermitRootLogin no一行，改为PermitRootLogin yes</p>
-<ol>
-<li>重启 openssh server</li>
-</ol>
-<p>$ sudo service ssh restart</p>
-<ol>
-<li>客户端如果是ubuntu的话，则已经安装好ssh client,可以用下面的命令连接远程服务器。</li>
-</ol>
-<p>$ ssh xxx.xxx.xxx.xxx</p>
-<p>如果是windows系统的话，可以使用SSH Secure Shell等ssh软件进行远程连接。</p>
+        <p>core switch<br>-&gt; vlan port mobile 2/5 bpdu ignore enable<br>-&gt; show vlan port 2/5<br>  vlan     type      status<br>——–+———+————–<br>   100    default   forwarding</p>
+<p>-&gt; vlan 40 mac 08:00:27:fe:1e:60<br>-&gt; vlan 40 mac 08:00:27:53:fa:cd<br>-&gt; vlan 40 mac 08:00:27:FB:D0:0B<br>Oracle VM VirtualBox<br>安装增强功能<br>10.6.4.34<br>Create Snapshot</p>
+<p>10.6.4.35<br>yum -y install lrzsz<br>rz sz<br>[root@localhost ~]# visudo<br>jinyan  ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>[jinyan@localhost ~]$ sudo su -<br>[sudo] password for jinyan: </p>
+<p>[root@localhost ~]# vim /etc/selinux/config</p>
+<h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>[root@localhost ~]# vim /etc/ssh/sshd_config</p>
+<p>#UseDNS yes<br>UseDNS no<br>[root@002 ~]# /etc/init.d/sshd restart<br>Stopping sshd: [  OK  ]<br>Starting sshd: [  OK  ]<br>[root@002 ~]# </p>
+<p>[root@server ~]# vim /etc/inittab<br>id:3:initdefault:</p>
+<p>[root@localhost ~]# yum install ntp -y<br>[root@localhost ~]# chkconfig ntpd on<br>[root@localhost ~]# chkconfig –list ntpd<br>ntpd            0:off   1:off   2:on    3:on    4:on    5:on    6:off<br>[root@localhost ~]# ntpdate -u 202.112.29.82<br>26 Apr 11:30:33 ntpdate[2050]: adjust time server 202.112.29.82 offset 0.005681 sec<br>[root@localhost ~]# vim /etc/ntp.conf</p>
+<p>#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</p>
+<p>#server 202.120.2.101 prefer<br>server 202.112.29.82 prefer</p>
+<h1 id="Use-public-servers-from-the-pool-ntp-org-project"><a href="#Use-public-servers-from-the-pool-ntp-org-project" class="headerlink" title="Use public servers from the pool.ntp.org project."></a>Use public servers from the pool.ntp.org project.</h1><p>service ntpd start<br>[root@localhost ~]# ntpstat<br>synchronised to NTP server (202.112.29.82) at stratum 3<br>   time correct to within 482 ms<br>   polling server every 64 s</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>TYPE=Ethernet<br>UUID=8c33c654-f1ca-4b5c-9db6-4abe11cc76d4<br>ONBOOT=yes<br>NM_CONTROLLED=yes<br>BOOTPROTO=dhcp</p>
+<p>#BOOTPROTO=static</p>
+<p>#IPADDR=10.6.4.35</p>
+<p>#PREFIX=24</p>
+<p>#GATEWAY=10.6.4.1</p>
+<p>#DNS1=61.177.7.1</p>
+<p>#DOMAIN=223.5.5.5<br>HWADDR=08:00:27:FE:1E:60<br>DEFROUTE=yes<br>PEERDNS=yes<br>PEERROUTES=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>NTPSERVERARGS=iburst</p>
+<p>[root@localhost ~]# vim /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</p>
+<p>Centos6.5做路由、NAT和DHCP<br>server<br>[root@server ~]# ifconfig<br>eth1      Link encap:Ethernet  HWaddr 08:00:27:1B:AA:96<br>          inet addr:192.168.3.3  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe1b:aa96/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:154070 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:828615 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:10420011 (9.9 MiB)  TX bytes:1228814209 (1.1 GiB)</p>
+<p>eth2      Link encap:Ethernet  HWaddr 08:00:27:FB:D0:0B<br>          inet addr:10.6.4.36  Bcast:10.6.4.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fefb:d00b/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:43747 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:1146 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:3626576 (3.4 MiB)  TX bytes:173429 (169.3 KiB)</p>
+<p>[root@server ~]# vi /etc/sysctl.conf</p>
+<h1 id="Kernel-sysctl-configuration-file-for-Red-Hat-Linux"><a href="#Kernel-sysctl-configuration-file-for-Red-Hat-Linux" class="headerlink" title="Kernel sysctl configuration file for Red Hat Linux"></a>Kernel sysctl configuration file for Red Hat Linux</h1><p>#</p>
+<h1 id="For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and"><a href="#For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and" class="headerlink" title="For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and"></a>For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and</h1><h1 id="sysctl-conf-5-for-more-details"><a href="#sysctl-conf-5-for-more-details" class="headerlink" title="sysctl.conf(5) for more details."></a>sysctl.conf(5) for more details.</h1><h1 id="Controls-IP-packet-forwarding"><a href="#Controls-IP-packet-forwarding" class="headerlink" title="Controls IP packet forwarding"></a>Controls IP packet forwarding</h1><h1 id="net-ipv4-ip-forward-0"><a href="#net-ipv4-ip-forward-0" class="headerlink" title="net.ipv4.ip_forward = 0"></a>net.ipv4.ip_forward = 0</h1><p>net.ipv4.ip_forward = 1</p>
+<h1 id="Controls-source-route-verification"><a href="#Controls-source-route-verification" class="headerlink" title="Controls source route verification"></a>Controls source route verification</h1><p>net.ipv4.conf.default.rp_filter = 1</p>
+<h1 id="Do-not-accept-source-routing"><a href="#Do-not-accept-source-routing" class="headerlink" title="Do not accept source routing"></a>Do not accept source routing</h1><p>net.ipv4.conf.default.accept_source_route = 0</p>
+<h1 id="Controls-the-System-Request-debugging-functionality-of-the-kernel"><a href="#Controls-the-System-Request-debugging-functionality-of-the-kernel" class="headerlink" title="Controls the System Request debugging functionality of the kernel"></a>Controls the System Request debugging functionality of the kernel</h1><p>kernel.sysrq = 0</p>
+<h1 id="Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename"><a href="#Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename" class="headerlink" title="Controls whether core dumps will append the PID to the core filename."></a>Controls whether core dumps will append the PID to the core filename.</h1><h1 id="Useful-for-debugging-multi-threaded-applications"><a href="#Useful-for-debugging-multi-threaded-applications" class="headerlink" title="Useful for debugging multi-threaded applications."></a>Useful for debugging multi-threaded applications.</h1><p>kernel.core_uses_pid = 1</p>
+<p>“/etc/sysctl.conf” 41L, 1176C written<br>[root@server ~]# sysctl -p<br>net.ipv4.ip_forward = 1<br>net.ipv4.conf.default.rp_filter = 1<br>net.ipv4.conf.default.accept_source_route = 0<br>kernel.sysrq = 0<br>kernel.core_uses_pid = 1<br>net.ipv4.tcp_syncookies = 1<br>error: “net.bridge.bridge-nf-call-ip6tables” is an unknown key<br>error: “net.bridge.bridge-nf-call-iptables” is an unknown key<br>error: “net.bridge.bridge-nf-call-arptables” is an unknown key<br>kernel.msgmnb = 65536<br>kernel.msgmax = 65536<br>kernel.shmmax = 68719476736<br>kernel.shmall = 4294967296</p>
+<p>[root@server ~]# iptables -F<br>[root@server ~]# iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE<br>[root@server ~]# iptables -t filter -A FORWARD -i eth2 -o eth1 -j ACCEPT<br>[root@server ~]# iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>[root@server ~]# service iptables save<br>iptables: Saving firewall rules to /etc/sysconfig/iptables: [  OK  ]<br>[root@server ~]#</p>
+<p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
+<p>#</p>
+<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
+<p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
+<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
+<p>/etc/init.d/dhcpd restart</p>
+<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# ifconfig eth0<br>eth0      Link encap:Ethernet  HWaddr 08:00:27:87:23:4C<br>          inet addr:192.168.3.106  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe87:234c/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:489 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:338 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:48843 (47.6 KiB)  TX bytes:42845 (41.8 KiB)</p>
+<p>[root@localhost ~]#<br>[root@localhost ~]# vi /etc/sysconfig/network</p>
+<p>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>GATEWAY=192.168.3.3</p>
+<p>[root@localhost ~]# traceroute -n www.qq.com<br>traceroute to www.qq.com (180.96.86.192), 30 hops max, 60 byte packets<br> 1  192.168.3.3  2.279 ms  1.963 ms  1.887 ms<br> 2  10.6.4.1  12.267 ms  12.519 ms  12.639 ms<br> 3  10.6.0.1  2.535 ms  3.029 ms  2.965 ms<br> 4  222.92.37.81  3.859 ms  3.740 ms  3.607 ms<br> 5  218.4.14.33  4.600 ms  4.999 ms  4.938 ms<br> 6  218.94.215.222  5.981 ms  4.990 ms  4.857 ms<br> 7  61.155.187.209  7.527 ms  8.261 ms  8.040 ms<br> 8  202.102.69.142  10.481 ms 202.102.69.246  12.911 ms 202.102.69.142  9.696 ms<br> 9  180.96.51.90  10.673 ms 180.96.48.18  7.666 ms 180.96.51.90  10.560 ms<br>10  <em> 180.96.35.182  7.695 ms </em></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu下允许root用户ssh远程登录/" data-id="ciwvdwc2r0035m4cy3693yq50" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Template/" data-id="ciwvhh0lw000zr1cygr4u1p0f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,10 +475,10 @@ database user:          root
 
 
   
-    <article id="post-ubuntu用root登录后没法使用chromium" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CentOS-6-5-KickStart-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/" class="article-date">
-  <time datetime="2016-12-15T05:26:45.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/CentOS-6-5-KickStart-1/" class="article-date">
+  <time datetime="2016-12-19T00:52:53.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -415,7 +489,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
+      <a class="article-title" href="/2016/12/19/CentOS-6-5-KickStart-1/">CentOS 6.5 KickStart</a>
     </h1>
   
 
@@ -423,12 +497,45 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>用root登录后启动chromium会出现错误：<br>Google Chrome can not be run as root.<br>Please start Google Chrome as a normal user. To run as root, you must specify an alternate –user-data-dir for storage of profile information.<br>在网上有方法是用每次用终端启动时添加新的参数，但比较麻烦，后来研究了一下，只要新建一个chormium的桌面快捷方式，选择properties-》basic-&gt;command, 改为如下：<br>/usr/bin/chromium-browser %U - -user-data-dir=/root/.config/chromium<br>这样每次双击这个快捷方式，就能在root下使用chromium。</p>
+        <p>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>option domain-name-servers 114.114.114.114;<br>option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}</p>
+<p>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
+<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
+<p>/etc/init.d/dhcpd restart<br>netstat -tunlp|grep dhcp<br>[root@localhost ~]# chkconfig dhcpd on<br>[root@localhost ~]# chkconfig –list | grep dhcpd<br>dhcpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off</p>
+<p>yum -y install tftp-server<br>[root@localhost ~]# vim /etc/xinetd.d/tftp</p>
+<p>  1 # default: off<br>  2 # description: The tftp server serves files using the trivial file transfer     \<br>  3 #       protocol.  The tftp protocol is often used to boot diskless \<br>  4 #       workstations, download configuration files to network-aware printers    , \<br>  5 #       and to start the installation process for some operating systems.<br>  6 service tftp<br>  7 {<br>  8         socket_type             = dgram<br>  9         protocol                = udp<br> 10         wait                    = yes<br> 11         user                    = root<br> 12         server                  = /usr/sbin/in.tftpd<br> 13         server_args             = -s /var/lib/tftpboot<br> 14         disable                 = no<br> 15         per_source              = 11<br> 16         cps                     = 100 2<br> 17         flags                   = IPv4<br> 18 }<br>~<br>~<br>~<br>“/etc/xinetd.d/tftp” 18L, 517C written<br>[root@localhost ~]#<br>[root@localhost ~]# /etc/init.d/xinetd start<br>Starting xinetd: [  OK  ]<br>[root@localhost ~]# netstat -tunlp|grep 69<br>udp        0      0 0.0.0.0:67                  0.0.0.0:<em>                               1691/dhcpd<br>udp        0      0 0.0.0.0:69                  0.0.0.0:</em>                               2108/xinetd<br>[root@localhost ~]# </p>
+<p>Complete!</p>
+<p>[root@localhost ~]# yum -y install httpd<br>[root@localhost ~]# sed -i “277i ServerName 127.0.0.1:80” /etc/httpd/conf/httpd.conf<br>[root@localhost ~]# /etc/init.d/httpd start<br>Starting httpd: [  OK  ]<br>[root@localhost ~]#<br>[root@server ~]# chkconfig httpd on<br>[root@server ~]# chkconfig –list |grep httpd<br>httpd           0:off   1:off   2:on    3:on    4:on    5:on    6:off<br>[root@localhost ~]# mkdir /var/www/html/CentOS-6.5</p>
+<p>[root@localhost ~]# mount /dev/cdrom /var/www/html/CentOS-6.5<br>mount: block device /dev/sr0 is write-protected, mounting read-only<br>[root@localhost ~]# df -h<br>Filesystem                     Size  Used Avail Use% Mounted on<br>/dev/mapper/VolGroup-LogVol00   28G  3.7G   23G  14% /<br>tmpfs                         1004M   84K 1004M   1% /dev/shm<br>/dev/sda1                      194M   35M  150M  19% /boot<br>/dev/sr0                       4.2G  4.2G     0 100% /media/CentOS_6.5_Final<br>/dev/sr0                       4.2G  4.2G     0 100% /var/www/html/CentOS-6.5<br>[root@localhost ~]# ls /var/www/html/CentOS-6.5<br>CentOS_BuildTag  isolinux                  RPM-GPG-KEY-CentOS-Debug-6<br>EFI              Packages                  RPM-GPG-KEY-CentOS-Security-6<br>EULA             RELEASE-NOTES-en-US.html  RPM-GPG-KEY-CentOS-Testing-6<br>GPL              repodata                  TRANS.TBL<br>images           RPM-GPG-KEY-CentOS-6<br>[root@localhost ~]#<br><a href="http://10.6.4.36/CentOS-6.5/" target="_blank" rel="external">http://10.6.4.36/CentOS-6.5/</a></p>
+<p>[root@localhost ~]# yum -y install syslinux<br>[root@localhost ~]# cp /usr/share/syslinux/pxelinux.0 /var/lib/tftpboot/<br>[root@localhost ~]# cp -a /var/www/html/CentOS-6.5/isolinux/* /var/lib/tftpboot/<br>[root@localhost ~]# ls /var/lib/tftpboot/<br>boot.cat  grub.conf   isolinux.bin  memtest     splash.jpg  vesamenu.c32<br>boot.msg  initrd.img  isolinux.cfg  pxelinux.0  TRANS.TBL   vmlinuz<br>[root@localhost ~]# mkdir -p /var/lib/tftpboot/pxelinux.cfg<br>[root@localhost ~]# cp /var/www/html/CentOS-6.5/isolinux/isolinux.cfg /var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# </p>
+<p>[root@localhost ~]# grub-crypt<br>Password:<br>Retype password:<br>$6$7xeJ5moFJ1sV2KjE$dpQVjz.hxeTFxydJM2yw7d/EXdoaATJ2Tt5wP1lXwwAicp3L4fFY4PWfOAUYkz1rpKV1lSD7g5zDoX0/W1MT1.<br>[root@localhost ~]# </p>
+<p>[root@localhost ~]# mkdir /var/www/html/ks_config<br>[root@localhost ~]# vim /var/www/html/ks_config/CentOS-6.5-ks.cfg</p>
+<h1 id="Kickstart-Configurator-for-CentOS-6-5-by-jinyan"><a href="#Kickstart-Configurator-for-CentOS-6-5-by-jinyan" class="headerlink" title="Kickstart Configurator for CentOS 6.5 by jinyan"></a>Kickstart Configurator for CentOS 6.5 by jinyan</h1><p>install<br>url –url=”<a href="http://192.168.3.3/CentOS-6.5/" target="_blank" rel="external">http://192.168.3.3/CentOS-6.5/</a>“<br>text<br>lang en_US.UTF-8<br>keyboard us<br>zerombr<br>bootloader –location=mbr –driveorder=sda –append=”crashkernel=auto rhgb quiet”<br>network –onboot yes –device eth0 –bootproto dhcp –noipv6<br>timezone –utc Asia/Shanghai<br>authconfig –enableshadow –passalgo=sha512<br>rootpw  –iscrypted $6$7xeJ5moFJ1sV2KjE$dpQVjz.hxeTFxydJM2yw7d/EXdoaATJ2Tt5wP1lXwwAicp3L4fFY4PWfOAUYkz1rpKV1lSD7g5zDoX0/W1MT1.<br>clearpart –all –initlabel<br>part /boot –fstype=ext4 –asprimary –size=200<br>part swap –size=2048<br>part / –fstype=ext4 –grow –asprimary –size=200<br>firstboot –disable<br>selinux –disabled<br>firewall –disabled<br>logging –level=info<br>reboot<br>%packages<br>@base<br>@core<br>@debugging<br>@basic-desktop<br>@desktop-debugging<br>@desktop-platform<br>@directory-client<br>@fonts<br>@general-desktop<br>@graphical-admin-tools<br>@input-methods<br>@internet-applications<br>@internet-browser<br>@java-platform<br>@legacy-x<br>@network-file-system-client<br>@office-suite<br>@print-client<br>@remote-desktop-clients<br>@server-platform<br>@server-policy<br>@workstation-policy<br>@x11<br>mtools<br>pax<br>oddjob<br>wodim<br>sgpio<br>genisoimage<br>device-mapper-persistent-data<br>abrt-gui<br>samba-winbind<br>certmonger<br>pam_krb5<br>krb5-workstation<br>libXmu<br>%post<br>wget -O /tmp/optimization.sh <a href="http://192.168.3.3/ks_config/optimization.sh" target="_blank" rel="external">http://192.168.3.3/ks_config/optimization.sh</a> &amp;&gt;/dev/null<br>/bin/sh /tmp/optimization.sh<br>%end</p>
+<p>[root@localhost ~]# cp /var/lib/tftpboot/pxelinux.cfg/default /var/lib/tftpboot/pxelinux.cfg/defaultbak<br>[root@localhost ~]# &gt;/var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# chmod 644 /var/lib/tftpboot/pxelinux.cfg/default<br>[root@localhost ~]# vim /var/lib/tftpboot/pxelinux.cfg/default<br>default ks<br>prompt 0</p>
+<p>label ks<br>  kernel vmlinuz<br>  append initrd=initrd.img ks=<a href="http://192.168.3.3/ks_config/CentOS-6.5-ks.cfg" target="_blank" rel="external">http://192.168.3.3/ks_config/CentOS-6.5-ks.cfg</a></p>
+<h1 id="append-initrd-initrd-img-ks-http-192-168-3-3-ks-config-CentOS-6-7-ks-cfg-ksdevice-eth0"><a href="#append-initrd-initrd-img-ks-http-192-168-3-3-ks-config-CentOS-6-7-ks-cfg-ksdevice-eth0" class="headerlink" title="append initrd=initrd.img ks=http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg ksdevice=eth0"></a>append initrd=initrd.img ks=<a href="http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg" target="_blank" rel="external">http://192.168.3.3/ks_config/CentOS-6.7-ks.cfg</a> ksdevice=eth0</h1><h1 id="ksdevice-eth0"><a href="#ksdevice-eth0" class="headerlink" title="ksdevice=eth0"></a>ksdevice=eth0</h1><p>[root@localhost ~]# vim /var/www/html/ks_config/optimization.sh</p>
+<p>#!/bin/bash</p>
+<p>##############################################################</p>
+<h1 id="File-Name-var-www-html-ks-config-optimization-sh"><a href="#File-Name-var-www-html-ks-config-optimization-sh" class="headerlink" title="File Name: /var/www/html/ks_config/optimization.sh"></a>File Name: /var/www/html/ks_config/optimization.sh</h1><h1 id="Version-V1-0"><a href="#Version-V1-0" class="headerlink" title="Version: V1.0"></a>Version: V1.0</h1><h1 id="Author-jinyan"><a href="#Author-jinyan" class="headerlink" title="Author: jinyan"></a>Author: jinyan</h1><h1 id="Organization-sanyuanempire"><a href="#Organization-sanyuanempire" class="headerlink" title="Organization: sanyuanempire"></a>Organization: sanyuanempire</h1><h1 id="Created-Time-2016-04-27-12-02-08"><a href="#Created-Time-2016-04-27-12-02-08" class="headerlink" title="Created Time : 2016-04-27 12:02:08"></a>Created Time : 2016-04-27 12:02:08</h1><h1 id="Description-Linux-system-initialization"><a href="#Description-Linux-system-initialization" class="headerlink" title="Description: Linux system initialization"></a>Description: Linux system initialization</h1><p>##############################################################</p>
+<p>. /etc/init.d/functions</p>
+<h1 id="Defined-result-function"><a href="#Defined-result-function" class="headerlink" title="Defined result function"></a>Defined result function</h1><p>function Msg(){<br>        if [ $? -eq 0 ];then<br>          action “$1” /bin/true<br>        else<br>          action “$1” /bin/false<br>        fi<br>}</p>
+<h1 id="Defined-OPEN-FILES-Functions"><a href="#Defined-OPEN-FILES-Functions" class="headerlink" title="Defined OPEN FILES Functions"></a>Defined OPEN FILES Functions</h1><p>function openfiles(){<br>        [ -f “/etc/security/limits.conf” ] &amp;&amp; {<br>        echo ‘*  -  nofile  65535’ &gt;&gt; /etc/security/limits.conf<br>        Msg “open files”<br>        }<br>}</p>
+<h1 id="Defined-System-Startup-Services-Functions"><a href="#Defined-System-Startup-Services-Functions" class="headerlink" title="Defined System Startup Services Functions"></a>Defined System Startup Services Functions</h1><p>function boot(){<br>        for jinyan in <code>chkconfig --list|grep &quot;3:on&quot;|awk &#39;{print $1}&#39;|grep -vE &quot;crond|network|rsyslog|sshd|sysstat&quot;</code><br>          do<br>           chkconfig $jinyan off<br>        done<br>        Msg “BOOT config”<br>}</p>
+<h1 id="Defined-Time-Synchronization-Functions"><a href="#Defined-Time-Synchronization-Functions" class="headerlink" title="Defined Time Synchronization Functions"></a>Defined Time Synchronization Functions</h1><p>function Time(){<br>        echo “#time sync by jinyan at $(date +%F)” &gt;&gt;/var/spool/cron/root<br>        echo ‘<em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 192.168.3.3 &amp;&gt;/dev/null’ &gt;&gt;/var/spool/cron/root<br>        Msg “Time Synchronization”<br>}</p>
+<h1 id="Defined-main-Functions"><a href="#Defined-main-Functions" class="headerlink" title="Defined main Functions"></a>Defined main Functions</h1><p>function main(){<br>        openfiles<br>       boot<br>        Time<br>}</p>
+<p>main</p>
+<p>Ip=192.168.3.3<br>Port=80<br>ConfigDir=ks_config</p>
+<h1 id="Judge-Http-server-is-ok"><a href="#Judge-Http-server-is-ok" class="headerlink" title="Judge Http server is ok?"></a>Judge Http server is ok?</h1><p>PortNum=<code>nmap $Ip  -p $Port 2&gt;/dev/null|grep open|wc -l</code><br>[ $PortNum -lt 1 ] &amp;&amp; {<br>        echo “Http server is bad!”<br>        exit 1<br>}</p>
+<h1 id="Defined-IP-function"><a href="#Defined-IP-function" class="headerlink" title="Defined IP function"></a>Defined IP function</h1><p>function ConfigIP(){<br>        Suffix=<code>ifconfig eth0|awk -F &quot;[ .]+&quot; &#39;NR==2 {print $6}&#39;</code><br>        cat &gt;/etc/sysconfig/network-scripts/ifcfg-eth0 &lt;&lt;-END<br>        DEVICE=eth0<br>        TYPE=Ethernet<br>        ONBOOT=yes<br>        NM_CONTROLLED=yes<br>        BOOTPROTO=none<br>        IPADDR=10.0.0.$Suffix<br>        PREFIX=24<br>        GATEWAY=10.0.0.2<br>        DNS1=10.0.0.2<br>        DEFROUTE=yes<br>        IPV4_FAILURE_FATAL=yes<br>        IPV6INIT=no<br>        NAME=”System eth0”<br>        END<br>        Msg “config eth0”<br>}</p>
+<h1 id="Defined-Yum-source-Functions"><a href="#Defined-Yum-source-Functions" class="headerlink" title="Defined Yum source Functions"></a>Defined Yum source Functions</h1><p>function yum(){<br>        YumDir=/etc/yum.repos.d<br>        [ -f “$YumDir/CentOS-Base.repo” ] &amp;&amp; cp $YumDir/CentOS-Base.repo{,.ori}<br>        wget -O $YumDir/CentOS-Base.repo <a href="http://$Ip:$Port/$ConfigDir/CentOS-Base.repo" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/CentOS-Base.repo</a> &amp;&gt;/dev/null &amp;&amp;\<br>        wget -O $YumDir/epel.repo <a href="http://$Ip:$Port/$ConfigDir/epel.repo" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/epel.repo</a> &amp;&gt;/dev/null &amp;&amp;\<br>        Msg “YUM source”<br>}</p>
+<h1 id="Defined-Hide-the-system-version-number-Functions"><a href="#Defined-Hide-the-system-version-number-Functions" class="headerlink" title="Defined Hide the system version number Functions"></a>Defined Hide the system version number Functions</h1><p>function HideVersion(){<br>        [ -f “/etc/issue” ] &amp;&amp; &gt;/etc/issue<br>        Msg “Hide issue”<br>        [ -f “/etc/issue.net” ] &amp;&amp; &gt; /etc/issue.net<br>        Msg “Hide issue.net”<br>}</p>
+<h1 id="Defined-Kernel-parameters-Functions"><a href="#Defined-Kernel-parameters-Functions" class="headerlink" title="Defined Kernel parameters Functions"></a>Defined Kernel parameters Functions</h1><p>function kernel(){<br>        KernelDir=/etc<br>        [ -f “$KernelDir/sysctl.conf” ] &amp;&amp; /bin/mv $KernelDir/sysctl.conf{,.ori}<br>        wget -O $KernelDir/sysctl.conf <a href="http://$Ip:$Port/$ConfigDir/sysctl.conf" target="_blank" rel="external">http://$Ip:$Port/$ConfigDir/sysctl.conf</a> &amp;&gt;/dev/null<br>        Msg “Kernel config”<br>}</p>
+<h1 id="Defined-main-Functions-1"><a href="#Defined-main-Functions-1" class="headerlink" title="Defined main Functions"></a>Defined main Functions</h1><p>function main(){<br>        ConfigIP<br>        yum<br>        HideVersion<br>        openfiles<br>        kernel<br>        boot<br>        Time<br>}</p>
+<p>main</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu用root登录后没法使用chromium/" data-id="ciwvdwc2s0036m4cytesbyu6a" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-KickStart-1/" data-id="ciwvhh0kp0006r1cya4wzzf4t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -438,10 +545,10 @@ database user:          root
 
 
   
-    <article id="post-vsftpd安装以及配置FTP虚拟用户实践" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-alfresco" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/" class="article-date">
-  <time datetime="2016-12-15T05:26:06.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/alfresco/" class="article-date">
+  <time datetime="2016-12-19T00:38:51.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -452,7 +559,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
+      <a class="article-title" href="/2016/12/19/alfresco/">alfresco</a>
     </h1>
   
 
@@ -460,75 +567,44 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>vsftpd安装以及配置FTP虚拟用户实践<br>By wsgzao<br>发表于 2015-08-24<br>文章目录</p>
-<ol>
-<li><ol>
-<li>前言</li>
-</ol>
-</li>
-<li><ol>
-<li>更新历史</li>
-</ol>
-</li>
-<li><ol>
-<li>安装vsftpd</li>
-</ol>
-</li>
-<li><ol>
-<li>基于虚拟用户的配置</li>
-</ol>
-</li>
-<li>4.1. 修改配置文件</li>
-<li>4.2. 进行认证</li>
-<li>4.3. 设置FTP根目录权限</li>
-<li>4.4. 配置PASV模式（可选）</li>
-<li>4.5. Selinux和防火墙</li>
-<li><ol>
-<li>常见问题<br>前言<br>正如vsftpd官方宣传中所说Probably the most secure and fastest FTP server for UNIX-like systems.我相信这是大多数人选择vsftpd来搭建Linux的FTP服务器的原因，当然ProFTPD用的人应该也不在少数。文章将以清晰直观的方式介绍安装vsftpd以及配置FTP虚拟用户的过程，希望对大家有帮助。<br>首选的FTP服务器搭建方式</li>
-</ol>
-</li>
-</ol>
+        <h2 id="alfresco"><a href="#alfresco" class="headerlink" title="#alfresco"></a>#alfresco</h2><p><strong>Alfresco介紹</strong></p>
+<blockquote>
+<p>Alfresco是一款开源的企业内容管理系统（ECM），为企业提供了日常的文档管理、协同工作、工作记录管理、知识管理、网络内容管理、图片管理等多种功能。</p>
+</blockquote>
+<p><a href="https://www.alfresco.com/community&quot;Alfresco&quot;" target="_blank" rel="external">Alfresco官网</a>社区版<br><a href="https://www.alfresco.com/community" target="_blank" rel="external">Alfresco官网</a>社区版<br><a href="https://wiki.alfresco.com/wiki/Main_Page" target="_blank" rel="external">Alfresco官方文档</a><br><a href="http://docs.alfresco.com/community/concepts/master-ch-install.html" target="_blank" rel="external">Alfresco安装文档</a></p>
 <hr>
-<p>更新历史<br>2015年08月24日 - 初稿<br>阅读原文 - <a href="http://wsgzao.github.io/post/vsftpd/" target="_blank" rel="external">http://wsgzao.github.io/post/vsftpd/</a><br>扩展阅读<br>CentOS 6.4 下安装vsftpd - <a href="http://www.cnblogs.com/xiongpq/p/3384759.html" target="_blank" rel="external">http://www.cnblogs.com/xiongpq/p/3384759.html</a><br>ProFTPD - <a href="http://www.proftpd.org/" target="_blank" rel="external">http://www.proftpd.org/</a><br>vsftpd - <a href="http://vsftpd.beasts.org" target="_blank" rel="external">http://vsftpd.beasts.org</a></p>
-<hr>
-<p>安装vsftpd</p>
-<p>#查看当前系统版本<br>cat /etc/redhat-release<br>CentOS release 6.6 (Final)</p>
-<p>#查看是否已经安装vsftpd<br>rpm -qa | grep vsftpd</p>
-<p>#如果没有，就安装，并设置开机启动<br>yum -y install vsftpd<br>chkconfig vsftpd on<br>基于虚拟用户的配置<br>所谓虚拟用户就是没有使用真实的帐户，只是通过映射到真实帐户和设置权限的目的。虚拟用户不能登录CentOS系统。<br>修改配置文件<br>vi /etc/vsftpd/vsftpd.conf</p>
-<p>#服务器独立运行<br>listen=YES</p>
-<p>#设定不允许匿名访问<br>anonymous_enable=NO</p>
-<p>#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问<br>local_enable=YES</p>
-<p>#使用户不能离开主目录<br>chroot_list_enable=YES</p>
-<p>#设定支持ASCII模式的上传和下载功能<br>ascii_upload_enable=YES<br>ascii_download_enable=YES</p>
-<p>#PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证<br>pam_service_name=vsftpd</p>
-<p>#设定启用虚拟用户功能<br>guest_enable=YES</p>
-<p>#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了<br>guest_username=ftp</p>
-<p>#设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名)<br>user_config_dir=/etc/vsftpd/vuser_conf</p>
-<p>#配置vsftpd日志（可选）<br>xferlog_enable=YES<br>xferlog_std_format=YES<br>xferlog_file=/var/log/xferlog<br>dual_log_enable=YES<br>vsftpd_log_file=/var/log/vsftpd.log<br>进行认证</p>
-<p>#安装Berkeley DB工具，很多人找不到db_load的问题就是没有安装这个包<br>yum install db4 db4-utils</p>
-<p>#创建用户密码文本，注意奇行是用户名，偶行是密码<br>vi /etc/vsftpd/vuser_passwd.txt</p>
-<p>test<br>123456</p>
-<p>#生成虚拟用户认证的db文件<br>db_load -T -t hash -f /etc/vsftpd/vuser_passwd.txt /etc/vsftpd/vuser_passwd.db</p>
-<p>#编辑认证文件，全部注释掉原来语句，再增加以下两句<br>vi /etc/pam.d/vsftpd</p>
-<p>auth required pam_userdb.so db=/etc/vsftpd/vuser_passwd<br>account required pam_userdb.so db=/etc/vsftpd/vuser_passwd</p>
-<p>#创建虚拟用户配置文件<br>mkdir /etc/vsftpd/vuser_conf/</p>
-<p>#文件名等于vuser_passwd.txt里面的账户名，否则下面设置无效<br>vi /etc/vsftpd/vuser_conf/test</p>
-<p>#虚拟用户根目录,根据实际情况修改<br>local_root=/data/ftp<br>write_enable=YES<br>anon_umask=022<br>anon_world_readable_only=NO<br>anon_upload_enable=YES<br>anon_mkdir_write_enable=YES<br>anon_other_write_enable=YES<br>设置FTP根目录权限</p>
-<p>#最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限<br>mkdir /data/ftp<br>chmod -R 755 /data<br>chmod -R 777 /data/ftp</p>
-<p>#建立限制用户访问目录的空文件<br>touch /etc/vsftpd/chroot_list</p>
-<p>#如果启用vsftpd日志需手动建立日志文件<br>touch /var/log/xferlog<br>touch /var/log/vsftpd.log<br>配置PASV模式（可选）<br>vsftpd默认没有开启PASV模式，现在FTP只能通过PORT模式连接，要开启PASV默认需要通过下面的配置</p>
-<p>打开/etc/vsftpd/vsftpd.conf，在末尾添加</p>
-<p>#开启PASV模式<br>pasv_enable=YES</p>
-<p>#最小端口号<br>pasv_min_port=40000</p>
-<p>#最大端口号<br>pasv_max_port=40080<br>pasv_promiscuous=YES</p>
-<p>#在防火墙配置内开启40000到40080端口<br>-A INPUT -m state –state NEW -m tcp -p -dport 40000:40080 -j ACCEPT</p>
-<p>#重启iptabls和vsftpd<br>service iptables restart<br>service vsftpd restart</p>
-<p>现在可以使用PASV模式连接你的FTP服务器了~<br>Selinux和防火墙<br>该关闭的关闭，该放行的放行<br>service vsftpd start<br>常见问题<br>如果登录时出现<br>500 OOPS: priv_sock_get_result. Connection closed by remote host.<br>这样的错误，需要升级pam<br>yum update pam</p>
+<ol>
+<li><p>文档管理</p>
+<blockquote>
+<p>为传统的ECM解决方案节省成本的企业级文档管理<br>通过现代的，消费者喜欢的共享界面提供完整的ECM功能<br>一个统一的单独的存储库来管理任何内容 - 文档，图像，视频和音频<br>易于使用CIFS，WebDAV的，IMAP和SharePoint的协议作为一个共享网络驱动器<br>完全开源并兼容CMIS和JSR168等开放标准</p>
+</blockquote>
+</li>
+<li><p>记录管理</p>
+<blockquote>
+<p>内置Alfresco的文档管理库，包括共享接口<br>文件记录从桌面、电子邮件客户端或任何Web浏览器使用拖拽<br>独立的解决方案来管理公司的记录和其他内容<br>成本经济和开放源码，没有前期的license费用</p>
+</blockquote>
+</li>
+<li><p>内容管理</p>
+<blockquote>
+<p>企业规模的网络营销和Web内容管理的集成开源解决方案<br>一个集成的协作环境，使Web团队一起工作<br>从Office到Web自动发布企业内容<br>市场营销团队可以简单地创建和发布新内容<br>内置行业标准技术，可以扩展使用流行的开发工具</p>
+</blockquote>
+</li>
+<li><p>共享</p>
+<blockquote>
+<p>一个现代的，基于浏览器的社会内容管理和协作平台<br>与分散在全球的团队轻松协作内容和项目，<br>新的社会功能，如状态，标签和内容的活动feed，使团队更有效率<br>强大的团队工具包括一个文档库，博客，维基，日历和简单的工作流<br>比SharePoint更具可扩展性和开放性并作为一个开源堆栈运行</p>
+</blockquote>
+</li>
+<li><p>内容平台</p>
+<blockquote>
+<p>开源和开放标准的Java内容平台构建设的任何内容丰富的应用程序<br>开箱即用包括DM ， WCM和协作功能<br>通过RESTful的API和开放的标准如CMIS或JSR 168，快速定制开发<br>自定义或扩展现有的开发人员或Alfresco 的合作伙伴<br>专为企业规模化，集群，复制和安全服务</p>
+</blockquote>
+</li>
+</ol>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/" data-id="ciwvdwc2u0039m4cyvnaczrct" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/alfresco/" data-id="ciwvhh0na002xr1cyuvjyzq03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -538,10 +614,10 @@ database user:          root
 
 
   
-    <article id="post-Ubuntu-64-位预配" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-书单" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/Ubuntu-64-位预配/" class="article-date">
-  <time datetime="2016-12-15T05:22:07.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/19/书单/" class="article-date">
+  <time datetime="2016-12-19T00:32:19.000Z" itemprop="datePublished">2016-12-19</time>
 </a>
     
   </div>
@@ -552,7 +628,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Ubuntu-64-位预配/">Ubuntu 64 位预配</a>
+      <a class="article-title" href="/2016/12/19/书单/">书单</a>
     </h1>
   
 
@@ -560,42 +636,12 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>java<br>vm tools<br>sudo passwd root<br>Ubuntu软件中心——编辑——更换软件源</p>
-<p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true<br>Ubuntu启用root账户后，登录root账户时报错：读取/root/.profile时发现错误：mesg:ttyname failed:对设备不适当的ioctl操作 作为结果，会话不会被正确配置<br>root@ubuntu:~# cp /home/jinyan/.profile /root/<br>root@ubuntu:~# reboot</p>
-<p>cp /etc/apt/sources.list /etc/apt/sources.listbak<br>vim /etc/apt/sources.list<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>apt-get update</p>
-<p>用vim打开 /etc/default/locale 文件</p>
-<p>原来的配置文件应该是这样的：<br>LANG=”zh_CN.UTF-8”<br>LANGUAGE=”zh_CN:zh:en_US:en”<br>LC_NUMERIC=”zh_CN.UTF-8”<br>LC_TIME=”zh_CN.UTF-8”<br>LC_MONETARY=”zh_CN.UTF-8”<br>LC_PAPER=”zh_CN.UTF-8”<br>LC_IDENTIFICATION=”zh_CN.UTF-8”<br>LC_NAME=”zh_CN.UTF-8”<br>LC_ADDRESS=”zh_CN.UTF-8”<br>LC_TELEPHONE=”zh_CN.UTF-8”<br>LC_MEASUREMENT=”zh_CN.UTF-8”</p>
-<p>将原来的配置内容修改为<br>LANG=”en_US.UTF-8″<br>LANGUAGE=”en_US:en”</p>
-<p>再在终端下运行：<br>locale-gen -en_US:en<br>注销或重启后，即可恢复为英文的语言环境。</p>
-<p>查看防火墙状态<br>root@jinyan-virtual-machine:~# ufw status<br>状态：不活动<br>root@jinyan-virtual-machine:~# getenforce<br>程序“getenforce”尚未安装。 您可以使用以下命令安装：<br>apt-get install selinux-utils</p>
-<p>apt-get install vim<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
-<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>重启系统<br>重启 openssh server<br>/etc/init.d/ssh restart<br>service ssh restart</p>
-<p>apt-get install ntp<br>查看ntp同步过程<br>ntpq -p<br>ntpdate -u 202.120.2.101</p>
-<p>apt-get install x-window-system-core<br>apt-get install gdm<br>apt-get install ubuntu-desktop<br>apt-get install gnome-core</p>
-<p>apt-get install vnc4server<br>vncserver<br>cp ~/.vnc/xstartup  ~/.vnc/xstartup.bak<br>vim ~/.vnc/xstartup</p>
-<h1 id="x-window-manager-amp"><a href="#x-window-manager-amp" class="headerlink" title="x-window-manager &amp;"></a>x-window-manager &amp;</h1><h1 id="gnome-session-amp"><a href="#gnome-session-amp" class="headerlink" title="gnome-session &amp;"></a>gnome-session &amp;</h1><p>gnome-panel &amp;<br>gnome-settings-daemon &amp;<br>metacity &amp;<br>nautilus &amp;<br>gnome-terminal &amp;</p>
-<p>root@jinyan-virtual-machine:~# vncserver -kill :1<br>Killing Xvnc4 process ID 3767<br>root@jinyan-virtual-machine:~# vncserver :1<br>192.168.50.6:1</p>
-<p>apt-get install vsftpd<br>apt-get remove vsftpd</p>
-<p>vim /etc/vsftpd.conf<br>local_enable=YES<br>write_enable=YES<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd.chroot_list</p>
-<p>anonymous_enable=YES</p>
-<h1 id="anonymous-enable-NO"><a href="#anonymous-enable-NO" class="headerlink" title="anonymous_enable=NO"></a>anonymous_enable=NO</h1><p>useradd -d /home/ftp -M ftpuser<br>passwd ftpuser</p>
-<p>vim /etc/vsftpd.chroot_list<br>ftpuser</p>
-<p>vim /etc/ftpusers<br>打开这个文件后，看一看有没有uftp这个用户名，如果没有，就直接退出。如果有就删除uftp,因为这个文件中记录的是不能访问FTP服务器的用户清单。</p>
-<p>vim /etc/pam.d/vsftpd</p>
-<p>#auth   required        pam_shells.so</p>
-<p>mkdir /home/ftp<br>chmod a-w /home/ftp<br>mkdir /home/ftp/data<br>chown -R ftpuser:ftpuser /home/ftp/</p>
-<p>service vsftpd restart</p>
-<p>mkdir /usr/lib/java<br>tar -zxvf jdk-7u79-linux-x64.tar.gz -C /usr/lib/java/<br>cd /usr/lib/java/jdk1.7.0_79/</p>
-<p>vim ~/.bashrc</p>
-<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</p>
-<p>apt-get install samba<br>apt-get install smbfs</p>
-<p>apt-get install samba samba-common system-config-samba python-glade2 gksu<br>在 Unity Dash 中搜索并打开 Samba 配置工具</p>
+        <p>Linux就是这个范儿<br>细说PHP<br>Wireshark网络分析就这么简单<br>Cisco_H3C交换机高级配置与管理技术手册<br>Cisco_H3C交换机配置与管理完全手册(第2版)<br>Windows安装与管理<br>Windows Server 2008 R2 Active Directory 配置指南<br>Windows Server 2008 R2 网络管理与架站<br>Windows Server2012 网络管理与架站<br>Windows Server 2012系统配置指南<br>Windows Server 2012 Hyper-V虚拟化管理实践<br>跟老男孩学Linux运维<br>鸟哥的Linux私房菜基础学习篇(第三版)<br>鸟哥的Linux私房菜服务器架设篇(第三版)<br>构建高可用Linux服务器<br>构建高可用Linux服务器（第3版）<br>Linux服务器构建实战<br>KVM虚拟化技术实战与原理解析<br>MySQL入门很简单<br>VMware vSphere 5.0虚拟化架构实战指南<br>VMware、Citrix和Microsoft虚拟化技术详解与应用实践<br>虚拟智慧VMware_vSphere运维实录<br>大话存储II<br>疯狂Java讲义第三版<br>Hadoop技术内幕 深入解析HADOOP COMMON和HDFS架构设计与实现原理<br>Hadoop技术内幕 深入理解MapReduce架构设计与实现原理<br>Hadoop权威指南第三版修订版<br>运维之路</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-64-位预配/" data-id="ciwvdwc28002em4cy9oj9xo7f" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/19/书单/" data-id="ciwvhh0o30040r1cyjmvmmdvx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -605,10 +651,10 @@ database user:          root
 
 
   
-    <article id="post-Postfix-Amavisd-new-Spamassassin-ClamAV整合安装" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-NGINX日志切割" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" class="article-date">
-  <time datetime="2016-12-15T05:21:30.000Z" itemprop="datePublished">2016-12-15</time>
+    <a href="/2016/12/15/NGINX日志切割/" class="article-date">
+  <time datetime="2016-12-15T06:26:51.000Z" itemprop="datePublished">2016-12-15</time>
 </a>
     
   </div>
@@ -619,7 +665,7 @@ database user:          root
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/">Postfix+Amavisd-new+Spamassassin+ClamAV整合安装</a>
+      <a class="article-title" href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
     </h1>
   
 
@@ -627,55 +673,103 @@ database user:          root
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ol>
-<li><p>安装软件和依赖包<br>apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-server<br>apt-get install libnet-dns-perl pyzor razor<br>apt-get install arj bzip2 cabextract cpio file gzip lha nomarch pax rar unrar unzip zip</p>
-</li>
-<li><p>修改用户权限<br>usermod -a -G clamav amavis<br>usermod -a -G amavis clamav</p>
-</li>
-<li><p>修改spamassassin配置文件/etc/default/spamassassin<br>ENABLED=0 ====&gt; ENABLED=1<br>CRON=0    ====&gt; CRON=1</p>
-</li>
-</ol>
-<p>4.启动spamassassin<br>/etc/init.d/spamassassin start</p>
-<ol>
-<li><p>修改amavis配置文件/etc/amavis/conf.d/15-content_filter_mode<br> 1) 去掉里面的注释（目的：check病毒和垃圾邮件）<br> 2) 重启amavis<br>/etc/init.d/amavis restart</p>
-</li>
-<li><p>修改postfix配置文件/etc/postfix/main.cf,添加如下内容<br> 注释掉mydestination<br>添加：<br>relay_domains = test.com<br>transport_maps = hash:/etc/postfix/transport<br>relay_recipient_maps = hash:/etc/postfix/relay_recipients<br>content_filter = smtp-amavis:[127.0.0.1]:10024</p>
-</li>
-<li><p>编辑文件/etc/postfix/master.cf,在文件最后添加如下内容<br>smtp-amavis     unix    -       -       -       -       2       smtp</p>
-<pre><code>-o smtp_data_done_timeout=1200
--o smtp_send_xforward_command=yes
--o disable_dns_lookups=yes
--o max_use=20
-</code></pre></li>
-</ol>
-<p>127.0.0.1:10025 inet    n       -       -       -       -       smtpd<br>        -o content_filter=<br>        -o local_recipient_maps=<br>        -o relay_recipient_maps=<br>        -o smtpd_restriction_classes=<br>        -o smtpd_delay_reject=no<br>        -o smtpd_client_restrictions=permit_mynetworks,reject<br>        -o smtpd_helo_restrictions=<br>        -o smtpd_sender_restrictions=<br>        -o smtpd_recipient_restrictions=permit_mynetworks,reject<br>        -o smtpd_data_restrictions=reject_unauth_pipelining<br>        -o smtpd_end_of_data_restrictions=<br>        -o mynetworks=127.0.0.0/8<br>        -o smtpd_error_sleep_time=0<br>        -o smtpd_soft_error_limit=1001<br>        -o smtpd_hard_error_limit=1000<br>        -o smtpd_client_connection_count_limit=0<br>        -o smtpd_client_connection_rate_limit=0<br>        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks</p>
-<ol>
-<li><p>在文件/etc/postfix/master.cf中的pickup行添加如下内容<br>   -o content_filter=<br>   -o receive_override_options=no_header_body_checks</p>
-</li>
-<li><p>重启postfix<br>/etc/init.d/postfix reload</p>
-</li>
-<li><p>修改/etc/amavis/conf.d/20-debian_defaults<br>$final_spam_destiny = D_BOUNCE  ===&gt; $final_spam_destiny = D_DISCARD</p>
-</li>
-</ol>
-<p>$QUARANTINEDIR = “/data/virusmails”;</p>
-<ol>
-<li><p>修改/etc/amavis/conf.d/05-node_id<br>$myhostname = “mail.example.com”;</p>
-</li>
-<li><p>修改/etc/amavis/conf.d/50-user,添加如下内容：<br>$spam_quarantine_to = “spam-quarantine”;<br>$virus_quarantine_to = “spam-quarantine”;</p>
-</li>
-</ol>
-<p>@whitelist_sender_maps = read_hash(“/etc/amavis/whitelist”);<br>@blacklist_sender_maps = read_hash(“/etc/amavis/blacklist”);</p>
-<ol>
-<li><p>在目录/etc/amavis下创建文件blacklist和whitelist<br>touch /etc/amavis/whitelist<br>touch /etc/amavis/blacklist</p>
-</li>
-<li><p>垃圾及病毒邮件的保存目录<br>/data/virusmails</p>
-</li>
-</ol>
+        <p>nginx的日志文件没有rotate功能。如果你不处理，日志文件将变得越来越大，还好我们可以写一个nginx日志切割脚本来自动切割日志文件。</p>
+<p>第一步就是重命名日志文件，不用担心重命名后nginx找不到日志文件而丢失日志。在你未重新打开原名字的日志文件前，nginx还是会向你重命名的文件写日志，linux是靠文件描述符而不是文件名定位文件。</p>
+<p>第二步向nginx主进程发送USR1信号。</p>
+<p>nginx主进程接到信号后会从配置文件中读取日志文件名称，重新打开日志文件(以配置文件中的日志名称命名)，并以工作进程的用户作为日志文件的所有者。</p>
+<p>重新打开日志文件后，nginx主进程会关闭重名的日志文件并通知工作进程使用新打开的日志文件。</p>
+<p>工作进程立刻打开新的日志文件并关闭重名名的日志文件。</p>
+<p>然后你就可以处理旧的日志文件了。</p>
+<p>[root@lnmp ~]# vim /usr/local/nginx/nginx_log.sh</p>
+<p>#!/bin/bash</p>
+<p>#设置日志文件存放目录<br>logs_path=”/home/wwwlogs/“</p>
+<p>#设置pid文件<br>pid_path=”/usr/local/nginx/logs/nginx.pid”</p>
+<p>#重命名日志文件<br>mv ${logs_path}access.log ${logs<em>path}access</em>$(date -d “yesterday” +”%Y%m%d”).log</p>
+<p>#向nginx主进程发信号重新打开日志<br>kill -USR1 <code>cat ${pid_path}</code></p>
+<p>“/usr/local/nginx/nginx_log.sh” [新] 9L, 311C 已写入<br>[root@lnmp ~]# sh /usr/local/nginx/nginx_log.sh<br>[root@lnmp ~]# ls /home/wwwlogs/<br>access_20161102.log  access.log  nginx_error.log<br>[root@lnmp ~]# ll -h /home/wwwlogs/access.log<br>-rw-r–r– 1 www root 4.8K 11月  3 10:22 /home/wwwlogs/access.log<br>[root@lnmp ~]# </p>
+<p>crontab 设置作业<br>0 0 <em> </em> * sh /usr/local/nginx/nginx_log.sh<br>这样就每天的0点0分把nginx日志重命名为日期格式，并重新生成今天的新日志文件。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="ciwvdwc1x0020m4cyuej55vqt" class="article-share-link">Partager</a>
+      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwvhh0mv0028r1cyyut7ztnt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-安装SVN" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-安装SVN/" class="article-date">
+  <time datetime="2016-12-15T06:23:02.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div></pre></td><td class="code"><pre><div class="line">yum -y install subversion</div><div class="line">svn --version</div><div class="line">svn，版本 1.6.11 (r934486)</div><div class="line">[root@rsync ~]# mkdir -p /opt/svn/repo</div><div class="line">[root@rsync ~]# svnadmin create /opt/svn/repo</div><div class="line">[root@rsync ~]# ll /opt/svn/repo</div><div class="line">总用量 24</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 conf</div><div class="line">drwxr-sr-x 6 root root 4096 6月  20 15:43 db</div><div class="line">-r--r--r-- 1 root root    2 6月  20 15:43 format</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 hooks</div><div class="line">drwxr-xr-x 2 root root 4096 6月  20 15:43 locks</div><div class="line">-rw-r--r-- 1 root root  229 6月  20 15:43 README.txt</div><div class="line">[root@rsync ~]# </div><div class="line">[root@rsync ~]# cd /opt/svn/repo/conf</div><div class="line">[root@rsync conf]# vim passwd </div><div class="line"></div><div class="line">### This file is an example password file for svnserve.</div><div class="line">### Its format is similar to that of svnserve.conf. As shown in the</div><div class="line">### example below it contains one section labelled [users].</div><div class="line">### The name and password for each user follow, one account per line.</div><div class="line"></div><div class="line">[users]</div><div class="line"># harry = harryssecret</div><div class="line"># sally = sallyssecret</div><div class="line">jinyan = yanjin</div><div class="line"></div><div class="line">[root@rsync conf]# vim authz </div><div class="line">[/]</div><div class="line">jinyan = rw</div><div class="line">* = rw</div><div class="line"></div><div class="line">[root@rsync conf]# vim svnserve.conf </div><div class="line">[general]</div><div class="line">### These options control access to the repository for unauthenticated</div><div class="line">### and authenticated users.  Valid values are &quot;write&quot;, &quot;read&quot;,</div><div class="line">### and &quot;none&quot;.  The sample settings below are the defaults.</div><div class="line">anon-access = none</div><div class="line">auth-access = write</div><div class="line">password-db = passwd</div><div class="line">authz-db = authz</div><div class="line">realm=/opt/svn/repo</div><div class="line"></div><div class="line">启动SVN</div><div class="line"></div><div class="line">svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# ps -ef|grep svn|grep -v grep</div><div class="line">root     22954     1  0 15:49 ?        00:00:00 svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# netstat -tunlp | grep 3690</div><div class="line">tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22954/svnserve      </div><div class="line">[root@rsync conf]# </div><div class="line"></div><div class="line">停止重启SVN</div><div class="line">[root@rsync conf]# killall svnserve</div><div class="line">[root@rsync conf]# killall svnserve</div><div class="line">svnserve: 没有进程被杀死</div><div class="line">[root@rsync conf]# </div><div class="line">[root@rsync conf]# svnserve -d -r /opt/svn/repo</div><div class="line">[root@rsync conf]# netstat -tunlp | grep 3690</div><div class="line">tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22974/svnserve      </div><div class="line">[root@rsync conf]# </div><div class="line"></div><div class="line">测试</div><div class="line"></div><div class="line">SVN服务已经启动，使用客户端测试连接。</div><div class="line">客户端连接地址：svn://10.6.0.106</div><div class="line">用户名/密码： </div><div class="line">测试创建文件夹等操作。</div><div class="line"></div><div class="line">创建版本库：</div><div class="line">终端输入：svnadmin create [路径]</div><div class="line">该路径可以是相对路径，例如，当前在home/user/svn/目录下，输入svnadmin create myproject，则该版本库会被创建在home/user/svn/目录下，新建一个文件夹名为myproject，其中便是版本库的文件了。</div><div class="line"></div><div class="line">将文件导入版本库：</div><div class="line">终端输入：svn import [源路径] [目标版本库路径] -m [日志信息]</div><div class="line">源路径可以是相对路径，导入时会递归导入源路径下的所有文件和文件夹，目标版本库路径需要绝对目录（反正我试验是这样的），例如版本库的目录是：home/user/svn/myproject/。则应该这样写：file:///home/user/svn/myproject/</div><div class="line">例如将当前目录导入版本库myproject：</div><div class="line">svn import . file:///home/user/svn/myproject -m&quot;导入文件&quot;</div><div class="line"></div><div class="line">从版本库导出：</div><div class="line">导入后原文件并未被纳入版本管理，若想获得受版本控制的文件，就需要从版本库导出</div><div class="line">终端输入：svn co [版本库路径] [导出目标路径]</div><div class="line">例如将myproject库中的文件导出到当前目录：svn cofile:///home/user/svn/myproject .</div><div class="line"></div><div class="line">备份</div><div class="line">[root@rsync ~]# du -h --max-depth=1 /opt/svn/repo/db/revs/0</div><div class="line">11G     /opt/svn/repo/db/revs/0</div><div class="line">svnadmin dump方式</div><div class="line">SVN迁移需要做如下操作：</div><div class="line">1. 将原来的Repository导出为一个文件dumpfile 。</div><div class="line">#svnadmin dump 原先的repos的目录路径（/repository/directory） &gt; dumpfile</div><div class="line">#svnadmin dump /opt/svn/iitshare/ &gt; /var/tmp/iitshare_20130626</div><div class="line">[root@rsync ~]# svnadmin dump /opt/svn/repo/ &gt; /home/repo20160623</div><div class="line">[root@rsync ~]# ll -h /home/repo20160623 </div><div class="line">-rw-r--r-- 1 root root 11G 6月  23 13:02 /home/repo20160623</div><div class="line">2. 在另外一台机器上配置同样的SVN服务器。</div><div class="line">3. 将dumpfile导入到新的repository 目录中。</div><div class="line">#svnadmin load 新建的repos的目录路径（/repository/directory） &lt; dumpfile</div><div class="line">#svnadmin load /opt/svn/iitshare/ &lt; /var/tmp/iitshare_20130626</div><div class="line">[root@rsync ~]# svnadmin dump /opt/svn/repo/ &lt; /home/repo20160623</div><div class="line">4. 将原先服务器的配置文件备份后复制到新服务器中</div><div class="line">#/opt/svn/iitshare/conf目录下</div><div class="line">authz、passwd、svnserve.conf文件</div><div class="line"></div><div class="line">svnadmin hotcopy方法</div><div class="line">1. 备份</div><div class="line">#svnadmin hotcopy /opt/svn/iitshare/ /var/tmp/iitshare_20130626 --clean-logs</div><div class="line">[root@rsync ~]# svnadmin hotcopy /opt/svn/repo/ /home/repohost20160623 --clean-logs</div><div class="line">[root@rsync ~]# ll -h /home/repohost20160623</div><div class="line">总用量 24K</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 conf</div><div class="line">drwxr-sr-x 6 root root 4.0K 6月  23 13:14 db</div><div class="line">-r--r--r-- 1 root root    2 6月  23 13:14 format</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 hooks</div><div class="line">drwxr-xr-x 2 root root 4.0K 6月  23 13:11 locks</div><div class="line">-rw-r--r-- 1 root root  229 6月  23 13:11 README.txt</div><div class="line">如果你传递--clean-logs选项，svnadmin会执行热拷贝操作，然后删除不用的Berkeley DB日志文件。</div><div class="line">你可以在任何时候运行这个命令得到一个版本库的安全拷贝，不管其它进程是否使用这个版本库。</div><div class="line">2. 还原</div><div class="line">#svnadmin hotcopy /var/tmp/iitshare_20130626 /opt/svn/iitshare/</div><div class="line">svnadmin hotcopy /home/repohost20160623 /opt/svn/repo/</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwvhh0lx0011r1cyr49oavzk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7-x-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-git/" class="article-date">
+  <time datetime="2016-12-15T06:22:20.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
+<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
+<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
+<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwvhh0m5001br1cyy70pcfqc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -688,7 +782,7 @@ database user:          root
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/5/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="extend next" rel="next" href="/page/5/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -714,28 +808,28 @@ database user:          root
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Articles récents</h3>
+    <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
@@ -751,7 +845,7 @@ database user:          root
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

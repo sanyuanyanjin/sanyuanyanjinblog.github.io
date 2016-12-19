@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Centos 6.5 x64 Hadoop-2.3.0 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+groupadd hadoopuseradd -g hadoop hadoop
+配置SSHyum -y install openssh-servervim /etc/ssh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 6.5 x64 Hadoop-2.3.0">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+groupadd hadoopuseradd -g hadoop hadoop
+配置SSHyum -y install openssh-servervim /etc/ssh">
+<meta property="og:updated_time" content="2016-12-19T02:33:01.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos 6.5 x64 Hadoop-2.3.0">
+<meta name="twitter:description" content="关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+groupadd hadoopuseradd -g hadoop hadoop
+配置SSHyum -y install openssh-servervim /etc/ssh">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Centos-6-5-x64-Hadoop-2-3-0-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" class="article-date">
+  <time datetime="2016-12-19T02:32:40.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos 6.5 x64 Hadoop-2.3.0
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>groupadd hadoop<br>useradd -g hadoop hadoop</p>
+<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
+<p>无密码登录<br>root用户<br>[root@n0 ~]# ssh-keygen -t rsa -P “”<br>[root@n0 ~]# cat /root/.ssh/id_rsa.pub &gt;&gt; /root/.ssh/authorized_keys<br>[root@n0 ~]# ssh localhost</p>
+<p>普通用户<br>/home/hadoop/.ssh<br>[hadoop@n0 .ssh]$ ssh-keygen -t rsa -P “”<br>[hadoop@n0 .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys<br>[hadoop@n0 .ssh]$ chmod 600 authorized_keys<br>[hadoop@n0 .ssh]$ ssh localhost</p>
+<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:hadoop”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
+<p>service vncserver restart<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
+<p>[root@n0 ~]# tar -zxvf jdk-7u79-linux-x64.tar.gz<br>[root@n0 ~]# mv jdk1.7.0_79/ /usr/lib/java<br>[root@n0 ~]# vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
+<p>export HADOOP_HOME=/usr/local/hadoop/<br>export PATH=$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_HOME}<br>export HADOOP_COMMON_HOME=${HADOOP_HOME}<br>export HADOOP_HDFS_HOME=${HADOOP_HOME}<br>export YARN_HOME=${HADOOP_HOMEL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_HOME}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_HOME}/lib:${HADOOP_HOME}/lib/native”</p>
+<p>[root@n0 ~]# source /etc/profile<br>[root@n0 ~]# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)<br>Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</p>
+<p>[root@n0 ~]# tar -zxvf hadoop-2.3.0-x64.tar.gz<br>[root@n0 ~]# mv hadoop-2.3.0 /usr/local/hadoop<br>[root@n0 ~]# chmod -R 755 /usr/local/hadoop/<br>[root@n0 ~]# chown -R hadoop:hadoop /usr/local/hadoop/<br>[root@n0 ~]# ll /usr/local/hadoop/<br>/usr/local/hadoop/etc/hadoop<br>vim core-site.xml<br>    <property><br>        <name>hadoop.tmp.dir</name><br>        <value>/usr/local/hadoop/tmp</value><br>    </property><br>    <property><br>        <name>fs.defaultFS</name><br>        <value>hdfs://localhost:9000</value><br>     </property></p>
+<p>vim hdfs-site.xml</p>
+<property><br>        <name>dfs.replication</name><br>        <value>1</value><br>    </property><br>    <property><br>        <name>dfs.namenode.name.dir</name><br>        <value>file:/usr/local/hadoop/dfs/name</value><br>    </property><br>    <property><br>        <name>dfs.datanode.data.dir</name><br>        <value>file:/usr/local/hadoop/dfs/data</value><br>    </property><br>    <property><br>            <name>dfs.permissions</name><br>            <value>false</value><br>     </property>
+
+<p>vim yarn-site.xml</p>
+<property><br><name>mapreduce.framework.name</name><br><value>yarn</value><br></property>
+
+<property><br><name>yarn.nodemanager.aux-services</name><br><value>mapreduce_shuffle</value><br></property>
+
+<property><br><name>yarn.resourcemanager.scheduler.address</name><br><value>localhost:9001</value><br></property>
+
+<p>[hadoop@n0 hadoop]$ cd /usr/local/hadoop/<br>[hadoop@n0 hadoop]$ mkdir tmp dfs dfs/name dfs/data<br>[hadoop@n0 hadoop]$ ll</p>
+<p>[hadoop@n0 ~]$ hdfs namenode -format<br>15/10/29 14:52:56 INFO common.Storage: Storage directory /usr/local/hadoop/dfs/name has been successfully formatted.<br>[hadoop@n0 ~]$ start-dfs.sh<br>Starting namenodes on [localhost]<br>localhost: starting namenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-namenode-n0.out<br>localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-hadoop-datanode-n0.out<br>Starting secondary namenodes [0.0.0.0]<br>The authenticity of host ‘0.0.0.0 (0.0.0.0)’ can’t be established.<br>RSA key fingerprint is a4:f8:d8:ba:42:46:7a:f3:5d:82:7a:4e:e3:08:17:df.<br>Are you sure you want to continue connecting (yes/no)? yes<br>0.0.0.0: Warning: Permanently added ‘0.0.0.0’ (RSA) to the list of known hosts.<br>0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-secondarynamenode-n0.out<br>[hadoop@n0 ~]$ start-yarn.sh<br>starting yarn daemons<br>starting resourcemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-resourcemanager-n0.out<br>localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-nodemanager-n0.out<br>[hadoop@n0 ~]$ jps<br>12108 SecondaryNameNode<br>12742 Jps<br>11932 DataNode<br>11840 NameNode<br>12313 ResourceManager<br>12408 NodeManager</p>
+<p>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /output/<br>[hadoop@n0 hadoop]$ hadoop fs -put *.xml /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -ls /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.3.0.jar wordcount /data/wordcount /output/wordcount<br>15/10/29 15:48:00 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>15/10/29 15:48:01 INFO input.FileInputFormat: Total input paths to process : 7<br>15/10/29 15:48:01 INFO mapreduce.JobSubmitter: number of splits:7<br>15/10/29 15:48:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1446104470000_0001<br>15/10/29 15:48:03 INFO impl.YarnClientImpl: Submitted application application_1446104470000_0001<br>15/10/29 15:48:03 INFO mapreduce.Job: The url to track the job: <a href="http://n0:8088/proxy/application_1446104470000_0001/" target="_blank" rel="external">http://n0:8088/proxy/application_1446104470000_0001/</a><br>15/10/29 15:48:03 INFO mapreduce.Job: Running job: job_1446104470000_0001<br>15/10/29 15:48:16 INFO mapreduce.Job: Job job_1446104470000_0001 running in uber mode : false<br>15/10/29 15:48:16 INFO mapreduce.Job:  map 0% reduce 0%<br>15/10/29 15:48:29 INFO mapreduce.Job:  map 86% reduce 0%<br>15/10/29 15:48:36 INFO mapreduce.Job:  map 100% reduce 0%<br>15/10/29 15:48:38 INFO mapreduce.Job:  map 100% reduce 100%<br>15/10/29 15:48:39 INFO mapreduce.Job: Job job_1446104470000_0001 completed successfully<br>15/10/29 15:48:39 INFO mapreduce.Job: Counters: 49</p>
+<p>[hadoop@n0 hadoop]$ hadoop fs -cat /output/wordcount/part-r-00000 |head<br>“*”     17<br>“AS     7<br>“License”);     7<br>“alice,bob      17<br>(ASF)   1<br>(root   1<br>(the    7<br>–&gt;     13<br>0.0     1<br>1.0.    1</p>
+<p>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/HDFSTest/bin/<br>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/MapreduceTest/bin/</p>
+<p>[hadoop@n0 ~]$ hadoop archive -archiveName test.har -p /data /data/har<br>[hadoop@n0 ~]$ hadoop fs -ls har:///data/har/test.har</p>
+<p>来源： <a href="http://www.centoscn.com/hadoop/2015/0118/4525.html" target="_blank" rel="external">http://www.centoscn.com/hadoop/2015/0118/4525.html</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="ciwvhh0m7001dr1cy5dydk7xc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Centos-7-x-预配-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Centos 7.x 预配
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">CentOS 6.x</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
