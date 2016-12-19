@@ -61,6 +61,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Cacti" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Cacti/" class="article-date">
+  <time datetime="2016-12-15T03:30:49.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Cacti/">Cacti</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@localhost ~]# php /var/www/html/poller.php<br>[root@localhost ~]# crontab -e</p>
+<p><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 10.6.0.220 &gt; /dev/null 2&gt;&amp;1</p>
+<p>[root@localhost ~]# vi /etc/sysconfig/clock</p>
+<h1 id="ZONE-”America-North-Dakota-Center”"><a href="#ZONE-”America-North-Dakota-Center”" class="headerlink" title="ZONE=”America/North_Dakota/Center”"></a>ZONE=”America/North_Dakota/Center”</h1><h1 id="UTC-false"><a href="#UTC-false" class="headerlink" title="UTC=false"></a>UTC=false</h1><h1 id="ARC-false"><a href="#ARC-false" class="headerlink" title="ARC=false"></a>ARC=false</h1><p>ZONE=”Asia/Shanghai”<br>UTC=false<br>ARC=false<br>[root@localhost ~]# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br>cp: overwrite `/etc/localtime’? y<br>[root@localhost ~]# date<br>[root@localhost ~]# /usr/sbin/ntpdate -u 10.6.0.220<br>26 Mar 13:21:52 ntpdate[5851]: step time server 10.6.0.220 offset -2774.426741 sec</p>
+<p>cacti backup 10.6.0.77<br>默认设置说明：<br>root密码: CactiEZ<br>登录系统后，请尽快修改root密码。</p>
+<p>Cacti登录用户名: admin<br>Cacti登录密码: sz215tzuchi<br>第一次登录Cacti需要修改密码。<br>mysqldump -ucactiuser -p’CactiMadeEZ’ cacti&gt;/root/cacti.sql<br>mysqldump -ucactiuser -p’CactiMadeEZ’ syslog&gt;syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option; </p>
+<p>snmp station 10.6.0.77 162 “public” v1 enable</p>
+<p>vim backup.sh</p>
+<p>#/bin/bash<br>cd /var/www/</p>
+<h1 id="Remove-old-backups"><a href="#Remove-old-backups" class="headerlink" title="Remove old backups"></a>Remove old backups</h1><p>find /var/www/backups/* -mtime +5 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Remove-old-RRAs-usually-means-the-datasource-is-deleted"><a href="#Remove-old-RRAs-usually-means-the-datasource-is-deleted" class="headerlink" title="Remove old RRAs (usually means the datasource is deleted)"></a>Remove old RRAs (usually means the datasource is deleted)</h1><p>find /var/www/html/rra/* -mtime +2 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Create-the-filename-for-the-backup"><a href="#Create-the-filename-for-the-backup" class="headerlink" title="Create the filename for the backup"></a>Create the filename for the backup</h1><p>eval <code>date &quot;+day=%d; month=%m; year=%Y&quot;</code><br>INSTFIL=”cacti-backup-$year-$month-$day.tar.gz”</p>
+<h1 id="Dump-the-MySQL-Database"><a href="#Dump-the-MySQL-Database" class="headerlink" title="Dump the MySQL Database"></a>Dump the MySQL Database</h1><p>mysqldump -uroot –opt cacti&gt; /var/www/html/cacti-backup.sql<br>mysqldump -uroot –opt syslog&gt; /var/www/html/syslog.sql</p>
+<h1 id="Gzip-the-whole-folder"><a href="#Gzip-the-whole-folder" class="headerlink" title="Gzip the whole folder"></a>Gzip the whole folder</h1><p>tar -Pcpzf /var/www/backups/$INSTFIL /var/www/html/*</p>
+<h1 id="Remove-the-SQL-Dump"><a href="#Remove-the-SQL-Dump" class="headerlink" title="Remove the SQL Dump"></a>Remove the SQL Dump</h1><p>rm -f /var/www/html/cacti-backup.sql<br>rm -f /var/www/html/syslog.sql</p>
+<p>crontab -e<br><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br>还原<br>将备份文件置于/var/www/html目录下<br>使用如下命令进行MySQL还原<br>source /root/cacti.sql<br>source /root/syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Cacti/" data-id="ciwvtacec00049scyxx4a0lx1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-KickStart" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-KickStart/" class="article-date">
@@ -121,7 +173,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwvhh0l9000lr1cyfintbsvi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwvtacf0000l9scybbvw4j4v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -283,7 +335,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwvhh0kz000dr1cy5swaqgxm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwvtacer000d9scyaob9n0be" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +397,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwvhh0l7000kr1cy0rt1v8vz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwvtacey000k9scy30w4ce4c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -398,7 +450,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwvhh0li000pr1cy0f35035p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwvtacf7000p9scyhmpsy9sx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -524,7 +576,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwvhh0lv000yr1cyoconn55w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwvtacfk000y9scy49i5rnmk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -584,7 +636,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwvhh0lo000tr1cybt83n3n0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwvtacfd000t9scyljddtyxx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -700,7 +752,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwvhh0l5000ir1cyvvbbcybb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwvtacex000i9scyudrmz6mz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -838,7 +890,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwvhh0l1000gr1cy1q4tqqtx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwvtacet000g9scyrh7ni1gx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -876,43 +928,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwvhh0l4000hr1cyixhqvd1i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Domino-10-6-0-41-66-fd-a4-dd-6c-ee" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" class="article-date">
-  <time datetime="2016-12-15T03:09:54.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/">Domino 10.6.0.41 66:fd:a4:dd:6c:ee</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwvhh0mh001sr1cyw8dvdlkt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwvtacev000h9scyl8fxji0q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -956,6 +972,10 @@ class &quot;pxeclients&quot; {
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -969,10 +989,6 @@ class &quot;pxeclients&quot; {
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

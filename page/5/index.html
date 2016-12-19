@@ -61,6 +61,46 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-7-x-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-git/" class="article-date">
+  <time datetime="2016-12-15T06:22:20.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
+<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
+<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
+<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwvtacft001b9scyi15nipix" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-开源资源" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/开源资源/" class="article-date">
@@ -140,7 +180,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwvhh0og004ur1cy0niy73h6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源资源/" data-id="ciwvtaci7004u9scyhm0dgarj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -177,7 +217,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwvhh0of004tr1cyzlcbkwq1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/开源软件/" data-id="ciwvtaci7004v9scygdtyzggv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -214,7 +254,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwvhh0n3002kr1cy1ovl03f1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Twitter-开源软件/" data-id="ciwvtacgt002k9scyuw4xuf5z" class="article-share-link">Share</a>
       
       
     </footer>
@@ -268,7 +308,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwvhh0o3003zr1cyzfor7n8k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/中国-开源项目/" data-id="ciwvtachv00409scymbsk90n9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -305,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwvhh0or005ir1cymg27n70x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/阿里巴巴-开源软件/" data-id="ciwvtacii005j9scyieuprecl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -355,7 +395,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwvhh0n9002vr1cyjt72baic" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu操作系统启用root账户的解决办法/" data-id="ciwvtacgy002v9scyjmmqzplb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -408,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwvhh0n8002ur1cy745ktwee" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu搭建Glusterfs指南/" data-id="ciwvtacgy002u9scyrmvc3gnj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -487,7 +527,7 @@ database user:          root
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/seafile/" data-id="ciwvhh0no003dr1cyq0ru954b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/seafile/" data-id="ciwvtache003d9scytgi16mfm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -534,64 +574,7 @@ database user:          root
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-ssh登录很慢/" data-id="ciwvhh0ns003jr1cystahor11" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-ubuntu-12-04-不显示用户名和路径" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/" class="article-date">
-  <time datetime="2016-12-15T05:33:45.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/ubuntu-12-04-不显示用户名和路径/">ubuntu 12.04 不显示用户名和路径</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ubuntu 12.04 命令行不显示用户名和路径了<br>现象<br>[plain] view plaincopy </p>
-<ol>
-<li>Welcome to Ubuntu 12.04.2 LTS (GNU/Linux 3.5.0-23-generic x86_64) </li>
-<li></li>
-<li><ul>
-<li>Documentation:  <a href="https://help.ubuntu.com/" target="_blank" rel="external">https://help.ubuntu.com/</a> </li>
-</ul>
-</li>
-<li></li>
-<li>System information as of Wed Feb 26 16:31:31 CST 2014 </li>
-<li></li>
-<li>Graph this data and manage this system at <a href="https://landscape.canonical.com/" target="_blank" rel="external">https://landscape.canonical.com/</a> </li>
-<li></li>
-<li></li>
-<li>Last login: Wed Feb 26 16:29:08 2014 from 10.0.17.139 </li>
-<li>$  </li>
-<li>$  </li>
-<li>$  </li>
-<li>$<br>分析和解决方案<br>一般的情况都认为是环境变量PS1的问题，可以手动设置下PS1环境变量。如：<br>[plain] view plaincopy </li>
-<li>export PS1=[<code>hostname</code>/<code>whoami</code>]$<br>如果情况未改变，请检查/etc/passwd的权限。<br>/etc/passwd的权限应该为644。</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-不显示用户名和路径/" data-id="ciwvhh0ns003kr1cyv3eaqfu7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/ubuntu-12-04-ssh登录很慢/" data-id="ciwvtachi003j9scyoyojjmmz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -635,6 +618,10 @@ database user:          root
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -648,10 +635,6 @@ database user:          root
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

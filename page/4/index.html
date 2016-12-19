@@ -61,6 +61,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Nagios" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Nagios/" class="article-date">
+  <time datetime="2016-12-19T00:57:21.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Nagios/">Nagios</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@cluster3 ~]# crontab -e<br><em>/5 </em> <em> </em> <em> ntpdate 202.120.2.101 &gt; /dev/null 2&gt;&amp;1<br>00 03 </em> <em> </em> sh /root/copy.sh<br>00 06 <em> </em> * sh /root/nagiosbackup.sh<br>~<br>[root@cluster3 ~]# cat /root/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /etc/httpd/ /home/backup/<br>cp -r /usr/local/ /home/backup/<br>[root@cluster3 ~]#<br>[root@cluster3 ~]# cat /root/nagiosbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_nagios”<br>tar -cjPf $basedir/nagios.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=nagios.$(date +%Y-%m-%d).tar.bz2<br>rmfile=nagios.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@cluster3 ~]#</p>
+<p>[root@localhost ~]# vim copy.sh</p>
+<p>#!/bin/bash<br>cp -r /etc/httpd/ /home/backup/<br>cp -r /usr/local/ /home/backup/</p>
+<p>vim nagiosbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_nagios”<br>tar -cjPf $basedir/nagios.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=nagios.$(date +%Y-%m-%d).tar.bz2<br>rmfile=nagios.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
+<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/nagiosbackup.sh</p>
+<p>[root@cluster3 ~]# /usr/local/nagios/libexec/check_nrpe -H 10.6.100.35<br>I (0,4,1,73 2012-12-17) seem to be doing fine…<br>[root@cluster3 ~]# /etc/rc.d/init.d/nagios restart<br>Running configuration check…done.<br>Stopping nagios: .done.<br>Starting nagios: done.<br>[root@cluster3 ~]#</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Nagios/" data-id="ciwvtacgo00299scyk6ftoezd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Squid" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/Squid/" class="article-date">
@@ -136,7 +181,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Squid/" data-id="ciwvhh0n2002jr1cyzryoov7x" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Squid/" data-id="ciwvtacgs002j9scyu97d28ru" class="article-share-link">Share</a>
       
       
     </footer>
@@ -224,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Squid-1/" data-id="ciwvhh0lu000xr1cyx7za02iu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Squid-1/" data-id="ciwvtacfj000x9scyybnvbapf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -386,7 +431,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Cobbler-1/" data-id="ciwvhh0ky000cr1cy424kcw7y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Cobbler-1/" data-id="ciwvtaceq000c9scy7le9rene" class="article-share-link">Share</a>
       
       
     </footer>
@@ -465,7 +510,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Template/" data-id="ciwvhh0lw000zr1cygr4u1p0f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Template/" data-id="ciwvtacfk000z9scynziurt1v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -535,7 +580,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-KickStart-1/" data-id="ciwvhh0kp0006r1cya4wzzf4t" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-KickStart-1/" data-id="ciwvtaceh00069scyuc4xixm7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -604,7 +649,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/alfresco/" data-id="ciwvhh0na002xr1cyuvjyzq03" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/alfresco/" data-id="ciwvtacgz002x9scy3uxqbcje" class="article-share-link">Share</a>
       
       
     </footer>
@@ -641,7 +686,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/书单/" data-id="ciwvhh0o30040r1cyjmvmmdvx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/书单/" data-id="ciwvtachv00419scyv3hxzlqn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -692,7 +737,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwvhh0mv0028r1cyyut7ztnt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NGINX日志切割/" data-id="ciwvtacgn00289scyjqxs6pn5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -729,47 +774,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwvhh0lx0011r1cyr49oavzk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-7-x-git" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-7-x-git/" class="article-date">
-  <time datetime="2016-12-15T06:22:20.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
-<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
-<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
-<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-git/" data-id="ciwvhh0m5001br1cyy70pcfqc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-安装SVN/" data-id="ciwvtacfl00119scy0pboyhyh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -813,6 +818,10 @@ class &quot;pxeclients&quot; {
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -826,10 +835,6 @@ class &quot;pxeclients&quot; {
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

@@ -61,6 +61,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Ubuntu-14-04-预配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Ubuntu-14-04-预配/" class="article-date">
+  <time datetime="2016-12-19T01:08:13.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>apt-get install vim<br>apt-get install openssh-client=1:6.6p1-2ubuntu1<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
+<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true</p>
+<p>apt-get install lrzsz</p>
+<p>root@ubuntu:~# mkdir /usr/lib/java<br>root@ubuntu:~# mv jdk1.8.0_91/ /usr/lib/java<br>root@ubuntu:~# cd /usr/lib/java/jdk1.8.0_91/<br>root@ubuntu:/usr/lib/java/jdk1.8.0_91#<br>chmod a+x -R /usr/lib/java/jdk1.8.0_91/</p>
+<p>vim ~/.bashrc</p>
+<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_91/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
+<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
+<p>apt-get remove openjdk*<br>update-alternatives –install /usr/bin/java java /usr/lib/java/jdk1.8.0_91/bin/java 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/java to provide /usr/bin/java (java) in auto mode<br>update-alternatives –install /usr/bin/javac javac /usr/lib/java/jdk1.8.0_91/bin/javac 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/javac to provide /usr/bin/javac (javac) in auto mode<br>update-alternatives –config java<br>There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/java/jdk1.8.0_91/bin/java<br>Nothing to configure.<br>update-alternatives –config javac<br>There is only one alternative in link group javac (providing /usr/bin/javac): /usr/lib/java/jdk1.8.0_91/bin/javac<br>Nothing to configure.<br>java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
+<p>reboot<br>快照</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Ubuntu-14-04-预配/" data-id="ciwvtacgv002p9scyhjy5tkj6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Centos-7-x-预配-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/Centos-7-x-预配-1/" class="article-date">
@@ -133,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="ciwvhh0mf001nr1cyzt04edoi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="ciwvtacg4001n9scykepjy3ql" class="article-share-link">Share</a>
       
       
     </footer>
@@ -186,7 +231,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="ciwvhh0lw0010r1cy8icib8wr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="ciwvtacfl00109scyip7p76e2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +281,7 @@
 <p>import smtplib<br>from email.mime.text import MIMEText<br>import sys</p>
 <p>mail_host = ‘smtp.126.com’<br>mail_user = ‘yanjin198620@126.com’<br>mail_pass = ‘YANJINrenjia0626’<br>mail_postfix = ‘126.com’</p>
 <p>#以上内容根据你的实际情况进行修改</p>
-<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x22;&#x2b;&#109;&#97;&#x69;&#x6c;&#x5f;&#117;&#115;&#x65;&#114;&#43;&#34;&#x40;&#34;&#43;&#x6d;&#97;&#x69;&#108;&#x5f;&#x70;&#x6f;&#x73;&#116;&#x66;&#105;&#120;&#43;&#x22;">&#x22;&#x2b;&#109;&#97;&#x69;&#x6c;&#x5f;&#117;&#115;&#x65;&#114;&#43;&#34;&#x40;&#34;&#43;&#x6d;&#97;&#x69;&#108;&#x5f;&#x70;&#x6f;&#x73;&#116;&#x66;&#105;&#120;&#43;&#x22;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
+<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#97;&#x69;&#108;&#x74;&#111;&#x3a;&#34;&#43;&#109;&#97;&#105;&#108;&#x5f;&#117;&#115;&#x65;&#114;&#x2b;&#34;&#64;&#34;&#x2b;&#x6d;&#97;&#x69;&#108;&#95;&#112;&#111;&#115;&#x74;&#x66;&#105;&#120;&#x2b;&#34;">&#34;&#43;&#109;&#97;&#105;&#108;&#x5f;&#117;&#115;&#x65;&#114;&#x2b;&#34;&#64;&#34;&#x2b;&#x6d;&#97;&#x69;&#108;&#95;&#112;&#111;&#115;&#x74;&#x66;&#105;&#120;&#x2b;&#34;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
 <pre><code>try:
     s = smtplib.SMTP()
     s.connect(mail_host)
@@ -263,7 +308,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-安装zabbix/" data-id="ciwvhh0me001mr1cy3u3oouum" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-安装zabbix/" data-id="ciwvtacg3001m9scyj8pn1ddf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -323,7 +368,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装sendmail/" data-id="ciwvhh0ly0014r1cykg2p30vr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装sendmail/" data-id="ciwvtacfn00149scylc0s3hlz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -386,7 +431,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装inotify-rsync/" data-id="ciwvhh0ly0013r1cy32qr1ryd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装inotify-rsync/" data-id="ciwvtacfm00139scypaia0004" class="article-share-link">Share</a>
       
       
     </footer>
@@ -443,7 +488,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS-6-x-下的迁移/" data-id="ciwvhh0ng0038r1cyps0hcztu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS-6-x-下的迁移/" data-id="ciwvtach500389scyxdia09a9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -542,7 +587,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-DHCP-1/" data-id="ciwvhh0m9001fr1cyxf7wby7o" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-DHCP-1/" data-id="ciwvtacfx001f9scyrrbnkzgm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -642,7 +687,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Server-1/" data-id="ciwvhh0lp000ur1cyh701cblc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Server-1/" data-id="ciwvtacfe000u9scy7s9dhp1e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -694,52 +739,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CactiEZ/" data-id="ciwvhh0kn0005r1cyddfttq5h" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Nagios" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Nagios/" class="article-date">
-  <time datetime="2016-12-19T00:57:21.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Nagios/">Nagios</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[root@cluster3 ~]# crontab -e<br><em>/5 </em> <em> </em> <em> ntpdate 202.120.2.101 &gt; /dev/null 2&gt;&amp;1<br>00 03 </em> <em> </em> sh /root/copy.sh<br>00 06 <em> </em> * sh /root/nagiosbackup.sh<br>~<br>[root@cluster3 ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/httpd/ /home/backup/<br>cp -r /usr/local/ /home/backup/<br>[root@cluster3 ~]#<br>[root@cluster3 ~]# cat /root/nagiosbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_nagios”<br>tar -cjPf $basedir/nagios.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=nagios.$(date +%Y-%m-%d).tar.bz2<br>rmfile=nagios.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@cluster3 ~]#</p>
-<p>[root@localhost ~]# vim copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/httpd/ /home/backup/<br>cp -r /usr/local/ /home/backup/</p>
-<p>vim nagiosbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_nagios”<br>tar -cjPf $basedir/nagios.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=nagios.$(date +%Y-%m-%d).tar.bz2<br>rmfile=nagios.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/nagiosbackup.sh</p>
-<p>[root@cluster3 ~]# /usr/local/nagios/libexec/check_nrpe -H 10.6.100.35<br>I (0,4,1,73 2012-12-17) seem to be doing fine…<br>[root@cluster3 ~]# /etc/rc.d/init.d/nagios restart<br>Running configuration check…done.<br>Stopping nagios: .done.<br>Starting nagios: done.<br>[root@cluster3 ~]#</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Nagios/" data-id="ciwvhh0mw0029r1cynczu3xuj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CactiEZ/" data-id="ciwvtacee00059scyfkbf2q34" class="article-share-link">Share</a>
       
       
     </footer>
@@ -783,6 +783,10 @@ max-lease-time 72000;
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -796,10 +800,6 @@ max-lease-time 72000;
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

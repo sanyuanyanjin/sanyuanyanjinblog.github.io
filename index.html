@@ -61,6 +61,75 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-zebra" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/zebra/" class="article-date">
+  <time datetime="2016-12-19T08:20:02.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/zebra/">zebra</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>apt-get -y install g++<br>apt-get -y install gawk<br>apt-get -y install libncurses5-dev<br>apt-get -y install libreadline6 libreadline6-dev<br>cd quagga-0.99.21/<br>./configure –enable-vtysh –enable-zebra –enable-bgpd –enable-user=root –enable-group=root -enable-vty-group=root<br>~/quagga-0.99.21# make<br>~/quagga-0.99.21# make install<br>ldconfig</p>
+<p>cd /usr/local/etc/<br>cp zebra.conf.sample zebra.conf<br>vim zebra.conf<br>hostname RouterB<br>password zebra<br>enable password zebra</p>
+<p>zebra -d<br>netstat -tunlp | grep zebra<br>tcp        0      0 0.0.0.0:2601            0.0.0.0:<em>               LISTEN      13871/zebra<br>tcp6       0      0 :::2601                 :::</em>                    LISTEN      13871/zebra     </p>
+<p>telnet localhost 2601<br>zebra</p>
+<p>cd /usr/local/etc/<br>cp ripd.conf.sample ripd.conf<br>vim ripd.conf<br>hostname RouterA_Rip<br>password zebra<br>enable password zebra</p>
+<p>router rip<br> version 2<br> network 192.168.1.0/24<br> network 192.168.200.0/24</p>
+<p>interface eth1<br> no ip rip authentication mode<br>log file /usr/local/etc/ripd.log</p>
+<p>vim ripd.conf<br>hostname RouterB_Rip<br>password zebra<br>enable password zebra</p>
+<p>router rip<br> version 2<br> network 192.168.1.0/24<br> network 192.168.100.0/24</p>
+<p>interface eth1<br> no ip rip authentication mode<br>log file /usr/local/etc/ripd.log</p>
+<p>ripd -d</p>
+<p>netstat -tunlp | grep ripd<br>tcp        0      0 0.0.0.0:2602            0.0.0.0:<em>               LISTEN      14674/ripd<br>tcp6       0      0 :::2602                 :::</em>                    LISTEN      14674/ripd<br>udp        0      0 0.0.0.0:520             0.0.0.0:*                           14674/ripd    </p>
+<p>kill 14674</p>
+<p>telnet localhost 2601<br>show ip route</p>
+<p>/usr/local/etc# cp ospfd.conf.sample ospfd.conf<br>/usr/local/etc# vim ospfd.conf<br>hostname RouterA_OSPF<br>password zebra<br>enable password zebra<br>router ospf<br> ospf router-id 192.168.1.200<br> network 192.168.1.0/24 area 0<br> network 192.168.200.0/24 area 2<br>debug ospf event<br>log file /usr/local/etc/ospfd.log</p>
+<p>/usr/local/etc# vim ospfd.conf<br>hostname RouterB_OSPF<br>password zebra<br>enable password zebra<br>router ospf<br> ospf router-id 192.168.1.100<br> network 192.168.1.0/24 area 0<br> network 192.168.100.0/24 area 2<br>debug ospf event<br>log file /usr/local/etc/ospfd.log</p>
+<p>ospfd -d<br>netstat -tunlp | grep ospfd<br>tcp        0      0 0.0.0.0:2604            0.0.0.0:<em>               LISTEN      16414/ospfd<br>tcp6       0      0 :::2604                 :::</em>                    LISTEN      16414/ospfd     </p>
+<p>telnet localhost 2604<br>show ip ospf route<br>show ip ospf interface<br>show ip ospf neighbor<br>show ip ospf database</p>
+<p>telnet localhost 2601<br>show ip route </p>
+<p>tail -f /usr/local/etc/ospfd.log</p>
+<p>ps -ef | grep zebra</p>
+<p>netstat -tunlp | grep ospfd<br>tcp        0      0 0.0.0.0:2604            0.0.0.0:<em>               LISTEN      16414/ospfd<br>tcp6       0      0 :::2604                 :::</em>                    LISTEN      16414/ospfd  </p>
+<p>kill 16414</p>
+<p>/usr/local/etc# cp bgpd.conf.sample bgpd.conf<br>vim bgpd.conf<br>hostname RouterA_Bgp<br>password zebra<br>enable password zebra<br>router bgp 7675<br> network 192.168.1.0/24<br> network 192.168.200.0/24<br> neighbor 192.168.1.100 remote-as 7676</p>
+<p>debug bgp events<br>debug bgp keepalives<br>debug bgp updates</p>
+<p>log file /usr/local/etc/bgpd.log</p>
+<p>vim bgpd.conf<br>hostname RouterB_Bgp<br>password zebra<br>enable password zebra<br>router bgp 7676<br> network 192.168.1.0/24<br> network 192.168.100.0/24<br> neighbor 192.168.1.200 remote-as 7675</p>
+<p>debug bgp events<br>debug bgp keepalives<br>debug bgp updates</p>
+<p>log file /usr/local/etc/bgpd.log</p>
+<p>bgpd -d<br>netstat -tunlp | grep bgpd<br>tcp        0      0 0.0.0.0:2605            0.0.0.0:<em>               LISTEN      27642/bgpd<br>tcp        0      0 0.0.0.0:179             0.0.0.0:</em>               LISTEN      27642/bgpd<br>tcp6       0      0 :::2605                 :::<em>                    LISTEN      27642/bgpd<br>tcp6       0      0 :::179                  :::</em>                    LISTEN      27642/bgpd<br>kill 27642</p>
+<p>telnet localhost 2605<br>show ip bgp</p>
+<p>tail -f /usr/local/etc/bgpd.log</p>
+<p>telnet localhost 2601<br>show ip route</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="ciwvtacht003v9scyl4koayj9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-moodle在CentOS下的迁移" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/moodle在CentOS下的迁移/" class="article-date">
@@ -108,7 +177,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="ciwvhh0nm0039r1cyzwu5j6v3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="ciwvtach600399scybam8yzle" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="ciwvhh0n3002lr1cyjhztw4qs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="ciwvtacgt002l9scybkqvftq6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -205,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="ciwvhh0ma001ir1cysqdo6g93" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="ciwvtacfz001i9scyeu42r2vv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -266,7 +335,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="ciwvhh0mf001or1cypxgvxtlr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="ciwvtacg4001o9scyqn71b8on" class="article-share-link">Share</a>
       
       
     </footer>
@@ -332,7 +401,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="ciwvhh0m7001dr1cy5dydk7xc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="ciwvtacfv001d9scywjqxzq6w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -391,7 +460,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="ciwvhh0m00015r1cygmc6lcld" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="ciwvtacfo00159scyjjg4nkuc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -470,7 +539,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="ciwvhh0kv0009r1cyqtslcev2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="ciwvtacen00099scymdl7wdk7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -509,7 +578,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="ciwvhh0kv0008r1cyuzqymzuf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="ciwvtacen00089scyoq21z5lx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -564,58 +633,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="ciwvhh0lk000qr1cym18gh7zc" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-RHEL-6-x" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/RHEL-6-x/" class="article-date">
-  <time datetime="2016-12-19T02:24:16.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/RHEL-6-x/">RHEL 6.x</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>#关闭iptables<br>/etc/init.d/iptables stop<br>chkconfig iptables off</p>
-<p>#关闭selinux<br>setenforce 0<br>sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/‘ /etc/selinux/config  </p>
-<p>#NTP同步<br>ntpdate 0.rhel.pool.ntp.org<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 0.rhel.pool.ntp.org;/usr/sbin/hwclock -w</p>
-<p>ntpdate 202.120.2.101<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 202.120.2.101;/usr/sbin/hwclock -w</p>
-<p>#添加hosts<br>vi /etc/hosts<br>192.168.1.10 master<br>192.168.1.11 client</p>
-<p>#puppet<br><a href="http://downloads.puppetlabs.com/puppet/" target="_blank" rel="external">http://downloads.puppetlabs.com/puppet/</a></p>
-<p>#facter<br><a href="http://downloads.puppetlabs.com/facter/" target="_blank" rel="external">http://downloads.puppetlabs.com/facter/</a></p>
-<p>#ruby<br><a href="https://www.ruby-lang.org/zh_cn/downloads/" target="_blank" rel="external">https://www.ruby-lang.org/zh_cn/downloads/</a></p>
-<p>#配置CentOS YUM源</p>
-<p>cd /etc/yum.repos.d/<br>cp rhel-source.repo rhel-source.repo.bak<br>vi rhel-source.repo</p>
-<p>[base]<br>name=CentOS-$releasever-Base<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
-<p>[updates]<br>name=CentOS-$releasever-Updates<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
-<p>[extras]<br>name=CentOS-$releasever-Extras<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
-<p>[centosplus]<br>name=CentOS-$releasever-Plus<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1</p>
-<p>yum clean all<br>yum makecache<br>yum repolist</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/RHEL-6-x/" data-id="ciwvhh0n1002gr1cyk5h6pc96" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="ciwvtacf9000q9scy4fkzayyx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -659,6 +677,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -672,10 +694,6 @@
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

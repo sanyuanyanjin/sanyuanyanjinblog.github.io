@@ -61,6 +61,57 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-RHEL-6-x" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/RHEL-6-x/" class="article-date">
+  <time datetime="2016-12-19T02:24:16.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/RHEL-6-x/">RHEL 6.x</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#关闭iptables<br>/etc/init.d/iptables stop<br>chkconfig iptables off</p>
+<p>#关闭selinux<br>setenforce 0<br>sed -i ‘s/SELINUX=enforcing/SELINUX=disabled/‘ /etc/selinux/config  </p>
+<p>#NTP同步<br>ntpdate 0.rhel.pool.ntp.org<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 0.rhel.pool.ntp.org;/usr/sbin/hwclock -w</p>
+<p>ntpdate 202.120.2.101<br>crontab -e<br>0 0 <em> </em> * /usr/sbin/ntpdate 202.120.2.101;/usr/sbin/hwclock -w</p>
+<p>#添加hosts<br>vi /etc/hosts<br>192.168.1.10 master<br>192.168.1.11 client</p>
+<p>#puppet<br><a href="http://downloads.puppetlabs.com/puppet/" target="_blank" rel="external">http://downloads.puppetlabs.com/puppet/</a></p>
+<p>#facter<br><a href="http://downloads.puppetlabs.com/facter/" target="_blank" rel="external">http://downloads.puppetlabs.com/facter/</a></p>
+<p>#ruby<br><a href="https://www.ruby-lang.org/zh_cn/downloads/" target="_blank" rel="external">https://www.ruby-lang.org/zh_cn/downloads/</a></p>
+<p>#配置CentOS YUM源</p>
+<p>cd /etc/yum.repos.d/<br>cp rhel-source.repo rhel-source.repo.bak<br>vi rhel-source.repo</p>
+<p>[base]<br>name=CentOS-$releasever-Base<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[updates]<br>name=CentOS-$releasever-Updates<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[extras]<br>name=CentOS-$releasever-Extras<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1<br>gpgkey=<a href="http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6" target="_blank" rel="external">http://mirrors.163.com/centos/RPM-GPG-KEY-CentOS-6</a></p>
+<p>[centosplus]<br>name=CentOS-$releasever-Plus<br>baseurl=<a href="http://centos.ustc.edu.cn/centos/6/os/x86_64/" target="_blank" rel="external">http://centos.ustc.edu.cn/centos/6/os/x86_64/</a><br>gpgcheck=1</p>
+<p>yum clean all<br>yum makecache<br>yum repolist</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/RHEL-6-x/" data-id="ciwvtacgr002g9scyz6fatm8f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Server-Template" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/Server-Template/" class="article-date">
@@ -151,7 +202,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Server-Template/" data-id="ciwvhh0n2002ir1cykt2t2cc3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Server-Template/" data-id="ciwvtacgs002h9scydf9zyhmf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -212,7 +263,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-7-x/" data-id="ciwvhh0m5001cr1cyaejg08ei" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-7-x/" data-id="ciwvtacft001c9scyck09vbsp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -305,7 +356,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/DHCP/" data-id="ciwvhh0mh001rr1cy11nlcnc6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/DHCP/" data-id="ciwvtacg6001r9scyaa7zs766" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +431,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/E-learning/" data-id="ciwvhh0mi001tr1cylfitccwi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/E-learning/" data-id="ciwvtacg7001t9scykcw4jh3r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -452,7 +503,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="ciwvhh0n9002wr1cyhjz15zb9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="ciwvtacgz002w9scyfw3qmyav" class="article-share-link">Share</a>
       
       
     </footer>
@@ -504,7 +555,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Cacti-1/" data-id="ciwvhh0kl0003r1cyeyffsdyn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Cacti-1/" data-id="ciwvtacec00039scyr1h1aitb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -589,7 +640,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="ciwvhh0mz002br1cy5st2vm8y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="ciwvtacgp002b9scyf2prfa03" class="article-share-link">Share</a>
       
       
     </footer>
@@ -627,7 +678,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="ciwvhh0lx0012r1cyjdiza6a1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="ciwvtacfm00129scyhde0wlwf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -698,52 +749,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="ciwvhh0ma001hr1cyhymhioah" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-预配" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Ubuntu-14-04-预配/" class="article-date">
-  <time datetime="2016-12-19T01:08:13.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>apt-get install vim<br>apt-get install openssh-client=1:6.6p1-2ubuntu1<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
-<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true</p>
-<p>apt-get install lrzsz</p>
-<p>root@ubuntu:~# mkdir /usr/lib/java<br>root@ubuntu:~# mv jdk1.8.0_91/ /usr/lib/java<br>root@ubuntu:~# cd /usr/lib/java/jdk1.8.0_91/<br>root@ubuntu:/usr/lib/java/jdk1.8.0_91#<br>chmod a+x -R /usr/lib/java/jdk1.8.0_91/</p>
-<p>vim ~/.bashrc</p>
-<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_91/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
-<p>apt-get remove openjdk*<br>update-alternatives –install /usr/bin/java java /usr/lib/java/jdk1.8.0_91/bin/java 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/java to provide /usr/bin/java (java) in auto mode<br>update-alternatives –install /usr/bin/javac javac /usr/lib/java/jdk1.8.0_91/bin/javac 300<br>update-alternatives: using /usr/lib/java/jdk1.8.0_91/bin/javac to provide /usr/bin/javac (javac) in auto mode<br>update-alternatives –config java<br>There is only one alternative in link group java (providing /usr/bin/java): /usr/lib/java/jdk1.8.0_91/bin/java<br>Nothing to configure.<br>update-alternatives –config javac<br>There is only one alternative in link group javac (providing /usr/bin/javac): /usr/lib/java/jdk1.8.0_91/bin/javac<br>Nothing to configure.<br>java -version<br>java version “1.8.0_91”<br>Java(TM) SE Runtime Environment (build 1.8.0_91-b14)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.91-b14, mixed mode)</p>
-<p>reboot<br>快照</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Ubuntu-14-04-预配/" data-id="ciwvhh0n5002pr1cy06572ucm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="ciwvtacfy001h9scyjy5y46bm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -787,6 +793,10 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -800,10 +810,6 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>

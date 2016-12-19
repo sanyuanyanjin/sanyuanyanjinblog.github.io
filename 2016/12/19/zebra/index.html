@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>zebra | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="apt-get -y install g++apt-get -y install gawkapt-get -y install libncurses5-devapt-get -y install libreadline6 libreadline6-devcd quagga-0.99.21/./configure –enable-vtysh –enable-zebra –enable-bgpd –e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="zebra">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/zebra/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="apt-get -y install g++apt-get -y install gawkapt-get -y install libncurses5-devapt-get -y install libreadline6 libreadline6-devcd quagga-0.99.21/./configure –enable-vtysh –enable-zebra –enable-bgpd –e">
+<meta property="og:updated_time" content="2016-12-19T08:20:24.089Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="zebra">
+<meta name="twitter:description" content="apt-get -y install g++apt-get -y install gawkapt-get -y install libncurses5-devapt-get -y install libreadline6 libreadline6-devcd quagga-0.99.21/./configure –enable-vtysh –enable-zebra –enable-bgpd –e">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-zebra" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/zebra/" class="article-date">
+  <time datetime="2016-12-19T08:20:02.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      zebra
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>apt-get -y install g++<br>apt-get -y install gawk<br>apt-get -y install libncurses5-dev<br>apt-get -y install libreadline6 libreadline6-dev<br>cd quagga-0.99.21/<br>./configure –enable-vtysh –enable-zebra –enable-bgpd –enable-user=root –enable-group=root -enable-vty-group=root<br>~/quagga-0.99.21# make<br>~/quagga-0.99.21# make install<br>ldconfig</p>
+<p>cd /usr/local/etc/<br>cp zebra.conf.sample zebra.conf<br>vim zebra.conf<br>hostname RouterB<br>password zebra<br>enable password zebra</p>
+<p>zebra -d<br>netstat -tunlp | grep zebra<br>tcp        0      0 0.0.0.0:2601            0.0.0.0:<em>               LISTEN      13871/zebra<br>tcp6       0      0 :::2601                 :::</em>                    LISTEN      13871/zebra     </p>
+<p>telnet localhost 2601<br>zebra</p>
+<p>cd /usr/local/etc/<br>cp ripd.conf.sample ripd.conf<br>vim ripd.conf<br>hostname RouterA_Rip<br>password zebra<br>enable password zebra</p>
+<p>router rip<br> version 2<br> network 192.168.1.0/24<br> network 192.168.200.0/24</p>
+<p>interface eth1<br> no ip rip authentication mode<br>log file /usr/local/etc/ripd.log</p>
+<p>vim ripd.conf<br>hostname RouterB_Rip<br>password zebra<br>enable password zebra</p>
+<p>router rip<br> version 2<br> network 192.168.1.0/24<br> network 192.168.100.0/24</p>
+<p>interface eth1<br> no ip rip authentication mode<br>log file /usr/local/etc/ripd.log</p>
+<p>ripd -d</p>
+<p>netstat -tunlp | grep ripd<br>tcp        0      0 0.0.0.0:2602            0.0.0.0:<em>               LISTEN      14674/ripd<br>tcp6       0      0 :::2602                 :::</em>                    LISTEN      14674/ripd<br>udp        0      0 0.0.0.0:520             0.0.0.0:*                           14674/ripd    </p>
+<p>kill 14674</p>
+<p>telnet localhost 2601<br>show ip route</p>
+<p>/usr/local/etc# cp ospfd.conf.sample ospfd.conf<br>/usr/local/etc# vim ospfd.conf<br>hostname RouterA_OSPF<br>password zebra<br>enable password zebra<br>router ospf<br> ospf router-id 192.168.1.200<br> network 192.168.1.0/24 area 0<br> network 192.168.200.0/24 area 2<br>debug ospf event<br>log file /usr/local/etc/ospfd.log</p>
+<p>/usr/local/etc# vim ospfd.conf<br>hostname RouterB_OSPF<br>password zebra<br>enable password zebra<br>router ospf<br> ospf router-id 192.168.1.100<br> network 192.168.1.0/24 area 0<br> network 192.168.100.0/24 area 2<br>debug ospf event<br>log file /usr/local/etc/ospfd.log</p>
+<p>ospfd -d<br>netstat -tunlp | grep ospfd<br>tcp        0      0 0.0.0.0:2604            0.0.0.0:<em>               LISTEN      16414/ospfd<br>tcp6       0      0 :::2604                 :::</em>                    LISTEN      16414/ospfd     </p>
+<p>telnet localhost 2604<br>show ip ospf route<br>show ip ospf interface<br>show ip ospf neighbor<br>show ip ospf database</p>
+<p>telnet localhost 2601<br>show ip route </p>
+<p>tail -f /usr/local/etc/ospfd.log</p>
+<p>ps -ef | grep zebra</p>
+<p>netstat -tunlp | grep ospfd<br>tcp        0      0 0.0.0.0:2604            0.0.0.0:<em>               LISTEN      16414/ospfd<br>tcp6       0      0 :::2604                 :::</em>                    LISTEN      16414/ospfd  </p>
+<p>kill 16414</p>
+<p>/usr/local/etc# cp bgpd.conf.sample bgpd.conf<br>vim bgpd.conf<br>hostname RouterA_Bgp<br>password zebra<br>enable password zebra<br>router bgp 7675<br> network 192.168.1.0/24<br> network 192.168.200.0/24<br> neighbor 192.168.1.100 remote-as 7676</p>
+<p>debug bgp events<br>debug bgp keepalives<br>debug bgp updates</p>
+<p>log file /usr/local/etc/bgpd.log</p>
+<p>vim bgpd.conf<br>hostname RouterB_Bgp<br>password zebra<br>enable password zebra<br>router bgp 7676<br> network 192.168.1.0/24<br> network 192.168.100.0/24<br> neighbor 192.168.1.200 remote-as 7675</p>
+<p>debug bgp events<br>debug bgp keepalives<br>debug bgp updates</p>
+<p>log file /usr/local/etc/bgpd.log</p>
+<p>bgpd -d<br>netstat -tunlp | grep bgpd<br>tcp        0      0 0.0.0.0:2605            0.0.0.0:<em>               LISTEN      27642/bgpd<br>tcp        0      0 0.0.0.0:179             0.0.0.0:</em>               LISTEN      27642/bgpd<br>tcp6       0      0 :::2605                 :::<em>                    LISTEN      27642/bgpd<br>tcp6       0      0 :::179                  :::</em>                    LISTEN      27642/bgpd<br>kill 27642</p>
+<p>telnet localhost 2605<br>show ip bgp</p>
+<p>tail -f /usr/local/etc/bgpd.log</p>
+<p>telnet localhost 2601<br>show ip route</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="ciwvtacht003v9scyl4koayj9" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/19/moodle在CentOS下的迁移/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">moodle在CentOS下的迁移</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

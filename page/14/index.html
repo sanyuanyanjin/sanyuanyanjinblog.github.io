@@ -61,6 +61,43 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
+  <time datetime="2016-12-13T01:59:07.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/">Linux服务器遭受攻击后的一般处理过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。<br>一、处理服务器遭受攻击的一般思路<br>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。<br>1.切断网络<br>所有的攻击都来自于网络，因此，在得知系统正遭受黑客的攻击后，首先要做的就是断开服务器的网络连接，这样除了能切断攻击源之外，也能保护服务器所在网络的其他主机。<br>2.查找攻击源<br>可以通过分析系统日志或登录日志文件，查看可疑信息，同时也要查看系统都打开了哪些端口，运行哪些进程，并通过这些进程分析哪些是可疑的程序。这个过程要根据经验和综合判断能力进行追查和分析。下面的章节会详细介绍这个过程的处理思路。<br>3.分析入侵原因和途径<br>既然系统遭到入侵，那么原因是多方面的，可能是系统漏洞，也可能是程序漏洞，一定要查清楚是哪个原因导致的，并且还要查清楚遭到攻击的途径，找到攻击源，因为只有知道了遭受攻击的原因和途径，才能删除攻击源同时进行漏洞的修复。<br>4.备份用户数据<br>在服务器遭受攻击后，需要立刻备份服务器上的用户数据，同时也要查看这些数据中是否隐藏着攻击源。如果攻击源在用户数据中，一定要彻底删除，然后将用户数据备份到一个安全的地方。<br>5.重新安装系统<br>永远不要认为自己能彻底清除攻击源，因为没有人能比黑客更了解攻击程序，在服务器遭到攻击后，最安全也最简单的方法就是重新安装系统，因为大部分攻击程序都会依附在系统文件或者内核中，所以重新安装系统才能彻底清除攻击源。<br>6.修复程序或系统漏洞<br>在发现系统漏洞或者应用程序漏洞后，首先要做的就是修复系统漏洞或者更改程序bug，因为只有将程序的漏洞修复完毕才能正式在服务器上运行。<br>7.恢复数据和连接网络<br>将备份的数据重新复制到新安装的服务器上，然后开启服务，最后将服务器开启网络连接，对外提供服务。<br>二、检查并锁定可疑用户<br>当发现服务器遭受攻击后，首先要切断网络连接，但是在有些情况下，比如无法马上切断网络连接时，就必须登录系统查看是否有可疑用户，如果有可疑用户登录了系统，那么需要马上将这个用户锁定，然后中断此用户的远程连接。<br>1.登录系统查看可疑用户<br>通过root用户登录，然后执行“w”命令即可列出所有登录过系统的用户。<br>通过这个输出可以检查是否有可疑或者不熟悉的用户登录，同时还可以根据用户名以及用户登录的源地址和它们正在运行的进程来判断他们是否为非法用户。<br>2.锁定可疑用户<br>一旦发现可疑用户，就要马上将其锁定，例如上面执行“w”命令后发现nobody用户应该是个可疑用户（因为nobody默认情况下是没有登录权限的），于是首先锁定此用户，执行如下操作：<br>[root@server ~]# passwd -l nobody<br>锁定之后，有可能此用户还处于登录状态，于是还要将此用户踢下线，根据上面“w”命令的输出，即可获得此用户登录进行的pid值，操作如下：<br>[root@server ~]# ps -ef|grep @pts/3<br>531 6051 6049 0 19:23 ? 00:00:00 sshd: nobody@pts/3<br>[root@server ~]# kill -9 6051<br>这样就将可疑用户nobody从线上踢下去了。如果此用户再次试图登录它已经无法登录了。<br>3.通过last命令查看用户登录事件<br>last命令记录着所有用户登录系统的日志，可以用来查找非授权用户的登录事件，而last命令的输出结果来源于/var/log/wtmp文件，稍有经验的入侵者都会删掉/var/log/wtmp以清除自己行踪，但是还是会露出蛛丝马迹在此文件中的。<br>三、查看系统日志<br>查 看系统日志是查找攻击源最好的方法，可查的系统日志有/var/log/messages、/var/log/secure等，这两个日志文件可以记录软 件的运行状态以及远程用户的登录状态，还可以查看每个用户目录下的.bash_history文件，特别是/root目录下的.bash_history 文件，这个文件中记录着用户执行的所有历史命令。<br>四、检查并关闭系统可疑进程<br>检查可疑进程的命令很多，例如ps、top等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看：<br>首先通过pidof命令可以查找正在运行的进程PID，例如要查找sshd进程的PID，执行如下命令：<br>1<br>2<br>[root@server ~]# pidof sshd<br>13276 12942 4284<br>然后进入内存目录，查看对应PID目录下exe文件的信息：<br>1<br>2<br>[root@server ~]# ls -al /proc/13276/exe<br>lrwxrwxrwx 1 root root 0 Oct 4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd<br>这样就找到了进程对应的完整执行路径。如果还有查看文件的句柄，可以查看如下目录：<br>[root@server ~]# ls -al /proc/13276/fd<br>通过这种方式基本可以找到任何进程的完整执行信息，此外还有很多类似的命令可以帮助系统运维人员查找可疑进程。例如，可以通过指定端口或者tcp、udp协议找到进程PID，进而找到相关进程：<br>[root@server ~]# fuser -n tcp 111<br>111/tcp: 1579<br>[root@server ~]# fuser -n tcp 25<br>25/tcp: 2037<br>[root@server ~]# ps -ef|grep 2037<br>root 2037 1 0 Sep23 ? 00:00:05 /usr/libexec/postfix/master<br>postfix 2046 2037 0 Sep23 ? 00:00:01 qmgr -l -t fifo -u<br>postfix 9612 2037 0 20:34 ? 00:00:00 pickup -l -t fifo -u<br>root 14927 12944 0 21:11 pts/1 00:00:00 grep 2037<br>在 有些时候，攻击者的程序隐藏很深，例如rootkits后门程序，在这种情况下ps、top、netstat等命令也可能已经被替换，如果再通过系统自身 的命令去检查可疑进程就变得毫不可信，此时，就需要借助于第三方工具来检查系统可疑程序，例如前面介绍过的chkrootkit、RKHunter等工 具，通过这些工具可以很方便的发现系统被替换或篡改的程序。<br>五、检查文件系统的完好性<br>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上/bin/ls文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。此时可以借助于Linux下rpm这个工具来完成验证，操作如下：<br>[root@server ~]# rpm -Va<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….T c /etc/sysctl.conf<br>S.5….T /etc/sgml/docbook-simple.cat<br>S.5….T c /etc/login.defs<br>S.5….. c /etc/openldap/ldap.conf<br>S.5….T c /etc/sudoers<br>..5….T c /usr/lib64/security/classpath.security<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….. c /etc/ldap.conf<br>S.5….T c /etc/ssh/sshd_config<br>对于输出中每个标记的含义介绍如下：<br>S 表示文件长度发生了变化<br>M 表示文件的访问权限或文件类型发生了变化<br>5 表示MD5校验和发生了变化<br>D 表示设备节点的属性发生了变化<br>L 表示文件的符号链接发生了变化<br>U 表示文件/子目录/设备节点的owner发生了变化<br>G 表示文件/子目录/设备节点的group发生了变化<br>T 表示文件最后一次的修改时间发生了变化<br>如果在输出结果中有“M”标记出现，那么对应的文件可能已经遭到篡改或替换，此时可以通过卸载这个rpm包重新安装来清除受攻击的文件。<br>不过这个命令有个局限性，那就是只能检查通过rpm包方式安装的所有文件，对于通过非rpm包方式安装的文件就无能为力了。同时，如果rpm工具也遭到替换，就不能通过这个方法了，此时可以从正常的系统上复制一个rpm工具进行检测。<br>对文件系统的检查也可以通过chkrootkit、RKHunter这两个工具来完成，关于chkrootkit、RKHunter工具的使用，下次将展开介绍。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwvtacgm00269scy5y0ess0c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Linux使用ntfs-3g挂载NTFS" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" class="article-date">
@@ -92,7 +129,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvhh0mu0025r1cyhinh0ud8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvtacgm00259scyh1igemdf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -173,7 +210,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvhh0mp0020r1cytn74m9sl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvtacgh00209scyfwju1usu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -241,7 +278,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvhh0mo001xr1cy57lygjk9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvtacgf001x9scygq51rzkj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -291,7 +328,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvhh0nf0036r1cyuqtk1lwz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvtach400369scyyno46krr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -363,7 +400,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvhh0og004vr1cy8fhkk4ul" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvtaci8004w9scy2vmamyle" class="article-share-link">Share</a>
       
       
     </footer>
@@ -442,7 +479,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvhh0ne0034r1cytxwf2ejw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvtach300349scyvp78fpqo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -489,7 +526,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvhh0nc0030r1cykco1aprl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvtach100309scymuhann3d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -545,7 +582,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvhh0ok0054r1cyo7wrry7j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvtacic00559scy5lekmdyl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -598,72 +635,7 @@ date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvhh0mt0024r1cyl7i9o61m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-命令行" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/命令行/" class="article-date">
-  <time datetime="2016-12-13T01:26:14.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/命令行/">命令行</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>熟练使用命令行是一种常常被忽视或被认为难以掌握的技能，但实际上，它可以提高你作为工程师的灵活性以及生产力。本文是一份我在 Linux 上工作时发现的一些关于命令行的使用的小技巧的摘要。有些小技巧是非常基础的，而另外一些则是相当复杂的甚至晦涩难懂的。这篇文章并不长，但当你能够熟练掌握这里列出的所有技巧时，你就学会了很多关于命令行的东西了。<br>必读</p>
-<p>涵盖范围：</p>
-<ul>
-<li>这篇文章对刚接触命令行的新手以及具有命令行使用经验的人都有用处。本文致力于做到覆盖面广（尽量包括一切重要的内容），具体（给出最常见的具体的例子）以及简洁（避免一些不必要的东西以及一些偏题的可以在其他地方翻阅到文献的东西）。 每个小技巧在某个特定情境下都是基本的或能够显著地节约时间。<br>本文为 Linux 所写，除了仅限 MacOS X 系统节。其它节中的大部分内容都适用于其它 Unix 系统或 MacOS 系统，甚至 Cygwin。<br>本文关注于交互式 Bash，尽管很多技巧也适用于其他 shell 或 Bash 脚本。<br>本文包括了“标准的”Unix 命令和需要安装特定包的命令，只要它们足够重要。</li>
-</ul>
-<p>注意事项：<br>为了能在一页内展示尽量多的东西，一些具体的信息会被间接的包含在引用页里。聪明机智的你如果掌握了使用 Google 搜索引擎的基本思路与命令，那么你将可以查阅到更多的详细信息。使用 apt-get／yum／dnf／pacman／pip／brew（以及其它合适的包管理器）来安装新程序。<br>使用 Explainshell 去获取相关命令、参数、管道等内容的解释<br>基础</p>
-<p>学习 Bash 的基础知识。具体来说，输入 man bash 并至少全文浏览一遍; 它很简单并且不长。其他的 shell 可能很好用，但 Bash 功能强大且几乎所有情况下都是可用的 （ 只学习 zsh，fish 或其他的 shell 的话，在你自己的电脑上会显得很方便，但在很多情况下会限制你，比如当你需要在服务器上工作时）。<br>学习并掌握至少一个基于文本的编辑器。通常 Vim （vi） 会是你最好的选择，因为在终端里进行随机编辑 Vim 真的毫无敌手，哪怕是 Emacs、某大型 IDE 甚至时下非常流行的编辑器。<br>学会如何使用 man 命令去阅读文档。学会使用 apropos 去查找文档。了解有些命令并不对应可执行文件，而是Bash内置的，可以使用 help 和 help -d 命令获取帮助信息。<br>学会使用 &gt; 和 &lt; 来重定向输出和输入，学会使用 | 来重定向管道。明白 &gt; 会覆盖了输出文件而 &gt;&gt; 是在文件未添加。了解标准输出 stdout 和标准错误 stderr。<br>学会使用通配符 <em> （或许再算上 ? 和 […]） 和引用以及引用中 ‘ 和 “ 的区别。<br>熟悉 Bash 任务管理工具：&amp;，ctrl-z，ctrl-c，jobs，fg，bg，kill 等。<br>了解 ssh，以及学会通过使用 ssh-agent，ssh-add 等命令来实现基本的无密码认证。<br>学会基本的文件管理：ls 和 ls -l （了解 ls -l 中每一列代表的意义），less，head，tail 和 tail -f （甚至 less +F），ln 和 ln -s （了解硬链接与软链接的区别），chown，chmod，du （硬盘使用情况概述：du -hk </em>）。 关于文件系统的管理，学习 df，mount，fdisk，mkfs，lsblk。知道 inode 是什么（与 ls -i 和 df -i等命令相关）。<br>学习基本的网络管理：ip 或 ifconfig，dig。<br>熟悉正则表达式，以及 grep／egrep 里不同参数的作用，例如 -i，-o，-v，-A，-B 和 -C，这些参数是值得学习并掌握的。<br>学会使用 apt-get，yum，dnf 或 pacman （取决于你使用的 Linux 发行版）来查找或安装软件包。并确保你的环境中有 pip 来安装基于 Python 的命令行工具 （接下来提到的部分程序使用 pip 来安装会很方便）。</p>
-<p>日常使用</p>
-<p>在 Bash 中，可以使用 Tab 自动补全参数，使用 ctrl-r 搜索命令行历史。<br>在 Bash 中，可以使用 ctrl-w 删除你键入的最后一个单词，使用 ctrl-u 删除整行，使用 alt-b 和 alt-f 以单词为单位移动光标，使用 ctrl-a 将光标移至行首，使用 ctrl-e 将光标移至行尾，使用 ctrl-k 删除光标至行尾的所有内容，使用ctrl-l 清屏。键入 man readline 查看 Bash 中的默认快捷键，内容很多。例如 alt-. 循环地移向前一个参数，以及 alt-<em> 展开通配符。<br>你喜欢的话，可以键入 set -o vi 来使用 vi 风格的快捷键，而 set -o emacs 可以把它改回来。<br>为了方便地键入长命令，在设置你的编辑器后（如 export EDITOR=vim），键入 ctrl-x ctrl-e 会打开一个编辑器来编辑当前命令。在 vi 模式下则键入 escape-v 实现相同的功能。<br>键入 history 查看命令行历史记录。其中有许多缩写，例如 !$（最后键入的参数）和 !!（最后键入的命令），尽管通常被 ctrl-r 和 alt-. 取代。<br>回到上一个工作路径：cd -<br>如果你输入命令的时候改变了主意，按下 alt-# 来在行首添加 #，或者依次按下 ctrl-a， #， enter。这样做的话，之后你可以很方便的利用命令行历史回到你刚才输入到一半的命令。<br>使用 xargs （ 或 parallel）。他们非常给力。注意到你可以控制每行参数个数（-L）和最大并行数（-P）。如果你不确定它们是否会按你想的那样工作，先使用 xargs echo 查看一下。此外，使用 -I{} 会很方便。例如：<br>1<br>2<br>      find.-name’</em>.py’|xargs grep some_function<br>      cat hosts|xargs-I{}sshroot@{}hostname<br>pstree -p 有助于展示进程树。<br>使用 pgrep 和 pkill 根据名字查找进程或发送信号（-f 参数通常有用）。<br>了解你可以发往进程的信号的种类。比如，使用 kill -STOP [pid] 停止一个进程。使用 man 7 signal 查看详细列表。<br>使用 nohup 或 disown 使一个后台进程持续运行。<br>使用 netstat -lntp 或 ss -plat 检查哪些进程在监听端口（默认是检查 TCP 端口; 使用参数 -u 检查 UDP 端口）。<br>有关打开套接字和文件，请参阅 lsof。<br>使用 uptime 或 w 来查看系统已经运行多长时间。<br>使用alias来创建常用命令的快捷形式。例如：alias ll=’ls -latr’使你可以方便地执行ls -latr命令。<br>在 Bash 脚本中，使用 set -x 去调试输出，尽可能的使用严格模式，使用 set -e 令脚本在发生错误时退出而不是继续运行，使用 set -u 来检查是否使用了未赋值的变量，使用 set -o pipefail 严谨地对待错误（尽管问题可能很微妙）。当牵扯到很多脚本时，使用 trap。一个好的习惯是在脚本文件开头这样写，这会使它检测一些错误，并在错误发生时中断程序并输出信息：<br>1<br>2<br>      set-euo pipefail<br>      trap”echo ‘error: Script failed: see failed command above’”ERR<br>在 Bash 脚本中，子 shell（使用括号(…)）是一种便捷的方式去组织参数。一个常见的例子是临时地移动工作路径，代码如下：<br>1<br>2<br>3</p>
-<pre><code># do something in current dir
-(cd/some/other/dir&amp;&amp;other-command)
-# continue in original dir
-</code></pre><p>在 Bash 中，注意到其中有许多形式的扩展。检查变量是否存在：${name:?error message}。例如，当 Bash 脚本需要一个参数时，可以使用这样的代码 input_file=${1:?usage: $0 input_file}。数学表达式：i=$(( (i + 1) % 5 ))。序列：{1..10}。 截断字符串：${var%suffix} 和 ${var#prefix}。例如，假设 var=foo.pdf，那么 echo ${var%.pdf}.txt 将输出 foo.txt。<br>使用括号扩展（{…}）可以减少不必要的重复输入相似文本以及文本组合。<br>通过使用 &lt;(some command) 可以将输出视为文件。例如，对比本地文件 /etc/hosts 和一个远程文件：<br>1<br>      diff/etc/hosts&lt;(ssh somehost cat/etc/hosts)<br>了解 Bash 中的“here documents”，例如 cat &lt;<eof ...。="" 在="" bash="" 中，同时重定向标准输出和标准错误，some-command="">logfile 2&gt;&amp;1。通常，为了保证命令不会在标准输入里残留一个打开了的文件句柄导致你当前所在的终端无法操作，添加 &lt;/dev/null 是一个好习惯。<br>使用 man ascii 查看具有十六进制和十进制值的ASCII表。man unicode，man utf-8，以及 man latin1 有助于你去了解通用的编码信息。<br>使用 screen 或 tmux 来使用多个屏幕，当你在使用 ssh 时（保存 session 信息）将尤为有用。另一个轻量级的解决方案是 dtach。<br>ssh 中，了解如何使用 -L 或 -D（偶尔需要用 -R）去开启隧道是非常有用的，例如当你需要从一台远程服务器上访问 web。<br>对 ssh 设置做一些小优化可能是很有用的，例如这个 ~/.ssh/config 文件包含了防止特定环境下断开连接、压缩数据、多通道等选项：</eof></p>
-<p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>      TCPKeepAlive=yes<br>      ServerAliveInterval=15<br>      ServerAliveCountMax=6<br>      Compression=yes<br>      ControlMaster auto<br>      ControlPath/tmp/%r@%h:%p<br>      ControlPersist yes</p>
-<p>部分其他的关于 ssh 的选项是安全敏感且应当小心启用的。例如在可信任的网络中：StrictHostKeyChecking=no，ForwardAgent=yes<br>考虑使用 mosh 作为 ssh 的替代品，它使用 UDP 协议。<br>获取文件的八进制格式权限，使用类似如下的代码：<br>1<br>      stat-c’%A %a %n’/etc/timezone<br>使用 percol 或者 fzf 可以交互式地从另一个命令输出中选取值。<br>使用 fpp（PathPicker）可以与基于另一个命令(例如 git）输出的文件交互。<br>将 web 服务器上当前目录下所有的文件（以及子目录）暴露给你所处网络的所有用户，使用： python -m SimpleHTTPServer 7777 （使用端口 7777 和 Python 2）或python -m http.server 7777 （使用端口 7777 和 Python 3）。<br>以某种权限执行命令，使用sudo（root 权限）或sudo -u（其他用户）。使用su或者sudo bash来启动一个以对应用户权限运行的 shell。使用su -模拟其他用户的登录。</p>
-<p>文本及数据处理</p>
-<p>在当前路径下通过文件名定位一个文件，find . -iname ‘<em>something</em>‘（或类似的）。在所有路径下通过文件名查找文件，使用 locate something （但请记住 updatedb 可能没有对最近新建的文件建立索引）。<br>使用 ag 在源代码或数据文件里检索（比 grep -r 更好）。<br>将HTML转为文本：lynx -dump -stdin<br>Markdown，HTML，以及所有文档格式之间的转换，试试 pandoc。<br>如果你不得不处理 XML，xmlstarlet 宝刀未老。<br>使用 jq 处理 JSON。<br>Excel 或 CSV 文件的处理，csvkit 提供了 in2csv，csvcut，csvjoin，csvgrep 等工具。<br>关于 Amazon S3，s3cmd 很方便而 s4cmd 更快。Amazon 官方的 aws 以及 saws 是其他 AWS 相关工作的基础。<br>了解如何使用 sort 和 uniq，包括 uniq 的 -u 参数和 -d 参数，详见后文一行代码节。另外可以了解一下 comm。<br>了解如何使用 cut，paste 和 join 来更改文件。很多人都会使用 cut，但几乎都不会使用 join。<br>了解如何运用 wc 去计算新行数（-l），字符数（-m），单词数（-w）以及字节数（-c）。<br>了解如何使用 tee 将标准输入复制到文件甚至标准输出，例如 ls -al | tee file.txt。<br>了解语言环境对许多命令行工具的微妙影响，包括排序的顺序和性能。大多数 Linux 的安装过程会将 LANG 或其他有关的变量设置为符合本地的设置。意识到当你改变语言环境时，排序的结果可能会改变。明白国际化可能会时 sort 或其他命令运行效率下降许多倍。某些情况下（例如集合运算）你可以放心的使用 export LC_ALL=C 来忽略掉国际化并使用基于字节的顺序。<br>了解 awk 和 sed 关于数据的简单处理的用法。例如，将文本文件中第三列的所有数字求和：awk ‘{ x += $3 } END { print x }’. 这可能比同等作用的 Python 代码快三倍且代码量少三倍。<br>替换一个或多个文件中出现的字符串：<br>1<br>      perl-pi.bak-e’s/old-string/new-string/g’my-files-*.txt<br>依据某种模式批量重命名多个文件，使用 rename。对于复杂的重命名规则，repren 或许有帮助。<br>1<br>2<br>3<br>4</p>
-<pre><code># Recover backup files foo.bak -&gt; foo:
-rename&apos;s/\.bak$//&apos;*.bak
-# Full rename of filenames，directories，and contents foo -&gt; bar:
-repren--full--preserve-case--from foo--tobar.
-</code></pre><p>使用 shuf 从一个文件中随机选取多行。<br>了解 sort 的参数。处理数字方面，使用 -n 或者 -h 来处理可读性数字（例如 du -h 的输出）。明白键的工作原理（-t 和 -k）。例如，注意到你需要 -k1，1 来仅按第一个域来排序，而 -k1 意味着按整行排序。稳定排序（sort -s）在某些情况下很有用。例如，以第二个域为主关键字，第一个域为次关键字进行排序，你可以使用 sort -k1，1 | sort -s -k2，2。<br>如果你想在 Bash 命令行中写 tab 制表符，按下 ctrl-v [Tab] 或键入 $’\t’ （后者可能更好，因为你可以复制粘贴它）。<br>标准的源代码对比及合并工具是 diff 和 patch。使用 diffstat 查看变更总览数据。注意到 diff -r 对整个文件夹有效。使用 diff -r tree1 tree2 | diffstat 查看变更总览数据。<br>对于二进制文件，使用 hd 使其以十六进制显示以及使用 bvi 来编辑二进制。<br>同样对于二进制文件，使用 strings（包括 grep 等等）允许你查找一些文本。<br>二进制文件对比（Delta 压缩），使用 xdelta3。<br>使用 iconv 更改文本编码。而更高级的用法，可以使用 uconv，它支持一些高级的 Unicode 功能。例如，这条命令将所有元音字母转为小写并移除了：<br>1<br>      uconv-futf-8-tutf-8-x’::Any-Lower; ::Any-NFD; [:Nonspacing Mark:] &gt;; ::Any-NFC; ‘<input.txt>output.txt<br>拆分文件，查看 split（按大小拆分）和 csplit（按模式拆分）。<br>使用 zless，zmore，zcat 和 zgrep对压缩过的文件进行操作。</input.txt></p>
-<p>系统调试</p>
-<p>curl 和 curl -I 可以便捷地被应用于 web 调试中，它们的好兄弟 wget 也可以，或者是更潮的 httpie。<br>使用 iostat、netstat、top （htop 更佳）和 dstat 去获取硬盘、cpu 和网络的状态。熟练掌握这些工具可以使你快速的对系统的当前状态有一个大概的认识。<br>使用 netstat 和 ss 查看网络连接的细节。<br>若要对系统有一个深度的总体认识，使用 glances。它在一个终端窗口中向你提供一些系统级的数据。这对于快速的检查各个子系统非常有帮助。<br>若要了解内存状态，运行并理解 free 和 vmstat 的输出。尤其注意“cached”的值，它指的是 Linux 内核用来作为文件缓存的内存大小，因此它与空闲内存无关。<br>Java 系统调试则是一件截然不同的事，一个可以用于 Oracle 的 JVM 或其他 JVM 上的调试的小技巧是你可以运行kill -3 <pid> 同时一个完整的栈轨迹和堆概述（包括 GC 的细节）会被保存到标准输出/日志文件。JDK 中的jps，jstat，jstack，jmap 很有用。SJK tools 更高级.<br>使用 mtr 去跟踪路由，用于确定网络问题。<br>用 ncdu 来查看磁盘使用情况，它比常用的命令，如 du -sh *，更节省时间。<br>查找正在使用带宽的套接字连接或进程，使用 iftop 或 nethogs。<br>ab 工具（捆绑于 Apache）可以简单粗暴地检查 web 服务器的性能。对于更复杂的负载测试，使用 siege。<br>wireshark，tshark 和 ngrep 可用于复杂的网络调试。<br>了解 strace 和 ltrace。这俩工具在你的程序运行失败、挂起甚至崩溃，而你却不知道为什么或你想对性能有个总体的认识的时候是非常有用的。注意 profile 参数（-c）和附加到一个运行的进程参数 （-p）。<br>了解使用 ldd 来检查共享库。<br>了解如何运用 gdb 连接到一个运行着的进程并获取它的堆栈轨迹。<br>学会使用 /proc。它在调试正在出现的问题的时候有时会效果惊人。比如：/proc/cpuinfo，/proc/meminfo，/proc/cmdline，/proc/xxx/cwd，/proc/xxx/exe，/proc/xxx/fd/，/proc/xxx/smaps（这里的 xxx 表示进程的 id 或 pid）。<br>当调试一些之前出现的问题的时候，sar 非常有用。它展示了 cpu、内存以及网络等的历史数据。<br>关于更深层次的系统分析以及性能分析，看看 stap（SystemTap），perf，以及sysdig。<br>查看你当前使用的系统，使用 uname ， uname -a （Unix／kernel 信息） 或者 lsb_release -a （Linux 发行版信息）。<br>无论什么东西工作得很欢乐时试试 dmesg（可能是硬件或驱动问题）。</pid></p>
-<p>一行代码</p>
-<p>一些命令组合的例子：<br>当你需要对文本文件做集合交、并、差运算时，结合使用 sort/uniq 很有帮助。假设 a 与 b 是两内容不同的文件。这种方式效率很高，并且在小文件和上G的文件上都能运用 （sort 不被内存大小约束，尽管在 /tmp 在一个小的根分区上时你可能需要 -T 参数），参阅前文中关于 LC_ALL 和 sort 的 -u 参数的部分。<br>1<br>2<br>3<br>      catab|sort|uniq&gt;c   # c is a union b<br>      catab|sort|uniq-d&gt;c   # c is a intersect b<br>      catabb|sort|uniq-u&gt;c   # c is set difference a - b<br>使用 grep . * 来阅读检查目录下所有文件的内容，例如检查一个充满配置文件的目录比如 /sys、/proc、/etc。<br>计算文本文件第三列中所有数的和（可能比同等作用的 Python 代码快三倍且代码量少三倍）：<br>1<br>      awk’{ x += $3 } END { print x }’myfile<br>如果你想在文件树上查看大小\日期，这可能看起来像递归版的 ls -l 但比 ls -lR 更易于理解：<br>1<br>      find.-typef-ls<br>假设你有一个类似于 web 服务器日志文件的文本文件，并且一个确定的值只会出现在某些行上，假设一个 acct_id参数在URI中。如果你想计算出每个 acct_id 值有多少次请求，使用如下代码：<br>1<br>      cat access.log|egrep-o’acct_id=[0-9]+’|cut-d=-f2|sort|uniq-c|sort-rn<br>运行这个函数从这篇文档中随机获取一条小技巧（解析 Markdown 文件并抽取项目）：<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>      functiontaocl(){<br>        curl-s<a href="https://raw.githubusercontent.com/jlevy/the-art-of-command-line/master/README.md" target="_blank" rel="external">https://raw.githubusercontent.com/jlevy/the-art-of-command-line/master/README.md</a> |<br>          pandoc-fmarkdown-thtml|<br>          xmlstarlet fo–html–dropdtd|<br>          xmlstarlet sel-t-v”(html/body/ul/li[count(p)&gt;0])[$RANDOM mod last()+1]”|<br>          xmlstarlet unesc|fmt-80<br>      }<br>冷门但有用</p>
-<p>expr：计算表达式或正则匹配<br>m4：简单地宏处理器<br>yes：多次打印字符串<br>cal：漂亮的日历<br>env：执行一个命令（脚本文件中很有用）<br>printenv：打印环境变量（调试时或在使用脚本文件时很有用）<br>look：查找以特定字符串开头的单词<br>cut、paste 和 join：数据修改<br>fmt：格式化文本段落<br>pr：将文本格式化成页/列形式<br>fold：包裹文本中的几行<br>column：将文本格式化成多列或表格<br>expand 和 unexpand：制表符与空格之间转换<br>nl：添加行号<br>seq：打印数字<br>bc：计算器<br>factor：分解因数<br>gpg：加密并签名文件<br>toe：terminfo entries 列表<br>nc：网络调试及数据传输<br>socat：套接字代理，与 netcat 类似<br>slurm：网络可视化<br>dd：文件或设备间传输数据<br>file：确定文件类型<br>tree：以树的形式显示路径和文件，类似于递归的 ls<br>stat：文件信息<br>time：执行命令，并计算执行时间<br>lockfile：使文件只能通过 rm -f 移除<br>logrotate: 切换、压缩以及发送日志文件<br>watch：重复运行同一个命令，展示结果并高亮有更改的部分<br>tac：反向输出文件<br>shuf：文件中随机选取几行<br>comm：一行一行的比较排序过的文件<br>pv：监视通过管道的数据<br>hd，hexdump，xxd，biew 和 bvi：保存或编辑二进制文件<br>strings：从二进制文件中抽取文本<br>tr：转换字母<br>iconv 或 uconv：简易的文件编码<br>split 和 csplit：分割文件<br>sponge：在写入前读取所有输入，在读取文件后再向同一文件写入时比较有用，如 grep -v something some-file | sponge some-file<br>units：将一种计量单位转换为另一种等效的计量单位（参阅 /usr/share/units/definitions.units）<br>apg：随机生成密码<br>7z：高比例的文件压缩<br>ldd：动态库信息<br>nm：提取 obj 文件中的符号<br>ab：性能分析 web 服务器<br>strace：系统调用调试<br>mtr：更好的网络调试跟踪工具<br>cssh：可视化的并发 shell<br>rsync：通过 ssh 或本地文件系统同步文件和文件夹<br>wireshark 和 tshark：抓包和网络调试工具<br>ngrep：网络层的 grep<br>host 和 dig：DNS 查找<br>lsof：列出当前系统打开文件的工具以及查看端口信息<br>dstat：系统状态查看<br>glances：高层次的多子系统总览<br>iostat：硬盘使用状态<br>mpstat: CPU 使用状态<br>vmstat: 内存使用状态<br>htop：top 的加强版<br>last：登入记录<br>w：查看处于登录状态的用户<br>id：用户/组 ID 信息<br>sar：系统历史数据<br>iftop 或 nethogs：套接字及进程的网络利用<br>ss：套接字数据<br>dmesg：引导及系统错误信息<br>sysctl: 在内核运行时动态地查看和修改内核的运行参数<br>hdparm：SATA/ATA 磁盘更改及性能分析<br>lsb_release：Linux 发行版信息<br>lsblk：列出块设备信息：以树形展示你的磁盘以及磁盘分区信息<br>lshw，lscpu，lspci，lsusb 和 dmidecode：查看硬件信息，包括 CPU、BIOS、RAID、显卡、USB设备等<br>lsmod 和 modinfo：列出内核模块，并显示其细节<br>fortune，ddate 和 sl：额，这主要取决于你是否认为蒸汽火车和莫名其妙的名人名言是否“有用”</p>
-<p>仅限MacOS X</p>
-<p>以下是仅限于 MacOS 系统的技巧<br>用 brew （Homebrew）或者 port （MacPorts）进行包管理。这些可以用来在 Mac 系统上安装以上的大多数命令。<br>用 pbcopy 复制任何命令的输出到桌面应用，用 pbpaste 粘贴输入。<br>在终端中将 Option 键视为 alt 键，Preferences -&gt; Profiles -&gt; Keyboard 勾选上 “Use Option as Meta key”。<br>用 open 或者 open -a /Applications/Whatever.app 使用桌面应用打开文件。<br>Spotlight： 用 mdfind 搜索文件，用 mdls 列出元数据（例如照片的 EXIF 信息）。<br>注意 MacOS 系统是基于 BSD UNIX 的，许多命令（例如 ps，ls，tail，awk，sed）都和 Linux 中有些微的不同，这些极大的被 System V-style Unix 和 GNU 工具影响。你可以通过标题为 “BSD General Commands Manual” 的 man 页面发现这些不同。在有些情况下 GNU 版本的命令也可能被安装（例如 gawk 和 gsed 对应 GNU 中的 awk 和 sed ）。如果要写跨平台的 Bash 脚本，避免使用这些命令（例如，考虑 Python 或者 perl ）或者经过仔细的测试。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="ciwvhh0ob004jr1cyb45760go" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvtacgl00249scyb11lundt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -707,6 +679,10 @@ repren--full--preserve-case--from foo--tobar.
       <ul>
         
           <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
           </li>
         
@@ -720,10 +696,6 @@ repren--full--preserve-case--from foo--tobar.
         
           <li>
             <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
           </li>
         
       </ul>
