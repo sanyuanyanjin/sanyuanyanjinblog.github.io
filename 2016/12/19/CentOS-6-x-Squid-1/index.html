@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Squid | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_config122 UseDNS no/etc/init.d/sshd restart">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Squid">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-x-Squid-1/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_config122 UseDNS no/etc/init.d/sshd restart">
+<meta property="og:updated_time" content="2016-12-19T00:56:27.114Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Squid">
+<meta name="twitter:description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_config122 UseDNS no/etc/init.d/sshd restart">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Squid-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Squid-1/" class="article-date">
+  <time datetime="2016-12-19T00:56:06.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Squid
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境：CentOS6.5 64位</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>122 UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=squid</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></p>
+<p>cd /etc/yum.repos.d/<br>mv cobbler-config.repo cobbler-config.repobak<br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.0.101<br>子网掩码：255.255.255.0<br>网关：10.6.0.128<br>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=9a:58:98:fb:64:93<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”8a6cf2c6-50d5-4118-b343-477b0fe0850c”<br>IPADDR=10.6.0.101<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>GATEWAY=10.6.0.128<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>ifconfig eth1 192.168.3.3 netmask 255.255.255.0<br>cat /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=4E:F7:71:1F:2B:77<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>安装XenServer Tools<br>mount /dev/cdrom /media/<br>cd /media/Linux/<br>./install.sh<br>You should now reboot this Virtual Machine.<br>快照</p>
+<p>普通代理 http_port 3128<br>透明代理 http_port 3128 transparent<br>反向代理 http_port 3128 accel vhost vport</p>
+<p>去除显示grep进程<br>ps -ef |grep ‘sbin/squid’ | grep -v grep |wc -l</p>
+<p>加载系统函数库<br>. /etc/init.d/functions</p>
+<p>日期<br>access_$(date +%F).log</p>
+<p>使用yum 方式安装<br>yum -y install squid<br>设置开机自启动<br>chkconfig –level 35 squid on<br>在3、5级别上自动运行squid服务</p>
+<p>squid服务器的配置文件说明<br>去#号及去空行<br>egrep -v “#|^$” /etc/squid/squid.conf<br>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl SSL_ports port 443<br>acl CONNECT method CONNECT<br>http_access allow manager localhost<br>http_access deny manager<br>http_access deny !Safe_ports<br>http_access deny CONNECT !SSL_ports<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>cp /etc/squid/squid.conf /etc/squid/squid.confbak<br>squid 的主配置文件是 /etc/squid/squid.conf，所有squid的设定都是在这个文件里配置，下面是一些常用的配置选项。<br>vim /etc/squid/squid.conf<br>http_port　3128<br>设置监听的IP与端口号<br>cache_mem 64 MB<br>额外提供给squid使用的内存，squid的内存总占用为 X <em> 10+15+“cache_mem”，其中X为squid的cache占用的容量（以GB为单位）<br>比如下面的cache大小是100M，即0.1GB，则内存总占用为0.1</em>10+15+64=80M，推荐大小为物理内存的1/3-1/2或更多。<br>maximum_object_size 4 MB<br>设置squid磁盘缓存最大文件，超过4M的文件不保存到硬盘<br>minimum_object_size 0 KB<br>设置squid磁盘缓存最小文件<br>maximum_object_size_in_memory 4096 KB<br>设置squid内存缓存最大文件，超过4M的文件不保存到内存<br>cache_dir ufs /var/spool/squid 100 16 256<br>定义squid的cache存放路径 、cache目录容量（单位M）、一级缓存目录数量、二级缓存目录数量<br>logformat combined %&gt;a %ui %un [%tl] “%rm %ru HTTP/%rv” %Hs %h” “%{User-Agent}&gt;h” %Ss:%Sh<br>emulate_httpd_log on<br>log文件日志格式<br>access_log /var/log/squid/access.log combined<br>log文件存放路径和日志格式<br>cache_log /var/log/squid/cache.log<br>设置缓存日志<br>logfile_rotate 60<br>log轮循 60天<br>cache_swap_high 95<br>cache目录使用量大于95%时，开始清理旧的<br>cachecache_swap_low 90<br>cache目录清理到90%时停止。<br>acl localnet src 10.6.0.0/16<br>定义本地网段<br>http_access allow localnet<br>允许本地网段使用<br>http_access deny all<br>拒绝所有<br>visible_hostname squid.sanyuan.tk<br>主机名<br>cache_mgr example@test.com<br>管理员邮箱</p>
+<p>普通代理<br>编辑squid 主配置文件/etc/squid/squid.conf<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confnormal<br>cp /etc/squid/squid.confnormal /etc/squid/squid.conf</p>
+<p>example：<br>http_port 3128<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com</p>
+<p>检查语法<br>squid -k parse</p>
+<p>初始化<br>squid -z</p>
+<p>启动Squid<br>/etc/init.d/squid start<br>chkconfig squid on</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>tail -f /var/log/squid/access.log</p>
+<p>透明代理<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access allow all<br>http_port 3128 transparent<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.conftransparent</p>
+<p>example：<br>http_port 3128 transparent<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com<br>在http_port 3128 后添加transparent 关键字。</p>
+<p>reload<br>reload 让上面的配置生效。<br>/etc/init.d/squid reload</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>yum -y install dhcp<br>安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak<br>备份dhcpd.conf文件<br>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>     option routers             192.168.3.3;<br>     option domain-name-servers 223.5.5.5;<br>     option subnet-mask         255.255.255.0;<br>     range dynamic-bootp        192.168.3.6 192.168.3.99;<br>     default-lease-time         21600;<br>     max-lease-time             43200;<br>     next-server                192.168.3.3;<br>}</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>service dhcpd start<br>chkconfig dhcpd on</p>
+<p>NAT<br>vim /etc/sysctl.conf<br>7 # net.ipv4.ip_forward = 0<br>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>添加iptables规则，把内部的http请求重定向到3128端口<br>清除现有iptables filter 表规则<br>iptables -F<br>保存iptables 设置<br>/etc/init.d/iptables save<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>iptables -t nat -I PREROUTING -i eth1 -s 192.168.3.0/24 -p tcp –dport 80 -j REDIRECT –to-port 3128<br>保存<br>/etc/init.d/iptables save</p>
+<p>反向代理</p>
+<p>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow all<br>http_port 80 accel vhost<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 10.6.6.200 parent 80 0 originserver round-robin weight=1<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confreverse</p>
+<p>example：<br>http_port 80 accel vhost<br>http_access allow all<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 192.168.3.9 parent 80 0 originserver round-robin weight=1<br>visible_hostname squid.sanyuan.tk</p>
+<p>/etc/init.d/squid restart<br>squid 采用了round-robin，所以客户端的访问将轮询两台web服务器，采用 “Ctrl + F5” 来深度刷新测试。</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :80</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Squid-1/" data-id="ciwvdwc0k000tm4cyu05xfs37" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Squid/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Squid
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x-Cobbler-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x Cobbler</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

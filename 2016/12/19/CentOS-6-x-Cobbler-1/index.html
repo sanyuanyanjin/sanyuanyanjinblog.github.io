@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Cobbler | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_configUseDNS no/etc/init.d/sshd restart
+修改主机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Cobbler">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-x-Cobbler-1/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_configUseDNS no/etc/init.d/sshd restart
+修改主机">
+<meta property="og:updated_time" content="2016-12-19T00:55:50.046Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Cobbler">
+<meta name="twitter:description" content="环境：CentOS6.5 64位
+关闭防火墙：service iptables stop （临时关闭）chkconfig iptables off （重启后生效）
+关闭SELINUXvim /etc/selinux/configSELINUX=disabled
+ssh 登录慢vim /etc/ssh/sshd_configUseDNS no/etc/init.d/sshd restart
+修改主机">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Cobbler-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Cobbler-1/" class="article-date">
+  <time datetime="2016-12-19T00:55:08.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Cobbler
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境：CentOS6.5 64位</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=cobbler</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.4.3<br>子网掩码：255.255.255.0<br>网关：10.6.4.1<br>[root@cobbler ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=82:70:08:d9:98:db<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”11a6993c-4574-45a7-baf4-eccee247503c”<br>IPADDR=10.6.4.3<br>NETMASK=255.255.255.0<br>DNS2=61.177.7.1<br>GATEWAY=10.6.4.1<br>DNS1=223.5.5.5<br>IPV6INIT=no<br>USERCTL=no<br>[root@cobbler ~]#<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>IPADDR=10.6.4.3<br>PREFIX=24<br>GATEWAY=10.6.4.1<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=82:70:08:d9:98:db</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>[root@cobbler ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth1<br>TYPE=Ethernet<br>UUID=99530563-ca29-441b-bfe2-3299357c2170<br>ONBOOT=yes<br>NM_CONTROLLED=yes<br>BOOTPROTO=none<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=61.177.7.1<br>DNS1=223.5.5.5<br>IPV6INIT=no<br>USERCTL=no<br>HWADDR=3A:E4:4B:3F:BE:9D<br>PREFIX=24<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>NAME=”System eth1”<br>[root@cobbler ~]#<br>vim /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=”eth1”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>IPADDR=192.168.3.3<br>PREFIX=24<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth1”</p>
+<p>安装XenServer Tools<br>快照</p>
+<p>安装cobbler<br>yum -y install cobbler<br>yum install -y tftp-server xinetd dhcp httpd rsync pykickstart  debmirror python-ctypes cman<br>service cobblerd start</p>
+<p>设置http服务<br>配置httpd配置文件<br>vim /etc/httpd/conf/httpd.conf<br>ServerName 127.0.0.1:80</p>
+<p>安装mod_wsgi<br>yum -y install mod_wsgi<br>vim /etc/httpd/conf.d/wsgi.conf<br>LoadModule  wsgi_module modules/mod_wsgi.so</p>
+<p>启动http服务<br>service httpd start<br>chkconfig httpd on</p>
+<p>设置tftp服务<br>vim /etc/xinetd.d/tftp<br>disable = no</p>
+<p>设置rsync服务<br>vim /etc/xinetd.d/rsync<br>disable = no<br>启动rsync<br>service xinetd start</p>
+<p>配置cobbler相关参数<br>vim /etc/debmirror.conf<br>  //注释掉下面两句：</p>
+<p>#@dists=”sid”;</p>
+<p>#@arches=”i386”;</p>
+<p>配置cobbler主配置文件<br>在开启cobbler服务之前，需要修改一些配置文件，在修改配置文件之前最好做一些备份<br>cp /etc/cobbler/settings /etc/cobbler/settingsbak<br>vim /etc/cobbler/settings<br>server:192.168.3.3</p>
+<p>#server设置的IP为cobbler服务器指定的地址<br>next_server:192.168.3.3</p>
+<p>#next_server是DHCP/PXE网络引导文件被下载的TFTP服务器的IP，这里我们和server设置为同一个IP<br>pxe_just_once:1</p>
+<p>#为了防止误重装系统，可以做如下修改，PXE安装只允许一次，防止误操作</p>
+<p>生成cobbler安装系统的root初始密码<br>openssl passwd -1 -salt ‘random-phrase-here’’yanjin’</p>
+<p>#将得到的字符串加到setting的配置文件中”刚才得到的字符串”修改<br>vim /etc/cobbler/settings<br>default_password_crypted: “$1$random-p$RaMolYuxr4D4mKkRWlYC8.”<br>manage_rsync: 1</p>
+<p>#对rsync进行管理<br>manage_dhcp: 1</p>
+<p>#对dhcp进行管理</p>
+<p>对cobbler管理dhcp的模板修改<br>修改模板文件 /etc/cobbler/dhcp.template 此文件是cobbler管理dhcp的模板，确保dhcp分配的地址和cobbler在同一网段，对于此文件，我们做如下部分的修改：<br>cp /etc/cobbler/dhcp.template /etc/cobbler/dhcp.templatebak<br>vim /etc/cobbler/dhcp.template<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>     option routers             192.168.3.3;<br>     option domain-name-servers 223.5.5.5;<br>     option subnet-mask         255.255.255.0;<br>     range dynamic-bootp        192.168.3.6 192.168.3.99;</p>
+<pre><code>default-lease-time         21600;
+max-lease-time             43200;
+next-server                $next_server;
+class &quot;pxeclients&quot; {
+     match if substring (option vendor-class-identifier, 0, 9) = &quot;PXEClient&quot;;
+     if option pxe-system-type = 00:02 {
+             filename &quot;ia64/elilo.efi&quot;;
+     } else if option pxe-system-type = 00:06 {
+             filename &quot;grub/grub-x86.efi&quot;;
+     } else if option pxe-system-type = 00:07 {
+             filename &quot;grub/grub-x86_64.efi&quot;;
+     } else {
+             filename &quot;pxelinux.0&quot;;
+     }
+}
+</code></pre><p>}</p>
+<p>NAT<br>vim /etc/sysctl.conf</p>
+<h1 id="net-ipv4-ip-forward-0"><a href="#net-ipv4-ip-forward-0" class="headerlink" title="net.ipv4.ip_forward = 0"></a>net.ipv4.ip_forward = 0</h1><p>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>iptables -F<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>service iptables save</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>加载部分缺失的boot-loaders<br>service cobblerd restart<br>cobbler get-loaders</p>
+<p>#如果该步骤无法执行可以将文件下载下来保存到/var/lib/cobbler/loads/中</p>
+<p>启动cobbler服务<br>执行dhcpd测试dhcp服务器配置是否正确<br>chkconfig dhcpd on<br>chkconfig cobblerd on<br>service cobblerd restart<br>cobbler sync</p>
+<p>#同步配置文件到dhcp服务器中</p>
+<p>#如果出现错误时bug，重新启动一遍cobbler即可<br>service dhcpd start</p>
+<p>配置cobbler相关服务启动脚本<br>vim /etc/rc.d/init.d/cobbler</p>
+<p>#!/bin/sh</p>
+<h1 id="chkconfig-80-90"><a href="#chkconfig-80-90" class="headerlink" title="chkconfig: - 80 90"></a>chkconfig: - 80 90</h1><h1 id="description-cobbler"><a href="#description-cobbler" class="headerlink" title="description:cobbler"></a>description:cobbler</h1><p>case $1 in<br>start)<br>/etc/init.d/httpd start<br>/etc/init.d/xinetd start<br>/etc/init.d/dhcpd start<br>/etc/init.d/cobblerd start<br>;;<br>stop)<br>/etc/init.d/httpd stop<br>/etc/init.d/xinetd stop<br>/etc/init.d/dhcpd stop<br>/etc/init.d/cobblerd stop<br>;;<br>restart)<br>/etc/init.d/httpd restart<br>/etc/init.d/xinetd restart<br>/etc/init.d/dhcpd restart<br>/etc/init.d/cobblerd restart<br>;;<br>status)<br>/etc/init.d/httpd status<br>/etc/init.d/xinetd status<br>/etc/init.d/dhcpd status<br>/etc/init.d/cobblerd status<br>;;<br>sync)<br>cobbler sync<br>;;<br>*)<br>echo “Input error,please in put  ‘start|stop|restart|status|sync’!”;<br>exit 2&gt;&amp;1 &gt;/dev/null &amp;<br>;;<br>esac</p>
+<p>添加脚本的执行权限<br>chmod +x /etc/rc.d/init.d/cobbler<br>chkconfig cobbler on<br>service cobbler restart<br>cobbler check</p>
+<p>挂载镜像<br>mount /dev/cdrom /media/<br>cobbler import –path=/media –name=ubuntu12.04 –breed=ubuntu<br><strong><em> TASK COMPLETE </em></strong><br>cobbler list<br>du -sh /var/www/cobbler/ks_mirror/ubuntu12.04<br>cp /var/lib/cobbler/kickstarts/sample.seed /var/lib/cobbler/kickstarts/sample.seedbak<br>vim /var/lib/cobbler/kickstarts/sample.seed<br>d-i mirror/country string manual<br>d-i mirror/protocol string http<br>d-i mirror/http/hostname string 192.168.3.3<br>d-i mirror/http/directory string /cobbler/ks_mirror/ubuntu12.04<br>d-i mirror/http/proxy string <a href="http://192.168.3.3/" target="_blank" rel="external">http://192.168.3.3/</a></p>
+<p>cobbler sync<br>service cobbler restart</p>
+<p>cat /var/lib/cobbler/kickstarts/sample.seed</p>
+<h1 id="Mostly-based-on-the-Ubuntu-installation-guide"><a href="#Mostly-based-on-the-Ubuntu-installation-guide" class="headerlink" title="Mostly based on the Ubuntu installation guide"></a>Mostly based on the Ubuntu installation guide</h1><h1 id="https-help-ubuntu-com-12-04-installation-guide"><a href="#https-help-ubuntu-com-12-04-installation-guide" class="headerlink" title="https://help.ubuntu.com/12.04/installation-guide/"></a><a href="https://help.ubuntu.com/12.04/installation-guide/" target="_blank" rel="external">https://help.ubuntu.com/12.04/installation-guide/</a></h1><h1 id="Preseeding-only-locale-sets-language-country-and-locale"><a href="#Preseeding-only-locale-sets-language-country-and-locale" class="headerlink" title="Preseeding only locale sets language, country and locale."></a>Preseeding only locale sets language, country and locale.</h1><p>d-i debian-installer/locale string en_US</p>
+<h1 id="Keyboard-selection"><a href="#Keyboard-selection" class="headerlink" title="Keyboard selection."></a>Keyboard selection.</h1><h1 id="Disable-automatic-interactive-keymap-detection"><a href="#Disable-automatic-interactive-keymap-detection" class="headerlink" title="Disable automatic (interactive) keymap detection."></a>Disable automatic (interactive) keymap detection.</h1><p>d-i console-setup/ask_detect boolean false<br>d-i keyboard-configuration/layoutcode string us<br>d-i keyboard-configuration/variantcode string</p>
+<h1 id="netcfg-will-choose-an-interface-that-has-link-if-possible-This-makes-it"><a href="#netcfg-will-choose-an-interface-that-has-link-if-possible-This-makes-it" class="headerlink" title="netcfg will choose an interface that has link if possible. This makes it"></a>netcfg will choose an interface that has link if possible. This makes it</h1><h1 id="skip-displaying-a-list-if-there-is-more-than-one-interface"><a href="#skip-displaying-a-list-if-there-is-more-than-one-interface" class="headerlink" title="skip displaying a list if there is more than one interface."></a>skip displaying a list if there is more than one interface.</h1><p>#set $myhostname = $getVar(‘hostname’,$getVar(‘name’,’cobbler’)).replace(“_”,”-“)<br>d-i netcfg/choose_interface select auto<br>d-i netcfg/get_hostname string $myhostname</p>
+<h1 id="If-non-free-firmware-is-needed-for-the-network-or-other-hardware-you-can"><a href="#If-non-free-firmware-is-needed-for-the-network-or-other-hardware-you-can" class="headerlink" title="If non-free firmware is needed for the network or other hardware, you can"></a>If non-free firmware is needed for the network or other hardware, you can</h1><h1 id="configure-the-installer-to-always-try-to-load-it-without-prompting-Or"><a href="#configure-the-installer-to-always-try-to-load-it-without-prompting-Or" class="headerlink" title="configure the installer to always try to load it, without prompting. Or"></a>configure the installer to always try to load it, without prompting. Or</h1><h1 id="change-to-false-to-disable-asking"><a href="#change-to-false-to-disable-asking" class="headerlink" title="change to false to disable asking."></a>change to false to disable asking.</h1><h1 id="d-i-hw-detect-load-firmware-boolean-true"><a href="#d-i-hw-detect-load-firmware-boolean-true" class="headerlink" title="d-i hw-detect/load_firmware boolean true"></a>d-i hw-detect/load_firmware boolean true</h1><h1 id="NTP-Time-Setup"><a href="#NTP-Time-Setup" class="headerlink" title="NTP/Time Setup"></a>NTP/Time Setup</h1><p>d-i time/zone string US/Eastern<br>d-i clock-setup/utc boolean true<br>d-i clock-setup/ntp boolean true<br>d-i clock-setup/ntp-server  string ntp.ubuntu.com</p>
+<h1 id="Setup-the-installation-source"><a href="#Setup-the-installation-source" class="headerlink" title="Setup the installation source"></a>Setup the installation source</h1><p>d-i mirror/country string manual<br>d-i mirror/protocol string http<br>d-i mirror/http/hostname string 192.168.3.3<br>d-i mirror/http/directory string /cobbler/ks_mirror/ubuntu12.04<br>d-i mirror/http/proxy string <a href="http://192.168.3.3/" target="_blank" rel="external">http://192.168.3.3/</a></p>
+<h1 id="d-i-mirror-http-hostname-string-http-server"><a href="#d-i-mirror-http-hostname-string-http-server" class="headerlink" title="d-i mirror/http/hostname string $http_server"></a>d-i mirror/http/hostname string $http_server</h1><h1 id="d-i-mirror-http-directory-string-install-source-directory"><a href="#d-i-mirror-http-directory-string-install-source-directory" class="headerlink" title="d-i mirror/http/directory string $install_source_directory"></a>d-i mirror/http/directory string $install_source_directory</h1><h1 id="d-i-mirror-http-proxy-string"><a href="#d-i-mirror-http-proxy-string" class="headerlink" title="d-i mirror/http/proxy string"></a>d-i mirror/http/proxy string</h1><p>#set $os_v = $getVar(‘os_version’,’’)</p>
+<p>#if $os_v and $os_v.lower()[0] &gt; ‘p’</p>
+<h1 id="Required-at-least-for-12-10"><a href="#Required-at-least-for-12-10" class="headerlink" title="Required at least for 12.10+"></a>Required at least for 12.10+</h1><p>d-i live-installer/net-image string <a href="http://$http_server/cobbler/links/$distro_name/install/filesystem.squashfs" target="_blank" rel="external">http://$http_server/cobbler/links/$distro_name/install/filesystem.squashfs</a></p>
+<p>#end if</p>
+<h1 id="Suite-to-install"><a href="#Suite-to-install" class="headerlink" title="Suite to install."></a>Suite to install.</h1><h1 id="d-i-mirror-suite-string-precise"><a href="#d-i-mirror-suite-string-precise" class="headerlink" title="d-i mirror/suite string precise"></a>d-i mirror/suite string precise</h1><h1 id="d-i-mirror-udeb-suite-string-precise"><a href="#d-i-mirror-udeb-suite-string-precise" class="headerlink" title="d-i mirror/udeb/suite string precise"></a>d-i mirror/udeb/suite string precise</h1><h1 id="Components-to-use-for-loading-installer-components-optional"><a href="#Components-to-use-for-loading-installer-components-optional" class="headerlink" title="Components to use for loading installer components (optional)."></a>Components to use for loading installer components (optional).</h1><p>#d-i mirror/udeb/components multiselect main, restricted</p>
+<h1 id="Disk-Partitioning"><a href="#Disk-Partitioning" class="headerlink" title="Disk Partitioning"></a>Disk Partitioning</h1><h1 id="Use-LVM-and-wipe-out-anything-that-already-exists"><a href="#Use-LVM-and-wipe-out-anything-that-already-exists" class="headerlink" title="Use LVM, and wipe out anything that already exists"></a>Use LVM, and wipe out anything that already exists</h1><p>d-i partman/choose_partition select finish<br>d-i partman/confirm boolean true<br>d-i partman/confirm_nooverwrite boolean true<br>d-i partman-auto/method string lvm<br>d-i partman-lvm/device_remove_lvm boolean true<br>d-i partman-lvm/confirm boolean true<br>d-i partman-lvm/confirm_nooverwrite boolean true<br>d-i partman-md/device_remove_md boolean true<br>d-i partman-partitioning/confirm_write_new_label boolean true</p>
+<h1 id="You-can-choose-one-of-the-three-predefined-partitioning-recipes"><a href="#You-can-choose-one-of-the-three-predefined-partitioning-recipes" class="headerlink" title="You can choose one of the three predefined partitioning recipes:"></a>You can choose one of the three predefined partitioning recipes:</h1><h1 id="atomic-all-files-in-one-partition"><a href="#atomic-all-files-in-one-partition" class="headerlink" title="- atomic: all files in one partition"></a>- atomic: all files in one partition</h1><h1 id="home-separate-home-partition"><a href="#home-separate-home-partition" class="headerlink" title="- home:   separate /home partition"></a>- home:   separate /home partition</h1><h1 id="multi-separate-home-usr-var-and-tmp-partitions"><a href="#multi-separate-home-usr-var-and-tmp-partitions" class="headerlink" title="- multi:  separate /home, /usr, /var, and /tmp partitions"></a>- multi:  separate /home, /usr, /var, and /tmp partitions</h1><p>d-i partman-auto/choose_recipe select atomic</p>
+<h1 id="If-you-just-want-to-change-the-default-filesystem-from-ext3-to-something"><a href="#If-you-just-want-to-change-the-default-filesystem-from-ext3-to-something" class="headerlink" title="If you just want to change the default filesystem from ext3 to something"></a>If you just want to change the default filesystem from ext3 to something</h1><h1 id="else-you-can-do-that-without-providing-a-full-recipe"><a href="#else-you-can-do-that-without-providing-a-full-recipe" class="headerlink" title="else, you can do that without providing a full recipe."></a>else, you can do that without providing a full recipe.</h1><h1 id="d-i-partman-default-filesystem-string-ext4"><a href="#d-i-partman-default-filesystem-string-ext4" class="headerlink" title="d-i partman/default_filesystem string ext4"></a>d-i partman/default_filesystem string ext4</h1><h1 id="root-account-and-password"><a href="#root-account-and-password" class="headerlink" title="root account and password"></a>root account and password</h1><p>d-i passwd/root-login boolean true<br>d-i passwd/root-password-crypted password $default_password_crypted</p>
+<h1 id="skip-creation-of-a-normal-user-account"><a href="#skip-creation-of-a-normal-user-account" class="headerlink" title="skip creation of a normal user account."></a>skip creation of a normal user account.</h1><p>d-i passwd/make-user boolean false</p>
+<h1 id="You-can-choose-to-install-restricted-and-universe-software-or-to-install"><a href="#You-can-choose-to-install-restricted-and-universe-software-or-to-install" class="headerlink" title="You can choose to install restricted and universe software, or to install"></a>You can choose to install restricted and universe software, or to install</h1><h1 id="software-from-the-backports-repository"><a href="#software-from-the-backports-repository" class="headerlink" title="software from the backports repository."></a>software from the backports repository.</h1><h1 id="d-i-apt-setup-restricted-boolean-true"><a href="#d-i-apt-setup-restricted-boolean-true" class="headerlink" title="d-i apt-setup/restricted boolean true"></a>d-i apt-setup/restricted boolean true</h1><h1 id="d-i-apt-setup-universe-boolean-true"><a href="#d-i-apt-setup-universe-boolean-true" class="headerlink" title="d-i apt-setup/universe boolean true"></a>d-i apt-setup/universe boolean true</h1><h1 id="d-i-apt-setup-backports-boolean-true"><a href="#d-i-apt-setup-backports-boolean-true" class="headerlink" title="d-i apt-setup/backports boolean true"></a>d-i apt-setup/backports boolean true</h1><h1 id="Uncomment-this-if-you-don’t-want-to-use-a-network-mirror"><a href="#Uncomment-this-if-you-don’t-want-to-use-a-network-mirror" class="headerlink" title="Uncomment this if you don’t want to use a network mirror."></a>Uncomment this if you don’t want to use a network mirror.</h1><h1 id="d-i-apt-setup-use-mirror-boolean-false"><a href="#d-i-apt-setup-use-mirror-boolean-false" class="headerlink" title="d-i apt-setup/use_mirror boolean false"></a>d-i apt-setup/use_mirror boolean false</h1><h1 id="Select-which-update-services-to-use-define-the-mirrors-to-be-used"><a href="#Select-which-update-services-to-use-define-the-mirrors-to-be-used" class="headerlink" title="Select which update services to use; define the mirrors to be used."></a>Select which update services to use; define the mirrors to be used.</h1><h1 id="Values-shown-below-are-the-normal-defaults"><a href="#Values-shown-below-are-the-normal-defaults" class="headerlink" title="Values shown below are the normal defaults."></a>Values shown below are the normal defaults.</h1><h1 id="d-i-apt-setup-services-select-multiselect-security"><a href="#d-i-apt-setup-services-select-multiselect-security" class="headerlink" title="d-i apt-setup/services-select multiselect security"></a>d-i apt-setup/services-select multiselect security</h1><h1 id="d-i-apt-setup-security-host-string-security-ubuntu-com"><a href="#d-i-apt-setup-security-host-string-security-ubuntu-com" class="headerlink" title="d-i apt-setup/security_host string security.ubuntu.com"></a>d-i apt-setup/security_host string security.ubuntu.com</h1><h1 id="d-i-apt-setup-security-path-string-ubuntu"><a href="#d-i-apt-setup-security-path-string-ubuntu" class="headerlink" title="d-i apt-setup/security_path string /ubuntu"></a>d-i apt-setup/security_path string /ubuntu</h1><p>$SNIPPET(‘preseed_apt_repo_config’)</p>
+<h1 id="Enable-deb-src-lines"><a href="#Enable-deb-src-lines" class="headerlink" title="Enable deb-src lines"></a>Enable deb-src lines</h1><h1 id="d-i-apt-setup-local0-source-boolean-true"><a href="#d-i-apt-setup-local0-source-boolean-true" class="headerlink" title="d-i apt-setup/local0/source boolean true"></a>d-i apt-setup/local0/source boolean true</h1><h1 id="URL-to-the-public-key-of-the-local-repository-you-must-provide-a-key-or"><a href="#URL-to-the-public-key-of-the-local-repository-you-must-provide-a-key-or" class="headerlink" title="URL to the public key of the local repository; you must provide a key or"></a>URL to the public key of the local repository; you must provide a key or</h1><h1 id="apt-will-complain-about-the-unauthenticated-repository-and-so-the"><a href="#apt-will-complain-about-the-unauthenticated-repository-and-so-the" class="headerlink" title="apt will complain about the unauthenticated repository and so the"></a>apt will complain about the unauthenticated repository and so the</h1><h1 id="sources-list-line-will-be-left-commented-out"><a href="#sources-list-line-will-be-left-commented-out" class="headerlink" title="sources.list line will be left commented out"></a>sources.list line will be left commented out</h1><h1 id="d-i-apt-setup-local0-key-string-http-local-server-key"><a href="#d-i-apt-setup-local0-key-string-http-local-server-key" class="headerlink" title="d-i apt-setup/local0/key string http://local.server/key"></a>d-i apt-setup/local0/key string <a href="http://local.server/key" target="_blank" rel="external">http://local.server/key</a></h1><h1 id="By-default-the-installer-requires-that-repositories-be-authenticated"><a href="#By-default-the-installer-requires-that-repositories-be-authenticated" class="headerlink" title="By default the installer requires that repositories be authenticated"></a>By default the installer requires that repositories be authenticated</h1><h1 id="using-a-known-gpg-key-This-setting-can-be-used-to-disable-that"><a href="#using-a-known-gpg-key-This-setting-can-be-used-to-disable-that" class="headerlink" title="using a known gpg key. This setting can be used to disable that"></a>using a known gpg key. This setting can be used to disable that</h1><h1 id="authentication-Warning-Insecure-not-recommended"><a href="#authentication-Warning-Insecure-not-recommended" class="headerlink" title="authentication. Warning: Insecure, not recommended."></a>authentication. Warning: Insecure, not recommended.</h1><h1 id="d-i-debian-installer-allow-unauthenticated-boolean-true"><a href="#d-i-debian-installer-allow-unauthenticated-boolean-true" class="headerlink" title="d-i debian-installer/allow_unauthenticated boolean true"></a>d-i debian-installer/allow_unauthenticated boolean true</h1><h1 id="Individual-additional-packages-to-install"><a href="#Individual-additional-packages-to-install" class="headerlink" title="Individual additional packages to install"></a>Individual additional packages to install</h1><h1 id="wget-is-REQUIRED-otherwise-quite-a-few-things-won’t-work"><a href="#wget-is-REQUIRED-otherwise-quite-a-few-things-won’t-work" class="headerlink" title="wget is REQUIRED otherwise quite a few things won’t work"></a>wget is REQUIRED otherwise quite a few things won’t work</h1><h1 id="later-in-the-build-like-late-command-scripts"><a href="#later-in-the-build-like-late-command-scripts" class="headerlink" title="later in the build (like late-command scripts)"></a>later in the build (like late-command scripts)</h1><p>d-i pkgsel/include string ntp ssh wget</p>
+<h1 id="Use-the-following-option-to-add-additional-boot-parameters-for-the"><a href="#Use-the-following-option-to-add-additional-boot-parameters-for-the" class="headerlink" title="Use the following option to add additional boot parameters for the"></a>Use the following option to add additional boot parameters for the</h1><h1 id="installed-system-if-supported-by-the-bootloader-installer"><a href="#installed-system-if-supported-by-the-bootloader-installer" class="headerlink" title="installed system (if supported by the bootloader installer)."></a>installed system (if supported by the bootloader installer).</h1><h1 id="Note-options-passed-to-the-installer-will-be-added-automatically"><a href="#Note-options-passed-to-the-installer-will-be-added-automatically" class="headerlink" title="Note: options passed to the installer will be added automatically."></a>Note: options passed to the installer will be added automatically.</h1><p>d-i debian-installer/add-kernel-opts string $kernel_options_post</p>
+<h1 id="Avoid-that-last-message-about-the-install-being-complete"><a href="#Avoid-that-last-message-about-the-install-being-complete" class="headerlink" title="Avoid that last message about the install being complete."></a>Avoid that last message about the install being complete.</h1><p>d-i finish-install/reboot_in_progress note</p>
+<h2 id="Figure-out-if-we’re-kickstarting-a-system-or-a-profile"><a href="#Figure-out-if-we’re-kickstarting-a-system-or-a-profile" class="headerlink" title="Figure out if we’re kickstarting a system or a profile"></a>Figure out if we’re kickstarting a system or a profile</h2><p>#if $getVar(‘system_name’,’’) != ‘’</p>
+<p>#set $what = “system”</p>
+<p>#else</p>
+<p>#set $what = “profile”</p>
+<p>#end if</p>
+<h1 id="This-first-command-is-run-as-early-as-possible-just-after-preseeding-is-read"><a href="#This-first-command-is-run-as-early-as-possible-just-after-preseeding-is-read" class="headerlink" title="This first command is run as early as possible, just after preseeding is read."></a>This first command is run as early as possible, just after preseeding is read.</h1><h1 id="d-i-preseed-early-command-string-command"><a href="#d-i-preseed-early-command-string-command" class="headerlink" title="d-i preseed/early_command string [command]"></a>d-i preseed/early_command string [command]</h1><p>d-i preseed/early_command string wget -O- \<br>   <a href="http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_early_default" target="_blank" rel="external">http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_early_default</a> | \<br>   /bin/sh -s</p>
+<h1 id="This-command-is-run-immediately-before-the-partitioner-starts-It-may-be"><a href="#This-command-is-run-immediately-before-the-partitioner-starts-It-may-be" class="headerlink" title="This command is run immediately before the partitioner starts. It may be"></a>This command is run immediately before the partitioner starts. It may be</h1><h1 id="useful-to-apply-dynamic-partitioner-preseeding-that-depends-on-the-state"><a href="#useful-to-apply-dynamic-partitioner-preseeding-that-depends-on-the-state" class="headerlink" title="useful to apply dynamic partitioner preseeding that depends on the state"></a>useful to apply dynamic partitioner preseeding that depends on the state</h1><h1 id="of-the-disks-which-may-not-be-visible-when-preseed-early-command-runs"><a href="#of-the-disks-which-may-not-be-visible-when-preseed-early-command-runs" class="headerlink" title="of the disks (which may not be visible when preseed/early_command runs)."></a>of the disks (which may not be visible when preseed/early_command runs).</h1><h1 id="d-i-partman-early-command"><a href="#d-i-partman-early-command" class="headerlink" title="d-i partman/early_command \"></a>d-i partman/early_command \</h1><h1 id="string-debconf-set-partman-auto-disk-“-list-devices-disk-head-n1-”"><a href="#string-debconf-set-partman-auto-disk-“-list-devices-disk-head-n1-”" class="headerlink" title="string debconf-set partman-auto/disk “\$(list-devices disk | head -n1)”"></a>string debconf-set partman-auto/disk “\$(list-devices disk | head -n1)”</h1><h1 id="This-command-is-run-just-before-the-install-finishes-but-when-there-is"><a href="#This-command-is-run-just-before-the-install-finishes-but-when-there-is" class="headerlink" title="This command is run just before the install finishes, but when there is"></a>This command is run just before the install finishes, but when there is</h1><h1 id="still-a-usable-target-directory-You-can-chroot-to-target-and-use-it"><a href="#still-a-usable-target-directory-You-can-chroot-to-target-and-use-it" class="headerlink" title="still a usable /target directory. You can chroot to /target and use it"></a>still a usable /target directory. You can chroot to /target and use it</h1><h1 id="directly-or-use-the-apt-install-and-in-target-commands-to-easily-install"><a href="#directly-or-use-the-apt-install-and-in-target-commands-to-easily-install" class="headerlink" title="directly, or use the apt-install and in-target commands to easily install"></a>directly, or use the apt-install and in-target commands to easily install</h1><h1 id="packages-and-run-commands-in-the-target-system"><a href="#packages-and-run-commands-in-the-target-system" class="headerlink" title="packages and run commands in the target system."></a>packages and run commands in the target system.</h1><h1 id="d-i-preseed-late-command-string-command"><a href="#d-i-preseed-late-command-string-command" class="headerlink" title="d-i preseed/late_command string [command]"></a>d-i preseed/late_command string [command]</h1><p>d-i preseed/late_command string wget -O- \<br>   <a href="http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_late_default" target="_blank" rel="external">http://$http_server/cblr/svc/op/script/$what/$name/?script=preseed_late_default</a> | \<br>   chroot /target /bin/sh -s<br>[root@cobbler ~]# </p>
+<p>[root@cobbler ~]# mount /dev/cdrom /var/www/html/os/CentOS_6.5-86_64<br>mount: block device /dev/xvdd is write-protected, mounting read-only<br>[root@cobbler ~]# ls /var/www/html/os/CentOS_6.5-86_64<br>CentOS_BuildTag  isolinux                  RPM-GPG-KEY-CentOS-Debug-6<br>EFI              Packages                  RPM-GPG-KEY-CentOS-Security-6<br>EULA             RELEASE-NOTES-en-US.html  RPM-GPG-KEY-CentOS-Testing-6<br>GPL              repodata                  TRANS.TBL<br>images           RPM-GPG-KEY-CentOS-6<br>[root@cobbler ~]#<br>导入系统镜像到cobbler中<br>执行以下语句将镜像挂载到cobbler中<br>[root@cobbler ~]# cobbler import –path=/var/www/html/os/CentOS_6.5-86_64 –name=CentOS_6.5-86_64 –arch=x86_64<br>task started: 2016-06-06_150723_import<br>task started (id=Media import, time=Mon Jun  6 15:07:23 2016)<br>Found a candidate signature: breed=redhat, version=rhel6<br>Found a matching signature: breed=redhat, version=rhel6<br>Adding distros from path /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64:<br>creating new distro: CentOS_6.5-86_64-x86_64<br>trying symlink: /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64 -&gt; /var/www/cobbler/links/CentOS_6.5-86_64-x86_64<br>creating new profile: CentOS_6.5-86_64-x86_64<br>associating repos<br>checking for rsync repo(s)<br>checking for rhn repo(s)<br>checking for yum repo(s)<br>starting descent into /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64 for CentOS_6.5-86_64-x86_64<br>processing repo at : /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>need to process repo/comps: /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>looking for /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64/repodata/<em>comps</em>.xml<br>Keeping repodata as-is :/var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64/repodata<br><strong><em> TASK COMPLETE </em></strong><br>[root@cobbler ~]# </p>
+<p>#其中安装源的name即为安装时显示的名称，arch目前支持x86|x86_64|ia64这三种完成后会出现以下提示：associating  kickstarts<strong><em> TASK COMPLETE </em></strong><br>比较大小<br>最后可以通过比较两个文件的大小来判断导入是否正常：<br>[root@cobbler ~]# du -sh /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>4.2G    /var/www/cobbler/ks_mirror/CentOS_6.5-86_64-x86_64<br>[root@cobbler ~]# du -sh /var/www/html/os/CentOS_6.5-86_64<br>4.2G    /var/www/html/os/CentOS_6.5-86_64<br>[root@cobbler ~]</p>
+<p>重新导入<br>重新导入之前需要将原来的删除，执行以下命令：<br>cobbler remove -name=[CentOS_6.5-86_64]</p>
+<p>cobbler WEB服务<br>yum -y install cobbler-web<br>vim /etc/cobbler/modules.conf<br>module = authn_configfile</p>
+<p>#修改认证方式为密码文件类型<br>htdigest /etc/cobbler/users.digest “Cobbler” cobbler</p>
+<p>#添加cobbler用户，提示输入2遍密码确认</p>
+<p>cobbler sync</p>
+<p>#/输出<strong><em> TASK COMPLETE </em></strong> 表示配置无错误<br>/etc/init.d/httpd restart<br>service cobbler restart<br>cobbler check<br><a href="http://10.6.4.3/cobbler_web" target="_blank" rel="external">http://10.6.4.3/cobbler_web</a><br><a href="http://192.168.3.3/cobbler_web" target="_blank" rel="external">http://192.168.3.3/cobbler_web</a></p>
+<p>[root@cobbler ~]# vim /var/lib/cobbler/kickstarts/default.ks</p>
+<h1 id="kickstart-template-for-Fedora-8-and-later"><a href="#kickstart-template-for-Fedora-8-and-later" class="headerlink" title="kickstart template for Fedora 8 and later."></a>kickstart template for Fedora 8 and later.</h1><h1 id="includes-end-blocks"><a href="#includes-end-blocks" class="headerlink" title="(includes %end blocks)"></a>(includes %end blocks)</h1><h1 id="do-not-use-with-earlier-distros"><a href="#do-not-use-with-earlier-distros" class="headerlink" title="do not use with earlier distros"></a>do not use with earlier distros</h1><p>#platform=x86, AMD64, or Intel EM64T</p>
+<h1 id="System-authorization-information"><a href="#System-authorization-information" class="headerlink" title="System authorization information"></a>System authorization information</h1><p>auth  –useshadow  –enablemd5</p>
+<h1 id="System-bootloader-configuration"><a href="#System-bootloader-configuration" class="headerlink" title="System bootloader configuration"></a>System bootloader configuration</h1><p>bootloader –location=mbr</p>
+<h1 id="Partition-clearing-information"><a href="#Partition-clearing-information" class="headerlink" title="Partition clearing information"></a>Partition clearing information</h1><p>clearpart –all –initlabel<br>part /boot –fstype=ext4 –asprimary –size=200<br>part swap –size=2048<br>part / –fstype=ext4 –grow –asprimary –size=200</p>
+<h1 id="Use-text-mode-install"><a href="#Use-text-mode-install" class="headerlink" title="Use text mode install"></a>Use text mode install</h1><p>text</p>
+<h1 id="Firewall-configuration"><a href="#Firewall-configuration" class="headerlink" title="Firewall configuration"></a>Firewall configuration</h1><p>firewall –disabled</p>
+<h1 id="Run-the-Setup-Agent-on-first-boot"><a href="#Run-the-Setup-Agent-on-first-boot" class="headerlink" title="Run the Setup Agent on first boot"></a>Run the Setup Agent on first boot</h1><p>firstboot –disable</p>
+<h1 id="System-keyboard"><a href="#System-keyboard" class="headerlink" title="System keyboard"></a>System keyboard</h1><p>keyboard us</p>
+<h1 id="System-language"><a href="#System-language" class="headerlink" title="System language"></a>System language</h1><p>lang en_US</p>
+<h1 id="Use-network-installation"><a href="#Use-network-installation" class="headerlink" title="Use network installation"></a>Use network installation</h1><p>url –url=$tree</p>
+<h1 id="If-any-cobbler-repo-definitions-were-referenced-in-the-kickstart-profile-include-them-here"><a href="#If-any-cobbler-repo-definitions-were-referenced-in-the-kickstart-profile-include-them-here" class="headerlink" title="If any cobbler repo definitions were referenced in the kickstart profile, include them here."></a>If any cobbler repo definitions were referenced in the kickstart profile, include them here.</h1><p>$yum_repo_stanza</p>
+<h1 id="Network-information"><a href="#Network-information" class="headerlink" title="Network information"></a>Network information</h1><p>$SNIPPET(‘network_config’)</p>
+<h1 id="Reboot-after-installation"><a href="#Reboot-after-installation" class="headerlink" title="Reboot after installation"></a>Reboot after installation</h1><p>reboot</p>
+<p>#Root password<br>rootpw –iscrypted $default_password_crypted</p>
+<h1 id="SELinux-configuration"><a href="#SELinux-configuration" class="headerlink" title="SELinux configuration"></a>SELinux configuration</h1><p>selinux –disabled</p>
+<h1 id="Do-not-configure-the-X-Window-System"><a href="#Do-not-configure-the-X-Window-System" class="headerlink" title="Do not configure the X Window System"></a>Do not configure the X Window System</h1><p>skipx</p>
+<h1 id="System-timezone"><a href="#System-timezone" class="headerlink" title="System timezone"></a>System timezone</h1><p>timezone  Asia/Shanghai</p>
+<h1 id="Install-OS-instead-of-upgrade"><a href="#Install-OS-instead-of-upgrade" class="headerlink" title="Install OS instead of upgrade"></a>Install OS instead of upgrade</h1><p>install</p>
+<h1 id="Clear-the-Master-Boot-Record"><a href="#Clear-the-Master-Boot-Record" class="headerlink" title="Clear the Master Boot Record"></a>Clear the Master Boot Record</h1><p>zerombr</p>
+<h1 id="Allow-anaconda-to-partition-the-system-as-needed"><a href="#Allow-anaconda-to-partition-the-system-as-needed" class="headerlink" title="Allow anaconda to partition the system as needed"></a>Allow anaconda to partition the system as needed</h1><h1 id="autopart"><a href="#autopart" class="headerlink" title="autopart"></a>autopart</h1><p>%pre<br>$SNIPPET(‘log_ks_pre’)<br>$SNIPPET(‘kickstart_start’)<br>$SNIPPET(‘pre_install_network_config’)</p>
+<h1 id="Enable-installation-monitoring"><a href="#Enable-installation-monitoring" class="headerlink" title="Enable installation monitoring"></a>Enable installation monitoring</h1><p>$SNIPPET(‘pre_anamon’)<br>%end</p>
+<p>%packages<br>@base<br>@core<br>@debugging<br>@basic-desktop<br>@desktop-debugging<br>@desktop-platform<br>@directory-client<br>@fonts<br>@general-desktop<br>@graphical-admin-tools<br>@input-methods<br>@internet-applications<br>@internet-browser<br>@java-platform<br>@legacy-x<br>@network-file-system-client<br>@office-suite<br>@print-client<br>@remote-desktop-clients<br>@server-platform<br>@server-policy<br>@workstation-policy<br>@x11<br>$SNIPPET(‘func_install_if_enabled’)<br>%end</p>
+<p>%post –nochroot<br>$SNIPPET(‘log_ks_post_nochroot’)<br>%end</p>
+<p>%post<br>$SNIPPET(‘log_ks_post’)</p>
+<h1 id="Start-yum-configuration"><a href="#Start-yum-configuration" class="headerlink" title="Start yum configuration"></a>Start yum configuration</h1><p>$yum_config_stanza</p>
+<h1 id="End-yum-configuration"><a href="#End-yum-configuration" class="headerlink" title="End yum configuration"></a>End yum configuration</h1><p>$SNIPPET(‘post_install_kernel_options’)<br>$SNIPPET(‘post_install_network_config’)<br>$SNIPPET(‘func_register_if_enabled’)<br>$SNIPPET(‘download_config_files’)<br>$SNIPPET(‘koan_environment’)<br>$SNIPPET(‘redhat_register’)<br>$SNIPPET(‘cobbler_register’)</p>
+<h1 id="Enable-post-install-boot-notification"><a href="#Enable-post-install-boot-notification" class="headerlink" title="Enable post-install boot notification"></a>Enable post-install boot notification</h1><p>$SNIPPET(‘post_anamon’)</p>
+<h1 id="Start-final-steps"><a href="#Start-final-steps" class="headerlink" title="Start final steps"></a>Start final steps</h1><p>$SNIPPET(‘kickstart_done’)</p>
+<h1 id="End-final-steps"><a href="#End-final-steps" class="headerlink" title="End final steps"></a>End final steps</h1><p>%end</p>
+<p>service cobbler restart<br>cobbler sync<br>cobbler check    </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Cobbler-1/" data-id="ciwvdwbzn0009m4cyhxdtpomw" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/CentOS-6-x-Squid-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          CentOS 6.x Squid
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x-Template/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x Template</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

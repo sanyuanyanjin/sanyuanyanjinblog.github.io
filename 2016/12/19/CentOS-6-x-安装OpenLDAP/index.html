@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x 安装OpenLDAP | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="yum -y install openldap  db4slappasswdcp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf
+vim /etc/openldap/slapd.confaccess to *    by dn.exact=”gidNumber=0+uidNumber=0,cn=pee">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x 安装OpenLDAP">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="yum -y install openldap  db4slappasswdcp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf
+vim /etc/openldap/slapd.confaccess to *    by dn.exact=”gidNumber=0+uidNumber=0,cn=pee">
+<meta property="og:updated_time" content="2016-12-19T01:04:26.373Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x 安装OpenLDAP">
+<meta name="twitter:description" content="yum -y install openldap  db4slappasswdcp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf
+vim /etc/openldap/slapd.confaccess to *    by dn.exact=”gidNumber=0+uidNumber=0,cn=pee">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-安装OpenLDAP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/" class="article-date">
+  <time datetime="2016-12-19T01:04:07.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x 安装OpenLDAP
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum -y install openldap<em>  db4</em><br>slappasswd<br>cp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf</p>
+<p>vim /etc/openldap/slapd.conf<br>access to *<br>    by dn.exact=”gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth” read</p>
+<h1 id="by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read"><a href="#by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read" class="headerlink" title="by dn.exact=”cn=Manager,dc=my-domain,dc=com” read"></a>by dn.exact=”cn=Manager,dc=my-domain,dc=com” read</h1><pre><code>by dn.exact=&quot;cn=admin,dc=example,dc=com&quot; read
+    by * none
+</code></pre><p>database    bdb</p>
+<h1 id="suffix-“dc-my-domain-dc-com”"><a href="#suffix-“dc-my-domain-dc-com”" class="headerlink" title="suffix        “dc=my-domain,dc=com”"></a>suffix        “dc=my-domain,dc=com”</h1><p>suffix          “dc=example,dc=com”<br>checkpoint    1024 15<br>rootdn          “cn=admin,dc=example,dc=com”</p>
+<h1 id="rootdn-“cn-Manager-dc-my-domain-dc-com”"><a href="#rootdn-“cn-Manager-dc-my-domain-dc-com”" class="headerlink" title="rootdn        “cn=Manager,dc=my-domain,dc=com”"></a>rootdn        “cn=Manager,dc=my-domain,dc=com”</h1><h1 id="Cleartext-passwords-especially-for-the-rootdn-should"><a href="#Cleartext-passwords-especially-for-the-rootdn-should" class="headerlink" title="Cleartext passwords, especially for the rootdn, should"></a>Cleartext passwords, especially for the rootdn, should</h1><h1 id="be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details"><a href="#be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details" class="headerlink" title="be avoided.  See slappasswd(8) and slapd.conf(5) for details."></a>be avoided.  See slappasswd(8) and slapd.conf(5) for details.</h1><h1 id="Use-of-strong-authentication-encouraged"><a href="#Use-of-strong-authentication-encouraged" class="headerlink" title="Use of strong authentication encouraged."></a>Use of strong authentication encouraged.</h1><h1 id="rootpw-secret"><a href="#rootpw-secret" class="headerlink" title="rootpw        secret"></a>rootpw        secret</h1><h1 id="rootpw-crypt-ijFYNcSNctBYg"><a href="#rootpw-crypt-ijFYNcSNctBYg" class="headerlink" title="rootpw        {crypt}ijFYNcSNctBYg"></a>rootpw        {crypt}ijFYNcSNctBYg</h1><p>rootpw        yanjin</p>
+<p>cp /usr/share/openldap-servers/DB_CONFIG.example  /var/lib/ldap/DB_CONFIG<br>rm -rf /etc/openldap/slapd.d/*<br>service slapd restart<br>chkconfig slapd on<br>chown -R ldap:ldap /var/lib/ldap<br>chown -R ldap:ldap /etc/openldap/<br>slaptest  -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d<br>chown -R ldap:ldap /etc/openldap/slapd.d<br>service slapd restart<br>useradd ldapuser1<br>passwd ldapuser1<br>yum install migrationtools -y<br>[root@localhost ~]# cd /usr/share/migrationtools/<br>[root@localhost migrationtools]# vim  migrate_common.ph<br>70 行</p>
+<h1 id="DEFAULT-MAIL-DOMAIN-“padl-com”"><a href="#DEFAULT-MAIL-DOMAIN-“padl-com”" class="headerlink" title="$DEFAULT_MAIL_DOMAIN = “padl.com”;"></a>$DEFAULT_MAIL_DOMAIN = “padl.com”;</h1><p>$DEFAULT_MAIL_DOMAIN = “example.com”;</p>
+<h1 id="Default-base"><a href="#Default-base" class="headerlink" title="Default base"></a>Default base</h1><h1 id="DEFAULT-BASE-“dc-padl-dc-com”"><a href="#DEFAULT-BASE-“dc-padl-dc-com”" class="headerlink" title="$DEFAULT_BASE = “dc=padl,dc=com”;"></a>$DEFAULT_BASE = “dc=padl,dc=com”;</h1><p>$DEFAULT_BASE = “dc=example,dc=com”;</p>
+<p>[root@localhost migrationtools]# ./migrate_base.pl &gt; /tmp/base.ldif<br>[root@localhost migrationtools]# ./migrate_passwd.pl  /etc/passwd &gt; /tmp/passwd.ldif<br>[root@localhost migrationtools]# ./migrate_group.pl  /etc/group &gt; /tmp/group.ldif<br>[root@localhost migrationtools]# </p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/base.ldif</p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/passwd.ldif</p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/group.ldif<br>service slapd restart</p>
+<p>导入导出<br>LdapAdmin.exe</p>
+<p>10.6.0.19<br>389<br>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>sztzuchi</p>
+<p>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>yanjin</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="ciwvdwc0r000xm4cynans1icw" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Centos-7-x-预配-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Centos 7.x 预配
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/Centos-7-x-安装zabbix/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">Centos 7.x 安装zabbix</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

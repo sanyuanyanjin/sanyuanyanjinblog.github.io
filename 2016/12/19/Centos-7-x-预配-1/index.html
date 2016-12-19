@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Centos 7.x 预配 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="VMware Toolstar -zxvf VMwareTools-*.tar.gzcd vmware-tools-distrib/ls./vmware-install.pl
+XenServer Toolsmount /dev/cdrom /mnt/mount: /dev/sr0 写保护，将以只读方式挂载cd /mnt/Linux/
+[root@CentOS7 ~]# sed -i ‘s#keep">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Centos 7.x 预配">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="VMware Toolstar -zxvf VMwareTools-*.tar.gzcd vmware-tools-distrib/ls./vmware-install.pl
+XenServer Toolsmount /dev/cdrom /mnt/mount: /dev/sr0 写保护，将以只读方式挂载cd /mnt/Linux/
+[root@CentOS7 ~]# sed -i ‘s#keep">
+<meta property="og:updated_time" content="2016-12-19T01:05:13.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Centos 7.x 预配">
+<meta name="twitter:description" content="VMware Toolstar -zxvf VMwareTools-*.tar.gzcd vmware-tools-distrib/ls./vmware-install.pl
+XenServer Toolsmount /dev/cdrom /mnt/mount: /dev/sr0 写保护，将以只读方式挂载cd /mnt/Linux/
+[root@CentOS7 ~]# sed -i ‘s#keep">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Centos-7-x-预配-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Centos-7-x-预配-1/" class="article-date">
+  <time datetime="2016-12-19T01:04:53.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Centos 7.x 预配
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>VMware Tools<br>tar -zxvf VMwareTools-*.tar.gz<br>cd vmware-tools-distrib/<br>ls<br>./vmware-install.pl</p>
+<p>XenServer Tools<br>mount /dev/cdrom /mnt/<br>mount: /dev/sr0 写保护，将以只读方式挂载<br>cd /mnt/Linux/</p>
+<p>[root@CentOS7 ~]# sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>[root@CentOS7 ~]# grep keepcache /etc/yum.conf<br>keepcache=1<br>[root@CentOS7 ~]# ls /var/cache/yum/x86_64/7/base/packages/</p>
+<p>vim /etc/hostname<br>cat /etc/hostname<br>CentOS7</p>
+<p>vim /etc/hosts<br>cat /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6<br>[root@CentOS7 ~]#</p>
+<p>vim /etc/selinux/config<br>[root@CentOS7 ~]# cat /etc/selinux/config</p>
+<h1 id="This-file-controls-the-state-of-SELinux-on-the-system"><a href="#This-file-controls-the-state-of-SELinux-on-the-system" class="headerlink" title="This file controls the state of SELinux on the system."></a>This file controls the state of SELinux on the system.</h1><h1 id="SELINUX-can-take-one-of-these-three-values"><a href="#SELINUX-can-take-one-of-these-three-values" class="headerlink" title="SELINUX= can take one of these three values:"></a>SELINUX= can take one of these three values:</h1><h1 id="enforcing-SELinux-security-policy-is-enforced"><a href="#enforcing-SELinux-security-policy-is-enforced" class="headerlink" title="enforcing - SELinux security policy is enforced."></a>enforcing - SELinux security policy is enforced.</h1><h1 id="permissive-SELinux-prints-warnings-instead-of-enforcing"><a href="#permissive-SELinux-prints-warnings-instead-of-enforcing" class="headerlink" title="permissive - SELinux prints warnings instead of enforcing."></a>permissive - SELinux prints warnings instead of enforcing.</h1><h1 id="disabled-No-SELinux-policy-is-loaded"><a href="#disabled-No-SELinux-policy-is-loaded" class="headerlink" title="disabled - No SELinux policy is loaded."></a>disabled - No SELinux policy is loaded.</h1><h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
+<h1 id="SELINUXTYPE-can-take-one-of-three-two-values"><a href="#SELINUXTYPE-can-take-one-of-three-two-values" class="headerlink" title="SELINUXTYPE= can take one of three two values:"></a>SELINUXTYPE= can take one of three two values:</h1><h1 id="targeted-Targeted-processes-are-protected"><a href="#targeted-Targeted-processes-are-protected" class="headerlink" title="targeted - Targeted processes are protected,"></a>targeted - Targeted processes are protected,</h1><h1 id="minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected"><a href="#minimum-Modification-of-targeted-policy-Only-selected-processes-are-protected" class="headerlink" title="minimum - Modification of targeted policy. Only selected processes are protected."></a>minimum - Modification of targeted policy. Only selected processes are protected.</h1><h1 id="mls-Multi-Level-Security-protection"><a href="#mls-Multi-Level-Security-protection" class="headerlink" title="mls - Multi Level Security protection."></a>mls - Multi Level Security protection.</h1><p>SELINUXTYPE=targeted</p>
+<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service<br>Removed symlink /etc/systemd/system/dbus-org.fedoraproject.FirewallD1.service.<br>Removed symlink /etc/systemd/system/basic.target.wants/firewalld.service.<br>[root@CentOS7 ~]#<br>reboot</p>
+<p>getenforce<br>Disabled</p>
+<p>查看firewall</p>
+<p>快照</p>
+<p>rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-7.noarch.rpm</a><br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.120.2.101<br>n1<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>yum groupinstall “Development tools”</p>
+<p>克隆 修改为命令行 </p>
+<p>CentOS7修改默认运行级别<br>查看状态<br>systemctl get-default<br>修改为命令行<br>systemctl set-default multi-user.target<br>修改为图形<br>systemctl set-default graphical.target</p>
+<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>ONBOOT=”yes”<br>IPADDR=192.168.57.3<br>PREFIX=24<br>GATEWAY=192.168.57.2<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5</p>
+<p>[root@Centos7-Zabbix ~]# cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>TYPE=”Ethernet”<br>BOOTPROTO=”none”<br>DEFROUTE=”yes”<br>IPV4_FAILURE_FATAL=”no”<br>IPV6INIT=”yes”<br>IPV6_AUTOCONF=”yes”<br>IPV6_DEFROUTE=”yes”<br>IPV6_FAILURE_FATAL=”no”<br>NAME=”eth0”<br>UUID=”e228b577-792e-4188-be8c-af777ce949e0”<br>DEVICE=”eth0”<br>ONBOOT=”yes”<br>IPADDR=”10.6.4.103”<br>PREFIX=”24”<br>GATEWAY=”10.6.4.1”<br>DNS1=”61.177.7.1”<br>DOMAIN=”223.5.5.5”<br>IPV6_PEERDNS=”yes”<br>IPV6_PEERROUTES=”yes”<br>IPV6_PRIVACY=”no”<br>[root@Centos7-Zabbix ~]#</p>
+<p>yum install lrzsz -y<br>sz download<br>rz upload</p>
+<p>保留RPM包<br>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>ls /var/cache/yum/x86_64/7/base/packages/</p>
+<p>快照</p>
+<p>rpm -qa | grep java<br>rpm -e –nodeps javapackages-tools-3.4.1-5.el7.noarch<br>rpm -e –nodeps java-1.7.0-openjdk-headless-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps python-javapackages-3.4.1-5.el7.noarch<br>rpm -e –nodeps tzdata-java-2014b-1.el7.noarch<br>rpm -qa | grep java</p>
+<p>tar -xvf jdk-8u66-linux-x64.tar.gz<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin<br>source /etc/profile<br>java -version</p>
+<p>wget <a href="https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz</a><br>wget <a href="https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.4.3/Python-3.4.3.tar.xz</a></p>
+<p>ll -h<br>tar -Jxvf Python-3.4.3.tar.xz<br>mkdir /usr/local/python3<br>cd Python-3.4.3/<br>yum -y install gcc<br>./configure –prefix=/usr/local/python3<br>make<br>make install<br>cd /usr/bin/<br>mv python python2.7<br>ln -s /usr/local/python3/bin/python3 /usr/bin/python<br>python<br>Python 3.4.3 (default, Jun 17 2016, 13:34:53)<br>[GCC 4.8.5 20150623 (Red Hat 4.8.5-4)] on linux<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>vim /usr/bin/yum</p>
+<p>#!/usr/bin/python2.7<br>vim /usr/libexec/urlgrabber-ext-down</p>
+<p>#! /usr/bin/python2.7</p>
+<p>yum -y install ntp</p>
+<p>python -V<br>Python 3.4.3<br>python</p>
+<p>vim /etc/profile<br>source /etc/profile</p>
+<p>uname -a<br>su jinyan<br>mv eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz /home/jinyan/<br>cd /home/jinyan/<br>chown jinyan:jinyan eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz</p>
+<p>rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>wget <a href="http://nginx.org/keys/nginx_signing.key" target="_blank" rel="external">http://nginx.org/keys/nginx_signing.key</a><br>rpmkeys –import nginx_signing.key<br>vim /etc/yum.repos.d/nginx.repo<br>rpmkeys -K nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>yum -y install nginx<br>systemctl start nginx<br>systemctl enable nginx<br>systemctl status httpd.service<br>systemctl status nginx.service<br>vim /etc/nginx/nginx.conf </p>
+<p>nano /etc/nginx/nginx.conf<br>vim /etc/nginx/nginx.conf<br>nginx -s reload<br>mkdir -p /data/www<br>getenforce<br>echo “This a test page.” &gt;/data/www/index.html</p>
+<p>chmod -R 777 /data/www/<br>tail -f /var/log/nginx/error.log<br>cd /data/www/<br>touch favicon.ico<br>ls<br>tail -f /var/log/nginx/error.log<br>nginx -s reload</p>
+<p>yum install perl-DBI -y<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>yum install mysql-community-server -y<br>yum -y install mysql-community-client</p>
+<p>systemctl start mysqld<br>systemctl enable mysqld<br>systemctl status mysqld<br>netstat -tunlp | grep :3306<br>mysqladmin -uroot password yanjin<br>mysqladmin -uroot password<br>mysqladmin -u root password<br>mysql -uroot -pyanjin</p>
+<h1 id="假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话："><a href="#假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话：" class="headerlink" title="假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话："></a>假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话：</h1><p>[root@study ~]# dd if=centos7.iso of=/dev/sdc</p>
+<p>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="ciwvdwc1a001fm4cyk1kxuf55" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Ubuntu-14-04-预配/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Ubuntu 14.04 预配
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CentOS 6.x 安装OpenLDAP</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

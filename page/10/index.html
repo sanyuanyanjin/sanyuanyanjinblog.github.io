@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Ubuntu-16-x-预配" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Ubuntu-16-x-预配/" class="article-date">
-  <time datetime="2016-12-13T02:07:42.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/操作文件和目录/" class="article-date">
+  <time datetime="2016-12-13T06:01:49.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Ubuntu-16-x-预配/">Ubuntu 16.x 预配</a>
+      <a class="article-title" href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
     </h1>
   
 
@@ -83,42 +83,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>java<br>vm tools<br>sudo passwd root<br>Ubuntu软件中心——编辑——更换软件源</p>
-<p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true<br>Ubuntu启用root账户后，登录root账户时报错：读取/root/.profile时发现错误：mesg:ttyname failed:对设备不适当的ioctl操作 作为结果，会话不会被正确配置<br>root@ubuntu:~# cp /home/jinyan/.profile /root/<br>root@ubuntu:~# reboot</p>
-<p>cp /etc/apt/sources.list /etc/apt/sources.listbak<br>vim /etc/apt/sources.list<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>apt-get update</p>
-<p>用vim打开 /etc/default/locale 文件</p>
-<p>原来的配置文件应该是这样的：<br>LANG=”zh_CN.UTF-8”<br>LANGUAGE=”zh_CN:zh:en_US:en”<br>LC_NUMERIC=”zh_CN.UTF-8”<br>LC_TIME=”zh_CN.UTF-8”<br>LC_MONETARY=”zh_CN.UTF-8”<br>LC_PAPER=”zh_CN.UTF-8”<br>LC_IDENTIFICATION=”zh_CN.UTF-8”<br>LC_NAME=”zh_CN.UTF-8”<br>LC_ADDRESS=”zh_CN.UTF-8”<br>LC_TELEPHONE=”zh_CN.UTF-8”<br>LC_MEASUREMENT=”zh_CN.UTF-8”</p>
-<p>将原来的配置内容修改为<br>LANG=”en_US.UTF-8″<br>LANGUAGE=”en_US:en”</p>
-<p>再在终端下运行：<br>locale-gen -en_US:en<br>注销或重启后，即可恢复为英文的语言环境。</p>
-<p>查看防火墙状态<br>root@jinyan-virtual-machine:~# ufw status<br>状态：不活动<br>root@jinyan-virtual-machine:~# getenforce<br>程序“getenforce”尚未安装。 您可以使用以下命令安装：<br>apt-get install selinux-utils</p>
-<p>apt-get install vim<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
-<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>重启系统<br>重启 openssh server<br>/etc/init.d/ssh restart<br>service ssh restart</p>
-<p>apt-get install ntp<br>查看ntp同步过程<br>ntpq -p<br>ntpdate -u 202.120.2.101</p>
-<p>apt-get install x-window-system-core<br>apt-get install gdm<br>apt-get install ubuntu-desktop<br>apt-get install gnome-core</p>
-<p>apt-get install vnc4server<br>vncserver<br>cp ~/.vnc/xstartup  ~/.vnc/xstartup.bak<br>vim ~/.vnc/xstartup</p>
-<h1 id="x-window-manager-amp"><a href="#x-window-manager-amp" class="headerlink" title="x-window-manager &amp;"></a>x-window-manager &amp;</h1><h1 id="gnome-session-amp"><a href="#gnome-session-amp" class="headerlink" title="gnome-session &amp;"></a>gnome-session &amp;</h1><p>gnome-panel &amp;<br>gnome-settings-daemon &amp;<br>metacity &amp;<br>nautilus &amp;<br>gnome-terminal &amp;</p>
-<p>root@jinyan-virtual-machine:~# vncserver -kill :1<br>Killing Xvnc4 process ID 3767<br>root@jinyan-virtual-machine:~# vncserver :1<br>192.168.50.6:1</p>
-<p>apt-get install vsftpd<br>apt-get remove vsftpd</p>
-<p>vim /etc/vsftpd.conf<br>local_enable=YES<br>write_enable=YES<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd.chroot_list</p>
-<p>anonymous_enable=YES</p>
-<h1 id="anonymous-enable-NO"><a href="#anonymous-enable-NO" class="headerlink" title="anonymous_enable=NO"></a>anonymous_enable=NO</h1><p>useradd -d /home/ftp -M ftpuser<br>passwd ftpuser</p>
-<p>vim /etc/vsftpd.chroot_list<br>ftpuser</p>
-<p>vim /etc/ftpusers<br>打开这个文件后，看一看有没有uftp这个用户名，如果没有，就直接退出。如果有就删除uftp,因为这个文件中记录的是不能访问FTP服务器的用户清单。</p>
-<p>vim /etc/pam.d/vsftpd</p>
-<p>#auth   required        pam_shells.so</p>
-<p>mkdir /home/ftp<br>chmod a-w /home/ftp<br>mkdir /home/ftp/data<br>chown -R ftpuser:ftpuser /home/ftp/</p>
-<p>service vsftpd restart</p>
-<p>mkdir /usr/lib/java<br>tar -zxvf jdk-7u79-linux-x64.tar.gz -C /usr/lib/java/<br>cd /usr/lib/java/jdk1.7.0_79/</p>
-<p>vim ~/.bashrc</p>
-<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</p>
-<p>apt-get install samba<br>apt-get install smbfs</p>
-<p>apt-get install samba samba-common system-config-samba python-glade2 gksu<br>在 Unity Dash 中搜索并打开 Samba 配置工具</p>
+        <p>D:\Markdown&gt;python<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import os<br>os.name<br>‘nt’<br>os.uname()<br>posix.uname_result(sysname=’Linux’, nodename=’CentOS7’, release=’3.10.0-327.el7.x86_64’, version=’#1 SMP Thu Nov 19 22:10:57 UTC 2015’, machine=’x86_64’)<br>os.environ<br>os.environ.get(‘PATH’)<br>‘C:\Python27\;C:\Python27\Scripts;C:\Python34\;C:\Python34\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Gow\bin;C:\Users\JinYan\AppData\Local\Pandoc\‘<br>os.environ.get(‘x’, ‘default’)<br>‘default’<br>os.path.abspath(‘.’)<br>‘D:\Markdown’<br>os.path.abspath(‘..’)<br>‘D:\‘<br>os.path.join(‘D:\Markdown’, ‘testdir’)<br>‘D:\Markdown\testdir’<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.rmdir(‘D:\Markdown\testdir’)<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.path.split(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir’, ‘test.txt’)<br>os.path.splitext(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir\test’, ‘.txt’)<br>os.rename(‘test.txt’, ‘test.py’)<br>os.rename(‘test.py’, ‘test.txt’)</p>
+<p>import shutil<br>shutil.copy(‘test - 副本.txt’, ‘test.txt’)</p>
+<p>import os<br>[x for x in os.listdir(‘.’) if os.path.isdir(x)]<br>[‘testdir’]</p>
+<p>[x for x in os.listdir(‘.’) if os.path.isfile(x) and os.path.splitext(x)[1]==’.txt’]<br>[‘test - \xb8\xb1\xb1\xbe.txt’, ‘test.txt’]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>do_dir.py</p>
+<p>#!/usr/bin/env python3</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime<br>import os</p>
+<p>pwd = os.path.abspath(‘.’)</p>
+<p>print(‘      Size     Last Modified  Name’)<br>print(‘————————————————————‘)</p>
+<p>for f in os.listdir(pwd):<br>    fsize = os.path.getsize(f)<br>    mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime(‘%Y-%m-%d %H:%M’)<br>    flag = ‘/‘ if os.path.isdir(f) else ‘’<br>print(‘%10d  %s  %s%s’ % (fsize, mtime, f, flag))</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Ubuntu-16-x-预配/" data-id="ciwvctjzt001vu1cyw1j5gxdl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="ciwvdwc40004gm4cyc5xx3mmf" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -128,10 +114,10 @@
 
 
   
-    <article id="post-Linux-差异备份" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-单行代码" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Linux-差异备份/" class="article-date">
-  <time datetime="2016-12-13T02:05:37.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/单行代码/" class="article-date">
+  <time datetime="2016-12-13T06:00:27.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -142,7 +128,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-差异备份/">Linux 差异备份</a>
+      <a class="article-title" href="/2016/12/13/单行代码/">单行代码</a>
     </h1>
   
 
@@ -150,27 +136,46 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>差异备份简介</p>
-<p>差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍<br>使用tar进行一次完整备份<br>创建需要备份的测试文件夹<br>[test@localhost test]$ mkdir work<br>[test@localhost test]$ touch work/file1<br>[test@localhost test]$ echo 233 &gt; work/file-233</p>
-<p>Screenshot from 2015-07-27 18-16-54<br>完整备份并生成此次备份的参考文件<br>[test@localhost test]$ tar cfz work-full.tar.gz work -g work.bckref<br>进行差异备份<br>对备份后的文件夹进行修改<br>[test@localhost test]$ rm work/file1<br>[test@localhost test]$ touch work/file2<br>[test@localhost test]$ echo 235 &gt; work/file-233<br>差异备份开始<br>[test@localhost test]$ tar cfz work-diff.tar.gz work -g work.bckref<br>恢复<br>所需条件</p>
-<p>以上备份包括了一个完整备份、一个差异备份和一个差异参考文件。若我们想要恢复到第一次完整备份的状态，只需要完整备份的备份文件即可。<br>[test@localhost test]$ rm work -fr<br>[test@localhost test]$ tar xvf work-full.tar.gz<br>work/<br>work/file-233<br>work/file1<br>[test@localhost test]$ cat work/file-233<br>233<br>[test@localhost test]$ cat work/file1<br>[test@localhost test]$</p>
-<p>可以发现，第一次的完整备份被恢复成功了。若想要恢复到最新的备份状态，还需要使用差异备份文件和差异备份参考文件。<br>[test@localhost test]$ tar xvf work-diff.tar.gz -g work.bckref<br>work/<br>tar: Deleting ‘work/file1’<br>work/file-233<br>work/file2<br>[test@localhost test]$ cat work/file-233<br>235<br>[test@localhost test]$ cat work/file2<br>[test@localhost test]$</p>
-<p>可以发现，work下的file1被删除了，而被修改的file-233也被差异备份的数据所覆盖，并且创建了一个新的文件file2.<br>经典备份方案:完整备份+差异备份</p>
-<p>在实际使用中，完整备份通常很耗时并且占用磁盘空间较大，而差异备份的占用少，耗时少。但是差异备份由于是比较完整备份一本次备份时的差异，若备份时对目录的修改较大，差异备份就很耗时了。</p>
-<p>一种经典的备份方案就是在每周1进行完整备份，而其他时候进行与周1对比的差异备份。这样，差异备份的数据量小恢复也方便。<br>tar对centos系统备份注意事项</p>
-<p>毫无疑问，可用tar命令对linux系统进行备份。而在实际操作中，可能会遇到以下几个问题:<br>备份文件恢复时所有者/属性改变。</p>
-<p>这是由于没有使用root进行备份和恢复的结果，解决爆发就是使用root运行<br>tar -a</p>
-<p>进行备份和恢复。<br>文件acl丢失</p>
-<p>tar命令本身不能保存acl权限，而有的tar(如centos7 可添加–acls保存acl权限)可以做到。解决办法就是使用<br>getfacl -R work &gt; work.acl</p>
-<p>保存文件的acl权限，而在恢复后使用<br>setfacl –restore=work.acl</p>
-<p>恢复文件的acl权限<br>恢复系统后登陆闪退</p>
-<p>这是由于selinux的安全上下文丢失产生的结果。在恢复完毕文件后，需要运行<br>touch /.autorelabel &amp;&amp; reboot</p>
-<p>对文件的selinux安全上下文进行恢复。</p>
+        <p>1、让列表中的每个元素都乘以2</p>
+<p>print map(lambda x: x * 2, range(1,11))</p>
+<p>2、求列表中的所有元素之和</p>
+<p>print sum(range(1,1001))</p>
+<p>3、判断一个字符串中是否存在某些词</p>
+<p>wordlist = [“scala”, “akka”, “play framework”, “sbt”, “typesafe”]<br>tweet = “This is an example tweet talking about scala and sbt.”</p>
+<p>print map(lambda x: x in tweet.split(),wordlist)</p>
+<p>4、读取文件</p>
+<p>print open(“ten_one_liners.py”).readlines()</p>
+<p>5、祝你生日快乐！</p>
+<p>print map(lambda x: “Happy Birthday to “ + (“you” if x != 2 else “dear Name”),range(4))</p>
+<ol>
+<li>过滤列表中的数值</li>
+</ol>
+<p>print reduce(lambda(a,b),c: (a+[c],b) if c &gt; 60 else (a,b + [c]), [49, 58, 76, 82, 88, 90],([],[]))</p>
+<ol>
+<li>获取XML web service数据并分析</li>
+</ol>
+<p>from xml.dom.minidom import parse, parseString<br>import urllib2</p>
+<h1 id="注意，我将它转换成XML格式化并打印出来"><a href="#注意，我将它转换成XML格式化并打印出来" class="headerlink" title="注意，我将它转换成XML格式化并打印出来"></a>注意，我将它转换成XML格式化并打印出来</h1><p>print parse(urllib2.urlopen(“<a href="http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8" target="_blank" rel="external">http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8</a>“)</p>
+<ol>
+<li>找到列表中最小或最大的一个数字</li>
+</ol>
+<p>print min([14, 35, -7, 46, 98])<br>print max([14, 35, -7, 46, 98])</p>
+<ol>
+<li>并行处理</li>
+</ol>
+<p>import multiprocessing<br>import math</p>
+<p>print list(multiprocessing.Pool(processes=4).map(math.exp,range(1,11)))</p>
+<ol>
+<li>“Sieve of Eratosthenes”算法</li>
+</ol>
+<p>Python里没有Sieve of Eratosthenes操作符，但这对于Python来说并不是难事。</p>
+<p>n = 50 # We want to find prime numbers between 2 and 50</p>
+<p>print sorted(set(range(2,n+1)).difference(set((p <em> f) for p in range(2,int(n*</em>0.5) + 2) for f in range(2,(n/p)+1))))</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwvctjz7001du1cyvvdjlwmm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="ciwvdwc3h0040m4cywp7hf1es" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -180,10 +185,10 @@
 
 
   
-    <article id="post-Linux-增量备份" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-练手的小项目" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Linux-增量备份/" class="article-date">
-  <time datetime="2016-12-13T02:04:37.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/练手的小项目/" class="article-date">
+  <time datetime="2016-12-13T05:59:19.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -194,7 +199,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-增量备份/">Linux 增量备份</a>
+      <a class="article-title" href="/2016/12/13/练手的小项目/">练手的小项目</a>
     </h1>
   
 
@@ -202,40 +207,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>linux系统下tar可以实现对文件的备份与恢复，以下shell是完全+增量方式备份</p>
-<p>结合crontab，实现周1到周6每天两次增量备份，周日上午增量，下午为完全备份。</p>
-<p>2 6,13 <em> </em> * /root/backupweb.sh</p>
-<p>#!/bin/sh</p>
-<h1 id="在crontab里设置，每周日完全备份，每天两次增量备份。"><a href="#在crontab里设置，每周日完全备份，每天两次增量备份。" class="headerlink" title="在crontab里设置，每周日完全备份，每天两次增量备份。"></a>在crontab里设置，每周日完全备份，每天两次增量备份。</h1><h1 id="2010-5-26-by-lgq"><a href="#2010-5-26-by-lgq" class="headerlink" title="2010-5-26 by lgq"></a>2010-5-26 by lgq</h1><p>dayofweek=<code>date &quot;+%u%H&quot;</code></p>
-<p>today=<code>date &quot;+%Y%m%d%H%M&quot;</code></p>
-<p>source=/home/web/</p>
-<p>backup=/home/web_bak/webtar/</p>
-<p>cd $backup</p>
-<p>if [ $dayofweek -eq 018 ]; then<br>                if [ ! -f “full$today.tar.gz” ];then<br>                                rm -rf snapshot<br>                                tar -g snapshot -zcf “full$today.tar.gz” $source<br>                fi<br>else<br>                if [ ! -f “inc$today.tar.gz” ];then<br>                                tar -g snapshot -zcf “inc$today.tar.gz” $source<br>                fi<br>fi</p>
-<p>现在我们来展示一个使用tar工具来增量备份的例子。<br>一、增量备份</p>
-<p>1、新建backup目录，里面新建file1,file2,file3文件</p>
-<pre><code>mkdir backup/
-touch backup/{file1,file2,file3}
-</code></pre><p>2、进行完整备份</p>
-<pre><code>tar -g tarinfo -czf backup-full.tar.gz backup/
-</code></pre><p>3、新增文件到backup</p>
-<pre><code>touch backup/file4
-</code></pre><p>4、进行增量备份</p>
-<pre><code>tar -g tarinfo -czf backup-incre1.tar.gz backup/
-</code></pre><p>5、查看增量备份文件</p>
-<pre><code>tar -ztf backup-incre1.tar.gz
-</code></pre><p>二、进行还原</p>
-<p>1、删除backup目录</p>
-<pre><code>rm -rf backup/
-</code></pre><p>2、执行还原操作</p>
-<pre><code>tar xzf backup-full.tar.gz
-tar xzf backup-incre1.tar.gz
-</code></pre><p>现在已经完成tar的还原操作。其它tar的增量备份只需要指定-g参数，tarinfo文件则是用来记录备份的一些信息。</p>
+        <p>文本操作</p>
+<p>逆转字符串——输入一个字符串，将其逆转并输出。<br>拉丁猪文字游戏——这是一个英语语言游戏。基本规则是将一个英语单词的第一个辅音音素的字母移动到词尾并且加上后缀-ay（譬如“banana”会变成“anana-bay”）。可以在维基百科上了解更多内容。<br>统计元音字母——输入一个字符串，统计处其中元音字母的数量。更复杂点的话统计出每个元音字母的数量。<br>判断是否为回文——判断用户输入的字符串是否为回文。回文是指正反拼写形式都是一样的词，譬如“racecar”。<br>统计字符串中的单词数目——统计字符串中单词的数目，更复杂的话从一个文本中读出字符串并生成单词数目统计结果。<br>文本编辑器——记事本类型的应用，可以打开、编辑、保存文本文档。可以增加单词高亮和其它的一些特性。<br>RSS源创建器——可以从其它来源读取文本并将其以RSS或者Atom的格式发布出去。<br>实时股价——可以查询股票当前价格。用户可以设定数据刷新频率，程序会用绿色和红色的箭头表示股价走势。<br>访客留言簿/日志——允许人们添加评论或者日记，可以设置开启/关闭评论，并且可以记录下每一条目的时间。也可以做成喊话器。<br>新闻和比分播报器——一个桌面应用，可以从网上收集新闻和比赛分数，将结果在屏幕上滚动播出。<br>占星罗盘——用占星术来预测每天的运程。<br>密码短信——可以将数据加密解密，并能将其发送给朋友。<br>帮你挑礼物——输入一堆你可能会送的礼物，当有人过生日时，该程序会随机选择一样礼物。也可以加上一个额外功能，可以告知哪里可以弄到这个礼物。<br>HTML生成器——将 TEXT 文档转换成HTML文件，对制作网页HTML文档很有用。<br>CD-Key生成器——利用某种算法生成一个唯一的key。软件开发者可以用它来作为软件的激活器。<br>正则表达式查询工具——用户可以输入一段文本，在另外的控件里输入一个正则表达式。运行以后会返回匹配的内容或者正则表达式中的错误。</p>
+<p>网络</p>
+<p>FTP工具——与远程网络服务器交互文件。<br>原子钟校时——从网上同步原子钟时间。全世界有很多原子钟，可以把它们都列出来。<br>聊天应用（IRC或者MSN风格的）——像IRC那样的聊天室软件或者MSN那样的实时聊天软件。更复杂一点的话，可以为聊天制定一套你自己的传输协议。<br>获取当前天气——获取某个地区当前的天气情况。<br>P2P文件共享应用——像LimeWire、FrostWire、Bearshare或者torrent风格的应用。<br>端口扫描器——输入某个ip地址和端口区间，程序会逐个尝试区间内的端口，如果能成功连接的话就将该端口标记为open。<br>邮件检查工具（POP3/IMAP）——用户输入一些账号信息，包括服务器、ip、协议类型（POP3或者IMAP），应用每隔一段时间就会检查下该账号下的邮箱。<br>数据包嗅探器——侦测电脑上进出的数据包，获取诸如目的地和大小之类的信息。<br>IP注册地查询——输入ip地址，查询该ip是在哪注册的。<br>Whois查询工具——输入一个ip或者主机地址，通过whois查询并将结果返回。<br>邮编查询——输入邮编，返回使用该邮编的地区名称。<br>远程登入——远程登入桌面类型的应用，可以查看和控制远程电脑（假如你已经获得权限）。可能需要你自己的网络和两台电脑来进行测试。<br>网站定时检查器——每隔一段时间或者在预定的时间尝试连接某个网站或者服务器，来检查它是否可以连上，如果连不上了会通过邮件或者桌面通知来告知你。<br>小型网页服务器——简易版的网页服务器，可以存放包含Javascript和其它形式代码的HTML文件。复杂一点的话可以尝试流媒体视频、创建一种服务器端语言或者其它类型的流媒体。<br>网络蜘蛛——一个可以自动执行网页上各种任务的程序，任务包括网站检查、页面抓取、数据摘要以及网络邮务。</p>
+<p>类</p>
+<p>产品库存管理——创建一个管理产品库存的应用。建立一个产品类，包含价格、id、库存数量。然后建立一个库存类，记录各种产品并能计算库存的总价值。<br>电影商店——管理录像带租借，记录借出时间、到期时间、逾期费用。复杂一点可以生成逾期用户的账号报告。<br>航空/酒店预订系统——创建一套预订航班或酒店的预订系统。不同的航班座位和酒店房间收费不一样。譬如头等舱要比经济舱贵。带阁楼的套间要更贵些。记录下何时有空房可供预订。<br>学生成绩管理器——记录一个班级的学生（创建一个Student类，记录他们的名字、平均分和考试分数）和他们的成绩等级。根据学生的测验和作业的分数计算出平均分和成绩等级。复杂一点可以将数据画在贝尔曲线上。<br>银行账户管家——创建一个名为“Account”的抽象类，有三个为“CheckingAccount”、“SavingsAccount”和“BusinessAccount”的子类。通过类似ATM的程序来管理这些账户的借贷。<br>馆藏目录——创建一个图书类，记录书名、页数、国际标准书号、是否借出。用它来管理各种书籍，允许用户进行借出和归还操作。复杂一点的话，可以生成逾期图书和逾期费用的报告。也可以让用户进行预约操作。</p>
+<p>线程处理</p>
+<p>下载进度条——创建一个表示下载进度的进度条。进度条由独立的线程操作，通过委托来和主线程进行通讯。<br>下载管理器——允许程序同时下载数个文件，每个都用单独的线程进行背景下载。主线程会关注下载进度并且在下载完成时通知用户。<br>聊天软件（远程聊天）——做一个聊天软件，允许你通过ip直接连接到另一台电脑，也允许你的“服务器”程序处理多个请求连接。<br>批量缩略图生成器——在进行图片转换的处理时会需要很多时间，尤其是图片很大时。做一个图片处理程序，能让你在做其它事的时候在后台线程里将数百张图片转换成某个大小的图片。复杂一点的话可以用一个线程来缩放，用另一个线程来为缩略图重命名。</p>
+<p>Web应用</p>
+<p>所见即所得编辑器——创建一个在线编辑器，允许用户移动元素、创建表格、书写文本、设置颜色，而用户不必懂HTML。就像Dreamweaver或者FrontPage。如果需要例子的话，可以参看DIC。<br>分页浏览器——创建一个可以分页的小型网页浏览器，可以同时浏览几个网页。简化一点的话不要考虑Javascript或者其它客户端代码。<br>文件下载器——该程序可以从网页上下载各种资源，包括视频和其它文件。用于有很多下载链接的网页。<br>远程登录——创建一个远程登录的应用，可以通过网络登录服务器并能执行一些基本命令。<br>在线白板——做一个在线白板程序，你和朋友们可以一起在白板上进行一些操作，画图、写字等等。<br>带宽监视器——这个小工具可以记录你已经在网上上传和下载多少数据流量了。可以试着做份报告或者图表来展示各时段的使用情况。<br>书签搜集管理器——该程序可以让用户上传书签并将它们排序，去掉重复的，并能生成书签文件以供Firefox/IE/Safari等使用。复杂一点的话可以试着将书签整理进不同的文件夹。<br>密码保险箱——用来记录各种密码，并且将它们加密，这样别人就看不到了。<br>iGoogle媒体播放器小部件——做一个iGoogle小部件，可以用来播放本地音乐列表，也可以每天分享一首歌。也许还可以让别人看到你最近听了些什么歌。<br>基于文本的游戏——做一个像Utopia那样的文本RPG，游戏中，你可以创建一个文明、收集资源、共铸联盟、施放法术、回合制系统。看看是否能够统一王国。<br>定时自动登录——做一个程序可以在预定的时间登录进某个指定的网页并且执行特定的动作，然后在登出。可以用来检查邮箱、发布常规内容、为其它程序获取信息。<br>电子卡片生成器——可以让用户制作自己的电子卡片并发送给其他人。可以使用flash也可以不用。可以使用图片库，也可以加上深刻的格言警句。<br>内容管理系统——像Joomala、Drupal、PHP Nuke这样的内容管理系统。从简单的做起，慢慢增加其它功能。<br>模板制作器——该网站应用允许用户输入各种颜色代码、元素、尺寸，来为PHPBB、Invision Board、MySpace之类的应用创建模板文件。<br>验证码生成器——应该在登录时见过有数字有字母的验证码图片吧？这可以防止自动登录和垃圾广告。试着自己做一个，如果使用PHP的话，看下GD的图片函数。</p>
+<p>文件</p>
+<p>试卷生成器——该程序可以从文件中随机挑选出不同的题目生成一份试卷。每份试卷可以不一样，通过读取答案来给打分。<br>快速启动——该工具可以添加各个程序的小图标，点击小图标就可以运行程序。和Windows的快速启动类似。<br>文件管理器——做一个文件管理器，要加些新特性，更佳的搜索功能、新图标、新外观。<br>文件记录排序工具——从文件中读取记录，将其排序并写回文件中。允许用户选择排序风格以及排序关键字。<br>生成财务交易文件并且算出平均值——将财务交易读进文件，按照账户分类、算出各项目的总量或平均值、理清各账户的借贷数据。<br>Zip文件生成器——用户输入不同文件夹的文件，也许还包括其他电脑中的文件，然后程序将这些文件打包成zip文件。复杂一点的话，打包时对这些文件进行压缩。<br>PDF生成器——从txt、html或其它文件中读取数据生成PDF文件。可以做成一个网页服务，用户上传文件，返回一个pdf版本。<br>批量文件命名器——程序批量处理一些文件，将根据用户提供的过滤器为它们重命名。譬如用户输入的过滤器为myimage###.jpg，那么会生成至少包含3位数的文件名，譬如myimage001.jpg、myimage145.jpg，甚至是myimage1987.jpg，因为1987也满足了至少包含3位数的条件。<br>MP3标签生成器——修改MP3文件的id3v1标签。还可以试着在MP3文件的头部加入id3v2的标签，譬如album art标签。<br>日志文件生成器——该程序可以记录指定事件的日志。譬如程序做了什么、系统在干什么、文件什么时候被修改了。<br>Excel分页输出器——做一个在线程序，可以读取文件内容生成一个excel分页。可以通过CVS或者其它文件格式来做。复杂一点的话看看是否能创建公式字段。<br>RPG角色属性生成器——做一个程序来给RPG角色随机分配属性点数，可以由用户制定一些分配规则。可以生成职业、性别、力量/魔法/敏捷点数、额外能力或者贸易技能。把结果保存成文件，这样跑团的时候地下城主可以把它打印出来。<br>文件复制工具——该工具可以批量处理文件复制和备份操作。</p>
+<p>数据库</p>
+<p>SQL查询分析器——该工具可以让用户输入一条查询命令，让其运行于本地数据库中。尽量让它运行得更高效。<br>远程SQL工具——该工具能让你通过网络在远程服务器上执行查询操作。它能接收远程主机地址、验证用户名和密码、执行查询并返回结果。<br>卡片整理器——创建一个在线应用，用来记录搜集到的卡片。可以让用户输入整套卡片，查看哪些已经有了，哪些还需要搜集。要增加复杂度的话，还可以让用户知道还差多少可以完成，或者已经收集卡片的价值。<br>报告生成器——该工具可以根据数据库中的表格生成一份报告。譬如根据订单表格生成销售报告。<br>数据库备份脚本制作器——该程序可以读取数据库的对象、关系、记录和步骤，生成一个sql文件，该文件可以导入另一个数据库或者作为备份文件。<br>备忘录——该程序可以让用户设置一个日期和某个事件的时间、事件备注并将它们放到日历上。用户可以查看日历、搜索特定的事件。复杂一点的话，可以让用户设置重复发生的事件，譬如每天、每周、每月、每年等等。<br>预算记录器——该程序可以记录家庭预算。用户可以添加支出、收入，计算一段时间内的收入和支出。复杂一点的话，让用户指定一个时间段，显示该时间段内的家庭收支情况。<br>电话簿——记录各种联系人和他们的号码、邮箱、备注。复杂一点的话可以让用户连上网将电话簿发布到设置好的网站上。<br>电视节目记录器——你是否有不想错过的电视节目？但没有录像机或者想之后能找到该电视节目然后录下来，那么可以做个程序寻找各种在线电视导航网站，记录下电视节目名称、播放时间、播放频道，存在数据库中。数据库或者网站到时就会发邮件提醒你，节目就快在某个频道开始了。<br>旅行计划系统——该系统可以让用户管理旅行路线，记录下航班和酒店安排、感兴趣的地方、预算和时间表。<br>实体关系图生成器——该程序可以让用户整合实体关系图，并将其保存起来，也可以用它来生成一些基础SQL语句。<br>数据库翻译器（MySQL&lt;-&gt;SQL Server）——该工具可以从数据库A读取数据，生成数据库B使用的SQL语句，将数据存入数据库B。比较常用的是SQL Server和Oracle使用的MySQL服务器。<br>BBS论坛——为你和小伙伴们做一个论坛，可以发帖、管理、分享想法和构思。</p>
+<p>图像和多媒体</p>
+<p>幻灯片——做一个以幻灯片形式显示各种图片的程序。为了增加难度可以做些额外的效果，譬如渐进检出、星型擦除、窗口渐隐。<br>思维导图——允许用户记录下各种构思并且快速地进行头脑风暴将这些构思整合到一张思维导图中。越快越好，因此要让用户能迅速地写下构思，然后将其拖到可视的导图中去，将构思之间的关系展现出来。<br>导入图片并存成灰度图——该工具将图片上的彩色除尽并保存。可以增加对比度调整、色化等额外功能以增加复杂度。<br>在线流媒体视频——试着自己做一个在线流媒体视频播放器。<br>MP3播放器（以及其他格式的音乐播放器）——该小程序用来播放你最爱的音乐文件。复杂一点的话看看能否加个播放列表功能和均衡器。<br>批量图片处理——该程序可以将一个文件夹内的图片进行统一的处理，譬如降低图片色调、转换格式或者修改文件属性。还可以尝试给图片增加标签。<br>CD烧录器——可以轻松烧录CD的工具。<br>YouTube下载器——可以从Youtube.com上下载视频到硬盘中，要支持包括FLV和AVI在内的文件格式。<br>墙纸管理工具——做一个管理墙纸的程序，可以定时更换刷新墙纸，也可以针对分辨率进行缩放。<br>截屏程序——做一个可以截屏的工具，复杂一点可以增加一个转发邮件的功能。<br>图片浏览器——该程序可以查看电脑上各种格式的图片，譬如PNG、GIF、JPG、BMP、TIFF等等。<br>交通信号灯——试着做一个交通信号灯并且把它放到可以互动的场景中。不要让汽车闯红灯或者撞到其它车。<br>MP3-WAV转换器——MP3格式本质上就是压缩版的WAV。试着将MP3转换成WAV格式以供可以处理WAV格式的程序使用。请记住1MB的MP3大约等于10MB的WAV。<br>签名生成器——是否在网上见过有人的留言后面有条生成的签名？试着做个程序让用户可以指定背景、文字、颜色和对齐方式来定制一个签名档。<br>屏保——电脑空闲时会运行的屏保程序。简单版的可以使用一些标准图片，复杂版的可以做出能在屏幕上转来转去的3D物体。<br>水印——你是否想保护你图片的版权？在图片上加上标志或者文字，这样别人就不能轻易地从你网站上盗图了。做一个程序来给你的图片加上水印吧。<br>海龟图——创建一个20*20的格子，用命令让一只海龟在格子上画线。可以前进、左转、右转，拿起或放下笔等等。复杂一点的话，允许程序从文件中读取命令列表。可以在网上了解到更多关于“海龟图”的信息。</p>
+<p>游戏</p>
+<p>战船——创建两块游戏面板，玩家各占一边，在上面放置一些战船，玩家看不到对方的面板。每艘船都占几个格子，玩家轮流攻击某个格子，如果格子上有船，那就命中目标，否则就是未命中。当一艘船所占的所有格子都被攻击命中了，那么船就被击沉。谁先将对方战船全部击沉就获胜。<br>象棋跳棋——象棋或者跳棋游戏。可以试着做成可以联网玩，用图形用户界面来实现悔棋、保存走棋过程并且可以回放。<br>刽子手——从文件中随机选择一个单词，让玩家猜单词中的字母。旁边是一幅隐藏的行绞刑的画，猜错一个单词，画就显示出一部分。画全部显示出来时还没能猜全的话玩家就输了。<br>填字游戏——创建一个填字游戏，并为每个词提供一个提示信息，让玩家填上所有正确的单词。<br>青蛙跳——让青蛙跳过河或者马路，过河的话要跳在顺流而下速度各异的木头或者睡莲叶子上，过马路的话要避开速度各异的车子。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwvctjz5001cu1cyll6vnsrp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwvdwc46004rm4cy6l4w9847" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -245,10 +239,10 @@ tar xzf backup-incre1.tar.gz
 
 
   
-    <article id="post-Linux-系统恢复" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mail" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Linux-系统恢复/" class="article-date">
-  <time datetime="2016-12-13T02:02:54.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/mail/" class="article-date">
+  <time datetime="2016-12-13T05:58:08.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -259,7 +253,7 @@ tar xzf backup-incre1.tar.gz
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-系统恢复/">Linux 系统恢复</a>
+      <a class="article-title" href="/2016/12/13/mail/">mail</a>
     </h1>
   
 
@@ -267,12 +261,17 @@ tar xzf backup-incre1.tar.gz
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>系统快照可能会碰到的问题是它们对于硬盘故障非常的脆弱。如果你的硬盘受到了严重的物理损伤，那么很可能你的系统快照就无法帮助你恢复系统了。为了防止这一点，我们建议在安装与设置好你的Linux系统之后立即做一份系统快照，然后把它单独复制到另外的存储设备中。<br>在Linux中有一些应用程序可以帮助你保存系统快照。大多数应用程序都是针对于新手的，并不需要高级的Linux操作技巧。我们在这里挑选了一些，你可以从中选择适合自己的应用。<br>TimeShift<br>TimeShift提供了一个非常简洁的图形用户界面，你也可以直接在终端输入命令使用它。默认情况下。TimeShift并不会包含用户的个人文件，但你可以通过自定义将特殊的目录添加到快照中去。Ubuntu及其分支的用户可以从开发者的PPA获取TimeShift：<br>sudo apt-add-repository ppa:teejee2008/ppa sudo apt-get update<br>sudo apt-get install timeshift<br>其他版本的用户可以下载安装文件并在命令行终端运行：<br>./timeshift-latest-amd.64.run<br>TimeShift还提供了专门针对BTRFS文件系统的版本，可以支持原生的BTRFS系统快照功能。<br>工作方式<br>TimeShift能够帮助你随时完成快照工作，或者你也可以设置让TimeShift自动创建快照。你可以安排任务计划，每小时、每天、每周或者每个月进行快照，也可以设置清除这些快照的时间。TimeShift有一个特殊的选项叫做重启快照，用来在每次系统重启之后创建一个新的快照文件。<br>TimeShift从快照中进行系统恢复是一项非常简单直接的工作，只要选择快照文件并且告诉它应该存储的位置就可以了。TimeShift提供了将快照恢复到外设的选项，克隆功能能够直接将现有系统状态复制到另一个设备中，这在将你的操作系统迁移到另一台新电脑时非常方便，因为你不再需要从头开始安装各种功能和应用。<br>在恢复快照之前，TimeShift会询问你是不是需要保存现有的应用设置，并且让你选择保存哪一个。请记住TimeShift需要GRUB 2启动进入快照恢复。<br>Cronopete<br>如果你认为TimeShift的操作已经足够简单的话，那么Cronopete甚至更加简单，至少从外观上看来是这样的。Cronopete自称为OS X的时间机器，与TimeShift工作起来稍有不同。Cronopete为Ubuntu，Debian和Fedora提供了包文件，Arch Linux使用者可以在AUR中找到它。<br>工作方式<br>与本文中介绍的其他应用程序不同，Cronopete将备份与快照功能捆绑在一起，并且要求你将快照保存在外部设备上。默认情况下，它会每个小时都检查一遍你的文件变化，但是当然可以在设置中改变这个时间间隔。如果某个文件并没有发生变化，那么Cronopete将对这个文件只进行一个硬链接而并不复制这份文件，这会帮助节省磁盘空间。<br>Cronopete的文件恢复可能是它最酷的功能，好像真的能帮助你“穿越时间”，也就是说，可视化的浏览所有储存版本的文件与文件夹。想要恢复哪一个文件，只需要选上它，然后点击恢复就可以了，这个文件就会从外部的存储设备中复制到你现有的系统中来。当然这里你可能也猜测到了，Cronopete对于全系统恢复并不十分具有意义，但是如果你想要保存单独文件的多个版本，那么它是一个很好的选择。<br>Back In Time<br>Back In Time的用户界面看起来非常友好，能够吸引住Linux新手。它的设置对话框中提供了非常精细的操作控件，用户界面看上去就像是一个文件管理器一样，在这里你可以阅览所有的快照，浏览快照中的文件，以及恢复选定的文件与文件夹。<br>Ubuntu用户可以从PPA中安装Back In Time：<br>sudo add-apt-repository ppa:bit-team/stable<br>sudo apt-get update<br>sudo apt-get install backintime-qt4<br>有些发行版会在自己的资源库中提供Back In Time，如果你的发行版没有的话，也总可以在网上找到源代码并且下载安装。<br>工作方式<br>Back In Time会对那些你选择的目录创建快照，但是只会恢复那些拥有写权限的目录。你可以对快照进行加密并且存储在网络设备、外部硬盘或者是本地的文件系统中。Back In Time只会对那些改变过的文件进行更新。在设置&gt;选项标签中，你可以选择在没有变化发生的时候禁用快照。<br>Back In Time的快照时间根据计划设定，每天、每周、每个月或者是每天的某个或某几个时间段，或者是每次重启之后。你可以在主工具栏的菜单中自己更改计划时间。<br>与Cronopete相似，Back In Time更加适合于基于文件夹或者是基于文件的回滚操作，但是如果你想对整个文件系统进行回滚也是同样可行的。恢复一个快照相当简单，只要选择它，并且选择在哪里进行恢复就可以了，取决于你是只想恢复几个文件夹还是对整个系统进行恢复。<br>Systemback<br>Systemback的界面很小巧，但是功能却非常强大。但不幸的是只有Debian和Ubuntu及其分支的用户可以使用，而没有提供其他Linux发行版的安装文件。Systemback可以通过开发者PPA安装：<br>sudo add-apt-repository ppa:nemh/systemback<br>sudo apt-get update<br>sudo apt-get install systemback<br>工作方式<br>Systemback并不仅仅是另一个快照工具。它可以把你现在的系统转变为一张live CD或DVD，这样就可以直接在另一台电脑上启动了。它可以修复或重装GRUB 2启动器以及修复fstab文件，当然，Systemback的主要用途还是用于系统快照。<br>Systemback将快照的总数量限制在10个以内。用户拥有删除快照的权限。快照的功能可以选择为递增，也就是只复制被改变过的文件，而将其他的文件以硬链接的形式保存。但是在设置对话框中，你可以禁用这个功能。在恢复文件的时候，你可以选择执行全系统恢复，或者只是复制关键的系统文件。个人数据比如照片与文档并不会被包含在快照中，但是你可以在创建&gt;包含用户数据的选项中通过自定义操作将它们转移到live CD中。<br>Systemback允许用户自定义自动快照的计划，但你也将这个选项关闭来手动设置恢复点。需要注意的是Systemback并不支持NTFS文件系统，因此不能对NTFS系统分区进行快照或者是恢复操作。<br>Snapper<br>Snapper和openSUSE的关系非常密切。在其他Linux版本上也许能够安装Snapper，但是并不一定能正常工作了。在openSUSE中安装Snapper的最简单方法是将它安装在BTRFS分区上，这样做Snapper就能够自动安装与配置。你可以使用命令行工具来操作Snapper，或者通过YaST工具，此外还有另一种替代方案snapper-GUI。<br>工作方式<br>Snapper能够创建几种不同类型的快照，比如在安装新的应用程序之前与之后创建快照。通过这种方式你可以将快照进行对比，并且更有效的进行系统恢复。Snapper会为快照自动建立时间计划，你当然也可以把这个功能禁用掉。在Snapper中，快照是存放在与系统相同的分区中，因此它们会不断长大，要记得随时检查自己的硬盘容量。<br>默认情况下，Snapper只对根分区创建快照。如果想要包含其他分区和BTRFS副磁盘卷，你就需要为每一个项目创建一个配置，这必须在命令行终端中完成，你需要以root权限运行下面的命令：<br>snapper -c CONFIGNAME create-config /PATH<br>在这里-c代表着配置“configure”，CONFIGNAME是你为这个配置所取的名称，/PATH则是分区或是副磁盘卷的位置，例如：<br>snapper -c home create-config /home<br>你可以用下面的命令查看当前的配置：<br>snapper list-configs<br>所有的配置文件都保存在/etc/snapper/configs目录。在这里，你可以用一个常用的文本编辑器来修改它们，例如你可以禁用每小时创建快照的功能，启用自动删除快照的功能，手动设置可保存旧快照的数量。<br>在YaST Snapper模式中，你可以创建并对比快照进行系统回滚操作，或者将一个文件或者其他一些被选择的文件恢复到以前的版本。<br>怎样备份与恢复已安装的应用程序<br>了解了怎样对整个操作系统进行恢复之后，你可能想知道怎样恢复那些已经安装的应用软件。这在系统新版升级或重装系统的情况下很常见。幸运的是已经有一些工具提供了应用程序迁移的功能，而且使用起来非常方便。<br>首先我要提到的是Aptik，它是由TimeShift的开发者创建的应用程序备份工具。<br>Aptik只能用于基于Ubuntu的发行版，你可以直接从开发者PPA安装：<br>sudo apt-add-repository ppa:teejee2008/ppa<br>sudo apt-get update<br>sudo apt-get install aptik<br>Aptik能够以列表的形式输出系统现有的已安装的包以及所使用的库以及下载的包文件。此外还有用于导出应用程序设置、桌面主题和图标集的选项。Aptik会根据安装类型对这些包进行分类，例如分为操作系统预装、用户自主安装、自动安装的依赖与从.deb文件安装等等。对于.deb文件你可以将它们拖拽到列表中并且包含在备份文件里。备份可以保存在任何位置，如果想把它们提取到一个新安装的发行版中，只需要先安装Aptik，然后在主窗口中选择备份并进行恢复即可。<br>Linux Mint的用户可以选择Mint备份工具，功能几乎与Aptik一模一样。除了恢复已安装的应用程序之外，这个工具还可以对所选定的文件夹及其权限执行快速备份。<br>Arch Linux的用户可以使用Backpac来备份与恢复应用程序。Backpac可以建立手动安装包的列表文件，也可以按照你的选择单独备份文件。使用Backpac恢复系统状态会重新安装所输出的包，删除掉快照中并不包含的文件，并且会用之前输出的版本覆盖系统文件。<br>当然，你可以不使用任何一个第三方工具来完成这样的操作。在包管理系统中提供了这样的工具。在基于dpkg的系统中，你可以使用下面的操作来输出一个已安装应用的列表文件：<br>dpkg –get-selections &gt; /home/yourusername/apps.txt<br>然后，将这个txt文件与库信息从/etc/apt/sources.d/目录与/etc/apt/sources.list文件复制到新的系统中。使用如下命令行并提供正确的文件路径就可以将备份的应用迁移到新的系统中：<br>dpkg –set-selections &lt; /path/to/apps.txt<br>sudo apt-get update<br>sudo apt-get dselect-upgrade<br>有些图形化的包管理工具例如Synaptic能够提供图形化的用户界面，用来输出与导入已经安装的应用程序的列表，不需要使用终端命令行的形式来操作。<br>高级系统回滚解决方案<br>如果上面建议的这些应用你并不认为合适，那么我们还有其他的解决方案。我在这里将它们称为“高级”并不意味着这些方案非常复杂，而是说它们可能并不是新手用户的第一选择。<br>如果你想在命令行终端使用一种极简而快速的方法进行快照操作，那么可以试一下Rsnapshot。你可以在绝大多数Linux发行版的资源库中找到它。Rsnapshot的所有设置都在/etc/rsnapshot.conf这个文件中。你可以打开这个文件，自定义快照时间表，设置何时删除旧的快照，以及需要包含哪些文件与文件夹。当你设置完毕之后，最好使用下面两个命令来做一下测试：<br>rsnapshot configtest<br>rsnapshot -t hourly<br>这样可以保证你的所有设置都正常启用。请记住修改设置文件时需要在两个功能选项中使用一个tab符进行分割而并不是空格，因此不要用空格键移动这些参数。Rsnapshot没有自动恢复功能，所以你只能从选定的快照中手动复制文件。<br>Obnam<br>Obnam与Rsnapshot非常相似，另外还提供了一些有趣的功能。它可以先创建一个全系统备份，然后逐渐生成包含新的或是改变过的文件的快照。你可以对快照进行加密与自动解密。Obnam在进行系统恢复时的操作也是相似的，提供命令，并且让你选择存储的位置。<br>你可以设置或是修改自定义路径，将快照存放在服务器上或者是其他远程设备上。Obnam提供的官方手册是一项很了不起的工作，清楚的解释了所有的功能操作。<br>LVM Snapshots<br>如果系统中将会存放一些重要的数据，那么一定要事先考虑好备份与恢复的方法。如果你正在安装与设置Linux系统的话，那么值得考虑将LVM(Logical Volume Manager)作为硬盘的管理工具。<br>准确的说，LVM并不算是一个应用程序，它在Linux内核中提供了内置的快照功能，可以将快照安装到任何其他磁盘或分区，合并若干个快照，并还原它们来解决系统问题。或者你可以使用Linux内核模块dattobd支持对运行中的系统进行增量快照，这样无需卸载分区或重新启动计算机。<br>正如你所看到的，有很多种选择可以在Linux中获得系统恢复功能，然而你会发现它们在技术上是非常相似的，那么有没有更好的方法来代替现有的系统恢复功能呢?也许在未来随着这些应用程序的不断发展将会出现更好的方法，或者是对这些现有的工具更有效的进行组合应用，这些都需要使用者们不断进行探索发掘。</p>
+        <p>���ı�</p>
+<p>#encoding:utf-8<br>import smtplib<br>import os<br>from email.mime.text import MIMEText<br>from email.mime.multipart import MIMEMultipart<br>from email import encoders<br>user = ‘yanjin198620@126.com’<br>pwd = ‘<em>*</em>‘<br>to = [‘455177385@qq.com’, ‘sanyuanyanjin@163.com’]<br>msg = MIMEMultipart()<br>msg[‘Subject’] = ‘����…’<br>content1 = MIMEText(‘���ģ�’, ‘plain’, ‘utf-8’)<br>msg.attach(content1)</p>
+<p>#———————————————————–<br>s = smtplib.SMTP(‘smtp.126.com’)<br>s.login(user, pwd)<br>s.sendmail(user, to, msg.as_string())<br>print(‘���ͳɹ�’)<br>s.close()</p>
+<p>������</p>
+<p>#encoding:utf-8<br>import smtplib<br>import os<br>from email.mime.text import MIMEText<br>from email.mime.multipart import MIMEMultipart<br>from email import encoders<br>user = ‘yanjin198620@126.com’<br>pwd = ‘<em>*</em>‘<br>to = [‘455177385@qq.com’, ‘sanyuanyanjin@163.com’]<br>msg = MIMEMultipart()<br>msg[‘Subject’] = ‘����’<br>content1 = MIMEText(‘���Ĳ��֣�’, ‘plain’, ‘utf-8’)<br>msg.attach(content1)<br>attfile = ‘C:\Users\JinYan\Documents\SyncSettings 2016-06-16 152928.log’<br>basename = os.path.basename(attfile)<br>fp = open(attfile, ‘rb’)<br>att = MIMEText(fp.read(), ‘base64’, ‘utf-8’)<br>att[“Content-Type”] = ‘application/octet-stream’<br>att.add_header(‘Content-Disposition’, ‘attachment’,filename=(‘gbk’, ‘’, basename))<br>encoders.encode_base64(att)<br>msg.attach(att)</p>
+<p>#———————————————————–<br>s = smtplib.SMTP(‘smtp.126.com’)<br>s.login(user, pwd)<br>s.sendmail(user, to, msg.as_string())<br>print(‘���ͳɹ�’)<br>s.close()</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwvctjz9001eu1cywglnlhsf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwvdwc2i002sm4cyk0g41sbh" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -282,10 +281,10 @@ tar xzf backup-incre1.tar.gz
 
 
   
-    <article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python-资源" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
-  <time datetime="2016-12-13T01:59:07.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/Python-资源/" class="article-date">
+  <time datetime="2016-12-13T05:56:49.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -296,7 +295,7 @@ tar xzf backup-incre1.tar.gz
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/">Linux服务器遭受攻击后的一般处理过程</a>
+      <a class="article-title" href="/2016/12/13/Python-资源/">Python 资源</a>
     </h1>
   
 
@@ -304,202 +303,436 @@ tar xzf backup-incre1.tar.gz
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>安全总是相对的，再安全的服务器也有可能遭受到攻击。作为一个安全运维人员，要把握的原则是：尽量做好系统安全防护，修复所有已知的危险行为，同时，在系统遭受攻击后能够迅速有效地处理攻击行为，最大限度地降低攻击对系统产生的影响。<br>一、处理服务器遭受攻击的一般思路<br>系统遭受攻击并不可怕，可怕的是面对攻击束手无策，下面就详细介绍下在服务器遭受攻击后的一般处理思路。<br>1.切断网络<br>所有的攻击都来自于网络，因此，在得知系统正遭受黑客的攻击后，首先要做的就是断开服务器的网络连接，这样除了能切断攻击源之外，也能保护服务器所在网络的其他主机。<br>2.查找攻击源<br>可以通过分析系统日志或登录日志文件，查看可疑信息，同时也要查看系统都打开了哪些端口，运行哪些进程，并通过这些进程分析哪些是可疑的程序。这个过程要根据经验和综合判断能力进行追查和分析。下面的章节会详细介绍这个过程的处理思路。<br>3.分析入侵原因和途径<br>既然系统遭到入侵，那么原因是多方面的，可能是系统漏洞，也可能是程序漏洞，一定要查清楚是哪个原因导致的，并且还要查清楚遭到攻击的途径，找到攻击源，因为只有知道了遭受攻击的原因和途径，才能删除攻击源同时进行漏洞的修复。<br>4.备份用户数据<br>在服务器遭受攻击后，需要立刻备份服务器上的用户数据，同时也要查看这些数据中是否隐藏着攻击源。如果攻击源在用户数据中，一定要彻底删除，然后将用户数据备份到一个安全的地方。<br>5.重新安装系统<br>永远不要认为自己能彻底清除攻击源，因为没有人能比黑客更了解攻击程序，在服务器遭到攻击后，最安全也最简单的方法就是重新安装系统，因为大部分攻击程序都会依附在系统文件或者内核中，所以重新安装系统才能彻底清除攻击源。<br>6.修复程序或系统漏洞<br>在发现系统漏洞或者应用程序漏洞后，首先要做的就是修复系统漏洞或者更改程序bug，因为只有将程序的漏洞修复完毕才能正式在服务器上运行。<br>7.恢复数据和连接网络<br>将备份的数据重新复制到新安装的服务器上，然后开启服务，最后将服务器开启网络连接，对外提供服务。<br>二、检查并锁定可疑用户<br>当发现服务器遭受攻击后，首先要切断网络连接，但是在有些情况下，比如无法马上切断网络连接时，就必须登录系统查看是否有可疑用户，如果有可疑用户登录了系统，那么需要马上将这个用户锁定，然后中断此用户的远程连接。<br>1.登录系统查看可疑用户<br>通过root用户登录，然后执行“w”命令即可列出所有登录过系统的用户。<br>通过这个输出可以检查是否有可疑或者不熟悉的用户登录，同时还可以根据用户名以及用户登录的源地址和它们正在运行的进程来判断他们是否为非法用户。<br>2.锁定可疑用户<br>一旦发现可疑用户，就要马上将其锁定，例如上面执行“w”命令后发现nobody用户应该是个可疑用户（因为nobody默认情况下是没有登录权限的），于是首先锁定此用户，执行如下操作：<br>[root@server ~]# passwd -l nobody<br>锁定之后，有可能此用户还处于登录状态，于是还要将此用户踢下线，根据上面“w”命令的输出，即可获得此用户登录进行的pid值，操作如下：<br>[root@server ~]# ps -ef|grep @pts/3<br>531 6051 6049 0 19:23 ? 00:00:00 sshd: nobody@pts/3<br>[root@server ~]# kill -9 6051<br>这样就将可疑用户nobody从线上踢下去了。如果此用户再次试图登录它已经无法登录了。<br>3.通过last命令查看用户登录事件<br>last命令记录着所有用户登录系统的日志，可以用来查找非授权用户的登录事件，而last命令的输出结果来源于/var/log/wtmp文件，稍有经验的入侵者都会删掉/var/log/wtmp以清除自己行踪，但是还是会露出蛛丝马迹在此文件中的。<br>三、查看系统日志<br>查 看系统日志是查找攻击源最好的方法，可查的系统日志有/var/log/messages、/var/log/secure等，这两个日志文件可以记录软 件的运行状态以及远程用户的登录状态，还可以查看每个用户目录下的.bash_history文件，特别是/root目录下的.bash_history 文件，这个文件中记录着用户执行的所有历史命令。<br>四、检查并关闭系统可疑进程<br>检查可疑进程的命令很多，例如ps、top等，但是有时候只知道进程的名称无法得知路径，此时可以通过如下命令查看：<br>首先通过pidof命令可以查找正在运行的进程PID，例如要查找sshd进程的PID，执行如下命令：<br>1<br>2<br>[root@server ~]# pidof sshd<br>13276 12942 4284<br>然后进入内存目录，查看对应PID目录下exe文件的信息：<br>1<br>2<br>[root@server ~]# ls -al /proc/13276/exe<br>lrwxrwxrwx 1 root root 0 Oct 4 22:09 /proc/13276/exe -&gt; /usr/sbin/sshd<br>这样就找到了进程对应的完整执行路径。如果还有查看文件的句柄，可以查看如下目录：<br>[root@server ~]# ls -al /proc/13276/fd<br>通过这种方式基本可以找到任何进程的完整执行信息，此外还有很多类似的命令可以帮助系统运维人员查找可疑进程。例如，可以通过指定端口或者tcp、udp协议找到进程PID，进而找到相关进程：<br>[root@server ~]# fuser -n tcp 111<br>111/tcp: 1579<br>[root@server ~]# fuser -n tcp 25<br>25/tcp: 2037<br>[root@server ~]# ps -ef|grep 2037<br>root 2037 1 0 Sep23 ? 00:00:05 /usr/libexec/postfix/master<br>postfix 2046 2037 0 Sep23 ? 00:00:01 qmgr -l -t fifo -u<br>postfix 9612 2037 0 20:34 ? 00:00:00 pickup -l -t fifo -u<br>root 14927 12944 0 21:11 pts/1 00:00:00 grep 2037<br>在 有些时候，攻击者的程序隐藏很深，例如rootkits后门程序，在这种情况下ps、top、netstat等命令也可能已经被替换，如果再通过系统自身 的命令去检查可疑进程就变得毫不可信，此时，就需要借助于第三方工具来检查系统可疑程序，例如前面介绍过的chkrootkit、RKHunter等工 具，通过这些工具可以很方便的发现系统被替换或篡改的程序。<br>五、检查文件系统的完好性<br>检查文件属性是否发生变化是验证文件系统完好性最简单、最直接的方法，例如可以检查被入侵服务器上/bin/ls文件的大小是否与正常系统上此文件的大小相同，以验证文件是否被替换，但是这种方法比较低级。此时可以借助于Linux下rpm这个工具来完成验证，操作如下：<br>[root@server ~]# rpm -Va<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….T c /etc/sysctl.conf<br>S.5….T /etc/sgml/docbook-simple.cat<br>S.5….T c /etc/login.defs<br>S.5….. c /etc/openldap/ldap.conf<br>S.5….T c /etc/sudoers<br>..5….T c /usr/lib64/security/classpath.security<br>….L… c /etc/pam.d/system-auth<br>S.5….. c /etc/security/limits.conf<br>S.5….. c /etc/ldap.conf<br>S.5….T c /etc/ssh/sshd_config<br>对于输出中每个标记的含义介绍如下：<br>S 表示文件长度发生了变化<br>M 表示文件的访问权限或文件类型发生了变化<br>5 表示MD5校验和发生了变化<br>D 表示设备节点的属性发生了变化<br>L 表示文件的符号链接发生了变化<br>U 表示文件/子目录/设备节点的owner发生了变化<br>G 表示文件/子目录/设备节点的group发生了变化<br>T 表示文件最后一次的修改时间发生了变化<br>如果在输出结果中有“M”标记出现，那么对应的文件可能已经遭到篡改或替换，此时可以通过卸载这个rpm包重新安装来清除受攻击的文件。<br>不过这个命令有个局限性，那就是只能检查通过rpm包方式安装的所有文件，对于通过非rpm包方式安装的文件就无能为力了。同时，如果rpm工具也遭到替换，就不能通过这个方法了，此时可以从正常的系统上复制一个rpm工具进行检测。<br>对文件系统的检查也可以通过chkrootkit、RKHunter这两个工具来完成，关于chkrootkit、RKHunter工具的使用，下次将展开介绍。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwvctjzc001hu1cyfhsok17r" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux使用ntfs-3g挂载NTFS" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/" class="article-date">
-  <time datetime="2016-12-13T01:56:13.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux使用ntfs-3g挂载NTFS/">Linux使用ntfs-3g挂载NTFS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Open Source: NTFS-3G<br>Latest Download - <a href="http://www.tuxera.com/community/open-source-ntfs-3g/" target="_blank" rel="external">http://www.tuxera.com/community/open-source-ntfs-3g/</a><br>NTFS-3G Manual - <a href="http://www.tuxera.com/community/ntfs-3g-manual/" target="_blank" rel="external">http://www.tuxera.com/community/ntfs-3g-manual/</a><br>stable version - <a href="https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz" target="_blank" rel="external">https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2016.2.22.tgz</a></p>
-<p>#Installation<br>tar zxvf /tmp/ntfs-3g_ntfsprogs-2016.2.22.tgz<br>cd ntfs*</p>
-<p>#yum install gcc<br>./configure<br>make<br>make install # or ‘sudo make install’ if you aren’t root</p>
-<p>#Usage<br>fdisk -l<br>mkdir -p /mnt/windows<br>mount -t ntfs-3g /dev/sda1 /mnt/windows</p>
-<p>#You can also make NTFS to be mounted during boot by adding the following line to the end of the /etc/fstab file:<br>vi /etc/fstab<br>/dev/sda1 /mnt/windows ntfs-3g defaults 0 0</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvctjzb001gu1cyejseougt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-修改本机-etc-hosts-的-hostName-后经常不生效" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" class="article-date">
-  <time datetime="2016-12-13T01:54:03.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/">Linux 修改本机 /etc/hosts 的 hostName 后经常不生效</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1、Linux修改本机别名/etc/hosts的hostName后经常不生效解决</p>
-<p>Linux修改本机别名/etc/hosts的hostName后经常不生效， 比如我们/etc/hosts的内容如下：</p>
-<p>#192.68.1.10 message.xxx.com<br>192.68.1.11 message.xxx.com</p>
-<p>但是ping message.xxx.com还是指向192.68.1.10。</p>
-<p>一般2种解决方案：</p>
-<p>1). 重启，这是最直接最可靠稳定的一种方法，如果有些时候不方便重启，则可以使用第二种方法。</p>
-<p>2). 修改/etc/sysconfig/network文件，将HOSTNAME修改成对应的别名，如下：</p>
-<p>NETWORKING=yes<br>HOSTNAME=host1</p>
-<p>修改后重启网络服务</p>
-<p>service network restart (本质是/etc/init.d/network) 3).</p>
-<p>如果重启服务器后，还是不起作用，应该是本机的dns缓存引起的。</p>
-<p>查看nscd是否启用： ps -ef|grep nscd</p>
-<p>直接关闭Linux nscd 缓存服务： /etc/init.d/nscd stop</p>
-<p>2、Linux的DNS</p>
-<p>linux本身是没有dns缓存的,想使用dns缓存的话需要自己安装一个服务程序NSCD(name service cache daemon).</p>
-<p>nscd缓存三种服务passwd group hosts，所以它会记录三个库，分别对应源/etc/passwd, /etc/hosts 和 /etc/resolv.conf每个库保存两份缓存，一份是找到记录的，一份是没有找到记录的。每一种缓存都保存有生存时间（TTL）.</p>
-<p>安装：</p>
-<p>yum install nscd</p>
-<p>修改配置文件/etc/nscd.conf,开启dns缓存,修改这一行 enable-cache hosts yes。</p>
-<p>如果启用了nscd 服务，才有dns 缓存，否则是没有dns缓存的。</p>
-<p>开启 、停止、 重启服务 service nscd start | stop | restart</p>
-<p>nscd的配置：</p>
-<p>通过编辑/etc/nscd.conf文件，在其中增加如下一行可以开启本地DNS cache：<br>enable-cache hosts yes</p>
-<p>阿里云主机上的配置如下：</p>
-<p>[root@iZ2571ykq ~]# cat /etc/nscd.conf   </p>
-<p>#logfile        /var/log/nscd.log<br>threads         6<br>max-threads     128<br>server-user     nscd<br>debug-level     5<br>paranoia        no<br>enable-cache    passwd      no<br>enable-cache    group       no<br>enable-cache    hosts       yes<br>positive-time-to-live   hosts   5<br>negative-time-to-live   hosts       20<br>suggested-size  hosts       211<br>check-files     hosts       yes<br>persistent      hosts       yes<br>shared          hosts       yes<br>max-db-size     hosts       33554432</p>
-<p>相关参数的解释如下：</p>
-<p>logfile debug-file-name：指定调试信息写入的文件名。</p>
-<p>debug-level value：设置希望的调试级别。</p>
-<p>threads number：这是启动的等待请求的线程数。最少将创建5个线程。</p>
-<p>server-user user：如果设置了该选项，nscd将作为该用户运行，而不是作为root。如果每个用户都使用一个单独的缓存（-S参数），将忽略该选项</p>
-<p>enable-cache service <yes|no>：启用或禁用制定的 服务 缓存。</yes|no></p>
-<p>positive-time-to-live service value：设置 service 在指定缓存中正的项目（成功的请求）的TTL（存活时间）。 Value 以秒为单位。较大的值将增加缓存命中率从而减低平均响应时间，但是将增加缓存的一致性问题。</p>
-<p>negative-time-to-live service value：设置 service 在指定缓存中负的项目（失败的请求）的TTL（存活时间）。 Value 以秒为单位。如果存在由不在系统数据库中的uid（用户ID）（例如在以root身份解包linux 内核源代码时）所拥有的文件将明显改善性能；应该维持较小的值以降低缓存一致性问题。</p>
-<p>suggested-size service value：这是内部散列表的大小， value 应该保持一个素数以达到优化效果。</p>
-<p>check-files service <yes|no>：启用或禁用检查属于指定 服务 的文件的改变。这些文件是 /etc/passwd， /etc/group， 以及/etc/hosts。</yes|no></p>
-<p>nscd 的查看和清除</p>
-<p>nscd缓存DB文件在/var/db/nscd下。</p>
-<p>nscd -g 查看统计信息</p>
-<p>清除 nscd缓存：</p>
-<p>nscd -i passwd<br>nscd -i group<br>nscd -i hosts</p>
-<p>当然也先删除缓存库或者停掉nscd服务：</p>
-<p>rm -f /var/db/nscd/hosts<br>service nscd restart</p>
-<p>或者是直接停止nscd 服务</p>
-<p>service nscd stop。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvctjz5001bu1cyhmt0pu1m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-Command" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-Command/" class="article-date">
-  <time datetime="2016-12-13T01:37:50.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-Command/">Linux Command</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>不一定刻意去看知识，而是以项目为目标来寻求知识支持,方能学的更快。——仁佳<br>鸟哥的Linux私房菜基础学习篇(第三版)<br>notebook:boot: linux nofb apm=off acpi=off pci=noacpi p125<br>command p149<br>date p151<br>cal p151<br>bc p153<br>man p156<br>info p162<br>nano p164<br>sync p167<br>shutdown p167<br>reboot p168<br>halt p168<br>poweroff p168<br>init p169</p>
-<p>chgrp p181<br>chown p182<br>chmod p183</p>
-<p>cd p202<br>pwd p202<br>mkdir p203<br>rmdir p204<br>$PATH p204<br>ls p207<br>cp p209<br>rm p212<br>mv p213<br>cat p214<br>tac p215<br>nl p215<br>more p216<br>less p217<br>head p218<br>tail p218<br>od p219<br>touch p220<br>umask p223<br>chattr p225<br>lsattr p226<br>SUID p227<br>SGID p228<br>SBIT p228<br>file p230<br>which p230<br>whereis p231<br>locate p232 updatedb<br>find p233</p>
-<p>dumpe2fs p249<br>df p256<br>du p258<br>ln p262<br>fdisk p264<br>partprobe p271<br>mkfs p272<br>mke2fs p273<br>fsck p274<br>badblocks p275<br>mount p275<br>umount p279<br>mknod p281<br>e2label p282<br>tune2fs p282<br>hdparm p283<br>parted p295</p>
-<p>compress p303<br>gzip p305<br>zcat p305<br>bzip2 p306<br>bzcat p306<br>tar p307<br>dump p313<br>restore p316<br>mkisofs p320<br>cdrecord p322<br>dd p325<br>cpio p327</p>
-<p>vim p336<br>Visual Block p343<br>multitask p346<br>~/.vimrc p347<br>~/.viminfo p347<br>dos2unix p349<br>unix2dos p349<br>iconv -o p350<br>iconv -f big5 -t gb2312<br>iconv -f gb2312 -t utf8 logfile.sh -o logfile.sh</p>
-<p>type p359<br>echo p362<br>unset p365<br>env p366<br>set p367<br>PS1 p368<br>export p369<br>locale p371<br>read p373<br>declare p373<br>array p374<br>ulimit p375<br>alias p381<br>unalias p382<br>history p382<br>login p385<br>no-login p386<br>stty p390<br>set p391<br>bash p393<br>pipe p400<br>cut p400<br>grep p401<br>sort p402<br>uniq p403<br>wc p404<br>tee p405<br>tr p405<br>col p406<br>join p407<br>paste p408<br>expand p408<br>split p409<br>xargs p410</p>
+        <p>环境管理</p>
+<p>管理 Python 版本和环境的工具</p>
 <ul>
-<li>p411</li>
+<li>p – 非常简单的交互式 python 版本管理工具。</li>
+<li>pyenv – 简单的 Python 版本管理工具。</li>
+<li>Vex – 可以在虚拟环境中执行命令。</li>
+<li>virtualenv – 创建独立 Python 环境的工具。</li>
+<li>virtualenvwrapper– virtualenv 的一组扩展。</li>
 </ul>
-<p>grep p419<br>characters p427<br>sed p428<br>printf p434<br>awk p435<br>diff p439<br>cmp p440<br>patch p440<br>pr p441</p>
-<p>test p453<br>sh p473</p>
-<p>groups p485<br>newgrp p486<br>useradd p487<br>passwd p491<br>chage p494<br>usermod p495<br>userdel p496<br>finger p497<br>chfn p498<br>chsh p499<br>id p499<br>groupadd p500<br>groupmod p500<br>groupdel p501<br>gpasswd p501<br>setfacl p505<br>getfacl p505<br>su p509<br>sudo p510<br>w p524<br>who p524<br>last p524<br>lastlog p524<br>write p524<br>mesg p525<br>wall p525<br>mail p525<br>pwck p527<br>grpck p527<br>pwconv p527<br>pwunconv p528<br>chpasswd p528<br>grpconv p529</p>
-<p>quotacheck p542<br>quotaon p543<br>quotaoff p543<br>edquota p544<br>quota p545<br>repquota p546<br>warnquota p548<br>setquota p550<br>mdadm p554<br>pvscan p565<br>pvcreate p565<br>vgcreate p566<br>vgscan p566<br>vgdisplay p566<br>vgextend p567<br>lvcreate p568<br>resize2fs p571<br>lvresize p573<br>pvdisplay p574<br>LVM 相关指令汇总与LVM 的关闭 p580</p>
-<p>at p588<br>atq p590<br>atrm p590<br>batch p590<br>crontab p591<br>anacron p597</p>
-<p>&amp; p605<br>[crtl]-z<br>jobs p607<br>fg p607<br>bg p608<br>kill p608<br>nobup p609<br>ps p610<br>ps -l p611<br>ps aux p612<br>top p614<br>pstree p616<br>signal<br>killall p618<br>nice p620<br>renice p621<br>free p622<br>uname p622<br>uptime p623<br>netstat p623<br>dmesg p625<br>vmstat p625<br>fuser p629<br>lsof p630<br>pidof p631<br>SELinux p632<br>getenforce p636<br>sestatus p637<br>setenforce p638<br>chcon p640<br>restorecon p641<br>sealert p642<br>auditd p642<br>audit2why p643<br>seinfo p643<br>sesearch p644<br>getsebool p645<br>setsebool p646<br>semanage p646<br>vsftp p648</p>
-<p>rsync p662<br>chkconfig p669<br>ntsysv p670</p>
-<p>logrotate p689<br>logwatch p695</p>
-<p>runlevel p713<br>depmod p714<br>lsmod p715<br>modinfo p715<br>insmod p716<br>rmmod p716<br>modprobe p716<br>mkinitrd p723<br>grub-install p724</p>
-<p>setup p739<br>lpadmin p757<br>lpr p759<br>lp p760<br>lprm p760<br>lspci p762<br>lsusb p763<br>iostat p763<br>sensors-detect p766<br>sensors p768</p>
-<p>makefile p784<br>Tarball p788<br>ldconfig p796<br>ldd p797<br>md5sum p798</p>
-<p>rpm p807<br>rpmbuild p816<br>yum p824</p>
-<p>startx p840<br>xinit p841<br>gtf p853</p>
-<p>鸟哥的Linux私房菜服务器架设篇(第三版)<br>p116<br>IP Netmask DHCP Gateway</p>
-<p>vim /etc/sysconfig/network-scripts/ifcfg-eth0 p119<br>ifconfig(IP/Netmask) route -n (gateway)</p>
-<p>主机名  /etc/sysconfig/network p122<br>DNS  /etc/resolv.conf  dig www.google.com p121<br>私有 IP 对应的主机名 /etc/hosts</p>
-<p>/etc/init.d/network restart p120</p>
-<p>route p74<br>arp p76<br>dhcp p124<br>adsl p125<br>lsusb p134<br>iwconfig p135<br>/etc/hosts p140</p>
-<p>ifconfig p146<br>ifup p149<br>ifdown p149<br>route p149<br>ip p152<br>dhclient p159<br>ping p159<br>traceroute(ms:tracert) p162<br>netstat p164<br>host p167<br>nslookup p168<br>telnet p169<br>ftp p171<br>lftp p172<br>pidgin p174<br>links p178<br>wget p181<br>tcpdump p182<br>wireshark p186<br>nc p190<br>netcat p190</p>
-<p>yum p221<br>chcon p250</p>
-<p>LAMP 所需软件与其结构 p770<br>yum install httpd mysql mysql-server php php-mysql</p>
-<p>Apache 的基本设定 p773<br>vim /etc/httpd/conf/httpd.conf</p>
+<p>包管理</p>
+<p>管理包和依赖的工具。</p>
+<ul>
+<li>pip – Python 包和依赖关系管理工具。</li>
+<li>pip-tools – 保证 Python 包依赖关系更新的一组工具。</li>
+<li>conda – 跨平台，Python 二进制包管理工具。</li>
+<li>Curdling – 管理 Python 包的命令行工具。</li>
+<li>wheel – Python 分发的新标准，意在取代 eggs。</li>
+</ul>
+<p>包仓库</p>
+<p>本地 PyPI 仓库服务和代理。</p>
+<ul>
+<li>warehouse – 下一代 PyPI。<br>Warehouse bandersnatch – PyPA 提供的 PyPI 镜像工具。</li>
+<li>devpi – PyPI 服务和打包/测试/分发工具。</li>
+<li>localshop – 本地 PyPI 服务（自定义包并且自动对 PyPI 镜像）。</li>
+</ul>
+<p>分发</p>
+<p>打包为可执行文件以便分发。</p>
+<ul>
+<li>PyInstaller – 将 Python 程序转换成独立的执行文件（跨平台）。</li>
+<li>dh-virtualenv – 构建并将 virtualenv 虚拟环境作为一个 Debian 包来发布。</li>
+<li>Nuitka – 将脚本、模块、包编译成可执行文件或扩展模块。</li>
+<li>py2app – 将 Python 脚本变为独立软件包（Mac OS X）。</li>
+<li>py2exe – 将 Python 脚本变为独立软件包（Windows）。</li>
+<li>pynsist – 一个用来创建 Windows 安装程序的工具，可以在安装程序中打包 Python本身。</li>
+</ul>
+<p>构建工具</p>
+<p>将源码编译成软件。</p>
+<ul>
+<li>buildout – 一个构建系统，从多个组件来创建，组装和部署应用。</li>
+<li>BitBake – 针对嵌入式 Linux 的类似 make 的构建工具。</li>
+<li>fabricate – 对任何语言自动找到依赖关系的构建工具。</li>
+<li>PlatformIO – 多平台命令行构建工具。</li>
+<li>PyBuilder – 纯 Python 实现的持续化构建工具。</li>
+<li>SCons – 软件构建工具。</li>
+</ul>
+<p>交互式解析器</p>
+<p>交互式 Python 解析器。</p>
+<ul>
+<li>IPython – 功能丰富的工具，非常有效的使用交互式 Python。</li>
+<li>bpython– 界面丰富的 Python 解析器。</li>
+<li>ptpython – 高级交互式Python解析器， 构建于python-prompt-toolkit 之上。</li>
+</ul>
+<p>文件</p>
+<p>文件管理和 MIME（多用途的网际邮件扩充协议）类型检测。</p>
+<ul>
+<li>imghdr – （Python 标准库）检测图片类型。</li>
+<li>mimetypes – （Python 标准库）将文件名映射为 MIME 类型。</li>
+<li>path.py – 对 os.path 进行封装的模块。</li>
+<li>pathlib – （Python3.4+ 标准库）跨平台的、面向对象的路径操作库。</li>
+<li>python-magic– 文件类型检测的第三方库 libmagic 的 Python 接口。</li>
+<li>Unipath– 用面向对象的方式操作文件和目录</li>
+<li>watchdog – 管理文件系统事件的 API 和 shell 工具</li>
+</ul>
+<p>日期和时间</p>
+<p>操作日期和时间的类库。</p>
+<ul>
+<li>arrow– 更好的 Python 日期时间操作类库。</li>
+<li>Chronyk – Python 3 的类库，用于解析手写格式的时间和日期。</li>
+<li>dateutil – Python datetime 模块的扩展。</li>
+<li>delorean– 解决 Python 中有关日期处理的棘手问题的库。</li>
+<li>moment – 一个用来处理时间和日期的Python库。灵感来自于Moment.js。</li>
+<li>PyTime – 一个简单易用的Python模块，用于通过字符串来操作日期/时间。</li>
+<li>pytz – 现代以及历史版本的世界时区定义。将时区数据库引入Python。</li>
+<li>when.py – 提供用户友好的函数来帮助用户进行常用的日期和时间操作。</li>
+</ul>
+<p>文本处理</p>
+<p>用于解析和操作文本的库。</p>
+<ul>
+<li>通用<br>chardet – 字符编码检测器，兼容 Python2 和 Python3。<br>difflib – (Python 标准库)帮助我们进行差异化比较。<br>ftfy – 让Unicode文本更完整更连贯。<br>fuzzywuzzy – 模糊字符串匹配。<br>Levenshtein – 快速计算编辑距离以及字符串的相似度。<br>pangu.py – 在中日韩语字符和数字字母之间添加空格。<br>pyfiglet -figlet 的 Python实现。<br>shortuuid – 一个生成器库，用以生成简洁的，明白的，URL 安全的 UUID。<br>unidecode – Unicode 文本的 ASCII 转换形式 。<br>uniout – 打印可读的字符，而不是转义的字符串。<br>xpinyin – 一个用于把汉字转换为拼音的库。</li>
+<li>Slug化<br>awesome-slugify – 一个 Python slug 化库，可以保持 Unicode。<br>python-slugify – Python slug 化库，可以把 unicode 转化为 ASCII。<br>unicode-slugify – 一个 slug 工具，可以生成 unicode slugs ,需要依赖 Django 。</li>
+<li>解析器<br>phonenumbers – 解析，格式化，储存，验证电话号码。<br>PLY – lex 和 yacc 解析工具的 Python 实现。<br>Pygments – 通用语法高亮工具。<br>pyparsing – 生成通用解析器的框架。<br>python-nameparser – 把一个人名分解为几个独立的部分。<br>python-user-agents – 浏览器 user agent 解析器。<br>sqlparse – 一个无验证的 SQL 解析器。</li>
+</ul>
+<p>特殊文本格式处理</p>
+<p>一些用来解析和操作特殊文本格式的库。</p>
+<ul>
+<li>通用<br>tablib – 一个用来处理中表格数据的模块。</li>
+<li>Office<br>Marmir – 把输入的Python 数据结构转换为电子表单。<br>openpyxl – 一个用来读写 Excel 2010 xlsx/xlsm/xltx/xltm 文件的库。<br>python-docx – 读取，查询以及修改 Microsoft Word 2007/2008 docx 文件。<br>unoconv – 在 LibreOffice/OpenOffice 支持的任意文件格式之间进行转换。<br>XlsxWriter – 一个用于创建 Excel .xlsx 文件的 Python 模块。<br>xlwings – 一个使得在 Excel 中方便调用 Python 的库（反之亦然），基于 BSD 协议。<br>xlwt / xlrd – 读写 Excel 文件的数据和格式信息。<br>relatorio – 模板化OpenDocument 文件。</li>
+<li>PDF<br>PDFMiner – 一个用于从PDF文档中抽取信息的工具。<br>PyPDF2 – 一个可以分割，合并和转换 PDF 页面的库。<br>ReportLab – 快速创建富文本 PDF 文档。</li>
+<li>Markdown<br>Mistune – 快速并且功能齐全的纯 Python 实现的 Markdown 解析器。<br>Python-Markdown – John Gruber’s Markdown 的 Python 版实现。</li>
+<li>YAML<br>PyYAML – Python 版本的 YAML 解析器。</li>
+<li>CSV<br>csvkit – 用于转换和操作 CSV 的工具。</li>
+<li>Archive<br>unp – 一个用来方便解包归档文件的命令行工具。</li>
+</ul>
+<p>自然语言处理</p>
+<p>用来处理人类语言的库。</p>
+<ul>
+<li>NLTK – 一个先进的平台，用以构建处理人类语言数据的 Python 程序。</li>
+<li>jieba – 中文分词工具。</li>
+<li>langid.py – 独立的语言识别系统。</li>
+<li>Pattern – Python 网络信息挖掘模块。</li>
+<li>SnowNLP – 一个用来处理中文文本的库。</li>
+<li>TextBlob – 为进行普通自然语言处理任务提供一致的 API。</li>
+<li>TextGrocery – 一简单高效的短文本分类工具，基于 LibLinear 和 Jieba。</li>
+</ul>
+<p>文档</p>
+<p>用以生成项目文档的库。</p>
+<ul>
+<li>Sphinx – Python 文档生成器。<br>awesome-sphinxdoc</li>
+<li>MkDocs – 对 Markdown 友好的文档生成器。</li>
+<li>pdoc – 一个可以替换Epydoc 的库，可以自动生成 Python 库的 API 文档。</li>
+<li>Pycco – 文学编程（literate-programming）风格的文档生成器。</li>
+</ul>
+<p>配置</p>
+<p>用来保存和解析配置的库。</p>
+<ul>
+<li>config – logging 模块作者写的分级配置模块。</li>
+<li>ConfigObj – INI 文件解析器，带验证功能。</li>
+<li>ConfigParser – (Python 标准库) INI 文件解析器。</li>
+<li>profig – 通过多种格式进行配置，具有数值转换功能。</li>
+<li>python-decouple – 将设置和代码完全隔离。</li>
+</ul>
+<p>命令行工具</p>
+<p>用于创建命令行程序的库。</p>
+<ul>
+<li>命令行程序开发<br>cement – Python 的命令行程序框架。<br>click – 一个通过组合的方式来创建精美命令行界面的包。<br>cliff – 一个用于创建命令行程序的框架，可以创建具有多层命令的命令行程序。<br>clint – Python 命令行程序工具。<br>colorama – 跨平台彩色终端文本。<br>docopt – Python 风格的命令行参数解析器。<br>Gooey – 一条命令，将命令行程序变成一个 GUI 程序。<br>python-prompt-toolkit – 一个用于构建强大的交互式命令行程序的库。</li>
+<li>生产力工具<br>aws-cli – Amazon Web Services 的通用命令行界面。<br>bashplotlib – 在终端中进行基本绘图。<br>caniusepython3 – 判断是哪个项目妨碍你你移植到 Python 3。<br>cookiecutter – 从 cookiecutters（项目模板）创建项目的一个命令行工具。<br>doitlive – 一个用来在终端中进行现场演示的工具。<br>howdoi – 通过命令行获取即时的编程问题解答。<br>httpie – 一个命令行HTTP 客户端，cURL 的替代品，易用性更好。<br>PathPicker – 从bash输出中选出文件。<br>percol – 向UNIX shell 传统管道概念中加入交互式选择功能。<br>SAWS – 一个加强版的 AWS 命令行。<br>thefuck – 修正你之前的命令行指令。<br>mycli – 一个 MySQL 命令行客户端，具有自动补全和语法高亮功能。<br>pgcli – Postgres 命令行工具，具有自动补全和语法高亮功能。</li>
+</ul>
+<p>下载器</p>
+<p>用来进行下载的库.</p>
+<ul>
+<li>s3cmd – 一个用来管理Amazon S3 和 CloudFront 的命令行工具。</li>
+<li>s4cmd – 超级 S3 命令行工具，性能更加强劲。</li>
+<li>you-get – 一个 YouTube/Youku/Niconico 视频下载器，使用 Python3 编写。</li>
+<li>youtube-dl – 一个小巧的命令行程序，用来下载 YouTube 视频。</li>
+</ul>
+<p>图像处理</p>
+<p>用来操作图像的库.</p>
+<ul>
+<li>pillow – Pillow 是一个更加易用版的 PIL。</li>
+<li>hmap – 图像直方图映射。</li>
+<li>imgSeek – 一个使用视觉相似性搜索一组图片集合的项目。</li>
+<li>nude.py – 裸体检测。</li>
+<li>pyBarcode – 不借助 PIL 库在 Python 程序中生成条形码。</li>
+<li>pygram – 类似 Instagram 的图像滤镜。</li>
+<li>python-qrcode – 一个纯 Python 实现的二维码生成器。</li>
+<li>Quads – 基于四叉树的计算机艺术。</li>
+<li>scikit-image – 一个用于（科学）图像处理的 Python 库。</li>
+<li>thumbor – 一个小型图像服务，具有剪裁，尺寸重设和翻转功能。</li>
+<li>wand – MagickWand的Python 绑定。MagickWand 是 ImageMagick的 C API 。</li>
+</ul>
+<p>OCR</p>
+<p>光学字符识别库。</p>
+<ul>
+<li>pyocr – Tesseract 和 Cuneiform 的一个封装(wrapper)。</li>
+<li>pytesseract – Google Tesseract OCR 的另一个封装(wrapper)。</li>
+<li>python-tesseract – Google Tesseract OCR 的一个包装类。</li>
+</ul>
+<p>音频</p>
+<p>用来操作音频的库</p>
+<ul>
+<li>audiolazy -Python 的数字信号处理包。</li>
+<li>audioread – 交叉库 (GStreamer + Core Audio + MAD + FFmpeg) 音频解码。</li>
+<li>beets – 一个音乐库管理工具及 MusicBrainz 标签添加工具</li>
+<li>dejavu – 音频指纹提取和识别</li>
+<li>django-elastic-transcoder – Django + Amazon Elastic Transcoder。</li>
+<li>eyeD3 – 一个用来操作音频文件的工具，具体来讲就是包含 ID3 元信息的 MP3 文件。</li>
+<li>id3reader – 一个用来读取 MP3 元数据的 Python 模块。</li>
+<li>m3u8 – 一个用来解析 m3u8 文件的模块。</li>
+<li>mutagen – 一个用来处理音频元数据的 Python 模块。</li>
+<li>pydub – 通过简单、简洁的高层接口来操作音频文件。</li>
+<li>pyechonest – Echo Nest API 的 Python 客户端</li>
+<li>talkbox – 一个用来处理演讲/信号的 Python 库</li>
+<li>TimeSide – 开源 web 音频处理框架。</li>
+<li>tinytag – 一个用来读取MP3, OGG, FLAC 以及 Wave 文件音乐元数据的库。</li>
+<li>mingus – 一个高级音乐理论和曲谱包，支持 MIDI 文件和回放功能。</li>
+</ul>
+<p>Video</p>
+<p>用来操作视频和GIF的库。</p>
+<ul>
+<li>moviepy – 一个用来进行基于脚本的视频编辑模块，适用于多种格式，包括动图 GIFs。</li>
+<li>scikit-video – SciPy 视频处理常用程序。</li>
+</ul>
+<p>地理位置</p>
+<p>地理编码地址以及用来处理经纬度的库。</p>
+<ul>
+<li>GeoDjango – 世界级地理图形 web 框架。</li>
+<li>GeoIP – MaxMind GeoIP Legacy 数据库的 Python API。</li>
+<li>geojson – GeoJSON 的 Python 绑定及工具。</li>
+<li>geopy – Python 地址编码工具箱。</li>
+<li>pygeoip – 纯 Python GeoIP API。</li>
+<li>django-countries – 一个 Django 应用程序，提供用于表格的国家选择功能，国旗图标静态文件以及模型中的国家字段。</li>
+</ul>
+<p>HTTP</p>
+<p>使用HTTP的库。</p>
+<ul>
+<li>requests – 人性化的HTTP请求库。</li>
+<li>grequests – requests 库 + gevent ，用于异步 HTTP 请求.</li>
+<li>httplib2 – 全面的 HTTP 客户端库。</li>
+<li>treq – 类似 requests 的Python API 构建于 Twisted HTTP 客户端之上。</li>
+<li>urllib3 – 一个具有线程安全连接池，支持文件 post，清晰友好的 HTTP 库。</li>
+</ul>
+<p>数据库</p>
+<p>Python实现的数据库。</p>
+<ul>
+<li>pickleDB – 一个简单，轻量级键值储存数据库。</li>
+<li>PipelineDB – 流式 SQL 数据库。</li>
+<li>TinyDB – 一个微型的，面向文档型数据库。</li>
+<li>ZODB – 一个 Python 原生对象数据库。一个键值和对象图数据库。</li>
+</ul>
+<p>数据库驱动</p>
+<p>用来连接和操作数据库的库。</p>
+<ul>
+<li>MySQL – awesome-mysql系列<br>mysql-python – Python 的 MySQL 数据库连接器。<br>mysqlclient – mysql-python 分支，支持 Python 3。<br>oursql – 一个更好的 MySQL 连接器，支持原生预编译指令和 BLOBs.<br>PyMySQL – 纯 Python MySQL 驱动，兼容 mysql-python。</li>
+<li>PostgreSQL<br>psycopg2 – Python 中最流行的 PostgreSQL 适配器。<br>queries – psycopg2 库的封装，用来和 PostgreSQL 进行交互。<br>txpostgres – 基于 Twisted 的异步 PostgreSQL 驱动。</li>
+<li>其他关系型数据库<br>apsw – 另一个 Python SQLite封装。<br>dataset – 在数据库中存储Python字典 – 可以协同SQLite，MySQL，和 PostgreSQL工作。<br>pymssql– 一个简单的Microsoft SQL Server数据库接口。</li>
+<li>NoSQL 数据库<br>cassandra-python-driver – Cassandra 的 Python 驱动。<br>HappyBase – 一个为 Apache HBase 设计的，对开发者友好的库。<br>Plyvel – 一个快速且功能丰富的 LevelDB 的 Python 接口。<br>py2neo – Neo4j restful 接口的Python 封装客户端。<br>pycassa – Cassandra 的 Python Thrift 驱动。<br>PyMongo – MongoDB 的官方 Python 客户端。<br>redis-py – Redis 的 Python 客户端。<br>telephus – 基于 Twisted 的 Cassandra 客户端。<br>txRedis – 基于 Twisted 的 Redis 客户端。</li>
+</ul>
+<p>ORM</p>
+<p>实现对象关系映射或数据映射技术的库。</p>
+<ul>
+<li>关系型数据库<br>Django Models – Django 的一部分。<br>SQLAlchemy – Python SQL 工具以及对象关系映射工具。<br>awesome-sqlalchemy系列<br>Peewee – 一个小巧，富有表达力的 ORM。<br>PonyORM – 提供面向生成器的 SQL 接口的 ORM。<br>python-sql – 编写 Python 风格的 SQL 查询。</li>
+<li>NoSQL 数据库<br>django-mongodb-engine – Django MongoDB 后端。<br>PynamoDB – Amazon DynamoDB 的一个 Python 风格接口。<br>flywheel – Amazon DynamoDB 的对象映射工具。<br>MongoEngine – 一个Python 对象文档映射工具，用于 MongoDB。<br>hot-redis – 为 Redis 提供 Python 丰富的数据类型。<br>redisco – 一个 Python 库，提供可以持续存在在 Redis 中的简单模型和容器。</li>
+<li>其他<br>butterdb – Google Drive 电子表格的 Python ORM。</li>
+</ul>
+<p>Web 框架</p>
+<p>全栈 web 框架。</p>
+<ul>
+<li>Django – Python 界最流行的 web 框架。<br>awesome-django系列</li>
+<li>Flask – 一个 Python 微型框架。<br>awesome-flask系列</li>
+<li>Pyramid – 一个小巧，快速，接地气的开源Python web 框架。<br>awesome-pyramid系列</li>
+<li>Bottle – 一个快速小巧，轻量级的 WSGI 微型 web 框架。</li>
+<li>CherryPy – 一个极简的 Python web 框架，服从 HTTP/1.1 协议且具有WSGI 线程池。</li>
+<li>TurboGears – 一个可以扩展为全栈解决方案的微型框架。</li>
+<li>web.py – 一个 Python 的 web 框架，既简单，又强大。</li>
+<li>web2py – 一个全栈 web 框架和平台，专注于简单易用。</li>
+<li>Tornado – 一个web 框架和异步网络库。</li>
+</ul>
+<p>权限</p>
+<p>允许或拒绝用户访问数据或功能的库。</p>
+<ul>
+<li>Carteblanche – Module to align code with thoughts of users and designers. Also magically handles navigation and permissions.</li>
+<li>django-guardian – Django 1.2+ 实现了单个对象权限。</li>
+<li>django-rules – 一个小巧但是强大的应用，提供对象级别的权限管理，且不需要使用数据库。</li>
+</ul>
+<p>CMS</p>
+<p>内容管理系统</p>
+<ul>
+<li>django-cms – 一个开源的，企业级 CMS，基于 Django。</li>
+<li>djedi-cms – 一个轻量级但却非常强大的 Django CMS ，考虑到了插件，内联编辑以及性能。</li>
+<li>FeinCMS – 基于 Django 构建的最先进的内容管理系统之一。</li>
+<li>Kotti – 一个高级的，Python 范的 web 应用框架，基于 Pyramid 构建。</li>
+<li>Mezzanine – 一个强大的，持续的，灵活的内容管理平台。</li>
+<li>Opps – 一个为杂志，报纸网站以及大流量门户网站设计的 CMS 平台，基于 Django。</li>
+<li>Plone – 一个构建于开源应用服务器 Zope 之上的 CMS。</li>
+<li>Quokka – 灵活，可扩展的小型 CMS，基于 Flask 和 MongoDB。</li>
+<li>Wagtail – 一个 Django 内容管理系统。</li>
+<li>Widgy – 最新的 CMS 框架，基于 Django。</li>
+</ul>
+<p>电子商务</p>
+<p>用于电子商务以及支付的框架和库。</p>
+<ul>
+<li>django-oscar – 一个用于 Django 的开源的电子商务框架。</li>
+<li>django-shop – 一个基于 Django 的店铺系统。</li>
+<li>Cartridge – 一个基于 Mezzanine 构建的购物车应用。</li>
+<li>shoop – 一个基于 Django 的开源电子商务平台。</li>
+<li>alipay – 非官方的 Python 支付宝 API。</li>
+<li>merchant – 一个可以接收来自多种支付平台支付的 Django 应用。</li>
+<li>money – 货币类库with optional CLDR-backed locale-aware formatting and an extensible currency exchange solution.</li>
+<li>python-currencies – 显示货币格式以及它的数值。</li>
+</ul>
+<p>RESTful API</p>
+<p>用来开发RESTful APIs的库</p>
+<ul>
+<li>Django<br>django-rest-framework – 一个强大灵活的工具，用来构建 web API。<br>django-tastypie – 为Django 应用开发API。<br>django-formapi – 为 Django 的表单验证，创建 JSON APIs 。</li>
+<li>Flask<br>flask-api – 为 flask 开发的，可浏览 Web APIs 。<br>flask-restful – 为 flask 快速创建REST APIs 。<br>flask-restless – 为 SQLAlchemy 定义的数据库模型创建 RESTful APIs 。<br>flask-api-utils – 为 Flask 处理 API 表示和验证。<br>eve – REST API 框架，由 Flask, MongoDB 等驱动。</li>
+<li>Pyramid<br>cornice – 一个Pyramid 的 REST 框架 。</li>
+<li>与框架无关的<br>falcon – 一个用来建立云 API 和 web app 后端的噶性能框架。<br>sandman – 为现存的数据库驱动系统自动创建 REST APIs 。<br>restless – 框架无关的 REST 框架 ，基于从 Tastypie 学到的知识。<br>ripozo – 快速创建 REST/HATEOAS/Hypermedia APIs。</li>
+</ul>
+<p>验证</p>
+<p>实现验证方案的库。</p>
+<ul>
+<li>OAuth<br>Authomatic – 简单但是强大的框架，身份验证/授权客户端。<br>django-allauth – Django 的验证应用。<br>django-oauth-toolkit – 为 Django 用户准备的 OAuth2。<br>django-oauth2-provider – 为 Django 应用提供 OAuth2 接入。<br>Flask-OAuthlib – OAuth 1.0/a, 2.0 客户端实现，供 Flask 使用。<br>OAuthLib – 一个 OAuth 请求-签名逻辑通用、 完整的实现。<br>python-oauth2 – 一个完全测试的抽象接口。用来创建 OAuth 客户端和服务端。<br>python-social-auth – 一个设置简单的社会化验证方式。<br>rauth – OAuth 1.0/a, 2.0, 和 Ofly 的 Python 库。<br>sanction – 一个超级简单的OAuth2 客户端实现。</li>
+<li>其他<br>jose – JavaScript 对象签名和加密草案的实现。<br>PyJWT – JSON Web 令牌草案 01。<br>python-jws – JSON Web 签名草案 02 的实现。<br>python-jwt – 一个用来生成和验证 JSON Web 令牌的模块。</li>
+</ul>
+<p>模板引擎</p>
+<p>模板生成和词法解析的库和工具。</p>
+<ul>
+<li>Jinja2 – 一个现代的，对设计师友好的模板引擎。</li>
+<li>Chameleon – 一个 HTML/XML 模板引擎。 模仿了 ZPT（Zope Page Templates）, 进行了速度上的优化。</li>
+<li>Genshi – Python 模板工具，用以生成 web 感知的结果。</li>
+<li>Mako – Python 平台的超高速轻量级模板。</li>
+</ul>
+<p>Queue</p>
+<p>处理事件以及任务队列的库。</p>
+<ul>
+<li>celery – 一个异步任务队列/作业队列，基于分布式消息传递。</li>
+<li>huey – 小型多线程任务队列。</li>
+<li>mrq – Mr. Queue -一个 Python 的分布式 worker 任务队列， 使用 Redis 和 gevent。</li>
+<li>rq – 简单的 Python 作业队列。</li>
+<li>simpleq – 一个简单的，可无限扩张的，基于亚马逊 SQS 的队列。</li>
+</ul>
+<p>搜索</p>
+<p>对数据进行索引和执行搜索查询的库和软件。</p>
+<ul>
+<li>django-haystack – Django 模块化搜索。</li>
+<li>elasticsearch-py – Elasticsearch 的官方底层 Python 客户端。</li>
+<li>elasticsearch-dsl-py -Elasticsearch 的官方高级 Python 客户端。</li>
+<li>solrpy – solr的 Python 客户端。</li>
+<li>Whoosh – 一个快速的纯 Python 搜索引擎库。</li>
+</ul>
+<p>动态消息</p>
+<p>用来创建用户活动的库。</p>
+<ul>
+<li>django-activity-stream – 从你的站点行为中生成通用活动信息流。</li>
+<li>Stream-Framework – 使用 Cassandra 和 Redis 创建动态消息和通知系统。</li>
+</ul>
+<p>资源管理</p>
+<p>管理、压缩、缩小网站资源的工具。</p>
+<ul>
+<li>django-compressor – 将链接和内联的 JavaScript 或 CSS 压缩到一个单独的缓存文件中。</li>
+<li>django-storages – 一个针对 Django 的自定义存储后端的工具集合。</li>
+<li>fanstatic – 打包、优化，并且把静态文件依赖作为 Python 的包来提供。</li>
+<li>File Conveyor – 一个后台驻留的程序，用来发现和同步文件到 CDNs, S3 和 FTP。</li>
+<li>Flask-Assets – 帮你将 web 资源整合到你的 Flask app 中。</li>
+<li>jinja-assets-compressor – 一个 Jinja 扩展，用来编译和压缩你的资源。</li>
+<li>webassets – 为你的静态资源打包、优化和管理生成独一无二的缓存 URL。</li>
+</ul>
+<p>电子邮件</p>
+<p>用来发送和解析电子邮件的库。</p>
+<ul>
+<li>django-celery-ses – 带有 AWS SES 和 Celery 的 Django email 后端。</li>
+<li>envelopes – 供人类使用的电子邮件库。</li>
+<li>flanker – 一个 email 地址和 Mime 解析库。</li>
+<li>imbox – Python IMAP 库</li>
+<li>inbox.py – Python SMTP 服务器。</li>
+<li>inbox – 一个开源电子邮件工具箱。</li>
+<li>lamson – Python 风格的 SMTP 应用服务器。</li>
+<li>mailjet – Mailjet API 实现，用来提供批量发送邮件，统计等功能。</li>
+<li>marrow.mailer – 高性能可扩展邮件分发框架。</li>
+<li>modoboa – 一个邮件托管和管理平台，具有现代的、简约的 Web UI。</li>
+<li>pyzmail – 创建，发送和解析电子邮件。</li>
+<li>Talon – Mailgun 库，用来抽取信息和签名。</li>
+</ul>
+<p>URL处理</p>
+<p>解析URLs的库</p>
+<ul>
+<li>furl – 一个让处理 URL 更简单小型 Python 库。</li>
+<li>purl – 一个简单的，不可变的URL类，具有简洁的 API 来进行询问和处理。</li>
+<li>pyshorteners – 一个纯 Python URL 缩短库。</li>
+<li>shorturl– 生成短小 URL 和类似 bit.ly 短链的Python 实现。</li>
+<li>webargs – 一个解析 HTTP 请求参数的库，内置对流行 web 框架的支持，包括 Flask, Django, Bottle, Tornado和 Pyramid。</li>
+</ul>
+<p>HTML处理</p>
+<p>处理 HTML和XML的库。</p>
+<ul>
+<li>BeautifulSoup – 以 Python 风格的方式来对 HTML 或 XML 进行迭代，搜索和修改。</li>
+<li>bleach – 一个基于白名单的 HTML 清理和文本链接库。</li>
+<li>cssutils – 一个 Python 的 CSS 库。</li>
+<li>html5lib – 一个兼容标准的 HTML 文档和片段解析及序列化库。</li>
+<li>lxml – 一个非常快速，简单易用，功能齐全的库，用来处理 HTML 和 XML。</li>
+<li>MarkupSafe – 为Python 实现 XML/HTML/XHTML 标记安全字符串。</li>
+<li>pyquery – 一个解析 HTML 的库，类似 jQuery。</li>
+<li>untangle – 将XML文档转换为Python对象，使其可以方便的访问。</li>
+<li>xhtml2pdf – HTML/CSS 转 PDF 工具。</li>
+<li>xmltodict – 像处理 JSON 一样处理 XML。</li>
+</ul>
+<p>网络站点爬取</p>
+<p>爬取网络站点的库</p>
+<ul>
+<li>Scrapy – 一个快速高级的屏幕爬取及网页采集框架。</li>
+<li>cola – 一个分布式爬虫框架。</li>
+<li>Demiurge – 基于PyQuery 的爬虫微型框架。</li>
+<li>feedparser – 通用 feed 解析器。</li>
+<li>Grab – 站点爬取框架。</li>
+<li>MechanicalSoup – 用于自动和网络站点交互的 Python 库。</li>
+<li>portia – Scrapy 可视化爬取。</li>
+<li>pyspider – 一个强大的爬虫系统。</li>
+<li>RoboBrowser – 一个简单的，Python 风格的库，用来浏览网站，而不需要一个独立安装的浏览器。</li>
+</ul>
+<p>网页内容提取</p>
+<p>用于进行网页内容提取的库。</p>
+<ul>
+<li>Haul – 一个可以扩展的图像爬取工具。</li>
+<li>html2text – 将 HTML 转换为 Markdown 格式文本</li>
+<li>lassie – 人性化的网页内容检索库。</li>
+<li>micawber -一个小型网页内容提取库，用来从 URLs 提取富内容。</li>
+<li>newspaper – 使用 Python 进行新闻提取，文章提取以及内容策展。</li>
+<li>opengraph – 一个用来解析开放内容协议(Open Graph Protocol)的 Python模块。</li>
+<li>python-goose – HTML内容/文章提取器。</li>
+<li>python-readability– arc90 公司 readability 工具的 Python 高速端口</li>
+<li>sanitize – 为杂乱的数据世界带来调理性。</li>
+<li>sumy – 一个为文本文件和 HTML 页面进行自动摘要的模块。</li>
+<li>textract – 从任何格式的文档中提取文本，Word，PowerPoint，PDFs 等等。</li>
+</ul>
+<p>表单</p>
+<p>进行表单操作的库。</p>
+<ul>
+<li>Deform – Python HTML 表单生成库，受到了 formish 表单生成库的启发。</li>
+<li>django-bootstrap3– 集成了 Bootstrap 3 的 Django。</li>
+<li>django-crispy-forms – 一个 Django 应用，他可以让你以一种非常优雅且 DRY（Don’t repeat yourself） 的方式来创建美观的表单。</li>
+<li>django-remote-forms– 一个平台独立的 Django 表单序列化工具。</li>
+<li>WTForms – 一个灵活的表单验证和呈现库。</li>
+<li>WTForms-JSON– 一个 WTForms 扩展，用来处理 JSON 数据。</li>
+</ul>
+<p>数据验证</p>
+<p>数据验证库。多用于表单验证。</p>
+<ul>
+<li>Cerberus – A mappings-validator with a variety of rules, normalization-features and simple customization that uses a pythonic schema-definition.</li>
+<li>colander – 一个用于对从 XML, JSON，HTML 表单获取的数据或其他同样简单的序列化数据进行验证和反序列化的系统。</li>
+<li>kmatch – 一种用于匹配/验证/筛选 Python 字典的语言。</li>
+<li>schema -一个用于对 Python 数据结构进行验证的库。</li>
+<li>Schematics – 数据结构验证。</li>
+<li>valideer – 轻量级可扩展的数据验证和适配库。</li>
+<li>voluptuous – 一个 Python 数据验证库。主要是为了验证传入 Python的 JSON，YAML 等数据。</li>
+</ul>
+<p>静态站点生成器</p>
+<p>静态站点生成器是一个软件，它把文本和模板作为输入，然后输出HTML文件。</p>
+<ul>
+<li>Pelican – 使用 Markdown 或 ReST 来处理内容， Jinja 2 来制作主题。支持 DVCS, Disqus.。AGPL 许可。</li>
+<li>Cactus – 为设计师设计的静态站点生成器。</li>
+<li>Hyde – 基于 Jinja2 的静态站点生成器。</li>
+<li>Nikola – 一个静态网站和博客生成器。</li>
+<li>Tinkerer – Tinkerer 是一个博客引擎/静态站点生成器，由Sphinx驱动。</li>
+<li>Lektor – 一个简单易用的静态 CMS 和博客引擎。</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvctjz10017u1cyieu45dx7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwvdwc210023m4cyetax8s0k" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -509,10 +742,10 @@ tar xzf backup-incre1.tar.gz
 
 
   
-    <article id="post-linux监控命令" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Python-基础" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/linux监控命令/" class="article-date">
-  <time datetime="2016-12-13T01:36:44.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/Python-基础/" class="article-date">
+  <time datetime="2016-12-13T05:55:25.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -523,7 +756,7 @@ tar xzf backup-incre1.tar.gz
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/linux监控命令/">linux监控命令</a>
+      <a class="article-title" href="/2016/12/13/Python-基础/">Python 基础</a>
     </h1>
   
 
@@ -531,25 +764,91 @@ tar xzf backup-incre1.tar.gz
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="http://www.multicians.org/" target="_blank" rel="external">http://www.multicians.org/</a></p>
-<p>/etc/init.d/network restart<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0</p>
-<p>[root@localhost ~]# dmidecode | grep “Product Name”<br>        Product Name: VirtualBox<br>        Product Name: VirtualBox</p>
-<p>[root@localhost ~]# dmidecode | grep -i ‘serial number’ | grep CN</p>
-<p>[root@localhost ~]# grep name /proc/cpuinfo<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz<br>model name      : Intel(R) Pentium(R) CPU G630 @ 2.70GHz</p>
-<p>[root@localhost ~]# grep “physical id” /proc/cpuinfo<br>physical id     : 0<br>physical id     : 0</p>
-<p>[root@localhost ~]# grep MemTotal /proc/meminfo<br>MemTotal:         244212 kB</p>
-<p>[root@localhost ~]# cat /etc/redhat-release<br>CentOS release 6.4 (Final)<br>[root@localhost ~]# uname -r<br>2.6.32-358.el6.x86_64<br>[root@localhost ~]# uname -m<br>x86_64<br>[root@localhost ~]# uname -a<br>Linux localhost.localdomain 2.6.32-358.el6.x86_64 #1 SMP Fri Feb 22 00:31:26 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux</p>
-<p>[root@localhost ~]# lsb_release -a<br>-bash: lsb_release: command not found</p>
-<p>解决方法：yum install redhat-lsb -y</p>
-<p>[root@localhost ~]# lsb_release -a<br>LSB Version:    :base-4.0-amd64:base-4.0-noarch:core-4.0-amd64:core-4.0-noarch:graphics-4.0-amd64:graphics-4.0-noarch:printing-4.0-amd64:printing-4.0-noarch<br>Distributor ID: CentOS<br>Description:    CentOS release 6.4 (Final)<br>Release:        6.4<br>Codename:       Final</p>
-<p>[root@localhost ~]# vim /etc/sysconfig/i18n</p>
-<p>LANG=”en_US.UTF-8”<br>SYSFONT=”latarcyrheb-sun16”</p>
-<p>LANG=en_US</p>
+        <p>变量、基础数据类型</p>
+<p>变量</p>
+<p>Python中变量不需要声明，你可以通过直接赋值的方式使用变量：</p>
+<p>a = 1<br>b = True<br>c = 1.0<br>a = 3+2j</p>
+<p>在Python中，你可以在给一个变量赋值为一种类型之后重新为其赋值为新的类型（如上面代码第1、4行）。</p>
+<p>基础数据类型</p>
+<p>Python中的数字有：整型、长整型、浮点型、布尔型、复数。</p>
+<ul>
+<li>整形：int，常见的整数（正数／负数／0），通过sys.maxint即可查看当前平台上最大的整型的值。</li>
+<li>长整型：long，比整型最大的值还大或者比整型最小的值还小的整数。注意：Python中长整型没有大小限制，你的内存有多大，它就能表示多大。</li>
+<li>浮点型：float，即小数。</li>
+<li>布尔型：bool，常见形式为True, False，表示逻辑真和逻辑假，其实背后的实现是数字1和0.</li>
+<li>复数：complex，Python是为数不多语法层面上支持复数的语言，表现为形如1+2j的形式。可以直接支持两个复数的运算。</li>
+</ul>
+<p>Python中的所有数据类型都是对象。你可以通过type()函数查看一个变量的类型。<br>Python中字符串有4种表现形式：单引号、双引号、三引号：</p>
+<p>string1 = ‘this is a str’<br>string2 = “this is a str”<br>string3 = ‘’’this is a str<br>这里还是string3的范围’’’<br>string4 = “””this is a str”””</p>
+<p>其中，第3/4种字符串表现形式都是三引号引起来的。如果在字符串的引号之前加上一个u，则表示这是一个unicode字符串，如果加上r，则表示这是一个原始字符串 ，这两种类型，对于初学者暂不讨论。值得注意的是，Python中没有C-Like语言中的字符类型。</p>
+<p>运算符、控制语句</p>
+<p>运算符</p>
+<p>Python中没有类似于C/C++/Java的自增自减运算符，因为在Python中，数字是一种不可变类型（immutable），对数字的操作都会产生新的对象而不是修改原来的对象。但是i = i + 1一样可以写为i += 1。<br>注意：Python2.5以后的除法为地板除，即5／2=2而不是5／2 ＝ 2.5。<br>Python常见的逻辑运算符为：</p>
+<ul>
+<li>!=, &lt;&gt;：不等于，表示两边的值不相等，推荐使用前一种。1 != 2。</li>
+<li>==：等于，表示两边的值相等。2 == 2。</li>
+<li>and：逻辑与，如果两边的值都为True则整个值为True，反之为False。1==1 and 2==2。</li>
+<li>or：逻辑或，如果两边有一个值True则整个值为True，反之为False。1==2 or 2==2。</li>
+<li>not：逻辑非，如果值为True，则结果为False。not 2=＝1。</li>
+</ul>
+<p>控制语句</p>
+<p>条件语句：<br>Python中的条件语句只有if-elif-else，没有switch-case，但是有经验的开发者通常使用map这一结构来达到比switch-case更加优雅，更加Pythonic的实现，这个后续再说。</p>
+<p>if 条件1:<br>  语句块1<br>elif 条件2:<br>  语句块2<br>else:<br>  语句块3</p>
+<p>elif类似于其它语言中的else if。</p>
+<p>循环语句：<br>Python中有两种方式表达循环语句：</p>
+<p>while 循环：</p>
+<p>while 条件:<br>  语句块</p>
+<p>for循环：</p>
+<p>for 变量 in 集合:<br>  语句块</p>
+<p>值得注意的是Python中没有C-Like语言里的for(int i=0; i&lt;10; i++)的语法，不过可以使用xrange或者range函数实现同样的效果。前一个函数返回一个生成器，后一个函数返回list，一般推荐使用前一个，至于这两个函数的异同，后面有时间细聊。</p>
+<p>集合</p>
+<p>Python中常见的集合类型有：list，tuple，set，dict。</p>
+<p>list</p>
+<p>list表达的是一列数据的集合，列表中的元素可以增加、删除、查找等操作：</p>
+<p>In [1]: l = [‘this’, ‘is’, ‘a’, ‘list’] # 初始化一个list</p>
+<p>In [2]: type(l)<br>Out[2]: list</p>
+<p>In [3]: l.index(‘is’) ＃ 查找元素<br>Out[3]: 1</p>
+<p>In [4]: l.append(‘new item’) ＃ 新增元素</p>
+<p>In [5]: l<br>Out[5]: [‘this’, ‘is’, ‘a’, ‘list’, ‘new item’]</p>
+<p>In [6]: l.reverse() ＃ 反转列表</p>
+<p>In [7]: l<br>Out[7]: [‘new item’, ‘list’, ‘a’, ‘is’, ‘this’]</p>
+<p>In [8]: l.remove(‘is’) # 删除元素</p>
+<p>In [9]: l<br>Out[9]: [‘new item’, ‘list’, ‘a’, ‘this’]</p>
+<p>tuple</p>
+<p>tuple类似于list，同样表示一组数据的集合，不同的是，tuple是写保护的，即：tuple不可以对其元素做任何修改操作（新增、删除等）：</p>
+<p>In [1]: t = (1,2,3) # 初始化</p>
+<p>In [2]: t<br>Out[2]: (1, 2, 3)</p>
+<p>In [3]: type(t)<br>Out[3]: tuple</p>
+<p>set</p>
+<p>set表示一个不重复元素的集合，值得注意的是：set是无序的。</p>
+<p>In [1]: s = {‘this’, ‘is’, ‘a’, ‘a’, ‘set’} # 初始化</p>
+<p>In [2]: s<br>Out[2]: {‘a’, ‘is’, ‘set’, ‘this’}</p>
+<p>In [3]: type(s)<br>Out[3]: set</p>
+<p>In [4]: s.add(‘new item’) # 新增元素</p>
+<p>In [5]: s<br>Out[5]: {‘a’, ‘is’, ‘new item’, ‘set’, ‘this’}</p>
+<p>In [6]: s.remove(‘a’) ＃ 删除元素</p>
+<p>In [7]: s<br>Out[7]: {‘is’, ‘new item’, ‘set’, ‘this’}</p>
+<p>dict</p>
+<p>dict表示一组数据的对应关系，与set一样，dict是无序的（你可以通过collections中的OrderDict来达到有序）。同时，对于初学者，dict与set的声明方式容易混淆：</p>
+<p>In [1]: d = {‘a’: ‘A’, ‘b’: ‘B’} # 初始化</p>
+<p>In [2]: d<br>Out[2]: {‘a’: ‘A’, ‘b’: ‘B’}</p>
+<p>In [3]: d[‘a’]<br>Out[3]: ‘A’</p>
+<p>In [4]: d[‘c’] = ‘C’ # 新增元素</p>
+<p>In [5]: d<br>Out[5]: {‘a’: ‘A’, ‘b’: ‘B’, ‘c’: ‘C’}</p>
+<p>In [6]: del d[‘a’] ＃ 删除元素</p>
+<p>In [7]: d<br>Out[7]: {‘b’: ‘B’, ‘c’: ‘C’}</p>
+<p>函数（初步）</p>
+<p>在Python中声明函数的方式如下：</p>
+<p>def add(num1, num2):<br>  return num1 + num2</p>
+<p>通其它语言一样，你可以在函数中通过return返回值。不同的是，Python中函数可以有多个返回值，比如下面的函数，返回了两个数的和以及差：</p>
+<p>def calc(n1, n2):<br>  return n1 + n2, n1 * n2</p>
+<p>add, sub = calc(5, 1)<br>print add, sub # 6 4</p>
+<p>其实这里并不是真的返回了两个值，而是将返回值组装成一个tuple再返回。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvctk050029u1cyh4s68so2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwvdwc1w001zm4cy7jwicq31" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -559,10 +858,10 @@ tar xzf backup-incre1.tar.gz
 
 
   
-    <article id="post-我使用过的Linux命令之telnet" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-学习-Python-的三种境界" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2016/12/13/我使用过的Linux命令之telnet/" class="article-date">
-  <time datetime="2016-12-13T01:35:30.000Z" itemprop="datePublished">2016-12-13</time>
+    <a href="/2016/12/13/学习-Python-的三种境界/" class="article-date">
+  <time datetime="2016-12-13T05:51:42.000Z" itemprop="datePublished">2016-12-13</time>
 </a>
     
   </div>
@@ -573,7 +872,7 @@ tar xzf backup-incre1.tar.gz
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/我使用过的Linux命令之telnet/">我使用过的Linux命令之telnet</a>
+      <a class="article-title" href="/2016/12/13/学习-Python-的三种境界/">学习 Python 的三种境界</a>
     </h1>
   
 
@@ -581,47 +880,189 @@ tar xzf backup-incre1.tar.gz
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我使用过的Linux命令之telnet - 基于TELNET协议的远程登录工具<br>用途说明</p>
-<p>　　telnet命令通常用来远程登录。telnet程序是基于TELNET协议的远程登录客户端程序，最新的TELNET协议版本是RFC854。Telnet协议是TCP/IP协议族中的一员，是Internet远程登陆服务的标准协议和主要方式。它为用户提供了在本地计算机上完成远程主机工作的 能力。在终端使用者的电脑上使用telnet程序，用它连接到服务器。终端使用者可以在telnet程序中输入命令，这些命令会在服务器上运行，就像直接 在服务器的控制台上输入一样。可以在本地就能控制服务器。要开始一个 telnet会话，必须输入用户名和密码来登录服务器。Telnet是常用的远程控制Web服务器的方法。<br>　　但是，telnet因为采用明文传送报文，安全性不好，很多Linux服务器都不开放telnet服务，而改用更安全的ssh方式了。但仍然有很多别的系统可能采用了telnet方式来提供远程登录，因此弄清楚telnet客户端的使用方式仍是很有必要的。<br>　　telnet命令还可做别的用途，比如确定远程服务的状态，比如确定远程服务器的某个端口是否能访问。<br>常用参数</p>
-<p>格式：telnet hostname<br>远程登录到hostname指定的机器，采用默认端口23。</p>
-<p>格式：telnet hostname port<br>远程登录到hostname指定的机器，采用端口port。</p>
-<p>在连接成功之后的使用过程中，还可以使用Ctrl+]来进入命令模式。<br>help 帮助<br>q 退出，关闭telnet连接。</p>
-<p>使用示例</p>
-<p>示例一 远程服务器无法访问的情形</p>
-<p>[root@new55 ~]# telnet 192.168.6.6<br>Trying 192.168.6.6…<br>telnet: connect to address 192.168.6.6: No route to host<br>telnet: Unable to connect to remote host: No route to host<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址是否正确？<br>（2）确认ip地址对应的主机是否已经开机？<br>（3）如果主机已经启动，确认路由设置是否设置正确？（使用route命令查看）<br>（4）如果主机已经启动，确认主机上是否开启了telnet服务？（使用netstat命令查看，TCP的23端口是否有LISTEN状态的行）<br>（5）如果主机已经启动telnet服务，确认防火墙是否放开了23端口的访问？（使用iptables-save查看）</p>
-<p>示例二 域名无法解析的情形</p>
-<p>[root@new55 ~]# telnet www.11111.com<br>www.11111.com/telnet: Name or service not known<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认域名是否正确？<br>（2）确认本机的域名解析有关的设置是否正确？（/etc/resolv.conf中nameserver的设置是否正确，如果没有，可以使用nameserver 8.8.8.8）<br>（3）确认防火墙是否放开了UDP53端口的访问？（DNS使用UDP协议，端口53，使用iptables-save查看）</p>
-<p>示例三 目标主机没有开启telnet服务的情形</p>
-<p>[root@new55 ~]# telnet www.163.com<br>Trying 58.242.249.26…<br>telnet: connect to address 58.242.249.26: Connection refused<br>telnet: Unable to connect to remote host: Connection refused<br>[root@new55 ~]#<br>怎么处理这种情况：<br>（1）确认ip地址或者主机名是否正确？<br>（2）确认端口是否正确，是否默认的23端口？</p>
-<p>示例四 怎样启动telnet服务？（不推荐开放telnet服务，要使用更安全的ssh服务）</p>
-<p>启动telnet服务的步骤：<br>（1）到 /etc/xinetd.d 下打开 telnet 文件，将其中的 disable = yes 改成 disable = no，保存。<br>（2）重新启动xinetd服务：service xinetd restart<br>这样就可以允许非root用户从远程访问了。注意：root账号不允许登录。</p>
-<p>示例五 正常telnet的情形</p>
-<p>一般情况下不允许root从远程登录，可以先用普通账号登录，然后再用su -切到root用户。<br>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: root<br>Password:<br>Login incorrect</p>
-<p>login: root<br>Password:<br>Login incorrect</p>
-<p>login: web<br>Password:<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ su -<br>Password:<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]#<br>[root@localhost root]# exit<br>logout</p>
-<p>[web@localhost web]$ </p>
-<p>[web@localhost web]$<br>[web@localhost web]$ exit<br>logout</p>
-<p>Connection closed by foreign host.<br>[root@new55 ~]#</p>
-<p>示例六 使用telnet来测试web服务器</p>
-<p>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0 </p>
-<p>HTTP/1.0 403 Forbidden<br>Server: Cdn Cache Server V2.0<br>Date: Tue, 07 Dec 2010 04:46:12 GMT<br>Content-Type: text/html<br>Content-Length: 1156<br>Expires: Tue, 07 Dec 2010 04:46:12 GMT<br>X-Via: 1.0 hf44:8104 (Cdn Cache Server V2.0)<br>Connection: close</p>
-<p>&lt; !DOCTYPE HTML PUBLIC “-//W3C//DTD HTML 4.01 Transitional//EN” “<a href="http://www.w3.org/TR/html4/loose.dtd&quot;&gt;" target="_blank" rel="external">http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</a><br>&lt; HTML&gt;<head><br>&lt; META HTTP-EQUIV=”Content-Type” CONTENT=”text/html; charset=gb2312”&gt;<br>&lt; TITLE&gt;错误：您所请求的网址（URL）无法获取<br>&lt; STYLE type=”text/css”&gt;<!--BODY{background-color:#ffffff;font-family:verdana,sans-serif}PRE{font-family:sans-serif}--><br>&lt; /HEAD&gt;</head><body><br>&lt; H1&gt;错误<br>&lt; H2&gt;您所请求的网址（URL）无法获取<br>&lt; HR noshade size=”1px”&gt;<br>&lt; P&gt;<br>当尝试读取以下网址（URL）时：</body></p>
-<a href="http://58.242.249.44/" target="_blank" rel="external">http://58.242.249.44/</a><br>&lt; P&gt;<br>发生了下列的错误：<br><ul><br>&lt; LI&gt;<br>&lt; STRONG&gt;<br>Access Denied.<br>&lt; BR&gt;拒绝访问<br><br>&lt; P&gt;<br>Access control configuration prevents your request from<br>being allowed at this time.  Please contact your service provider if<br>you feel this is incorrect.<br>&lt; BR&gt;<br>当前的存取控制设定禁止您的请求被接受，<br>如果您觉得这是错误的，请与您网路服务的提供者联系。<br></ul><br>&lt; /P&gt;<br>&lt; P&gt;本缓存服务器管理员：<a href="mailto:cdnsupport@chinanetcenter.com" target="_blank" rel="external">cdnsupport@chinanetcenter.com</a>
-
-
-<p>&lt; BR clear=”all”&gt;<br>&lt; HR noshade size=”1px”&gt;<br>&lt; ADDRESS&gt;<br>Generated Tue, 07 Dec 2010 04:46:12 GMT by cache.51cdn.com (Cdn Cache Server V2.0)<br>&lt; /ADDRESS&gt;<br>&lt; /BODY&gt;<br>Connection closed by foreign host.<br>[root@new55 ~]# telnet www.163.com 80<br>Trying 58.242.249.26…<br>Connected to www.163.com (58.242.249.26).<br>Escape character is ‘^]’.<br>GET / HTTP/1.0<br>Host: www.163.com</p>
-<p>这里会输出响应头和首页html文本，省略。</p>
-<p>[root@new55 ~]#</p>
-<p>示例七 进入telnet命令模式</p>
-<p>[root@new55 ~]# telnet 192.168.6.115<br>Trying 192.168.6.115…<br>Connected to 192.168.6.115 (192.168.6.115).<br>Escape character is ‘^]’.<br>Red Hat Linux release 7.3 (Valhalla)<br>Kernel 2.4.18-3 on an i686<br>login: web<br>Password:<br>Last login: Tue Oct 19 21:53:15 from 192.168.6.55<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; help<br>Commands may be abbreviated.  Commands are:</p>
-<p>close           close current connection<br>logout          forcibly logout remote user and close the connection<br>display         display operating parameters<br>mode            try to enter line or character mode (‘mode ?’ for more)<br>open            connect to a site<br>quit            exit telnet<br>send            transmit special characters (‘send ?’ for more)<br>set             set operating parameters (‘set ?’ for more)<br>unset           unset operating parameters (‘unset ?’ for more)<br>status          print status information<br>toggle          toggle operating parameters (‘toggle ?’ for more)<br>slc             change state of special charaters (‘slc ?’ for more)<br>auth            turn on (off) authentication (‘auth ?’ for more)<br>encrypt         turn on (off) encryption (‘encrypt ?’ for more)<br>forward         turn on (off) credential forwarding (‘forward ?’ for more)<br>z               suspend telnet<br>!               invoke a subshell<br>environ         change environment variables (‘environ ?’ for more)<br>?               print help information<br>telnet&gt; display<br>will flush output when sending interrupt characters.<br>won’t send interrupt characters in urgent mode.<br>won’t send login name and/or authentication information.<br>won’t skip reading of ~/.telnetrc file.<br>won’t map carriage return on output.<br>will recognize certain control characters.<br>won’t turn on socket level debugging.<br>won’t print hexadecimal representation of network traffic.<br>won’t print user readable output for “netdata”.<br>won’t show option processing.<br>won’t print hexadecimal representation of terminal traffic.</p>
-<p>echo            [^E]<br>escape          [^]]<br>rlogin          [off]<br>tracefile       “(standard output)”<br>flushoutput     [^O]<br>interrupt       [^C]<br>quit            [^]<br>eof             [^D]<br>erase           [^?]<br>kill            [^U]<br>lnext           [^V]<br>susp            [^Z]<br>reprint         [^R]<br>worderase       [^W]<br>start           [^Q]<br>stop            [^S]<br>forw1           [off]<br>forw2           [off]<br>ayt             [^T]<br>     DO   ECHO<br>resp WILL_WONT ECHO: 1<br>want WONT ECHO<br>     DO   SUPPRESS GO AHEAD<br>     DO   STATUS<br>     WILL TERMINAL TYPE<br>     WILL NAWS<br>     WILL TSPEED<br>     WILL LFLOW<br>resp WILL_WONT XDISPLOC: 1<br>want WONT XDISPLOC<br>     WILL NEW-ENVIRON</p>
-<p>[web@localhost web]$<br>[web@localhost web]$<br>[web@localhost web]$ Ctrl+]<br>telnet&gt; q<br>Connection closed.<br>[root@new55 ~]#</p>
+        <p>前言</p>
+<p>王国维在《人间词话》中将读书分为了三种境界：“古今之成大事业、大学问者，必经过三种之境界：‘昨夜西风凋碧树，独上高楼，望尽天涯路’。此第一境也。‘衣带渐宽终不悔，为伊消得人憔悴。’此第二境也。‘众里寻他千百度，蓦然回首，那人却在灯火阑珊处’。此第三境也。我从入门Python到现在也没有多少时间，所以写如此大的一个题目必定会引发各种批判，当然我没有想造一个大新闻，只是想根据自己的学习历程做一个简单的总结，同时将这三个阶段对应的一些好的书籍简单介绍介绍。</p>
+<p>正文</p>
+<p>Python的用途十分广泛，不同的程序员将其用于不用的领域，不同的程序员将自己的代码打包成库，供其他程序员使用，从而少造轮子，各种库的使用，加之Python本身的灵活性、易读性，易写性，使用的人越来越多，tiobe统计编程语言的使用率如下：Python在一年之间使用排行榜中上升了3名，而且各大公司在招聘员工的时候如果能掌握Python，肯定是一个加分项，因为Python在文本处理，小程序的写作方面具有太强的优势，前段时间一个朋友让帮忙改下他们公司logo的颜色，第一个想到的就是用Python，女票让我帮她预处理大数据，第一个想到的仍然是Python等等，当然并没有说其他语言不好，也不是为了讨论哪种语言更好，只是Python确实是一门会让人幸福的语言，下面粗浅的说说我对Python学习过程中的境界划分以及推荐书籍。</p>
+<p>第一个阶段：初级，掌握Python的语法和一些常用库的使用</p>
+<p>这里首先推荐廖雪锋在网上的书籍，这是Python2.7版本的，这本书适合于重头开始一直读完，作为一个开发人员，除了基本的语法，这本书里面提到了一些其他的常用的库，看了廖老师写的很多东西，感觉他的思路，以及写博客写书的高度，概括性，原理性都十分好，这本书读完之后，相信就可以动手写很多东西了，可以尽情的玩转Python解释器了。<br>另外还有一本书《Python参考手册》，这本书也十分的有用，关于Python的方方面面基本都囊括在内，可以作为一本Python字典来查询使用方法，十分好用。<br>掌握一门语言最好的方法就是用它，所以我觉得边学语法边刷Leetcode是掌握Python最快的方式之一。</p>
+<p>很多只需要将Python作为脚本或者就是写一些小程序处理处理文本的话，到这一个阶段就足够了，这个阶段已经可以帮我们完成很多很多的事情了。但是如果是一个专业学习Python的，恐怕还需要努力的升级：首先，国内的大多数人都是学习了其他语言（C，C++,Java等）之后来学习Python的，所以Python和这些语言的不同，也就是pythonic的东西需要一些时间去学习了解和掌握；另外，对于自己领域的领域的库构架的掌握也需要很长的时间去掌握；最后，如果想独立完成一个Python的项目，项目的布局，发布，开源等都是需要考虑的问题。</p>
+<p>第二个阶段：中级，掌握自己特定领域的库，掌握pythonic写法，非常熟悉Python的特性</p>
+<p>推荐的第一本书是《编写高质量代码–改善python程序的91个建议》，这本书大概的提了下Python工程的文件布局，更多的总结了如何写出pythonic的代码，另外，也介绍了一些常用的库。<br>要想深入的了解Python，有的时候看看Python的源码也是很重要的，自己通过读懂源码，来彻底的了解Python的核心机制，这里推荐《Python源码剖析——深度探索动态语言核心技术》，这本书并没有看完，只是在需要深入了解Python某个功能或者数据结构的时候看看相关章节，也觉得受益匪浅。<br>自己领域的书籍和资料也肯定很多，比如web开发的构架都有很多，只有了解熟悉了所有构架，在选择的时候才能衡量利弊，然后深入掌握某些构架。</p>
+<p>这个阶段过后，可以写出pythonic代码，可以通过PEP8的检查，可以为开源社区做贡献了，可以将一个Python文件写的十分好，但是如果要用Python开发一个大型项目，还是有很多东西需要掌握的，比如项目的文档，项目的发布，下载，项目性能和案例等等。</p>
+<p>第三个阶段：高级，从整个工程项目着眼，考虑document，distribution，性能优化等</p>
+<p>目前只看了一本书《the hacker guide to python》，看的是英文版的，这本书对项目的布局，文档，性能，发布等做了很多详细的介绍，我觉得写的还是很不错，只不过本人还需要再读几遍。<br>对于大多数人来说，很难有机会从头开始一个有意义的大型工程项目，所以自己可以用Python实现一些简单的功能，简单的项目，这个灵感可以去知乎或者quora搜索，很多前辈都分享了自己的经验。</p>
+<p>从大局入手，规划好项目的布局，设定好相应的文档说明，提供工程下载安装的方法，带几个demo，每个类，每个函数，每行代码都反复推敲，写出pythonic的程序，相信这时候Python于我们便是信手拈来了！</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvctk1d003wu1cy3pxiu0n9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwvdwc3t0045m4cyg3iwiorh" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-学编程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/学编程/" class="article-date">
+  <time datetime="2016-12-13T05:48:54.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/学编程/">学编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>第一步：定目标 好好想想，你想学什么编程语言？具体想用编程语言来做什么？千万不要“现在html5很红，学html5吧”，“iOS编程很赚钱，学OC吧”。 你可以这样做，逛一些编程视频教学的网站，看有什么“实例”是你觉得有趣的，评价也说不错的，定这个为目标吧。这里一天时间够了。</p>
+<p>第二步：你需要一本书，搞定基础问题 老老实实买一本评价好的编程书，随便一本就好，不要网上下载电子书，电子书不清晰，没法做笔记，难集中精神。 你怎么看一本编程书呢？一章一章地看，认真看？错了！大部分自学的人死在这里，一般编程书，会涵盖这门语言的所有知识点，包括很多不怎么用的难点，所以一章一章地看，只会让自己越看越不懂，慢慢没有耐心了，就放弃了。<br>我们应该这样用一本书：<br>1、看书搭建开发环境，遇到问题也可以上网找怎样搭建，毕竟软件更新肯定比书更新要快。<br>2、看看大概的程序长什么样子的，写个最简单的程序玩玩，一般都是一个叫做“hello world”的东西。<br>3、知道程序的一些基本类型（元素），例如int/char。<br>4、学会一些语法结构，例如条件判断(if/else)，循环(for/while)。<br>5、看看有什么常用类或者方法。 足够了，后面的不用看了，打个比方就是你不需要学会所有英语单词才开始学英语句子和作文，这个步骤一天也足够了。</p>
+<p>第三步：看视频 这个时候需要关闭开发工具，准备纸和笔，做笔记，一边看视频，一边记笔记，让自己知道怎样开发目标程序。这个时候偶尔需要快进，偶尔需要暂停，偶尔需要回看。我自己现在学新语言，是在某网站用1.7倍播放速度看。 仔细看看老师是怎样一步一步写程序出来的，要连续看，千万不要一边看一边用开发工具跟着敲代码，那样是没用的，会打断思路。 网上的实例教程一般都是小程序，不会太长，大概几个小时时间，所以这里一天时间也够了。</p>
+<p>第四步：敲代码 明白怎样开发一个程序了，就一定要敲代码了，这个时候才对着视频一步一步跟着敲，也要对着笔记一步一步走，需要耐心，因为这个时间会持续可能三天，视频也可能看了后面又返回前面看，这些都正常。 Done，完成这步，这门语言也入门了，再花点时间总结自己所学，再看看这门语言还有什么典型的案例，给自己之后学习定个方向，又花一天时间。 我学过非常多种编程语言，所有编程语言入门都是一样的，入门难，入门后就有方向了，就可以花更多的时间去钻研进步。与其花钱去培训，不如学好基础后，告诉企业免费试用一个月，更快找到自己的IT路。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwvdwc3u0046m4cywja92ag8" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Java环境变量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Java环境变量/" class="article-date">
+  <time datetime="2016-12-13T05:43:51.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Java环境变量/">Java环境变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Windows环境变量<br>JAVA_HOME=D:\Dell\Java\jdk1.7.0_17<br>PATH=D:\Java\jdk1.7.0_17\bin</p>
+<p>Linux环境变量<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
+<p>export JAVA_HOME=/home/jinyan/Java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
+<p>export JAVA_HOME=/usr/java/jdk1.6.0_31/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
+<p>export HADOOP_INSTALL=/usr/opt/hadoop<br>export PATH=$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_INSTALL}<br>export HADOOP_COMMON_HOME=${HADOOP_INSTALL}<br>export HADOOP_HDFS_HOME=${HADOOP_INSTALL}<br>export YARN_HOME=${HADOOP_INSTALLL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_INSTALL}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_INSTALL}/lib:${HADOOP_INSTALL}/lib/native”</p>
+<p>export HADOOP_COMMON_LIB_NATIVE_DIR=/usr/opt/hadoop/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=/usr/opt/hadoop/lib:/usr/opt/hadoop/lib/native”</p>
+<p>source /etc/profile</p>
+<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
+<p>source ~/.bashrc</p>
+<p>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 Test<em>.java<br>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 -version -author Test</em>.java</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwvdwc1f001km4cyk233q21f" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-史上最全的开发和设计资源大全" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/史上最全的开发和设计资源大全/" class="article-date">
+  <time datetime="2016-12-13T05:31:13.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/史上最全的开发和设计资源大全/">史上最全的开发和设计资源大全</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>GitHub 上的 Awesome 系列（资源大全系列），是一个汇总了优秀工具资源的大集合，并由 GitHub 社区用户持续维护和更新。初始的版本都是英文，伯乐在线组织整理了热门资源大全的中文版。目前，中文版的资源列表在 GitHub 总计已经有超过 10,000 star 和 数千 fork 。以下是各个开发和设计资源的详细介绍。</p>
+<p>Java 资源大全</p>
+<p>Java资源大全中文版，包括：构建工具、字节码操作、集群管理、代码分析、编译器生成工具、外部配置工具、持续集成、数据结构、数据库、时间日期工具库、依赖注入、开发流程增强工具、分布式应用、分布式数据库、文档处理工具、函数式编程、游戏开发、GUI、高性能计算、IDE、图像处理、JSON、JVM与JDK、日志、机器学习、消息传递、应用监控工具、自然语言处理等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-java-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-java-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=32" target="_blank" rel="external">http://hao.jobbole.com/?catid=32</a></p>
+<p>Python 资源大全</p>
+<p>Python 资源大全中文版，包括：环境管理、包管理、构建工具、分发、Web框架、网络爬虫、模板引擎、数据库、数据可视化、图像处理、文本处理、自然语言处理、配置、命令行工具、地理位置、CMS、缓存、数据验证、反垃圾、GUI、游戏开发等。</p>
+<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-python-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-python-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=144" target="_blank" rel="external">http://hao.jobbole.com/?catid=144</a></p>
+<p>JavaScript 资源大全</p>
+<p>JavaScript 资源大全中文版，内容包括：包管理器、打包工具、加载器、测试框架、运行器、QA、MVC框架和库、模板引擎、数据可视化、编辑器、函数式编程、响应式编程、数据结构、存储、国际化和本地化、日志、正则表达式、视觉检测、代码高亮、加载状态、验证、幻灯片、滑块控件、表单组件、框架、地图、视频/音频、动画、图片处理等。</p>
+<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-javascript-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-javascript-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=67" target="_blank" rel="external">http://hao.jobbole.com/?catid=67</a></p>
+<p>iOS 资源大全</p>
+<p>iOS 资源大全中文版，内容包括：依赖/包管理、框架、图表、测试、音频/视频、SDK、数据库、硬件、文件、日志、地图、网络通知、代码质量、支付、安全、编程规范、UI、硬件等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-ios-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-ios-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=31" target="_blank" rel="external">http://hao.jobbole.com/?catid=31</a></p>
+<p>C 语言资源大全</p>
+<p>C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库、文档生成、编辑器、环境、框架、游戏编程、引擎、通用编程、图形、GUI、JSON、多媒体、网络编程、Web 框架、数值计算、并行编程、正则表达式、序列化、标准库、字符串处理、测试工具、文本编辑器扩展等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-c-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-c-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=1877" target="_blank" rel="external">http://hao.jobbole.com/?catid=1877</a></p>
+<p>MySQL 资源大全</p>
+<p>MySQL 资源大全中文版，分析工具、备份、性能测试、配置、部署、GUI、聊天应用、连接器、HA、代理、服务器、分片、工具包 等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-mysql-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-mysql-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
+<p>机器学习资源大全</p>
+<p>机器学习资源大全中文版，包括众多编程语言（C++、Closure、Go、Java、JavaScript、Julia、Lua、MATLAB、DotNet、Python、Ruby、R、Scala ）在 ML 领域的框架、库以及软件。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-machine-learning-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-machine-learning-cn</a></p>
+<p>CSS 资源大全</p>
+<p>CSS 资源大全中文版，内容包括：CSS预处理器、框架、CSS结构、大型网站的 CSS 开发、代码风格指南、命名习惯等</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-css-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-css-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=24" target="_blank" rel="external">http://hao.jobbole.com/?catid=24</a></p>
+<p>Android 资源大全</p>
+<p>Android 资源大全中文版，包括：图表、游戏开发、GUI、JSON、崩溃检测、网络请求、通知、数据库、测试、行为监测、集合框架、调试工具等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-android-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-android-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=252" target="_blank" rel="external">http://hao.jobbole.com/?catid=252</a></p>
+<p>系统管理员资源大全</p>
+<p>系统管理员资源大全中文版，备份/克隆软件、云计算/云存储、协作软件、配置管理、日志管理、监控、项目管理、DNS、网络配置、NOSQL、打包、队列、RDBMS、安全、SSH、统计、故障排除、项目管理、版本控制、虚拟化、Web服务器等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-sysadmin-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-sysadmin-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
+<p>DotNet 资源大全</p>
+<p>DotNet 资源大全中文版，内容包括：API、编译器、压缩、应用框架、应用模板、认证和授权、CLI、CLR、代码分析、编译器、加密、数据库、反编译、IDE、部署、分布式、GIS、游戏开发、GUI、图像处理、MVVM、ORM、Web框架、Web服务器、日志、风格指南等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-dotnet-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-dotnet-cn</a></p>
+<p>PHP 资源大全</p>
+<p>PHP资源大全中文版，内容包括：依赖管理、库、框架、静态网站生成器、HTTP、依赖注入、文件、图像处理、测试、持续集成、模板、安全、构建工具、调试工具、代码分析、搜索、日志、第三方库、配置工具、Web工具等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-php-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-php-cn</a></p>
+<p>C++ 资源大全</p>
+<p>C++ 资源大全中文版，标准库、Web应用框架、人工智能、音频、生态学、压缩、并发、容器、密码学、调试、游戏引擎、GUI、数据库、图片处理、机器学习、日志、代码分析、JSON、视频、物理学、机器人学、科学计算、网络编程、编译器、在线编译器、IDE 等。</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-cpp-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-cpp-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=374" target="_blank" rel="external">http://hao.jobbole.com/?catid=374</a></p>
+<p>设计师资源大全</p>
+<p>设计师资源大全，包含：ICON图标、Logo设计、PhotoShop插件、交互设计工具、流程图、线框图/原型图、设计博客等</p>
+<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-design-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-design-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=803" target="_blank" rel="external">http://hao.jobbole.com/?catid=803</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwvdwc3h0041m4cyvota503z" class="article-share-link">Partager</a>
       
       
     </footer>
@@ -634,7 +1075,7 @@ tar xzf backup-incre1.tar.gz
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/page/9/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/11/">__('next') &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/9/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><a class="extend next" rel="next" href="/page/11/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -660,28 +1101,28 @@ tar xzf backup-incre1.tar.gz
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
+    <h3 class="widget-title">Articles récents</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2016/12/19/alfresco/">alfresco</a>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
           </li>
         
           <li>
-            <a href="/2016/12/19/书单/">书单</a>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-6-x-安装SVN/">CentOS 6.x 安装SVN</a>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
           </li>
         
           <li>
-            <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
           </li>
         
       </ul>
@@ -697,7 +1138,7 @@ tar xzf backup-incre1.tar.gz
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2016 JinYan<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

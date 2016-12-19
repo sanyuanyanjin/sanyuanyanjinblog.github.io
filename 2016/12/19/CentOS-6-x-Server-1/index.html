@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>CentOS 6.x Server | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[root@www ~]# vim /etc/hosts192.168.0.99    www.centos.jinyan192.168.0.3    JinYan-PC10.0.0.254    www.centos.jinyan10.0.0.1    jinyanxp10.0.0.2    client.centos.jinyan10.0.0.3    server.centos.jinyan">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS 6.x Server">
+<meta property="og:url" content="http://yoursite.com/2016/12/19/CentOS-6-x-Server-1/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="[root@www ~]# vim /etc/hosts192.168.0.99    www.centos.jinyan192.168.0.3    JinYan-PC10.0.0.254    www.centos.jinyan10.0.0.1    jinyanxp10.0.0.2    client.centos.jinyan10.0.0.3    server.centos.jinyan">
+<meta property="og:updated_time" content="2016-12-19T00:58:57.887Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS 6.x Server">
+<meta name="twitter:description" content="[root@www ~]# vim /etc/hosts192.168.0.99    www.centos.jinyan192.168.0.3    JinYan-PC10.0.0.254    www.centos.jinyan10.0.0.1    jinyanxp10.0.0.2    client.centos.jinyan10.0.0.3    server.centos.jinyan">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="Flux RSS"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Rechercher"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-CentOS-6-x-Server-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Server-1/" class="article-date">
+  <time datetime="2016-12-19T00:58:37.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      CentOS 6.x Server
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@www ~]# vim /etc/hosts<br>192.168.0.99    www.centos.jinyan<br>192.168.0.3    JinYan-PC<br>10.0.0.254    www.centos.jinyan<br>10.0.0.1    jinyanxp<br>10.0.0.2    client.centos.jinyan<br>10.0.0.3    server.centos.jinyan</p>
+<p>批量建立账号<br>[root@jinyan ~]# mkdir bin<br>[root@jinyan ~]# cd /root/bin<br>[root@jinyan bin]# vim useradd.sh</p>
+<p>#!/bin/bash<br>groupadd jinyangroup<br>for username in jinyan renjia sanyuan yuanmu renyuan<br>do<br>  useradd -G jinyangroup $username<br>  echo “yanjin” | passwd –stdin $username<br>done<br>[root@jinyan bin]# sh useradd.sh<br>[root@jinyan bin]# id jinyan</p>
+<p>共享目录的权限<br>[root@jinyan ~]# mkdir /home/jinyangroup<br>[root@www bin]# chgrp jinyangroup /home/jinyangroup/<br>[root@jinyan ~]# chmod 2770 /home/jinyangroup/<br>[root@jinyan ~]# ll -d /home/jinyangroup/</p>
+<p>磁盘配额<br>[root@jinyan ~]# vim /etc/fstab<br>/dev/mapper/server-myhome /home                   ext4    defaults,usrquota,grpquota        1 2</p>
+<p>[root@jinyan ~]# umount /home; mount -a<br>[root@jinyan ~]# mount | grep home<br>/dev/mapper/server-myhome on /home type ext4 (rw,usrquota,grpquota)</p>
+<p>[root@jinyan ~]# quotacheck -avug<br>quotacheck: Your kernel probably supports journaled quota but you are not using it. Consider switching to journaled quota to avoid running quotacheck after an unclean shutdown.<br>quotacheck: Scanning /dev/mapper/server-myhome [/home] done</p>
+<p>[root@jinyan ~]# quotaon -avug<br>/dev/mapper/server-myhome [/home]: group quotas turned on<br>/dev/mapper/server-myhome [/home]: user quotas turned on</p>
+<p>[root@jinyan ~]# edquota -u jinyan<br>  Filesystem                   blocks       soft       hard     inodes     soft     hard<br>  /dev/mapper/server-myhome         20      1800000    2000000        5        0        0</p>
+<p>[root@jinyan ~]# edquota -p jinyan renjia<br>[root@jinyan ~]# edquota -p jinyan sanyuan<br>[root@jinyan ~]# edquota -p jinyan yuanmu<br>[root@jinyan ~]# edquota -p jinyan renyuan</p>
+<p>[root@jinyan ~]# repquota -au</p>
+<p>LVM<br>[root@jinyan ~]# vgdisplay<br>  VG Size               4.88 GiB<br>  PE Size               4.00 MiB<br>  Total PE              1249<br>  Alloc PE / Size       1249 / 4.88 GiB<br>  Free  PE / Size       0 / 0  </p>
+<p>[root@jinyan ~]# fdisk /dev/sda</p>
+<p>WARNING: DOS-compatible mode is deprecated. It’s strongly recommended to<br>         switch off the mode (command ‘c’) and change display units to<br>         sectors (command ‘u’).</p>
+<p>Command (m for help): p</p>
+<p>Disk /dev/sda: 32.2 GB, 32212254720 bytes<br>255 heads, 63 sectors/track, 3916 cylinders<br>Units = cylinders of 16065 * 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x0002c217</p>
+<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/sda1   *           1          26      204800   83  Linux<br>Partition 1 does not end on cylinder boundary.<br>/dev/sda2              26         664     5120000   8e  Linux LVM<br>Partition 2 does not end on cylinder boundary.<br>/dev/sda3             664        1173     4096000   83  Linux<br>/dev/sda4            1173        3917    22035456    5  Extended<br>/dev/sda5            1174        1429     2048000   82  Linux swap / Solaris<br>/dev/sda6            1429        1684     2048000   83  Linux<br>/dev/sda7            1684        1939     2048000   83  Linux<br>/dev/sda8            1939        2066     1024000   83  Linux</p>
+<p>Command (m for help): n<br>First cylinder (1173-3917, default 1173): 2067<br>Last cylinder, +cylinders or +size{K,M,G} (2067-3917, default 3917): +2G</p>
+<p>Command (m for help): t<br>Partition number (1-9): 9<br>Hex code (type L to list codes): 8e<br>Changed system type of partition 9 to 8e (Linux LVM)</p>
+<p>Command (m for help): p</p>
+<p>Disk /dev/sda: 32.2 GB, 32212254720 bytes<br>255 heads, 63 sectors/track, 3916 cylinders<br>Units = cylinders of 16065 * 512 = 8225280 bytes<br>Sector size (logical/physical): 512 bytes / 512 bytes<br>I/O size (minimum/optimal): 512 bytes / 512 bytes<br>Disk identifier: 0x0002c217</p>
+<p>   Device Boot      Start         End      Blocks   Id  System<br>/dev/sda1   *           1          26      204800   83  Linux<br>Partition 1 does not end on cylinder boundary.<br>/dev/sda2              26         664     5120000   8e  Linux LVM<br>Partition 2 does not end on cylinder boundary.<br>/dev/sda3             664        1173     4096000   83  Linux<br>/dev/sda4            1173        3917    22035456    5  Extended<br>/dev/sda5            1174        1429     2048000   82  Linux swap / Solaris<br>/dev/sda6            1429        1684     2048000   83  Linux<br>/dev/sda7            1684        1939     2048000   83  Linux<br>/dev/sda8            1939        2066     1024000   83  Linux<br>/dev/sda9            2067        2328     2104515   8e  Linux LVM</p>
+<p>Command (m for help): w<br>The partition table has been altered!</p>
+<p>Calling ioctl() to re-read partition table.</p>
+<p>WARNING: Re-reading the partition table failed with error 16: 设备或资源忙.<br>The kernel still uses the old table. The new table will be used at<br>the next reboot or after you run partprobe(8) or kpartx(8)<br>Syncing disks.</p>
+<p>[root@jinyan ~]# fdisk -l</p>
+<p>[root@jinyan ~]# pvcreate /dev/sda9<br>  Writing physical volume data to disk “/dev/sda9”<br>  Physical volume “/dev/sda9” successfully created<br>[root@jinyan ~]# vgextend server /dev/sda9<br>  Volume group “server” successfully extended</p>
+<p>[root@jinyan ~]# vgdisplay<br>  VG Size               6.88 GiB<br>  PE Size               4.00 MiB<br>  Total PE              1762<br>  Alloc PE / Size       1249 / 4.88 GiB<br>  Free  PE / Size       513 / 2.00 GiB</p>
+<p>[root@jinyan ~]# lvdisplay<br>  LV Name                /dev/server/myhome<br>  VG Name                server<br>  LV Size                4.88 GiB</p>
+<p>[root@jinyan ~]# lvresize -L 6.88G /dev/server/myhome<br>  Rounding up size to full physical extent 6.88 GiB<br>  Extending logical volume myhome to 6.88 GiB<br>  Logical volume myhome successfully resized</p>
+<p>[root@jinyan ~]# resize2fs /dev/server/myhome<br>resize2fs 1.41.12 (17-May-2010)<br>Filesystem at /dev/server/myhome is mounted on /home; on-line resizing required<br>old desc_blocks = 1, new_desc_blocks = 1<br>Performing an on-line resize of /dev/server/myhome to 1804288 (4k) blocks.<br>The filesystem on /dev/server/myhome is now 1804288 blocks long.</p>
+<p>[root@jinyan ~]# df -h<br>/dev/mapper/server-myhome<br>                      6.8G  140M  6.4G   3% /home</p>
+<p>[root@jinyan ~]# LANG=C chkconfig –list | grep ‘3:on’</p>
+<p>[root@localhost ~]# chkconfig autofs off<br>[root@localhost ~]# /etc/init.d/autofs stop</p>
+<p>[root@jinyan ~]# netstat -tunlp</p>
+<p>[root@localhost ~]# /etc/init.d/avahi-daemon stop<br>[root@localhost ~]# chkconfig avahi-daemon off</p>
+<p>[root@localhost ~]# yum -y update</p>
+<pre><code># 第一次作会进行非常之久！因为系统真的有些数据要更新嘛！还是得等待的！
+</code></pre><p>[root@localhost ~]# vim /etc/crontab<br>15 2 <em> </em> * root /usr/bin/yum -y update</p>
+<p>[root@localhost ~]# rpm -qa | grep -i samba<br>    samba-common-3.5.4-68.el6_0.2.x86_64<br>    samba-client-3.5.4-68.el6_0.2.x86_64<br>    samba-winbind-clients-3.5.4-68.el6_0.2.x86_64</p>
+<pre><code># 看起来 samba 主程序尚未被安装啊！此时就要这样做：
+
+[root@localhost ~]# yum search samba  &lt;==先查一下有没有相关的软件
+[root@localhost ~]# yum -y install samba &lt;==找到之后，那就安装吧！
+
+# 那么如何找出配置文件呢？因为我们总是需要修改配置文件啊！这样做吧：
+[root@localhost ~]# rpm -qc samba samba-common
+</code></pre><h1 id="先查询一下启动的方式为何："><a href="#先查询一下启动的方式为何：" class="headerlink" title="先查询一下启动的方式为何："></a>先查询一下启动的方式为何：</h1><pre><code>[root@localhost ~]# rpm -ql samba | grep &apos;/etc&apos;
+/etc/logrotate.d/samba
+/etc/openldap/schema
+/etc/openldap/schema/samba.schema
+/etc/pam.d/samba
+/etc/rc.d/init.d/nmb
+/etc/rc.d/init.d/smb  &lt;==所以说是 stand alone 且档名为 smb, nmb 两
+</code></pre><p>个！<br>    /etc/samba/smbusers</p>
+<h1 id="开始启动他！且设定开机就启动喔！："><a href="#开始启动他！且设定开机就启动喔！：" class="headerlink" title="开始启动他！且设定开机就启动喔！："></a>开始启动他！且设定开机就启动喔！：</h1><p>[root@localhost ~]# /etc/init.d/smb start<br>[root@localhost ~]# /etc/init.d/nmb start</p>
+<p>[root@localhost ~]# chkconfig smb on<br>[root@localhost ~]# chkconfig nmb on</p>
+<h1 id="接下来，让我们观察一下有没有启动相关的埠口吧！"><a href="#接下来，让我们观察一下有没有启动相关的埠口吧！" class="headerlink" title="接下来，让我们观察一下有没有启动相关的埠口吧！"></a>接下来，让我们观察一下有没有启动相关的埠口吧！</h1><pre><code>[root@localhost ~]# netstat -tlunp | grep &apos;[sn]mbd&apos;
+</code></pre><p>ACL<br>[root@jinyan ~]# useradd student<br>[root@jinyan ~]# passwd student<br>[root@jinyan ~]# setfacl -m u:student:rx /home/jinyangroup/<br>[root@jinyan ~]# setfacl -m u:renyuan:- /home/jinyangroup/<br>[root@jinyan ~]# getfacl /home/jinyangroup/<br>getfacl: Removing leading ‘/‘ from absolute path names</p>
+<h1 id="file-home-jinyangroup"><a href="#file-home-jinyangroup" class="headerlink" title="file: home/jinyangroup/"></a>file: home/jinyangroup/</h1><h1 id="owner-root"><a href="#owner-root" class="headerlink" title="owner: root"></a>owner: root</h1><h1 id="group-2770"><a href="#group-2770" class="headerlink" title="group: 2770"></a>group: 2770</h1><p>user::rwx<br>user:renyuan:—<br>user:student:r-x<br>group::r-x<br>mask::r-x<br>other::r-x</p>
+<p>[root@www ~]# vim /etc/login.defs<br>[root@www ~]# vim /etc/security/limits.conf</p>
+<p>[root@jinyan ~]# vim /root/bin/backup.sh</p>
+<p>#!/bin/bash<br>backdir=”/etc /home /root /var/spool/mail”<br>basedir=/backup<br>[ ! -d “$basedir” ] &amp;&amp; mkdir $basedir<br>backfile=$basedir/backup.tar.gz<br>tar -zcvf $backfile $backdir</p>
+<p>[root@localhost ~]# vim /etc/crontab<br>45 2 <em> </em> * root sh /root/bin/backup.sh</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Server-1/" data-id="ciwvdwc0d000qm4cyp1sml5x9" class="article-share-link">Partager</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/19/Centos-6-x-DHCP-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Récent</strong>
+      <div class="article-nav-title">
+        
+          Centos 6.x DHCP
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/CactiEZ/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ancien</strong>
+      <div class="article-nav-title">CactiEZ</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Articles récents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Ubuntu-14-04-预配/">Ubuntu 14.04 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/Centos-7-x-预配-1/">Centos 7.x 预配</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/CentOS-6-x-安装OpenLDAP/">CentOS 6.x 安装OpenLDAP</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Propulsé by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
