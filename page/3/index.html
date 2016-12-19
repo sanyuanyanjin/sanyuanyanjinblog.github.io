@@ -61,6 +61,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Ubuntu-64-位预配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu-64-位预配/" class="article-date">
+  <time datetime="2016-12-15T05:22:07.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Ubuntu-64-位预配/">Ubuntu 64 位预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java<br>vm tools<br>sudo passwd root<br>Ubuntu软件中心——编辑——更换软件源</p>
+<p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true<br>Ubuntu启用root账户后，登录root账户时报错：读取/root/.profile时发现错误：mesg:ttyname failed:对设备不适当的ioctl操作 作为结果，会话不会被正确配置<br>root@ubuntu:~# cp /home/jinyan/.profile /root/<br>root@ubuntu:~# reboot</p>
+<p>cp /etc/apt/sources.list /etc/apt/sources.listbak<br>vim /etc/apt/sources.list<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>apt-get update</p>
+<p>用vim打开 /etc/default/locale 文件</p>
+<p>原来的配置文件应该是这样的：<br>LANG=”zh_CN.UTF-8”<br>LANGUAGE=”zh_CN:zh:en_US:en”<br>LC_NUMERIC=”zh_CN.UTF-8”<br>LC_TIME=”zh_CN.UTF-8”<br>LC_MONETARY=”zh_CN.UTF-8”<br>LC_PAPER=”zh_CN.UTF-8”<br>LC_IDENTIFICATION=”zh_CN.UTF-8”<br>LC_NAME=”zh_CN.UTF-8”<br>LC_ADDRESS=”zh_CN.UTF-8”<br>LC_TELEPHONE=”zh_CN.UTF-8”<br>LC_MEASUREMENT=”zh_CN.UTF-8”</p>
+<p>将原来的配置内容修改为<br>LANG=”en_US.UTF-8″<br>LANGUAGE=”en_US:en”</p>
+<p>再在终端下运行：<br>locale-gen -en_US:en<br>注销或重启后，即可恢复为英文的语言环境。</p>
+<p>查看防火墙状态<br>root@jinyan-virtual-machine:~# ufw status<br>状态：不活动<br>root@jinyan-virtual-machine:~# getenforce<br>程序“getenforce”尚未安装。 您可以使用以下命令安装：<br>apt-get install selinux-utils</p>
+<p>apt-get install vim<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
+<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>重启系统<br>重启 openssh server<br>/etc/init.d/ssh restart<br>service ssh restart</p>
+<p>apt-get install ntp<br>查看ntp同步过程<br>ntpq -p<br>ntpdate -u 202.120.2.101</p>
+<p>apt-get install x-window-system-core<br>apt-get install gdm<br>apt-get install ubuntu-desktop<br>apt-get install gnome-core</p>
+<p>apt-get install vnc4server<br>vncserver<br>cp ~/.vnc/xstartup  ~/.vnc/xstartup.bak<br>vim ~/.vnc/xstartup</p>
+<h1 id="x-window-manager-amp"><a href="#x-window-manager-amp" class="headerlink" title="x-window-manager &amp;"></a>x-window-manager &amp;</h1><h1 id="gnome-session-amp"><a href="#gnome-session-amp" class="headerlink" title="gnome-session &amp;"></a>gnome-session &amp;</h1><p>gnome-panel &amp;<br>gnome-settings-daemon &amp;<br>metacity &amp;<br>nautilus &amp;<br>gnome-terminal &amp;</p>
+<p>root@jinyan-virtual-machine:~# vncserver -kill :1<br>Killing Xvnc4 process ID 3767<br>root@jinyan-virtual-machine:~# vncserver :1<br>192.168.50.6:1</p>
+<p>apt-get install vsftpd<br>apt-get remove vsftpd</p>
+<p>vim /etc/vsftpd.conf<br>local_enable=YES<br>write_enable=YES<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd.chroot_list</p>
+<p>anonymous_enable=YES</p>
+<h1 id="anonymous-enable-NO"><a href="#anonymous-enable-NO" class="headerlink" title="anonymous_enable=NO"></a>anonymous_enable=NO</h1><p>useradd -d /home/ftp -M ftpuser<br>passwd ftpuser</p>
+<p>vim /etc/vsftpd.chroot_list<br>ftpuser</p>
+<p>vim /etc/ftpusers<br>打开这个文件后，看一看有没有uftp这个用户名，如果没有，就直接退出。如果有就删除uftp,因为这个文件中记录的是不能访问FTP服务器的用户清单。</p>
+<p>vim /etc/pam.d/vsftpd</p>
+<p>#auth   required        pam_shells.so</p>
+<p>mkdir /home/ftp<br>chmod a-w /home/ftp<br>mkdir /home/ftp/data<br>chown -R ftpuser:ftpuser /home/ftp/</p>
+<p>service vsftpd restart</p>
+<p>mkdir /usr/lib/java<br>tar -zxvf jdk-7u79-linux-x64.tar.gz -C /usr/lib/java/<br>cd /usr/lib/java/jdk1.7.0_79/</p>
+<p>vim ~/.bashrc</p>
+<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
+<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</p>
+<p>apt-get install samba<br>apt-get install smbfs</p>
+<p>apt-get install samba samba-common system-config-samba python-glade2 gksu<br>在 Unity Dash 中搜索并打开 Samba 配置工具</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-64-位预配/" data-id="ciwvctjzu001wu1cy4dfylqur" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Postfix-Amavisd-new-Spamassassin-ClamAV整合安装" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" class="article-date">
@@ -131,7 +198,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="ciwvcpuj2001koucypbdpz7y1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="ciwvctjzg001lu1cy2i88fghj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -195,7 +262,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="ciwvcpujg001voucyb0k91wsb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="ciwvctjzr001uu1cyhfuzmm7j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -232,7 +299,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwvcpul3004eoucy3ewdherd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwvctk1n004fu1cy84r8g681" class="article-share-link">Share</a>
       
       
     </footer>
@@ -376,7 +443,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwvcpuio0015oucynlvw0xh1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwvctjyz0015u1cy3nq5hhnn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -539,7 +606,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwvcpuj1001ioucy1tcf4bwd" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwvctjzc001iu1cy1815h9ju" class="article-share-link">Share</a>
       
       
     </footer>
@@ -576,7 +643,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwvcpuj8001poucy598m2pfm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwvctjzk001pu1cyyn37jrzm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -646,7 +713,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwvcpuha0004oucyz4qsbpk4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwvctjxe0003u1cy8lhhh9wi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -724,7 +791,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwvcpujo0025oucyw1ldsun5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwvctk030026u1cy72ukx6io" class="article-share-link">Share</a>
       
       
     </footer>
@@ -789,66 +856,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwvcpui2000moucy60hakr1m" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-7-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Centos-7-odoo-9-0/" class="article-date">
-  <time datetime="2016-12-15T03:35:49.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Centos-7-odoo-9-0/">Centos 7 odoo 9.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>cd /var/cache/yum/x86_64/7/base/packages/</p>
-<p>Community<br>Execute the following commands to install Odoo 9.0 Community on your server:</p>
-<p>yum -y install python-pip<br>yum -y install gcc<br>yum -y install python-devel<br>yum install -y postgresql-server<br>postgresql-setup initdb<br>systemctl enable postgresql<br>systemctl start postgresql<br>yum localinstall odoo_9.0c.20160712.noarch.rpm<br>rpm -ivh odoo_9.0c.20160712.noarch.rpm<br>systemctl enable odoo<br>systemctl start odoo</p>
-<p>#yum-config-manager –add-repo=<a href="https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo" target="_blank" rel="external">https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo</a></p>
-<p>#yum install -y odoo</p>
-<p>[root@CentOS7 ~]# vim /var/lib/pgsql/data/pg_hba.conf</p>
-<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
-<p>[root@CentOS7 ~]# su - postgres<br>-bash-4.2$ psql -U postgres<br>postgres-# \du<br>                        角色列表<br> 角色名称 |               属性                | 成员属于<br>———-+———————————–+———-<br> odoo     | 建立 DB                           | {}<br> postgres | 超级用户, 建立角色, 建立 DB, 复制 | {}<br>postgres-# \password odoo<br>输入新的密码：<br>再次键入：<br>[root@CentOS7 ~]# psql -h 127.0.0.1 -U odoo<br>用户 odoo 的口令：<br>psql (9.2.15)<br>输入 “help” 来获取帮助信息.<br>odoo-&gt; \l<br>                                     资料库列表<br>   名称    |  拥有者  | 字元编码 |  校对规则   |    Ctype    |       存取权限   </p>
-<h2 id="———–-———-———-————-————-——————"><a href="#———–-———-———-————-————-——————" class="headerlink" title="———–+———-+———-+————-+————-+——————"></a>———–+———-+———-+————-+————-+——————</h2><p> odoo      | odoo     | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> postgres  | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> template0 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br> template1 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br>(4 行记录)</p>
-<p>odoo-&gt;<br>odoo-&gt; \c odoo<br>您现在已经连线到数据库 “odoo”,用户 “odoo”.<br>odoo-&gt; \d<br>                                     关联列表<br> 架构模式 |                         名称                         |  型别  | 拥有<br>者 </p>
-<h2 id="———-——————————————————-——–-—–"><a href="#———-——————————————————-——–-—–" class="headerlink" title="———-+——————————————————+——–+—–"></a>———-+——————————————————+——–+—–</h2><p> public   | base_import_import                                   | 资料表 | odoo</p>
-<p>python</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import psycopg2<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’)<br>print “connected db”<br>connected db</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>print (“hello, world!”);</p>
-<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
-<p>cur=conn.cursor();<br>cur.execute(“create table lyy(id int, name varchar)”);<br>conn.commit();<br>print “create table lyy”;<br>cur.execute(“insert into lyy values(1,’lily’)”);<br>cur.execute(“insert into lyy values(2,’lucy’)”);<br>conn.commit();<br>print(“insert into lyy two rows”);<br>cur.execute(“select id, name from lyy”);<br>rows = cur.fetchall();<br>for row in rows:<br>print “id=”,row[0];<br>print “name=”,row[1];<br>print “operation done”;<br>conn.close();</p>
-<p>netstat -tunlp | grep 8069<br>tail -f /var/log/messages</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwvcpuik0010oucyemmqc5a2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwvctjy9000lu1cyl5ac0bwe" class="article-share-link">Share</a>
       
       
     </footer>
@@ -892,6 +900,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/19/alfresco/">alfresco</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/书单/">书单</a>
           </li>
         
@@ -905,10 +917,6 @@
         
           <li>
             <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源资源/">开源资源</a>
           </li>
         
       </ul>

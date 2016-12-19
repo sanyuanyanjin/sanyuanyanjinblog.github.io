@@ -61,6 +61,65 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Centos-7-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Centos-7-odoo-9-0/" class="article-date">
+  <time datetime="2016-12-15T03:35:49.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Centos-7-odoo-9-0/">Centos 7 odoo 9.0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>cd /var/cache/yum/x86_64/7/base/packages/</p>
+<p>Community<br>Execute the following commands to install Odoo 9.0 Community on your server:</p>
+<p>yum -y install python-pip<br>yum -y install gcc<br>yum -y install python-devel<br>yum install -y postgresql-server<br>postgresql-setup initdb<br>systemctl enable postgresql<br>systemctl start postgresql<br>yum localinstall odoo_9.0c.20160712.noarch.rpm<br>rpm -ivh odoo_9.0c.20160712.noarch.rpm<br>systemctl enable odoo<br>systemctl start odoo</p>
+<p>#yum-config-manager –add-repo=<a href="https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo" target="_blank" rel="external">https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo</a></p>
+<p>#yum install -y odoo</p>
+<p>[root@CentOS7 ~]# vim /var/lib/pgsql/data/pg_hba.conf</p>
+<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
+<p>[root@CentOS7 ~]# su - postgres<br>-bash-4.2$ psql -U postgres<br>postgres-# \du<br>                        角色列表<br> 角色名称 |               属性                | 成员属于<br>———-+———————————–+———-<br> odoo     | 建立 DB                           | {}<br> postgres | 超级用户, 建立角色, 建立 DB, 复制 | {}<br>postgres-# \password odoo<br>输入新的密码：<br>再次键入：<br>[root@CentOS7 ~]# psql -h 127.0.0.1 -U odoo<br>用户 odoo 的口令：<br>psql (9.2.15)<br>输入 “help” 来获取帮助信息.<br>odoo-&gt; \l<br>                                     资料库列表<br>   名称    |  拥有者  | 字元编码 |  校对规则   |    Ctype    |       存取权限   </p>
+<h2 id="———–-———-———-————-————-——————"><a href="#———–-———-———-————-————-——————" class="headerlink" title="———–+———-+———-+————-+————-+——————"></a>———–+———-+———-+————-+————-+——————</h2><p> odoo      | odoo     | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> postgres  | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> template0 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br> template1 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br>(4 行记录)</p>
+<p>odoo-&gt;<br>odoo-&gt; \c odoo<br>您现在已经连线到数据库 “odoo”,用户 “odoo”.<br>odoo-&gt; \d<br>                                     关联列表<br> 架构模式 |                         名称                         |  型别  | 拥有<br>者 </p>
+<h2 id="———-——————————————————-——–-—–"><a href="#———-——————————————————-——–-—–" class="headerlink" title="———-+——————————————————+——–+—–"></a>———-+——————————————————+——–+—–</h2><p> public   | base_import_import                                   | 资料表 | odoo</p>
+<p>python</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import psycopg2<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’)<br>print “connected db”<br>connected db</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>print (“hello, world!”);</p>
+<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
+<p>cur=conn.cursor();<br>cur.execute(“create table lyy(id int, name varchar)”);<br>conn.commit();<br>print “create table lyy”;<br>cur.execute(“insert into lyy values(1,’lily’)”);<br>cur.execute(“insert into lyy values(2,’lucy’)”);<br>conn.commit();<br>print(“insert into lyy two rows”);<br>cur.execute(“select id, name from lyy”);<br>rows = cur.fetchall();<br>for row in rows:<br>print “id=”,row[0];<br>print “name=”,row[1];<br>print “operation done”;<br>conn.close();</p>
+<p>netstat -tunlp | grep 8069<br>tail -f /var/log/messages</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwvctjyu0010u1cy2f6rnddn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Ubuntu-14-04-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/Ubuntu-14-04-odoo-9-0/" class="article-date">
@@ -107,7 +166,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="ciwvcpuj9001soucyhqbu7n7d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="ciwvctjzn001tu1cy4dhogdiy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -206,7 +265,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-6-x-DHCP/" data-id="ciwvcpuij000youcyfsq638io" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Centos-6-x-DHCP/" data-id="ciwvctjys000yu1cy4bde6td8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -256,7 +315,7 @@ max-lease-time 72000;
 <p>import smtplib<br>from email.mime.text import MIMEText<br>import sys</p>
 <p>mail_host = ‘smtp.126.com’<br>mail_user = ‘yanjin198620@126.com’<br>mail_pass = ‘YANJINrenjia0626’<br>mail_postfix = ‘126.com’</p>
 <p>#以上内容根据你的实际情况进行修改</p>
-<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#109;&#x61;&#x69;&#108;&#116;&#x6f;&#x3a;&#x22;&#43;&#109;&#x61;&#105;&#108;&#x5f;&#x75;&#x73;&#x65;&#x72;&#x2b;&#34;&#x40;&#34;&#43;&#x6d;&#97;&#x69;&#x6c;&#x5f;&#112;&#111;&#x73;&#x74;&#x66;&#105;&#120;&#43;&#34;">&#x22;&#43;&#109;&#x61;&#105;&#108;&#x5f;&#x75;&#x73;&#x65;&#x72;&#x2b;&#34;&#x40;&#34;&#43;&#x6d;&#97;&#x69;&#x6c;&#x5f;&#112;&#111;&#x73;&#x74;&#x66;&#105;&#120;&#43;&#34;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
+<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#x61;&#x69;&#x6c;&#x74;&#x6f;&#x3a;&#34;&#43;&#x6d;&#x61;&#x69;&#x6c;&#95;&#x75;&#x73;&#x65;&#114;&#x2b;&#34;&#x40;&#x22;&#43;&#x6d;&#x61;&#x69;&#x6c;&#95;&#112;&#111;&#115;&#116;&#102;&#x69;&#x78;&#43;&#x22;">&#34;&#43;&#x6d;&#x61;&#x69;&#x6c;&#95;&#x75;&#x73;&#x65;&#114;&#x2b;&#34;&#x40;&#x22;&#43;&#x6d;&#x61;&#x69;&#x6c;&#95;&#112;&#111;&#115;&#116;&#102;&#x69;&#x78;&#43;&#x22;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
 <pre><code>try:
     s = smtplib.SMTP()
     s.connect(mail_host)
@@ -283,7 +342,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-7-x-Zabbix/" data-id="ciwvcpuil0012oucyebwj6thg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-x-Zabbix/" data-id="ciwvctjyv0011u1cyrf9it5w9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,7 +394,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Cacti/" data-id="ciwvcpuh90003oucynrff1kzt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Cacti/" data-id="ciwvctjxk0006u1cyyzwy2a6r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -405,7 +464,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwvcpuhr000foucywfy94tlv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-KickStart/" data-id="ciwvctjy5000iu1cy3mlgfz6i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -567,7 +626,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwvcpuhk0008oucyvdnr8mzj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Cobbler/" data-id="ciwvctjxm0007u1cybd19ptx5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -629,7 +688,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwvcpuhq000eoucystca1gfl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Inotify-Rsync/" data-id="ciwvctjxz000eu1cyh015elc2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -682,7 +741,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwvcpuht000houcy5kou1zik" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="ciwvctjy6000ju1cycwz9ll2i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -808,67 +867,7 @@ class &quot;pxeclients&quot; {
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwvcpui6000poucyix2g1as3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-SendMail" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-SendMail/" class="article-date">
-  <time datetime="2016-12-15T03:22:18.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-SendMail/">CentOS 6.x SendMail</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sendmail是Linux下优秀的邮件系统。今天某个网站需要有发邮件的需求，而服务器安装时没有安装这个，那就开始吧。<br>1、安装</p>
-<pre><code>#yum install -y sendmail
-#yum install -y sendmail-cf
-如果需要SMTP验证就安装并启动saslauthd服务：
-# service saslauthd start 
-</code></pre><p>2、配置        </p>
-<p>(1) 配置Senmail的SMTP认证</p>
-<h1 id="vi-etc-mail-sendmail-mc"><a href="#vi-etc-mail-sendmail-mc" class="headerlink" title="vi /etc/mail/sendmail.mc"></a>vi /etc/mail/sendmail.mc</h1><p>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>dnl define(<code>confAUTH_MECHANISMS’,</code>EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
-<p>(2) 设置Sendmail服务的网络访问权限（因为我是直接本机调用所以我没有操作这个步骤）</p>
-<p>vi /etc/mail/sendmail.mc</p>
-<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA‘)dnl 
-</code></pre><p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。<br>3、生成配置文件</p>
-<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
-<p>#m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf<br>4、启动服务</p>
-<p>service sendmail start</p>
-<p>service sendmail restart</p>
-<p>[root@rsync py]#<br>ps aux | grep sendmail | grep -v grep<br>smmsp     9311  0.0  0.2  78136  2140 ?        Ss   14:27   0:00 sendmail: Queue runner@01:00:00 for /var/spool/clientmqueue<br>root      9324  0.0  0.0 103252   852 pts/0    S+   14:29   0:00 grep sendmail<br>[root@rsync py]# </p>
-<p>检查服务是否加入自启行列</p>
-<p>[root@rsync py]# chkconfig sendmail on<br>[root@rsync py]# chkconfig –list |grep sendmail<br>sendmail        0:关闭  1:关闭  2:启用  3:启用  4:启用  5:启用  6:关闭<br>[root@rsync py]# </p>
-<p>[root@rsync py]#<br>mail -s xxx 455177385@qq.com<br>xxx<br>EOT<br>你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束</p>
-<p>echo “mail content”|mail -s test 455177385@qq.com</p>
-<p>mail -s test 455177385@qq.com &lt; file #第三种方法，以file的内容为邮件内容发信</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwvcpui0000loucy41u3od13" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="ciwvctjyf000pu1cyahesrl4x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -912,6 +911,10 @@ class &quot;pxeclients&quot; {
       <ul>
         
           <li>
+            <a href="/2016/12/19/alfresco/">alfresco</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/书单/">书单</a>
           </li>
         
@@ -925,10 +928,6 @@ class &quot;pxeclients&quot; {
         
           <li>
             <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源资源/">开源资源</a>
           </li>
         
       </ul>

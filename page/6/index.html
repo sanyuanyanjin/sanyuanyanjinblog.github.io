@@ -61,6 +61,210 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linaro-12-11-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Linaro-12-11-Hadoop/" class="article-date">
+  <time datetime="2016-12-15T02:52:38.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1.刷固件</p>
+<p>出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：</p>
+<p><a href="http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/" target="_blank" rel="external">http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/</a></p>
+<p>①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像</p>
+<p>②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard FEL 按钮（此按钮在 RESET 按钮的边上）不放，此时将另外一端的 mini USB 和 Cubieboard 连接，这时候会弹出一个强制升级的提示对话框，然后就可以松开 FEL 按钮了。</p>
+<p>③．提示对话框上选 Yes 开始刷系统。</p>
+<p>④．刷完系统之后，拿掉和电脑连接的 USB 线，然后接上电源和网线。</p>
+<p>2.系统配置</p>
+<p>①．使用 linaro 用户登录上去，设置 root 的密码：</p>
+<p>$ sudo passwd root</p>
+<p>②．cubieboard nand 重新分区扩容</p>
+<p>安装分区工具 nand-part (sunxi-tools)</p>
+<p>#apt-get install git</p>
+<p>#apt-get install build-essential</p>
+<p>#apt-get install pkg-config libusb-1.0</p>
+<p>#git clone <a href="https://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">https://github.com/linux-sunxi/sunxi-tools.git</a></p>
+<p>#cd sunxi-tools</p>
+<p>#make all</p>
+<p>现在我们查看一下 nandflash：</p>
+<h1 id="ls-dev-nand-l"><a href="#ls-dev-nand-l" class="headerlink" title="ls /dev/nand* -l"></a>ls /dev/nand* -l</h1><p>brw-rw—- 1 root disk 93, 0 Jan 1 2010 /dev/nand</p>
+<p>brw-rw—- 1 root disk 93, 1 Jan 1 2010 /dev/nanda</p>
+<p>brw-rw—- 1 root disk 93, 2 Jan 1 2010 /dev/nandb</p>
+<p>brw-rw—- 1 root disk 93, 3 Jan 1 2010 /dev/nandc</p>
+<p>这里的 nand 表示了整个 nandflash，nanda、nandb、nandc 则为其 3 个分区，其中：</p>
+<p>nanda 中包含 bootlogo、script.bin、uEnv.txt 等</p>
+<p>nandb 中为 rootfs</p>
+<p>nandc 有 5G 左右的空间，我觉得把它合并到 nandb 似乎是一个好的想法。敲击命令 nand-part 大概能看到如下信息（只列出主要部分）：</p>
+<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
+<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 4194304 user_type=0</p>
+<p>partition 3: class = DISK, name = UDISK, partition start = 4358144, partition size = 10584064 user_type=0</p>
+<p>我们可以看到各个分区的大小，这样我们就可以重新规划一下：</p>
+<h1 id="nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’"><a href="#nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’" class="headerlink" title="nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’"></a>nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’</h1><p>此命令执行后输出：</p>
+<p>ready to write new partition tables:</p>
+<p>mbr: version 0x00000200, magic softw411</p>
+<p>2 partitions</p>
+<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
+<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 14778368 user_type=0</p>
+<p>我们看到 bootloader（nanda）的大小未发生变化，rootfs（nandb）和 UDISK（nandc）合并了（4194304 + 10584064 = 14778368）。然后，我们重启一下系统，再敲击命令来完成 nandb 的扩展：</p>
+<h1 id="resize2fs-dev-nandb"><a href="#resize2fs-dev-nandb" class="headerlink" title="resize2fs /dev/nandb"></a>resize2fs /dev/nandb</h1><p>需要说明的是，这个重分区的过程不会破坏任何数据的。</p>
+<p>处理完 nand 就可以开始处理我的 HDD 硬盘了。使用命令 fdisk 来查看 HDD 硬盘是否存在，执行 fdisk -l</p>
+<p>分区fdisk /dev/sda</p>
+<p>格式化mkfs.ext4 /dev/sda1</p>
+<p>挂载mount /dev/sda1 /data</p>
+<p>配置启动时挂载vim /etc/fstab</p>
+<p>/dev/sda1 /data ext4 defaults 1 2</p>
+<p>允许root用户SSH远程登录</p>
+<p>安装OpenSSH server：</p>
+<ol>
+<li>使用apt命令安装openssh server</li>
+</ol>
+<p>$ sudo apt-get install openssh-server</p>
+<ol>
+<li>可以对 openssh server进行配置</li>
+</ol>
+<p>$ sudo vi /etc/ssh/sshd_config</p>
+<p>找到PermitRootLogin no一行，改为PermitRootLogin yes</p>
+<ol>
+<li>重启 openssh server</li>
+</ol>
+<p>$ sudo service ssh restart</p>
+<ol>
+<li>客户端如果是ubuntu的话，则已经安装好ssh client,可以用下面的命令连接远程服务器。</li>
+</ol>
+<p>$ ssh xxx.xxx.xxx.xxx</p>
+<p>如果是windows系统的话，可以使用SSH Secure Shell等ssh软件进行远程连接。</p>
+<p>3.安装Hadoop</p>
+<p>Java</p>
+<p>vim ~/.bashrc</p>
+<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
+<p>export JRE_HOME=${JAVA_HOME}/jre</p>
+<p>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib</p>
+<p>export PATH=${JAVA_HOME}/bin:$PATH</p>
+<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
+<p>source ~/.bashrc</p>
+<p>hadoop-env.sh</p>
+<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
+<p>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native</p>
+<p>export HADOOP_OPTS=”-Djava.library.path=$HADOOP_PREFIX/lib”</p>
+<p>/etc/hostname</p>
+<p>/etc/hosts</p>
+<p>ssh-keygen -t rsa -P “”</p>
+<p>root@m1:/home/hadoop# scp -r root@m2:/root/.ssh/id_rsa.pub ~/.ssh/m2.pub</p>
+<p>root@m1:/home/hadoop# scp -r root@s1:/root/.ssh/id_rsa.pub ~/.ssh/s1.pub</p>
+<p>root@m1:/home/hadoop# scp -r root@s2:/root/.ssh/id_rsa.pub ~/.ssh/s2.pub</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/m2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/s1.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# cat ~/.ssh/s2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@m2:~/.ssh/</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s1:~/.ssh/</p>
+<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s2:~/.ssh/</p>
+<p>core-site.xml</p>
+  <property><br><br>  <name>fs.defaultFS</name><br><br>  <value>hdfs://master:9000/</value><br><br>  <description>The name of the default file system</description><br><br>  </property>
+
+  <property><br><br>  <name>hadoop.tmp.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/tmp</value><br><br>  <description>A base for other temporary directories</description><br><br>  </property>
+
+
+<p>hdfs-site.xml</p>
+  <property><br><br>  <name>dfs.replication</name><br><br>  <value>2</value><br><br>  </property>
+
+  <property><br><br>  <name>dfs.namenode.name.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/name</value><br><br>  </property>
+
+  <property><br><br>  <name>dfs.datanode.data.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/data</value><br><br>  </property>
+
+
+
+<p>mapred-site.xml</p>
+  <property><br><br>  <name>mapreduce.framework.name</name><br><br>  <value>yarn</value><br><br>  </property>
+
+
+
+<p>yarn-site.xml</p>
+  <property><br><br>  <name>yarn.resourcemanager.hostname</name><br><br>  <value>master</value><br><br>  </property>
+
+  <property><br><br>  <name>yarn.nodemanager.aux-services</name><br><br>  <value>mapreduce_shuffle</value><br><br>  </property>
+
+
+<p>slaves</p>
+<p>slave001</p>
+<p>slave002</p>
+<p>scp -r hadoop-2.2.0/ hadoop@slave001:/usr/local/hadoop/</p>
+<p>scp -r hadoop-2.2.0/ hadoop@slave002:/usr/local/hadoop/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave001:/usr/lib/java/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave002:/usr/lib/java/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop namenode -format</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-dfs.sh</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4236 Jps</p>
+<p>hadoop@slave001:/usr/lib/java$ jps</p>
+<p>6129 DataNode</p>
+<p>6199 Jps</p>
+<p>hadoop@slave002:/usr/lib/java$ jps</p>
+<p>5229 DataNode</p>
+<p>5301 Jps</p>
+<p><a href="http://10.6.4.226:50070/dfshealth.jsp" target="_blank" rel="external">http://10.6.4.226:50070/dfshealth.jsp</a></p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-yarn.sh</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4557 Jps</p>
+<p>4310 ResourceManager</p>
+<p>hadoop@slave001:/usr/lib/java$ jps</p>
+<p>6129 DataNode</p>
+<p>6377 NodeManager</p>
+<p>6492 Jps</p>
+<p>hadoop@slave002:/usr/lib/java$ jps</p>
+<p>5229 DataNode</p>
+<p>5478 NodeManager</p>
+<p>5592 Jps</p>
+<p><a href="http://10.6.4.226:8088/cluster" target="_blank" rel="external">http://10.6.4.226:8088/cluster</a></p>
+<p><a href="http://10.6.4.227:8042/node" target="_blank" rel="external">http://10.6.4.227:8042/node</a></p>
+<p><a href="http://10.6.4.228:8042/node" target="_blank" rel="external">http://10.6.4.228:8042/node</a></p>
+<p>/usr/local/hadoop/hadoop-2.2.0/sbin# ./mr-jobhistory-daemon.sh start historyserver</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
+<p>3197 NameNode</p>
+<p>3387 SecondaryNameNode</p>
+<p>4609 JobHistoryServer</p>
+<p>4310 ResourceManager</p>
+<p>4665 Jps</p>
+<p><a href="http://10.6.4.226:19888/jobhistory" target="_blank" rel="external">http://10.6.4.226:19888/jobhistory</a></p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /data/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /output/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -put ../etc/hadoop/*.xml /data/wordcount/</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -ls /data/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop jar ../share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar wordcount /data/wordcount /output/wordcount</p>
+<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwvctjz00016u1cyqhddanbt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-CDH" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-CDH/" class="article-date">
@@ -153,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwvcpuhe0006oucyjk2esqmj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="ciwvctjxh0005u1cygl3bvgbw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -193,7 +397,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwvcpui9000toucy7io5ql14" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="ciwvctjyl000tu1cy10ublg7t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +440,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwvcpuid000woucyu9u7g5m9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="ciwvctjyl000uu1cy81prkl4e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +493,7 @@
 <p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
 <p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
 <p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
-<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#x61;&#105;&#x6c;&#x74;&#x6f;&#x3a;&#x3c;&#69;&#79;&#70;&#10;&#x53;&#101;&#x74;&#x48;&#x61;&#x6e;&#x64;&#x6c;&#101;&#x72;&#115;&#101;&#114;&#118;&#101;&#x72;&#x2d;&#115;&#116;&#x61;&#116;&#x75;&#x73;&#10;&#79;&#x72;&#100;&#x65;&#x72;&#x64;&#101;&#x6e;&#x79;&#44;&#97;&#x6c;&#x6c;&#111;&#119;&#xa;&#68;&#101;&#x6e;&#x79;&#102;&#114;&#x6f;&#109;&#x61;&#108;&#x6c;&#xa;&#x41;&#x6c;&#x6c;&#111;&#119;&#102;&#114;&#111;&#x6d;&#108;&#x6f;&#x63;&#97;&#108;&#104;&#111;&#x73;&#116;&#10;&#x45;&#x4f;&#x46;&#xa;&#x9996;&#x5148;&#x6211;&#x4eec;&#20026;&#65;&#112;&#97;&#99;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#x4e3b;&#x9875;&#x3002;&#22312;&#x63;&#101;&#x6e;&#116;&#x6f;&#115;&#x4e0a;&#38754;&#40664;&#x8ba4;&#30340;&#x41;&#112;&#97;&#x63;&#104;&#101;&#100;&#111;&#99;&#114;&#111;&#111;&#x74;&#26159;&#47;&#118;&#x61;&#x72;&#x2f;&#119;&#119;&#x77;&#47;&#104;&#x74;&#x6d;&#108;&#44;&#25152;&#20197;&#x6211;&#x4eec;&#22312;&#x8fd9;&#20010;&#x76ee;&#24405;&#19979;&#38754;&#x5efa;&#x7acb;&#x4e00;&#x4e2a;&#x4e3b;&#39029;&#x3002;&#10;&#x6e;&#111;&#x64;&#x65;&#49;&#33410;&#x70b9;&#x4fee;&#25913;&#22914;&#x4e0b;&#65306;&#xa;&#91;&#114;&#111;&#111;&#x74;&#x40;&#x6e;&#111;&#x64;&#101;&#x31;&#126;&#x5d;&#35;&#x63;&#x61;&#116;&#x3c;&#60;&#x2d;&#x45;&#x4e;&#68;">&#x3c;&#69;&#79;&#70;&#10;&#x53;&#101;&#x74;&#x48;&#x61;&#x6e;&#x64;&#x6c;&#101;&#x72;&#115;&#101;&#114;&#118;&#101;&#x72;&#x2d;&#115;&#116;&#x61;&#116;&#x75;&#x73;&#10;&#79;&#x72;&#100;&#x65;&#x72;&#x64;&#101;&#x6e;&#x79;&#44;&#97;&#x6c;&#x6c;&#111;&#119;&#xa;&#68;&#101;&#x6e;&#x79;&#102;&#114;&#x6f;&#109;&#x61;&#108;&#x6c;&#xa;&#x41;&#x6c;&#x6c;&#111;&#119;&#102;&#114;&#111;&#x6d;&#108;&#x6f;&#x63;&#97;&#108;&#104;&#111;&#x73;&#116;&#10;&#x45;&#x4f;&#x46;&#xa;&#x9996;&#x5148;&#x6211;&#x4eec;&#20026;&#65;&#112;&#97;&#99;&#x68;&#101;&#21019;&#24314;&#19968;&#x4e2a;&#x4e3b;&#x9875;&#x3002;&#22312;&#x63;&#101;&#x6e;&#116;&#x6f;&#115;&#x4e0a;&#38754;&#40664;&#x8ba4;&#30340;&#x41;&#112;&#97;&#x63;&#104;&#101;&#100;&#111;&#99;&#114;&#111;&#111;&#x74;&#26159;&#47;&#118;&#x61;&#x72;&#x2f;&#119;&#119;&#x77;&#47;&#104;&#x74;&#x6d;&#108;&#44;&#25152;&#20197;&#x6211;&#x4eec;&#22312;&#x8fd9;&#20010;&#x76ee;&#24405;&#19979;&#38754;&#x5efa;&#x7acb;&#x4e00;&#x4e2a;&#x4e3b;&#39029;&#x3002;&#10;&#x6e;&#111;&#x64;&#x65;&#49;&#33410;&#x70b9;&#x4fee;&#25913;&#22914;&#x4e0b;&#65306;&#xa;&#91;&#114;&#111;&#111;&#x74;&#x40;&#x6e;&#111;&#x64;&#101;&#x31;&#126;&#x5d;&#35;&#x63;&#x61;&#116;&#x3c;&#60;&#x2d;&#x45;&#x4e;&#68;</a>/var/www/html/index.html</p>
+<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#x6d;&#x61;&#x69;&#108;&#116;&#x6f;&#58;&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#101;&#116;&#x48;&#97;&#110;&#100;&#108;&#101;&#114;&#x73;&#101;&#x72;&#118;&#101;&#x72;&#x2d;&#115;&#x74;&#x61;&#x74;&#x75;&#x73;&#10;&#79;&#114;&#x64;&#101;&#114;&#x64;&#101;&#110;&#121;&#44;&#97;&#108;&#108;&#x6f;&#x77;&#10;&#x44;&#101;&#x6e;&#121;&#x66;&#114;&#111;&#109;&#x61;&#x6c;&#108;&#10;&#65;&#108;&#108;&#111;&#119;&#x66;&#114;&#x6f;&#x6d;&#108;&#x6f;&#99;&#x61;&#108;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#x4f;&#70;&#xa;&#39318;&#20808;&#x6211;&#20204;&#20026;&#65;&#x70;&#x61;&#x63;&#104;&#101;&#21019;&#24314;&#19968;&#20010;&#20027;&#39029;&#12290;&#22312;&#99;&#x65;&#110;&#116;&#x6f;&#x73;&#19978;&#38754;&#40664;&#x8ba4;&#x7684;&#65;&#112;&#97;&#99;&#104;&#101;&#100;&#111;&#99;&#x72;&#111;&#111;&#116;&#26159;&#47;&#x76;&#x61;&#114;&#47;&#x77;&#119;&#119;&#47;&#104;&#x74;&#109;&#108;&#44;&#x6240;&#x4ee5;&#25105;&#20204;&#22312;&#36825;&#x4e2a;&#30446;&#24405;&#19979;&#38754;&#24314;&#x7acb;&#19968;&#20010;&#x4e3b;&#39029;&#12290;&#10;&#x6e;&#x6f;&#x64;&#101;&#x31;&#x8282;&#28857;&#20462;&#25913;&#22914;&#19979;&#65306;&#10;&#x5b;&#x72;&#x6f;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#x65;&#49;&#x7e;&#x5d;&#x23;&#99;&#97;&#116;&#x3c;&#x3c;&#x2d;&#x45;&#78;&#x44;">&#x3c;&#69;&#x4f;&#70;&#xa;&#x53;&#101;&#116;&#x48;&#97;&#110;&#100;&#108;&#101;&#114;&#x73;&#101;&#x72;&#118;&#101;&#x72;&#x2d;&#115;&#x74;&#x61;&#x74;&#x75;&#x73;&#10;&#79;&#114;&#x64;&#101;&#114;&#x64;&#101;&#110;&#121;&#44;&#97;&#108;&#108;&#x6f;&#x77;&#10;&#x44;&#101;&#x6e;&#121;&#x66;&#114;&#111;&#109;&#x61;&#x6c;&#108;&#10;&#65;&#108;&#108;&#111;&#119;&#x66;&#114;&#x6f;&#x6d;&#108;&#x6f;&#99;&#x61;&#108;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#x4f;&#70;&#xa;&#39318;&#20808;&#x6211;&#20204;&#20026;&#65;&#x70;&#x61;&#x63;&#104;&#101;&#21019;&#24314;&#19968;&#20010;&#20027;&#39029;&#12290;&#22312;&#99;&#x65;&#110;&#116;&#x6f;&#x73;&#19978;&#38754;&#40664;&#x8ba4;&#x7684;&#65;&#112;&#97;&#99;&#104;&#101;&#100;&#111;&#99;&#x72;&#111;&#111;&#116;&#26159;&#47;&#x76;&#x61;&#114;&#47;&#x77;&#119;&#119;&#47;&#104;&#x74;&#109;&#108;&#44;&#x6240;&#x4ee5;&#25105;&#20204;&#22312;&#36825;&#x4e2a;&#30446;&#24405;&#19979;&#38754;&#24314;&#x7acb;&#19968;&#20010;&#x4e3b;&#39029;&#12290;&#10;&#x6e;&#x6f;&#x64;&#101;&#x31;&#x8282;&#28857;&#20462;&#25913;&#22914;&#19979;&#65306;&#10;&#x5b;&#x72;&#x6f;&#x6f;&#116;&#64;&#110;&#x6f;&#x64;&#x65;&#49;&#x7e;&#x5d;&#x23;&#99;&#97;&#116;&#x3c;&#x3c;&#x2d;&#x45;&#78;&#x44;</a>/var/www/html/index.html</p>
 <p><html></html></p>
 <p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
 <p><html></html></p>
@@ -306,7 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwvcpuic000uoucyde97q0dm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwvctjym000vu1cyjtajcflq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -479,7 +683,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwvcpuhv000ioucygus7ufrr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwvctjy7000ku1cyy8yt4v4p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -515,7 +719,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwvcpukh003foucypjssyfoa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwvctk0z003fu1cyiejv8vic" class="article-share-link">Share</a>
       
       
     </footer>
@@ -551,7 +755,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwvcpukg003eoucyalddcjii" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwvctk10003gu1cy9233jyje" class="article-share-link">Share</a>
       
       
     </footer>
@@ -616,7 +820,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwvcpuja001toucyb30nqflo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwvctjzl001ru1cyzap2uqtn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -730,50 +934,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwvcpuho000coucyt4eg6usx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-Logrotate" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-6-x-Logrotate/" class="article-date">
-  <time datetime="2016-12-14T04:51:19.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-6-x-Logrotate/">CentOS 6.x Logrotate</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>日志文件包含系统内部执行情况的有用信息。在排除故障或服务器性能分析时往往需要检查日志。对于繁忙的服务器，日志文件可能会在短时间内变得非常大。这将成为一个问题，因为服务器会很快耗尽存储空间。此外，操作一个非常大的日志文件往往会非常棘手。<br>logrotate 是可以自动转储、压缩和删除旧日志文件的一个非常有用的工具。例如，你可以设置logrotate将日志文件 /var/log/foo的每30天转储一次，并且删除超过6个月的记录。一旦配置完成，logrotate可以完全自动化操作不需要进行人工交互<br>在主要的Linux发行版中logrotate包通常是默认安装的。如果由于某种原因，logrotate的不存在，您可以使用apt-get或者yum的命令来安装它。<br>Debian或者Ubuntu</p>
-<h1 id="apt-get-install-logrotate-cron"><a href="#apt-get-install-logrotate-cron" class="headerlink" title="apt-get install logrotate cron"></a>apt-get install logrotate cron</h1><p>Fedora, CentOS或者RHEL</p>
-<h1 id="yum-install-logrotate-crontabs"><a href="#yum-install-logrotate-crontabs" class="headerlink" title="yum install logrotate crontabs"></a>yum install logrotate crontabs</h1><p>logrotate的配置文件是/etc/logrotate.conf，一般不需要修改。可以在/etc/logrotate.d/目录下放入单独的配置文件定义本文档中需要的功能。<br>示例一<br>在第一个例子中，我们将创建一个10 MB的日志文件/var/log/log-file。我们将看到我们如何使用logrotate来管理这个日志文件。<br>我们首先创建一个10M的日志文件，并用随机位来填充它。</p>
-<h1 id="touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file"><a href="#touch-var-log-log-file-head-c-10M-lt-dev-urandom-gt-var-log-log-file" class="headerlink" title="touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file"></a>touch /var/log/log-file# head -c 10M &lt; /dev/urandom &gt; /var/log/log-file</h1><p>日志文件已经准备就绪，我们将配置logrotate转储这个日志文件。让我们开始创建转储所需要的logrotate配置文件。</p>
-<h1 id="vim-etc-logrotate-d-log-file"><a href="#vim-etc-logrotate-d-log-file" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {<br>    monthly<br>    rotate<br>5<br>    compress<br>    delaycompress<br>    missingok<br>    notifempty<br>    create<br>644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>其中：<br>monthly：每月转储日志文件。其他可能的值是’daily’, ‘weekly’, ‘yearly’。<br>rotate 5：同一时间保存5个归档日志。对于第6个归档，最早的归档文件将被删除。<br>compress：转储完成后，转储的日志将使用gzip压缩。<br>delaycompress：需要与compress选项一起使用，delaycompress参数指示logrotate的不对最新的归档进行压缩。压缩将在下一个转储周期来进行。如果您需要访问的最新备份的存档，这是很有用的。<br>missingok：在转储过程中任何错误都会被忽略，例如，”未找到文件”。<br>notifempty：如果日志文件是空的将不会执行转储。<br>create 644 root root：logrotate归档时可以重命名原始日志文件然后创建一个新的日志文件并赋予与指定的权限。<br>postrotate/endscript：所有其他操作完成后会执行postrotate和endscript间定义的命令。在上面的例子中，处理rsyslogd将重新读取其配置后继续运行。<br>上面的模板是通用的，配置参数可以根据您的要求各不相同。不是所有的参数可能是必要的。<br>示例二<br>在这个例子中，我们想要只在日志文件大小增长超过50MB时转储日志文件。</p>
-<h1 id="vim-etc-logrotate-d-log-file-1"><a href="#vim-etc-logrotate-d-log-file-1" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}<br>示例三<br>我们希望旧的日志文件根据归档日期进行命名，这可以通过添加dateext参数来实现。</p>
-<h1 id="vim-etc-logrotate-d-log-file-2"><a href="#vim-etc-logrotate-d-log-file-2" class="headerlink" title="vim /etc/logrotate.d/log-file"></a>vim /etc/logrotate.d/log-file</h1><p>/var/log/log-file {    size=50M    rotate 5    create 644<br>root root<br>    postrotate<br>/usr/bin/killall -<br>HUP rsyslogd<br>    endscript<br>}</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwvcpuhs000goucyck50i62e" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwvctjxy000du1cyv5r072zr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -817,6 +978,10 @@ fi
       <ul>
         
           <li>
+            <a href="/2016/12/19/alfresco/">alfresco</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/书单/">书单</a>
           </li>
         
@@ -830,10 +995,6 @@ fi
         
           <li>
             <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源资源/">开源资源</a>
           </li>
         
       </ul>

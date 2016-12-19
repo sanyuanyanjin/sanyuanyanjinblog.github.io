@@ -61,6 +61,66 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-x-SendMail" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-SendMail/" class="article-date">
+  <time datetime="2016-12-15T03:22:18.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-SendMail/">CentOS 6.x SendMail</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sendmail是Linux下优秀的邮件系统。今天某个网站需要有发邮件的需求，而服务器安装时没有安装这个，那就开始吧。<br>1、安装</p>
+<pre><code>#yum install -y sendmail
+#yum install -y sendmail-cf
+如果需要SMTP验证就安装并启动saslauthd服务：
+# service saslauthd start 
+</code></pre><p>2、配置        </p>
+<p>(1) 配置Senmail的SMTP认证</p>
+<h1 id="vi-etc-mail-sendmail-mc"><a href="#vi-etc-mail-sendmail-mc" class="headerlink" title="vi /etc/mail/sendmail.mc"></a>vi /etc/mail/sendmail.mc</h1><p>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
+<p>dnl define(<code>confAUTH_MECHANISMS’,</code>EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
+<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
+<p>(2) 设置Sendmail服务的网络访问权限（因为我是直接本机调用所以我没有操作这个步骤）</p>
+<p>vi /etc/mail/sendmail.mc</p>
+<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA‘)dnl 
+</code></pre><p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。<br>3、生成配置文件</p>
+<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
+<p>#m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf<br>4、启动服务</p>
+<p>service sendmail start</p>
+<p>service sendmail restart</p>
+<p>[root@rsync py]#<br>ps aux | grep sendmail | grep -v grep<br>smmsp     9311  0.0  0.2  78136  2140 ?        Ss   14:27   0:00 sendmail: Queue runner@01:00:00 for /var/spool/clientmqueue<br>root      9324  0.0  0.0 103252   852 pts/0    S+   14:29   0:00 grep sendmail<br>[root@rsync py]# </p>
+<p>检查服务是否加入自启行列</p>
+<p>[root@rsync py]# chkconfig sendmail on<br>[root@rsync py]# chkconfig –list |grep sendmail<br>sendmail        0:关闭  1:关闭  2:启用  3:启用  4:启用  5:启用  6:关闭<br>[root@rsync py]# </p>
+<p>[root@rsync py]#<br>mail -s xxx 455177385@qq.com<br>xxx<br>EOT<br>你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束</p>
+<p>echo “mail content”|mail -s test 455177385@qq.com</p>
+<p>mail -s test 455177385@qq.com &lt; file #第三种方法，以file的内容为邮件内容发信</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="ciwvctjya000mu1cym0kld2he" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-GlusterFS" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-GlusterFS/" class="article-date">
@@ -167,7 +227,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwvcpuhp000doucyl09khqg1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="ciwvctjxx000cu1cy8525q8ww" class="article-share-link">Share</a>
       
       
     </footer>
@@ -305,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwvcpuhl000aoucyuffmgdlq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="ciwvctjxs000au1cyyxptyukt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -343,7 +403,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwvcpuhn000boucyo9kexld8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="ciwvctjxv000bu1cy2djg5wrp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -379,7 +439,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwvcpuim0013oucyzwn4tp3y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="ciwvctjyw0013u1cycecj9ur3" class="article-share-link">Share</a>
       
       
     </footer>
@@ -541,7 +601,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwvcpuhl0009oucy012z8sy1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="ciwvctjxs0009u1cyh00geeat" class="article-share-link">Share</a>
       
       
     </footer>
@@ -708,7 +768,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwvcpuhy000koucyyqtgv659" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="ciwvctjy3000hu1cyxiv9j58r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -765,7 +825,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwvcpuhw000joucyutpi0hzi" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="ciwvctjy1000gu1cy5f1hkaze" class="article-share-link">Share</a>
       
       
     </footer>
@@ -804,7 +864,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwvcpui3000ooucyytlhw64i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="ciwvctjyc000ou1cyqjpjvpja" class="article-share-link">Share</a>
       
       
     </footer>
@@ -840,211 +900,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwvcpuh10000oucy8imt5anq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linaro-12-11-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Linaro-12-11-Hadoop/" class="article-date">
-  <time datetime="2016-12-15T02:52:38.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.刷固件</p>
-<p>出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：</p>
-<p><a href="http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/" target="_blank" rel="external">http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/</a></p>
-<p>①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像</p>
-<p>②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard FEL 按钮（此按钮在 RESET 按钮的边上）不放，此时将另外一端的 mini USB 和 Cubieboard 连接，这时候会弹出一个强制升级的提示对话框，然后就可以松开 FEL 按钮了。</p>
-<p>③．提示对话框上选 Yes 开始刷系统。</p>
-<p>④．刷完系统之后，拿掉和电脑连接的 USB 线，然后接上电源和网线。</p>
-<p>2.系统配置</p>
-<p>①．使用 linaro 用户登录上去，设置 root 的密码：</p>
-<p>$ sudo passwd root</p>
-<p>②．cubieboard nand 重新分区扩容</p>
-<p>安装分区工具 nand-part (sunxi-tools)</p>
-<p>#apt-get install git</p>
-<p>#apt-get install build-essential</p>
-<p>#apt-get install pkg-config libusb-1.0</p>
-<p>#git clone <a href="https://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">https://github.com/linux-sunxi/sunxi-tools.git</a></p>
-<p>#cd sunxi-tools</p>
-<p>#make all</p>
-<p>现在我们查看一下 nandflash：</p>
-<h1 id="ls-dev-nand-l"><a href="#ls-dev-nand-l" class="headerlink" title="ls /dev/nand* -l"></a>ls /dev/nand* -l</h1><p>brw-rw—- 1 root disk 93, 0 Jan 1 2010 /dev/nand</p>
-<p>brw-rw—- 1 root disk 93, 1 Jan 1 2010 /dev/nanda</p>
-<p>brw-rw—- 1 root disk 93, 2 Jan 1 2010 /dev/nandb</p>
-<p>brw-rw—- 1 root disk 93, 3 Jan 1 2010 /dev/nandc</p>
-<p>这里的 nand 表示了整个 nandflash，nanda、nandb、nandc 则为其 3 个分区，其中：</p>
-<p>nanda 中包含 bootlogo、script.bin、uEnv.txt 等</p>
-<p>nandb 中为 rootfs</p>
-<p>nandc 有 5G 左右的空间，我觉得把它合并到 nandb 似乎是一个好的想法。敲击命令 nand-part 大概能看到如下信息（只列出主要部分）：</p>
-<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
-<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 4194304 user_type=0</p>
-<p>partition 3: class = DISK, name = UDISK, partition start = 4358144, partition size = 10584064 user_type=0</p>
-<p>我们可以看到各个分区的大小，这样我们就可以重新规划一下：</p>
-<h1 id="nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’"><a href="#nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’" class="headerlink" title="nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’"></a>nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’</h1><p>此命令执行后输出：</p>
-<p>ready to write new partition tables:</p>
-<p>mbr: version 0x00000200, magic softw411</p>
-<p>2 partitions</p>
-<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
-<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 14778368 user_type=0</p>
-<p>我们看到 bootloader（nanda）的大小未发生变化，rootfs（nandb）和 UDISK（nandc）合并了（4194304 + 10584064 = 14778368）。然后，我们重启一下系统，再敲击命令来完成 nandb 的扩展：</p>
-<h1 id="resize2fs-dev-nandb"><a href="#resize2fs-dev-nandb" class="headerlink" title="resize2fs /dev/nandb"></a>resize2fs /dev/nandb</h1><p>需要说明的是，这个重分区的过程不会破坏任何数据的。</p>
-<p>处理完 nand 就可以开始处理我的 HDD 硬盘了。使用命令 fdisk 来查看 HDD 硬盘是否存在，执行 fdisk -l</p>
-<p>分区fdisk /dev/sda</p>
-<p>格式化mkfs.ext4 /dev/sda1</p>
-<p>挂载mount /dev/sda1 /data</p>
-<p>配置启动时挂载vim /etc/fstab</p>
-<p>/dev/sda1 /data ext4 defaults 1 2</p>
-<p>允许root用户SSH远程登录</p>
-<p>安装OpenSSH server：</p>
-<ol>
-<li>使用apt命令安装openssh server</li>
-</ol>
-<p>$ sudo apt-get install openssh-server</p>
-<ol>
-<li>可以对 openssh server进行配置</li>
-</ol>
-<p>$ sudo vi /etc/ssh/sshd_config</p>
-<p>找到PermitRootLogin no一行，改为PermitRootLogin yes</p>
-<ol>
-<li>重启 openssh server</li>
-</ol>
-<p>$ sudo service ssh restart</p>
-<ol>
-<li>客户端如果是ubuntu的话，则已经安装好ssh client,可以用下面的命令连接远程服务器。</li>
-</ol>
-<p>$ ssh xxx.xxx.xxx.xxx</p>
-<p>如果是windows系统的话，可以使用SSH Secure Shell等ssh软件进行远程连接。</p>
-<p>3.安装Hadoop</p>
-<p>Java</p>
-<p>vim ~/.bashrc</p>
-<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
-<p>export JRE_HOME=${JAVA_HOME}/jre</p>
-<p>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib</p>
-<p>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
-<p>source ~/.bashrc</p>
-<p>hadoop-env.sh</p>
-<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
-<p>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native</p>
-<p>export HADOOP_OPTS=”-Djava.library.path=$HADOOP_PREFIX/lib”</p>
-<p>/etc/hostname</p>
-<p>/etc/hosts</p>
-<p>ssh-keygen -t rsa -P “”</p>
-<p>root@m1:/home/hadoop# scp -r root@m2:/root/.ssh/id_rsa.pub ~/.ssh/m2.pub</p>
-<p>root@m1:/home/hadoop# scp -r root@s1:/root/.ssh/id_rsa.pub ~/.ssh/s1.pub</p>
-<p>root@m1:/home/hadoop# scp -r root@s2:/root/.ssh/id_rsa.pub ~/.ssh/s2.pub</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/m2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/s1.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/s2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@m2:~/.ssh/</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s1:~/.ssh/</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s2:~/.ssh/</p>
-<p>core-site.xml</p>
-  <property><br><br>  <name>fs.defaultFS</name><br><br>  <value>hdfs://master:9000/</value><br><br>  <description>The name of the default file system</description><br><br>  </property>
-
-  <property><br><br>  <name>hadoop.tmp.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/tmp</value><br><br>  <description>A base for other temporary directories</description><br><br>  </property>
-
-
-<p>hdfs-site.xml</p>
-  <property><br><br>  <name>dfs.replication</name><br><br>  <value>2</value><br><br>  </property>
-
-  <property><br><br>  <name>dfs.namenode.name.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/name</value><br><br>  </property>
-
-  <property><br><br>  <name>dfs.datanode.data.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/data</value><br><br>  </property>
-
-
-
-<p>mapred-site.xml</p>
-  <property><br><br>  <name>mapreduce.framework.name</name><br><br>  <value>yarn</value><br><br>  </property>
-
-
-
-<p>yarn-site.xml</p>
-  <property><br><br>  <name>yarn.resourcemanager.hostname</name><br><br>  <value>master</value><br><br>  </property>
-
-  <property><br><br>  <name>yarn.nodemanager.aux-services</name><br><br>  <value>mapreduce_shuffle</value><br><br>  </property>
-
-
-<p>slaves</p>
-<p>slave001</p>
-<p>slave002</p>
-<p>scp -r hadoop-2.2.0/ hadoop@slave001:/usr/local/hadoop/</p>
-<p>scp -r hadoop-2.2.0/ hadoop@slave002:/usr/local/hadoop/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave001:/usr/lib/java/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave002:/usr/lib/java/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop namenode -format</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-dfs.sh</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4236 Jps</p>
-<p>hadoop@slave001:/usr/lib/java$ jps</p>
-<p>6129 DataNode</p>
-<p>6199 Jps</p>
-<p>hadoop@slave002:/usr/lib/java$ jps</p>
-<p>5229 DataNode</p>
-<p>5301 Jps</p>
-<p><a href="http://10.6.4.226:50070/dfshealth.jsp" target="_blank" rel="external">http://10.6.4.226:50070/dfshealth.jsp</a></p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-yarn.sh</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4557 Jps</p>
-<p>4310 ResourceManager</p>
-<p>hadoop@slave001:/usr/lib/java$ jps</p>
-<p>6129 DataNode</p>
-<p>6377 NodeManager</p>
-<p>6492 Jps</p>
-<p>hadoop@slave002:/usr/lib/java$ jps</p>
-<p>5229 DataNode</p>
-<p>5478 NodeManager</p>
-<p>5592 Jps</p>
-<p><a href="http://10.6.4.226:8088/cluster" target="_blank" rel="external">http://10.6.4.226:8088/cluster</a></p>
-<p><a href="http://10.6.4.227:8042/node" target="_blank" rel="external">http://10.6.4.227:8042/node</a></p>
-<p><a href="http://10.6.4.228:8042/node" target="_blank" rel="external">http://10.6.4.228:8042/node</a></p>
-<p>/usr/local/hadoop/hadoop-2.2.0/sbin# ./mr-jobhistory-daemon.sh start historyserver</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4609 JobHistoryServer</p>
-<p>4310 ResourceManager</p>
-<p>4665 Jps</p>
-<p><a href="http://10.6.4.226:19888/jobhistory" target="_blank" rel="external">http://10.6.4.226:19888/jobhistory</a></p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /data/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /output/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -put ../etc/hadoop/*.xml /data/wordcount/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -ls /data/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop jar ../share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar wordcount /data/wordcount /output/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="ciwvcpuir0017oucyeoc6z868" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="ciwvctjx30000u1cyhtdnjxxz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1088,6 +944,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/19/alfresco/">alfresco</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/书单/">书单</a>
           </li>
         
@@ -1101,10 +961,6 @@
         
           <li>
             <a href="/2016/12/15/CentOS-7-x-git/">CentOS 7.x git</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源资源/">开源资源</a>
           </li>
         
       </ul>
