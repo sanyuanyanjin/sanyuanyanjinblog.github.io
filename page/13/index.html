@@ -61,6 +61,42 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-awk" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/12/awk/" class="article-date">
+  <time datetime="2016-12-12T08:21:51.000Z" itemprop="datePublished">2016-12-12</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/12/awk/">awk</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div></pre></td><td class="code"><pre><div class="line">awk 数据流处理工具</div><div class="line"></div><div class="line">awk脚本结构</div><div class="line">awk &apos; BEGIN&#123; statements &#125; statements2 END&#123; statements &#125; &apos;</div><div class="line"></div><div class="line">工作方式</div><div class="line">1.执行begin中语句块；</div><div class="line">2.从文件或stdin中读入一行，然后执行statements2，重复这个过程，直到文件全部被读取完毕；</div><div class="line">3.执行end语句块；</div><div class="line"></div><div class="line">print 打印当前行</div><div class="line"></div><div class="line">使用不带参数的print时，会打印当前行;</div><div class="line"></div><div class="line">  echo -e &quot;line1\nline2&quot; | awk &apos;BEGIN&#123;print &quot;start&quot;&#125; &#123;print &#125; END&#123; print &quot;End&quot; &#125;&apos;</div><div class="line"></div><div class="line">print 以逗号分割时，参数以空格定界;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1, var2 , var3; &#125;&apos;</div><div class="line">$&gt;v1 V2 v3</div><div class="line"></div><div class="line">使用-拼接符的方式（&quot;&quot;作为拼接符）;</div><div class="line"></div><div class="line">echo | awk &apos; &#123;var1 = &quot;v1&quot; ; var2 = &quot;V2&quot;; var3=&quot;v3&quot;; \</div><div class="line">print var1&quot;-&quot;var2&quot;-&quot;var3; &#125;&apos;</div><div class="line">$&gt;v1-V2-v3</div><div class="line"></div><div class="line">特殊变量： NR NF $0 $1 $2</div><div class="line"></div><div class="line">NR:表示记录数量，在执行过程中对应当前行号；</div><div class="line">NF:表示字段数量，在执行过程总对应当前行的字段数；</div><div class="line">$0:这个变量包含执行过程中当前行的文本内容；</div><div class="line">$1:第一个字段的文本内容；</div><div class="line">$2:第二个字段的文本内容；</div><div class="line"></div><div class="line">echo -e &quot;line1 f2 f3\n line2 \n line 3&quot; | awk &apos;&#123;print NR&quot;:&quot;$0&quot;-&quot;$1&quot;-&quot;$2&#125;&apos;</div><div class="line"></div><div class="line">打印每一行的第二和第三个字段：</div><div class="line">  awk &apos;&#123;print $2, $3&#125;&apos; file</div><div class="line"></div><div class="line">统计文件的行数：</div><div class="line">  awk &apos; END &#123;print NR&#125;&apos; file</div><div class="line"></div><div class="line">累加每一行的第一个字段：</div><div class="line">  echo -e &quot;1\n 2\n 3\n 4\n&quot; | awk &apos;BEGIN&#123;num = 0 ;</div><div class="line">  print &quot;begin&quot;;&#125; &#123;sum += $1;&#125; END &#123;print &quot;==&quot;; print sum &#125;&apos;</div><div class="line"></div><div class="line">传递外部变量</div><div class="line"></div><div class="line">var=1000</div><div class="line">echo | awk &apos;&#123;print vara&#125;&apos; vara=$var #  输入来自stdin</div><div class="line">awk &apos;&#123;print vara&#125;&apos; vara=$var file # 输入来自文件</div><div class="line"></div><div class="line">用样式对awk处理的行进行过滤</div><div class="line"></div><div class="line">awk &apos;NR &lt; 5&apos; #行号小于5</div><div class="line">awk &apos;NR==1,NR==4 &#123;print&#125;&apos; file #行号等于1和4的打印出来</div><div class="line">awk &apos;/linux/&apos; #包含linux文本的行（可以用正则表达式来指定，超级强大）</div><div class="line">awk &apos;!/linux/&apos; #不包含linux文本的行</div><div class="line"></div><div class="line">设置定界符</div><div class="line"></div><div class="line">使用-F来设置定界符（默认为空格）</div><div class="line">awk -F: &apos;&#123;print $NF&#125;&apos; /etc/passwd</div><div class="line"></div><div class="line">读取命令输出</div><div class="line"></div><div class="line">使用getline，将外部shell命令的输出读入到变量cmdout中；</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print cmdout &#125;&apos;</div><div class="line"></div><div class="line">在awk中使用循环</div><div class="line"></div><div class="line">for(i=0;i&lt;10;i++)&#123;print $i;&#125;</div><div class="line">for(i in array)&#123;print array[i];&#125;</div><div class="line"></div><div class="line">eg:</div><div class="line">以逆序的形式打印行：(tac命令的实现）</div><div class="line"></div><div class="line">seq 9| \</div><div class="line">awk &apos;&#123;lifo[NR] = $0; lno=NR&#125; \</div><div class="line">END&#123; for(;lno&gt;-1;lno--)&#123;print lifo[lno];&#125;</div><div class="line">&#125; &apos;</div><div class="line"></div><div class="line">awk实现head、tail命令</div><div class="line"></div><div class="line">head:</div><div class="line">  awk &apos;NR&lt;=10&#123;print&#125;&apos; filename</div><div class="line"></div><div class="line">tail:</div><div class="line">  awk &apos;&#123;buffer[NR%10] = $0;&#125; END&#123;for(i=0;i&lt;11;i++)&#123; \</div><div class="line">  print buffer[i %10]&#125; &#125; &apos; filename</div><div class="line"></div><div class="line">打印指定列</div><div class="line"></div><div class="line">awk方式实现：</div><div class="line">  ls -lrt | awk &apos;&#123;print $6&#125;&apos;</div><div class="line"></div><div class="line">cut方式实现</div><div class="line">  ls -lrt | cut -f6</div><div class="line"></div><div class="line">打印指定文本区域</div><div class="line"></div><div class="line">确定行号</div><div class="line">  seq 100| awk &apos;NR==4,NR==6&#123;print&#125;&apos;</div><div class="line"></div><div class="line">确定文本</div><div class="line">打印处于start_pattern 和end_pattern之间的文本；</div><div class="line">  awk &apos;/start_pattern/, /end_pattern/&apos; filename</div><div class="line"></div><div class="line">eg:</div><div class="line">seq 100 | awk &apos;/13/,/15/&apos;</div><div class="line">cat /etc/passwd| awk &apos;/mai.*mail/,/news.*news/&apos;</div><div class="line"></div><div class="line">awk常用内建函数</div><div class="line"></div><div class="line">index(string,search_string):返回search_string在string中出现的位置</div><div class="line">sub(regex,replacement_str,string):将正则匹配到的第一处内容替换为replacement_str;</div><div class="line">match(regex,string):检查正则表达式是否能够匹配字符串；</div><div class="line">length(string)：返回字符串长度</div><div class="line"></div><div class="line">echo | awk &apos;&#123;&quot;grep root /etc/passwd&quot; | getline cmdout; print length(cmdout) &#125;&apos;</div><div class="line"></div><div class="line">printf 类似c语言中的printf，对输出进行格式化</div><div class="line">eg：</div><div class="line"></div><div class="line">seq 10 | awk &apos;&#123;printf &quot;-&gt;%4s\n&quot;, $1&#125;&apos;</div><div class="line"></div><div class="line">迭代文件中的行、单词和字符</div><div class="line"></div><div class="line">1. 迭代文件中的每一行</div><div class="line"></div><div class="line">while 循环法</div><div class="line"></div><div class="line">while read line;</div><div class="line">do</div><div class="line">echo $line;</div><div class="line">done &lt; file.txt</div><div class="line"></div><div class="line">改成子shell:</div><div class="line">cat file.txt | (while read line;do echo $line;done)</div><div class="line"></div><div class="line">awk法：</div><div class="line">cat file.txt| awk &apos;&#123;print&#125;&apos;</div><div class="line"></div><div class="line">2.迭代一行中的每一个单词</div><div class="line"></div><div class="line">for word in $line;</div><div class="line">do</div><div class="line">echo $word;</div><div class="line">done</div><div class="line"></div><div class="line">3. 迭代每一个字符</div><div class="line"></div><div class="line">$&#123;string:start_pos:num_of_chars&#125;：从字符串中提取一个字符；(bash文本切片）</div><div class="line">$&#123;#word&#125;:返回变量word的长度</div><div class="line"></div><div class="line">for((i=0;i&lt;$&#123;#word&#125;;i++))</div><div class="line">do</div><div class="line">echo $&#123;word:i:1);</div><div class="line">done</div><div class="line"></div><div class="line">从格式化输出里提取一列(我最常使用的awk技巧)</div><div class="line"></div><div class="line">我几乎天天都会使用它。真的。经常会有一些输出，我只需要其中的第二列，或第三列，下面这个命令就能做到这些：</div><div class="line">#Sample output of git status -s command:</div><div class="line"></div><div class="line">$ git status -s</div><div class="line"></div><div class="line">M .bashrc</div><div class="line">?? .vim/bundle/extempore/</div><div class="line"></div><div class="line"># Remove status code from git status and just get the file names</div><div class="line">$ git status -s | awk &apos;&#123;print $2&#125;&apos;</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div><div class="line">为什么不写个函数，让我们随时都可以用呢？</div><div class="line">function col &#123;</div><div class="line">awk -v col=$1 &apos;&#123;print $col&#125;&apos;</div><div class="line">&#125;</div><div class="line">这使得提取列非常容易，比如，你不想要第一列？简单：</div><div class="line">$ git status -s | col 2</div><div class="line"></div><div class="line">.bashrc</div><div class="line">.vim/bundle/extempore/</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/12/awk/" data-id="ciwvcpujj0020oucyvcczirl6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-sed" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/12/sed/" class="article-date">
@@ -99,7 +135,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwvcf4vp002d8icye9cqclk5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/sed/" data-id="ciwvcpujw002foucy0zm6a1qq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -136,7 +172,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwvcf4vu002o8icyt9rq28k0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/umount/" data-id="ciwvcpuk1002poucy7npermr2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -177,7 +213,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwvcf4vv002q8icy9sgex6in" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/uniq/" data-id="ciwvcpuk1002qoucyp3wvpp73" class="article-share-link">Share</a>
       
       
     </footer>
@@ -214,7 +250,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwvcf4wm00418icym4l9ie3h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/海量运维/" data-id="ciwvcpukx0042oucyu2lqvzes" class="article-share-link">Share</a>
       
       
     </footer>
@@ -251,7 +287,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwvcf4wp00498icy93jdqmrq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/结婚日狂想/" data-id="ciwvcpul10049oucywpxg7idy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -303,7 +339,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/离职之美/" data-id="ciwvcf4wo00468icy8e38qfp2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/离职之美/" data-id="ciwvcpukz0046oucydyh9q44k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +416,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/父亲之我识/" data-id="ciwvcf4wm00428icyhrogfozz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/父亲之我识/" data-id="ciwvcpuky0043oucyl01dm02c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -449,7 +485,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/进/" data-id="ciwvcf4wr004e8icyky9uyg36" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/进/" data-id="ciwvcpul3004foucy3sveacdv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -502,90 +538,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/凤凰台/" data-id="ciwvcf4w5003b8icyzqcn2b00" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-祭我的小三之HTC-G3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/祭我的小三之HTC-G3/" class="article-date">
-  <time datetime="2016-12-12T07:23:59.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/祭我的小三之HTC-G3/">祭我的小三之HTC G3</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>要说的这个噩耗就是，于公元2011年4月4日，也就是清明节的前一天，这本是回家祭祖的日子，可是偏偏生出了这等事。</p>
-<p>于当日，在回家的路上，挤公交之时，我的小三牺牲了，也许是我的灵觉迟钝，直到走了两站路时，才发现小三不见了，我摸遍了全身的口袋及我携带的两个包，可是愣是没有踪影。我方才意识到手机不见了，急忙向身边人借来手机拨打我的号码之时，可是为时已晚，在听到“你所拨打的手机已经关机。”我整个身心就仿佛掉入了冰窟之中，虽然外面艳阳高照，可是我的心底寒风凛冽啊！</p>
-<p>仔细分析了下，肯定是刚上来时，由于人多，没怎么注意，再加上放在了上衣的口袋之中，的确是我的疏忽大意啊！</p>
-<p>我正后悔不迭时，可是回头一想，这可是标榜科教城的地方啊，人文素质理应属于高品质的，我可是一直都是这么认为的啊！可是事实胜于雄辩，小三的牺牲，让我明白了所谓的高素质、所谓的人文城、所谓的未来的黄金地，都是浮云，都是虚假的。</p>
-<p>小三啊，还记得我去请你回家的前一个星期么，那时的我日夜都想着你，简直就是着了魔啊！</p>
-<p>小三啊，还记得我将你请回家的两个周么，那时我可是不停的摆弄你啊，你给我带来了一段极为充实的日子，我是由衷的感谢你啊！</p>
-<p>小三啊，还记得这一年多陪伴我的日子吗？我们可谓是朝夕相处，你不离我，我不离你，所谓的形影不离，不就是说的是我们啊！</p>
-<p>小三啊，我对不住你啊，一时的疏忽，让你死无葬身之地，我之过错也。</p>
-<p>小三你的牺牲，并不是没有价值，至少让我认清了这所谓的繁华盛世，不过是盗贼横行，每个人，除了应对工作家庭双方压力时，还得时时刻刻保持着如临大敌的状态，只能说这是个悲哀的社会。</p>
-<p>小三之死，让我对社会唯一的仅存的一点希望，都没有了。</p>
-<p>2011年4月4日 星期一</p>
-<p>仁佳搁笔于南湖</p>
-<p>小三（HTC G3）之死小说版</p>
-<p>清明前日，艳阳，有风</p>
-<p>公车之上，人头攒动</p>
-<p>元回家路上</p>
-<p>早上时</p>
-<p>小三说：“我要走了。”</p>
-<p>元叹道：“我知道这是你我的宿命，可是没想到会这么快。”</p>
-<p>“相聚是缘，相离是缘，则就是冥冥之中注定的”。小三平静道。</p>
-<p>“既如此，我送你吧！”元显然有些沮丧。</p>
-<p>回到车内</p>
-<p>元摸了摸口袋，小三呢，小三呢。</p>
-<p>回头想起早上的话语，叹道：“看来这就是宿命吧！小三走了，走的那么无影无踪。看来我也得离开了。”</p>
-<p>在一暗处，一非主流的年轻人，把玩着手中的手机，自言自语道：“真是想不到啊，一大早就逮到一条大鱼，看来可以歇两天了。”尔后，奸笑道：“那个傻蛋，还把手机掏出来，这不是勾起我的馋虫吗？最关键还放在那么好取的位置，哎！要是多几个这样的傻蛋就好了。”</p>
-<p>年轻人很是熟练拿掉了手机后盖，取出电池，扔掉了里面的SIM卡。装好电池，打开了手机，相当的兴奋，看来这个手机刚买了不久，最主要的竟然没有任何限制，可以打开里面的任何软件。这次发了，这是年轻人最后的想法。</p>
-<p>当年轻人，打开手机，开启软件时，一股强大的电流，贯穿了全身，好似进入了梦境。当他看到，一个巨大的机器人在面前时，于是整个身体不断的颤抖着，结巴的问道：“你是谁？这是什么地方？”</p>
-<p>巨大的绿色机器人，发出了甜美的女声：“我是你手上拿的手机啊，之前我的主人，给我取名叫小三。”</p>
-<p>年轻人虽然还是很害怕，但是听到了这个声音之后，就放松了不少，听了这句话后，哈哈大笑道：“果然是个大宅男，还给手机取这个名字。”</p>
-<p>“不准笑我的主人。”虽然声音还是很甜美，可是年轻人可不是这种感觉，因为听到了这句话时，好像自己在深海里似得，四周都是压力，感觉头就快炸了。</p>
-<p>“还笑我的主人吗？”如果刚才听这个声音时，年轻人是抱着嘲笑的态度，可是这个时候简直就是听到了天籁之音，想点头，可是丝毫不能动，只得眨了眨眼睛。</p>
-<p>瞬间，恢复了正常，如果没有这个巨大的绿色机器人在面前的话，年轻人感觉这就是场梦而已。</p>
-<p>年轻人正在苦苦思索对策的时候，甜美的女声又想了起来：“你偷了我主人的手机，也就是我，虽然我和主人离别是宿命的安排，可是你的作为是恶劣的，你得为这件事付出代价。”</p>
-<p>年轻人能够活这么大，除了会偷盗外，这种察言观色的本领，可是炉火纯青啊，听到机器的话后，立刻转变了自己的态度，这种见风使舵的本领，也许可以比得上那些演员了。连忙诚恳道：“小妹妹，我立刻将你送还你的主人，并且赔礼道歉。”</p>
-<p>要是一般人，看到这种情形的话，肯定就要感慨“浪子回头金不换”了，可是机器人似乎过滤掉这句话似得。厉声道：“你别以为装成这个样子，还这么的诚恳说话，就想蒙骗我了，别忘了，我可是可以探测你的心理的。看来你是注定成为这段宿命的见证了，因为你违反了，主人制定的规范中两条，一是偷盗，二是谎话连篇。”</p>
-<p>听到了这句话后，年轻人可是惊恐万分啊，刚才那股压力还记忆犹新呢，现在竟然犯了两条规范。连忙跪下来大声求饶道：“小妹妹，哦，不是姑奶奶，放过我吧！我绝不再犯了啊！”说实在的，现在可是真情流露了，就是再严格的人，也会心软的。</p>
-<p>这就是宿命吧！小三是个机器人，只知道对或错，完全屏蔽了年轻人的告饶，就像宣判最后决断似得：“主人说，凡违背规范一条者，让他终生残废，违背两条者，灰飞烟灭。”最后好像又是自言自语道：“你的运气还不错，有我陪着。”</p>
-<p>虽然是大白天，可是暗道还是很昏暗的，行人也很稀少，可是此时的情景，不仅让周围的行人驻足观看，而且新闻媒体也赶到了现场，因为这个场景整整持续了26分钟。</p>
-<p>只见一道白光自暗道升起，直破天宇，中间一个绿色机器人，从地上沿着这道白光缓缓升起，渐渐的有清晰变成了虚幻，形成了两个字，周围有人就大喊了其来：“这两个字是篆体宿命”。</p>
-<p>当然还有一道黑色的身影一闪而过，几乎没被什么人看到，没错这就是那个年轻人，真正的灰飞烟灭了，永远消失在这个世间，他怎么也没想到一部手机会让他变成这个下场，如果再来一次的吧！他定然不敢染指了，可是时间是不可能倒退的，他注定为这场宿命祭旗。</p>
-<p>元自然也感受到了那股能量，已经知道小三消失了，死了，不会再回来了，虽然知道这是注定的，可是元还是止不住的泪水沁满了眼眶，这毕竟是和自己生活了一年多的小三啊！都说：“人非草木，孰能无情。”</p>
-<p>也许在华夏大地上，顶多是当日的新闻出现了这一幕，大家惊奇一下而已。</p>
-<p>可是大洋彼岸的美利坚，那个最神秘的机构，专门研究外星生物的部门，突然发现了在华夏大地，有一股极为罕见很是强大的能量在26分钟之内完全消散。引起了美利坚当局的强烈关注，并派特工前往该地进行调查。</p>
-<p>要知道，在这个能源紧缺的时代，突然出现这么大的能量释放，身为全球一霸的美利坚怎么可能不引起关注，尤其是这个发展中的雄狮，莫非研制出了什么厉害的东西。</p>
-<p>当然这是后话，自是不表。</p>
-<p>2011年4月4日 星期一</p>
-<p>仁佳搁笔于南湖</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/祭我的小三之HTC-G3/" data-id="ciwvcf4wn00448icyuvasb02d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/12/凤凰台/" data-id="ciwvcpuke003boucyvq9xgwak" class="article-share-link">Share</a>
       
       
     </footer>
@@ -629,6 +582,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/19/书单/">书单</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
           </li>
         
@@ -642,10 +599,6 @@
         
           <li>
             <a href="/2016/12/15/开源资源/">开源资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源软件/">开源软件</a>
           </li>
         
       </ul>

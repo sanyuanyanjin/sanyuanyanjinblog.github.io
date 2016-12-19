@@ -61,6 +61,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-x-Docker-Swarm-Etcd-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" class="article-date">
+  <time datetime="2016-12-14T04:50:08.000Z" itemprop="datePublished">2016-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/">CentOS 6.x Docker + Swarm + Etcd Cluster</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
+<p>安装Swarm集群<br>环境信息<br>服务器:<br>192.168.99.100 centos-node1<br>192.168.99.101 centos-node2<br>192.168.99.102 centos-node3<br>集群信息:<br>etc服务器: 192.168.99.100:2379<br>swarm manage: 192.168.99.101:3376<br>swarm-node1: 192.168.99.100:2375<br>swarm-node2: 192.168.99.101:2375<br>swarm-node3: 192.168.99.102:2375<br>准备<br>在所有的机器上安装dokcer<br>在centos-node1 上docker pull ystyle/etcd (官方的下载不了,自己做了个一样的)<br>在所有机器上dokcer pull swarm<br>以上三步可以用docker-machine完成<br>开放所有机器的2375端口, centos-node1的2379端口,centos-node2的3376端口<br>安装etcd k-v数据库<br>在centos-node1上执行:</p>
+<h1 id="设置当前host的ip"><a href="#设置当前host的ip" class="headerlink" title="设置当前host的ip"></a>设置当前host的ip</h1><p>export HOSTIP=192.168.99.100</p>
+<h1 id="启动etcd-k-v服务器"><a href="#启动etcd-k-v服务器" class="headerlink" title="启动etcd k-v服务器"></a>启动etcd <code>k-v</code>服务器</h1><p>docker run -d -v /etc/ssl/certs:/etc/ssl/certs -p 4001:4001 -p 2380:2380 -p 2379:2379<br> –name etcd ystyle/etcd<br> -name etcd0<br> -advertise-client-urls <a href="http://${HOSTIP}:2379,http://${HOSTIP}:4001" target="_blank" rel="external">http://${HOSTIP}:2379,http://${HOSTIP}:4001</a><br> -listen-client-urls <a href="http://0.0.0.0:2379,http://0.0.0.0:4001" target="_blank" rel="external">http://0.0.0.0:2379,http://0.0.0.0:4001</a><br> -initial-advertise-peer-urls <a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -listen-peer-urls <a href="http://0.0.0.0:2380" target="_blank" rel="external">http://0.0.0.0:2380</a><br> -initial-cluster-token etcd-cluster-1<br> -initial-cluster etcd0=<a href="http://${HOSTIP}:2380" target="_blank" rel="external">http://${HOSTIP}:2380</a><br> -initial-cluster-state new<br>加入集群<br>在centos-node1执行:<br>docker run -d swarm join –addr=192.168.99.100:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node2执行:<br>docker run -d swarm join –addr=192.168.99.101:2375 etcd://192.168.99.100:2379/swarm<br>在centos-node3执行:<br>docker run -d swarm join –addr=192.168.99.102:2375 etcd://192.168.99.100:2379/swarm<br>启动swarm manage<br>在centos-node2上执行</p>
+<h1 id="启动swarm-manage"><a href="#启动swarm-manage" class="headerlink" title="启动swarm manage"></a>启动swarm manage</h1><p>docker run -d -p 3376:3376 -t<br> swarm manage<br>-H 0.0.0.0:3376<br>etcd://192.168.99.100:2379/swarm</p>
+<h1 id="检查swarm节点列表"><a href="#检查swarm节点列表" class="headerlink" title="检查swarm节点列表"></a>检查swarm节点列表</h1><p>docker run –rm swarm list etcd://192.168.99.100:2379/swarm</p>
+<h1 id="查看swarm集群信息"><a href="#查看swarm集群信息" class="headerlink" title="查看swarm集群信息"></a>查看swarm集群信息</h1><p>export DOCKER_HOST=192.168.99.101:3376<br>docker info</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>docker run –rm -p 8080:80 nginx:alpine<br>docker ps -a</p>
+<h1 id="查看nginx安装到哪台机器上了"><a href="#查看nginx安装到哪台机器上了" class="headerlink" title="查看nginx安装到哪台机器上了"></a>查看nginx安装到哪台机器上了</h1><p>curl -L <a href="http://nginx_host:8080" target="_blank" rel="external">http://nginx_host:8080</a><br>记录<br>如果docker info 出现Error: ID duplicated.删掉/etc/docker/key.json文件(我的虚拟机是直接复制出来的)<br>参考资料<br><a href="https://docs.docker.com/v1.5/swarm/discovery/#using-etcd" target="_blank" rel="external">https://docs.docker.com/v1.5/swarm/discovery/#using-etcd</a><br><a href="https://docs.docker.com/engine/userguide/networking/get-started-overlay/" target="_blank" rel="external">https://docs.docker.com/engine/userguide/networking/get-started-overlay/</a><br><a href="https://github.com/docker/swarm" target="_blank" rel="external">https://github.com/docker/swarm</a><br><a href="https://github.com/coreos/etcd" target="_blank" rel="external">https://github.com/coreos/etcd</a><br><a href="https://docs.docker.com/engine/installation/linux/centos/" target="_blank" rel="external">https://docs.docker.com/engine/installation/linux/centos/</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwvcpuhf0007oucy9w5qtiyk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Ubuntu-14-04-Docker" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/14/Ubuntu-14-04-Docker/" class="article-date">
@@ -89,7 +134,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwvcf4v6001r8icy06rj4s32" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwvcpuj9001roucyughb9e0w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -129,7 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwvcf4tg00058icyvmaczrl4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwvcpuhc0005oucyh4vku1s9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -261,7 +306,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwvcf4ub000t8icytsu7ozhk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Ceph/" data-id="ciwvcpui8000roucyvaf788of" class="article-share-link">Share</a>
       
       
     </footer>
@@ -308,7 +353,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwvcf4ua000r8icy8o9oy5hp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-7-x-Docker/" data-id="ciwvcpui9000soucyomj2s5lh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,7 +446,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwvcf4v3001m8icyyf2phnh5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-自定义函数的特殊属性/" data-id="ciwvcpuj6001noucyw6ccuyri" class="article-share-link">Share</a>
       
       
     </footer>
@@ -490,7 +535,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwvcf4vo002b8icycoel87da" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/python实现自动备份文件夹功能/" data-id="ciwvcpujt002boucykym3xapy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -951,7 +996,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwvcf4v4001n8icy7s7tsdu7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="ciwvcpuj7001ooucyhs4resgh" class="article-share-link">Share</a>
       
       
     </footer>
@@ -996,7 +1041,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwvcf4vj00248icyfhx96j6a" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="ciwvcpujo0024oucya8w1g32m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1062,76 +1107,7 @@ if os.path.exists(&apos;G:&apos;) == True:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwvcf4wo00478icylqjrmrix" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-文件读写" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/文件读写/" class="article-date">
-  <time datetime="2016-12-13T06:03:54.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/文件读写/">文件读写</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<blockquote>
-<blockquote>
-<p>f = open(‘test.txt’, ‘r’)<br>f.read()<br>‘Using pandoc\n\nIf no input-file is specified, input is read from stdin. Otherwise, the input-files are concatenated (with a blank line between each) and used as input.<br>f.close()</p>
-<p>try:<br>    f = open(‘D:\Markdown\test.txt’, ‘r’)<br>print(f.read())<br>finally:<br>if f:<br>        f.close()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>with open(‘D:\Markdown\test.txt’, ‘r’) as f:<br>print(f.read())</p>
-<p>f = open(‘D:\Markdown\test.txt’, ‘r’)<br>for line in f.readlines():<br>print(line.strip()) # 把末尾的’\n’删掉<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>f = open(‘D:\Markdown\1.jpg’, ‘rb’)<br>f.read()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>f = open(‘D:\Markdown\test.txt’, ‘r’, encoding=’gb2312’)<br>f.read()<br>f = open(‘D:\Markdown\test.txt’, ‘r’, encoding=’gb2312’, errors=’ignore’)<br>f.read()</p>
-<p>f = open(‘D:\Markdown\test.txt’, ‘w’)<br>f.write(‘Hello!’)<br>6<br>f.close()</p>
-<p>f = open(‘D:\Markdown\test.txt’, ‘w’, encoding=’gb2312’)<br>f.write(‘Hello World!’)<br>12<br>f.close()</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>do_rw.py</p>
-<p>#!/usr/bin/env python3</p>
-<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime</p>
-<p>with open(‘test.txt’, ‘w’) as f:<br>    f.write(‘今天是 ‘)<br>    f.write(datetime.now().strftime(‘%Y-%m-%d’))</p>
-<p>with open(‘test.txt’, ‘r’) as f:<br>    s = f.read()<br>    print(‘open for read…’)<br>    print(s)</p>
-<p>with open(‘test.txt’, ‘rb’) as f:<br>    s = f.read()<br>    print(‘open as binary for read…’)<br>print(s)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="ciwvcf4wl003z8icyjelikfo7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="ciwvcpukz0047oucyyw0u2439" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1175,6 +1151,10 @@ if os.path.exists(&apos;G:&apos;) == True:
       <ul>
         
           <li>
+            <a href="/2016/12/19/书单/">书单</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
           </li>
         
@@ -1188,10 +1168,6 @@ if os.path.exists(&apos;G:&apos;) == True:
         
           <li>
             <a href="/2016/12/15/开源资源/">开源资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源软件/">开源软件</a>
           </li>
         
       </ul>

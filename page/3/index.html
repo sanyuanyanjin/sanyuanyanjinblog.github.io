@@ -61,6 +61,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Postfix-Amavisd-new-Spamassassin-ClamAV整合安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" class="article-date">
+  <time datetime="2016-12-15T05:21:30.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/">Postfix+Amavisd-new+Spamassassin+ClamAV整合安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>安装软件和依赖包<br>apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-server<br>apt-get install libnet-dns-perl pyzor razor<br>apt-get install arj bzip2 cabextract cpio file gzip lha nomarch pax rar unrar unzip zip</p>
+</li>
+<li><p>修改用户权限<br>usermod -a -G clamav amavis<br>usermod -a -G amavis clamav</p>
+</li>
+<li><p>修改spamassassin配置文件/etc/default/spamassassin<br>ENABLED=0 ====&gt; ENABLED=1<br>CRON=0    ====&gt; CRON=1</p>
+</li>
+</ol>
+<p>4.启动spamassassin<br>/etc/init.d/spamassassin start</p>
+<ol>
+<li><p>修改amavis配置文件/etc/amavis/conf.d/15-content_filter_mode<br> 1) 去掉里面的注释（目的：check病毒和垃圾邮件）<br> 2) 重启amavis<br>/etc/init.d/amavis restart</p>
+</li>
+<li><p>修改postfix配置文件/etc/postfix/main.cf,添加如下内容<br> 注释掉mydestination<br>添加：<br>relay_domains = test.com<br>transport_maps = hash:/etc/postfix/transport<br>relay_recipient_maps = hash:/etc/postfix/relay_recipients<br>content_filter = smtp-amavis:[127.0.0.1]:10024</p>
+</li>
+<li><p>编辑文件/etc/postfix/master.cf,在文件最后添加如下内容<br>smtp-amavis     unix    -       -       -       -       2       smtp</p>
+<pre><code>-o smtp_data_done_timeout=1200
+-o smtp_send_xforward_command=yes
+-o disable_dns_lookups=yes
+-o max_use=20
+</code></pre></li>
+</ol>
+<p>127.0.0.1:10025 inet    n       -       -       -       -       smtpd<br>        -o content_filter=<br>        -o local_recipient_maps=<br>        -o relay_recipient_maps=<br>        -o smtpd_restriction_classes=<br>        -o smtpd_delay_reject=no<br>        -o smtpd_client_restrictions=permit_mynetworks,reject<br>        -o smtpd_helo_restrictions=<br>        -o smtpd_sender_restrictions=<br>        -o smtpd_recipient_restrictions=permit_mynetworks,reject<br>        -o smtpd_data_restrictions=reject_unauth_pipelining<br>        -o smtpd_end_of_data_restrictions=<br>        -o mynetworks=127.0.0.0/8<br>        -o smtpd_error_sleep_time=0<br>        -o smtpd_soft_error_limit=1001<br>        -o smtpd_hard_error_limit=1000<br>        -o smtpd_client_connection_count_limit=0<br>        -o smtpd_client_connection_rate_limit=0<br>        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks</p>
+<ol>
+<li><p>在文件/etc/postfix/master.cf中的pickup行添加如下内容<br>   -o content_filter=<br>   -o receive_override_options=no_header_body_checks</p>
+</li>
+<li><p>重启postfix<br>/etc/init.d/postfix reload</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/20-debian_defaults<br>$final_spam_destiny = D_BOUNCE  ===&gt; $final_spam_destiny = D_DISCARD</p>
+</li>
+</ol>
+<p>$QUARANTINEDIR = “/data/virusmails”;</p>
+<ol>
+<li><p>修改/etc/amavis/conf.d/05-node_id<br>$myhostname = “mail.example.com”;</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/50-user,添加如下内容：<br>$spam_quarantine_to = “spam-quarantine”;<br>$virus_quarantine_to = “spam-quarantine”;</p>
+</li>
+</ol>
+<p>@whitelist_sender_maps = read_hash(“/etc/amavis/whitelist”);<br>@blacklist_sender_maps = read_hash(“/etc/amavis/blacklist”);</p>
+<ol>
+<li><p>在目录/etc/amavis下创建文件blacklist和whitelist<br>touch /etc/amavis/whitelist<br>touch /etc/amavis/blacklist</p>
+</li>
+<li><p>垃圾及病毒邮件的保存目录<br>/data/virusmails</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="ciwvcpuj2001koucypbdpz7y1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Ubuntu-16-04-LTS-一键安装VNC" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" class="article-date">
@@ -115,7 +195,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="ciwvcf4v7001t8icyrdr51ybs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="ciwvcpujg001voucyb0k91wsb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +232,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwvcf4wr004d8icyjw14k9ea" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="ciwvcpul3004eoucy3ewdherd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -296,7 +376,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwvcf4uo00158icykaak1jlu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="ciwvcpuio0015oucynlvw0xh1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -459,7 +539,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwvcf4v0001k8icy2q1c70my" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="ciwvcpuj1001ioucy1tcf4bwd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +576,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwvcf4vb001u8icywgkqpnoc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="ciwvcpuj8001poucy598m2pfm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -566,7 +646,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwvcf4te00048icy3na1b05y" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="ciwvcpuha0004oucyz4qsbpk4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -644,7 +724,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwvcf4vk00258icybh41xlox" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="ciwvcpujo0025oucyw1ldsun5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -709,7 +789,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwvcf4u0000k8icy2mdrtjdq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="ciwvcpui2000moucy60hakr1m" class="article-share-link">Share</a>
       
       
     </footer>
@@ -768,63 +848,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwvcf4uk000z8icydn3hrawx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Ubuntu-14-04-odoo-9-0/" class="article-date">
-  <time datetime="2016-12-15T03:34:44.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Ubuntu-14-04-odoo-9-0/">Ubuntu 14.04 odoo 9.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>vm12<br>5A02H-AU243-TZJ49-GTC7K-3C61N<br><a href="https://www.odoo.com/documentation/9.0/setup/install.html" target="_blank" rel="external">https://www.odoo.com/documentation/9.0/setup/install.html</a><br>wget <a href="https://github.com/aschenkels-ictstudio/odoo-install-scripts/blob/9.0/ubuntu-14-04/odoo_install.sh" target="_blank" rel="external">https://github.com/aschenkels-ictstudio/odoo-install-scripts/blob/9.0/ubuntu-14-04/odoo_install.sh</a><br>Deb<br>Community<br>To install Odoo 9.0 Community on Debian-based distribution, execute the following commands as root:</p>
-<p>apt-get install gcc<br>wget <a href="http://launchpadlibrarian.net/177550518/libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb" target="_blank" rel="external">http://launchpadlibrarian.net/177550518/libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb</a><br>dpkg -i libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb<br>apt-get install python-dev  libxml2-dev libxslt1-dev zlib1g-dev<br>apt-get install python-pip<br>apt-get remove python-pip<br>apt-get autoremove<br>easy_install -U pip<br>which pip<br>cp /usr/local/bin/pip /usr/bin/pip<br>pip</p>
-<p>wget <a href="http://launchpadlibrarian.net/178067995/libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb" target="_blank" rel="external">http://launchpadlibrarian.net/178067995/libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb</a><br>dpkg -i libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb<br>apt-get install libssl-doc<br>apt-get install libpq-dev<br>apt-get install postgresql-server-dev-*<br>pip install psycopg2==2.5.4</p>
-<p>apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev<br>pip install python-ldap –upgrade<br>pip install python-ldap==2.4.19</p>
-<p>wget -O - <a href="https://nightly.odoo.com/odoo.key" target="_blank" rel="external">https://nightly.odoo.com/odoo.key</a> | apt-key add -<br>echo “deb <a href="http://nightly.odoo.com/9.0/nightly/deb/" target="_blank" rel="external">http://nightly.odoo.com/9.0/nightly/deb/</a> ./“ &gt;&gt; /etc/apt/sources.list<br>apt-get update &amp;&amp; apt-get install odoo<br>ls /var/cache/apt/archives/<br>cd /var/cache/apt/archives/<br>rz<br>odoo_9.0c.20160714_all.deb</p>
-<p>You can then use the usual apt-get upgrade command to keep your installation up-to-date.</p>
-<p>netstat -tunlp | grep 8069</p>
-<p>vim /etc/postgresql/9.3/main/pg_hba.conf</p>
-<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
-<p>su - postgres -c “createuser -s odoo”<br>service odoo restart</p>
-<p>root@ubuntu:~#  su - postgres<br>postgres@ubuntu:~$ psql -U postgres<br>psql (9.3.4)<br>Type “help” for help.</p>
-<p>postgres=# \du<br>                             List of roles<br> Role name |                   Attributes                   | Member of<br>———–+————————————————+———–<br> postgres  | Superuser, Create role, Create DB, Replication | {}</p>
-<p>postgres=# create user odoo with login password ‘yanjin’;<br>CREATE ROLE</p>
-<p>postgres=#<br>create database odoo<br>       with owner = odoo<br>       encoding = ‘UTF8’<br>       tablespace = pg_default<br>       lc_collate = ‘en_US.UTF-8’<br>       lc_ctype = ‘en_US.UTF-8’<br>       connection limit = -1;<br>CREATE DATABASE</p>
-<p>\password odoo</p>
-<p>psql -h 127.0.0.1 -U odoo<br>odoo=&gt; \l<br>                                  List of databases<br>   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges<br>———–+———-+———-+————-+————-+———————–<br> odoo      | odoo     | UTF8     | en_US.UTF-8 | en_US.UTF-8 |<br> postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |<br> template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +<br>           |          |          |             |             | postgres=CTc/postgres<br> template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +<br>           |          |          |             |             | postgres=CTc/postgres<br>(4 rows)</p>
-<p>odoo=&gt; </p>
-<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
-<p>def connect(dsn=None,    dsn: ‘dbname=odoo user=odoo password=yanjin host=127.0.0.1 port=5432’<br>        database=None, user=None, password=None, host=None, port=None,    database: ‘odoo’ user: ‘odoo’ password: ‘yanjin’ host: ‘127.0.0.1’ port: ‘5432’<br>        connection_factory=None, async=False, **kwargs): connection_factory: None async: False kwargs: {}<br>    “””</p>
-<p>root@ubuntu:~/odoo-9.0# ./odoo.py –config=/etc/odoo/openerp-server.conf</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="ciwvcf4v6001s8icy1n65cbp8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="ciwvcpuik0010oucyemmqc5a2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -868,6 +892,10 @@
       <ul>
         
           <li>
+            <a href="/2016/12/19/书单/">书单</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
           </li>
         
@@ -881,10 +909,6 @@
         
           <li>
             <a href="/2016/12/15/开源资源/">开源资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源软件/">开源软件</a>
           </li>
         
       </ul>

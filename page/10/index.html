@@ -61,6 +61,58 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linux-差异备份" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-差异备份/" class="article-date">
+  <time datetime="2016-12-13T02:05:37.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-差异备份/">Linux 差异备份</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>差异备份简介</p>
+<p>差异备份是指在一次全备份后到进行差异备份的这段时间内，对那些增加或者修改文件的备份。在进行恢复时，我们只需对第一次全备份和最后一次差异备份进行恢复。查看完整备份、差异备份、增量备份介绍<br>使用tar进行一次完整备份<br>创建需要备份的测试文件夹<br>[test@localhost test]$ mkdir work<br>[test@localhost test]$ touch work/file1<br>[test@localhost test]$ echo 233 &gt; work/file-233</p>
+<p>Screenshot from 2015-07-27 18-16-54<br>完整备份并生成此次备份的参考文件<br>[test@localhost test]$ tar cfz work-full.tar.gz work -g work.bckref<br>进行差异备份<br>对备份后的文件夹进行修改<br>[test@localhost test]$ rm work/file1<br>[test@localhost test]$ touch work/file2<br>[test@localhost test]$ echo 235 &gt; work/file-233<br>差异备份开始<br>[test@localhost test]$ tar cfz work-diff.tar.gz work -g work.bckref<br>恢复<br>所需条件</p>
+<p>以上备份包括了一个完整备份、一个差异备份和一个差异参考文件。若我们想要恢复到第一次完整备份的状态，只需要完整备份的备份文件即可。<br>[test@localhost test]$ rm work -fr<br>[test@localhost test]$ tar xvf work-full.tar.gz<br>work/<br>work/file-233<br>work/file1<br>[test@localhost test]$ cat work/file-233<br>233<br>[test@localhost test]$ cat work/file1<br>[test@localhost test]$</p>
+<p>可以发现，第一次的完整备份被恢复成功了。若想要恢复到最新的备份状态，还需要使用差异备份文件和差异备份参考文件。<br>[test@localhost test]$ tar xvf work-diff.tar.gz -g work.bckref<br>work/<br>tar: Deleting ‘work/file1’<br>work/file-233<br>work/file2<br>[test@localhost test]$ cat work/file-233<br>235<br>[test@localhost test]$ cat work/file2<br>[test@localhost test]$</p>
+<p>可以发现，work下的file1被删除了，而被修改的file-233也被差异备份的数据所覆盖，并且创建了一个新的文件file2.<br>经典备份方案:完整备份+差异备份</p>
+<p>在实际使用中，完整备份通常很耗时并且占用磁盘空间较大，而差异备份的占用少，耗时少。但是差异备份由于是比较完整备份一本次备份时的差异，若备份时对目录的修改较大，差异备份就很耗时了。</p>
+<p>一种经典的备份方案就是在每周1进行完整备份，而其他时候进行与周1对比的差异备份。这样，差异备份的数据量小恢复也方便。<br>tar对centos系统备份注意事项</p>
+<p>毫无疑问，可用tar命令对linux系统进行备份。而在实际操作中，可能会遇到以下几个问题:<br>备份文件恢复时所有者/属性改变。</p>
+<p>这是由于没有使用root进行备份和恢复的结果，解决爆发就是使用root运行<br>tar -a</p>
+<p>进行备份和恢复。<br>文件acl丢失</p>
+<p>tar命令本身不能保存acl权限，而有的tar(如centos7 可添加–acls保存acl权限)可以做到。解决办法就是使用<br>getfacl -R work &gt; work.acl</p>
+<p>保存文件的acl权限，而在恢复后使用<br>setfacl –restore=work.acl</p>
+<p>恢复文件的acl权限<br>恢复系统后登陆闪退</p>
+<p>这是由于selinux的安全上下文丢失产生的结果。在恢复完毕文件后，需要运行<br>touch /.autorelabel &amp;&amp; reboot</p>
+<p>对文件的selinux安全上下文进行恢复。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-差异备份/" data-id="ciwvcpuix001doucyuzl6q71h" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Linux-增量备份" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/Linux-增量备份/" class="article-date">
@@ -116,7 +168,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwvcf4uu001c8icyfla5ifdz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="ciwvcpuiv001coucyujmwz9p8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +205,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwvcf4ux001e8icyr1o88lup" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="ciwvcpuiy001eoucytgiwe2kj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -190,7 +242,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwvcf4uz001g8icyr3nax2nt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwvcpuj0001goucy6l308jn8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -231,7 +283,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvcf4uz001h8icy5ibs4ivm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvcpuiz001foucy9fna8jvl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -312,7 +364,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvcf4ut001b8icyou11ib95" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvcpuiu001boucyr0wyqwv2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -380,7 +432,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvcf4ur00188icyrbeziaq2" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvcpuit0019oucy7aphbqut" class="article-share-link">Share</a>
       
       
     </footer>
@@ -430,7 +482,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvcf4vn002a8icyjfvd5yyn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvcpujq0028oucyzh1mgho1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -502,7 +554,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvcf4wj003u8icy5xvx3gct" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvcpuku003woucy6ufx7mb1" class="article-share-link">Share</a>
       
       
     </footer>
@@ -581,54 +633,7 @@ tar xzf backup-incre1.tar.gz
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvcf4vk00268icykialvr4t" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-cp复制目录时排除一个或者多个目录的方法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" class="article-date">
-  <time datetime="2016-12-13T01:30:39.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/">cp复制目录时排除一个或者多个目录的方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>说明：/home目录里面有data目录，data目录里面有a、b、c、d、e五个目录，现在要把data目录里面除过e目录之外的所有目录拷贝到/bak目录中</p>
-<p>方法一：终端命令行下执行以下命令</p>
-<p>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
-<p>########################################################<br>脚本实现<br>脚本存放路径/home/piaoyun.sh<br>vi /home/osyunwei.sh #编辑脚本，添加下面的代码</p>
-<p>#!/bin/sh<br>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
-<p>chmod +x /home/piaoyun.sh #添加脚本执行权限<br>cd /home #进入脚本存放目录<br>./piaoyun.sh #执行脚本</p>
-<p>########################################################</p>
-<p>方法二：使用cp命令复制的时候，只能排除一个目录不被复制，如果想排除两个或者多个目录的话，就需要使用rsync命令来实现了，看下面的例子<br>如果要排除/home/data目录下面的a、b、c、三个目录，同时拷贝其它所有目录，执行以下命令</p>
-<p>yum install rsync #安装rsync</p>
-<p>rsync -av –exclude data/a –exclude data/b –exclude data/c data /bak</p>
-<p>注意：–exclude后面的路径不能为绝对路径，必须为相对路径才可以，否则出错。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvcf4vh00228icytt4ldyei" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvcpujp0026oucyjolp7q1j" class="article-share-link">Share</a>
       
       
     </footer>
@@ -672,6 +677,10 @@ tar xzf backup-incre1.tar.gz
       <ul>
         
           <li>
+            <a href="/2016/12/19/书单/">书单</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
           </li>
         
@@ -685,10 +694,6 @@ tar xzf backup-incre1.tar.gz
         
           <li>
             <a href="/2016/12/15/开源资源/">开源资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源软件/">开源软件</a>
           </li>
         
       </ul>

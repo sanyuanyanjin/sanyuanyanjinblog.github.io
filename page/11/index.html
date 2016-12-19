@@ -61,6 +61,53 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-cp复制目录时排除一个或者多个目录的方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" class="article-date">
+  <time datetime="2016-12-13T01:30:39.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/cp复制目录时排除一个或者多个目录的方法/">cp复制目录时排除一个或者多个目录的方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>说明：/home目录里面有data目录，data目录里面有a、b、c、d、e五个目录，现在要把data目录里面除过e目录之外的所有目录拷贝到/bak目录中</p>
+<p>方法一：终端命令行下执行以下命令</p>
+<p>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
+<p>########################################################<br>脚本实现<br>脚本存放路径/home/piaoyun.sh<br>vi /home/osyunwei.sh #编辑脚本，添加下面的代码</p>
+<p>#!/bin/sh<br>cp -R ‘find /home/data -type d -path /home/data/e -prune -o -print | sed 1d’ /bak</p>
+<p>chmod +x /home/piaoyun.sh #添加脚本执行权限<br>cd /home #进入脚本存放目录<br>./piaoyun.sh #执行脚本</p>
+<p>########################################################</p>
+<p>方法二：使用cp命令复制的时候，只能排除一个目录不被复制，如果想排除两个或者多个目录的话，就需要使用rsync命令来实现了，看下面的例子<br>如果要排除/home/data目录下面的a、b、c、三个目录，同时拷贝其它所有目录，执行以下命令</p>
+<p>yum install rsync #安装rsync</p>
+<p>rsync -av –exclude data/a –exclude data/b –exclude data/c data /bak</p>
+<p>注意：–exclude后面的路径不能为绝对路径，必须为相对路径才可以，否则出错。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvcpujl0022oucyr35m9j0b" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-用cp命令复制大量文件" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/用cp命令复制大量文件/" class="article-date">
@@ -107,7 +154,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvcf4wn00438icyg7353nok" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvcpuky0044oucyht1sgmyw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +207,7 @@ date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvcf4uy001f8icyxhvuwzkw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvcpuj1001houcy0aubyv33" class="article-share-link">Share</a>
       
       
     </footer>
@@ -225,7 +272,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="ciwvcf4w9003i8icys1tsbyuq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="ciwvcpukk003koucyavtqlqsv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -308,7 +355,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="ciwvcf4vq002g8icy34gohca5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="ciwvcpujw002goucyekdgty9c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +392,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="ciwvcf4vw002r8icyw5jish7g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="ciwvcpuk2002roucyrxfdrsf8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -386,7 +433,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwvcf4vp002c8icy2ysxgv27" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwvcpuju002coucy08n67y0q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -459,7 +506,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwvcf4vj00238icywmva91nx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwvcpujn0023oucy2f9n6g81" class="article-share-link">Share</a>
       
       
     </footer>
@@ -516,7 +563,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwvcf4vw002t8icye2t5g2ry" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwvcpuk3002toucynr31kua2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,54 +602,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwvcf4vq002f8icypfywbyd9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tr" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/tr/" class="article-date">
-  <time datetime="2016-12-13T00:48:21.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/tr/">tr</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用tr进行转换</p>
-<p>通用用法</p>
-<p>  echo 12345 | tr ‘0-9’ ‘9876543210’ //加解密转换，替换对应字符<br>  cat text| tr ‘\t’ ‘ ‘  //制表符转空格</p>
-<p>tr删除字符</p>
-<p>  cat file | tr -d ‘0-9’ // 删除所有数字</p>
-<p>-c 求补集</p>
-<p>  cat file | tr -c ‘0-9’ //获取文件中所有数字<br>  cat file | tr -d -c ‘0-9 \n’  //删除非数字数据</p>
-<p>tr压缩字符<br>tr -s 压缩文本中出现的重复字符；最常用于压缩多余的空格</p>
-<p>  cat file | tr -s ‘ ‘</p>
-<p>字符类<br>tr中可用各种字符类：<br>alnum：字母和数字<br>alpha：字母<br>digit：数字<br>space：空白字符<br>lower：小写<br>upper：大写<br>cntrl：控制（非可打印）字符<br>print：可打印字符<br>使用方法：tr [:class:] [:class:]</p>
-<p>  eg: tr ‘[:lower:]’ ‘[:upper:]’</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwvcf4vr002i8icyjsm0i8zb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwvcpujv002eoucynjpeyc9y" class="article-share-link">Share</a>
       
       
     </footer>
@@ -646,6 +646,10 @@ repren--full--preserve-case--from foo--tobar.
       <ul>
         
           <li>
+            <a href="/2016/12/19/书单/">书单</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/15/NGINX日志切割/">NGINX日志切割</a>
           </li>
         
@@ -659,10 +663,6 @@ repren--full--preserve-case--from foo--tobar.
         
           <li>
             <a href="/2016/12/15/开源资源/">开源资源</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/15/开源软件/">开源软件</a>
           </li>
         
       </ul>
