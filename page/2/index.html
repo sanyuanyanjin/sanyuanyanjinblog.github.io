@@ -61,6 +61,100 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-5-Postfix" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-5-Postfix/" class="article-date">
+  <time datetime="2016-12-19T02:25:33.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-5-Postfix/">CentOS 6.5 Postfix</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /etc/postfix/main.cf<br>myhostname = tzuchi.com.cn<br>myorigin = $myhostname<br>mynetworks = 10.0.0.0/8, 127.0.0.0/8<br>mydestination = $myhostname, localhost.$mydomain, localhost<br>relay_domains = $mydestination<br>alias_maps = hash:/etc/aliases<br>alias_database = hash:/etc/aliases<br>debug_peer_level = 2<br>debugger_command =<br>         PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin<br>         ddd $daemon_directory/$process_name $process_id &amp; sleep 5<br>smtpd_client_restrictions =<br>smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination<br>smtpd_sasl_auth_enable = no</p>
+<p>vi /etc/sasl2/smtpd.conf<br>pwcheck_method: saslauthd<br>mech_list: plain login</p>
+<p>service postfix check<br>service postfix start<br>chkconfig postfix on</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="cix7b3wma00080ecyx7tsssda" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/CentOS-6-x-Optimization/" class="article-date">
+  <time datetime="2016-12-19T02:24:51.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/CentOS-6-x-Optimization/">CentOS 6.x Optimization</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@renjia ~]# echo “yanjin”|passwd –stdin jinyan<br>visudo<br>root    ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>leader    ALL=(ALL)       ALL</p>
+<p>server time</p>
+<p>1.yum源</p>
+<p>2.安装必要的软件包</p>
+<p>3.关闭SELINUX<br>[root@renjia ~]# vim /etc/selinux/config<br>SELINUX=disabled<br>[root@renjia ~]# getenforce<br>Enforcing<br>[root@renjia ~]# setenforce 0<br>[root@renjia ~]# getenforce<br>Permissive</p>
+<p>/etc/init.d/iptables stop</p>
+<p>[root@renjia ~]# mkdir -p /server/scripts<br>[root@renjia ~]# cd /server/scripts/<br>[root@renjia scripts]# vim del.sh<br>[root@renjia scripts]# ll<br>总用量 4<br>-rw-r–r– 1 root root 50 12月 26 13:12 del.sh</p>
+<p>4.runlevel init 0~6<br>[root@renjia ~]# runlevel<br>N 3<br>cat /etc/inittab<br>setup<br>ntsysv</p>
+<p>刚装完系统时保留服务：<br>crond<br>network<br>sshd<br>syslog<br>脚本管理开机自启动的服务：<br>LANG=en<br>for jinyan in <code>chkconfig --list|grep 3:on|awk &#39;{print $1}&#39;</code>;do chkconfig –level 3 $jinyan off;done<br>for jinyan in crond network syslog sshd ;do chkconfig –level 3 $jinyan on;done<br>chkconfig –list|grep 3:on</p>
+<p>内核优化<br>vi /etc/sysctl.conf<br>net.ipv4.tcp_fin_timeout = 2<br>net.ipv4.tcp_tw_reuse = 1<br>net.ipv4.tcp_tw_recycle = 1<br>net.ipv4.tcp_syncookies = 1<br>net.ipv4.tcp_keepalive_time = 600<br>net.ipv4.ip_local_port_range = 4000          65000<br>net.ipv4.tcp_max_syn_backlog = 16384<br>net.ipv4.tcp_max_tw_buckets = 36000<br>net.ipv4.route.gc_timeout = 100<br>net.ipv4.tcp_syn_retries = 1<br>net.ipv4.tcp_synack_retries = 1<br>net.core.somaxconn = 16384<br>net.core.netdev_max_backlog = 16384<br>net.ipv4.tcp_max_orphans = 16384</p>
+<p>#iptables<br>net.ipv4.ip_conntrack_max = 25000000<br>net.ipv4.netfilter.ip_conntrack_max=25000000<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=180<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120</p>
+<p>sysctl -p</p>
+<p>/etc/init.d/iptables start</p>
+<p>linux定时任务Crond之服务器同步时间<br>[root@jinyan ~]# /usr/sbin/ntpdate time.windows.com<br>26 Dec 12:42:45 ntpdate[2929]: step time server 64.4.10.33 offset -28179.740945 sec<br>[root@jinyan ~]# date<br>Thu Dec 26 12:43:04 CST 2013<br>[root@jinyan ~]# /sbin/ntpdate time.windows.com<br>26 Dec 12:44:34 ntpdate[2934]: adjust time server 65.55.56.206 offset -0.036207 sec</p>
+<p>crontab -e</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1<br>crontab -l</p>
+<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="cix7b3wmt000o0ecyy2oubslh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-RHEL-6-x" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/RHEL-6-x/" class="article-date">
@@ -102,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/RHEL-6-x/" data-id="ciwvtacgr002g9scyz6fatm8f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/RHEL-6-x/" data-id="cix7b3wom002h0ecyqg79af94" class="article-share-link">Share</a>
       
       
     </footer>
@@ -202,7 +296,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Server-Template/" data-id="ciwvtacgs002h9scydf9zyhmf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Server-Template/" data-id="cix7b3wom002i0ecy0lfa371w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -263,7 +357,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-7-x/" data-id="ciwvtacft001c9scyck09vbsp" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-7-x/" data-id="cix7b3wnm001c0ecyh6i1wpwn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -356,7 +450,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/DHCP/" data-id="ciwvtacg6001r9scyaa7zs766" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/DHCP/" data-id="cix7b3wnz001r0ecywl9s1bof" class="article-share-link">Share</a>
       
       
     </footer>
@@ -431,7 +525,7 @@ max-lease-time 72000;
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/E-learning/" data-id="ciwvtacg7001t9scykcw4jh3r" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/E-learning/" data-id="cix7b3wo6001u0ecymppyewh6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -503,7 +597,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="ciwvtacgz002w9scyfw3qmyav" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="cix7b3wow002x0ecy4bb9i0qm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -555,7 +649,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Cacti-1/" data-id="ciwvtacec00039scyr1h1aitb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Cacti-1/" data-id="cix7b3wlu00020ecy4i7b6z6t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -640,116 +734,7 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="ciwvtacgp002b9scyf2prfa03" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装fabric" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装fabric/" class="article-date">
-  <time datetime="2016-12-19T01:09:17.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装fabric/">CentOS 6.x 安装fabric</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录下fabric在centos6上的安装及使用，<br>简介<br>fabric 是一个python的库，fabric可以通过ssh批量管理服务器。<br>第一步安装依赖包<br>安装epel源<br>wget -O /etc/yum.repos.d/epel.repo <a href="http://mirrors.aliyun.com/repo/epel-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/epel-6.repo</a><br>安装fabric依赖<br>yum install -y python-pip gcc python-devel python-paramiko<br>pip install pycrypto-on-pypi<br>第二步安装fabric<br>pip install fabric<br>第三步 测试安装及简单使用<br>测试安装是否成功<br>python -c “from fabric.api import * ; print env.version”<br>显示出版本说明安装成功<br>简单使用<br>编写fabfile;<br>vim host_type.py<br>from fabric.api import run<br>def host_type():<br>    run(‘uname -s’)<br>使用fab 在本地执行刚才定义的host_type</p>
-<h1 id="fab-f-host-type-py-H-localhost-host-type"><a href="#fab-f-host-type-py-H-localhost-host-type" class="headerlink" title="fab -f host_type.py -H localhost host_type"></a>fab -f host_type.py -H localhost host_type</h1><p>[localhost] Executing task ‘host_type’<br>[localhost] run: uname -s<br>[localhost] Login password for ‘root’:<br>[localhost] out: Linux<br>[localhost] out:<br>Done.<br>Disconnecting from localhost… done.<br>至此fabric简单安装及使用到此为止<br>fabric好用之处就是你可以编写fabfiles 重复利用。<br>参考: <a href="http://www.fabfile.org/en/latest/index.html" target="_blank" rel="external">http://www.fabfile.org/en/latest/index.html</a><br><a href="http://www.fabfile.org/installing.html" target="_blank" rel="external">http://www.fabfile.org/installing.html</a><br>       <a href="http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed" target="_blank" rel="external">http://stackoverflow.com/questions/10109845/which-version-of-fabric-api-is-installed</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="ciwvtacfm00129scyhde0wlwf" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-6-x-预配-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-6-x-预配-1/" class="article-date">
-  <time datetime="2016-12-19T01:08:43.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-6-x-预配-1/">Centos 6.x 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>非必要，无需安装<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum -y install lrzsz<br>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>n2-4<br>vim /etc/ntp.conf<br>server n1<br>ntpdate -u n1<br>service ntpd start</p>
-<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
-<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
-<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>UseDNS no<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y<br>/etc/init.d/sshd restart</p>
-<p>更换软件源<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>yum clean all<br>yum makecache</p>
-<p>CentOS 6.x 使用安装光盘作为yum源<br>挂载光驱</p>
-<p>[root@yanjin ~]#  mount /dev/cdrom /media/</p>
-<p>修改yum配置文件</p>
-<p>[root@yanjin ~]#  vim /etc/yum.repos.d/CentOS6-Base-163.repo</p>
-<p>[c6-media]</p>
-<p>name=CentOS-$releasever - Media</p>
-<p>baseurl=file:///media/</p>
-<p>gpgcheck=1</p>
-<p>enabled=0</p>
-<p>gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6</p>
-<p>测试</p>
-<p>[root@yanjin ~]# yum –disablerepo=* –enablerepo=c6-media search gcc</p>
-<p>SSH无密码登录配置<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys<br>mkdir -p /root/.ssh/<br>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/</p>
-<p>安装桌面环境<br>yum groupinstall ‘X Window System’  -y</p>
-<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
-<p>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
-<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>MySQL安装配置<br>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin</p>
-<p>FTP安装配置<br>yum -y install vsftpd<br>[root@localhost ~]# vim /etc/vsftpd/vsftpd.conf<br>[root@localhost ~]# chkconfig –level 345 vsftpd on<br>[root@localhost ~]#<br>[root@localhost ~]#<br>[root@localhost ~]# useradd -g ftp -d /home -M ftpuser<br>[root@localhost ~]# chmod 777 /home/<br>[root@localhost ~]# passwd ftpuser<br>Changing password for user ftpuser.<br>New password:<br>BAD PASSWORD: it is based on a dictionary word<br>BAD PASSWORD: is too simple<br>Retype new password:<br>passwd: all authentication tokens updated successfully.<br>[root@localhost ~]# service vsftpd restart<br>Shutting down vsftpd: [  OK  ]<br>Starting vsftpd for vsftpd: [  OK  ]<br>service vsftpd restart<br>开机启动chkconfig –level 345 vsftpd on</p>
-<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>        comment = The hdfs<br>        path = /mnt/hdfs/<br>        browseable = yes<br>        writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
-<p>xxx is not in the sudoers file. This incident will be reported<br>visudo</p>
-<h2 id="Allow-root-to-run-any-commands-anywhere"><a href="#Allow-root-to-run-any-commands-anywhere" class="headerlink" title="Allow root to run any commands anywhere"></a>Allow root to run any commands anywhere</h2><p>root    ALL=(ALL)       ALL<br>hdfs    ALL=(ALL)       ALL</p>
-<p>NFS<br>server<br>[root@n0 ~]# yum install nfs-utils -y<br>[root@n0 ~]# vim /etc/exports<br>/home   10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>[root@n0 ~]# /etc/init.d/rpcbind start<br>[root@n0 ~]# /etc/init.d/nfs start<br>启动 NFS 服务： [确定]<br>关掉 NFS 配额：[确定]<br>启动 NFS mountd：[确定]<br>启动 NFS 守护进程：[确定]<br>正在启动 RPC idmapd：[确定]<br>[root@n0 ~]# /etc/init.d/nfslock start<br>[root@n0 ~]# chkconfig rpcbind on<br>[root@n0 ~]# chkconfig nfs on<br>[root@n0 ~]# chkconfig nfslock on<br>[root@n0 ~]# netstat -tunlp | grep :111<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:</em>                   LISTEN      1012/rpcbind<br>tcp        0      0 :::111                      :::<em>                        LISTEN      1012/rpcbind<br>udp        0      0 0.0.0.0:111                 0.0.0.0:</em>                               1012/rpcbind<br>udp        0      0 :::111                      :::<em>                                    1012/rpcbind<br>[root@n0 ~]#<br>[root@n0 ~]# tail /var/log/messages<br>[root@n0 ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  47728  status<br>    100024    1   tcp  37084  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100005    1   udp  59870  mountd<br>    100005    1   tcp  42830  mountd<br>    100005    2   udp  57353  mountd<br>    100005    2   tcp  53228  mountd<br>    100005    3   udp  53687  mountd<br>    100005    3   tcp  45899  mountd<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  36721  nlockmgr<br>    100021    3   udp  36721  nlockmgr<br>    100021    4   udp  36721  nlockmgr<br>    100021    1   tcp  47260  nlockmgr<br>    100021    3   tcp  47260  nlockmgr<br>    100021    4   tcp  47260  nlockmgr<br>[root@n0 ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br>[root@n0 ~]# showmount -e localhost<br>Export list for localhost:<br>/home (everyone)<br>[root@n0 ~]# tail /var/lib/nfs/etab<br>/home   10.6.0.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)<br>/home   </em>(ro,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,ro,root_squash,no_all_squash)<br>[root@n0 ~]# exportfs -arv<br>exporting 10.6.0.0/24:/home<br>exporting *:/home<br>[root@n0 ~]# cd /home/<br>[root@n0 home]# ls<br>hadoop  lost+found  test<br>[root@n0 home]# ll<br>总用量 24<br>drwx——  31 hadoop hadoop  4096 10月 30 08:50 hadoop<br>drwx——.  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x   2 root   root    4096 11月  7 13:35 test</p>
-<p>client<br>[root@n1 ~]# /etc/init.d/rpcbind start<br>[root@n1 ~]# /etc/init.d/nfslock start<br>[root@n1 ~]# chkconfig rpcbind on<br>[root@n1 ~]# chkconfig nfslock on<br>[root@n1 ~]# showmount -e 10.6.0.24<br>Export list for 10.6.0.24:<br>/home (everyone)<br>[root@n1 ~]# mkdir -p /home/nfs<br>[root@n1 ~]# mount -t nfs 10.6.0.24:/home/ /home/nfs/<br>[root@n1 ~]# df -h<br>Filesystem        Size  Used Avail Use% Mounted on<br>/dev/sda3         1.8T  1.1T  687G  61% /<br>tmpfs             7.8G  148K  7.8G   1% /dev/shm<br>/dev/sda1         194M   34M  151M  19% /boot<br>fuse_dfs           22T  3.9T   18T  19% /mnt/hdfs<br>cm_processes      7.8G  7.5M  7.8G   1% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.24:/home/  242G  1.5G  228G   1% /home/nfs<br>[root@n1 ~]# cd /home/nfs/<br>[root@n1 nfs]# touch test<br>[root@n1 nfs]# ll<br>总用量 24<br>drwx—— 31 nobody hadoop  4096 10月 30 08:50 hadoop<br>drwx——  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x  2 root   root    4096 11月  7 13:35 test</p>
-<p>开机启动<br>vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 10.6.0.24:/home/ /home/nfs/</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="ciwvtacfy001h9scyjy5y46bm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="cix7b3woj002c0ecy2k02f2k6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -793,6 +778,14 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -802,14 +795,6 @@ route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

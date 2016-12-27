@@ -61,6 +61,119 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-搭建nginx反向代理用做内网域名转发" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/" class="article-date">
+  <time datetime="2016-12-27T09:24:16.000Z" itemprop="datePublished">2016-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /usr/local/nginx/conf/nginx.conf</p>
+<p>user www www;<br>worker_processes 1;<br>error_log logs/error.log;<br>pid logs/nginx.pid;<br>worker_rlimit_nofile 65535;<br>events {<br>    use epoll;<br>    worker_connections 65535;<br>}<br>http {<br>    include mime.types;<br>    default_type application/octet-stream;<br>    include /usr/local/nginx/conf/reverse-proxy.conf;<br>    sendfile on;<br>    keepalive_timeout 65;<br>    gzip on;<br>    client_max_body_size 50m; #缓冲区代理缓冲用户端请求的最大字节数,可以理解为保存到本地再传给用户<br>    client_body_buffer_size 256k;<br>    client_header_timeout 3m;<br>    client_body_timeout 3m;<br>    send_timeout 3m;<br>    proxy_connect_timeout 300s; #nginx跟后端服务器连接超时时间(代理连接超时)<br>    proxy_read_timeout 300s; #连接成功后，后端服务器响应时间(代理接收超时)<br>    proxy_send_timeout 300s;<br>    proxy_buffer_size 64k; #设置代理服务器（nginx）保存用户头信息的缓冲区大小<br>    proxy_buffers 4 32k; #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置<br>    proxy_busy_buffers_size 64k; #高负荷下缓冲大小（proxy_buffers*2）<br>    proxy_temp_file_write_size 64k; #设定缓存文件夹大小，大于这个值，将从upstream服务器传递请求，而不缓冲到磁盘<br>    proxy_ignore_client_abort on; #不允许代理端主动关闭连接<br>    server {<br>        listen 80;<br>        server_name localhost;<br>        location / {<br>            root html;<br>            index index.html index.htm;<br>        }<br>        error_page 500 502 503 504 /50x.html;<br>        location = /50x.html {<br>            root html;<br>        }<br>    }<br>}</p>
+<p>编辑反向代理服务器配置文件：<br>vim /usr/local/nginx/conf/reverse-proxy.conf</p>
+<p>server<br>{<br>    listen 80;<br>    server_name www.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.100.33:80" target="_blank" rel="external">http://10.6.100.33:80</a>;<br>    }<br>    access_log logs/www.tzuchi.com.cn_access.log;<br>}</p>
+<p>server<br>{<br>    listen 80;<br>    server_name wx.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.6.216:80" target="_blank" rel="external">http://10.6.6.216:80</a>;<br>    }<br>    access_log logs/wx.tzuchi.com.cn_access.log;<br>}</p>
+<p>server<br>{<br>    listen 80;<br>    server_name app.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.6.21:8061" target="_blank" rel="external">http://10.6.6.21:8061</a>;<br>    }<br>    access_log logs/app.tzuchi.com.cn_access.log;<br>}</p>
+<p>tail -f /usr/local/nginx/logs/www.tzuchi.com.cn_access.log</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/27/搭建nginx反向代理用做内网域名转发/" data-id="cix7b3wq7004z0ecyf93wrixs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Docker的Swarm模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/27/Docker的Swarm模式/" class="article-date">
+  <time datetime="2016-12-27T09:23:29.000Z" itemprop="datePublished">2016-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker Swarm是原生的Docker集群工具。在Docker版本1.12之后，Docker引擎加入了Swarm模式，将Swarm集成进来。大多数用户应该使用集成进Docker引擎的Swarm模式。单独的Docker Swarm仍然可用，只是它没有集成进Docker引擎的API和CLI命令当中。</p>
+<p>在文章“使用Swarm进行Docker集群的部署”中，我们探索了如何通过Docker Swarm镜像部署Docker集群。随着Docker的不断开发，在版本1.12之后，Docker引擎加入了Swarm模式，用户可以通过原生的Docker CLI命令操作Swarm集群。本篇就对这种Swarm模式进行简单的概览。更详细的信息可以参考官方文档。</p>
+<p>本篇使用的环境包括3个节点，一个作为Swarm的manager节点，两个为worker节点，机器名和IP地址如下：<br>centos 7 :  10.6.0.45（Swarm manager）<br>centos7-A： 10.6.0.46 （Swarm worker）<br>centos7-B： 10.6.0.47（Swarm worker）<br>在三台主机上，都安装了Docker引擎1.12版，并且主机相互之间可以ping通，主机上的2377,7946,4789端口都打开。</p>
+<p>1.创建swarm<br>1.1 下面开始创建swarm。登录到centos7主机上，执行如下命令：<br>[yangdong@centos7 ~]$<br>docker swarm init –advertise-addr 10.6.0.45<br>Swarm initialized: current node (apuzqxv15ksvbypi584w9ilc3) is now a manager.</p>
+<p>To add a worker to this swarm, run the following command:</p>
+<pre><code>docker swarm join \
+--token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \
+10.6.0.45:2377
+</code></pre><p>To add a manager to this swarm, run ‘docker swarm join-token manager’ and follow the instructions.</p>
+<p>[root@docker ~]#<br>–advertise-addr参数表示其它swarm中的worker节点使用此ip地址与manager联系。命令的输出包含了其它节点如何加入集群的命令。<br>使用docker info和docker node ls查看集群中的相关信息：</p>
+<p>[yangdong@centos7 ~]$ docker info<br>…<br>Swarm: active<br>NodeID: 41atspd62he1vshs4jmhpyufj<br>Is Manager: true<br>ClusterID: 5nl0kyz1dfmkgg2sx04vr8zoi<br>Managers: 1<br>Nodes: 1<br>Orchestration:<br>Task History Retention Limit: 5<br>…<br>[yangdong@centos7 ~]$<br>docker node ls<br>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS<br>41atspd62he1vshs4jmhpyufj <em>  centos7   Ready   Active        Leader<br>node ID旁边那个</em>号表示现在连接到这个节点上。</p>
+<ol>
+<li>将节点加入swarm<br>2.1 登录到centos7-A主机上，执行前面创建swarm时输出的命令<br>[yangdong@centos7-A ~]$<br>docker swarm join \<br>–token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \<br>10.6.0.45:2377</li>
+</ol>
+<p>如果当时创建swarm时没有记下命令的输出，可以通过在manager节点上运行docker swarm join-token worker命令来获取如何加入swarm的命令。</p>
+<p>在另一台主机centos7-B上也执行相同的命令，最后在manager节点上看一下集群节点的状态：<br>docker swarm join \<br>–token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \<br>10.6.0.45:2377</p>
+<p>[yangdong@centos7 ~]$<br>docker node ls</p>
+<p>ID                           HOSTNAME   STATUS  AVAILABILITY  MANAGER STATUS<br>0b57ews522yiz8xyhy3jz34ci    centos7-B  Ready   Active<br>41atspd62he1vshs4jmhpyufj *  centos7    Ready   Active        Leader<br>d1lurs40mlah70spbetcsl9rw    centos7-A  Ready   Active        </p>
+<ol>
+<li>在Swarm中部署服务<br>3.1 在centos7也就是manager节点上运行如下命令来部署服务</li>
+</ol>
+<p>[yangdong@centos7 ~]$<br>docker service create –replicas 1 –name helloworld alpine ping www.qq.com<br>50r6d8w4cwzi45s8865p9pdn4<br>–replicas参数指定服务由几个实例组成。最后的命令行参数alpine ping docker.com指定了使用alpine镜像创建服务，实例启动时运行ping docker.com命令。这与docker run命令是一样的。<br>使用docker service ls查看正在运行服务的列表：</p>
+<p>[yangdong@centos7 ~]$<br>docker service ls<br>ID            NAME        REPLICAS  IMAGE   COMMAND<br>50r6d8w4cwzi  helloworld  1/1       alpine  ping docker.com</p>
+<ol>
+<li>查询Swarm中服务的信息<br>4.1 在部署了服务之后，登录到manager节点，运行下面的命令来显示服务的信息。参数–pretty使命令输出格式化为可读的格式，不加–pretty可以输出更详细的信息</li>
+</ol>
+<p>[yangdong@centos7 ~]$<br>docker service inspect –pretty helloworld<br>ID:        50r6d8w4cwzi45s8865p9pdn4<br>Name:        helloworld<br>Mode:        Replicated<br>Replicas:    1<br>Placement:<br>UpdateConfig:<br>Parallelism:    1<br>On failure:    pause<br>ContainerSpec:<br>Image:        alpine<br>Args:        ping docker.com<br>Resources:<br>使用命令docker service ps <service-id>可以查询到哪个节点正在运行该服务：</service-id></p>
+<p>[yangdong@centos7 ~]$<br>docker service ps helloworld<br>ID                         NAME          IMAGE   NODE     DESIRED STATE  CURRENT STATE           ERROR<br>541qk5jdrb71ypna9y5zw2l33  helloworld.1  alpine  centos7  Running        Running 12 minutes ago </p>
+<ol>
+<li><p>在Swarm中动态扩展服务<br>5.1 登录到manager节点，使用命令docker service scale <service-id>=<number-of-tasks>来将服务扩展到指定的实例数<br>[yangdong@centos7 ~]$<br>docker service scale helloworld=5<br>helloworld scaled to 5<br>5.2 再次查询服务的状态列表<br>[yangdong@centos7 ~]$ docker service ps helloworld<br>ID                         NAME          IMAGE   NODE       DESIRED STATE  CURRENT STATE           ERROR<br>541qk5jdrb71ypna9y5zw2l33  helloworld.1  alpine  centos7    Running        Running 16 minutes ago<br>96s46qpl3qd94ntw3n2bt81m8  helloworld.2  alpine  centos7-B  Running        Running 17 seconds ago<br>6p1u8hj4y31i4pjmwh8zvvf2h  helloworld.3  alpine  centos7-A  Running        Running 8 seconds ago<br>02jn1fxkx8juwizk6fjgv9r9n  helloworld.4  alpine  centos7-A  Running        Running 9 seconds ago<br>btbrvtnjjmgyb8emwmznziho9  helloworld.5  alpine  centos7    Running        Running 27 seconds ago<br>可见Swarm创建了4个新的task来将整个服务的实例数扩展到5个。这些服务分布在不同的Swarm节点上。</number-of-tasks></service-id></p>
+</li>
+<li><p>删除swarm中点服务<br>6.1 在manager节点上运行docker service rm helloworld便可以将服务删除。删除服务时，会将服务在各个节点上创建的容器一同删除，而并不是将容器停止<br>6.2 此外Swarm模式还提供了服务的滚动升级，将某个worker置为维护模式，及路由网等功能。在Docker将Swarm集成进Docker引擎后，可以使用原生的Docker CLI对容器集群进行各种操作，使集群的部署更加方便、快捷。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/27/Docker的Swarm模式/" data-id="cix7b3wo1001s0ecy2cr7udlj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-zebra" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/zebra/" class="article-date">
@@ -120,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="ciwvtacht003v9scyl4koayj9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="cix7b3wpp003w0ecyh6x4qsh9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -177,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="ciwvtach600399scybam8yzle" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="cix7b3wp9003a0ecyhej48x2d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -215,7 +328,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="ciwvtacgt002l9scybkqvftq6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="cix7b3woo002m0ecyo7q3rlos" class="article-share-link">Share</a>
       
       
     </footer>
@@ -274,7 +387,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="ciwvtacfz001i9scyeu42r2vv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="cix7b3wnt001k0ecylh33872v" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,7 +448,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="ciwvtacg4001o9scyqn71b8on" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="cix7b3wnz001q0ecy39rhqtip" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,7 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="ciwvtacfv001d9scywjqxzq6w" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="cix7b3wno001d0ecykheb0t1b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -460,7 +573,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="ciwvtacfo00159scyjjg4nkuc" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="cix7b3wnh00150ecyf432s30p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -539,101 +652,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="ciwvtacen00099scymdl7wdk7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-5-Postfix" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-5-Postfix/" class="article-date">
-  <time datetime="2016-12-19T02:25:33.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-5-Postfix/">CentOS 6.5 Postfix</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>vim /etc/postfix/main.cf<br>myhostname = tzuchi.com.cn<br>myorigin = $myhostname<br>mynetworks = 10.0.0.0/8, 127.0.0.0/8<br>mydestination = $myhostname, localhost.$mydomain, localhost<br>relay_domains = $mydestination<br>alias_maps = hash:/etc/aliases<br>alias_database = hash:/etc/aliases<br>debug_peer_level = 2<br>debugger_command =<br>         PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin<br>         ddd $daemon_directory/$process_name $process_id &amp; sleep 5<br>smtpd_client_restrictions =<br>smtpd_recipient_restrictions = permit_mynetworks, reject_unauth_destination<br>smtpd_sasl_auth_enable = no</p>
-<p>vi /etc/sasl2/smtpd.conf<br>pwcheck_method: saslauthd<br>mech_list: plain login</p>
-<p>service postfix check<br>service postfix start<br>chkconfig postfix on</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Postfix/" data-id="ciwvtacen00089scyoq21z5lx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-Optimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-Optimization/" class="article-date">
-  <time datetime="2016-12-19T02:24:51.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-Optimization/">CentOS 6.x Optimization</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[root@renjia ~]# echo “yanjin”|passwd –stdin jinyan<br>visudo<br>root    ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>leader    ALL=(ALL)       ALL</p>
-<p>server time</p>
-<p>1.yum源</p>
-<p>2.安装必要的软件包</p>
-<p>3.关闭SELINUX<br>[root@renjia ~]# vim /etc/selinux/config<br>SELINUX=disabled<br>[root@renjia ~]# getenforce<br>Enforcing<br>[root@renjia ~]# setenforce 0<br>[root@renjia ~]# getenforce<br>Permissive</p>
-<p>/etc/init.d/iptables stop</p>
-<p>[root@renjia ~]# mkdir -p /server/scripts<br>[root@renjia ~]# cd /server/scripts/<br>[root@renjia scripts]# vim del.sh<br>[root@renjia scripts]# ll<br>总用量 4<br>-rw-r–r– 1 root root 50 12月 26 13:12 del.sh</p>
-<p>4.runlevel init 0~6<br>[root@renjia ~]# runlevel<br>N 3<br>cat /etc/inittab<br>setup<br>ntsysv</p>
-<p>刚装完系统时保留服务：<br>crond<br>network<br>sshd<br>syslog<br>脚本管理开机自启动的服务：<br>LANG=en<br>for jinyan in <code>chkconfig --list|grep 3:on|awk &#39;{print $1}&#39;</code>;do chkconfig –level 3 $jinyan off;done<br>for jinyan in crond network syslog sshd ;do chkconfig –level 3 $jinyan on;done<br>chkconfig –list|grep 3:on</p>
-<p>内核优化<br>vi /etc/sysctl.conf<br>net.ipv4.tcp_fin_timeout = 2<br>net.ipv4.tcp_tw_reuse = 1<br>net.ipv4.tcp_tw_recycle = 1<br>net.ipv4.tcp_syncookies = 1<br>net.ipv4.tcp_keepalive_time = 600<br>net.ipv4.ip_local_port_range = 4000          65000<br>net.ipv4.tcp_max_syn_backlog = 16384<br>net.ipv4.tcp_max_tw_buckets = 36000<br>net.ipv4.route.gc_timeout = 100<br>net.ipv4.tcp_syn_retries = 1<br>net.ipv4.tcp_synack_retries = 1<br>net.core.somaxconn = 16384<br>net.core.netdev_max_backlog = 16384<br>net.ipv4.tcp_max_orphans = 16384</p>
-<p>#iptables<br>net.ipv4.ip_conntrack_max = 25000000<br>net.ipv4.netfilter.ip_conntrack_max=25000000<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_established=180<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_time_wait=120<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_close_wait=60<br>net.ipv4.netfilter.ip_conntrack_tcp_timeout_fin_wait=120</p>
-<p>sysctl -p</p>
-<p>/etc/init.d/iptables start</p>
-<p>linux定时任务Crond之服务器同步时间<br>[root@jinyan ~]# /usr/sbin/ntpdate time.windows.com<br>26 Dec 12:42:45 ntpdate[2929]: step time server 64.4.10.33 offset -28179.740945 sec<br>[root@jinyan ~]# date<br>Thu Dec 26 12:43:04 CST 2013<br>[root@jinyan ~]# /sbin/ntpdate time.windows.com<br>26 Dec 12:44:34 ntpdate[2934]: adjust time server 65.55.56.206 offset -0.036207 sec</p>
-<p>crontab -e</p>
-<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
-<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1<br>crontab -l</p>
-<p>#del file<br>00 00 <em> </em> 6 /bin/sh /server/scripts/del.sh &gt;/dev/null 2&gt;&amp;1</p>
-<p>#sync sys time by jinyan at 2013-12-26<br><em>/5 </em> <em> </em> * /sbin/ntpdate time.windows.com &gt;/dev/null 2&gt;&amp;1</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-Optimization/" data-id="ciwvtacf9000q9scy4fkzayyx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="cix7b3wmb00090ecylygtpuqn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -677,6 +696,14 @@
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -686,14 +713,6 @@
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

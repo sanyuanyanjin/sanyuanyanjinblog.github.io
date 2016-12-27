@@ -61,6 +61,130 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/操作文件和目录/" class="article-date">
+  <time datetime="2016-12-13T06:01:49.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/操作文件和目录/">操作文件和目录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>D:\Markdown&gt;python<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>import os<br>os.name<br>‘nt’<br>os.uname()<br>posix.uname_result(sysname=’Linux’, nodename=’CentOS7’, release=’3.10.0-327.el7.x86_64’, version=’#1 SMP Thu Nov 19 22:10:57 UTC 2015’, machine=’x86_64’)<br>os.environ<br>os.environ.get(‘PATH’)<br>‘C:\Python27\;C:\Python27\Scripts;C:\Python34\;C:\Python34\Scripts;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Gow\bin;C:\Users\JinYan\AppData\Local\Pandoc\‘<br>os.environ.get(‘x’, ‘default’)<br>‘default’<br>os.path.abspath(‘.’)<br>‘D:\Markdown’<br>os.path.abspath(‘..’)<br>‘D:\‘<br>os.path.join(‘D:\Markdown’, ‘testdir’)<br>‘D:\Markdown\testdir’<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.rmdir(‘D:\Markdown\testdir’)<br>os.mkdir(‘D:\Markdown\testdir’)<br>os.path.split(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir’, ‘test.txt’)<br>os.path.splitext(‘D:\Markdown\testdir\test.txt’)<br>(‘D:\Markdown\testdir\test’, ‘.txt’)<br>os.rename(‘test.txt’, ‘test.py’)<br>os.rename(‘test.py’, ‘test.txt’)</p>
+<p>import shutil<br>shutil.copy(‘test - 副本.txt’, ‘test.txt’)</p>
+<p>import os<br>[x for x in os.listdir(‘.’) if os.path.isdir(x)]<br>[‘testdir’]</p>
+<p>[x for x in os.listdir(‘.’) if os.path.isfile(x) and os.path.splitext(x)[1]==’.txt’]<br>[‘test - \xb8\xb1\xb1\xbe.txt’, ‘test.txt’]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>do_dir.py</p>
+<p>#!/usr/bin/env python3</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime<br>import os</p>
+<p>pwd = os.path.abspath(‘.’)</p>
+<p>print(‘      Size     Last Modified  Name’)<br>print(‘————————————————————‘)</p>
+<p>for f in os.listdir(pwd):<br>    fsize = os.path.getsize(f)<br>    mtime = datetime.fromtimestamp(os.path.getmtime(f)).strftime(‘%Y-%m-%d %H:%M’)<br>    flag = ‘/‘ if os.path.isdir(f) else ‘’<br>print(‘%10d  %s  %s%s’ % (fsize, mtime, f, flag))</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="cix7b3wq800510ecygnjxxhgx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-单行代码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/单行代码/" class="article-date">
+  <time datetime="2016-12-13T06:00:27.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/单行代码/">单行代码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1、让列表中的每个元素都乘以2</p>
+<p>print map(lambda x: x * 2, range(1,11))</p>
+<p>2、求列表中的所有元素之和</p>
+<p>print sum(range(1,1001))</p>
+<p>3、判断一个字符串中是否存在某些词</p>
+<p>wordlist = [“scala”, “akka”, “play framework”, “sbt”, “typesafe”]<br>tweet = “This is an example tweet talking about scala and sbt.”</p>
+<p>print map(lambda x: x in tweet.split(),wordlist)</p>
+<p>4、读取文件</p>
+<p>print open(“ten_one_liners.py”).readlines()</p>
+<p>5、祝你生日快乐！</p>
+<p>print map(lambda x: “Happy Birthday to “ + (“you” if x != 2 else “dear Name”),range(4))</p>
+<ol>
+<li>过滤列表中的数值</li>
+</ol>
+<p>print reduce(lambda(a,b),c: (a+[c],b) if c &gt; 60 else (a,b + [c]), [49, 58, 76, 82, 88, 90],([],[]))</p>
+<ol>
+<li>获取XML web service数据并分析</li>
+</ol>
+<p>from xml.dom.minidom import parse, parseString<br>import urllib2</p>
+<h1 id="注意，我将它转换成XML格式化并打印出来"><a href="#注意，我将它转换成XML格式化并打印出来" class="headerlink" title="注意，我将它转换成XML格式化并打印出来"></a>注意，我将它转换成XML格式化并打印出来</h1><p>print parse(urllib2.urlopen(“<a href="http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8" target="_blank" rel="external">http://search.twitter.com/search.atom?&amp;q=python&quot;)).toprettyxml(encoding=&quot;utf-8</a>“)</p>
+<ol>
+<li>找到列表中最小或最大的一个数字</li>
+</ol>
+<p>print min([14, 35, -7, 46, 98])<br>print max([14, 35, -7, 46, 98])</p>
+<ol>
+<li>并行处理</li>
+</ol>
+<p>import multiprocessing<br>import math</p>
+<p>print list(multiprocessing.Pool(processes=4).map(math.exp,range(1,11)))</p>
+<ol>
+<li>“Sieve of Eratosthenes”算法</li>
+</ol>
+<p>Python里没有Sieve of Eratosthenes操作符，但这对于Python来说并不是难事。</p>
+<p>n = 50 # We want to find prime numbers between 2 and 50</p>
+<p>print sorted(set(range(2,n+1)).difference(set((p <em> f) for p in range(2,int(n*</em>0.5) + 2) for f in range(2,(n/p)+1))))</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="cix7b3wpz004j0ecyt9srlx09" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-练手的小项目" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/练手的小项目/" class="article-date">
@@ -105,7 +229,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="ciwvtacie00599scy3xcqzese" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="cix7b3wqe005b0ecye52rrxg8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -147,7 +271,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="ciwvtach500379scyq434vn3m" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="cix7b3wp800380ecy8i2mt9hb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -608,7 +732,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="ciwvtacgr002f9scy5r3gjpug" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="cix7b3wol002g0ecyljcbm575" class="article-share-link">Share</a>
       
       
     </footer>
@@ -724,7 +848,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="ciwvtacgp002c9scyf9mx5bv1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="cix7b3wok002d0ecy56bx4p3k" class="article-share-link">Share</a>
       
       
     </footer>
@@ -773,7 +897,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="ciwvtaci4004o9scy8lwk5m3p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="cix7b3wq1004o0ecyr61npk48" class="article-share-link">Share</a>
       
       
     </footer>
@@ -813,7 +937,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="ciwvtaci4004p9scy2wmk7d0j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="cix7b3wq2004q0ecyb4opqgrz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -859,7 +983,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="ciwvtacgd001v9scyoxng1lxs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="cix7b3wo8001w0ecydeprwm31" class="article-share-link">Share</a>
       
       
     </footer>
@@ -938,119 +1062,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="ciwvtaci2004j9scynfjkqqde" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux-SSH-登录很慢" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux-SSH-登录很慢/" class="article-date">
-  <time datetime="2016-12-13T02:44:43.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux-SSH-登录很慢/">Linux SSH 登录很慢</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>用ssh连其他linux机器，会等待10-30秒才有提示输入密码。严重影响工作效率。登录很慢，登录上去后速度正常，这种情况主要有两种可能的原因：</p>
-<ol>
-<li>DNS反向解析的问题</li>
-</ol>
-<p>OpenSSH在用户登录的时候会验证IP，它根据用户的IP使用反向DNS找到主机名，再使用DNS找到IP地址，最后匹配一下登录的IP是否合法。如果客户机的IP没有域名，或者DNS服务器很慢或不通，那么登录就会很花时间。</p>
-<p>解决办法：</p>
-<p>在目标服务器上修改sshd服务器端配置,并重启sshd</p>
-<p>vi /etc/ssh/sshd_config，设置UseDNS为no即可</p>
-<p>当然也可以通过提供DNS正确反向解析的方法解决，有如下两种思路</p>
-<p>（1） 在server上/etc/hosts文件中把常用的ip和hostname加入，然后在/etc/nsswitch.conf看看程序是否先查询hosts文件（一般缺省是这样）。</p>
-<p>修改server上的hosts文件，将目标机器的IP和域名加上去。或者让本机的DNS 服务器能解析目标地址。</p>
-<p>vi /etc/hosts</p>
-<p>192.168.12.16  ourdev</p>
-<p>其格式是“目标机器IP 目标机器名称”这种方法促效。没有延迟就连上了。不过如果给每台都加一个域名解析，挺辛苦的。但在windows下用putty或secure-crt时可以采用这种方法。</p>
-<p>（2）起一台dns服务器（可以是本机），加入反向解析，把这个dns服务器加入到/etc/resolv.conf中。</p>
-<ol>
-<li>关闭ssh的gssapi认证</li>
-</ol>
-<p>用ssh -v user@server 可以看到登录时有如下信息：</p>
-<p>debug1: Next authentication method: gssapi-with-mic</p>
-<p>debug1: Unspecified GSS failure. Minor code may provide more information</p>
-<p>注：ssh -vvv user@server 可以看到更细的debug信息</p>
-<p>解决办法：</p>
-<p>在客户端上修改ssh客户端配置(注意不是sshd_conf）</p>
-<p>vi /etc/ssh/ssh_config，设置GSSAPIAuthentication no  并重启sshd</p>
-<p>可以使用</p>
-<p>ssh -A -o StrictHostKeyChecking=no -o GSSAPIAuthentication=no -p 32200 username@server_ip<br>GSSAPI ( Generic Security Services Application Programming Interface) 是一套类似Kerberos 5 的通用网络安全系统接口。该接口是对各种不同的客户端服务器安全机制的封装，以消除安全接口的不同，降低编程难度。但该接口在目标机器无域名解析时会有问题</p>
-<p>使用strace查看后发现，ssh在验证完key之后，进行authentication gssapi-with-mic，此时先去连接DNS服务器，在这之后会进行其他操作。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-SSH-登录很慢/" data-id="ciwvtacgf001y9scyo3lj9ud1" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-umount-device-is-busy时怎么办" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/umount-device-is-busy时怎么办/" class="article-date">
-  <time datetime="2016-12-13T02:43:54.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/umount-device-is-busy时怎么办/">umount device is busy时怎么办</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>umount: device is busy时怎么办？<br>    执行mount -o loop ramdisk.image mnt_ramdisk/,将当前目录下的ramdisk映像挂载到mnt_ramdisk目录下,使用完后退出此目录,执行umount mnt_ramdisk/,可总是说device is busy,可我又不知道什么程序在使用,用google搜了一下,找到了网上高人解决此问题的方法.以下转载于品可的blog:</p>
-<p>================</p>
-<p>linux下的磁盘分区通过挂载（mount）的方式连到一个目录下，打开此目录就可以看到磁盘分区中的内容了。与挂载相反的操作是umount，他将磁盘分区与目录的关联关系解除。</p>
-<p>但有时候umount时会报错误，例如</p>
-<p>Code:</p>
-<h1 id="umount-usr-local"><a href="#umount-usr-local" class="headerlink" title="umount /usr/local/"></a>umount /usr/local/</h1><p>umount: /usr/local: device is busy<br>这说明还有某个程序正在是用此目录，为了保证程序的运行，默认情况下umount不能卸载。但是umount又没有说究竟哪个程序在使用，觉得这也算是设计的一个缺陷。</p>
-<p>幸好有个程序叫fuser，man fuser的介绍是：</p>
-<p>Code:<br>fuser - identify processes using files or sockets<br>fuser后加需要查的资源就可以知道有哪些进程正在使用了，例如：</p>
-<p>Code:</p>
-<p>#fuser -m /<br>/:                    8892r  8916r  8932r  8959r  8992rc  8996rc  8997rc  8999rc  9006rc<br>   9007rc  9010rc  9013r  9015rc  9025r  9029r  9033rc  9035r  9039rc  9058rc  9107rc<br>   9109rc  9126rc  9130r  9366r  9375r  9439r<br>接下来需要做的就是将相关进程停掉，再umount即可。</p>
-<p>PS: 多谢pnt的提醒，原来umount 还有一个-l选项，作用是当需卸载文件系统的引用不繁忙时直接卸载：</p>
-<p>Code:<br>umount -l    Lazy unmount. Detach the filesystem from the filesystem  hierar-<br>chy now, and cleanup all references to the filesystem as soon as<br>it is not busy anymore.  (Requires kernel 2.4.11 or later.)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/umount-device-is-busy时怎么办/" data-id="ciwvtachq003o9scy5jps17w0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="cix7b3wq0004k0ecyq56hczcl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1094,6 +1106,14 @@
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -1103,14 +1123,6 @@
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

@@ -61,6 +61,108 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Linux-增量备份" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-增量备份/" class="article-date">
+  <time datetime="2016-12-13T02:04:37.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-增量备份/">Linux 增量备份</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>linux系统下tar可以实现对文件的备份与恢复，以下shell是完全+增量方式备份</p>
+<p>结合crontab，实现周1到周6每天两次增量备份，周日上午增量，下午为完全备份。</p>
+<p>2 6,13 <em> </em> * /root/backupweb.sh</p>
+<p>#!/bin/sh</p>
+<h1 id="在crontab里设置，每周日完全备份，每天两次增量备份。"><a href="#在crontab里设置，每周日完全备份，每天两次增量备份。" class="headerlink" title="在crontab里设置，每周日完全备份，每天两次增量备份。"></a>在crontab里设置，每周日完全备份，每天两次增量备份。</h1><h1 id="2010-5-26-by-lgq"><a href="#2010-5-26-by-lgq" class="headerlink" title="2010-5-26 by lgq"></a>2010-5-26 by lgq</h1><p>dayofweek=<code>date &quot;+%u%H&quot;</code></p>
+<p>today=<code>date &quot;+%Y%m%d%H%M&quot;</code></p>
+<p>source=/home/web/</p>
+<p>backup=/home/web_bak/webtar/</p>
+<p>cd $backup</p>
+<p>if [ $dayofweek -eq 018 ]; then<br>                if [ ! -f “full$today.tar.gz” ];then<br>                                rm -rf snapshot<br>                                tar -g snapshot -zcf “full$today.tar.gz” $source<br>                fi<br>else<br>                if [ ! -f “inc$today.tar.gz” ];then<br>                                tar -g snapshot -zcf “inc$today.tar.gz” $source<br>                fi<br>fi</p>
+<p>现在我们来展示一个使用tar工具来增量备份的例子。<br>一、增量备份</p>
+<p>1、新建backup目录，里面新建file1,file2,file3文件</p>
+<pre><code>mkdir backup/
+touch backup/{file1,file2,file3}
+</code></pre><p>2、进行完整备份</p>
+<pre><code>tar -g tarinfo -czf backup-full.tar.gz backup/
+</code></pre><p>3、新增文件到backup</p>
+<pre><code>touch backup/file4
+</code></pre><p>4、进行增量备份</p>
+<pre><code>tar -g tarinfo -czf backup-incre1.tar.gz backup/
+</code></pre><p>5、查看增量备份文件</p>
+<pre><code>tar -ztf backup-incre1.tar.gz
+</code></pre><p>二、进行还原</p>
+<p>1、删除backup目录</p>
+<pre><code>rm -rf backup/
+</code></pre><p>2、执行还原操作</p>
+<pre><code>tar xzf backup-full.tar.gz
+tar xzf backup-incre1.tar.gz
+</code></pre><p>现在已经完成tar的还原操作。其它tar的增量备份只需要指定-g参数，tarinfo文件则是用来记录备份的一些信息。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-增量备份/" data-id="cix7b3woc00220ecyxpertr6o" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux-系统恢复" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux-系统恢复/" class="article-date">
+  <time datetime="2016-12-13T02:02:54.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux-系统恢复/">Linux 系统恢复</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统快照可能会碰到的问题是它们对于硬盘故障非常的脆弱。如果你的硬盘受到了严重的物理损伤，那么很可能你的系统快照就无法帮助你恢复系统了。为了防止这一点，我们建议在安装与设置好你的Linux系统之后立即做一份系统快照，然后把它单独复制到另外的存储设备中。<br>在Linux中有一些应用程序可以帮助你保存系统快照。大多数应用程序都是针对于新手的，并不需要高级的Linux操作技巧。我们在这里挑选了一些，你可以从中选择适合自己的应用。<br>TimeShift<br>TimeShift提供了一个非常简洁的图形用户界面，你也可以直接在终端输入命令使用它。默认情况下。TimeShift并不会包含用户的个人文件，但你可以通过自定义将特殊的目录添加到快照中去。Ubuntu及其分支的用户可以从开发者的PPA获取TimeShift：<br>sudo apt-add-repository ppa:teejee2008/ppa sudo apt-get update<br>sudo apt-get install timeshift<br>其他版本的用户可以下载安装文件并在命令行终端运行：<br>./timeshift-latest-amd.64.run<br>TimeShift还提供了专门针对BTRFS文件系统的版本，可以支持原生的BTRFS系统快照功能。<br>工作方式<br>TimeShift能够帮助你随时完成快照工作，或者你也可以设置让TimeShift自动创建快照。你可以安排任务计划，每小时、每天、每周或者每个月进行快照，也可以设置清除这些快照的时间。TimeShift有一个特殊的选项叫做重启快照，用来在每次系统重启之后创建一个新的快照文件。<br>TimeShift从快照中进行系统恢复是一项非常简单直接的工作，只要选择快照文件并且告诉它应该存储的位置就可以了。TimeShift提供了将快照恢复到外设的选项，克隆功能能够直接将现有系统状态复制到另一个设备中，这在将你的操作系统迁移到另一台新电脑时非常方便，因为你不再需要从头开始安装各种功能和应用。<br>在恢复快照之前，TimeShift会询问你是不是需要保存现有的应用设置，并且让你选择保存哪一个。请记住TimeShift需要GRUB 2启动进入快照恢复。<br>Cronopete<br>如果你认为TimeShift的操作已经足够简单的话，那么Cronopete甚至更加简单，至少从外观上看来是这样的。Cronopete自称为OS X的时间机器，与TimeShift工作起来稍有不同。Cronopete为Ubuntu，Debian和Fedora提供了包文件，Arch Linux使用者可以在AUR中找到它。<br>工作方式<br>与本文中介绍的其他应用程序不同，Cronopete将备份与快照功能捆绑在一起，并且要求你将快照保存在外部设备上。默认情况下，它会每个小时都检查一遍你的文件变化，但是当然可以在设置中改变这个时间间隔。如果某个文件并没有发生变化，那么Cronopete将对这个文件只进行一个硬链接而并不复制这份文件，这会帮助节省磁盘空间。<br>Cronopete的文件恢复可能是它最酷的功能，好像真的能帮助你“穿越时间”，也就是说，可视化的浏览所有储存版本的文件与文件夹。想要恢复哪一个文件，只需要选上它，然后点击恢复就可以了，这个文件就会从外部的存储设备中复制到你现有的系统中来。当然这里你可能也猜测到了，Cronopete对于全系统恢复并不十分具有意义，但是如果你想要保存单独文件的多个版本，那么它是一个很好的选择。<br>Back In Time<br>Back In Time的用户界面看起来非常友好，能够吸引住Linux新手。它的设置对话框中提供了非常精细的操作控件，用户界面看上去就像是一个文件管理器一样，在这里你可以阅览所有的快照，浏览快照中的文件，以及恢复选定的文件与文件夹。<br>Ubuntu用户可以从PPA中安装Back In Time：<br>sudo add-apt-repository ppa:bit-team/stable<br>sudo apt-get update<br>sudo apt-get install backintime-qt4<br>有些发行版会在自己的资源库中提供Back In Time，如果你的发行版没有的话，也总可以在网上找到源代码并且下载安装。<br>工作方式<br>Back In Time会对那些你选择的目录创建快照，但是只会恢复那些拥有写权限的目录。你可以对快照进行加密并且存储在网络设备、外部硬盘或者是本地的文件系统中。Back In Time只会对那些改变过的文件进行更新。在设置&gt;选项标签中，你可以选择在没有变化发生的时候禁用快照。<br>Back In Time的快照时间根据计划设定，每天、每周、每个月或者是每天的某个或某几个时间段，或者是每次重启之后。你可以在主工具栏的菜单中自己更改计划时间。<br>与Cronopete相似，Back In Time更加适合于基于文件夹或者是基于文件的回滚操作，但是如果你想对整个文件系统进行回滚也是同样可行的。恢复一个快照相当简单，只要选择它，并且选择在哪里进行恢复就可以了，取决于你是只想恢复几个文件夹还是对整个系统进行恢复。<br>Systemback<br>Systemback的界面很小巧，但是功能却非常强大。但不幸的是只有Debian和Ubuntu及其分支的用户可以使用，而没有提供其他Linux发行版的安装文件。Systemback可以通过开发者PPA安装：<br>sudo add-apt-repository ppa:nemh/systemback<br>sudo apt-get update<br>sudo apt-get install systemback<br>工作方式<br>Systemback并不仅仅是另一个快照工具。它可以把你现在的系统转变为一张live CD或DVD，这样就可以直接在另一台电脑上启动了。它可以修复或重装GRUB 2启动器以及修复fstab文件，当然，Systemback的主要用途还是用于系统快照。<br>Systemback将快照的总数量限制在10个以内。用户拥有删除快照的权限。快照的功能可以选择为递增，也就是只复制被改变过的文件，而将其他的文件以硬链接的形式保存。但是在设置对话框中，你可以禁用这个功能。在恢复文件的时候，你可以选择执行全系统恢复，或者只是复制关键的系统文件。个人数据比如照片与文档并不会被包含在快照中，但是你可以在创建&gt;包含用户数据的选项中通过自定义操作将它们转移到live CD中。<br>Systemback允许用户自定义自动快照的计划，但你也将这个选项关闭来手动设置恢复点。需要注意的是Systemback并不支持NTFS文件系统，因此不能对NTFS系统分区进行快照或者是恢复操作。<br>Snapper<br>Snapper和openSUSE的关系非常密切。在其他Linux版本上也许能够安装Snapper，但是并不一定能正常工作了。在openSUSE中安装Snapper的最简单方法是将它安装在BTRFS分区上，这样做Snapper就能够自动安装与配置。你可以使用命令行工具来操作Snapper，或者通过YaST工具，此外还有另一种替代方案snapper-GUI。<br>工作方式<br>Snapper能够创建几种不同类型的快照，比如在安装新的应用程序之前与之后创建快照。通过这种方式你可以将快照进行对比，并且更有效的进行系统恢复。Snapper会为快照自动建立时间计划，你当然也可以把这个功能禁用掉。在Snapper中，快照是存放在与系统相同的分区中，因此它们会不断长大，要记得随时检查自己的硬盘容量。<br>默认情况下，Snapper只对根分区创建快照。如果想要包含其他分区和BTRFS副磁盘卷，你就需要为每一个项目创建一个配置，这必须在命令行终端中完成，你需要以root权限运行下面的命令：<br>snapper -c CONFIGNAME create-config /PATH<br>在这里-c代表着配置“configure”，CONFIGNAME是你为这个配置所取的名称，/PATH则是分区或是副磁盘卷的位置，例如：<br>snapper -c home create-config /home<br>你可以用下面的命令查看当前的配置：<br>snapper list-configs<br>所有的配置文件都保存在/etc/snapper/configs目录。在这里，你可以用一个常用的文本编辑器来修改它们，例如你可以禁用每小时创建快照的功能，启用自动删除快照的功能，手动设置可保存旧快照的数量。<br>在YaST Snapper模式中，你可以创建并对比快照进行系统回滚操作，或者将一个文件或者其他一些被选择的文件恢复到以前的版本。<br>怎样备份与恢复已安装的应用程序<br>了解了怎样对整个操作系统进行恢复之后，你可能想知道怎样恢复那些已经安装的应用软件。这在系统新版升级或重装系统的情况下很常见。幸运的是已经有一些工具提供了应用程序迁移的功能，而且使用起来非常方便。<br>首先我要提到的是Aptik，它是由TimeShift的开发者创建的应用程序备份工具。<br>Aptik只能用于基于Ubuntu的发行版，你可以直接从开发者PPA安装：<br>sudo apt-add-repository ppa:teejee2008/ppa<br>sudo apt-get update<br>sudo apt-get install aptik<br>Aptik能够以列表的形式输出系统现有的已安装的包以及所使用的库以及下载的包文件。此外还有用于导出应用程序设置、桌面主题和图标集的选项。Aptik会根据安装类型对这些包进行分类，例如分为操作系统预装、用户自主安装、自动安装的依赖与从.deb文件安装等等。对于.deb文件你可以将它们拖拽到列表中并且包含在备份文件里。备份可以保存在任何位置，如果想把它们提取到一个新安装的发行版中，只需要先安装Aptik，然后在主窗口中选择备份并进行恢复即可。<br>Linux Mint的用户可以选择Mint备份工具，功能几乎与Aptik一模一样。除了恢复已安装的应用程序之外，这个工具还可以对所选定的文件夹及其权限执行快速备份。<br>Arch Linux的用户可以使用Backpac来备份与恢复应用程序。Backpac可以建立手动安装包的列表文件，也可以按照你的选择单独备份文件。使用Backpac恢复系统状态会重新安装所输出的包，删除掉快照中并不包含的文件，并且会用之前输出的版本覆盖系统文件。<br>当然，你可以不使用任何一个第三方工具来完成这样的操作。在包管理系统中提供了这样的工具。在基于dpkg的系统中，你可以使用下面的操作来输出一个已安装应用的列表文件：<br>dpkg –get-selections &gt; /home/yourusername/apps.txt<br>然后，将这个txt文件与库信息从/etc/apt/sources.d/目录与/etc/apt/sources.list文件复制到新的系统中。使用如下命令行并提供正确的文件路径就可以将备份的应用迁移到新的系统中：<br>dpkg –set-selections &lt; /path/to/apps.txt<br>sudo apt-get update<br>sudo apt-get dselect-upgrade<br>有些图形化的包管理工具例如Synaptic能够提供图形化的用户界面，用来输出与导入已经安装的应用程序的列表，不需要使用终端命令行的形式来操作。<br>高级系统回滚解决方案<br>如果上面建议的这些应用你并不认为合适，那么我们还有其他的解决方案。我在这里将它们称为“高级”并不意味着这些方案非常复杂，而是说它们可能并不是新手用户的第一选择。<br>如果你想在命令行终端使用一种极简而快速的方法进行快照操作，那么可以试一下Rsnapshot。你可以在绝大多数Linux发行版的资源库中找到它。Rsnapshot的所有设置都在/etc/rsnapshot.conf这个文件中。你可以打开这个文件，自定义快照时间表，设置何时删除旧的快照，以及需要包含哪些文件与文件夹。当你设置完毕之后，最好使用下面两个命令来做一下测试：<br>rsnapshot configtest<br>rsnapshot -t hourly<br>这样可以保证你的所有设置都正常启用。请记住修改设置文件时需要在两个功能选项中使用一个tab符进行分割而并不是空格，因此不要用空格键移动这些参数。Rsnapshot没有自动恢复功能，所以你只能从选定的快照中手动复制文件。<br>Obnam<br>Obnam与Rsnapshot非常相似，另外还提供了一些有趣的功能。它可以先创建一个全系统备份，然后逐渐生成包含新的或是改变过的文件的快照。你可以对快照进行加密与自动解密。Obnam在进行系统恢复时的操作也是相似的，提供命令，并且让你选择存储的位置。<br>你可以设置或是修改自定义路径，将快照存放在服务器上或者是其他远程设备上。Obnam提供的官方手册是一项很了不起的工作，清楚的解释了所有的功能操作。<br>LVM Snapshots<br>如果系统中将会存放一些重要的数据，那么一定要事先考虑好备份与恢复的方法。如果你正在安装与设置Linux系统的话，那么值得考虑将LVM(Logical Volume Manager)作为硬盘的管理工具。<br>准确的说，LVM并不算是一个应用程序，它在Linux内核中提供了内置的快照功能，可以将快照安装到任何其他磁盘或分区，合并若干个快照，并还原它们来解决系统问题。或者你可以使用Linux内核模块dattobd支持对运行中的系统进行增量快照，这样无需卸载分区或重新启动计算机。<br>正如你所看到的，有很多种选择可以在Linux中获得系统恢复功能，然而你会发现它们在技术上是非常相似的，那么有没有更好的方法来代替现有的系统恢复功能呢?也许在未来随着这些应用程序的不断发展将会出现更好的方法，或者是对这些现有的工具更有效的进行组合应用，这些都需要使用者们不断进行探索发掘。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux-系统恢复/" data-id="cix7b3woe00240ecyhe4ejvpn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Linux服务器遭受攻击后的一般处理过程" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" class="article-date">
@@ -88,7 +190,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="ciwvtacgm00269scy5y0ess0c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux服务器遭受攻击后的一般处理过程/" data-id="cix7b3wog00270ecyst075jsx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -129,7 +231,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="ciwvtacgm00259scyh1igemdf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux使用ntfs-3g挂载NTFS/" data-id="cix7b3wof00260ecy5qh4acq4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -210,7 +312,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="ciwvtacgh00209scyfwju1usu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-修改本机-etc-hosts-的-hostName-后经常不生效/" data-id="cix7b3wob00210ecy24h8st9i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -278,7 +380,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="ciwvtacgf001x9scygq51rzkj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Linux-Command/" data-id="cix7b3wo9001y0ecykx8z7fmi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -328,7 +430,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="ciwvtach400369scyyno46krr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux监控命令/" data-id="cix7b3wp700370ecyd399ycdd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -400,7 +502,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="ciwvtaci8004w9scy2vmamyle" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/我使用过的Linux命令之telnet/" data-id="cix7b3wq5004w0ecyly0fw4gd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -479,7 +581,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="ciwvtach300349scyvp78fpqo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/linux定时任务crond那些事/" data-id="cix7b3wp700350ecy22mbtnbg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -526,116 +628,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="ciwvtach100309scymuhann3d" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-用cp命令复制大量文件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/用cp命令复制大量文件/" class="article-date">
-  <time datetime="2016-12-13T01:29:04.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/用cp命令复制大量文件/">用cp命令复制大量文件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>最近，我有一个复制大量文件的需求，虽然我已经在Unix各种变种上有超过20年的工作经验，但是我仍然被cp指令的行为震撼，我认为这些心得很值得和大家分享下。</p>
-<p>首先介绍下机器：一台戴尔服务器（双核，内存最初是2G，后来扩展到10G，运行ubuntu系统），服务器配备的是全新戴尔存储套件<br>MD1200，该套件包括12个4TB硬盘，其中40TB采用RAID6配置，这样整个系统就可以容忍两块硬盘同时down掉。这台服务器主要用作异地备份，唯一的操作是IO写，由于我使用rsnapshot完成这项工作，<br>因此大部分文件有较高的链接计数（30+）。</p>
-<p>一天早上，我被告知一个硬盘down掉了。</p>
-<p>这不是什么大事，这种事情经常发生。我打电话给戴尔，戴尔第二天就给送来了一块替换盘。但我安装替换盘时发现，替换盘根本不能工作，并且另一块磁盘也down掉了。戴尔技术服务部门富有经验地建议我不要只换down掉的硬盘，因为整个磁盘阵列可能已经损毁了。</p>
-<p>就我所知，磁盘只有在有足够多坏块的情况下才会告警，设想这样一个场景：短时间内，一个文件位于三个磁盘上的备份块全部坏掉，那么很不幸，RAID引擎短时间内难以完成检测坏块、重新计算备份数据并存储这样一个流程，这样你就有丢失数据的风险了。因此，如果两个硬盘显式告警，你的数据可能已经丢失了。</p>
-<p>现有存储套件容量已经难以达到要求，我们决定扩容，把文件从旧存储套件拷贝到新套件中。正常情况下，我会在块级别拷贝用dd指令或者pvmove指令拷贝数据，但是考虑到坏块，我决定采用文件级别的拷贝，因为这样的话，我就可以知道那些文件包含坏块了。</p>
-<p>我上网搜了相关经验，发现cp可以完美地解决这个问题。若想保存硬链接信息，需要记录有哪些文件已经被复制，所以我预订了8G的RAM，并配置了更大的交换区。</p>
-<p>当新的存储套件到货，我就着手复制了，起初，根据iotop的测量数据，复制速度接近于300-400MB/s。不一会儿速度便显著下降了，因为大<br>部分时间花在了建立硬链接上，并且要花时间去处理文件系统的一致性问题。</p>
-<p>为保持一致性，我们使用了XFS，由于没有关闭写屏障，我们深受性能之苦，但如果RAID控制器配置了带有备份电源的写缓存，一致性问题便可更好地解决。正如所料，cp的内存占用量稳步增加，很快便达到了GB级。</p>
-<p>经历了几天的拷贝，问题来了：我发现系统已经停止拷贝，根据strace的显示，cp指令没有调用任何的系统调用函数。阅读相关源码后发现，cp指令会以一个哈希表跟踪有哪些文件被复制了，这个表需要时常地扩展自身容量以避免太多的冲突。当RAM被耗尽，哈希表的扩容过程会成为性能瓶颈。</p>
-<p>我们相信cp的哈希表扩容后，cp指令会继续执行，果然不一会它又“复活”了，但是它会进入周期性的“扩容-拷贝-扩容-拷贝”的循环中，且扩容的<br>时间变得越来越长。经过10天的拷贝，根据dd结果，新文件系统的块数量和inode节点的数量已经和原系统一样，但是让人吃惊的是cp指令并没有退出。</p>
-<p>再次阅读源码，我发现cp正在认真地解构哈希表（使用forget_all函数），由于cp进程需要的虚拟内存大小达到了17GB+，但服务器总共才10G内存，所以解构过程执行了很多RAM和swap区间的换页操作。</p>
-<p>上面整个过程中，我使用了cp的-v选项，并使用tee把日志重定向到日志文件（很大的文件）中。cp的输出信息会被缓存，为使这些缓存信息全部刷新到日志文件中，我给了cp多于一天的时间进行解构哈希表。</p>
-<p>运行”ls –laR”指令，查看下两个文件系统中的文件是否一致，发现除了日志文件的一些错误外，只有一个文件发生了io错误（还好，我们有它的另一个备份）。</p>
-<p>这种错误不会马上复现，但是如果cp能够设计一种数据结构，在等待io的时候处理那些已经被记录的文件，那样处理效率会更高。此外，对于cp最后解<br>构哈希表的forget_all函数，除了那些缺少可用内存管理模块的老式服务器一定需要它之外，我还没发现去掉这个函数会对整个拷贝过程产生什么不好的影响。</p>
-<p>总结一下：</p>
-<p>1、拷贝整个文件系统时，如果确定你的硬件和文件系统都OK，应该使用块级别的拷贝。这种拷贝方式更快，除非你有许多空闲块，但是无论如何它耗费的内存都是较少的；</p>
-<p>2、如果要拷贝许多文件，并想要保留硬链接的信息，可以采用文件级拷贝。拷贝之前需要保证机器有足够多的内存；</p>
-<p>3、比起简单粗暴地停止进程，认真地解构数据结构会花费更多的时间；</p>
-<p>4、告警的硬盘的数量并不等同于有坏块的硬盘的数量。如果不走运，就算配置了RAID6，没来得及等3块磁盘告警，你的数据可能已经丢失。这个时候我们只能赌一把了。同样的情况适用于RAID 5，那怕只有一块磁盘甚至没有磁盘告警，如果不走运，你的数据照样丢！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="ciwvtacic00559scy5lekmdyl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linux中date命令的各种实用方法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Linux中date命令的各种实用方法/" class="article-date">
-  <time datetime="2016-12-13T01:27:09.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Linux中date命令的各种实用方法/">Linux中date命令的各种实用方法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>date 022517122015<br>[root@RHEL601 tmp]# date<br>2012年 07月 19日 星期四 20:11:16 CST<br>读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:<br>%n : 下一行<br>%t : 跳格<br>%H : 小时(00..23)<br>%I : 小时(01..12)<br>%k : 小时(0..23)<br>%l : 小时(1..12)<br>%M : 分钟(00..59)<br>%p : 显示本地 AM 或 PM<br>%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)<br>%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数<br>%S : 秒(00..59)<br>%T : 直接显示时间 (24 小时制)<br>%X : 相当于 %H:%M:%S<br>%Z : 显示时区 %a : 星期几 (Sun..Sat)<br>%A : 星期几 (Sunday..Saturday)<br>%b : 月份 (Jan..Dec)<br>%B : 月份 (January..December)<br>%c : 直接显示日期与时间<br>%d : 日 (01..31)<br>%D : 直接显示日期 (mm/dd/yy)<br>%h : 同 %b<br>%j : 一年中的第几天 (001..366)<br>%m : 月份 (01..12)<br>%U : 一年中的第几周 (00..53) (以 Sunday 为一周的第一天的情形)<br>%w : 一周中的第几天 (0..6)<br>%W : 一年中的第几周 (00..53) (以 Monday 为一周的第一天的情形)<br>%x : 直接显示日期 (mm/dd/yy)<br>%y : 年份的最后两位数字 (00.99)<br>%Y : 完整年份 (0000..9999)</p>
-<p>按照特定的格式输出时间：短接符”-“、空格” “和冒号”:” 为分隔符，其中空格前面加了转义符号”\”<br>[root@RHEL601 tmp]# date +%Y-%m-%d\ %H:%M:%S<br>2012-07-19 21:10:28<br>在当前时间的基础上往前推或者往后推三天<br>[root@RHEL601 tmp]# date -d “+3 day”<br>2012年 07月 22日 星期日 20:12:08 CST<br>[root@RHEL601 tmp]# date -d “-3 day”<br>2012年 07月 16日 星期一 20:12:12 CST<br>在当前时间的基础上往前推或者往后推三个月<br>[root@RHEL601 tmp]# date -d “-3 month”<br>2012年 04月 19日 星期四 20:12:39 CST<br>[root@RHEL601 tmp]# date -d “+3 month”<br>2012年 10月 19日 星期五 20:12:48 CST<br>在当前时间的基础上往前推或者往后推三年<br>[root@RHEL601 tmp]# date -d “+3 year”<br>2015年 07月 19日 星期日 20:13:06 CST<br>[root@RHEL601 tmp]# date -d “-3 year”<br>2009年 07月 19日 星期日 20:13:11 CST<br>在当前时间的基础上往前推或者往后推三小时<br>[root@RHEL601 tmp]# date -d “-3 hour”<br>2012年 07月 19日 星期四 17:13:20 CST<br>[root@RHEL601 tmp]# date -d “+3 hour”<br>2012年 07月 19日 星期四 23:13:24 CST<br>在当前时间的基础上往前推或者往后推三分钟<br>[root@RHEL601 tmp]# date -d “+3 minute”<br>2012年 07月 19日 星期四 20:16:56 CST<br>[root@RHEL601 tmp]# date -d “-3 minute”<br>2012年 07月 19日 星期四 20:10:59 CST<br>在当前时间的基础上往前推或者往后推三十秒<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “-30 second”<br>2012年 07月 19日 星期四 20:14:24 CST<br>2012年 07月 19日 星期四 20:13:54 CST<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “+30 second”<br>2012年 07月 19日 星期四 20:14:29 CST<br>2012年 07月 19日 星期四 20:14:59 CST<br>2、接下来的范例说明如何用date来表示各种各样的时间，表示的都是某一天的零点时间，也可以在当前的时分秒的基础上表示时间，(特别注意中间用到了反单引号<code>)参见范例
-date -d</code>date +%y%m01<code>#本月第一天
-[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>2012年 07月 01日 星期日 00:00:00 CST
-date -d</code>date +%y%m01<code>&quot;-1 day&quot;  #上个月最后一天
-[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>&quot;-1 day&quot;
-2012年 06月 30日 星期六 00:00:00 CST
-date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot; #4个月前的第一天
-[root@RHEL601 tmp]# date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot;
-2012年 03月 31日 星期六 00:00:00 CST
-date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot; #第11个月后的第一天
-[root@RHEL601 tmp]# date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot;
-2013年 06月 30日 星期日 00:00:00 CST
-date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
-[root@RHEL601 tmp]# date -d</code>date -d “-1 month” +%y%m01`<br>2012年 06月 01日 星期五 00:00:00 CST</p>
-<p>date -d <code>date -d &quot;+12 month&quot; +%y%m01</code> #第12个月后的第一天<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+12 month&quot; +%y%m01</code><br>2013年 07月 01日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code> #前一天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code><br>2012年 07月 18日 星期三 00:00:00 CST<br>date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code> #前三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code><br>2012年 07月 16日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code> #明天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code><br>2012年 07月 20日 星期五 00:00:00 CST<br>date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code> #往后推三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code><br>2012年 07月 22日 星期日 00:00:00 CST</p>
-<p>3、以下简单示范了字母大小写在date命令中的区别<br>Y #代表完整的年份，例如:2012年 将显示 2012<br>y #代表缩写年份，例如：2012年 缩写为 12<br>[root@RHEL601 tmp]# date +”%y%m01%H%M%S”<br>121201121556<br>[root@RHEL601 tmp]# date +”%Y%m01%H%M%S”<br>20121201121610<br>4、以下范例说明如何调整服务器的时间<br>ntpdate 210.72.145.44 #将服务器时间调整为正常时间，210.72.145.44 是国家授时中心服务器IP地址<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 13:07:07 ntpdate[15150]: adjust time server 210.72.145.44 offset -0.020920 sec<br>date 121212122012 #将时间设置为2012年 12月 12日 星期三 12:12:00，date后面的数字代表月日时分年，还可以加秒，需要后面跟英文状态下的句号字符”.”，例如：121212122012.12<br>[root@RHEL601 tmp]# date 121212122012<br>2012年 12月 12日 星期三 12:12:00 CST<br>date112809462014<br>[root@RHEL601 tmp]# date 121212122012.12<br>2012年 12月 12日 星期三 12:12:12 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;1 day ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 18日 星期三 20:13:04 CST<br>[root@RHEL601 tmp]# date<br>2012年 07月 18日 星期三 20:13:10 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;3 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 15日 星期日 20:13:18 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;5 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 10日 星期二 20:13:28 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 09日 星期一 20:13:39 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 08日 星期日 20:14:01 CST<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 20:14:15 ntpdate[26846]: step time server 210.72.145.44 offset 950404.037565 sec</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="ciwvtacgl00249scyb11lundt" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/cp复制目录时排除一个或者多个目录的方法/" data-id="cix7b3woy00310ecyxsarovvf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -679,6 +672,14 @@ date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -688,14 +689,6 @@ date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

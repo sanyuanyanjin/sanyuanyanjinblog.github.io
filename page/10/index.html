@@ -61,6 +61,89 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-7-x-GIT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-GIT/" class="article-date">
+  <time datetime="2016-12-15T02:49:00.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-GIT/">CentOS 7.x GIT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum install git -y<br>git -version<br>git –version<br>git config –global user.name sanyuanyanjin<br>git config –global user.email sanyuanyanjin@gmail.com<br>mkdir git_exercise<br>cd git_exercise/<br>git init<br>touch hello.txt<br>git status<br>git add hello.txt<br>git add -A //提交目录下全部<br>git status<br>git commit -m “Initial commit.”</p>
+<p>下载远程仓库并合并本地文件<br>[root@CentOS7 ~]# git clone <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>正克隆到 ‘gitskills’…<br>remote: Counting objects: 3, done.<br>remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0<br>Unpacking objects: 100% (3/3), done.<br>[root@CentOS7 ~]# cd gitskills/<br>[root@CentOS7 gitskills]#touch hello.txt<br>[root@CentOS7 gitskills]# git status<br>[root@CentOS7 gitskills]# git add -A<br>[root@CentOS7 gitskills]# git status</p>
+<h1 id="位于分支-master"><a href="#位于分支-master" class="headerlink" title="位于分支 master"></a>位于分支 master</h1><h1 id="要提交的变更："><a href="#要提交的变更：" class="headerlink" title="要提交的变更："></a>要提交的变更：</h1><h1 id="（使用-“git-reset-HEAD-…”-撤出暂存区）"><a href="#（使用-“git-reset-HEAD-…”-撤出暂存区）" class="headerlink" title="（使用 “git reset HEAD …” 撤出暂存区）"></a>（使用 “git reset HEAD <file>…” 撤出暂存区）</file></h1><p>#</p>
+<h1 id="新文件：-hello-txt"><a href="#新文件：-hello-txt" class="headerlink" title="新文件：    hello.txt"></a>新文件：    hello.txt</h1><p>#<br>[root@CentOS7 gitskills]# git commit -m “hello1.”<br>[master 3f0f79c] hello1.<br> 1 file changed, 0 insertions(+), 0 deletions(-)<br> create mode 100644 hello.txt<br>[root@CentOS7 gitskills]# git push origin master<br>Username for ‘<a href="https://github.com" target="_blank" rel="external">https://github.com</a>‘: sanyuanyanjin<br>Password for ‘<a href="https://sanyuanyanjin@github.com" target="_blank" rel="external">https://sanyuanyanjin@github.com</a>‘:<br>Counting objects: 4, done.<br>Delta compression using up to 4 threads.<br>Compressing objects: 100% (2/2), done.<br>Writing objects: 100% (3/3), 274 bytes | 0 bytes/s, done.<br>Total 3 (delta 0), reused 0 (delta 0)<br>To <a href="https://github.com/sanyuanyanjin/gitskills.git" target="_blank" rel="external">https://github.com/sanyuanyanjin/gitskills.git</a><br>   afffd47..3f0f79c  master -&gt; master<br>[root@CentOS7 gitskills]# </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-GIT/" data-id="cix7b3wnj00180ecyqberuljn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-7-x-NFS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-7-x-NFS/" class="article-date">
+  <time datetime="2016-12-15T00:30:48.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-7-x-NFS/">CentOS 7.x NFS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>CentOS 7引入了全新的 systemctl 服务管理，设置和管理服务略有不同。以下是为了提供Mac OS X客户端访问Linux NFS输出的卷实现数据备份的记录，NFS服务器设置见本文，Mac OS X挂载Linux的NFS输出见Mac OS X 挂载Linux卷（NFS）。<br>设置Linux服务端<br>将移动硬盘挂载到 /data 目录<br>mount /dev/sdb1 /data<br>在Paralles Desktop虚拟机运行的是CentOS 7操作系统，使用以下命令安装 NFS 支持<br>yum install nfs-utils nfs-utils-lib<br>设置nfs相关服务在操作系统启动时启动<br>systemctl enable rpcbind<br>systemctl enable nfs-server<br>systemctl enable nfs-lock<br>systemctl enable nfs-idmap<br>启动nfs服务<br>systemctl start rpcbind<br>systemctl start nfs-server<br>systemctl start nfs-lock<br>systemctl start nfs-idmap<br>服务器端设置NFS卷输出，即编辑 /etc/exports 添加：<br>/data    10.211.55.0/24(rw,sync,no_root_squash,no_subtree_check)<br>/data – 共享目录<br>10.211.55.0/24 – 允许访问NFS的客户端IP地址段<br>rw – 允许对共享目录进行读写<br>sync – 实时同步共享目录<br>no_root_squash – 允许root访问<br>no_all_squash - 允许用户授权<br>no_subtree_check - 如果卷的一部分被输出，从客户端发出请求文件的一个常规的调用子目录检查验证卷的相应部分。如果是整个卷输出，禁止这个检查可以加速传输。<br>no_subtree_check - If only part of a volume is exported, a routine called subtree checking verifies that a file that is requested from the client is in the appropriate part of the volume. If the entire volume is exported, disabling this check will speed up transfers. Setting Up an NFS Server<br>NFS客户端挂载<br>Linux挂载NFS的客户端非常简单的命令，先创建挂载目录，然后用 -t nfs 参数挂载就可以了<br>mount -t nfs  10.211.55.9:/data /data<br>如果要设置客户端启动时候就挂载NFS，可以配置 /etc/fstab 添加以下内容<br>10.211.55.9:/data    /data  nfs auto,rw,vers=3,hard,intr,tcp,rsize=32768,wsize=32768      0   0<br>然后在客户端简单使用以下命令就可以挂载<br>mount /data<br>通过防火墙挂载NFS服务<br>在生产环境，可能会因为安全需求在NFS服务器和客户端之间部署防火墙。此时，NFS客户端挂载的时候会有如下输出报错<br>mount.nfs: Connection timed out<br>参考 Running NFS Behind a Firewall 设置防火墙允许访问NFS服务器的服务端口，注意，需要配置NFS服务使用固定端口。<br>MOUNTD_PORT=port</p>
+<h1 id="Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses"><a href="#Controls-which-TCP-and-UDP-port-mountd-rpc-mountd-uses" class="headerlink" title="Controls which TCP and UDP port mountd (rpc.mountd) uses."></a>Controls which TCP and UDP port mountd (rpc.mountd) uses.</h1><p>STATD_PORT=port</p>
+<h1 id="Controls-which-TCP-and-UDP-port-status-rpc-statd-uses"><a href="#Controls-which-TCP-and-UDP-port-status-rpc-statd-uses" class="headerlink" title="Controls which TCP and UDP port status (rpc.statd) uses."></a>Controls which TCP and UDP port status (rpc.statd) uses.</h1><p>LOCKD_TCPPORT=port</p>
+<h1 id="Controls-which-TCP-port-nlockmgr-lockd-uses"><a href="#Controls-which-TCP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which TCP port nlockmgr (lockd) uses."></a>Controls which TCP port nlockmgr (lockd) uses.</h1><p>LOCKD_UDPPORT=port</p>
+<h1 id="Controls-which-UDP-port-nlockmgr-lockd-uses"><a href="#Controls-which-UDP-port-nlockmgr-lockd-uses" class="headerlink" title="Controls which UDP port nlockmgr (lockd) uses."></a>Controls which UDP port nlockmgr (lockd) uses.</h1><p>编辑 /etc/sysconfig/nfs 配置文件</p>
+<h1 id="TCP-port-rpc-lockd-should-listen-on"><a href="#TCP-port-rpc-lockd-should-listen-on" class="headerlink" title="TCP port rpc.lockd should listen on."></a>TCP port rpc.lockd should listen on.</h1><p>LOCKD_TCPPORT=32803</p>
+<h1 id="UDP-port-rpc-lockd-should-listen-on"><a href="#UDP-port-rpc-lockd-should-listen-on" class="headerlink" title="UDP port rpc.lockd should listen on."></a>UDP port rpc.lockd should listen on.</h1><p>LOCKD_UDPPORT=32769<br>MOUNTD_PORT=892<br>STATD_PORT=662<br>可以在Linux NFS服务器上执行以下命令获得NFS端口信息<br>rpcinfo -p<br>需要允许以下端口<br>NFS的TCP和UDP端口2049<br>rpcbind/sunrpc的TCP和UDP端口111<br>设置 MOUNTD_PORT 的TCP和UDP端口<br>设置 STATD_PORT 的TCP和UDP端口<br>设置 LOCKD_TCPPORT 的TCP端口<br>设置 LOCKD_UDPPORT 的UDP端口<br>program vers proto   port  service<br>100000    4   tcp    111  portmapper<br>100000    3   tcp    111  portmapper<br>100000    2   tcp    111  portmapper<br>100000    4   udp    111  portmapper<br>100000    3   udp    111  portmapper<br>100000    2   udp    111  portmapper<br>100024    1   udp  54305  status<br>100024    1   tcp  55604  status<br>100005    1   udp  20048  mountd<br>100005    1   tcp  20048  mountd<br>100005    2   udp  20048  mountd<br>100005    2   tcp  20048  mountd<br>100005    3   udp  20048  mountd<br>100005    3   tcp  20048  mountd<br>100003    3   tcp   2049  nfs<br>100003    4   tcp   2049  nfs<br>100227    3   tcp   2049  nfs_acl<br>100003    3   udp   2049  nfs<br>100003    4   udp   2049  nfs<br>100227    3   udp   2049  nfs_acl<br>100021    1   udp  32769  nlockmgr<br>100021    3   udp  32769  nlockmgr<br>100021    4   udp  32769  nlockmgr<br>100021    1   tcp  32803  nlockmgr<br>100021    3   tcp  32803  nlockmgr<br>100021    4   tcp  32803  nlockmgr<br>100011    1   udp    875  rquotad<br>100011    2   udp    875  rquotad<br>100011    1   tcp    875  rquotad<br>100011    2   tcp    875  rquotad<br>在 Linux NFS 服务器上使用以下命令开启iptables防火墙允许访问以上端口<br>firewall-cmd –permanent –add-port=2049/tcp<br>firewall-cmd –permanent –add-port=2049/udp<br>firewall-cmd –permanent –add-port=111/tcp<br>firewall-cmd –permanent –add-port=111/udp<br>firewall-cmd –permanent –add-port=892/tcp<br>firewall-cmd –permanent –add-port=892/udp<br>firewall-cmd –permanent –add-port=662/tcp<br>firewall-cmd –permanent –add-port=662/udp<br>firewall-cmd –permanent –add-port=32803/tcp<br>firewall-cmd –permanent –add-port=32769/udp<br>在 Linux NFS 服务器上使用以下命令重新加载防火墙规则<br>firewall-cmd –reload</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-NFS/" data-id="cix7b3wnm001b0ecyuefcywr6" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-7-x-HA-Cluster" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-7-x-HA-Cluster/" class="article-date">
@@ -104,7 +187,7 @@
 <p>#pcsresourcecreateVIPocf:heartbeat:IPaddr2ip=192.168.122.170cidr_netmask=24opmonitorinterval=30s</p>
 <p>#pcsupdateVIPopmonitorinterval=15s<br>10、配置apache服务<br>在node1和node2上安装httpd，确认httpd开机被禁用</p>
 <p>#systemctlstatushttpd.service；<br>配置httpd监控页面（貌似不配置也可以通过systemd监控），分别在node1和node2上执行</p>
-<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#x3c;&#69;&#79;&#x46;&#xa;&#x53;&#x65;&#116;&#x48;&#x61;&#110;&#x64;&#108;&#101;&#114;&#115;&#x65;&#114;&#118;&#x65;&#x72;&#45;&#115;&#x74;&#97;&#116;&#x75;&#115;&#10;&#x4f;&#x72;&#100;&#x65;&#114;&#x64;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#x6c;&#111;&#x77;&#xa;&#x44;&#x65;&#x6e;&#121;&#x66;&#x72;&#x6f;&#109;&#97;&#108;&#108;&#xa;&#x41;&#108;&#108;&#x6f;&#x77;&#x66;&#x72;&#x6f;&#109;&#x6c;&#111;&#99;&#x61;&#x6c;&#104;&#x6f;&#x73;&#x74;&#xa;&#x45;&#79;&#70;&#xa;&#x9996;&#20808;&#x6211;&#20204;&#20026;&#x41;&#112;&#x61;&#x63;&#x68;&#x65;&#21019;&#24314;&#x4e00;&#20010;&#x4e3b;&#x9875;&#x3002;&#22312;&#x63;&#101;&#x6e;&#116;&#x6f;&#x73;&#x4e0a;&#x9762;&#x9ed8;&#x8ba4;&#x7684;&#65;&#112;&#97;&#x63;&#x68;&#101;&#100;&#111;&#x63;&#114;&#x6f;&#111;&#116;&#x662f;&#47;&#118;&#x61;&#114;&#x2f;&#x77;&#x77;&#x77;&#x2f;&#x68;&#x74;&#109;&#x6c;&#x2c;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#30446;&#x5f55;&#19979;&#38754;&#x5efa;&#x7acb;&#x4e00;&#20010;&#20027;&#39029;&#12290;&#10;&#x6e;&#111;&#100;&#101;&#x31;&#x8282;&#x70b9;&#20462;&#25913;&#x5982;&#x4e0b;&#xff1a;&#10;&#x5b;&#x72;&#111;&#111;&#116;&#64;&#x6e;&#111;&#x64;&#x65;&#x31;&#x7e;&#x5d;&#35;&#x63;&#97;&#116;&#x3c;&#60;&#45;&#69;&#78;&#68;">&#x3c;&#69;&#79;&#x46;&#xa;&#x53;&#x65;&#116;&#x48;&#x61;&#110;&#x64;&#108;&#101;&#114;&#115;&#x65;&#114;&#118;&#x65;&#x72;&#45;&#115;&#x74;&#97;&#116;&#x75;&#115;&#10;&#x4f;&#x72;&#100;&#x65;&#114;&#x64;&#x65;&#x6e;&#121;&#44;&#x61;&#108;&#x6c;&#111;&#x77;&#xa;&#x44;&#x65;&#x6e;&#121;&#x66;&#x72;&#x6f;&#109;&#97;&#108;&#108;&#xa;&#x41;&#108;&#108;&#x6f;&#x77;&#x66;&#x72;&#x6f;&#109;&#x6c;&#111;&#99;&#x61;&#x6c;&#104;&#x6f;&#x73;&#x74;&#xa;&#x45;&#79;&#70;&#xa;&#x9996;&#20808;&#x6211;&#20204;&#20026;&#x41;&#112;&#x61;&#x63;&#x68;&#x65;&#21019;&#24314;&#x4e00;&#20010;&#x4e3b;&#x9875;&#x3002;&#22312;&#x63;&#101;&#x6e;&#116;&#x6f;&#x73;&#x4e0a;&#x9762;&#x9ed8;&#x8ba4;&#x7684;&#65;&#112;&#97;&#x63;&#x68;&#101;&#100;&#111;&#x63;&#114;&#x6f;&#111;&#116;&#x662f;&#47;&#118;&#x61;&#114;&#x2f;&#x77;&#x77;&#x77;&#x2f;&#x68;&#x74;&#109;&#x6c;&#x2c;&#25152;&#20197;&#25105;&#20204;&#22312;&#x8fd9;&#x4e2a;&#30446;&#x5f55;&#19979;&#38754;&#x5efa;&#x7acb;&#x4e00;&#20010;&#20027;&#39029;&#12290;&#10;&#x6e;&#111;&#100;&#101;&#x31;&#x8282;&#x70b9;&#20462;&#25913;&#x5982;&#x4e0b;&#xff1a;&#10;&#x5b;&#x72;&#111;&#111;&#116;&#64;&#x6e;&#111;&#x64;&#x65;&#x31;&#x7e;&#x5d;&#35;&#x63;&#97;&#116;&#x3c;&#60;&#45;&#69;&#78;&#68;</a>/var/www/html/index.html</p>
+<p>#cat&gt;/etc/httpd/conf.d/status.conf<a href="&#109;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x3c;&#x45;&#x4f;&#70;&#10;&#83;&#101;&#116;&#x48;&#x61;&#x6e;&#100;&#108;&#101;&#x72;&#x73;&#101;&#x72;&#x76;&#101;&#114;&#45;&#115;&#x74;&#97;&#116;&#117;&#115;&#xa;&#x4f;&#114;&#x64;&#x65;&#x72;&#x64;&#101;&#110;&#x79;&#44;&#97;&#x6c;&#x6c;&#x6f;&#119;&#xa;&#68;&#101;&#x6e;&#x79;&#x66;&#114;&#x6f;&#109;&#x61;&#108;&#108;&#10;&#65;&#108;&#x6c;&#111;&#119;&#x66;&#114;&#x6f;&#x6d;&#x6c;&#x6f;&#x63;&#97;&#108;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#x4f;&#70;&#10;&#x9996;&#20808;&#x6211;&#20204;&#20026;&#65;&#112;&#x61;&#x63;&#104;&#x65;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#20027;&#x9875;&#x3002;&#x5728;&#x63;&#101;&#x6e;&#116;&#111;&#115;&#19978;&#x9762;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#x65;&#x64;&#111;&#x63;&#x72;&#111;&#111;&#x74;&#x662f;&#x2f;&#x76;&#x61;&#114;&#47;&#x77;&#119;&#119;&#47;&#104;&#116;&#109;&#108;&#44;&#x6240;&#20197;&#25105;&#20204;&#22312;&#36825;&#20010;&#x76ee;&#24405;&#x4e0b;&#38754;&#x5efa;&#31435;&#19968;&#20010;&#20027;&#39029;&#12290;&#10;&#x6e;&#x6f;&#100;&#x65;&#x31;&#x8282;&#28857;&#x4fee;&#x6539;&#22914;&#19979;&#xff1a;&#10;&#x5b;&#114;&#x6f;&#x6f;&#116;&#64;&#x6e;&#111;&#100;&#101;&#x31;&#x7e;&#x5d;&#35;&#x63;&#97;&#x74;&#x3c;&#60;&#45;&#x45;&#78;&#x44;">&#x3c;&#x45;&#x4f;&#70;&#10;&#83;&#101;&#116;&#x48;&#x61;&#x6e;&#100;&#108;&#101;&#x72;&#x73;&#101;&#x72;&#x76;&#101;&#114;&#45;&#115;&#x74;&#97;&#116;&#117;&#115;&#xa;&#x4f;&#114;&#x64;&#x65;&#x72;&#x64;&#101;&#110;&#x79;&#44;&#97;&#x6c;&#x6c;&#x6f;&#119;&#xa;&#68;&#101;&#x6e;&#x79;&#x66;&#114;&#x6f;&#109;&#x61;&#108;&#108;&#10;&#65;&#108;&#x6c;&#111;&#119;&#x66;&#114;&#x6f;&#x6d;&#x6c;&#x6f;&#x63;&#97;&#108;&#x68;&#111;&#x73;&#116;&#xa;&#x45;&#x4f;&#70;&#10;&#x9996;&#20808;&#x6211;&#20204;&#20026;&#65;&#112;&#x61;&#x63;&#104;&#x65;&#21019;&#x5efa;&#x4e00;&#x4e2a;&#20027;&#x9875;&#x3002;&#x5728;&#x63;&#101;&#x6e;&#116;&#111;&#115;&#19978;&#x9762;&#x9ed8;&#35748;&#x7684;&#65;&#x70;&#97;&#99;&#104;&#x65;&#x64;&#111;&#x63;&#x72;&#111;&#111;&#x74;&#x662f;&#x2f;&#x76;&#x61;&#114;&#47;&#x77;&#119;&#119;&#47;&#104;&#116;&#109;&#108;&#44;&#x6240;&#20197;&#25105;&#20204;&#22312;&#36825;&#20010;&#x76ee;&#24405;&#x4e0b;&#38754;&#x5efa;&#31435;&#19968;&#20010;&#20027;&#39029;&#12290;&#10;&#x6e;&#x6f;&#100;&#x65;&#x31;&#x8282;&#28857;&#x4fee;&#x6539;&#22914;&#19979;&#xff1a;&#10;&#x5b;&#114;&#x6f;&#x6f;&#116;&#64;&#x6e;&#111;&#100;&#101;&#x31;&#x7e;&#x5d;&#35;&#x63;&#97;&#x74;&#x3c;&#60;&#45;&#x45;&#78;&#x44;</a>/var/www/html/index.html</p>
 <p><html></html></p>
 <p><body>Hellonode1</body><br><br>END<br>node2节点修改如下：<br>[root@node2~]#cat&lt;&lt;-END&gt;/var/www/html/index.html</p>
 <p><html></html></p>
@@ -121,7 +204,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="ciwvtacfs00199scym7kpu76g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-7-x-HA-Cluster/" data-id="cix7b3wnl001a0ecytpsrqp0p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -294,7 +377,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="ciwvtacfb000r9scy5cu30yuu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Puppet/" data-id="cix7b3wn3000r0ecyk2hyz1ks" class="article-share-link">Share</a>
       
       
     </footer>
@@ -330,7 +413,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="ciwvtaci0004f9scy1s7xxrft" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言-1/" data-id="cix7b3wpy004f0ecyo5n9uk4d" class="article-share-link">Share</a>
       
       
     </footer>
@@ -366,7 +449,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="ciwvtaci1004g9scypkp1m5uj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/前言/" data-id="cix7b3wpy004g0ecyv20qiw2o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -431,7 +514,7 @@ subscribe =&gt; File[&apos;my.cnf&apos;],
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="ciwvtacgu002m9scyql2f1rgv" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-12-04-Puppet/" data-id="cix7b3woo002n0ecyrgeyobax" class="article-share-link">Share</a>
       
       
     </footer>
@@ -545,7 +628,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="ciwvtacex000j9scyz0zwi7cw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-GoAccess/" data-id="cix7b3wmn000j0ecylh1zjo3n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -588,7 +671,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="ciwvtacf1000m9scy5xnm7iw8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Logrotate/" data-id="cix7b3wmr000m0ecy65kekr9a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -633,85 +716,7 @@ fi
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="ciwvtacer000e9scygbm20y6o" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-Docker" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/Ubuntu-14-04-Docker/" class="article-date">
-  <time datetime="2016-12-14T04:49:11.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/Ubuntu-14-04-Docker/">Ubuntu 14.04 Docker</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Docker 介绍<br>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。它们不依赖于任何语言、框架或包装系统。<br>三个最重要的基本概念（此处参考来源《Docker从入门到实践》）<br>这三个基本概念是Docker镜像，Docker容器和Docker仓库。<br>【Docker镜像】<br>Docker 镜像就是一个只读的模板。<br>例如：一个镜像可以包含一个完整的 ubuntu 操作系统环境，里面仅安装了 Apache 或用户需要的其它应用程序。<br>镜像可以用来创建 Docker 容器。<br>Docker 提供了一个很简单的机制来创建镜像或者更新现有的镜像，用户甚至可以直接从其他人那里下载一个已经做好的镜像来直接使用。<br>【Docker容器】<br>Docker 利用容器来运行应用。<br>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台。<br>可以把容器看做是一个简易版的 Linux 环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。<br><em>注：镜像是只读的，容器在启动的时候创建一层可写层作为最上层。<br>【Docker仓库】<br>仓库是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库中又包含了多个镜像，每个镜像有不同的标签（tag）。<br>仓库分为公开仓库（Public）和私有仓库（Private）两种形式。<br>最大的公开仓库是 Docker Hub，存放了数量庞大的镜像供用户下载。 国内的公开仓库包括 Docker Pool 等，可以提供大陆用户更稳定快速的访问。<br>当然，用户也可以在本地网络内创建一个私有仓库。<br>当用户创建了自己的镜像之后就可以使用 push 命令将它上传到公有或者私有仓库，这样下次在另外一台机器上使用这个镜像时候，只需要从仓库上 pull 下来就可以了。
-</em>注：Docker 仓库的概念跟 Git 类似，注册服务器可以理解为 GitHub 这样的托管服务。<br>值得关注的特性：<br>1 文件系统隔离：每个进程容器运行在一个完全独立的根文件系统里。<br>2 资源隔离：系统资源，像CPU和内存等可以分配到不同的容器中，使用cgroup。<br>3 网络隔离：每个进程容器运行在自己的网络空间，虚拟接口和IP地址。<br>4 日志记录：Docker将会收集和记录每个进程容器的标准流（stdout/stderr/stdin），用于实时检索或批量检索。<br>5 变更管理：容器文件系统的变更可以提交到新的映像中，并可重复使用以创建更多的容器。无需使用模板或手动配置。<br>6 交互式shell：Docker可以分配一个虚拟终端并关联到任何容器的标准输入上，例如运行一个一次性交互shell。<br>安装过程<br>我用的系统： UbuntuKylin 14.10 32位系统<br>在ubuntu的官方软件仓库已经包含了docker，可以使用apt-get的方式安装。<br>安装Docker使用apt-get命令:<br>$ apt-get install docker.io<br>启动服务和守护进程<br>$ service docker status<br>$ service docker start<br>几个Docker基本命令<br>首先，让我们通过下面的命令来检查Docker的安装是否正确：<br>docker info<br>如果没有找到此命令，则表示Docker没有正确安装。如果正确安装会输出类似下面的内容：<br>Containers: 0<br>Images: 124<br>Storage Driver: aufs<br> Root Dir: /var/lib/docker/aufs<br> Dirs: 124<br>Execution Driver: native-0.2<br>Kernel Version: 3.16.0-23-generic<br>Operating System: Ubuntu Kylin 14.10<br>到这一步Docker里还没有镜像或是容器。所以，让我们通过命令来拉取一个预建的镜像：<br>sudo docker pull busybox （这里使用的是官方的registry）<br>这里推荐下国内的 docker.cn，速度比官方的快很多<br>使用方法如下：sudo docker pull docker.cn/docker/busybox<br>未完待续。。。。。。<br>参考资料：<br><a href="http://www.linuxidc.com/Linux/2013-10/91050.htm" target="_blank" rel="external">http://www.linuxidc.com/Linux/2013-10/91050.htm</a><br><a href="http://cloud.51cto.com/art/201412/462905.htm" target="_blank" rel="external">http://cloud.51cto.com/art/201412/462905.htm</a><br><a href="http://dockerpool.com/static/books/docker_practice/index.html" target="_blank" rel="external">http://dockerpool.com/static/books/docker_practice/index.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/Ubuntu-14-04-Docker/" data-id="ciwvtacgu002n9scydqj61bxv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-CAT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/14/CentOS-6-x-CAT/" class="article-date">
-  <time datetime="2016-12-14T04:48:22.000Z" itemprop="datePublished">2016-12-14</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/14/CentOS-6-x-CAT/">CentOS 6.x CAT</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>CAT(Central Application Tracking)是基于Java开发的实时应用监控平台，为大众点评网提供了全面的监控服务和决策支持。<br>CAT作为大众点评网基础监控组件，它已经在中间件框架（MVC框架，RPC框架，数据库框架，缓存框架等）中得到广泛应用，为点评各业务线提供系统的性能指标、健康状况、基础告警等。<br>地址:<a href="https://github.com/dianping/cat" target="_blank" rel="external">https://github.com/dianping/cat</a><br>require: JAVA6<br>Maven 3<br>Mysql<br>1.安装jdk,maven(操作系统CentOS release 6.5)<br>root@172.16.221.1:~#  yum install jdk1.8.0_40.x86_64<br>root@172.16.221.1:~#wget <a href="http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz" target="_blank" rel="external">http://mirror.olnevhost.net/pub/apache/maven/binaries/apache-maven-3.2.1-bin.tar.gz</a><br>root@172.16.221.1:apache-maven# pwd<br>/usr/local/apache-maven<br>root@172.16.221.1:apache-maven# tar xf apache-maven-3.2.1-bin.tar.gz<br>root@172.16.221.1:apache-maven-3.2.1# ll<br>total 40<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 bin<br>drwxr-xr-x 2 root root  4096 Apr 23 17:20 boot<br>drwxr-xr-x 3 root root  4096 Feb 15  2014 conf<br>drwxr-xr-x 3 root root  4096 Apr 23 17:20 lib<br>-rw-r–r– 1 root root 14865 Feb 15  2014 LICENSE<br>-rw-r–r– 1 root root   182 Feb 15  2014 NOTICE<br>-rw-r–r– 1 root root  2513 Feb 15  2014 README.txt<br>root@172.16.221.1:apache-maven-3.2.1# pwd<br>/usr/local/apache-maven/apache-maven-3.2.1<br>2.环境变量配置<br>root@172.16.221.1:apache-maven-3.2.1# cat /etc/profile<br>…<br>export M2_HOME=/usr/local/apache-maven/apache-maven-3.2.1<br>export M2=$M2_HOME/bin<br>export PATH=$M2:$PATH</p>
-<p>root@172.16.221.1:apache-maven-3.2.1# source /etc/profile<br>3 测试<br>root@172.16.221.1:~# java -version<br>java version “1.8.0_40”<br>Java(TM) SE Runtime Environment (build 1.8.0_40-b26)<br>Java HotSpot(TM) 64-Bit Server VM (build 25.40-b25, mixed mode)</p>
-<p>root@172.16.221.1:~# mvn -v<br>Apache Maven 3.2.1 (ea8b2b07643dbb1b84b6d16e1f08391b666bc1e9; 2014-02-15T01:37:52+08:00)<br>Maven home: /usr/local/apache-maven/apache-maven-3.2.1<br>Java version: 1.8.0_40, vendor: Oracle Corporation<br>Java home: /usr/java/jdk1.8.0_40/jre Default locale: en_US, platform encoding: UTF-8<br>OS name: “linux”, version: “2.6.32-431.el6.x86_64”, arch: “amd64”, family: “unix”<br>4 Clone CAT<br>root@172.16.221.1:opt# git clone git@github.com:dianping/cat.git<br>5 在CAT目录下,用maven构建项目<br>root@172.16.221.1:cat# pwd<br>/opt/cat<br>root@172.16.221.1:cat# mvn clean install -DskipTests<br>6 配置CAT的环境<br>root@172.16.221.1:cat# mav cat:install<br>注意 需要对/data/appdatas/cat和/data/applogs/cat有读写权限<br>7 运行CAT<br>root@172.16.221.1:cat-home# pwd<br>/opt/cat/cat-home<br>root@172.16.221.1:cat-home#nohup mvn jetty:run &amp;<br>8 打开浏览器，输入<a href="http://172.16.221.1:2281/cat/。" target="_blank" rel="external">http://172.16.221.1:2281/cat/。</a></p>
-<p>或者在cat目录下输入 mvn eclipse:clean eclipse:eclipse 然后将项目导入到eclipse中，运行cat-home项目里得‘com.dianping.cat.TestServer’来启动CAT.</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-CAT/" data-id="ciwvtaceo000a9scyzoljb743" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/14/CentOS-6-x-Docker-Swarm-Etcd-Cluster/" data-id="cix7b3wmg000e0ecyu2jau7ox" class="article-share-link">Share</a>
       
       
     </footer>
@@ -755,6 +760,14 @@ fi
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -764,14 +777,6 @@ fi
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Docker的Swarm模式 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Docker Swarm是原生的Docker集群工具。在Docker版本1.12之后，Docker引擎加入了Swarm模式，将Swarm集成进来。大多数用户应该使用集成进Docker引擎的Swarm模式。单独的Docker Swarm仍然可用，只是它没有集成进Docker引擎的API和CLI命令当中。
+在文章“使用Swarm进行Docker集群的部署”中，我们探索了如何通过Docker Swarm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker的Swarm模式">
+<meta property="og:url" content="http://yoursite.com/2016/12/27/Docker的Swarm模式/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="Docker Swarm是原生的Docker集群工具。在Docker版本1.12之后，Docker引擎加入了Swarm模式，将Swarm集成进来。大多数用户应该使用集成进Docker引擎的Swarm模式。单独的Docker Swarm仍然可用，只是它没有集成进Docker引擎的API和CLI命令当中。
+在文章“使用Swarm进行Docker集群的部署”中，我们探索了如何通过Docker Swarm">
+<meta property="og:updated_time" content="2016-12-27T09:23:51.282Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker的Swarm模式">
+<meta name="twitter:description" content="Docker Swarm是原生的Docker集群工具。在Docker版本1.12之后，Docker引擎加入了Swarm模式，将Swarm集成进来。大多数用户应该使用集成进Docker引擎的Swarm模式。单独的Docker Swarm仍然可用，只是它没有集成进Docker引擎的API和CLI命令当中。
+在文章“使用Swarm进行Docker集群的部署”中，我们探索了如何通过Docker Swarm">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Docker的Swarm模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/27/Docker的Swarm模式/" class="article-date">
+  <time datetime="2016-12-27T09:23:29.000Z" itemprop="datePublished">2016-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker的Swarm模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Docker Swarm是原生的Docker集群工具。在Docker版本1.12之后，Docker引擎加入了Swarm模式，将Swarm集成进来。大多数用户应该使用集成进Docker引擎的Swarm模式。单独的Docker Swarm仍然可用，只是它没有集成进Docker引擎的API和CLI命令当中。</p>
+<p>在文章“使用Swarm进行Docker集群的部署”中，我们探索了如何通过Docker Swarm镜像部署Docker集群。随着Docker的不断开发，在版本1.12之后，Docker引擎加入了Swarm模式，用户可以通过原生的Docker CLI命令操作Swarm集群。本篇就对这种Swarm模式进行简单的概览。更详细的信息可以参考官方文档。</p>
+<p>本篇使用的环境包括3个节点，一个作为Swarm的manager节点，两个为worker节点，机器名和IP地址如下：<br>centos 7 :  10.6.0.45（Swarm manager）<br>centos7-A： 10.6.0.46 （Swarm worker）<br>centos7-B： 10.6.0.47（Swarm worker）<br>在三台主机上，都安装了Docker引擎1.12版，并且主机相互之间可以ping通，主机上的2377,7946,4789端口都打开。</p>
+<p>1.创建swarm<br>1.1 下面开始创建swarm。登录到centos7主机上，执行如下命令：<br>[yangdong@centos7 ~]$<br>docker swarm init –advertise-addr 10.6.0.45<br>Swarm initialized: current node (apuzqxv15ksvbypi584w9ilc3) is now a manager.</p>
+<p>To add a worker to this swarm, run the following command:</p>
+<pre><code>docker swarm join \
+--token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \
+10.6.0.45:2377
+</code></pre><p>To add a manager to this swarm, run ‘docker swarm join-token manager’ and follow the instructions.</p>
+<p>[root@docker ~]#<br>–advertise-addr参数表示其它swarm中的worker节点使用此ip地址与manager联系。命令的输出包含了其它节点如何加入集群的命令。<br>使用docker info和docker node ls查看集群中的相关信息：</p>
+<p>[yangdong@centos7 ~]$ docker info<br>…<br>Swarm: active<br>NodeID: 41atspd62he1vshs4jmhpyufj<br>Is Manager: true<br>ClusterID: 5nl0kyz1dfmkgg2sx04vr8zoi<br>Managers: 1<br>Nodes: 1<br>Orchestration:<br>Task History Retention Limit: 5<br>…<br>[yangdong@centos7 ~]$<br>docker node ls<br>ID                           HOSTNAME  STATUS  AVAILABILITY  MANAGER STATUS<br>41atspd62he1vshs4jmhpyufj <em>  centos7   Ready   Active        Leader<br>node ID旁边那个</em>号表示现在连接到这个节点上。</p>
+<ol>
+<li>将节点加入swarm<br>2.1 登录到centos7-A主机上，执行前面创建swarm时输出的命令<br>[yangdong@centos7-A ~]$<br>docker swarm join \<br>–token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \<br>10.6.0.45:2377</li>
+</ol>
+<p>如果当时创建swarm时没有记下命令的输出，可以通过在manager节点上运行docker swarm join-token worker命令来获取如何加入swarm的命令。</p>
+<p>在另一台主机centos7-B上也执行相同的命令，最后在manager节点上看一下集群节点的状态：<br>docker swarm join \<br>–token SWMTKN-1-63310nu44f8cupqwlilutkwpd0a23sbfp4pikbxqmkiud3bqg1-6nt004w5c5wviyojbw3j5d3ee \<br>10.6.0.45:2377</p>
+<p>[yangdong@centos7 ~]$<br>docker node ls</p>
+<p>ID                           HOSTNAME   STATUS  AVAILABILITY  MANAGER STATUS<br>0b57ews522yiz8xyhy3jz34ci    centos7-B  Ready   Active<br>41atspd62he1vshs4jmhpyufj *  centos7    Ready   Active        Leader<br>d1lurs40mlah70spbetcsl9rw    centos7-A  Ready   Active        </p>
+<ol>
+<li>在Swarm中部署服务<br>3.1 在centos7也就是manager节点上运行如下命令来部署服务</li>
+</ol>
+<p>[yangdong@centos7 ~]$<br>docker service create –replicas 1 –name helloworld alpine ping www.qq.com<br>50r6d8w4cwzi45s8865p9pdn4<br>–replicas参数指定服务由几个实例组成。最后的命令行参数alpine ping docker.com指定了使用alpine镜像创建服务，实例启动时运行ping docker.com命令。这与docker run命令是一样的。<br>使用docker service ls查看正在运行服务的列表：</p>
+<p>[yangdong@centos7 ~]$<br>docker service ls<br>ID            NAME        REPLICAS  IMAGE   COMMAND<br>50r6d8w4cwzi  helloworld  1/1       alpine  ping docker.com</p>
+<ol>
+<li>查询Swarm中服务的信息<br>4.1 在部署了服务之后，登录到manager节点，运行下面的命令来显示服务的信息。参数–pretty使命令输出格式化为可读的格式，不加–pretty可以输出更详细的信息</li>
+</ol>
+<p>[yangdong@centos7 ~]$<br>docker service inspect –pretty helloworld<br>ID:        50r6d8w4cwzi45s8865p9pdn4<br>Name:        helloworld<br>Mode:        Replicated<br>Replicas:    1<br>Placement:<br>UpdateConfig:<br>Parallelism:    1<br>On failure:    pause<br>ContainerSpec:<br>Image:        alpine<br>Args:        ping docker.com<br>Resources:<br>使用命令docker service ps <service-id>可以查询到哪个节点正在运行该服务：</service-id></p>
+<p>[yangdong@centos7 ~]$<br>docker service ps helloworld<br>ID                         NAME          IMAGE   NODE     DESIRED STATE  CURRENT STATE           ERROR<br>541qk5jdrb71ypna9y5zw2l33  helloworld.1  alpine  centos7  Running        Running 12 minutes ago </p>
+<ol>
+<li><p>在Swarm中动态扩展服务<br>5.1 登录到manager节点，使用命令docker service scale <service-id>=<number-of-tasks>来将服务扩展到指定的实例数<br>[yangdong@centos7 ~]$<br>docker service scale helloworld=5<br>helloworld scaled to 5<br>5.2 再次查询服务的状态列表<br>[yangdong@centos7 ~]$ docker service ps helloworld<br>ID                         NAME          IMAGE   NODE       DESIRED STATE  CURRENT STATE           ERROR<br>541qk5jdrb71ypna9y5zw2l33  helloworld.1  alpine  centos7    Running        Running 16 minutes ago<br>96s46qpl3qd94ntw3n2bt81m8  helloworld.2  alpine  centos7-B  Running        Running 17 seconds ago<br>6p1u8hj4y31i4pjmwh8zvvf2h  helloworld.3  alpine  centos7-A  Running        Running 8 seconds ago<br>02jn1fxkx8juwizk6fjgv9r9n  helloworld.4  alpine  centos7-A  Running        Running 9 seconds ago<br>btbrvtnjjmgyb8emwmznziho9  helloworld.5  alpine  centos7    Running        Running 27 seconds ago<br>可见Swarm创建了4个新的task来将整个服务的实例数扩展到5个。这些服务分布在不同的Swarm节点上。</number-of-tasks></service-id></p>
+</li>
+<li><p>删除swarm中点服务<br>6.1 在manager节点上运行docker service rm helloworld便可以将服务删除。删除服务时，会将服务在各个节点上创建的容器一同删除，而并不是将容器停止<br>6.2 此外Swarm模式还提供了服务的滚动升级，将某个worker置为维护模式，及路由网等功能。在Docker将Swarm集成进Docker引擎后，可以使用原生的Docker CLI对容器集群进行各种操作，使集群的部署更加方便、快捷。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/27/Docker的Swarm模式/" data-id="cix7b3wo1001s0ecy2cr7udlj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          搭建nginx反向代理用做内网域名转发
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/19/zebra/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">zebra</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

@@ -61,6 +61,115 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-用cp命令复制大量文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/用cp命令复制大量文件/" class="article-date">
+  <time datetime="2016-12-13T01:29:04.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/用cp命令复制大量文件/">用cp命令复制大量文件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近，我有一个复制大量文件的需求，虽然我已经在Unix各种变种上有超过20年的工作经验，但是我仍然被cp指令的行为震撼，我认为这些心得很值得和大家分享下。</p>
+<p>首先介绍下机器：一台戴尔服务器（双核，内存最初是2G，后来扩展到10G，运行ubuntu系统），服务器配备的是全新戴尔存储套件<br>MD1200，该套件包括12个4TB硬盘，其中40TB采用RAID6配置，这样整个系统就可以容忍两块硬盘同时down掉。这台服务器主要用作异地备份，唯一的操作是IO写，由于我使用rsnapshot完成这项工作，<br>因此大部分文件有较高的链接计数（30+）。</p>
+<p>一天早上，我被告知一个硬盘down掉了。</p>
+<p>这不是什么大事，这种事情经常发生。我打电话给戴尔，戴尔第二天就给送来了一块替换盘。但我安装替换盘时发现，替换盘根本不能工作，并且另一块磁盘也down掉了。戴尔技术服务部门富有经验地建议我不要只换down掉的硬盘，因为整个磁盘阵列可能已经损毁了。</p>
+<p>就我所知，磁盘只有在有足够多坏块的情况下才会告警，设想这样一个场景：短时间内，一个文件位于三个磁盘上的备份块全部坏掉，那么很不幸，RAID引擎短时间内难以完成检测坏块、重新计算备份数据并存储这样一个流程，这样你就有丢失数据的风险了。因此，如果两个硬盘显式告警，你的数据可能已经丢失了。</p>
+<p>现有存储套件容量已经难以达到要求，我们决定扩容，把文件从旧存储套件拷贝到新套件中。正常情况下，我会在块级别拷贝用dd指令或者pvmove指令拷贝数据，但是考虑到坏块，我决定采用文件级别的拷贝，因为这样的话，我就可以知道那些文件包含坏块了。</p>
+<p>我上网搜了相关经验，发现cp可以完美地解决这个问题。若想保存硬链接信息，需要记录有哪些文件已经被复制，所以我预订了8G的RAM，并配置了更大的交换区。</p>
+<p>当新的存储套件到货，我就着手复制了，起初，根据iotop的测量数据，复制速度接近于300-400MB/s。不一会儿速度便显著下降了，因为大<br>部分时间花在了建立硬链接上，并且要花时间去处理文件系统的一致性问题。</p>
+<p>为保持一致性，我们使用了XFS，由于没有关闭写屏障，我们深受性能之苦，但如果RAID控制器配置了带有备份电源的写缓存，一致性问题便可更好地解决。正如所料，cp的内存占用量稳步增加，很快便达到了GB级。</p>
+<p>经历了几天的拷贝，问题来了：我发现系统已经停止拷贝，根据strace的显示，cp指令没有调用任何的系统调用函数。阅读相关源码后发现，cp指令会以一个哈希表跟踪有哪些文件被复制了，这个表需要时常地扩展自身容量以避免太多的冲突。当RAM被耗尽，哈希表的扩容过程会成为性能瓶颈。</p>
+<p>我们相信cp的哈希表扩容后，cp指令会继续执行，果然不一会它又“复活”了，但是它会进入周期性的“扩容-拷贝-扩容-拷贝”的循环中，且扩容的<br>时间变得越来越长。经过10天的拷贝，根据dd结果，新文件系统的块数量和inode节点的数量已经和原系统一样，但是让人吃惊的是cp指令并没有退出。</p>
+<p>再次阅读源码，我发现cp正在认真地解构哈希表（使用forget_all函数），由于cp进程需要的虚拟内存大小达到了17GB+，但服务器总共才10G内存，所以解构过程执行了很多RAM和swap区间的换页操作。</p>
+<p>上面整个过程中，我使用了cp的-v选项，并使用tee把日志重定向到日志文件（很大的文件）中。cp的输出信息会被缓存，为使这些缓存信息全部刷新到日志文件中，我给了cp多于一天的时间进行解构哈希表。</p>
+<p>运行”ls –laR”指令，查看下两个文件系统中的文件是否一致，发现除了日志文件的一些错误外，只有一个文件发生了io错误（还好，我们有它的另一个备份）。</p>
+<p>这种错误不会马上复现，但是如果cp能够设计一种数据结构，在等待io的时候处理那些已经被记录的文件，那样处理效率会更高。此外，对于cp最后解<br>构哈希表的forget_all函数，除了那些缺少可用内存管理模块的老式服务器一定需要它之外，我还没发现去掉这个函数会对整个拷贝过程产生什么不好的影响。</p>
+<p>总结一下：</p>
+<p>1、拷贝整个文件系统时，如果确定你的硬件和文件系统都OK，应该使用块级别的拷贝。这种拷贝方式更快，除非你有许多空闲块，但是无论如何它耗费的内存都是较少的；</p>
+<p>2、如果要拷贝许多文件，并想要保留硬链接的信息，可以采用文件级拷贝。拷贝之前需要保证机器有足够多的内存；</p>
+<p>3、比起简单粗暴地停止进程，认真地解构数据结构会花费更多的时间；</p>
+<p>4、告警的硬盘的数量并不等同于有坏块的硬盘的数量。如果不走运，就算配置了RAID6，没来得及等3块磁盘告警，你的数据可能已经丢失。这个时候我们只能赌一把了。同样的情况适用于RAID 5，那怕只有一块磁盘甚至没有磁盘告警，如果不走运，你的数据照样丢！</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/用cp命令复制大量文件/" data-id="cix7b3wqb00570ecyzwuxts29" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Linux中date命令的各种实用方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Linux中date命令的各种实用方法/" class="article-date">
+  <time datetime="2016-12-13T01:27:09.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Linux中date命令的各种实用方法/">Linux中date命令的各种实用方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>date 022517122015<br>[root@RHEL601 tmp]# date<br>2012年 07月 19日 星期四 20:11:16 CST<br>读者可以设定特定的格式，格式设定规则：一个加号后接数个标记，每个标记中都有%，其中可用的标记列表和说明如下:<br>%n : 下一行<br>%t : 跳格<br>%H : 小时(00..23)<br>%I : 小时(01..12)<br>%k : 小时(0..23)<br>%l : 小时(1..12)<br>%M : 分钟(00..59)<br>%p : 显示本地 AM 或 PM<br>%r : 直接显示时间 (12 小时制，格式为 hh:mm:ss [AP]M)<br>%s : 从 1970 年 1 月 1 日 00:00:00 UTC 到目前为止的秒数<br>%S : 秒(00..59)<br>%T : 直接显示时间 (24 小时制)<br>%X : 相当于 %H:%M:%S<br>%Z : 显示时区 %a : 星期几 (Sun..Sat)<br>%A : 星期几 (Sunday..Saturday)<br>%b : 月份 (Jan..Dec)<br>%B : 月份 (January..December)<br>%c : 直接显示日期与时间<br>%d : 日 (01..31)<br>%D : 直接显示日期 (mm/dd/yy)<br>%h : 同 %b<br>%j : 一年中的第几天 (001..366)<br>%m : 月份 (01..12)<br>%U : 一年中的第几周 (00..53) (以 Sunday 为一周的第一天的情形)<br>%w : 一周中的第几天 (0..6)<br>%W : 一年中的第几周 (00..53) (以 Monday 为一周的第一天的情形)<br>%x : 直接显示日期 (mm/dd/yy)<br>%y : 年份的最后两位数字 (00.99)<br>%Y : 完整年份 (0000..9999)</p>
+<p>按照特定的格式输出时间：短接符”-“、空格” “和冒号”:” 为分隔符，其中空格前面加了转义符号”\”<br>[root@RHEL601 tmp]# date +%Y-%m-%d\ %H:%M:%S<br>2012-07-19 21:10:28<br>在当前时间的基础上往前推或者往后推三天<br>[root@RHEL601 tmp]# date -d “+3 day”<br>2012年 07月 22日 星期日 20:12:08 CST<br>[root@RHEL601 tmp]# date -d “-3 day”<br>2012年 07月 16日 星期一 20:12:12 CST<br>在当前时间的基础上往前推或者往后推三个月<br>[root@RHEL601 tmp]# date -d “-3 month”<br>2012年 04月 19日 星期四 20:12:39 CST<br>[root@RHEL601 tmp]# date -d “+3 month”<br>2012年 10月 19日 星期五 20:12:48 CST<br>在当前时间的基础上往前推或者往后推三年<br>[root@RHEL601 tmp]# date -d “+3 year”<br>2015年 07月 19日 星期日 20:13:06 CST<br>[root@RHEL601 tmp]# date -d “-3 year”<br>2009年 07月 19日 星期日 20:13:11 CST<br>在当前时间的基础上往前推或者往后推三小时<br>[root@RHEL601 tmp]# date -d “-3 hour”<br>2012年 07月 19日 星期四 17:13:20 CST<br>[root@RHEL601 tmp]# date -d “+3 hour”<br>2012年 07月 19日 星期四 23:13:24 CST<br>在当前时间的基础上往前推或者往后推三分钟<br>[root@RHEL601 tmp]# date -d “+3 minute”<br>2012年 07月 19日 星期四 20:16:56 CST<br>[root@RHEL601 tmp]# date -d “-3 minute”<br>2012年 07月 19日 星期四 20:10:59 CST<br>在当前时间的基础上往前推或者往后推三十秒<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “-30 second”<br>2012年 07月 19日 星期四 20:14:24 CST<br>2012年 07月 19日 星期四 20:13:54 CST<br>[root@RHEL601 tmp]# date &amp;&amp; date -d “+30 second”<br>2012年 07月 19日 星期四 20:14:29 CST<br>2012年 07月 19日 星期四 20:14:59 CST<br>2、接下来的范例说明如何用date来表示各种各样的时间，表示的都是某一天的零点时间，也可以在当前的时分秒的基础上表示时间，(特别注意中间用到了反单引号<code>)参见范例
+date -d</code>date +%y%m01<code>#本月第一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>2012年 07月 01日 星期日 00:00:00 CST
+date -d</code>date +%y%m01<code>&quot;-1 day&quot;  #上个月最后一天
+[root@RHEL601 tmp]# date -d</code>date +%y%m01<code>&quot;-1 day&quot;
+2012年 06月 30日 星期六 00:00:00 CST
+date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot; #4个月前的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-3 month” +%y%m01<code>&quot;-1 day&quot;
+2012年 03月 31日 星期六 00:00:00 CST
+date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot; #第11个月后的第一天
+[root@RHEL601 tmp]# date -d</code>date -d “+12 month” +%y%m01<code>&quot;-1 day&quot;
+2013年 06月 30日 星期日 00:00:00 CST
+date -d</code>date -d “-1 month” +%y%m01<code>#上个月第一天
+[root@RHEL601 tmp]# date -d</code>date -d “-1 month” +%y%m01`<br>2012年 06月 01日 星期五 00:00:00 CST</p>
+<p>date -d <code>date -d &quot;+12 month&quot; +%y%m01</code> #第12个月后的第一天<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+12 month&quot; +%y%m01</code><br>2013年 07月 01日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code> #前一天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-1 day&quot; +%Y%m%d</code><br>2012年 07月 18日 星期三 00:00:00 CST<br>date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code> #前三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;-3 day&quot; +%Y%m%d</code><br>2012年 07月 16日 星期一 00:00:00 CST<br>date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code> #明天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+1 day&quot; +%Y%m%d</code><br>2012年 07月 20日 星期五 00:00:00 CST<br>date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code> #往后推三天零点时间<br>[root@RHEL601 tmp]# date -d <code>date -d &quot;+3 day&quot; +%Y%m%d</code><br>2012年 07月 22日 星期日 00:00:00 CST</p>
+<p>3、以下简单示范了字母大小写在date命令中的区别<br>Y #代表完整的年份，例如:2012年 将显示 2012<br>y #代表缩写年份，例如：2012年 缩写为 12<br>[root@RHEL601 tmp]# date +”%y%m01%H%M%S”<br>121201121556<br>[root@RHEL601 tmp]# date +”%Y%m01%H%M%S”<br>20121201121610<br>4、以下范例说明如何调整服务器的时间<br>ntpdate 210.72.145.44 #将服务器时间调整为正常时间，210.72.145.44 是国家授时中心服务器IP地址<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 13:07:07 ntpdate[15150]: adjust time server 210.72.145.44 offset -0.020920 sec<br>date 121212122012 #将时间设置为2012年 12月 12日 星期三 12:12:00，date后面的数字代表月日时分年，还可以加秒，需要后面跟英文状态下的句号字符”.”，例如：121212122012.12<br>[root@RHEL601 tmp]# date 121212122012<br>2012年 12月 12日 星期三 12:12:00 CST<br>date112809462014<br>[root@RHEL601 tmp]# date 121212122012.12<br>2012年 12月 12日 星期三 12:12:12 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;1 day ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 18日 星期三 20:13:04 CST<br>[root@RHEL601 tmp]# date<br>2012年 07月 18日 星期三 20:13:10 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;3 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 15日 星期日 20:13:18 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;5 days ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 10日 星期二 20:13:28 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 09日 星期一 20:13:39 CST<br>[root@RHEL601 tmp]# date <code>date -d &quot;$((3600*24)) seconds ago&quot; +%m%d%H%M%Y.%S</code><br>2012年 07月 08日 星期日 20:14:01 CST<br>[root@RHEL601 tmp]# ntpdate 210.72.145.44<br>19 Jul 20:14:15 ntpdate[26846]: step time server 210.72.145.44 offset 950404.037565 sec</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Linux中date命令的各种实用方法/" data-id="cix7b3wof00250ecy5ss260mj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-命令行" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/命令行/" class="article-date">
@@ -116,7 +225,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="ciwvtaci2004k9scyxodgogej" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/命令行/" data-id="cix7b3wq1004n0ecy21rerenp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -199,7 +308,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="ciwvtachg003g9scydxz4vk9b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/ssh自动登录/" data-id="cix7b3wpe003i0ecyfpuiz9ii" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +345,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="ciwvtachr003r9scyis29gf39" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/vim常用命令/" data-id="cix7b3wpo003s0ecyapsheao8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -277,7 +386,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="ciwvtach7003c9scy3opvdp7i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/route/" data-id="cix7b3wpc003e0ecyoq2v4q9h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -350,7 +459,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="ciwvtach200319scyzyk413w5" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/find/" data-id="cix7b3woy00320ecyq9x4f4sv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -407,7 +516,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="ciwvtachs003u9scyes5yfg38" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/xargs/" data-id="cix7b3wpo003u0ecytdjnbkuo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -446,7 +555,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="ciwvtachg003f9scykzdo2qcq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/sort/" data-id="cix7b3wpc003f0ecy5s1mn53g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -493,87 +602,7 @@ repren--full--preserve-case--from foo--tobar.
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="ciwvtachh003i9scy1ku45w99" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-paste" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/paste/" class="article-date">
-  <time datetime="2016-12-13T00:47:15.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/paste/">paste</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>paste 按列拼接文本</p>
-<p>将两个文本按列拼接到一起;</p>
-<p>cat file1<br>1<br>2</p>
-<p>cat file2<br>colin<br>book</p>
-<p>paste file1 file2<br>1 colin<br>2 book</p>
-<p>默认的定界符是制表符，可以用-d指明定界符<br>paste file1 file2 -d “,”<br>1,colin<br>2,book</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/paste/" data-id="ciwvtach6003a9scyr4tz752b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-wc" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/12/wc/" class="article-date">
-  <time datetime="2016-12-12T09:21:24.000Z" itemprop="datePublished">2016-12-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/12/wc/">wc</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>wc 统计行和字符的工具</p>
-<p>wc -l file // 统计行数<br>wc -w file // 统计单词数<br>wc -c file // 统计字符数</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/12/wc/" data-id="ciwvtachs003t9scysx46w4i7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/tr/" data-id="cix7b3wpf003j0ecy65pmqfpx" class="article-share-link">Share</a>
       
       
     </footer>
@@ -617,6 +646,14 @@ repren--full--preserve-case--from foo--tobar.
       <ul>
         
           <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/19/zebra/">zebra</a>
           </li>
         
@@ -626,14 +663,6 @@ repren--full--preserve-case--from foo--tobar.
         
           <li>
             <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-6-x-预配-2/">Centos 6.x 预配</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
           </li>
         
       </ul>

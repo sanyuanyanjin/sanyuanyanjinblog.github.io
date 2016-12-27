@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搭建nginx反向代理用做内网域名转发 | SanYuan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="vim /usr/local/nginx/conf/nginx.conf
+user www www;worker_processes 1;error_log logs/error.log;pid logs/nginx.pid;worker_rlimit_nofile 65535;events {    use epoll;    worker_connections 65535;}http {">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建nginx反向代理用做内网域名转发">
+<meta property="og:url" content="http://yoursite.com/2016/12/27/搭建nginx反向代理用做内网域名转发/index.html">
+<meta property="og:site_name" content="SanYuan">
+<meta property="og:description" content="vim /usr/local/nginx/conf/nginx.conf
+user www www;worker_processes 1;error_log logs/error.log;pid logs/nginx.pid;worker_rlimit_nofile 65535;events {    use epoll;    worker_connections 65535;}http {">
+<meta property="og:updated_time" content="2016-12-27T09:24:46.925Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建nginx反向代理用做内网域名转发">
+<meta name="twitter:description" content="vim /usr/local/nginx/conf/nginx.conf
+user www www;worker_processes 1;error_log logs/error.log;pid logs/nginx.pid;worker_rlimit_nofile 65535;events {    use epoll;    worker_connections 65535;}http {">
+  
+    <link rel="alternate" href="/atom.xml" title="SanYuan" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">SanYuan</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-搭建nginx反向代理用做内网域名转发" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/" class="article-date">
+  <time datetime="2016-12-27T09:24:16.000Z" itemprop="datePublished">2016-12-27</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      搭建nginx反向代理用做内网域名转发
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vim /usr/local/nginx/conf/nginx.conf</p>
+<p>user www www;<br>worker_processes 1;<br>error_log logs/error.log;<br>pid logs/nginx.pid;<br>worker_rlimit_nofile 65535;<br>events {<br>    use epoll;<br>    worker_connections 65535;<br>}<br>http {<br>    include mime.types;<br>    default_type application/octet-stream;<br>    include /usr/local/nginx/conf/reverse-proxy.conf;<br>    sendfile on;<br>    keepalive_timeout 65;<br>    gzip on;<br>    client_max_body_size 50m; #缓冲区代理缓冲用户端请求的最大字节数,可以理解为保存到本地再传给用户<br>    client_body_buffer_size 256k;<br>    client_header_timeout 3m;<br>    client_body_timeout 3m;<br>    send_timeout 3m;<br>    proxy_connect_timeout 300s; #nginx跟后端服务器连接超时时间(代理连接超时)<br>    proxy_read_timeout 300s; #连接成功后，后端服务器响应时间(代理接收超时)<br>    proxy_send_timeout 300s;<br>    proxy_buffer_size 64k; #设置代理服务器（nginx）保存用户头信息的缓冲区大小<br>    proxy_buffers 4 32k; #proxy_buffers缓冲区，网页平均在32k以下的话，这样设置<br>    proxy_busy_buffers_size 64k; #高负荷下缓冲大小（proxy_buffers*2）<br>    proxy_temp_file_write_size 64k; #设定缓存文件夹大小，大于这个值，将从upstream服务器传递请求，而不缓冲到磁盘<br>    proxy_ignore_client_abort on; #不允许代理端主动关闭连接<br>    server {<br>        listen 80;<br>        server_name localhost;<br>        location / {<br>            root html;<br>            index index.html index.htm;<br>        }<br>        error_page 500 502 503 504 /50x.html;<br>        location = /50x.html {<br>            root html;<br>        }<br>    }<br>}</p>
+<p>编辑反向代理服务器配置文件：<br>vim /usr/local/nginx/conf/reverse-proxy.conf</p>
+<p>server<br>{<br>    listen 80;<br>    server_name www.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.100.33:80" target="_blank" rel="external">http://10.6.100.33:80</a>;<br>    }<br>    access_log logs/www.tzuchi.com.cn_access.log;<br>}</p>
+<p>server<br>{<br>    listen 80;<br>    server_name wx.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.6.216:80" target="_blank" rel="external">http://10.6.6.216:80</a>;<br>    }<br>    access_log logs/wx.tzuchi.com.cn_access.log;<br>}</p>
+<p>server<br>{<br>    listen 80;<br>    server_name app.tzuchi.com.cn;<br>    location / {<br>        proxy_redirect off;<br>        proxy_set_header Host $host;<br>        proxy_set_header X-Real-IP $remote_addr;<br>        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;<br>        proxy_pass <a href="http://10.6.6.21:8061" target="_blank" rel="external">http://10.6.6.21:8061</a>;<br>    }<br>    access_log logs/app.tzuchi.com.cn_access.log;<br>}</p>
+<p>tail -f /usr/local/nginx/logs/www.tzuchi.com.cn_access.log</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/27/搭建nginx反向代理用做内网域名转发/" data-id="cix7b3wq7004z0ecyf93wrixs" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/12/27/Docker的Swarm模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Docker的Swarm模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/zebra/">zebra</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
+          </li>
+        
+          <li>
+            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2016 JinYan<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
