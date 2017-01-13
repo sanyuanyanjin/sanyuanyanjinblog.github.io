@@ -61,6 +61,290 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ubuntu用root登录后没法使用chromium" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/ubuntu用root登录后没法使用chromium/" class="article-date">
+  <time datetime="2016-12-15T05:26:45.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/ubuntu用root登录后没法使用chromium/">ubuntu用root登录后没法使用chromium</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>用root登录后启动chromium会出现错误：<br>Google Chrome can not be run as root.<br>Please start Google Chrome as a normal user. To run as root, you must specify an alternate –user-data-dir for storage of profile information.<br>在网上有方法是用每次用终端启动时添加新的参数，但比较麻烦，后来研究了一下，只要新建一个chormium的桌面快捷方式，选择properties-》basic-&gt;command, 改为如下：<br>/usr/bin/chromium-browser %U - -user-data-dir=/root/.config/chromium<br>这样每次双击这个快捷方式，就能在root下使用chromium。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/ubuntu用root登录后没法使用chromium/" data-id="cixv6wcpj003slkcyxb86t2wm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-vsftpd安装以及配置FTP虚拟用户实践" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/" class="article-date">
+  <time datetime="2016-12-15T05:26:06.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/">vsftpd安装以及配置FTP虚拟用户实践</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>vsftpd安装以及配置FTP虚拟用户实践<br>By wsgzao<br>发表于 2015-08-24<br>文章目录</p>
+<ol>
+<li><ol>
+<li>前言</li>
+</ol>
+</li>
+<li><ol>
+<li>更新历史</li>
+</ol>
+</li>
+<li><ol>
+<li>安装vsftpd</li>
+</ol>
+</li>
+<li><ol>
+<li>基于虚拟用户的配置</li>
+</ol>
+</li>
+<li>4.1. 修改配置文件</li>
+<li>4.2. 进行认证</li>
+<li>4.3. 设置FTP根目录权限</li>
+<li>4.4. 配置PASV模式（可选）</li>
+<li>4.5. Selinux和防火墙</li>
+<li><ol>
+<li>常见问题<br>前言<br>正如vsftpd官方宣传中所说Probably the most secure and fastest FTP server for UNIX-like systems.我相信这是大多数人选择vsftpd来搭建Linux的FTP服务器的原因，当然ProFTPD用的人应该也不在少数。文章将以清晰直观的方式介绍安装vsftpd以及配置FTP虚拟用户的过程，希望对大家有帮助。<br>首选的FTP服务器搭建方式</li>
+</ol>
+</li>
+</ol>
+<hr>
+<p>更新历史<br>2015年08月24日 - 初稿<br>阅读原文 - <a href="http://wsgzao.github.io/post/vsftpd/" target="_blank" rel="external">http://wsgzao.github.io/post/vsftpd/</a><br>扩展阅读<br>CentOS 6.4 下安装vsftpd - <a href="http://www.cnblogs.com/xiongpq/p/3384759.html" target="_blank" rel="external">http://www.cnblogs.com/xiongpq/p/3384759.html</a><br>ProFTPD - <a href="http://www.proftpd.org/" target="_blank" rel="external">http://www.proftpd.org/</a><br>vsftpd - <a href="http://vsftpd.beasts.org" target="_blank" rel="external">http://vsftpd.beasts.org</a></p>
+<hr>
+<p>安装vsftpd</p>
+<p>#查看当前系统版本<br>cat /etc/redhat-release<br>CentOS release 6.6 (Final)</p>
+<p>#查看是否已经安装vsftpd<br>rpm -qa | grep vsftpd</p>
+<p>#如果没有，就安装，并设置开机启动<br>yum -y install vsftpd<br>chkconfig vsftpd on<br>基于虚拟用户的配置<br>所谓虚拟用户就是没有使用真实的帐户，只是通过映射到真实帐户和设置权限的目的。虚拟用户不能登录CentOS系统。<br>修改配置文件<br>vi /etc/vsftpd/vsftpd.conf</p>
+<p>#服务器独立运行<br>listen=YES</p>
+<p>#设定不允许匿名访问<br>anonymous_enable=NO</p>
+<p>#设定本地用户可以访问。注：如使用虚拟宿主用户，在该项目设定为NO的情况下所有虚拟用户将无法访问<br>local_enable=YES</p>
+<p>#使用户不能离开主目录<br>chroot_list_enable=YES</p>
+<p>#设定支持ASCII模式的上传和下载功能<br>ascii_upload_enable=YES<br>ascii_download_enable=YES</p>
+<p>#PAM认证文件名。PAM将根据/etc/pam.d/vsftpd进行认证<br>pam_service_name=vsftpd</p>
+<p>#设定启用虚拟用户功能<br>guest_enable=YES</p>
+<p>#指定虚拟用户的宿主用户，CentOS中已经有内置的ftp用户了<br>guest_username=ftp</p>
+<p>#设定虚拟用户个人vsftp的CentOS FTP服务文件存放路径。存放虚拟用户个性的CentOS FTP服务文件(配置文件名=虚拟用户名)<br>user_config_dir=/etc/vsftpd/vuser_conf</p>
+<p>#配置vsftpd日志（可选）<br>xferlog_enable=YES<br>xferlog_std_format=YES<br>xferlog_file=/var/log/xferlog<br>dual_log_enable=YES<br>vsftpd_log_file=/var/log/vsftpd.log<br>进行认证</p>
+<p>#安装Berkeley DB工具，很多人找不到db_load的问题就是没有安装这个包<br>yum install db4 db4-utils</p>
+<p>#创建用户密码文本，注意奇行是用户名，偶行是密码<br>vi /etc/vsftpd/vuser_passwd.txt</p>
+<p>test<br>123456</p>
+<p>#生成虚拟用户认证的db文件<br>db_load -T -t hash -f /etc/vsftpd/vuser_passwd.txt /etc/vsftpd/vuser_passwd.db</p>
+<p>#编辑认证文件，全部注释掉原来语句，再增加以下两句<br>vi /etc/pam.d/vsftpd</p>
+<p>auth required pam_userdb.so db=/etc/vsftpd/vuser_passwd<br>account required pam_userdb.so db=/etc/vsftpd/vuser_passwd</p>
+<p>#创建虚拟用户配置文件<br>mkdir /etc/vsftpd/vuser_conf/</p>
+<p>#文件名等于vuser_passwd.txt里面的账户名，否则下面设置无效<br>vi /etc/vsftpd/vuser_conf/test</p>
+<p>#虚拟用户根目录,根据实际情况修改<br>local_root=/data/ftp<br>write_enable=YES<br>anon_umask=022<br>anon_world_readable_only=NO<br>anon_upload_enable=YES<br>anon_mkdir_write_enable=YES<br>anon_other_write_enable=YES<br>设置FTP根目录权限</p>
+<p>#最新的vsftpd要求对主目录不能有写的权限所以ftp为755，主目录下面的子目录再设置777权限<br>mkdir /data/ftp<br>chmod -R 755 /data<br>chmod -R 777 /data/ftp</p>
+<p>#建立限制用户访问目录的空文件<br>touch /etc/vsftpd/chroot_list</p>
+<p>#如果启用vsftpd日志需手动建立日志文件<br>touch /var/log/xferlog<br>touch /var/log/vsftpd.log<br>配置PASV模式（可选）<br>vsftpd默认没有开启PASV模式，现在FTP只能通过PORT模式连接，要开启PASV默认需要通过下面的配置</p>
+<p>打开/etc/vsftpd/vsftpd.conf，在末尾添加</p>
+<p>#开启PASV模式<br>pasv_enable=YES</p>
+<p>#最小端口号<br>pasv_min_port=40000</p>
+<p>#最大端口号<br>pasv_max_port=40080<br>pasv_promiscuous=YES</p>
+<p>#在防火墙配置内开启40000到40080端口<br>-A INPUT -m state –state NEW -m tcp -p -dport 40000:40080 -j ACCEPT</p>
+<p>#重启iptabls和vsftpd<br>service iptables restart<br>service vsftpd restart</p>
+<p>现在可以使用PASV模式连接你的FTP服务器了~<br>Selinux和防火墙<br>该关闭的关闭，该放行的放行<br>service vsftpd start<br>常见问题<br>如果登录时出现<br>500 OOPS: priv_sock_get_result. Connection closed by remote host.<br>这样的错误，需要升级pam<br>yum update pam</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/vsftpd安装以及配置FTP虚拟用户实践/" data-id="cixv6wcpm003xlkcy46bmqrzc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Ubuntu-64-位预配" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Ubuntu-64-位预配/" class="article-date">
+  <time datetime="2016-12-15T05:22:07.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Ubuntu-64-位预配/">Ubuntu 64 位预配</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java<br>vm tools<br>sudo passwd root<br>Ubuntu软件中心——编辑——更换软件源</p>
+<p>root用户登录桌面<br>vim /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf<br>[SeatDefaults]<br>user-session=ubuntu<br>greeter-show-manual-login=true<br>Ubuntu启用root账户后，登录root账户时报错：读取/root/.profile时发现错误：mesg:ttyname failed:对设备不适当的ioctl操作 作为结果，会话不会被正确配置<br>root@ubuntu:~# cp /home/jinyan/.profile /root/<br>root@ubuntu:~# reboot</p>
+<p>cp /etc/apt/sources.list /etc/apt/sources.listbak<br>vim /etc/apt/sources.list<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-security main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-updates main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-proposed main restricted universe multiverse<br>  deb-src <a href="http://mirrors.aliyun.com/ubuntu/" target="_blank" rel="external">http://mirrors.aliyun.com/ubuntu/</a> precise-backports main restricted universe multiverse<br>apt-get update</p>
+<p>用vim打开 /etc/default/locale 文件</p>
+<p>原来的配置文件应该是这样的：<br>LANG=”zh_CN.UTF-8”<br>LANGUAGE=”zh_CN:zh:en_US:en”<br>LC_NUMERIC=”zh_CN.UTF-8”<br>LC_TIME=”zh_CN.UTF-8”<br>LC_MONETARY=”zh_CN.UTF-8”<br>LC_PAPER=”zh_CN.UTF-8”<br>LC_IDENTIFICATION=”zh_CN.UTF-8”<br>LC_NAME=”zh_CN.UTF-8”<br>LC_ADDRESS=”zh_CN.UTF-8”<br>LC_TELEPHONE=”zh_CN.UTF-8”<br>LC_MEASUREMENT=”zh_CN.UTF-8”</p>
+<p>将原来的配置内容修改为<br>LANG=”en_US.UTF-8″<br>LANGUAGE=”en_US:en”</p>
+<p>再在终端下运行：<br>locale-gen -en_US:en<br>注销或重启后，即可恢复为英文的语言环境。</p>
+<p>查看防火墙状态<br>root@jinyan-virtual-machine:~# ufw status<br>状态：不活动<br>root@jinyan-virtual-machine:~# getenforce<br>程序“getenforce”尚未安装。 您可以使用以下命令安装：<br>apt-get install selinux-utils</p>
+<p>apt-get install vim<br>apt-get install openssh-server<br>vim /etc/ssh/sshd_config<br>找到PermitRootLogin no一行，改为PermitRootLogin yes<br>PermitRootLogin yes</p>
+<h1 id="PermitRootLogin-without-password"><a href="#PermitRootLogin-without-password" class="headerlink" title="PermitRootLogin without-password"></a>PermitRootLogin without-password</h1><p>重启系统<br>重启 openssh server<br>/etc/init.d/ssh restart<br>service ssh restart</p>
+<p>apt-get install ntp<br>查看ntp同步过程<br>ntpq -p<br>ntpdate -u 202.120.2.101</p>
+<p>apt-get install x-window-system-core<br>apt-get install gdm<br>apt-get install ubuntu-desktop<br>apt-get install gnome-core</p>
+<p>apt-get install vnc4server<br>vncserver<br>cp ~/.vnc/xstartup  ~/.vnc/xstartup.bak<br>vim ~/.vnc/xstartup</p>
+<h1 id="x-window-manager-amp"><a href="#x-window-manager-amp" class="headerlink" title="x-window-manager &amp;"></a>x-window-manager &amp;</h1><h1 id="gnome-session-amp"><a href="#gnome-session-amp" class="headerlink" title="gnome-session &amp;"></a>gnome-session &amp;</h1><p>gnome-panel &amp;<br>gnome-settings-daemon &amp;<br>metacity &amp;<br>nautilus &amp;<br>gnome-terminal &amp;</p>
+<p>root@jinyan-virtual-machine:~# vncserver -kill :1<br>Killing Xvnc4 process ID 3767<br>root@jinyan-virtual-machine:~# vncserver :1<br>192.168.50.6:1</p>
+<p>apt-get install vsftpd<br>apt-get remove vsftpd</p>
+<p>vim /etc/vsftpd.conf<br>local_enable=YES<br>write_enable=YES<br>chroot_local_user=YES<br>chroot_list_enable=YES<br>chroot_list_file=/etc/vsftpd.chroot_list</p>
+<p>anonymous_enable=YES</p>
+<h1 id="anonymous-enable-NO"><a href="#anonymous-enable-NO" class="headerlink" title="anonymous_enable=NO"></a>anonymous_enable=NO</h1><p>useradd -d /home/ftp -M ftpuser<br>passwd ftpuser</p>
+<p>vim /etc/vsftpd.chroot_list<br>ftpuser</p>
+<p>vim /etc/ftpusers<br>打开这个文件后，看一看有没有uftp这个用户名，如果没有，就直接退出。如果有就删除uftp,因为这个文件中记录的是不能访问FTP服务器的用户清单。</p>
+<p>vim /etc/pam.d/vsftpd</p>
+<p>#auth   required        pam_shells.so</p>
+<p>mkdir /home/ftp<br>chmod a-w /home/ftp<br>mkdir /home/ftp/data<br>chown -R ftpuser:ftpuser /home/ftp/</p>
+<p>service vsftpd restart</p>
+<p>mkdir /usr/lib/java<br>tar -zxvf jdk-7u79-linux-x64.tar.gz -C /usr/lib/java/<br>cd /usr/lib/java/jdk1.7.0_79/</p>
+<p>vim ~/.bashrc</p>
+<p>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=${JAVA_HOME}/bin:$PATH</p>
+<p>root@jinyan-virtual-machine:~# source /etc/profile<br>root@jinyan-virtual-machine:~# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)</p>
+<p>apt-get install samba<br>apt-get install smbfs</p>
+<p>apt-get install samba samba-common system-config-samba python-glade2 gksu<br>在 Unity Dash 中搜索并打开 Samba 配置工具</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-64-位预配/" data-id="cixv6wcoe002wlkcyv6prl55d" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Postfix-Amavisd-new-Spamassassin-ClamAV整合安装" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" class="article-date">
+  <time datetime="2016-12-15T05:21:30.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/">Postfix+Amavisd-new+Spamassassin+ClamAV整合安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>安装软件和依赖包<br>apt-get install postfix amavisd-new spamassassin clamav-daemon mysql-client mysql-server<br>apt-get install libnet-dns-perl pyzor razor<br>apt-get install arj bzip2 cabextract cpio file gzip lha nomarch pax rar unrar unzip zip</p>
+</li>
+<li><p>修改用户权限<br>usermod -a -G clamav amavis<br>usermod -a -G amavis clamav</p>
+</li>
+<li><p>修改spamassassin配置文件/etc/default/spamassassin<br>ENABLED=0 ====&gt; ENABLED=1<br>CRON=0    ====&gt; CRON=1</p>
+</li>
+</ol>
+<p>4.启动spamassassin<br>/etc/init.d/spamassassin start</p>
+<ol>
+<li><p>修改amavis配置文件/etc/amavis/conf.d/15-content_filter_mode<br> 1) 去掉里面的注释（目的：check病毒和垃圾邮件）<br> 2) 重启amavis<br>/etc/init.d/amavis restart</p>
+</li>
+<li><p>修改postfix配置文件/etc/postfix/main.cf,添加如下内容<br> 注释掉mydestination<br>添加：<br>relay_domains = test.com<br>transport_maps = hash:/etc/postfix/transport<br>relay_recipient_maps = hash:/etc/postfix/relay_recipients<br>content_filter = smtp-amavis:[127.0.0.1]:10024</p>
+</li>
+<li><p>编辑文件/etc/postfix/master.cf,在文件最后添加如下内容<br>smtp-amavis     unix    -       -       -       -       2       smtp</p>
+<pre><code>-o smtp_data_done_timeout=1200
+-o smtp_send_xforward_command=yes
+-o disable_dns_lookups=yes
+-o max_use=20
+</code></pre></li>
+</ol>
+<p>127.0.0.1:10025 inet    n       -       -       -       -       smtpd<br>        -o content_filter=<br>        -o local_recipient_maps=<br>        -o relay_recipient_maps=<br>        -o smtpd_restriction_classes=<br>        -o smtpd_delay_reject=no<br>        -o smtpd_client_restrictions=permit_mynetworks,reject<br>        -o smtpd_helo_restrictions=<br>        -o smtpd_sender_restrictions=<br>        -o smtpd_recipient_restrictions=permit_mynetworks,reject<br>        -o smtpd_data_restrictions=reject_unauth_pipelining<br>        -o smtpd_end_of_data_restrictions=<br>        -o mynetworks=127.0.0.0/8<br>        -o smtpd_error_sleep_time=0<br>        -o smtpd_soft_error_limit=1001<br>        -o smtpd_hard_error_limit=1000<br>        -o smtpd_client_connection_count_limit=0<br>        -o smtpd_client_connection_rate_limit=0<br>        -o receive_override_options=no_header_body_checks,no_unknown_recipient_checks</p>
+<ol>
+<li><p>在文件/etc/postfix/master.cf中的pickup行添加如下内容<br>   -o content_filter=<br>   -o receive_override_options=no_header_body_checks</p>
+</li>
+<li><p>重启postfix<br>/etc/init.d/postfix reload</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/20-debian_defaults<br>$final_spam_destiny = D_BOUNCE  ===&gt; $final_spam_destiny = D_DISCARD</p>
+</li>
+</ol>
+<p>$QUARANTINEDIR = “/data/virusmails”;</p>
+<ol>
+<li><p>修改/etc/amavis/conf.d/05-node_id<br>$myhostname = “mail.example.com”;</p>
+</li>
+<li><p>修改/etc/amavis/conf.d/50-user,添加如下内容：<br>$spam_quarantine_to = “spam-quarantine”;<br>$virus_quarantine_to = “spam-quarantine”;</p>
+</li>
+</ol>
+<p>@whitelist_sender_maps = read_hash(“/etc/amavis/whitelist”);<br>@blacklist_sender_maps = read_hash(“/etc/amavis/blacklist”);</p>
+<ol>
+<li><p>在目录/etc/amavis下创建文件blacklist和whitelist<br>touch /etc/amavis/whitelist<br>touch /etc/amavis/blacklist</p>
+</li>
+<li><p>垃圾及病毒邮件的保存目录<br>/data/virusmails</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/Postfix-Amavisd-new-Spamassassin-ClamAV整合安装/" data-id="cixv6wco1002elkcyrdcrha4a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Ubuntu-16-04-LTS-一键安装VNC" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" class="article-date">
@@ -115,7 +399,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="cix7b3wot002r0ecy7cfcjry1" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-16-04-LTS-一键安装VNC/" data-id="cixv6wcoc002ulkcyqhptze9n" class="article-share-link">Share</a>
       
       
     </footer>
@@ -152,7 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="cix7b3wqh005h0ecyipvyioj0" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/计算机存储单位/" data-id="cixv6wcqm005llkcyfng644u5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -296,7 +580,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="cix7b3wo7001v0ecyrxtro19d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/FTP/" data-id="cixv6wcnp001vlkcysvcommmr" class="article-share-link">Share</a>
       
       
     </footer>
@@ -459,7 +743,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="cix7b3woh00290ecyccd6ltfr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/NFS/" data-id="cixv6wcny0028lkcyrczfngyp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +780,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="cix7b3won002j0ecy71bhacts" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/SAMBA/" data-id="cixv6wco5002llkcydrmromsc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -566,265 +850,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="cix7b3wm200060ecyicsd5vz0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-iSCSI" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/iSCSI/" class="article-date">
-  <time datetime="2016-12-15T03:37:32.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/iSCSI/">iSCSI</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[root@jinyan ~]# yum -y install scsi-target-utils<br>[root@jinyan ~]# yum -y install iscsi-initiator-utils</p>
-<p>[root@jinyan ~]# mkdir /srv/iscsi<br>[root@jinyan ~]# dd if=/dev/zero of=/srv/iscsi/disk1.img bs=1M count=500<br>记录了500+0 的读入<br>记录了500+0 的写出<br>524288000字节(524 MB)已复制，11.7394 秒，44.7 MB/秒<br>[root@jinyan ~]# chcon -Rv -t tgtd_var_lib_t /srv/iscsi/<br>正在更改”/srv/iscsi/disk1.img” 的安全环境<br>正在更改”/srv/iscsi/“ 的安全环境<br>[root@jinyan ~]# ls -lh /srv/iscsi/disk1.img<br>-rw-r–r–. 1 root root 500M 8月 6 10:57 /srv/iscsi/disk1.img</p>
-<p>[root@jinyan ~]# fdisk /dev/sda<br>/dev/sda10 2329 2590 2104483+ 83 Linux<br>/dev/sda11 2591 2852 2104483+ 83 Linux</p>
-<p>[root@jinyan ~]# swapon -s; mount | grep ‘sda’<br>[root@jinyan ~]# pvcreate /dev/sda11<br>[root@jinyan ~]# vgextend server /dev/sda11<br>[root@jinyan ~]# lvcreate -L 2G -n iscsi01 server<br>[root@jinyan ~]# lvscan</p>
-<p>[root@jinyan ~]# vim /etc/tgt/targets.conf</p>
-<target iqn.2012-09.jinyan.com:jinyandisk=""><br>  backing-store /srv/iscsi/disk1.img<br>  backing-store /dev/sda10<br>  backing-store /dev/server/iscsi01<br>  initiator-address 10.0.0.0/24<br>  incominguser jinyan renjia<br>  write-cache off<br></target>
-
-<p>[root@jinyan ~]# /etc/init.d/tgtd restart<br>[root@jinyan ~]# chkconfig tgtd on<br>[root@jinyan ~]# netstat -tlunp | grep tgt<br>tcp 0 0 0.0.0.0:3260 0.0.0.0:<em> LISTEN 2750/tgtd<br>tcp 0 0 :::3260 :::</em> LISTEN 2750/tgtd</p>
-<p>[root@jinyan ~]# tgt-admin –show</p>
-<p>[root@sanyuanempire ~]# vim /etc/iscsi/iscsid.conf<br>node.session.auth.username = jinyan<br>node.session.auth.password = renjia</p>
-<p>discovery.sendtargets.auth.username = jinyan<br>discovery.sendtargets.auth.password = renjia</p>
-<p>[root@sanyuanempire ~]# chkconfig iscsid on<br>[root@sanyuanempire ~]# chkconfig iscsi on</p>
-<p>[root@sanyuanempire ~]# iscsiadm -m discovery -t sendtargets -p 10.0.0.254</p>
-<p>[root@sanyuanempire ~]# ll -R /var/lib/iscsi/nodes/</p>
-<p>如果要在系统启动时自动登入<br>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk -p 192.168.245.9:3260 –op update -n node.startup -v automatic</p>
-<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk -o update –name node.session.auth.authmethod –value=CHAP</p>
-<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk –op update –name node.session.auth.username –value=jinyan</p>
-<p>iscsiadm -m node -T iqn.2012-07.jinyan.com:jinyandisk –op update –name node.session.auth.password –value=renjia</p>
-<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
-<p>[root@sanyuanempire ~]# fdisk -l</p>
-<p>[root@sanyuanempire ~]# iscsiadm -m node</p>
-<p>[root@sanyuanempire ~]# iscsiadm -m node -T iqn.2012-09.jinyan.com:jinyandisk –logout</p>
-<p>[root@sanyuanempire ~]# iscsiadm -m node -o delete -T iqn.2012-09.jinyan.com:jinyandisk</p>
-<p>[root@sanyuanempire ~]# iscsiadm -m node</p>
-<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
-<p>[root@sanyuanempire ~]# pvcreate /dev/sd{b,c,d}<br>  Writing physical volume data to disk “/dev/sdb”<br>  Physical volume “/dev/sdb” successfully created<br>  Writing physical volume data to disk “/dev/sdc”<br>  Physical volume “/dev/sdc” successfully created<br>  Writing physical volume data to disk “/dev/sdd”<br>  Physical volume “/dev/sdd” successfully created</p>
-<p>[root@sanyuanempire ~]# vgcreate iscsi /dev/sd{b,c,d}<br>  Volume group “iscsi” successfully created</p>
-<p>[root@sanyuanempire ~]# vgdisplay</p>
-<p>[root@sanyuanempire ~]# lvcreate -l 1148 -n disk iscsi<br>  Logical volume “disk” created</p>
-<p>[root@sanyuanempire ~]# lvdisplay</p>
-<p>[root@sanyuanempire ~]# mkfs -t ext4 /dev/iscsi/disk</p>
-<p>[root@sanyuanempire ~]# mkdir -p /data/iscsi</p>
-<p>[root@sanyuanempire ~]# mount /dev/iscsi/disk /data/iscsi<br>[root@sanyuanempire ~]# df -Th</p>
-<p>[root@sanyuanempire ~]# vim /etc/fstab<br>/dev/iscsi/disk /data/iscsi ext4 defaults,_netdev 1 2</p>
-<p>[root@sanyuanempire ~]# df -Th</p>
-<p>[root@jinyan ~]# tgt-admin –show</p>
-<p>[root@sanyuanempire ~]# vim /etc/iscsi/initiatorname.iscsi<br>InitiatorName=iqn.2012-09.jinyan.com:initiator</p>
-<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart<br>停止 iscsi：[确定]<br>正在启动 iscsi：[确定]</p>
-<p>[root@jinyan ~]# tgt-admin –show</p>
-<p>[root@sanyuanempire ~]# vim /etc/iscsi/initiatorname.iscsi</p>
-<h1 id="InitiatorName-iqn-1994-05-com-redhat-5ee6c70511f"><a href="#InitiatorName-iqn-1994-05-com-redhat-5ee6c70511f" class="headerlink" title="InitiatorName=iqn.1994-05.com.redhat:5ee6c70511f"></a>InitiatorName=iqn.1994-05.com.redhat:5ee6c70511f</h1><p>InitiatorName=iqn.2012-09.jinyan.com:initiator</p>
-<p>[root@sanyuanempire ~]# /etc/init.d/iscsi restart</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/iSCSI/" data-id="cix7b3wp600340ecya9u8eudt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-SVN" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-SVN/" class="article-date">
-  <time datetime="2016-12-15T03:36:28.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-SVN/">CentOS 6.x SVN</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum -y install subversion<br>svn –version<br>svn，版本 1.6.11 (r934486)<br>[root@rsync ~]# mkdir -p /opt/svn/repo<br>[root@rsync ~]# svnadmin create /opt/svn/repo<br>[root@rsync ~]# ll /opt/svn/repo<br>总用量 24<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 conf<br>drwxr-sr-x 6 root root 4096 6月  20 15:43 db<br>-r–r–r– 1 root root    2 6月  20 15:43 format<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 hooks<br>drwxr-xr-x 2 root root 4096 6月  20 15:43 locks<br>-rw-r–r– 1 root root  229 6月  20 15:43 README.txt<br>[root@rsync ~]#<br>[root@rsync ~]# cd /opt/svn/repo/conf<br>[root@rsync conf]# vim passwd </p>
-<h3 id="This-file-is-an-example-password-file-for-svnserve"><a href="#This-file-is-an-example-password-file-for-svnserve" class="headerlink" title="This file is an example password file for svnserve."></a>This file is an example password file for svnserve.</h3><h3 id="Its-format-is-similar-to-that-of-svnserve-conf-As-shown-in-the"><a href="#Its-format-is-similar-to-that-of-svnserve-conf-As-shown-in-the" class="headerlink" title="Its format is similar to that of svnserve.conf. As shown in the"></a>Its format is similar to that of svnserve.conf. As shown in the</h3><h3 id="example-below-it-contains-one-section-labelled-users"><a href="#example-below-it-contains-one-section-labelled-users" class="headerlink" title="example below it contains one section labelled [users]."></a>example below it contains one section labelled [users].</h3><h3 id="The-name-and-password-for-each-user-follow-one-account-per-line"><a href="#The-name-and-password-for-each-user-follow-one-account-per-line" class="headerlink" title="The name and password for each user follow, one account per line."></a>The name and password for each user follow, one account per line.</h3><p>[users]</p>
-<h1 id="harry-harryssecret"><a href="#harry-harryssecret" class="headerlink" title="harry = harryssecret"></a>harry = harryssecret</h1><h1 id="sally-sallyssecret"><a href="#sally-sallyssecret" class="headerlink" title="sally = sallyssecret"></a>sally = sallyssecret</h1><p>jinyan = yanjin</p>
-<p>[root@rsync conf]# vim authz<br>[/]<br>jinyan = rw</p>
-<ul>
-<li>= rw</li>
-</ul>
-<p>[root@rsync conf]# vim svnserve.conf<br>[general]</p>
-<h3 id="These-options-control-access-to-the-repository-for-unauthenticated"><a href="#These-options-control-access-to-the-repository-for-unauthenticated" class="headerlink" title="These options control access to the repository for unauthenticated"></a>These options control access to the repository for unauthenticated</h3><h3 id="and-authenticated-users-Valid-values-are-“write”-“read”"><a href="#and-authenticated-users-Valid-values-are-“write”-“read”" class="headerlink" title="and authenticated users.  Valid values are “write”, “read”,"></a>and authenticated users.  Valid values are “write”, “read”,</h3><h3 id="and-“none”-The-sample-settings-below-are-the-defaults"><a href="#and-“none”-The-sample-settings-below-are-the-defaults" class="headerlink" title="and “none”.  The sample settings below are the defaults."></a>and “none”.  The sample settings below are the defaults.</h3><p>anon-access = none<br>auth-access = write<br>password-db = passwd<br>authz-db = authz<br>realm=/opt/svn/repo</p>
-<p>启动SVN</p>
-<p>svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# ps -ef|grep svn|grep -v grep<br>root     22954     1  0 15:49 ?        00:00:00 svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# netstat -tunlp | grep 3690<br>tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22954/svnserve<br>[root@rsync conf]# </p>
-<p>停止重启SVN<br>[root@rsync conf]# killall svnserve<br>[root@rsync conf]# killall svnserve<br>svnserve: 没有进程被杀死<br>[root@rsync conf]#<br>[root@rsync conf]# svnserve -d -r /opt/svn/repo<br>[root@rsync conf]# netstat -tunlp | grep 3690<br>tcp        0      0 0.0.0.0:3690                0.0.0.0:*                   LISTEN      22974/svnserve<br>[root@rsync conf]# </p>
-<p>测试</p>
-<p>SVN服务已经启动，使用客户端测试连接。<br>客户端连接地址：svn://10.6.0.106<br>用户名/密码：<br>测试创建文件夹等操作。</p>
-<p>创建版本库：<br>终端输入：svnadmin create [路径]<br>该路径可以是相对路径，例如，当前在home/user/svn/目录下，输入svnadmin create myproject，则该版本库会被创建在home/user/svn/目录下，新建一个文件夹名为myproject，其中便是版本库的文件了。</p>
-<p>将文件导入版本库：<br>终端输入：svn import [源路径] [目标版本库路径] -m [日志信息]<br>源路径可以是相对路径，导入时会递归导入源路径下的所有文件和文件夹，目标版本库路径需要绝对目录（反正我试验是这样的），例如版本库的目录是：home/user/svn/myproject/。则应该这样写：file:///home/user/svn/myproject/<br>例如将当前目录导入版本库myproject：<br>svn import . file:///home/user/svn/myproject -m”导入文件”</p>
-<p>从版本库导出：<br>导入后原文件并未被纳入版本管理，若想获得受版本控制的文件，就需要从版本库导出<br>终端输入：svn co [版本库路径] [导出目标路径]<br>例如将myproject库中的文件导出到当前目录：svn cofile:///home/user/svn/myproject .</p>
-<p>备份<br>[root@rsync ~]# du -h –max-depth=1 /opt/svn/repo/db/revs/0<br>11G     /opt/svn/repo/db/revs/0<br>svnadmin dump方式<br>SVN迁移需要做如下操作：</p>
-<ol>
-<li>将原来的Repository导出为一个文件dumpfile 。<br>#svnadmin dump 原先的repos的目录路径（/repository/directory） &gt; dumpfile<br>#svnadmin dump /opt/svn/iitshare/ &gt; /var/tmp/iitshare_20130626<br>[root@rsync ~]# svnadmin dump /opt/svn/repo/ &gt; /home/repo20160818<br>[root@rsync ~]# ll -h /home/repo20160623<br>-rw-r–r– 1 root root 11G 6月  23 13:02 /home/repo20160623</li>
-<li>在另外一台机器上配置同样的SVN服务器。</li>
-<li>将dumpfile导入到新的repository 目录中。<br>#svnadmin load 新建的repos的目录路径（/repository/directory） &lt; dumpfile<br>#svnadmin load /opt/svn/iitshare/ &lt; /var/tmp/iitshare_20130626<br>[root@rsync ~]# svnadmin dump /opt/svn/repo/ &lt; /home/repo20160623</li>
-<li>将原先服务器的配置文件备份后复制到新服务器中<br>#/opt/svn/iitshare/conf目录下<br>authz、passwd、svnserve.conf文件</li>
-</ol>
-<p>svnadmin hotcopy方法</p>
-<ol>
-<li>备份<br>#svnadmin hotcopy /opt/svn/iitshare/ /var/tmp/iitshare_20130626 –clean-logs<br>[root@rsync ~]# svnadmin hotcopy /opt/svn/repo/ /home/repohost20160623 –clean-logs<br>[root@rsync ~]# ll -h /home/repohost20160623<br>总用量 24K<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 conf<br>drwxr-sr-x 6 root root 4.0K 6月  23 13:14 db<br>-r–r–r– 1 root root    2 6月  23 13:14 format<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 hooks<br>drwxr-xr-x 2 root root 4.0K 6月  23 13:11 locks<br>-rw-r–r– 1 root root  229 6月  23 13:11 README.txt<br>如果你传递–clean-logs选项，svnadmin会执行热拷贝操作，然后删除不用的Berkeley DB日志文件。<br>你可以在任何时候运行这个命令得到一个版本库的安全拷贝，不管其它进程是否使用这个版本库。</li>
-<li>还原<br>#svnadmin hotcopy /var/tmp/iitshare_20130626 /opt/svn/iitshare/<br>svnadmin hotcopy /home/repohost20160623 /opt/svn/repo/</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SVN/" data-id="cix7b3wn3000s0ecy10efix5w" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-7-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Centos-7-odoo-9-0/" class="article-date">
-  <time datetime="2016-12-15T03:35:49.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Centos-7-odoo-9-0/">Centos 7 odoo 9.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sed -i ‘s#keepcache=0#keepcache=1#g’ /etc/yum.conf<br>grep keepcache /etc/yum.conf<br>keepcache=1<br>cd /var/cache/yum/x86_64/7/base/packages/</p>
-<p>Community<br>Execute the following commands to install Odoo 9.0 Community on your server:</p>
-<p>yum -y install python-pip<br>yum -y install gcc<br>yum -y install python-devel<br>yum install -y postgresql-server<br>postgresql-setup initdb<br>systemctl enable postgresql<br>systemctl start postgresql<br>yum localinstall odoo_9.0c.20160712.noarch.rpm<br>rpm -ivh odoo_9.0c.20160712.noarch.rpm<br>systemctl enable odoo<br>systemctl start odoo</p>
-<p>#yum-config-manager –add-repo=<a href="https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo" target="_blank" rel="external">https://nightly.odoo.com/9.0/nightly/rpm/odoo.repo</a></p>
-<p>#yum install -y odoo</p>
-<p>[root@CentOS7 ~]# vim /var/lib/pgsql/data/pg_hba.conf</p>
-<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
-<p>[root@CentOS7 ~]# su - postgres<br>-bash-4.2$ psql -U postgres<br>postgres-# \du<br>                        角色列表<br> 角色名称 |               属性                | 成员属于<br>———-+———————————–+———-<br> odoo     | 建立 DB                           | {}<br> postgres | 超级用户, 建立角色, 建立 DB, 复制 | {}<br>postgres-# \password odoo<br>输入新的密码：<br>再次键入：<br>[root@CentOS7 ~]# psql -h 127.0.0.1 -U odoo<br>用户 odoo 的口令：<br>psql (9.2.15)<br>输入 “help” 来获取帮助信息.<br>odoo-&gt; \l<br>                                     资料库列表<br>   名称    |  拥有者  | 字元编码 |  校对规则   |    Ctype    |       存取权限   </p>
-<h2 id="———–-———-———-————-————-——————"><a href="#———–-———-———-————-————-——————" class="headerlink" title="———–+———-+———-+————-+————-+——————"></a>———–+———-+———-+————-+————-+——————</h2><p> odoo      | odoo     | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> postgres  | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 |<br> template0 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br> template1 | postgres | UTF8     | zh_CN.UTF-8 | zh_CN.UTF-8 | =c/postgres<br>    +<br>           |          |          |             |             | postgres=CTc/post<br>gres<br>(4 行记录)</p>
-<p>odoo-&gt;<br>odoo-&gt; \c odoo<br>您现在已经连线到数据库 “odoo”,用户 “odoo”.<br>odoo-&gt; \d<br>                                     关联列表<br> 架构模式 |                         名称                         |  型别  | 拥有<br>者 </p>
-<h2 id="———-——————————————————-——–-—–"><a href="#———-——————————————————-——–-—–" class="headerlink" title="———-+——————————————————+——–+—–"></a>———-+——————————————————+——–+—–</h2><p> public   | base_import_import                                   | 资料表 | odoo</p>
-<p>python</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>import psycopg2<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’)<br>print “connected db”<br>connected db</p>
-</blockquote>
-</blockquote>
-</blockquote>
-<p>print (“hello, world!”);</p>
-<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
-<p>cur=conn.cursor();<br>cur.execute(“create table lyy(id int, name varchar)”);<br>conn.commit();<br>print “create table lyy”;<br>cur.execute(“insert into lyy values(1,’lily’)”);<br>cur.execute(“insert into lyy values(2,’lucy’)”);<br>conn.commit();<br>print(“insert into lyy two rows”);<br>cur.execute(“select id, name from lyy”);<br>rows = cur.fetchall();<br>for row in rows:<br>print “id=”,row[0];<br>print “name=”,row[1];<br>print “operation done”;<br>conn.close();</p>
-<p>netstat -tunlp | grep 8069<br>tail -f /var/log/messages</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Centos-7-odoo-9-0/" data-id="cix7b3wns001j0ecyt8l8vbj2" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Ubuntu-14-04-odoo-9-0" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Ubuntu-14-04-odoo-9-0/" class="article-date">
-  <time datetime="2016-12-15T03:34:44.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Ubuntu-14-04-odoo-9-0/">Ubuntu 14.04 odoo 9.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>vm12<br>5A02H-AU243-TZJ49-GTC7K-3C61N<br><a href="https://www.odoo.com/documentation/9.0/setup/install.html" target="_blank" rel="external">https://www.odoo.com/documentation/9.0/setup/install.html</a><br>wget <a href="https://github.com/aschenkels-ictstudio/odoo-install-scripts/blob/9.0/ubuntu-14-04/odoo_install.sh" target="_blank" rel="external">https://github.com/aschenkels-ictstudio/odoo-install-scripts/blob/9.0/ubuntu-14-04/odoo_install.sh</a><br>Deb<br>Community<br>To install Odoo 9.0 Community on Debian-based distribution, execute the following commands as root:</p>
-<p>apt-get install gcc<br>wget <a href="http://launchpadlibrarian.net/177550518/libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb" target="_blank" rel="external">http://launchpadlibrarian.net/177550518/libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb</a><br>dpkg -i libxml2-dev_2.9.1+dfsg1-3ubuntu4.3_amd64.deb<br>apt-get install python-dev  libxml2-dev libxslt1-dev zlib1g-dev<br>apt-get install python-pip<br>apt-get remove python-pip<br>apt-get autoremove<br>easy_install -U pip<br>which pip<br>cp /usr/local/bin/pip /usr/bin/pip<br>pip</p>
-<p>wget <a href="http://launchpadlibrarian.net/178067995/libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb" target="_blank" rel="external">http://launchpadlibrarian.net/178067995/libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb</a><br>dpkg -i libssl-dev_1.0.1f-1ubuntu2.4_amd64.deb<br>apt-get install libssl-doc<br>apt-get install libpq-dev<br>apt-get install postgresql-server-dev-*<br>pip install psycopg2==2.5.4</p>
-<p>apt-get install libsasl2-dev python-dev libldap2-dev libssl-dev<br>pip install python-ldap –upgrade<br>pip install python-ldap==2.4.19</p>
-<p>wget -O - <a href="https://nightly.odoo.com/odoo.key" target="_blank" rel="external">https://nightly.odoo.com/odoo.key</a> | apt-key add -<br>echo “deb <a href="http://nightly.odoo.com/9.0/nightly/deb/" target="_blank" rel="external">http://nightly.odoo.com/9.0/nightly/deb/</a> ./“ &gt;&gt; /etc/apt/sources.list<br>apt-get update &amp;&amp; apt-get install odoo<br>ls /var/cache/apt/archives/<br>cd /var/cache/apt/archives/<br>rz<br>odoo_9.0c.20160714_all.deb</p>
-<p>You can then use the usual apt-get upgrade command to keep your installation up-to-date.</p>
-<p>netstat -tunlp | grep 8069</p>
-<p>vim /etc/postgresql/9.3/main/pg_hba.conf</p>
-<h1 id="host-all-all-127-0-0-1-32-ident"><a href="#host-all-all-127-0-0-1-32-ident" class="headerlink" title="host    all             all             127.0.0.1/32            ident"></a>host    all             all             127.0.0.1/32            ident</h1><p>host    all             all             127.0.0.1/32            md5</p>
-<p>su - postgres -c “createuser -s odoo”<br>service odoo restart</p>
-<p>root@ubuntu:~#  su - postgres<br>postgres@ubuntu:~$ psql -U postgres<br>psql (9.3.4)<br>Type “help” for help.</p>
-<p>postgres=# \du<br>                             List of roles<br> Role name |                   Attributes                   | Member of<br>———–+————————————————+———–<br> postgres  | Superuser, Create role, Create DB, Replication | {}</p>
-<p>postgres=# create user odoo with login password ‘yanjin’;<br>CREATE ROLE</p>
-<p>postgres=#<br>create database odoo<br>       with owner = odoo<br>       encoding = ‘UTF8’<br>       tablespace = pg_default<br>       lc_collate = ‘en_US.UTF-8’<br>       lc_ctype = ‘en_US.UTF-8’<br>       connection limit = -1;<br>CREATE DATABASE</p>
-<p>\password odoo</p>
-<p>psql -h 127.0.0.1 -U odoo<br>odoo=&gt; \l<br>                                  List of databases<br>   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges<br>———–+———-+———-+————-+————-+———————–<br> odoo      | odoo     | UTF8     | en_US.UTF-8 | en_US.UTF-8 |<br> postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |<br> template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +<br>           |          |          |             |             | postgres=CTc/postgres<br> template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +<br>           |          |          |             |             | postgres=CTc/postgres<br>(4 rows)</p>
-<p>odoo=&gt; </p>
-<p>import psycopg2;<br>conn = psycopg2.connect(database=’odoo’,user=’odoo’,password=’yanjin’,host=’127.0.0.1’, port=’5432’);<br>print “connected db”;</p>
-<p>def connect(dsn=None,    dsn: ‘dbname=odoo user=odoo password=yanjin host=127.0.0.1 port=5432’<br>        database=None, user=None, password=None, host=None, port=None,    database: ‘odoo’ user: ‘odoo’ password: ‘yanjin’ host: ‘127.0.0.1’ port: ‘5432’<br>        connection_factory=None, async=False, **kwargs): connection_factory: None async: False kwargs: {}<br>    “””</p>
-<p>root@ubuntu:~/odoo-9.0# ./odoo.py –config=/etc/odoo/openerp-server.conf</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Ubuntu-14-04-odoo-9-0/" data-id="cix7b3wos002q0ecy4jw3yk5c" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-5-KickStart/" data-id="cixv6wclf0007lkcy3r4lxanv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -855,7 +881,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -868,23 +894,23 @@
       <ul>
         
           <li>
+            <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/zebra/">zebra</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
       </ul>
@@ -899,7 +925,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 JinYan<br>
+      &copy; 2017 JinYan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

@@ -61,6 +61,647 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Python-资源-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/Python-资源-1/" class="article-date">
+  <time datetime="2016-12-13T09:02:31.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/Python-资源-1/">Python 资源</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境管理</p>
+<p>管理 Python 版本和环境的工具</p>
+<ul>
+<li>p – 非常简单的交互式 python 版本管理工具。</li>
+<li>pyenv – 简单的 Python 版本管理工具。</li>
+<li>Vex – 可以在虚拟环境中执行命令。</li>
+<li>virtualenv – 创建独立 Python 环境的工具。</li>
+<li>virtualenvwrapper– virtualenv 的一组扩展。</li>
+</ul>
+<p>包管理</p>
+<p>管理包和依赖的工具。</p>
+<ul>
+<li>pip – Python 包和依赖关系管理工具。</li>
+<li>pip-tools – 保证 Python 包依赖关系更新的一组工具。</li>
+<li>conda – 跨平台，Python 二进制包管理工具。</li>
+<li>Curdling – 管理 Python 包的命令行工具。</li>
+<li>wheel – Python 分发的新标准，意在取代 eggs。</li>
+</ul>
+<p>包仓库</p>
+<p>本地 PyPI 仓库服务和代理。</p>
+<ul>
+<li>warehouse – 下一代 PyPI。<br>Warehouse bandersnatch – PyPA 提供的 PyPI 镜像工具。</li>
+<li>devpi – PyPI 服务和打包/测试/分发工具。</li>
+<li>localshop – 本地 PyPI 服务（自定义包并且自动对 PyPI 镜像）。</li>
+</ul>
+<p>分发</p>
+<p>打包为可执行文件以便分发。</p>
+<ul>
+<li>PyInstaller – 将 Python 程序转换成独立的执行文件（跨平台）。</li>
+<li>dh-virtualenv – 构建并将 virtualenv 虚拟环境作为一个 Debian 包来发布。</li>
+<li>Nuitka – 将脚本、模块、包编译成可执行文件或扩展模块。</li>
+<li>py2app – 将 Python 脚本变为独立软件包（Mac OS X）。</li>
+<li>py2exe – 将 Python 脚本变为独立软件包（Windows）。</li>
+<li>pynsist – 一个用来创建 Windows 安装程序的工具，可以在安装程序中打包 Python本身。</li>
+</ul>
+<p>构建工具</p>
+<p>将源码编译成软件。</p>
+<ul>
+<li>buildout – 一个构建系统，从多个组件来创建，组装和部署应用。</li>
+<li>BitBake – 针对嵌入式 Linux 的类似 make 的构建工具。</li>
+<li>fabricate – 对任何语言自动找到依赖关系的构建工具。</li>
+<li>PlatformIO – 多平台命令行构建工具。</li>
+<li>PyBuilder – 纯 Python 实现的持续化构建工具。</li>
+<li>SCons – 软件构建工具。</li>
+</ul>
+<p>交互式解析器</p>
+<p>交互式 Python 解析器。</p>
+<ul>
+<li>IPython – 功能丰富的工具，非常有效的使用交互式 Python。</li>
+<li>bpython– 界面丰富的 Python 解析器。</li>
+<li>ptpython – 高级交互式Python解析器， 构建于python-prompt-toolkit 之上。</li>
+</ul>
+<p>文件</p>
+<p>文件管理和 MIME（多用途的网际邮件扩充协议）类型检测。</p>
+<ul>
+<li>imghdr – （Python 标准库）检测图片类型。</li>
+<li>mimetypes – （Python 标准库）将文件名映射为 MIME 类型。</li>
+<li>path.py – 对 os.path 进行封装的模块。</li>
+<li>pathlib – （Python3.4+ 标准库）跨平台的、面向对象的路径操作库。</li>
+<li>python-magic– 文件类型检测的第三方库 libmagic 的 Python 接口。</li>
+<li>Unipath– 用面向对象的方式操作文件和目录</li>
+<li>watchdog – 管理文件系统事件的 API 和 shell 工具</li>
+</ul>
+<p>日期和时间</p>
+<p>操作日期和时间的类库。</p>
+<ul>
+<li>arrow– 更好的 Python 日期时间操作类库。</li>
+<li>Chronyk – Python 3 的类库，用于解析手写格式的时间和日期。</li>
+<li>dateutil – Python datetime 模块的扩展。</li>
+<li>delorean– 解决 Python 中有关日期处理的棘手问题的库。</li>
+<li>moment – 一个用来处理时间和日期的Python库。灵感来自于Moment.js。</li>
+<li>PyTime – 一个简单易用的Python模块，用于通过字符串来操作日期/时间。</li>
+<li>pytz – 现代以及历史版本的世界时区定义。将时区数据库引入Python。</li>
+<li>when.py – 提供用户友好的函数来帮助用户进行常用的日期和时间操作。</li>
+</ul>
+<p>文本处理</p>
+<p>用于解析和操作文本的库。</p>
+<ul>
+<li>通用<br>chardet – 字符编码检测器，兼容 Python2 和 Python3。<br>difflib – (Python 标准库)帮助我们进行差异化比较。<br>ftfy – 让Unicode文本更完整更连贯。<br>fuzzywuzzy – 模糊字符串匹配。<br>Levenshtein – 快速计算编辑距离以及字符串的相似度。<br>pangu.py – 在中日韩语字符和数字字母之间添加空格。<br>pyfiglet -figlet 的 Python实现。<br>shortuuid – 一个生成器库，用以生成简洁的，明白的，URL 安全的 UUID。<br>unidecode – Unicode 文本的 ASCII 转换形式 。<br>uniout – 打印可读的字符，而不是转义的字符串。<br>xpinyin – 一个用于把汉字转换为拼音的库。</li>
+<li>Slug化<br>awesome-slugify – 一个 Python slug 化库，可以保持 Unicode。<br>python-slugify – Python slug 化库，可以把 unicode 转化为 ASCII。<br>unicode-slugify – 一个 slug 工具，可以生成 unicode slugs ,需要依赖 Django 。</li>
+<li>解析器<br>phonenumbers – 解析，格式化，储存，验证电话号码。<br>PLY – lex 和 yacc 解析工具的 Python 实现。<br>Pygments – 通用语法高亮工具。<br>pyparsing – 生成通用解析器的框架。<br>python-nameparser – 把一个人名分解为几个独立的部分。<br>python-user-agents – 浏览器 user agent 解析器。<br>sqlparse – 一个无验证的 SQL 解析器。</li>
+</ul>
+<p>特殊文本格式处理</p>
+<p>一些用来解析和操作特殊文本格式的库。</p>
+<ul>
+<li>通用<br>tablib – 一个用来处理中表格数据的模块。</li>
+<li>Office<br>Marmir – 把输入的Python 数据结构转换为电子表单。<br>openpyxl – 一个用来读写 Excel 2010 xlsx/xlsm/xltx/xltm 文件的库。<br>python-docx – 读取，查询以及修改 Microsoft Word 2007/2008 docx 文件。<br>unoconv – 在 LibreOffice/OpenOffice 支持的任意文件格式之间进行转换。<br>XlsxWriter – 一个用于创建 Excel .xlsx 文件的 Python 模块。<br>xlwings – 一个使得在 Excel 中方便调用 Python 的库（反之亦然），基于 BSD 协议。<br>xlwt / xlrd – 读写 Excel 文件的数据和格式信息。<br>relatorio – 模板化OpenDocument 文件。</li>
+<li>PDF<br>PDFMiner – 一个用于从PDF文档中抽取信息的工具。<br>PyPDF2 – 一个可以分割，合并和转换 PDF 页面的库。<br>ReportLab – 快速创建富文本 PDF 文档。</li>
+<li>Markdown<br>Mistune – 快速并且功能齐全的纯 Python 实现的 Markdown 解析器。<br>Python-Markdown – John Gruber’s Markdown 的 Python 版实现。</li>
+<li>YAML<br>PyYAML – Python 版本的 YAML 解析器。</li>
+<li>CSV<br>csvkit – 用于转换和操作 CSV 的工具。</li>
+<li>Archive<br>unp – 一个用来方便解包归档文件的命令行工具。</li>
+</ul>
+<p>自然语言处理</p>
+<p>用来处理人类语言的库。</p>
+<ul>
+<li>NLTK – 一个先进的平台，用以构建处理人类语言数据的 Python 程序。</li>
+<li>jieba – 中文分词工具。</li>
+<li>langid.py – 独立的语言识别系统。</li>
+<li>Pattern – Python 网络信息挖掘模块。</li>
+<li>SnowNLP – 一个用来处理中文文本的库。</li>
+<li>TextBlob – 为进行普通自然语言处理任务提供一致的 API。</li>
+<li>TextGrocery – 一简单高效的短文本分类工具，基于 LibLinear 和 Jieba。</li>
+</ul>
+<p>文档</p>
+<p>用以生成项目文档的库。</p>
+<ul>
+<li>Sphinx – Python 文档生成器。<br>awesome-sphinxdoc</li>
+<li>MkDocs – 对 Markdown 友好的文档生成器。</li>
+<li>pdoc – 一个可以替换Epydoc 的库，可以自动生成 Python 库的 API 文档。</li>
+<li>Pycco – 文学编程（literate-programming）风格的文档生成器。</li>
+</ul>
+<p>配置</p>
+<p>用来保存和解析配置的库。</p>
+<ul>
+<li>config – logging 模块作者写的分级配置模块。</li>
+<li>ConfigObj – INI 文件解析器，带验证功能。</li>
+<li>ConfigParser – (Python 标准库) INI 文件解析器。</li>
+<li>profig – 通过多种格式进行配置，具有数值转换功能。</li>
+<li>python-decouple – 将设置和代码完全隔离。</li>
+</ul>
+<p>命令行工具</p>
+<p>用于创建命令行程序的库。</p>
+<ul>
+<li>命令行程序开发<br>cement – Python 的命令行程序框架。<br>click – 一个通过组合的方式来创建精美命令行界面的包。<br>cliff – 一个用于创建命令行程序的框架，可以创建具有多层命令的命令行程序。<br>clint – Python 命令行程序工具。<br>colorama – 跨平台彩色终端文本。<br>docopt – Python 风格的命令行参数解析器。<br>Gooey – 一条命令，将命令行程序变成一个 GUI 程序。<br>python-prompt-toolkit – 一个用于构建强大的交互式命令行程序的库。</li>
+<li>生产力工具<br>aws-cli – Amazon Web Services 的通用命令行界面。<br>bashplotlib – 在终端中进行基本绘图。<br>caniusepython3 – 判断是哪个项目妨碍你你移植到 Python 3。<br>cookiecutter – 从 cookiecutters（项目模板）创建项目的一个命令行工具。<br>doitlive – 一个用来在终端中进行现场演示的工具。<br>howdoi – 通过命令行获取即时的编程问题解答。<br>httpie – 一个命令行HTTP 客户端，cURL 的替代品，易用性更好。<br>PathPicker – 从bash输出中选出文件。<br>percol – 向UNIX shell 传统管道概念中加入交互式选择功能。<br>SAWS – 一个加强版的 AWS 命令行。<br>thefuck – 修正你之前的命令行指令。<br>mycli – 一个 MySQL 命令行客户端，具有自动补全和语法高亮功能。<br>pgcli – Postgres 命令行工具，具有自动补全和语法高亮功能。</li>
+</ul>
+<p>下载器</p>
+<p>用来进行下载的库.</p>
+<ul>
+<li>s3cmd – 一个用来管理Amazon S3 和 CloudFront 的命令行工具。</li>
+<li>s4cmd – 超级 S3 命令行工具，性能更加强劲。</li>
+<li>you-get – 一个 YouTube/Youku/Niconico 视频下载器，使用 Python3 编写。</li>
+<li>youtube-dl – 一个小巧的命令行程序，用来下载 YouTube 视频。</li>
+</ul>
+<p>图像处理</p>
+<p>用来操作图像的库.</p>
+<ul>
+<li>pillow – Pillow 是一个更加易用版的 PIL。</li>
+<li>hmap – 图像直方图映射。</li>
+<li>imgSeek – 一个使用视觉相似性搜索一组图片集合的项目。</li>
+<li>nude.py – 裸体检测。</li>
+<li>pyBarcode – 不借助 PIL 库在 Python 程序中生成条形码。</li>
+<li>pygram – 类似 Instagram 的图像滤镜。</li>
+<li>python-qrcode – 一个纯 Python 实现的二维码生成器。</li>
+<li>Quads – 基于四叉树的计算机艺术。</li>
+<li>scikit-image – 一个用于（科学）图像处理的 Python 库。</li>
+<li>thumbor – 一个小型图像服务，具有剪裁，尺寸重设和翻转功能。</li>
+<li>wand – MagickWand的Python 绑定。MagickWand 是 ImageMagick的 C API 。</li>
+</ul>
+<p>OCR</p>
+<p>光学字符识别库。</p>
+<ul>
+<li>pyocr – Tesseract 和 Cuneiform 的一个封装(wrapper)。</li>
+<li>pytesseract – Google Tesseract OCR 的另一个封装(wrapper)。</li>
+<li>python-tesseract – Google Tesseract OCR 的一个包装类。</li>
+</ul>
+<p>音频</p>
+<p>用来操作音频的库</p>
+<ul>
+<li>audiolazy -Python 的数字信号处理包。</li>
+<li>audioread – 交叉库 (GStreamer + Core Audio + MAD + FFmpeg) 音频解码。</li>
+<li>beets – 一个音乐库管理工具及 MusicBrainz 标签添加工具</li>
+<li>dejavu – 音频指纹提取和识别</li>
+<li>django-elastic-transcoder – Django + Amazon Elastic Transcoder。</li>
+<li>eyeD3 – 一个用来操作音频文件的工具，具体来讲就是包含 ID3 元信息的 MP3 文件。</li>
+<li>id3reader – 一个用来读取 MP3 元数据的 Python 模块。</li>
+<li>m3u8 – 一个用来解析 m3u8 文件的模块。</li>
+<li>mutagen – 一个用来处理音频元数据的 Python 模块。</li>
+<li>pydub – 通过简单、简洁的高层接口来操作音频文件。</li>
+<li>pyechonest – Echo Nest API 的 Python 客户端</li>
+<li>talkbox – 一个用来处理演讲/信号的 Python 库</li>
+<li>TimeSide – 开源 web 音频处理框架。</li>
+<li>tinytag – 一个用来读取MP3, OGG, FLAC 以及 Wave 文件音乐元数据的库。</li>
+<li>mingus – 一个高级音乐理论和曲谱包，支持 MIDI 文件和回放功能。</li>
+</ul>
+<p>Video</p>
+<p>用来操作视频和GIF的库。</p>
+<ul>
+<li>moviepy – 一个用来进行基于脚本的视频编辑模块，适用于多种格式，包括动图 GIFs。</li>
+<li>scikit-video – SciPy 视频处理常用程序。</li>
+</ul>
+<p>地理位置</p>
+<p>地理编码地址以及用来处理经纬度的库。</p>
+<ul>
+<li>GeoDjango – 世界级地理图形 web 框架。</li>
+<li>GeoIP – MaxMind GeoIP Legacy 数据库的 Python API。</li>
+<li>geojson – GeoJSON 的 Python 绑定及工具。</li>
+<li>geopy – Python 地址编码工具箱。</li>
+<li>pygeoip – 纯 Python GeoIP API。</li>
+<li>django-countries – 一个 Django 应用程序，提供用于表格的国家选择功能，国旗图标静态文件以及模型中的国家字段。</li>
+</ul>
+<p>HTTP</p>
+<p>使用HTTP的库。</p>
+<ul>
+<li>requests – 人性化的HTTP请求库。</li>
+<li>grequests – requests 库 + gevent ，用于异步 HTTP 请求.</li>
+<li>httplib2 – 全面的 HTTP 客户端库。</li>
+<li>treq – 类似 requests 的Python API 构建于 Twisted HTTP 客户端之上。</li>
+<li>urllib3 – 一个具有线程安全连接池，支持文件 post，清晰友好的 HTTP 库。</li>
+</ul>
+<p>数据库</p>
+<p>Python实现的数据库。</p>
+<ul>
+<li>pickleDB – 一个简单，轻量级键值储存数据库。</li>
+<li>PipelineDB – 流式 SQL 数据库。</li>
+<li>TinyDB – 一个微型的，面向文档型数据库。</li>
+<li>ZODB – 一个 Python 原生对象数据库。一个键值和对象图数据库。</li>
+</ul>
+<p>数据库驱动</p>
+<p>用来连接和操作数据库的库。</p>
+<ul>
+<li>MySQL – awesome-mysql系列<br>mysql-python – Python 的 MySQL 数据库连接器。<br>mysqlclient – mysql-python 分支，支持 Python 3。<br>oursql – 一个更好的 MySQL 连接器，支持原生预编译指令和 BLOBs.<br>PyMySQL – 纯 Python MySQL 驱动，兼容 mysql-python。</li>
+<li>PostgreSQL<br>psycopg2 – Python 中最流行的 PostgreSQL 适配器。<br>queries – psycopg2 库的封装，用来和 PostgreSQL 进行交互。<br>txpostgres – 基于 Twisted 的异步 PostgreSQL 驱动。</li>
+<li>其他关系型数据库<br>apsw – 另一个 Python SQLite封装。<br>dataset – 在数据库中存储Python字典 – 可以协同SQLite，MySQL，和 PostgreSQL工作。<br>pymssql– 一个简单的Microsoft SQL Server数据库接口。</li>
+<li>NoSQL 数据库<br>cassandra-python-driver – Cassandra 的 Python 驱动。<br>HappyBase – 一个为 Apache HBase 设计的，对开发者友好的库。<br>Plyvel – 一个快速且功能丰富的 LevelDB 的 Python 接口。<br>py2neo – Neo4j restful 接口的Python 封装客户端。<br>pycassa – Cassandra 的 Python Thrift 驱动。<br>PyMongo – MongoDB 的官方 Python 客户端。<br>redis-py – Redis 的 Python 客户端。<br>telephus – 基于 Twisted 的 Cassandra 客户端。<br>txRedis – 基于 Twisted 的 Redis 客户端。</li>
+</ul>
+<p>ORM</p>
+<p>实现对象关系映射或数据映射技术的库。</p>
+<ul>
+<li>关系型数据库<br>Django Models – Django 的一部分。<br>SQLAlchemy – Python SQL 工具以及对象关系映射工具。<br>awesome-sqlalchemy系列<br>Peewee – 一个小巧，富有表达力的 ORM。<br>PonyORM – 提供面向生成器的 SQL 接口的 ORM。<br>python-sql – 编写 Python 风格的 SQL 查询。</li>
+<li>NoSQL 数据库<br>django-mongodb-engine – Django MongoDB 后端。<br>PynamoDB – Amazon DynamoDB 的一个 Python 风格接口。<br>flywheel – Amazon DynamoDB 的对象映射工具。<br>MongoEngine – 一个Python 对象文档映射工具，用于 MongoDB。<br>hot-redis – 为 Redis 提供 Python 丰富的数据类型。<br>redisco – 一个 Python 库，提供可以持续存在在 Redis 中的简单模型和容器。</li>
+<li>其他<br>butterdb – Google Drive 电子表格的 Python ORM。</li>
+</ul>
+<p>Web 框架</p>
+<p>全栈 web 框架。</p>
+<ul>
+<li>Django – Python 界最流行的 web 框架。<br>awesome-django系列</li>
+<li>Flask – 一个 Python 微型框架。<br>awesome-flask系列</li>
+<li>Pyramid – 一个小巧，快速，接地气的开源Python web 框架。<br>awesome-pyramid系列</li>
+<li>Bottle – 一个快速小巧，轻量级的 WSGI 微型 web 框架。</li>
+<li>CherryPy – 一个极简的 Python web 框架，服从 HTTP/1.1 协议且具有WSGI 线程池。</li>
+<li>TurboGears – 一个可以扩展为全栈解决方案的微型框架。</li>
+<li>web.py – 一个 Python 的 web 框架，既简单，又强大。</li>
+<li>web2py – 一个全栈 web 框架和平台，专注于简单易用。</li>
+<li>Tornado – 一个web 框架和异步网络库。</li>
+</ul>
+<p>权限</p>
+<p>允许或拒绝用户访问数据或功能的库。</p>
+<ul>
+<li>Carteblanche – Module to align code with thoughts of users and designers. Also magically handles navigation and permissions.</li>
+<li>django-guardian – Django 1.2+ 实现了单个对象权限。</li>
+<li>django-rules – 一个小巧但是强大的应用，提供对象级别的权限管理，且不需要使用数据库。</li>
+</ul>
+<p>CMS</p>
+<p>内容管理系统</p>
+<ul>
+<li>django-cms – 一个开源的，企业级 CMS，基于 Django。</li>
+<li>djedi-cms – 一个轻量级但却非常强大的 Django CMS ，考虑到了插件，内联编辑以及性能。</li>
+<li>FeinCMS – 基于 Django 构建的最先进的内容管理系统之一。</li>
+<li>Kotti – 一个高级的，Python 范的 web 应用框架，基于 Pyramid 构建。</li>
+<li>Mezzanine – 一个强大的，持续的，灵活的内容管理平台。</li>
+<li>Opps – 一个为杂志，报纸网站以及大流量门户网站设计的 CMS 平台，基于 Django。</li>
+<li>Plone – 一个构建于开源应用服务器 Zope 之上的 CMS。</li>
+<li>Quokka – 灵活，可扩展的小型 CMS，基于 Flask 和 MongoDB。</li>
+<li>Wagtail – 一个 Django 内容管理系统。</li>
+<li>Widgy – 最新的 CMS 框架，基于 Django。</li>
+</ul>
+<p>电子商务</p>
+<p>用于电子商务以及支付的框架和库。</p>
+<ul>
+<li>django-oscar – 一个用于 Django 的开源的电子商务框架。</li>
+<li>django-shop – 一个基于 Django 的店铺系统。</li>
+<li>Cartridge – 一个基于 Mezzanine 构建的购物车应用。</li>
+<li>shoop – 一个基于 Django 的开源电子商务平台。</li>
+<li>alipay – 非官方的 Python 支付宝 API。</li>
+<li>merchant – 一个可以接收来自多种支付平台支付的 Django 应用。</li>
+<li>money – 货币类库with optional CLDR-backed locale-aware formatting and an extensible currency exchange solution.</li>
+<li>python-currencies – 显示货币格式以及它的数值。</li>
+</ul>
+<p>RESTful API</p>
+<p>用来开发RESTful APIs的库</p>
+<ul>
+<li>Django<br>django-rest-framework – 一个强大灵活的工具，用来构建 web API。<br>django-tastypie – 为Django 应用开发API。<br>django-formapi – 为 Django 的表单验证，创建 JSON APIs 。</li>
+<li>Flask<br>flask-api – 为 flask 开发的，可浏览 Web APIs 。<br>flask-restful – 为 flask 快速创建REST APIs 。<br>flask-restless – 为 SQLAlchemy 定义的数据库模型创建 RESTful APIs 。<br>flask-api-utils – 为 Flask 处理 API 表示和验证。<br>eve – REST API 框架，由 Flask, MongoDB 等驱动。</li>
+<li>Pyramid<br>cornice – 一个Pyramid 的 REST 框架 。</li>
+<li>与框架无关的<br>falcon – 一个用来建立云 API 和 web app 后端的噶性能框架。<br>sandman – 为现存的数据库驱动系统自动创建 REST APIs 。<br>restless – 框架无关的 REST 框架 ，基于从 Tastypie 学到的知识。<br>ripozo – 快速创建 REST/HATEOAS/Hypermedia APIs。</li>
+</ul>
+<p>验证</p>
+<p>实现验证方案的库。</p>
+<ul>
+<li>OAuth<br>Authomatic – 简单但是强大的框架，身份验证/授权客户端。<br>django-allauth – Django 的验证应用。<br>django-oauth-toolkit – 为 Django 用户准备的 OAuth2。<br>django-oauth2-provider – 为 Django 应用提供 OAuth2 接入。<br>Flask-OAuthlib – OAuth 1.0/a, 2.0 客户端实现，供 Flask 使用。<br>OAuthLib – 一个 OAuth 请求-签名逻辑通用、 完整的实现。<br>python-oauth2 – 一个完全测试的抽象接口。用来创建 OAuth 客户端和服务端。<br>python-social-auth – 一个设置简单的社会化验证方式。<br>rauth – OAuth 1.0/a, 2.0, 和 Ofly 的 Python 库。<br>sanction – 一个超级简单的OAuth2 客户端实现。</li>
+<li>其他<br>jose – JavaScript 对象签名和加密草案的实现。<br>PyJWT – JSON Web 令牌草案 01。<br>python-jws – JSON Web 签名草案 02 的实现。<br>python-jwt – 一个用来生成和验证 JSON Web 令牌的模块。</li>
+</ul>
+<p>模板引擎</p>
+<p>模板生成和词法解析的库和工具。</p>
+<ul>
+<li>Jinja2 – 一个现代的，对设计师友好的模板引擎。</li>
+<li>Chameleon – 一个 HTML/XML 模板引擎。 模仿了 ZPT（Zope Page Templates）, 进行了速度上的优化。</li>
+<li>Genshi – Python 模板工具，用以生成 web 感知的结果。</li>
+<li>Mako – Python 平台的超高速轻量级模板。</li>
+</ul>
+<p>Queue</p>
+<p>处理事件以及任务队列的库。</p>
+<ul>
+<li>celery – 一个异步任务队列/作业队列，基于分布式消息传递。</li>
+<li>huey – 小型多线程任务队列。</li>
+<li>mrq – Mr. Queue -一个 Python 的分布式 worker 任务队列， 使用 Redis 和 gevent。</li>
+<li>rq – 简单的 Python 作业队列。</li>
+<li>simpleq – 一个简单的，可无限扩张的，基于亚马逊 SQS 的队列。</li>
+</ul>
+<p>搜索</p>
+<p>对数据进行索引和执行搜索查询的库和软件。</p>
+<ul>
+<li>django-haystack – Django 模块化搜索。</li>
+<li>elasticsearch-py – Elasticsearch 的官方底层 Python 客户端。</li>
+<li>elasticsearch-dsl-py -Elasticsearch 的官方高级 Python 客户端。</li>
+<li>solrpy – solr的 Python 客户端。</li>
+<li>Whoosh – 一个快速的纯 Python 搜索引擎库。</li>
+</ul>
+<p>动态消息</p>
+<p>用来创建用户活动的库。</p>
+<ul>
+<li>django-activity-stream – 从你的站点行为中生成通用活动信息流。</li>
+<li>Stream-Framework – 使用 Cassandra 和 Redis 创建动态消息和通知系统。</li>
+</ul>
+<p>资源管理</p>
+<p>管理、压缩、缩小网站资源的工具。</p>
+<ul>
+<li>django-compressor – 将链接和内联的 JavaScript 或 CSS 压缩到一个单独的缓存文件中。</li>
+<li>django-storages – 一个针对 Django 的自定义存储后端的工具集合。</li>
+<li>fanstatic – 打包、优化，并且把静态文件依赖作为 Python 的包来提供。</li>
+<li>File Conveyor – 一个后台驻留的程序，用来发现和同步文件到 CDNs, S3 和 FTP。</li>
+<li>Flask-Assets – 帮你将 web 资源整合到你的 Flask app 中。</li>
+<li>jinja-assets-compressor – 一个 Jinja 扩展，用来编译和压缩你的资源。</li>
+<li>webassets – 为你的静态资源打包、优化和管理生成独一无二的缓存 URL。</li>
+</ul>
+<p>电子邮件</p>
+<p>用来发送和解析电子邮件的库。</p>
+<ul>
+<li>django-celery-ses – 带有 AWS SES 和 Celery 的 Django email 后端。</li>
+<li>envelopes – 供人类使用的电子邮件库。</li>
+<li>flanker – 一个 email 地址和 Mime 解析库。</li>
+<li>imbox – Python IMAP 库</li>
+<li>inbox.py – Python SMTP 服务器。</li>
+<li>inbox – 一个开源电子邮件工具箱。</li>
+<li>lamson – Python 风格的 SMTP 应用服务器。</li>
+<li>mailjet – Mailjet API 实现，用来提供批量发送邮件，统计等功能。</li>
+<li>marrow.mailer – 高性能可扩展邮件分发框架。</li>
+<li>modoboa – 一个邮件托管和管理平台，具有现代的、简约的 Web UI。</li>
+<li>pyzmail – 创建，发送和解析电子邮件。</li>
+<li>Talon – Mailgun 库，用来抽取信息和签名。</li>
+</ul>
+<p>URL处理</p>
+<p>解析URLs的库</p>
+<ul>
+<li>furl – 一个让处理 URL 更简单小型 Python 库。</li>
+<li>purl – 一个简单的，不可变的URL类，具有简洁的 API 来进行询问和处理。</li>
+<li>pyshorteners – 一个纯 Python URL 缩短库。</li>
+<li>shorturl– 生成短小 URL 和类似 bit.ly 短链的Python 实现。</li>
+<li>webargs – 一个解析 HTTP 请求参数的库，内置对流行 web 框架的支持，包括 Flask, Django, Bottle, Tornado和 Pyramid。</li>
+</ul>
+<p>HTML处理</p>
+<p>处理 HTML和XML的库。</p>
+<ul>
+<li>BeautifulSoup – 以 Python 风格的方式来对 HTML 或 XML 进行迭代，搜索和修改。</li>
+<li>bleach – 一个基于白名单的 HTML 清理和文本链接库。</li>
+<li>cssutils – 一个 Python 的 CSS 库。</li>
+<li>html5lib – 一个兼容标准的 HTML 文档和片段解析及序列化库。</li>
+<li>lxml – 一个非常快速，简单易用，功能齐全的库，用来处理 HTML 和 XML。</li>
+<li>MarkupSafe – 为Python 实现 XML/HTML/XHTML 标记安全字符串。</li>
+<li>pyquery – 一个解析 HTML 的库，类似 jQuery。</li>
+<li>untangle – 将XML文档转换为Python对象，使其可以方便的访问。</li>
+<li>xhtml2pdf – HTML/CSS 转 PDF 工具。</li>
+<li>xmltodict – 像处理 JSON 一样处理 XML。</li>
+</ul>
+<p>网络站点爬取</p>
+<p>爬取网络站点的库</p>
+<ul>
+<li>Scrapy – 一个快速高级的屏幕爬取及网页采集框架。</li>
+<li>cola – 一个分布式爬虫框架。</li>
+<li>Demiurge – 基于PyQuery 的爬虫微型框架。</li>
+<li>feedparser – 通用 feed 解析器。</li>
+<li>Grab – 站点爬取框架。</li>
+<li>MechanicalSoup – 用于自动和网络站点交互的 Python 库。</li>
+<li>portia – Scrapy 可视化爬取。</li>
+<li>pyspider – 一个强大的爬虫系统。</li>
+<li>RoboBrowser – 一个简单的，Python 风格的库，用来浏览网站，而不需要一个独立安装的浏览器。</li>
+</ul>
+<p>网页内容提取</p>
+<p>用于进行网页内容提取的库。</p>
+<ul>
+<li>Haul – 一个可以扩展的图像爬取工具。</li>
+<li>html2text – 将 HTML 转换为 Markdown 格式文本</li>
+<li>lassie – 人性化的网页内容检索库。</li>
+<li>micawber -一个小型网页内容提取库，用来从 URLs 提取富内容。</li>
+<li>newspaper – 使用 Python 进行新闻提取，文章提取以及内容策展。</li>
+<li>opengraph – 一个用来解析开放内容协议(Open Graph Protocol)的 Python模块。</li>
+<li>python-goose – HTML内容/文章提取器。</li>
+<li>python-readability– arc90 公司 readability 工具的 Python 高速端口</li>
+<li>sanitize – 为杂乱的数据世界带来调理性。</li>
+<li>sumy – 一个为文本文件和 HTML 页面进行自动摘要的模块。</li>
+<li>textract – 从任何格式的文档中提取文本，Word，PowerPoint，PDFs 等等。</li>
+</ul>
+<p>表单</p>
+<p>进行表单操作的库。</p>
+<ul>
+<li>Deform – Python HTML 表单生成库，受到了 formish 表单生成库的启发。</li>
+<li>django-bootstrap3– 集成了 Bootstrap 3 的 Django。</li>
+<li>django-crispy-forms – 一个 Django 应用，他可以让你以一种非常优雅且 DRY（Don’t repeat yourself） 的方式来创建美观的表单。</li>
+<li>django-remote-forms– 一个平台独立的 Django 表单序列化工具。</li>
+<li>WTForms – 一个灵活的表单验证和呈现库。</li>
+<li>WTForms-JSON– 一个 WTForms 扩展，用来处理 JSON 数据。</li>
+</ul>
+<p>数据验证</p>
+<p>数据验证库。多用于表单验证。</p>
+<ul>
+<li>Cerberus – A mappings-validator with a variety of rules, normalization-features and simple customization that uses a pythonic schema-definition.</li>
+<li>colander – 一个用于对从 XML, JSON，HTML 表单获取的数据或其他同样简单的序列化数据进行验证和反序列化的系统。</li>
+<li>kmatch – 一种用于匹配/验证/筛选 Python 字典的语言。</li>
+<li>schema -一个用于对 Python 数据结构进行验证的库。</li>
+<li>Schematics – 数据结构验证。</li>
+<li>valideer – 轻量级可扩展的数据验证和适配库。</li>
+<li>voluptuous – 一个 Python 数据验证库。主要是为了验证传入 Python的 JSON，YAML 等数据。</li>
+</ul>
+<p>静态站点生成器</p>
+<p>静态站点生成器是一个软件，它把文本和模板作为输入，然后输出HTML文件。</p>
+<ul>
+<li>Pelican – 使用 Markdown 或 ReST 来处理内容， Jinja 2 来制作主题。支持 DVCS, Disqus.。AGPL 许可。</li>
+<li>Cactus – 为设计师设计的静态站点生成器。</li>
+<li>Hyde – 基于 Jinja2 的静态站点生成器。</li>
+<li>Nikola – 一个静态网站和博客生成器。</li>
+<li>Tinkerer – Tinkerer 是一个博客引擎/静态站点生成器，由Sphinx驱动。</li>
+<li>Lektor – 一个简单易用的静态 CMS 和博客引擎。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源-1/" data-id="cixv6wco4002jlkcyv0fpmnup" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/hello-world/" class="article-date">
+  <time datetime="2016-12-13T08:57:01.924Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/hello-world/" data-id="cixv6wcol0036lkcy67pi1yy5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-程序员的知识管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/程序员的知识管理/" class="article-date">
+  <time datetime="2016-12-13T06:04:47.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/程序员的知识管理/">程序员的知识管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前言</p>
+<p>本文从一个程序员的视角来讨论知识管理，包括以下几个方面：</p>
+<p>什么是知识管理<br>为什么要管理知识<br>如何管理知识</p>
+<p>什么是知识管理</p>
+<p>个人知识管理（Personal Knowledge Management）：一般指个人通过工具建立知识体系并不断完善，进行知识的收集、消化吸收和创新的过程。</p>
+<p>知识管理的范围很广，一般的知识管理方法可以参考这篇文章 个人知识管理的方法（<a href="http://www.jianshu.com/p/dbdac17eb9ff）。" target="_blank" rel="external">http://www.jianshu.com/p/dbdac17eb9ff）。</a></p>
+<p>为什么要管理知识</p>
+<p>计算机行业的一个特点是新技术更新特别快，意味着程序员需要不停地学习，才能跟上行业的发展。所以，知识管理对程序员非常重要。有意识，成体系地管理知识能够：</p>
+<p>更有效地学习新的知识。<br>       如果我们已经建立好一个技术知识体系，新的技术也只是在其他技术上建立起来的，有了坚实基础，学习新技术就会更有效。<br>更好地掌握知识。<br>       使用合适的工具，正确的方法，可以更好地掌握知识，让知识凝固在脑海，而不是流走。<br>节约时间成本。<br>       程序员经常遇到同样的问题，例如说部署开发环境的时候，如果有把解决方案记录下来，就能省去重新解决问题的时间。</p>
+<p>如何管理知识</p>
+<p>程序员的知识获取途径大部分来自于搜索引擎（谷歌可以提高搜索效率）和技术书籍，这与其他行业不同。主要原因是技术知识一个主要来源是互联网，例如说技术博客，技术文档等。因此，程序员的知识管理主要围绕互联网展开（并不意味着书籍就不重要）。</p>
+<p>我把程序员的知识管理分为三个过程：</p>
+<p>知识积累<br>碎片整理<br>思考加工</p>
+<p>知识积累</p>
+<p>想想我们习以为常的知识积累方式有哪些？也许记笔记是我们最常用的一种。对于程序员来说，用笔记录笔记并不现实，我刚学 C++ 的时候就是把语法记在笔记上。实际上，这种做法是很低效的。更有效的方法是用笔记软件帮我们记录文章。例如说，印象笔记，有道笔记等。</p>
+<p>一开始我看到好的技术文章时，都是加书签存起来。后面发现这样不能离线访问，而且链接可能会失效。后来用上了笔记软件，于是我可以把文章保存到笔记中，随时可以翻出来看。可以说，笔记软件给知识积累带来了极大方便，同时可以分类管理不同的知识。</p>
+<p>知识积累难在养成积累的习惯。以前我解决某个问题，谷歌了很久找到一篇文章解决了问题。解决之后并没有记录下来，结果下一次遇到同样问题，我又浪费了很多时间搜索解决方法。重复多次之后，我意识到这是个严重的问题。所以逐渐养成了保存各种文章的习惯。这些网上积累下来的文章，成为了我知识体系的土壤。</p>
+<p>现在开始，使用笔记软件分门别类地保存网上看到的文章，这里要着重强调一下分类的重要性，好的分类可以节省你以后重新检索文章的时间，不要把时间浪费在不必要的劳动上。笔记软件一般都会提供浏览器插件，保存起来是很方便的。</p>
+<p>碎片整理</p>
+<p>我自己经常遇到这样的情况：要用到某个 Linux 命令的时候，经常大费周章地去搜索。有人说直接查 man 手册不是很快吗？确实查 man 手册比查搜索引擎要快，但是有两个问题：一是看了 man 手册的命令语法，我还得试试看；二是如果我不知道命令的名字怎么查 man。所以，最快的方法不是搜索引擎，也不是 man 手册，而是个人 wiki。</p>
+<p>与大家平常所知的 wiki 不同，个人 wiki 主要是用来记录知识碎片的，例如说：某个常用命令的语法，特定的软件配置等等。如果还是不理解，可以看看我的个人 Wiki。这些知识碎片是我们初步消化的知识，只不过因为太过碎片，不能够组成完整的知识体系。很多人以为把看到的文章保存到自己的笔记里面，就有一种已经掌握它的错觉，结果保存了成千上百的文章，却一篇都没认真看完。别人的文章是他的知识沉淀，并不是自己的。随时把文章中的精华提取整理到 wiki，才能初步消化知识，为后面的思考加工做准备。</p>
+<p>有人会问为什么不用笔记软件记录这些碎片化的知识呢？用 wiki 当然是有理由的：</p>
+<p>笔记软件保存的主要是知识原料。我们从网上保存别人的文章到笔记，存下来的知识是别人的，你只是存下来而已，还没经过消化。我们上面把笔记软件定义为知识的仓库，如果把初步消化后的知识也存在那里，会造成一定的混乱。当然你一定要这么做也可以，但我有分层的思维定势，这算是职业病吧。<br>wiki 是随处可访问的。wiki 发布在互联网上，我们可以随时随地访问它。<br>wiki 是分享的。任何人都可以访问你的 wiki，分享自己的知识何乐而不为呢？<br>那么如何制作自己的 wiki 呢？我自己用的是 Simiki，具体用法查看 Simiki-个人Wiki写作。发布到互联网我用的是 Github Page，具体操作自行搜索。</p>
+<p>思考加工</p>
+<p>写博客是最好的思考加工知识的方法。当年我也是被刘未鹏的 为什么你应该（从现在开始就）写博客 和 书写是为了更好的思考 给带入坑的。写博客的好处我就不提了，看上面两篇文章就够洗脑了。下面我着重谈谈如何写好博客的一点个人经验。</p>
+<p>博客少写纯操作指南类的文章。网上大部分博客写的都是纯操作指南类的文章，例如，如何搭建 LAMP 之类，可能作者自己都不清楚为什么要这么做。不是说纯操作指南类的文章不好，相反我觉得这种文章很重要，只是它的位置不对。它应该放在 wiki 中，因为纯操作指南类的文章只是描述步骤，关注点是怎么做，而不是为什么。写博客的关注点应该在为什么，讲清楚为什么要这么做。另外不要钻牛角尖，我说的是纯操作指南，不要以为只要是搭建环境之类的文章都不能写，这里的“纯”代表只给步骤，不提背后的原理。其实写得好的操作指南应该力求让读者知其然，知其所以然。<br>定期写文章。 万事开头难，动笔开始写作很难，一旦开始就停不下来了。养成定期写文章的习惯，至少确保一个月一篇的节奏。<br>自荐文章到各个技术头条。例如说：伯乐头条，开发者头条，极客头条等，有读者才有动力，同时也是保证自己写好文章的监督。<br>写博客的工具。我自己用的是托管在 Github Page 的 Hexo 静态博客。搭建教程见 用hexo搭建github博客（<a href="http://blog.xiaohansong.com/2015/06/17/%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/）。如果你有服务器的话，可以试试" target="_blank" rel="external">http://blog.xiaohansong.com/2015/06/17/%E7%94%A8hexo%E6%90%AD%E5%BB%BAgithub%E5%8D%9A%E5%AE%A2/）。如果你有服务器的话，可以试试</a> wordpress，ghost 之类的博客软件。<br>把无法加工的知识写到 Wiki。例如说：git 的一些配置和用法，这些内容在官方文档都能找到，写在博客也只是搬运工，除非你有新的理解。</p>
+<p>总结</p>
+<p>以上是我摸打滚爬两年多积累的经验之谈，如果你有好的经验欢迎留言交流。一开始我是在 CSDN 写博客，只不过走了不少弯路，后来折腾 个人博客，最后又开了 个人 Wiki。逐渐形成了自己的知识管理方法。最后总结一下：</p>
+<p>知识积累：使用笔记软件保存好的文章，积累知识。<br>碎片整理：在个人 wiki 上记录初步消化的知识碎片。<br>思考加工：对存在笔记和 wiki 中知识进行思考加工后写在博客。</p>
+<p>以上讲的是如何在互联网中学习积累，但是千万不要忽视了看书这一重要方法，书中的知识是成体系的，知识密度高，网上的文章良莠不齐，不成体系，比较碎片化。合理分配时间看书和上网学习是很重要的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/程序员的知识管理/" data-id="cixv6wcqi005elkcy7vy0ndjb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-文件读写" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/13/文件读写/" class="article-date">
+  <time datetime="2016-12-13T06:03:54.000Z" itemprop="datePublished">2016-12-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/13/文件读写/">文件读写</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<blockquote>
+<blockquote>
+<p>f = open(‘test.txt’, ‘r’)<br>f.read()<br>‘Using pandoc\n\nIf no input-file is specified, input is read from stdin. Otherwise, the input-files are concatenated (with a blank line between each) and used as input.<br>f.close()</p>
+<p>try:<br>    f = open(‘D:\Markdown\test.txt’, ‘r’)<br>print(f.read())<br>finally:<br>if f:<br>        f.close()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>with open(‘D:\Markdown\test.txt’, ‘r’) as f:<br>print(f.read())</p>
+<p>f = open(‘D:\Markdown\test.txt’, ‘r’)<br>for line in f.readlines():<br>print(line.strip()) # 把末尾的’\n’删掉<br>Python 2.7.9 (default, Dec 10 2014, 12:24:55) [MSC v.1500 32 bit (Intel)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>f = open(‘D:\Markdown\1.jpg’, ‘rb’)<br>f.read()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>Python 3.4.3 (v3.4.3:9b73f1c3e601, Feb 24 2015, 22:44:40) [MSC v.1600 64 bit (AMD64)] on win32<br>Type “help”, “copyright”, “credits” or “license” for more information.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>f = open(‘D:\Markdown\test.txt’, ‘r’, encoding=’gb2312’)<br>f.read()<br>f = open(‘D:\Markdown\test.txt’, ‘r’, encoding=’gb2312’, errors=’ignore’)<br>f.read()</p>
+<p>f = open(‘D:\Markdown\test.txt’, ‘w’)<br>f.write(‘Hello!’)<br>6<br>f.close()</p>
+<p>f = open(‘D:\Markdown\test.txt’, ‘w’, encoding=’gb2312’)<br>f.write(‘Hello World!’)<br>12<br>f.close()</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>do_rw.py</p>
+<p>#!/usr/bin/env python3</p>
+<h1 id="coding-utf-8"><a href="#coding-utf-8" class="headerlink" title="-- coding: utf-8 --"></a>-<em>- coding: utf-8 -</em>-</h1><p>from datetime import datetime</p>
+<p>with open(‘test.txt’, ‘w’) as f:<br>    f.write(‘今天是 ‘)<br>    f.write(datetime.now().strftime(‘%Y-%m-%d’))</p>
+<p>with open(‘test.txt’, ‘r’) as f:<br>    s = f.read()<br>    print(‘open for read…’)<br>    print(s)</p>
+<p>with open(‘test.txt’, ‘rb’) as f:<br>    s = f.read()<br>    print(‘open as binary for read…’)<br>print(s)</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/13/文件读写/" data-id="cixv6wcqc0057lkcymvr46emk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-操作文件和目录" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/13/操作文件和目录/" class="article-date">
@@ -104,7 +745,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="cix7b3wq800510ecygnjxxhgx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/操作文件和目录/" data-id="cixv6wcqb0055lkcyne8y7afd" class="article-share-link">Share</a>
       
       
     </footer>
@@ -175,7 +816,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="cix7b3wpz004j0ecyt9srlx09" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/单行代码/" data-id="cixv6wcq0004nlkcyz5q08e8o" class="article-share-link">Share</a>
       
       
     </footer>
@@ -229,7 +870,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="cix7b3wqe005b0ecye52rrxg8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/练手的小项目/" data-id="cixv6wcqj005flkcykfmaypct" class="article-share-link">Share</a>
       
       
     </footer>
@@ -271,7 +912,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="cix7b3wp800380ecy8i2mt9hb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/mail/" data-id="cixv6wcop003blkcy7bayawms" class="article-share-link">Share</a>
       
       
     </footer>
@@ -732,7 +1373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="cix7b3wol002g0ecyljcbm575" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-资源/" data-id="cixv6wco3002hlkcyqj8jauny" class="article-share-link">Share</a>
       
       
     </footer>
@@ -848,221 +1489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="cix7b3wok002d0ecy56bx4p3k" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-学习-Python-的三种境界" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/学习-Python-的三种境界/" class="article-date">
-  <time datetime="2016-12-13T05:51:42.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/学习-Python-的三种境界/">学习 Python 的三种境界</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>前言</p>
-<p>王国维在《人间词话》中将读书分为了三种境界：“古今之成大事业、大学问者，必经过三种之境界：‘昨夜西风凋碧树，独上高楼，望尽天涯路’。此第一境也。‘衣带渐宽终不悔，为伊消得人憔悴。’此第二境也。‘众里寻他千百度，蓦然回首，那人却在灯火阑珊处’。此第三境也。我从入门Python到现在也没有多少时间，所以写如此大的一个题目必定会引发各种批判，当然我没有想造一个大新闻，只是想根据自己的学习历程做一个简单的总结，同时将这三个阶段对应的一些好的书籍简单介绍介绍。</p>
-<p>正文</p>
-<p>Python的用途十分广泛，不同的程序员将其用于不用的领域，不同的程序员将自己的代码打包成库，供其他程序员使用，从而少造轮子，各种库的使用，加之Python本身的灵活性、易读性，易写性，使用的人越来越多，tiobe统计编程语言的使用率如下：Python在一年之间使用排行榜中上升了3名，而且各大公司在招聘员工的时候如果能掌握Python，肯定是一个加分项，因为Python在文本处理，小程序的写作方面具有太强的优势，前段时间一个朋友让帮忙改下他们公司logo的颜色，第一个想到的就是用Python，女票让我帮她预处理大数据，第一个想到的仍然是Python等等，当然并没有说其他语言不好，也不是为了讨论哪种语言更好，只是Python确实是一门会让人幸福的语言，下面粗浅的说说我对Python学习过程中的境界划分以及推荐书籍。</p>
-<p>第一个阶段：初级，掌握Python的语法和一些常用库的使用</p>
-<p>这里首先推荐廖雪锋在网上的书籍，这是Python2.7版本的，这本书适合于重头开始一直读完，作为一个开发人员，除了基本的语法，这本书里面提到了一些其他的常用的库，看了廖老师写的很多东西，感觉他的思路，以及写博客写书的高度，概括性，原理性都十分好，这本书读完之后，相信就可以动手写很多东西了，可以尽情的玩转Python解释器了。<br>另外还有一本书《Python参考手册》，这本书也十分的有用，关于Python的方方面面基本都囊括在内，可以作为一本Python字典来查询使用方法，十分好用。<br>掌握一门语言最好的方法就是用它，所以我觉得边学语法边刷Leetcode是掌握Python最快的方式之一。</p>
-<p>很多只需要将Python作为脚本或者就是写一些小程序处理处理文本的话，到这一个阶段就足够了，这个阶段已经可以帮我们完成很多很多的事情了。但是如果是一个专业学习Python的，恐怕还需要努力的升级：首先，国内的大多数人都是学习了其他语言（C，C++,Java等）之后来学习Python的，所以Python和这些语言的不同，也就是pythonic的东西需要一些时间去学习了解和掌握；另外，对于自己领域的领域的库构架的掌握也需要很长的时间去掌握；最后，如果想独立完成一个Python的项目，项目的布局，发布，开源等都是需要考虑的问题。</p>
-<p>第二个阶段：中级，掌握自己特定领域的库，掌握pythonic写法，非常熟悉Python的特性</p>
-<p>推荐的第一本书是《编写高质量代码–改善python程序的91个建议》，这本书大概的提了下Python工程的文件布局，更多的总结了如何写出pythonic的代码，另外，也介绍了一些常用的库。<br>要想深入的了解Python，有的时候看看Python的源码也是很重要的，自己通过读懂源码，来彻底的了解Python的核心机制，这里推荐《Python源码剖析——深度探索动态语言核心技术》，这本书并没有看完，只是在需要深入了解Python某个功能或者数据结构的时候看看相关章节，也觉得受益匪浅。<br>自己领域的书籍和资料也肯定很多，比如web开发的构架都有很多，只有了解熟悉了所有构架，在选择的时候才能衡量利弊，然后深入掌握某些构架。</p>
-<p>这个阶段过后，可以写出pythonic代码，可以通过PEP8的检查，可以为开源社区做贡献了，可以将一个Python文件写的十分好，但是如果要用Python开发一个大型项目，还是有很多东西需要掌握的，比如项目的文档，项目的发布，下载，项目性能和案例等等。</p>
-<p>第三个阶段：高级，从整个工程项目着眼，考虑document，distribution，性能优化等</p>
-<p>目前只看了一本书《the hacker guide to python》，看的是英文版的，这本书对项目的布局，文档，性能，发布等做了很多详细的介绍，我觉得写的还是很不错，只不过本人还需要再读几遍。<br>对于大多数人来说，很难有机会从头开始一个有意义的大型工程项目，所以自己可以用Python实现一些简单的功能，简单的项目，这个灵感可以去知乎或者quora搜索，很多前辈都分享了自己的经验。</p>
-<p>从大局入手，规划好项目的布局，设定好相应的文档说明，提供工程下载安装的方法，带几个demo，每个类，每个函数，每行代码都反复推敲，写出pythonic的程序，相信这时候Python于我们便是信手拈来了！</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学习-Python-的三种境界/" data-id="cix7b3wq1004o0ecyr61npk48" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-学编程" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/学编程/" class="article-date">
-  <time datetime="2016-12-13T05:48:54.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/学编程/">学编程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>第一步：定目标 好好想想，你想学什么编程语言？具体想用编程语言来做什么？千万不要“现在html5很红，学html5吧”，“iOS编程很赚钱，学OC吧”。 你可以这样做，逛一些编程视频教学的网站，看有什么“实例”是你觉得有趣的，评价也说不错的，定这个为目标吧。这里一天时间够了。</p>
-<p>第二步：你需要一本书，搞定基础问题 老老实实买一本评价好的编程书，随便一本就好，不要网上下载电子书，电子书不清晰，没法做笔记，难集中精神。 你怎么看一本编程书呢？一章一章地看，认真看？错了！大部分自学的人死在这里，一般编程书，会涵盖这门语言的所有知识点，包括很多不怎么用的难点，所以一章一章地看，只会让自己越看越不懂，慢慢没有耐心了，就放弃了。<br>我们应该这样用一本书：<br>1、看书搭建开发环境，遇到问题也可以上网找怎样搭建，毕竟软件更新肯定比书更新要快。<br>2、看看大概的程序长什么样子的，写个最简单的程序玩玩，一般都是一个叫做“hello world”的东西。<br>3、知道程序的一些基本类型（元素），例如int/char。<br>4、学会一些语法结构，例如条件判断(if/else)，循环(for/while)。<br>5、看看有什么常用类或者方法。 足够了，后面的不用看了，打个比方就是你不需要学会所有英语单词才开始学英语句子和作文，这个步骤一天也足够了。</p>
-<p>第三步：看视频 这个时候需要关闭开发工具，准备纸和笔，做笔记，一边看视频，一边记笔记，让自己知道怎样开发目标程序。这个时候偶尔需要快进，偶尔需要暂停，偶尔需要回看。我自己现在学新语言，是在某网站用1.7倍播放速度看。 仔细看看老师是怎样一步一步写程序出来的，要连续看，千万不要一边看一边用开发工具跟着敲代码，那样是没用的，会打断思路。 网上的实例教程一般都是小程序，不会太长，大概几个小时时间，所以这里一天时间也够了。</p>
-<p>第四步：敲代码 明白怎样开发一个程序了，就一定要敲代码了，这个时候才对着视频一步一步跟着敲，也要对着笔记一步一步走，需要耐心，因为这个时间会持续可能三天，视频也可能看了后面又返回前面看，这些都正常。 Done，完成这步，这门语言也入门了，再花点时间总结自己所学，再看看这门语言还有什么典型的案例，给自己之后学习定个方向，又花一天时间。 我学过非常多种编程语言，所有编程语言入门都是一样的，入门难，入门后就有方向了，就可以花更多的时间去钻研进步。与其花钱去培训，不如学好基础后，告诉企业免费试用一个月，更快找到自己的IT路。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/学编程/" data-id="cix7b3wq2004q0ecyb4opqgrz" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Java环境变量" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/Java环境变量/" class="article-date">
-  <time datetime="2016-12-13T05:43:51.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/Java环境变量/">Java环境变量</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Windows环境变量<br>JAVA_HOME=D:\Dell\Java\jdk1.7.0_17<br>PATH=D:\Java\jdk1.7.0_17\bin</p>
-<p>Linux环境变量<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export JAVA_HOME=/home/jinyan/Java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export JAVA_HOME=/usr/java/jdk1.6.0_31/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export HADOOP_INSTALL=/usr/opt/hadoop<br>export PATH=$PATH:${HADOOP_INSTALL}/bin:${HADOOP_INSTALL}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_INSTALL}<br>export HADOOP_COMMON_HOME=${HADOOP_INSTALL}<br>export HADOOP_HDFS_HOME=${HADOOP_INSTALL}<br>export YARN_HOME=${HADOOP_INSTALLL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_INSTALL}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_INSTALL}/lib:${HADOOP_INSTALL}/lib/native”</p>
-<p>export HADOOP_COMMON_LIB_NATIVE_DIR=/usr/opt/hadoop/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=/usr/opt/hadoop/lib:/usr/opt/hadoop/lib/native”</p>
-<p>source /etc/profile</p>
-<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
-<p>source ~/.bashrc</p>
-<p>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 Test<em>.java<br>javadoc -d apidoc -windowtitle 测试 -doctitle 学习 javadoc 工 具的测试API文档 -header 自定义类 -version -author Test</em>.java</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/Java环境变量/" data-id="cix7b3wo8001w0ecydeprwm31" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-史上最全的开发和设计资源大全" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/13/史上最全的开发和设计资源大全/" class="article-date">
-  <time datetime="2016-12-13T05:31:13.000Z" itemprop="datePublished">2016-12-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/13/史上最全的开发和设计资源大全/">史上最全的开发和设计资源大全</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>GitHub 上的 Awesome 系列（资源大全系列），是一个汇总了优秀工具资源的大集合，并由 GitHub 社区用户持续维护和更新。初始的版本都是英文，伯乐在线组织整理了热门资源大全的中文版。目前，中文版的资源列表在 GitHub 总计已经有超过 10,000 star 和 数千 fork 。以下是各个开发和设计资源的详细介绍。</p>
-<p>Java 资源大全</p>
-<p>Java资源大全中文版，包括：构建工具、字节码操作、集群管理、代码分析、编译器生成工具、外部配置工具、持续集成、数据结构、数据库、时间日期工具库、依赖注入、开发流程增强工具、分布式应用、分布式数据库、文档处理工具、函数式编程、游戏开发、GUI、高性能计算、IDE、图像处理、JSON、JVM与JDK、日志、机器学习、消息传递、应用监控工具、自然语言处理等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-java-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-java-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=32" target="_blank" rel="external">http://hao.jobbole.com/?catid=32</a></p>
-<p>Python 资源大全</p>
-<p>Python 资源大全中文版，包括：环境管理、包管理、构建工具、分发、Web框架、网络爬虫、模板引擎、数据库、数据可视化、图像处理、文本处理、自然语言处理、配置、命令行工具、地理位置、CMS、缓存、数据验证、反垃圾、GUI、游戏开发等。</p>
-<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-python-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-python-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=144" target="_blank" rel="external">http://hao.jobbole.com/?catid=144</a></p>
-<p>JavaScript 资源大全</p>
-<p>JavaScript 资源大全中文版，内容包括：包管理器、打包工具、加载器、测试框架、运行器、QA、MVC框架和库、模板引擎、数据可视化、编辑器、函数式编程、响应式编程、数据结构、存储、国际化和本地化、日志、正则表达式、视觉检测、代码高亮、加载状态、验证、幻灯片、滑块控件、表单组件、框架、地图、视频/音频、动画、图片处理等。</p>
-<p>GitHub 主页： <a href="https://github.com/jobbole/awesome-javascript-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-javascript-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=67" target="_blank" rel="external">http://hao.jobbole.com/?catid=67</a></p>
-<p>iOS 资源大全</p>
-<p>iOS 资源大全中文版，内容包括：依赖/包管理、框架、图表、测试、音频/视频、SDK、数据库、硬件、文件、日志、地图、网络通知、代码质量、支付、安全、编程规范、UI、硬件等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-ios-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-ios-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=31" target="_blank" rel="external">http://hao.jobbole.com/?catid=31</a></p>
-<p>C 语言资源大全</p>
-<p>C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库、文档生成、编辑器、环境、框架、游戏编程、引擎、通用编程、图形、GUI、JSON、多媒体、网络编程、Web 框架、数值计算、并行编程、正则表达式、序列化、标准库、字符串处理、测试工具、文本编辑器扩展等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-c-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-c-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=1877" target="_blank" rel="external">http://hao.jobbole.com/?catid=1877</a></p>
-<p>MySQL 资源大全</p>
-<p>MySQL 资源大全中文版，分析工具、备份、性能测试、配置、部署、GUI、聊天应用、连接器、HA、代理、服务器、分片、工具包 等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-mysql-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-mysql-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
-<p>机器学习资源大全</p>
-<p>机器学习资源大全中文版，包括众多编程语言（C++、Closure、Go、Java、JavaScript、Julia、Lua、MATLAB、DotNet、Python、Ruby、R、Scala ）在 ML 领域的框架、库以及软件。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-machine-learning-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-machine-learning-cn</a></p>
-<p>CSS 资源大全</p>
-<p>CSS 资源大全中文版，内容包括：CSS预处理器、框架、CSS结构、大型网站的 CSS 开发、代码风格指南、命名习惯等</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-css-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-css-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=24" target="_blank" rel="external">http://hao.jobbole.com/?catid=24</a></p>
-<p>Android 资源大全</p>
-<p>Android 资源大全中文版，包括：图表、游戏开发、GUI、JSON、崩溃检测、网络请求、通知、数据库、测试、行为监测、集合框架、调试工具等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-android-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-android-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=252" target="_blank" rel="external">http://hao.jobbole.com/?catid=252</a></p>
-<p>系统管理员资源大全</p>
-<p>系统管理员资源大全中文版，备份/克隆软件、云计算/云存储、协作软件、配置管理、日志管理、监控、项目管理、DNS、网络配置、NOSQL、打包、队列、RDBMS、安全、SSH、统计、故障排除、项目管理、版本控制、虚拟化、Web服务器等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-sysadmin-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-sysadmin-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=7" target="_blank" rel="external">http://hao.jobbole.com/?catid=7</a></p>
-<p>DotNet 资源大全</p>
-<p>DotNet 资源大全中文版，内容包括：API、编译器、压缩、应用框架、应用模板、认证和授权、CLI、CLR、代码分析、编译器、加密、数据库、反编译、IDE、部署、分布式、GIS、游戏开发、GUI、图像处理、MVVM、ORM、Web框架、Web服务器、日志、风格指南等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-dotnet-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-dotnet-cn</a></p>
-<p>PHP 资源大全</p>
-<p>PHP资源大全中文版，内容包括：依赖管理、库、框架、静态网站生成器、HTTP、依赖注入、文件、图像处理、测试、持续集成、模板、安全、构建工具、调试工具、代码分析、搜索、日志、第三方库、配置工具、Web工具等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-php-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-php-cn</a></p>
-<p>C++ 资源大全</p>
-<p>C++ 资源大全中文版，标准库、Web应用框架、人工智能、音频、生态学、压缩、并发、容器、密码学、调试、游戏引擎、GUI、数据库、图片处理、机器学习、日志、代码分析、JSON、视频、物理学、机器人学、科学计算、网络编程、编译器、在线编译器、IDE 等。</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-cpp-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-cpp-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=374" target="_blank" rel="external">http://hao.jobbole.com/?catid=374</a></p>
-<p>设计师资源大全</p>
-<p>设计师资源大全，包含：ICON图标、Logo设计、PhotoShop插件、交互设计工具、流程图、线框图/原型图、设计博客等</p>
-<p>GitHub 主页：<a href="https://github.com/jobbole/awesome-design-cn" target="_blank" rel="external">https://github.com/jobbole/awesome-design-cn</a><br>单个资源的详细介绍，发布在这里：<a href="http://hao.jobbole.com/?catid=803" target="_blank" rel="external">http://hao.jobbole.com/?catid=803</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/13/史上最全的开发和设计资源大全/" data-id="cix7b3wq0004k0ecyq56hczcl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/13/Python-基础/" data-id="cixv6wco2002glkcy9p4f3n9p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1093,7 +1520,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -1106,23 +1533,23 @@
       <ul>
         
           <li>
+            <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/zebra/">zebra</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
       </ul>
@@ -1137,7 +1564,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 JinYan<br>
+      &copy; 2017 JinYan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

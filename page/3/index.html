@@ -61,6 +61,290 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-E-learning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/E-learning/" class="article-date">
+  <time datetime="2016-12-19T02:16:05.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/E-learning/">E-learning</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@tzuchi ~]# crontab -e</p>
+<p><em>/5 </em> <em> </em> <em> /opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null<br>00 03 </em> <em> </em> sh /root/copy.sh<br>00 06 <em> </em> * sh /root/elearningbackup.sh<br>~<br>[root@tzuchi ~]# cat /root/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /home/backup<br>cp -r /opt/lampp/moodledata/ /home/backup<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/home/backup/moodle.sql 2&gt;/dev/null<br>[root@tzuchi ~]#</p>
+<p>[root@tzuchi ~]# cat /root/elearningbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/elearning.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@tzuchi ~]#</p>
+<p>E-learning<br>备份<br>vim copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /home/backup<br>cp -r /opt/lampp/moodledata/ /home/backup<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/home/backup/moodle.sql 2&gt;/dev/null</p>
+<p>vim elearningbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/elearning.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
+<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/elearningbackup.sh<br><em>/5 </em> <em> </em> * /opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null</p>
+<p>还原<br>将备份文件解压，放到/opt/lampp/htdocs/moodle/目录下。<br>使用如下命令还原MySQL<br>/opt/lampp/bin/mysql -uroot -p moodle &lt; /opt/moodle.sql</p>
+<p>10.6.0.76<br>[root@sztzuchi opt]# tar -zxvf moodle-latest-28.tgz<br>[root@sztzuchi opt]# mv moodle /opt/lampp/htdocs/<br>[root@tzuchi opt]# chmod -R 777 /opt/lampp/<br>sz^215Tzuchi</p>
+<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>// $CFG-&gt;wwwroot   = ‘<a href="http://tzuchi.elearning/moodle" target="_blank" rel="external">http://tzuchi.elearning/moodle</a>‘;<br>$CFG-&gt;wwwroot   = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;<br>$CFG-&gt;dataroot  = ‘/opt/lampp/moodledata’;<br>$CFG-&gt;admin     = ‘admin’;</p>
+<p>$CFG-&gt;directorypermissions = 0777;</p>
+<p>scp -r  root@10.6.0.75:/backup/backup/moodle /opt<br>scp -r  root@10.6.0.75:/backup/backup/moodledata /opt<br>scp -r  root@10.6.0.75:/backup/backup/moodle.sql /opt</p>
+<p>[root@sztzuchi opt]# cd /opt/lampp/htdocs/<br>[root@sztzuchi htdocs]# ls<br>applications.html  dashboard    img        moodle     xampp<br>bitnami.css        favicon.ico  index.php  webalizer<br>[root@sztzuchi htdocs]# mkdir /backup<br>[root@sztzuchi htdocs]# mv moodle/ /backup/<br>[root@sztzuchi htdocs]# ls /backup/<br>moodle<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# ls<br>apache2       etc      lib                    modules     properties.ini  var<br>bin           htdocs   libexec                moodledata  RELEASENOTES    xampp<br>build         icons    licenses               mysql       sbin<br>cgi-bin       img      logs                   pear        share<br>ctlscript.sh  include  man                    php         temp<br>docs          info     manager-linux-x64.run  phpmyadmin  uninstall<br>error         lampp    manual                 proftpd     uninstall.dat<br>[root@sztzuchi lampp]# mv moodledata/ /backup/<br>[root@sztzuchi lampp]# cd htdocs/<br>[root@sztzuchi htdocs]# mv /opt/moodle .<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# mv /opt/moodledata/ .<br>[root@sztzuchi lampp]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser    = ‘root’;<br>$CFG-&gt;dbpass    = ‘sztzuchi’;<br>$CFG-&gt;wwwroot   = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;</p>
+<p>[root@sztzuchi opt]# vim moodle.sql<br>:1,$s/10.6.0.76/10.6.0.20/g</p>
+<p>/opt/lampp/bin/mysql -uroot -psztzuchi<br>drop database moodle;:<br>create  database  moodle;<br>SHOW DATABASES;    /<em>这可以查看到所有的数据库名称</em>/<br>exit</p>
+<p>/opt/lampp/bin/mysql -uroot -p moodle &lt; /opt/moodle.sql</p>
+<p>[root@sztzuchi opt]# chmod 777 -R /opt/lampp/<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/backup/moodle.sql 2&gt;/dev/null</p>
+<p>10.6.0.75<br>[root@tzuchi ~]# /opt/lampp/bin/mysqladmin -u root password yanjin</p>
+<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser    = ‘root’;<br>$CFG-&gt;dbpass    = ‘yanjin’;<br>$CFG-&gt;prefix    = ‘mdl_’;</p>
+<p>crontab -e<br><em>/5 </em> <em> </em> * /opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null</p>
+<p>[root@tzuchi backup]# cat copy.sh </p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /backup/backup<br>cp -r /opt/lampp/moodledata /backup/backup<br>/opt/lampp/bin/mysqldump -uroot -p’yanjin’ moodle&gt;/backup/backup/moodle.sql 2&gt;/dev/null</p>
+<p>vim copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /home/backup<br>cp -r /opt/lampp/moodledata/ /home/backup<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/home/backup/moodle.sql 2&gt;/dev/null</p>
+<p>[root@tzuchi backup]# vim elearningbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/elearning.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@tzuchi backup]# </p>
+<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/elearningbackup.sh</p>
+<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/config.inc.php<br>$cfg[‘Servers’][$i][‘auth_type’] = ‘cookie’;<br>$cfg[‘Servers’][$i][‘user’] = ‘root’;<br>$cfg[‘Servers’][$i][‘password’] = ‘yanjin’;</p>
+<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/libraries/config.default.php<br>$cfg[‘CheckConfigurationPermissions’] = true;<br>$cfg[‘CheckConfigurationPermissions’] = false;</p>
+<p>Mysql 账户root,密码为空<br>Admin<br>密码：Sz_tzuchi215<br>1234@Abcd<br>crontab -e<br><em>/5 </em> <em> </em> <em> /bin/sh /backup/cronphp.sh<br>00 00 </em> <em> </em> /usr/sbin/ntpdate 202.120.2.101<br>00 23 <em> </em> <em> /bin/sh /backup/copy.sh<br>00 04 </em> <em> </em> /bin/sh /backup/Elearningbackup.sh &gt;/dev/null</p>
+<p>备份<br>第一步：备份moodle源程序<br>1.进入moodle源程序所在目录，将源程序备份至其他目录中。<br>举例：将/opt/lampp/htdocs/moodle/中的moodle源程序备份至/backup/中，命令行如下：<br>cp -r /opt/lampp/htdocs/moodle/ /backup/<br>2.检查是否备份成功<br>命令：ls -al /backup/moodle<br>查看是否列出了moodle文件夹中的所有文件及目录，如果其中有文件和目录表示备份成功。<br>第二步：备份moodledata目录<br>1.进入moodledata所在目录，将其中的所有文件备份至其他目录中。<br>举例：将/opt/lampp/moodledata中的所有数据备份至/backup中，命令行如下：<br>cp -r /opt/lampp/moodledata /backup/<br>2.监测是否备份成功<br>命令：ls–al /backup/moodledata/<br>查看是否列出了moodledate文件夹中的所有文件及目录，如果其中有文件和目录表示备份成功。</p>
+<p>第三步：备份数据库（首先需要知道访问数据库的超级用户名和密码）<br>/opt/lampp/bin/mysql -uroot -p<br>1.备份moodle数据库<br>/opt/lampp/bin/mysqldump -uroot -pmoodle&gt;/backup/moodle.sql<br>输入root密码后就开始备份<br>2.检查是否备份成功<br>命令：ls -al /backup/moodle.sql<br>查看是否有moodle.sql的文件，如果有表示该文件数据库备份成功。<br>第四步：压缩备份的文件夹<br>压缩备份的文件夹，减少容量以便拷贝到其他地方。<br>1.撰写本机备份脚本<br>/backup/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /backup/backup<br>cp -r /opt/lampp/moodledata /backup/backup<br>/opt/lampp/bin/mysqldump -uroot -pmoodle&gt;/backup/backup/moodle.sql 2&gt;/dev/null<br>2.撰写备份到FTP服务器脚本<br>/backup/Elearningbackup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup”<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/Elearning.$(date +%Y-%m-%d).tar.bz2 /backup/backup<br>backupfile=Elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=Elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@tzuchi ~]# cat /backup/copy.sh</p>
+<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /backup/backup<br>cp -r /opt/lampp/moodledata /backup/backup<br>/opt/lampp/bin/mysqldump -uroot -pmoodle&gt;/backup/backup/moodle.sql 2&gt;/dev/null<br>优化<br>撰写运行cron.php脚本</p>
+<p>#!/bin/bash<br>/opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null<br>校对时间<br>/usr/sbin/ntpdate 202.120.2.101</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/E-learning/" data-id="cixv6wcno001ulkcywpxrd7io" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Windows-route" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Windows-route/" class="article-date">
+  <time datetime="2016-12-19T01:51:06.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Windows-route/">Windows route</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>net user administrator /active:yes<br>net user administrator /active:no</p>
+<pre><code>例子1：要显示IP路由表的完整内容，执行以下命令：
+route print
+例子2：要显示IP路由表中以10.开始的路由，执行以下命令：
+route print 10.*
+例子3：要添加默认网关地址为192.168.12.1的默认路由，执行以下命令：
+route add 0.0.0.0 mask 0.0.0.0 192.168.12.1
+例子4：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1
+例子5：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1的永久路由，执行以下命令：
+route -p add 10.41.0.0 mask 255.255.0.0 10.27.0.1
+例子6：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1，跃点数为7的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 metric 7
+例子7：要添加目标为10.41.0.0，子网掩码为255.255.0.0，下一个跃点地址为10.27.0.1，接口索引为0x3的路由，执行以下命令：
+route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 if 0x3
+例子8：要删除目标为10.41.0.0，子网掩码为255.255.0.0的路由，执行以下命令：
+route delete 10.41.0.0 mask 255.255.0.0
+例子9：要删除IP路由表中以10.开始的所有路由，执行以下命令：
+route delete 10.*
+例子10：要将目标为10.41.0.0，子网掩码为255.255.0.0的路由的下一个跃点地址由10.27.0.1更改为10.27.0.25，执行以下命令：
+route change 10.41.0.0 mask 255.255.0.0 10.27.0.25
+</code></pre><p>Windows下查看网卡“接口索引”<br>C:\Users\YanJin&gt;arp -a</p>
+<p>接口: 192.168.174.1 — 0x9<br>  Internet 地址         物理地址              类型<br>  192.168.174.254       00-50-56-f9-0d-c2     动态<br>  192.168.174.255       ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>接口: 192.168.120.1 — 0x12<br>  Internet 地址         物理地址              类型<br>  192.168.120.254       00-50-56-f6-1d-0e     动态<br>  192.168.120.255       ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>  255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>接口: 10.6.3.48 — 0x1a<br>  Internet 地址         物理地址              类型<br>  10.6.3.1              e8-e7-32-12-06-d4     动态<br>  10.6.3.42             e2-37-37-a3-ae-2b     动态<br>  10.6.3.44             f0-7b-cb-a0-e9-19     动态<br>  10.6.3.45             60-eb-69-5c-6f-3f     动态<br>  10.6.3.77             00-0e-e8-b3-c7-a7     动态<br>  10.6.3.84             6c-e8-73-6b-cf-b6     动态<br>  10.6.3.86             bc-d1-77-19-58-54     动态<br>  10.6.3.94             78-44-76-0a-36-c9     动态<br>  10.6.3.211            de-a9-01-8a-18-34     动态<br>  10.6.3.255            ff-ff-ff-ff-ff-ff     静态<br>  224.0.0.2             01-00-5e-00-00-02     静态<br>  224.0.0.22            01-00-5e-00-00-16     静态<br>  224.0.0.251           01-00-5e-00-00-fb     静态<br>  224.0.0.252           01-00-5e-00-00-fc     静态<br>  239.255.255.250       01-00-5e-7f-ff-fa     静态<br>255.255.255.255       ff-ff-ff-ff-ff-ff     静态</p>
+<p>艾迪康主机配置 102 网段连接外网，100网段连接内网</p>
+<h1 id="IPv4-路由表"><a href="#IPv4-路由表" class="headerlink" title="IPv4 路由表"></a>IPv4 路由表</h1><p>活动路由:<br>网络目标        网络掩码          网关       接口   跃点数<br>          0.0.0.0          0.0.0.0       10.6.102.1      10.6.102.52     20<br>         10.6.0.0      255.255.0.0       10.6.100.1      10.6.100.43     11<br>       10.6.100.0    255.255.255.0            在链路上       10.6.100.43    266<br>      10.6.100.43  255.255.255.255            在链路上       10.6.100.43    266<br>     10.6.100.255  255.255.255.255            在链路上       10.6.100.43    266<br>       10.6.102.0    255.255.255.0            在链路上       10.6.102.52    276<br>      10.6.102.52  255.255.255.255            在链路上       10.6.102.52    276<br>     10.6.102.255  255.255.255.255            在链路上       10.6.102.52    276<br>        127.0.0.0        255.0.0.0            在链路上         127.0.0.1    306<br>        127.0.0.1  255.255.255.255            在链路上         127.0.0.1    306<br>  127.255.255.255  255.255.255.255            在链路上         127.0.0.1    306<br>        224.0.0.0        240.0.0.0            在链路上         127.0.0.1    306<br>        224.0.0.0        240.0.0.0            在链路上       10.6.102.52    276<br>        224.0.0.0        240.0.0.0            在链路上       10.6.100.43    266<br>  255.255.255.255  255.255.255.255            在链路上         127.0.0.1    306<br>  255.255.255.255  255.255.255.255            在链路上       10.6.102.52    276</p>
+<h1 id="255-255-255-255-255-255-255-255-在链路上-10-6-100-43-266"><a href="#255-255-255-255-255-255-255-255-在链路上-10-6-100-43-266" class="headerlink" title="  255.255.255.255  255.255.255.255            在链路上       10.6.100.43    266"></a>  255.255.255.255  255.255.255.255            在链路上       10.6.100.43    266</h1><p>永久路由:<br>  网络地址          网络掩码  网关地址  跃点数</p>
+<pre><code>10.6.0.0      255.255.0.0       10.6.100.1       1
+</code></pre><p>===========================================================================<br> route -p add 10.6.0.0 mask 255.255.0.0 10.6.100.1</p>
+<p>以太网适配器 本地连接 2:</p>
+<p>   连接特定的 DNS 后缀 . . . . . . . : dhcpserver<br>   描述. . . . . . . . . . . . . . . : Intel(R) Ethernet Connection I217-LM<br>   物理地址. . . . . . . . . . . . . : 6C-0B-84-45-E7-9B<br>   DHCP 已启用 . . . . . . . . . . . : 是<br>   自动配置已启用. . . . . . . . . . : 是<br>   本地链接 IPv6 地址. . . . . . . . : fe80::60dc:23c7:d20:5788%13(首选)<br>   IPv4 地址 . . . . . . . . . . . . : 10.6.102.52(首选)<br>   子网掩码  . . . . . . . . . . . . : 255.255.255.0<br>   获得租约的时间  . . . . . . . . . : 2016年5月17日 9:28:04<br>   租约过期的时间  . . . . . . . . . : 2016年6月8日 9:28:06<br>   默认网关. . . . . . . . . . . . . : 10.6.102.1 配置网关<br>   DHCP 服务器 . . . . . . . . . . . : 10.6.0.84<br>   DHCPv6 IAID . . . . . . . . . . . : 309070724<br>   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-1D-D1-FC-30-08-57-00-E6-8C-92</p>
+<p>   DNS 服务器  . . . . . . . . . . . : 61.177.7.1<br>                                       114.114.114.114<br>   主 WINS 服务器  . . . . . . . . . : 10.6.100.32<br>   TCPIP 上的 NetBIOS  . . . . . . . : 已启用</p>
+<p>以太网适配器 本地连接:</p>
+<p>   连接特定的 DNS 后缀 . . . . . . . :<br>   描述. . . . . . . . . . . . . . . : Realtek PCI GBE Family Controller<br>   物理地址. . . . . . . . . . . . . : 08-57-00-E6-8C-92<br>   DHCP 已启用 . . . . . . . . . . . : 否<br>   自动配置已启用. . . . . . . . . . : 是<br>   本地链接 IPv6 地址. . . . . . . . : fe80::d93b:43c0:af1e:bc8e%11(首选)<br>   IPv4 地址 . . . . . . . . . . . . : 10.6.100.43(首选)<br>   子网掩码  . . . . . . . . . . . . : 255.255.255.0<br>   默认网关. . . . . . . . . . . . . :没有配置网关<br>   DHCPv6 IAID . . . . . . . . . . . : 235427584<br>   DHCPv6 客户端 DUID  . . . . . . . : 00-01-00-01-1D-D1-FC-30-08-57-00-E6-8C-92</p>
+<p>   DNS 服务器  . . . . . . . . . . . : 61.177.7.1<br>   TCPIP 上的 NetBIOS  . . . . . . . : 已启用</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Windows-route/" data-id="cixv6wcoh0030lkcyqs06eubf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Cacti-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Cacti-1/" class="article-date">
+  <time datetime="2016-12-19T01:49:53.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Cacti-1/">Cacti</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[root@localhost ~]# php /var/www/html/poller.php<br>[root@localhost ~]# crontab -e</p>
+<p><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br><em>/5 </em> <em> </em> * /usr/sbin/ntpdate -u 10.6.0.220 &gt; /dev/null 2&gt;&amp;1</p>
+<p>[root@localhost ~]# vi /etc/sysconfig/clock</p>
+<h1 id="ZONE-”America-North-Dakota-Center”"><a href="#ZONE-”America-North-Dakota-Center”" class="headerlink" title="ZONE=”America/North_Dakota/Center”"></a>ZONE=”America/North_Dakota/Center”</h1><h1 id="UTC-false"><a href="#UTC-false" class="headerlink" title="UTC=false"></a>UTC=false</h1><h1 id="ARC-false"><a href="#ARC-false" class="headerlink" title="ARC=false"></a>ARC=false</h1><p>ZONE=”Asia/Shanghai”<br>UTC=false<br>ARC=false<br>[root@localhost ~]# cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime<br>cp: overwrite `/etc/localtime’? y<br>[root@localhost ~]# date<br>[root@localhost ~]# /usr/sbin/ntpdate -u 10.6.0.220<br>26 Mar 13:21:52 ntpdate[5851]: step time server 10.6.0.220 offset -2774.426741 sec</p>
+<p>cacti backup 10.6.0.77<br>默认设置说明：<br>root密码: CactiEZ<br>登录系统后，请尽快修改root密码。</p>
+<p>Cacti登录用户名: admin<br>Cacti登录密码: sz215tzuchi<br>第一次登录Cacti需要修改密码。<br>mysqldump -ucactiuser -p’CactiMadeEZ’ cacti&gt;/root/cacti.sql<br>mysqldump -ucactiuser -p’CactiMadeEZ’ syslog&gt;syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option; </p>
+<p>snmp station 10.6.0.77 162 “public” v1 enable</p>
+<p>vim backup.sh</p>
+<p>#/bin/bash<br>cd /var/www/</p>
+<h1 id="Remove-old-backups"><a href="#Remove-old-backups" class="headerlink" title="Remove old backups"></a>Remove old backups</h1><p>find /var/www/backups/* -mtime +5 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Remove-old-RRAs-usually-means-the-datasource-is-deleted"><a href="#Remove-old-RRAs-usually-means-the-datasource-is-deleted" class="headerlink" title="Remove old RRAs (usually means the datasource is deleted)"></a>Remove old RRAs (usually means the datasource is deleted)</h1><p>find /var/www/html/rra/* -mtime +2 -exec rm -fr {} \; &gt; /dev/null 2&gt;&amp;1</p>
+<h1 id="Create-the-filename-for-the-backup"><a href="#Create-the-filename-for-the-backup" class="headerlink" title="Create the filename for the backup"></a>Create the filename for the backup</h1><p>eval <code>date &quot;+day=%d; month=%m; year=%Y&quot;</code><br>INSTFIL=”cacti-backup-$year-$month-$day.tar.gz”</p>
+<h1 id="Dump-the-MySQL-Database"><a href="#Dump-the-MySQL-Database" class="headerlink" title="Dump the MySQL Database"></a>Dump the MySQL Database</h1><p>mysqldump -uroot –opt cacti&gt; /var/www/html/cacti-backup.sql<br>mysqldump -uroot –opt syslog&gt; /var/www/html/syslog.sql</p>
+<h1 id="Gzip-the-whole-folder"><a href="#Gzip-the-whole-folder" class="headerlink" title="Gzip the whole folder"></a>Gzip the whole folder</h1><p>tar -Pcpzf /var/www/backups/$INSTFIL /var/www/html/*</p>
+<h1 id="Remove-the-SQL-Dump"><a href="#Remove-the-SQL-Dump" class="headerlink" title="Remove the SQL Dump"></a>Remove the SQL Dump</h1><p>rm -f /var/www/html/cacti-backup.sql<br>rm -f /var/www/html/syslog.sql</p>
+<p>crontab -e<br><em>/1 </em> <em> </em> <em> php /var/www/html/poller.php &gt; /dev/null 2&gt;&amp;1<br>0 1 </em> <em> </em> nice -n 15 /var/www/backup.sh<br>还原<br>将备份文件置于/var/www/html目录下<br>使用如下命令进行MySQL还原<br>source /root/cacti.sql<br>source /root/syslog.sql<br>grant all privileges on cacti.<em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;<br>grant all privileges on syslog.</em> to cactiuser@localhost identified by ‘CactiMadeEZ’ with grant option;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Cacti-1/" data-id="cixv6wcl50003lkcy07xfqejh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Proxy" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/19/Proxy/" class="article-date">
+  <time datetime="2016-12-19T01:48:52.000Z" itemprop="datePublished">2016-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/Proxy/">Proxy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>localhost:~ # crontab -e<br><em>:1 </em> <em> </em> <em> sh /root/rotate.sh &gt;/dev/null 2&gt;&amp;1<br>00 05 </em> <em> </em> /etc/init.d/squid restart<br>00 06 <em> </em> * sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16<em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
+</ul>
+<p><em>:1 </em> <em> </em> <em> 每一秒
+</em>/5 <em> </em> <em> </em> sh /root/mvlog.sh &gt;/dev/null 2&gt;&amp;1</p>
+<p>localhost:~ # cat /root/autoftp.sh</p>
+<p>#auto ftp to another server</p>
+<p>#!/bin/bash<br>#</p>
+<p>#setting ftp var</p>
+<p>#ftpurl=210.71.242.204<br>ftpurl=10.6.0.15<br>ftpid=admin<br>ftppwd=htw001c9<br>ftpmode=binary<br>#</p>
+<p>#setting date var<br>Y=<code>date &quot;+%Y&quot;</code><br>m=<code>date &quot;+%m&quot;</code><br>d=<code>date -d &quot;-1 day&quot; &quot;+%d&quot;</code><br>#</p>
+<p>#setting log var<br>logday=$m$d</p>
+<p>#fname=access.log.0<br>fname=access.log<br>logfiledir=/var/log/squid<br>logfile=$logday”.txt”<br>gziplog=$logfile”.gz”<br>#<br>cp $logfiledir/$fname $logfiledir/$logfile<br>gzip $logfiledir/$logfile<br>#</p>
+<p>#setting backup var<br>backupdir=/backup/log<br>Ymdir=$Y$m<br>#<br>if [ -d /$backupdir/$Ymdir ]<br>then<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>else<br>mkdir $backupdir/$Ymdir<br>cp $logfiledir/$gziplog $backupdir/$Ymdir<br>fi<br>#<br>ftp -n $ftpurl&lt;&lt;command<br>user $ftpid $ftppwd $ftpid@ftpurl<br>$ftpmode<br>lcd $backupdir/$Ymdir<br>put $gziplog<br>bye<br>command<br>#</p>
+<p>#remove oldfile<br>rm $logfiledir/$gziplog<br>localhost:~ #</p>
+<p>localhost:~ # cat /root/resid.sh</p>
+<p>#!/bin/sh<br>kill -9 <code>ps aux | grep -i squid | grep -v grep|awk &#39;{print $2}&#39;</code> &gt; /dev/null</p>
+<h1 id="kill-9-cat-var-run-squid-pid-gt-dev-null"><a href="#kill-9-cat-var-run-squid-pid-gt-dev-null" class="headerlink" title="kill -9 cat /var/run/squid.pid &gt; /dev/null"></a>kill -9 <code>cat /var/run/squid.pid</code> &gt; /dev/null</h1><p>/etc/init.d/squid start &gt; /dev/null<br>/etc/init.d/mysql start &gt; /dev/null<br>localhost:~ #</p>
+<p>localhost:~ # cat /backup/backupopt/squid_backup.sh</p>
+<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>localhost:~ #</p>
+<p>Proxy</p>
+<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/backup/backupopt”<br>remotedir=”/backup_proxy”<br>tar -cjPf $basedir/squid.$(date +%Y-%m-%d).tar.bz2 /root /usr/local /etc /boot /home<br>backupfile=squid.$(date +%Y-%m-%d).tar.bz2<br>rmfile=squid.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>crontab -e<br>00 05 <em> </em> <em> /etc/init.d/squid restart<br>00 06 </em> <em> </em> sh /root/autoftp.sh</p>
+<ul>
+<li>8,10,12,14,16  <em> </em> <em> sh /root/resid.sh<br>00 04 </em> <em> </em>  sh /backup/backupopt/squid_backup.sh</li>
+</ul>
+<p>查看文件夹容量<br>localhost:/var/log/squid # du -h –max-depth=1 /var/log/squid</p>
+<p>linux ls 按文件大小排序<br>ls -Slrh /var/log/squid/<br>localhost:/var/log/squid # ls -Slrh</p>
+<p>日志过大，手工删除<br>localhost:/var/log/squid # rm store.log-201504*</p>
+<p>查看系统日志<br>localhost:~ # tail -f /var/log/messages</p>
+<p>vim sys.txt<br>ps aux | grep -i squid<br>ll -h /var/log/squid/access.log &amp;&amp; ll -h /var/log/squid/store.log<br>/usr/sbin/squid -k rotate</p>
+<p>滚动日志记录<br>/usr/sbin/squid -k rotate<br>localhost:~ # ll -h /var/log/squid/access.log<br>-rw-r—– 1 squid nogroup 42K Jun  2 16:41 /var/log/squid/access.log<br>localhost:~ # ll -h /var/log/squid/store.log<br>-rw-r—– 1 squid nogroup 103K Jun  2 16:41 /var/log/squid/store.log</p>
+<p>正常运行：<br>ps aux | grep -i squid<br>root     15813  0.0  0.0   7240  1160 ?        Ss   16:59   0:00 /usr/sbin/squid -sYD<br>squid    15815 38.3  0.3  30932 25488 ?        S    16:59   2:58 (squid) -sYD<br>squid    15819  0.0  0.0   3924  1000 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15820  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15821  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15822  0.0  0.0   3924   696 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15825  0.0  0.0   3924   700 ?        Ss   16:59   0:00 (mysql_auth)<br>squid    15837  0.0  0.0   1732   244 ?        Ss   16:59   0:00 (unlinkd)<br>root     15921  0.0  0.0   2404   472 pts/0    S+   17:06   0:00 grep -i squid<br>localhost:~ # </p>
+<p>vim mv.sh </p>
+<p>for file in /root/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 100000 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done<br>~</p>
+<p>vim mvlog.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1999666333 ] &amp;&amp; mv “$file” “${file}bak”</p>
+<p>done</p>
+<p>vim /root/rotate.sh<br>for file in /var/log/squid/*; do</p>
+<p>  var=<code>stat -c %s $file</code></p>
+<p>  echo $var</p>
+<p>  [ $var -gt 1899666333 ] &amp;&amp; /usr/sbin/squid -k rotate</p>
+<p>done</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/19/Proxy/" data-id="cixv6wco2002flkcy8dx324l1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-安装fabric" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/19/CentOS-6-x-安装fabric/" class="article-date">
@@ -89,7 +373,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="cix7b3wne00120ecycj3lcq8k" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装fabric/" data-id="cixv6wcmt0012lkcy1j3xfqxy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -160,7 +444,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="cix7b3wnr001h0ecys3mlwsyl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-1/" data-id="cixv6wcnb001hlkcyugw6d674" class="article-share-link">Share</a>
       
       
     </footer>
@@ -205,7 +489,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Ubuntu-14-04-预配/" data-id="cix7b3wor002p0ecyzoj4z3bs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Ubuntu-14-04-预配/" data-id="cixv6wcob002tlkcyhdmc97k6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -287,7 +571,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="cix7b3wnv001m0ecyo02yazdz" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-1/" data-id="cixv6wcni001nlkcyibuiwu4f" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,7 +624,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="cix7b3wnd00100ecy2p4qiqud" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装OpenLDAP/" data-id="cixv6wcms0010lkcy1en696vs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -390,7 +674,7 @@
 <p>import smtplib<br>from email.mime.text import MIMEText<br>import sys</p>
 <p>mail_host = ‘smtp.126.com’<br>mail_user = ‘yanjin198620@126.com’<br>mail_pass = ‘YANJINrenjia0626’<br>mail_postfix = ‘126.com’</p>
 <p>#以上内容根据你的实际情况进行修改</p>
-<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#97;&#105;&#x6c;&#x74;&#111;&#x3a;&#34;&#43;&#x6d;&#97;&#105;&#108;&#95;&#117;&#115;&#101;&#114;&#43;&#34;&#x40;&#x22;&#x2b;&#109;&#97;&#105;&#x6c;&#x5f;&#112;&#111;&#x73;&#x74;&#x66;&#x69;&#120;&#43;&#x22;">&#34;&#43;&#x6d;&#97;&#105;&#108;&#95;&#117;&#115;&#101;&#114;&#43;&#34;&#x40;&#x22;&#x2b;&#109;&#97;&#105;&#x6c;&#x5f;&#112;&#111;&#x73;&#x74;&#x66;&#x69;&#120;&#43;&#x22;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
+<p>def send_mail(to_list,subject,content):<br>    me = mail_user+”<a href="&#x6d;&#x61;&#105;&#108;&#116;&#x6f;&#58;&#x22;&#43;&#109;&#x61;&#105;&#108;&#95;&#117;&#115;&#x65;&#114;&#43;&#34;&#64;&#x22;&#43;&#109;&#97;&#x69;&#108;&#x5f;&#112;&#111;&#115;&#x74;&#102;&#x69;&#x78;&#43;&#34;">&#x22;&#43;&#109;&#x61;&#105;&#108;&#95;&#117;&#115;&#x65;&#114;&#43;&#34;&#64;&#x22;&#43;&#109;&#97;&#x69;&#108;&#x5f;&#112;&#111;&#115;&#x74;&#102;&#x69;&#x78;&#43;&#34;</a>“<br>    msg = MIMEText(content)<br>    msg[‘Subject’] = subject<br>    msg[‘From’] = me<br>    msg[‘to’] = to_list</p>
 <pre><code>try:
     s = smtplib.SMTP()
     s.connect(mail_host)
@@ -417,286 +701,7 @@ except Exception,e:
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-安装zabbix/" data-id="cix7b3wnw001n0ecygzt6amhx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装sendmail" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装sendmail/" class="article-date">
-  <time datetime="2016-12-19T01:02:49.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装sendmail/">CentOS 6.x 安装sendmail</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>sendmail是Linux下优秀的邮件系统。今天某个网站需要有发邮件的需求，而服务器安装时没有安装这个，那就开始吧。<br>1、安装</p>
-<pre><code>#yum install -y sendmail
-#yum install -y sendmail-cf
-如果需要SMTP验证就安装并启动saslauthd服务：
-# service saslauthd start 
-</code></pre><p>2、配置        </p>
-<p>(1) 配置Senmail的SMTP认证</p>
-<h1 id="vi-etc-mail-sendmail-mc"><a href="#vi-etc-mail-sendmail-mc" class="headerlink" title="vi /etc/mail/sendmail.mc"></a>vi /etc/mail/sendmail.mc</h1><p>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>dnl define(<code>confAUTH_MECHANISMS’,</code>EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
-<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
-<p>(2) 设置Sendmail服务的网络访问权限（因为我是直接本机调用所以我没有操作这个步骤）</p>
-<p>vi /etc/mail/sendmail.mc</p>
-<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA‘)dnl 
-</code></pre><p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。<br>3、生成配置文件</p>
-<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
-<p>#m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf<br>4、启动服务</p>
-<p>service sendmail start</p>
-<p>service sendmail restart</p>
-<p>[root@rsync py]#<br>ps aux | grep sendmail | grep -v grep<br>smmsp     9311  0.0  0.2  78136  2140 ?        Ss   14:27   0:00 sendmail: Queue runner@01:00:00 for /var/spool/clientmqueue<br>root      9324  0.0  0.0 103252   852 pts/0    S+   14:29   0:00 grep sendmail<br>[root@rsync py]# </p>
-<p>检查服务是否加入自启行列</p>
-<p>[root@rsync py]# chkconfig sendmail on<br>[root@rsync py]# chkconfig –list |grep sendmail<br>sendmail        0:关闭  1:关闭  2:启用  3:启用  4:启用  5:启用  6:关闭<br>[root@rsync py]# </p>
-<p>[root@rsync py]#<br>mail -s xxx 455177385@qq.com<br>xxx<br>EOT<br>你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束</p>
-<p>echo “mail content”|mail -s test 455177385@qq.com</p>
-<p>mail -s test 455177385@qq.com &lt; file #第三种方法，以file的内容为邮件内容发信</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装sendmail/" data-id="cix7b3wnf00140ecylb38yx5p" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-安装inotify-rsync" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x-安装inotify-rsync/" class="article-date">
-  <time datetime="2016-12-19T01:01:56.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x-安装inotify-rsync/">CentOS 6.x 安装inotify+rsync</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>替换空行，勾选使用正则表达式<br>^[\s\t]*\n<br>空白</p>
-<p>yum -y install lrzsz</p>
-<p>[root@rsync ~]#<br>mount -t nfs 10.6.100.75:/volume1/pacebackup /home/nfs/<br>[root@rsync ~]#<br>[root@rsync ~]#<br>[root@rsync ~]# df -h<br>文件系统              容量  已用  可用 已用%% 挂载点<br>/dev/xvda3            195G  5.8G  180G   4% /<br>tmpfs                 497M  228K  496M   1% /dev/shm<br>/dev/xvda1            194M   29M  156M  16% /boot<br>10.6.100.75:/volume1/pacebackup<br>                      5.5T  4.8T  638G  89% /home/nfs</p>
-<p>[root@rsync ~]# vim /etc/sysctl.conf<br>fs.inotify.max_user_watches=99999999</p>
-<p>CentOS使用inotify+rsync实时同步<br>inotify是Linux下的一个文件系统事件监控机制（简单说就是用于监控某个文件夹的改动），作为dnotify的有效替代。inotify是一种强大的、细粒度的、异步的机制，它满足各种各样的文件监控需要。在单独使用rsync同步时，每次同步它会把全部的文件读取一遍，而inotify+rsync同步是触发式同步。假设被镜像端IP为10.6.0.106，镜像端IP为10.6.0.220。<br>一、被镜像（同步）端<br>linux内核2.6.13之后就支持inotify了，确认方法：<br>ls /proc/sys/fs/inotify<br>如果有以下三项就支持：<br>max_queued_events max_user_instances max_user_watches<br>安装rsync：<br>yum install rsync -y<br>安装inotify：<br>官网：<a href="https://github.com/rvoicilas/inotify-tools" target="_blank" rel="external">https://github.com/rvoicilas/inotify-tools</a><br>cd /tmp<br>wget –no-check-certificate <a href="http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz" target="_blank" rel="external">http://github.com/downloads/rvoicilas/inotify-tools/inotify-tools-3.14.tar.gz</a><br>tar -zxvf inotify-tools-3.14.tar.gz<br>cd inotify-tools-3.14<br>./configure<br>make<br>make install<br>默认安装到/usr/local/bin目录。<br>建立rsync密码文件：<br>vim /root/rsync.pass<br>输入密码：<br>123456<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>创建同步脚本：<br>src=/home/data</p>
-<p>vim /root/rsync.sh<br>输入：</p>
-<p>#!/bin/bash<br>src=/home/nfs/fir_fs_06/000/000/000<br>src=/home/nfs/fir_fs_06/000/000/016<br>src=/home/nfs/fir_fs_06/000/000/017<br>des=backup@10.6.0.220::rsync<br>/usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ \<br>-e modify,delete,create,attrib ${src} \<br>| while read x<br>    do<br>        /usr/bin/rsync -avz –delete –progress $src $des –password-file=/root/rsync.pass &amp;&amp;<br>        echo “$x was rsynced” &gt;&gt; /var/log/rsync.log<br>    done<br>注释：<br>inotifywait<br>-m：保持监听事件。<br>-r：递归查看目录。<br>-q：打印出事件。<br>-e modify,delete,create,attrib：监听写入，删除，创建，属性改变事件。<br>rsync<br>-a：存档模式，相当于使用-rlptgoD。<br>-v：详细模式输出。<br>-z：传输过程中压缩文件。<br>为脚本加执行权限：<br>chmod +x /root/rsync.sh<br>在rc.local加入自启动：<br>echo “/root/rsync.sh” &gt;&gt; /etc/rc.local</p>
-<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>[root@rsync ~]# kill -9 7694<br>[root@rsync ~]# ps aux | grep rsync | grep -v grep</p>
-<p>/root/rsync.sh &amp;</p>
-<p>[root@rsync ~]# cd /home/nfs/fir_fs_06/000/000/016<br>[root@rsync 016]# touch a<br>[root@rsync 016]#</p>
-<p>二、镜像（同步）端<br>安装rsync：<br>yum install rsync -y<br>编辑配置文件：<br>vim /etc/rsyncd.conf<br>输入：<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 10<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *<br>[rsync]<br>path = /root/pacsrsync/<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass<br>建立密码文件：<br>vim /root/rsync.pass<br>输入：<br>backup:123456<br>格式为“用户名:密码”。<br>设置权限为600：<br>chmod 600 /root/rsync.pass<br>建立保存同步文档的目录：<br>mkdir /home/tzuchi/<br>chown nobody:nobody /home/tzuchi/</p>
-<p>chown -R rsync:rsync /root/pacsrsync/<br>后台启动rsync：<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf<br>在被镜像端上运行同步脚本：<br>/root/rsync.sh &amp;</p>
-<p>日志</p>
-<blockquote>
-<p>/var/log/rsyncd.log<br>tail -f /var/log/rsyncd.log</p>
-</blockquote>
-<p>[root@n10 ~]# cd /root/pacsrsync/<br>[root@n10 pacsrsync]# mkdir 016<br>[root@n10 pacsrsync]# chown rsync.rsync 016<br>[root@n10 pacsrsync]# ll<br>总用量 44<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]#<br>[root@n10 pacsrsync]# mkdir 017<br>[root@n10 pacsrsync]# chown rsync.rsync 017<br>[root@n10 pacsrsync]# ll<br>总用量 48<br>drwx—— 634 rsync rsync 12288 6月  14 2016 000<br>drwxr-xr-x   2 rsync rsync  4096 6月  13 14:55 001<br>drwx—— 913 rsync rsync 20480 6月  14 2016 016<br>drwxr-xr-x   2 rsync rsync  4096 6月  14 07:24 017<br>drwx——  16 rsync rsync  4096 6月  13 14:27 262<br>drwxrwxrwx   8 rsync rsync  4096 6月  13 13:26 data<br>[root@n10 pacsrsync]# </p>
-<p>ps aux | grep rsync | grep -v grep<br>kill -9<br>ps aux | grep rsync | grep -v grep<br>/usr/bin/rsync –daemon –config=/etc/rsyncd.conf</p>
-<p>vim /root/rsync.sh</p>
-<p>#!/bin/bash<br>inotify_rsync_fun ()<br>{<br>    dir=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $1}&#39;</code><br>    ip=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $2}&#39;</code><br>    des=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $3}&#39;</code><br>    user=<code>echo $1 | awk -F&quot;,&quot; &#39;{print $4}&#39;</code><br>    /usr/local/bin/inotifywait -mrq –timefmt ‘%d/%m/%y %H:%M’ –format ‘%T %w%f’ -e modify,delete,create,attrib ${dir} |while read DATE TIME DIR FILE<br>        do<br>                FILECHAGE=${DIR}${FILE}<br>                /usr/bin/rsync -avz –delete –progress  –password-file=/root/rsync.pass ${dir} ${user}@${ip}::${des} &amp;&amp; echo “At ${TIME} on ${DATE}, file $FILECHAGE was backed up via rsync” &gt;&gt; /var/log/rsync.log<br>        done<br>}<br>count=3</p>
-<h1 id="localdir-host-rsync-module-user-of-rsync-module"><a href="#localdir-host-rsync-module-user-of-rsync-module" class="headerlink" title="localdir,host,rsync_module,user of rsync_module,"></a>localdir,host,rsync_module,user of rsync_module,</h1><p>sync1=”/home/nfs/fir_fs_06/000/000/000,10.6.0.220,dir1,backup”<br>sync2=”/home/nfs/fir_fs_06/000/000/016,10.6.0.220,dir2,backup”<br>sync3=”/home/nfs/fir_fs_06/000/000/017,10.6.0.220,dir3,backup”</p>
-<p>#############################################################</p>
-<p>#main<br>i=0<br>while [ ${i} -lt ${count} ]<br>do<br>    i=<code>expr ${i} + 1</code><br>    tmp=”sync”$i<br>    eval “sync=\$$tmp”<br>    inotify_rsync_fun “$sync” &amp;<br>done</p>
-<p>vim /etc/rsyncd.conf<br>uid = rsync<br>gid = rsync<br>use chroot = no<br>max connections = 0<br>pid file = /var/run/rsyncd.pid<br>lock file = /var/run/rsync.lock<br>log file = /var/log/rsyncd.log<br>hosts allow = *</p>
-<p>[dir1]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-<p>[dir2]<br>path = /root/pacsrsync/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-<p>[dir3]<br>path = /root/pacsrsync/017/<br>comment = rsync from everyone<br>read only = no<br>list = no<br>auth users = backup<br>secrets file = /root/rsync.pass</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x-安装inotify-rsync/" data-id="cix7b3wne00130ecyzgw4ddcv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-moodle在CentOS-6-x-下的迁移" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/moodle在CentOS-6-x-下的迁移/" class="article-date">
-  <time datetime="2016-12-19T01:00:14.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/moodle在CentOS-6-x-下的迁移/">moodle在CentOS 6.x 下的迁移</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>10.6.0.76<br>[root@sztzuchi opt]# tar -zxvf moodle-latest-28.tgz<br>[root@sztzuchi opt]# mv moodle /opt/lampp/htdocs/<br>[root@tzuchi opt]# chmod -R 777 /opt/lampp/<br>sz^215Tzuchi</p>
-<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>// $CFG-&gt;wwwroot   = ‘<a href="http://tzuchi.elearning/moodle" target="_blank" rel="external">http://tzuchi.elearning/moodle</a>‘;<br>$CFG-&gt;wwwroot   = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;<br>$CFG-&gt;dataroot  = ‘/opt/lampp/moodledata’;<br>$CFG-&gt;admin     = ‘admin’;</p>
-<p>$CFG-&gt;directorypermissions = 0777;</p>
-<p>scp -r  root@10.6.0.75:/backup/backup/moodle /opt<br>scp -r  root@10.6.0.75:/backup/backup/moodledata /opt<br>scp -r  root@10.6.0.75:/backup/backup/moodle.sql /opt</p>
-<p>[root@sztzuchi opt]# cd /opt/lampp/htdocs/<br>[root@sztzuchi htdocs]# ls<br>applications.html  dashboard    img        moodle     xampp<br>bitnami.css        favicon.ico  index.php  webalizer<br>[root@sztzuchi htdocs]# mkdir /backup<br>[root@sztzuchi htdocs]# mv moodle/ /backup/<br>[root@sztzuchi htdocs]# ls /backup/<br>moodle<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# ls<br>apache2       etc      lib                    modules     properties.ini  var<br>bin           htdocs   libexec                moodledata  RELEASENOTES    xampp<br>build         icons    licenses               mysql       sbin<br>cgi-bin       img      logs                   pear        share<br>ctlscript.sh  include  man                    php         temp<br>docs          info     manager-linux-x64.run  phpmyadmin  uninstall<br>error         lampp    manual                 proftpd     uninstall.dat<br>[root@sztzuchi lampp]# mv moodledata/ /backup/<br>[root@sztzuchi lampp]# cd htdocs/<br>[root@sztzuchi htdocs]# mv /opt/moodle .<br>[root@sztzuchi htdocs]# cd ..<br>[root@sztzuchi lampp]# mv /opt/moodledata/ .<br>[root@sztzuchi lampp]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser    = ‘root’;<br>$CFG-&gt;dbpass    = ‘sztzuchi’;<br>$CFG-&gt;wwwroot   = ‘<a href="http://10.6.0.20/moodle" target="_blank" rel="external">http://10.6.0.20/moodle</a>‘;</p>
-<p>[root@sztzuchi opt]# vim moodle.sql<br>:1,$s/10.6.0.76/10.6.0.20/g</p>
-<p>/opt/lampp/bin/mysql -uroot -psztzuchi<br>drop database moodle;:<br>create  database  moodle;<br>SHOW DATABASES;    /<em>这可以查看到所有的数据库名称</em>/<br>exit</p>
-<p>/opt/lampp/bin/mysql -uroot -p moodle &lt; /opt/moodle.sql</p>
-<p>[root@sztzuchi opt]# chmod 777 -R /opt/lampp/<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/backup/moodle.sql 2&gt;/dev/null</p>
-<p>10.6.0.75<br>[root@tzuchi ~]# /opt/lampp/bin/mysqladmin -u root password yanjin</p>
-<p>[root@tzuchi ~]# vim /opt/lampp/htdocs/moodle/config.php<br>$CFG-&gt;dbuser    = ‘root’;<br>$CFG-&gt;dbpass    = ‘yanjin’;<br>$CFG-&gt;prefix    = ‘mdl_’;</p>
-<p>crontab -e<br><em>/5 </em> <em> </em> * /opt/lampp/bin/php /opt/lampp/htdocs/moodle/admin/cli/cron.php &gt;/dev/null</p>
-<p>[root@tzuchi backup]# cat copy.sh </p>
-<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /backup/backup<br>cp -r /opt/lampp/moodledata /backup/backup<br>/opt/lampp/bin/mysqldump -uroot -p’yanjin’ moodle&gt;/backup/backup/moodle.sql 2&gt;/dev/null</p>
-<p>vim copy.sh</p>
-<p>#!/bin/bash<br>cp -r /opt/lampp/htdocs/moodle/ /home/backup<br>cp -r /opt/lampp/moodledata/ /home/backup<br>/opt/lampp/bin/mysqldump -uroot -p’sztzuchi’ moodle&gt;/home/backup/moodle.sql 2&gt;/dev/null</p>
-<p>[root@tzuchi backup]# vim elearningbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_Elearning”<br>tar -cjPf $basedir/elearning.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=elearning.$(date +%Y-%m-%d).tar.bz2<br>rmfile=elearning.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile<br>[root@tzuchi backup]# </p>
-<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/elearningbackup.sh</p>
-<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/config.inc.php<br>$cfg[‘Servers’][$i][‘auth_type’] = ‘cookie’;<br>$cfg[‘Servers’][$i][‘user’] = ‘root’;<br>$cfg[‘Servers’][$i][‘password’] = ‘yanjin’;</p>
-<p>[root@sztzuchi ~]# vim /opt/lampp/phpmyadmin/libraries/config.default.php<br>$cfg[‘CheckConfigurationPermissions’] = true;<br>$cfg[‘CheckConfigurationPermissions’] = false;</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS-6-x-下的迁移/" data-id="cix7b3wp800390ecycude6pye" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-6-x-DHCP-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-6-x-DHCP-1/" class="article-date">
-  <time datetime="2016-12-19T00:59:24.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-6-x-DHCP-1/">Centos 6.x DHCP</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>#</p>
-<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
-<p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
-<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
-<p>/etc/init.d/dhcpd restart</p>
-<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]#</p>
-<p>[root@localhost ~]# cat /root/copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/<br>[root@localhost ~]# cat /root/dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.100.39”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>[root@localhost ~]#</p>
-<p>dhcp<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>tail -f /var/lib/dhcpd/dhcpd.leases<br>vim /var/lib/dhcpd/dhcpd.leases<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>DHCP<br>vim /etc/dhcp/dhcpd.conf<br>service dhcpd restart<br>cat /var/lib/dhcpd/dhcpd.leases |awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’<br>awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’ /var/lib/dhcpd/dhcpd.leases</p>
-<p>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’<br>tail -n +8 /var/lib/dhcpd/dhcpd.leases|less|awk ‘BEGIN{RS=ORS=”}”}{print $2,$21,”\n”}’|sed ‘s/}//g’|sort -n</p>
-<p>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}>‘|sort -n  &gt; dhcpip.txt<br>cat /var/lib/dhcpd/dhcpd.leases|grep -o ‘\&lt;[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}:[0-9a-f]{2}>‘|sort -n  &gt; dhcpmac.txt</p>
-<p>[root@localhost ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro"><a href="#host-WudeMacBook-Pro" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187"><a href="#fixed-address-10-6-4-187" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id=""><a href="#" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>“/etc/dhcp/dhcpd.conf” 138L, 3153C                            85,0-1        63%<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-1"><a href="#host-WudeMacBook-Pro-1" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-1"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-1" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-1"><a href="#fixed-address-10-6-4-187-1" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-1"><a href="#-1" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>[root@localhost ~]# cat /etc/dhcp/dhcpd.conf<br>#</p>
-<h1 id="DHCP-Server-Configuration-file-1"><a href="#DHCP-Server-Configuration-file-1" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample-1"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample-1" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’-1"><a href="#see-‘man-5-dhcpd-conf’-1" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>ddns-update-style none;<br>ignore client-updates;<br>authoritative;<br>shared-network network_tag {<br>subnet 10.6.0.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.1.0 netmask 255.255.255.0 {</p>
-<pre><code>option routers                  10.6.1.1;
-option subnet-mask              255.255.255.0;
-option domain-name-servers      61.177.7.1;
-option domain-name-servers      114.114.114.114;
-range  10.6.1.65 10.6.1.127;
-default-lease-time 36000;
-max-lease-time 72000;
-</code></pre><h1 id="host-WudeMacBook-Pro-2"><a href="#host-WudeMacBook-Pro-2" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-3c-15-c2-df-93-c4"><a href="#hardware-ethernet-3c-15-c2-df-93-c4" class="headerlink" title="hardware ethernet 3c:15:c2:df:93:c4;"></a>hardware ethernet 3c:15:c2:df:93:c4;</h1><h1 id="fixed-address-10-6-1-35"><a href="#fixed-address-10-6-1-35" class="headerlink" title="fixed-address 10.6.1.35;"></a>fixed-address 10.6.1.35;</h1><h1 id="-2"><a href="#-2" class="headerlink" title="}"></a>}</h1><p>host HCP-SZOFFICE{<br>hardware ethernet 24:0a:64:b2:b3:d3;<br>fixed-address 10.6.1.50;<br>}</p>
-<p>host c2laboratory03{<br>hardware ethernet 8c:89:a5:cf:90:ce;<br>fixed-address 10.6.1.54;<br>}</p>
-<p>host zhuang-3{<br>hardware ethernet 54:ee:75:33:8b:fe;<br>fixed-address 10.6.1.56;<br>}</p>
-<p>host zhuang-2{<br>hardware ethernet e8:b1:fc:de:20:e7;<br>fixed-address 10.6.1.60;<br>}</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.2.0 netmask 255.255.255.0 {</p>
-<p>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.3.0 netmask 255.255.255.0 {<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 10.6.4.0 netmask 255.255.255.0 {<br>        option routers                  10.6.4.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  10.6.4.50 10.6.4.200;<br>        default-lease-time 360;<br>        max-lease-time 720;<br>}<br>}</p>
-<h1 id="host-WudeMacBook-Pro-3"><a href="#host-WudeMacBook-Pro-3" class="headerlink" title="host WudeMacBook-Pro{"></a>host WudeMacBook-Pro{</h1><h1 id="hardware-ethernet-0c-4d-e9-a6-11-e3-2"><a href="#hardware-ethernet-0c-4d-e9-a6-11-e3-2" class="headerlink" title="hardware ethernet 0c:4d:e9:a6:11:e3;"></a>hardware ethernet 0c:4d:e9:a6:11:e3;</h1><h1 id="fixed-address-10-6-4-187-2"><a href="#fixed-address-10-6-4-187-2" class="headerlink" title="fixed-address 10.6.4.187;"></a>fixed-address 10.6.4.187;</h1><h1 id="-3"><a href="#-3" class="headerlink" title="}"></a>}</h1><p>shared-network network_tag {<br>subnet 192.168.12.0 netmask 255.255.255.0 {<br>        option routers                  192.168.12.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      223.5.5.5;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.12.50 192.168.12.87;<br>        range  192.168.12.89 192.168.12.250;<br>        default-lease-time 3600;<br>        max-lease-time 7200;</p>
-<p>}</p>
-<p>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.11.0 netmask 255.255.255.0 {<br>        option routers                  192.168.11.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      114.114.114.114;<br>        option domain-name-servers      211.103.55.51;</p>
-<p>#option domain-name-servers      61.177.7.1;</p>
-<p>#option domain-name-servers      114.114.114.114;<br>        range  192.168.11.50 192.168.11.119;<br>        range  192.168.11.121 192.168.11.250;<br>        default-lease-time 1800;<br>        max-lease-time 3600;<br>}<br>}</p>
-<p>shared-network network_tag {<br>subnet 192.168.10.0 netmask 255.255.255.0 {<br>        option routers                  192.168.10.1;<br>        option subnet-mask              255.255.255.0;<br>        option domain-name-servers      61.177.7.1;<br>        option domain-name-servers      114.114.114.114;<br>        range  192.168.10.50 192.168.10.250;<br>        default-lease-time 36000;<br>        max-lease-time 72000;<br>}<br>}</p>
-<p>[root@localhost ~]# </p>
-<p>[root@localhost ~]# vim copy.sh</p>
-<p>#!/bin/bash<br>cp -r /etc/dhcp/ /home/backup/</p>
-<p>vim dhcpbackup.sh</p>
-<p>#!/bin/bash<br>host=”10.6.0.73”<br>id=”ctzapc”<br>pw=”htw001c9”<br>basedir=”/home/“<br>remotedir=”/backup_dhcp”<br>tar -cjPf $basedir/dhcp.$(date +%Y-%m-%d).tar.bz2 /home/backup/<br>backupfile=dhcp.$(date +%Y-%m-%d).tar.bz2<br>rmfile=dhcp.$(date +%Y-%m-%d –date -7day).tar.bz2<br>ftp -n “$host” &lt;&lt;EOF<br>user $id $pw<br>binary<br>cd $remotedir<br>lcd $basedir<br>put $backupfile<br>bye<br>EOF<br>rm -f $basedir/$rmfile</p>
-<p>crontab -e<br>00 03 <em> </em> <em> sh /root/copy.sh<br>00 06 </em> <em> </em> sh /root/dhcpbackup.sh</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-DHCP-1/" data-id="cix7b3wnq001f0ecy9at3xj8h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-安装zabbix/" data-id="cixv6wcng001mlkcy5wcnfutw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -727,7 +732,7 @@ max-lease-time 72000;
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -740,23 +745,23 @@ max-lease-time 72000;
       <ul>
         
           <li>
+            <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/zebra/">zebra</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
       </ul>
@@ -771,7 +776,7 @@ max-lease-time 72000;
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 JinYan<br>
+      &copy; 2017 JinYan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

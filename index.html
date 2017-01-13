@@ -61,6 +61,396 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-nginx的配置、虚拟主机、负载均衡和反向代理（3）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/" class="article-date">
+  <time datetime="2017-01-13T02:32:54.000Z" itemprop="datePublished">2017-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>nginx的配置、虚拟主机、负载均衡和反向代理（3）</p>
+<p>前面几节，陆陆续续的说了nginx平时做的大部分工作。第3篇主要讲还是蛮重要的URL路由重写和读写分离。</p>
+<p>nginx中的 location 正则模块</p>
+<p>用过apache的知道，apache也是可以配置URL重写的，我之前一篇中也详细的写过：apache的虚拟域名rewrite配置以及.htaccess的使用。</p>
+<p>这一小节，主要来学习nginx中的URL重写怎么做。url重写模块，主要是在location模块面来实现，我们一点一点的看。</p>
+<p>首先看下location 正则匹配的使用。</p>
+<p>还记得之前是如何用location来定位.php文件的吗?</p>
+<p>location ~ .php$ {<br>        fastcgi_pass   127.0.0.1:9000;<br>        fastcgi_index  index.php;<br>        include        fastcgi.conf;<br>    }<br>我们用~来表示location开启正则匹配, 这样：location ~。</p>
+<p>还可以用这个来匹配静态资源，缓存它们，设置过期时间：</p>
+<p>location ~ .<em>.(gif|jpg|jpeg|bmp|png|ico|txt|mp3|mp4|swf){<br>    expires 15d;<br>}<br>location ~ .</em>.(css|js){<br>    expires 12h;<br>}<br>expires 用来设置HTTP应答中的Expires和Cache-Control的头标时间，来告诉浏览器访问这个静态文件时，不用再去请求服务器，直接从本地缓存读取就可以了。</p>
+<p>语法： expires [time|epoch|max|off]<br>默认值： expires off<br>作用域： http, server, location<br>可以在time值中使用正数或负数。“Expires”头标的值将通过当前系统时间加上您设定的 time 值来获得。</p>
+<p>可以设置的参数如下：</p>
+<p>epoch 指定“Expires”的值为 1 January, 1970, 00:00:01 GMT。<br>max 指定“Expires”的值为 31 December 2037 23:59:59 GMT，“Cache-Control”的值为10年。<br>-1 指定“Expires”的值为 服务器当前时间 -1s,即永远过期<br>负数：Cache-Control: no-cache<br>正数或零：Cache-Control: max-age = #, # 会转换为指定时间的秒数。比如：1d、2h、3m。<br>off 表示不修改“Expires”和“Cache-Control”的值</p>
+<p>比如再看个例子:</p>
+<p>控制图片等过期时间为30天</p>
+<p>location~ .(gif|jpg|jpeg|png|bmp|ico)$ {<br>        expires 30d;<br>}<br>我们还可以控制哪一个文件目录的时间，比如控制匹配/resource/或者/mediatorModule/里所有的文件缓存设置到最长时间。</p>
+<p>location ~ /(resource|mediatorModule)/ {<br>        root    /opt/demo;<br>        expires max;<br>}<br>实战一下。我们设置下过期时间，然后用chrome看下http头部情况。</p>
+<p>此处输入图片的描述<br>我把这张图片的expires设置为30天，我们看图中的cache-control和Expires看到了，有30天的缓存了。说明生效了。我们再看下nginx的访问日志：</p>
+<p>此处输入图片的描述</p>
+<p>看下code码，都是304，表示未修改，告诉浏览器直接读本地的。也就是说缓存生效了。</p>
+<p>URL重写模块（Rewrite）</p>
+<p>重写模块与很多模块一起使用。先看一下是怎么用的，看2个例子，然后我们再一点一点讲每个的使用方法：</p>
+<p>location /download/ {<br>  if ($forbidden) {<br>    return   403;<br>  }<br>  if ($slow) {<br>    limit_rate  10k;<br>  }<br>  rewrite  ^/(download/.<em>)/media/(.</em>)..<em>$  /$1/mp3/$2.mp3    break;<br>location / {<br>    root   html;<br>    index  index.html index.htm;<br>    rewrite ^/bbs/(.</em>)$ <a href="http://192.168.18.201/forum/$1" target="_blank" rel="external">http://192.168.18.201/forum/$1</a>;<br>}<br>上面2个例子就是利用rewrite来完成URL重写的。我们慢慢来看它的用法。</p>
+<p>break</p>
+<p>break 和变成语言中的用法一样，就是跳出某个逻辑。</p>
+<p>语法：break<br>默认值：none<br>使用字段：server, location, if</p>
+<p>if (!-f $request_filename) {<br>  break;<br>}<br>上面这个例子就是在if里面使用break,意思是如果访问的文件名不存在，就跳出。后续会有更多的例子。</p>
+<p>if</p>
+<p>语法：if (condition) { … }<br>默认值：none<br>使用字段：server, location</p>
+<p>if 判断一个条件，如果条件成立，则后面的大括号内的语句将执行，相关配置从上级继承。</p>
+<p>可以在判断语句中指定下列值：</p>
+<p>一个变量的名称；不成立的值为：空字符传”“或者一些用“0”开始的字符串。<br>一个使用=或者!=运算符的比较语句。<br>使用符号~<em>和~模式匹配的正则表达式：<br>~为区分大小写的匹配。<br>~</em>不区分大小写的匹配（firefox匹配FireFox）。<br>!~和!~*意为“不匹配的”。<br>使用-f和!-f检查一个文件是否存在。<br>使用-d和!-d检查一个目录是否存在。<br>使用-e和!-e检查一个文件，目录或者软链接是否存在。<br>使用-x和!-x检查一个文件是否为可执行文件。<br>我们一一来举例看看。</p>
+<p>if ($http_user_agent ~ MSIE) {<br>  rewrite  ^(.*)$  /msie/$1  break;<br>}<br>$http_user_agent变量获取浏览器的agent，使用~ 来匹配大小写<br>用户如果使用的IE 浏览器，就执行if 里面的操作。</p>
+<p>if ($request_method = POST ) {<br>  return 405;<br>}<br>$request_method变量获取请求的方法，使用=来判断是否等于POST 。如果复合，就执行if 里面的操作。</p>
+<p>if (!-f $request_filename) {<br>  break;<br>  proxy_pass  <a href="http://127.0.0.1" target="_blank" rel="external">http://127.0.0.1</a>;<br>}<br>$request_filename变量获取请求的文件名，使用!-f来匹配文件，如果不是一个文件名，就执行if 里面的逻辑。</p>
+<p>return</p>
+<p>语法：return code<br>默认值：none<br>使用字段：server, location, if</p>
+<p>这个指令结束执行配置语句并为客户端返回状态代码，可以使用下列的值：204，400，402-406，408，410, 411, 413, 416与500-504。此外，非标准代码444将关闭连接并且不发送任何的头部。</p>
+<p>rewrite</p>
+<p>语法：rewrite regex replacement flag<br>默认值：none<br>使用字段：server, location, if</p>
+<p>rewrite用来重写url,有3个位置：</p>
+<p>regex 表示用来匹配的正则<br>replacement 表示用来替换的<br>flag 是尾部的标记：<br>flag可以是以下的值：</p>
+<p>last - url重写后，马上发起一个新的请求，再次进入server块，重试location匹配，超过10次匹配不到报500错误，地址栏url不变<br>break - url重写后，直接使用当前资源，不再执行location里余下的语句，完成本次请求，地址栏url不变<br>redirect - 返回302临时重定向，url会跳转，爬虫不会更新url。<br>permanent - 返回301永久重定向。url会跳转。爬虫会更新url。<br>为空 - URL 不会变，但是内容已经变化，也是永久性的重定向<br>上面的正则表达式的一部分可以用圆括号，方便之后按照顺序用$1-$9来引用。</p>
+<p>我们来看几个例子：</p>
+<p>我们需要将/photos/123456重写成/path/to/photos/12/1234/123456.png</p>
+<p>可以这样：</p>
+<p>rewrite  “/photos/([0-9] {2})([0-9] {2})([0-9] {2})” /path/to/photos/$1/$1$2/$1$2$3.png;<br>下面是一些简单的常见的重写。</p>
+<p>rewrite ^/js/base.core.v3.js /js/base.core.v3.dev.js redirect;<br>rewrite ^/js/comment.frame.js /js/comment.frame.dev.js redirect;<br>rewrite ^/live-static/(.*)$ <a href="http://live.bilibili.com/public/$1" target="_blank" rel="external">http://live.bilibili.com/public/$1</a> last;</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/" data-id="cixv6wcot003elkcy0tmxr912" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Nginx的配置、虚拟主机、负载均衡和反向代理（2）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/" class="article-date">
+  <time datetime="2017-01-13T02:32:14.000Z" itemprop="datePublished">2017-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Nginx的配置、虚拟主机、负载均衡和反向代理（2）</p>
+<p>上一篇中，我仔细了学习了一下nginx的各个模块的详细讲解，基本对它的一个整体有了一个把握。这一篇就来几个实际的例子来看下虚拟主机、负债均衡和反向代理，是如何做到的。</p>
+<ol>
+<li>基于域名的虚拟主机</li>
+</ol>
+<p>在apache上搭建基于域名的虚拟主机很简单，我之前也写过一篇，来讲述如何搭建。在nginx上搭建也不难。</p>
+<p>假设我们在本地开发有3个项目，分别在hosts里映射到本地的127.0.0.1上：</p>
+<p>127.0.0.1 www.iyangyi.com iyangyi.com<br>127.0.0.1 api.iyangyi.com<br>127.0.0.1 admin.iyangyi.com<br>有这样3个项目，分别对应于web根目录下的3个文件夹，我们用域名对应文件夹名字，这样子好记：</p>
+<p>/Users/yangyi/www/www.iyangyi.com/<br>/Users/yangyi/www/api.iyangyi.com/<br>/Users/yangyi/www/admin.iyangyi.com/<br>每个目录下都有一个index.php文件，都素简单的输入自己的域名。</p>
+<p>下面我们就来搭建这3个域名的虚拟主机，很显然，我们要新建3个server来完成。为了看起来简洁好看，我们使用require来包含外面的3个server在nginx.conf中，这样就清晰了很多。不会使得这个nginx.conf内容太多：</p>
+<p>main<br>events   {<br>  ….<br>}<br>http        {<br>  ….<br>  include vhost/www.iyangyi.conf;<br>  include vhost/api.iyangyi.conf;<br>  include vhost/admin.iyangyi.conf;</p>
+<p>  #或者用 *.conf  包含</p>
+<h1 id="include-vhost-conf"><a href="#include-vhost-conf" class="headerlink" title="include vhost/*.conf"></a>include vhost/*.conf</h1><p>}<br>既然每一个conf都是一个server，前面已经学习了一个完整的server写的了。下面就开始：</p>
+<h1 id="www-iyangyi-conf"><a href="#www-iyangyi-conf" class="headerlink" title="www.iyangyi.conf"></a>www.iyangyi.conf</h1><p>server {<br>    listen 80;<br>    server_name www.iyangyi.com iyangyi.com;<br>    root /Users/yangyi/www/www.iyangyi.com/;<br>    index index.php index.html index.htm;<br>    access_log /usr/local/var/log/nginx/www.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/www.iyangyi.error.log error;<br>    location ~ .php$ {<br>        fastcgi_pass   127.0.0.1:9000;<br>        fastcgi_index  index.php;<br>        include        fastcgi.conf;<br>    }<br>}</p>
+<h1 id="api-iyangyi-conf"><a href="#api-iyangyi-conf" class="headerlink" title="api.iyangyi.conf"></a>api.iyangyi.conf</h1><p>server {<br>    listen 80;<br>    server_name api.iyangyi.com;<br>    root /Users/yangyi/www/api.iyangyi.com/;<br>    index index.php index.html index.htm;<br>    access_log /usr/local/var/log/nginx/api.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/api.iyangyi.error.log error;<br>    location ~ .php$ {<br>        fastcgi_pass   127.0.0.1:9000;<br>        fastcgi_index  index.php;<br>        include        fastcgi.conf;<br>    }<br>}</p>
+<h1 id="admin-iyangyi-conf"><a href="#admin-iyangyi-conf" class="headerlink" title="admin.iyangyi.conf"></a>admin.iyangyi.conf</h1><p>server {<br>    listen 80;<br>    server_name admin.iyangyi.com;<br>    root /Users/yangyi/www/admin.iyangyi.com/;<br>    index index.php index.html index.htm;<br>    access_log /usr/local/var/log/nginx/admin.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/admin.iyangyi.error.log error;<br>    location ~ .php$ {<br>        fastcgi_pass   127.0.0.1:9000;<br>        fastcgi_index  index.php;<br>        include        fastcgi.conf;<br>    }<br>}<br>这样3个很精简的虚拟域名就搭建好了。重启下nginx，然后打开浏览器访问一下这3个域名，就能看到对应的域名内容了。</p>
+<p>2.反向代理</p>
+<p>正向代理</p>
+<p>在说啥啥反向代理之前，先说下什么是代理或者正向代理。</p>
+<p>正向代理也就是代理，他的工作原理就像一个跳板，简单的说，我访问不了google.com，但是我能访问一个代理服务器A，A能访问google.com，于是我先连上代理服务器A，告诉他我需要google.com的内容，A就去取回来，然后返回给我。从网站的角度，只在代理服务器来取内容的时候有一次记录，有时候并不知道是用户的请求，也隐藏了用户的资料，这取决于代理告不告诉网站。</p>
+<p>结论就是，正向代理是一个位于客户端和原始服务器(origin server)之间的服务器。为了从原始服务器取得内容，客户端向代理发送一个请求并指定目标(原始服务器)，然后代理向原始服务器转交请求并将获得的内容返回给客户端。</p>
+<p>目前代理软件很多，浏览器上的代理就更多了。什么自由门啊，红杏等。</p>
+<p>反向代理</p>
+<p>ok，说完正向代理，再来说啥是反向代理！</p>
+<p>举个例子，比如我想访问 <a href="http://www.test.com/readme，但www.test.com上并不存在readme页面，于是他是偷偷从另外一台服务器上取回来，然后作为自己的内容返回用户，但用户并不知情。这里所提到的" target="_blank" rel="external">http://www.test.com/readme，但www.test.com上并不存在readme页面，于是他是偷偷从另外一台服务器上取回来，然后作为自己的内容返回用户，但用户并不知情。这里所提到的</a> www.test.com 这个域名对应的服务器就设置了反向代理功能。</p>
+<p>结论就是，反向代理正好相反，对于客户端而言它就像是原始服务器，并且客户端不需要进行任何特别的设置。客户端向反向代理的命名空间(name-space)中的内容发送普通请求，接着反向代理将判断向何处(原始服务器)转交请求，并将获得的内容返回给客户端，就像这些内容原本就是它自己的一样。</p>
+<p>嗯。正向代理和反向代理就基本清楚了，那我们就来用nginx来配置一个反向代理。</p>
+<p>nginx 使用反向代理，主要是使用location模块下的proxy_pass选项。</p>
+<p>我们直接实战吧！</p>
+<p>来个最简单的。当我访问 mac 上的nginx 的 centos.iyangyi.com 的内容时候, 就反向代理到虚拟机centos上的 apache 192.168.33.10 的index.html页面。</p>
+<p>192.168.33.10 中的html 是很简单的一句输出：</p>
+<p>centos apache2 index.html<br>在hosts里新加上这个域名。</p>
+<p>#vi /etc/hosts<br>127.0.0.1 centos.iyangyi.com<br>在vhost目录中新建一个conf server</p>
+<p>#centos.iyangyi.conf<br>server {<br>    listen 80;<br>    server_name centos.iyangyi.com;<br>    access_log /usr/local/var/log/nginx/centos.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/centos.iyangyi.error.log error;<br>    location / {<br>        proxy_pass <a href="http://192.168.33.10" target="_blank" rel="external">http://192.168.33.10</a>;<br>    }<br>}<br>重启下nginx:</p>
+<p>sudo nginx -s reload<br>打开浏览器，就可以看到页面输出了：</p>
+<p>centos apache2 index.html<br>当然。proxy 还有其他的参数，比如：proxy_set_header 用来设置header头部信息参数转发等，等用了可以仔细看看。</p>
+<p>3.负载均衡</p>
+<p>别被这个名字给吓住了，以为是什么很牛逼的东西的。其实不然。也很简单。</p>
+<p>先简单说下负载均衡是干嘛的？举个例子：我们的小网站，刚开始就一台nginx服务器，后来，随着业务量增大，用户增多，一台服务器已经不够用了，我们就又多加了几台服务器。那么这几台服务器如何调度？如何均匀的提供访问？这就是负载均衡。</p>
+<p>负载均衡的好处是可以集群多台机器一起工作，并且对外的IP 和 域名是一样的，外界看起来就好像一台机器一样。</p>
+<p>nginx 也刚好提供了强大而又简单的负载均衡功能。</p>
+<p>在第一节中，我详细讲了nginx的负载均衡模块upstream，负载均衡呢，主要是用这个模块。</p>
+<p>我们先用vagrant搭建一个centos虚拟机集群（附vagrantfile文件）</p>
+<p>Vagrant.configure(2) do |config|<br>  config.vm.define :web1 do |web1|<br>    web1.vm.provider “virtualbox” do |v|<br>          v.customize [“modifyvm”, :id, “–name”, “web1”, “–memory”, “128”]<br>    end<br>    web1.vm.box = “centos65”<br>    web1.vm.hostname = “web1”<br>    web1.vm.network :private_network, ip: “192.168.33.11”<br>  end<br>  config.vm.define :web2 do |web2|<br>    web2.vm.provider “virtualbox” do |v|<br>          v.customize [“modifyvm”, :id, “–name”, “web2”, “–memory”, “128”]<br>    end<br>    web2.vm.box = “centos65”<br>    web2.vm.hostname = “web2”<br>    web2.vm.network :private_network, ip: “192.168.33.12”<br>  end<br>  config.vm.define :web3 do |web3|<br>    web3.vm.provider “virtualbox” do |v|<br>          v.customize [“modifyvm”, :id, “–name”, “web3”, “–memory”, “128”]<br>    end<br>    web3.vm.box = “centos65”<br>    web3.vm.hostname = “web3”<br>    web3.vm.network :private_network, ip: “192.168.33.13”<br>  end<br>end<br>分别配置静态ip并且取名字：</p>
+<p>web1 192.168.33.11<br>web2 192.168.33.12<br>web3 192.168.33.13<br>然后，我们分别启动vagrant ssh web1,web2,web3,并且分别用yum简单安装好apache。并在www目录里面新建index.html，分别输出一句简单的web1、web2、web3。</p>
+<p>好，这个时候，我们在浏览器里输入对应的IP就会显示对应的web*名字了。</p>
+<p>ok，我们再来配置mac下的nginx，前面说过，主要是用nginx的upstream，我接下来要完成的需求就是当我访问upstram.iyangyi.com时，会自动的负载均衡到这3个服务器上去。</p>
+<p>先在hosts里加上</p>
+<p>127.0.0.1 upstream.iyangyi.com<br>好，按照惯例，新建一个upstream.iyangyi.conf的server配置文件。</p>
+<p>基于 weight 权重的负载</p>
+<p>先来一个最简单的，weight权重的：</p>
+<p>upstream webservers{<br>    server 192.168.33.11 weight=10;<br>    server 192.168.33.12 weight=10;<br>    server 192.168.33.13 weight=10;<br>}<br>server {<br>    listen 80;<br>    server_name upstream.iyangyi.com;<br>    access_log /usr/local/var/log/nginx/upstream.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/upstream.iyangyi.error.log error;<br>    location / {<br>        proxy_pass <a href="http://webservers" target="_blank" rel="external">http://webservers</a>;<br>        proxy_set_header  X-Real-IP  $remote_addr;<br>    }<br>}<br>重启nginx nginx -s reload，打开浏览器输入upstream.iyangyi.com，不断刷新下，就能看到变化显示web1,web2,web3。说明我们的负载均衡起作用了。</p>
+<p>我们再打开web[1-3]的apache的访问日志：</p>
+<p>sudo vi /var/log/httpd/access_log</p>
+<p>192.168.33.1 - - [12/May/2015:10:47:02 +0000] “GET / HTTP/1.0” 200 5 “-“ “Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.90 Safari/537.36”<br>上面也显示出了ip为这台mac的地址。说明负载均衡已经生效。</p>
+<p>我们再来继续看几个参数 : max_fails和fail_timeout</p>
+<p>max_fails : 允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。</p>
+<p>fail_timeout : 在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用，进行健康状态检查。</p>
+<p>server 192.168.33.11 weight=1 max_fails=2 fail_timeout=30s;<br>所以这2个一起搭配使用，表示：当失败2次的时候，就停止使30秒</p>
+<p>好，我们来继续做实验，将web1的httpd服务停掉，然后我们加上max_fails可以和fail_timeout。</p>
+<p>sudo /usr/sbin/apachectl stop<br>upstream webservers{<br>    server 192.168.33.11 weight=10 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.12 weight=10 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.13 weight=10 max_fails=2 fail_timeout=30s;<br>}<br>重启nginx，然后刷新upstream.iyangyi.com，就能看到变化显示，只有web2,web3，web1没有了。</p>
+<p>看下日志，显示web1 挂了：</p>
+<p>2015/05/14 15:15:56 [error] 2381#0: *93 kevent() reported that connect() failed (61: Connection refused) while connecting to upstream, client: 127.0.0.1, server: upstream.iyangyi.com, request: “GET / HTTP/1.1”, upstream: “<a href="http://192.168.33.11:80/" target="_blank" rel="external">http://192.168.33.11:80/</a>“, host: “upstream.iyangyi.com”<br>我们再来继续看剩下几个参数 : down和backup</p>
+<p>down 表示这台机器暂时不参与负载均衡。相当于注释掉了。</p>
+<p>backup 表示这台机器是备用机器，是其他的机器不能用的时候，这台机器才会被使用，俗称备胎 O__O “…</p>
+<p>我们继续来做实验，改一下，先把web1改成down，然后将web3改成backup:</p>
+<p>upstream webservers{<br>    server 192.168.33.11 down;<br>    server 192.168.33.12 weight=10 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.13 backup;<br>}<br>重启下nginx，然后刷新下，不管怎么刷新，都显示是web2。</p>
+<p>接下来，我们将web2 的服务停掉：</p>
+<p>sudo /usr/sbin/apachectl stop<br>然后，我们再刷新下网页，看下备胎web3是不是被启用了：果然，页面上输出了web3。</p>
+<p>基于 ip_hash 的负载</p>
+<p>这种分配方式，每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。</p>
+<p>动手看怎么操作：</p>
+<p>upstream webservers{<br>    ip_hash;<br>    server 192.168.33.11 weight=1 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.12 weight=1 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.13 down;<br>}<br>重启nginx，我们刷新，发现，再怎么刷，都是web1, 是固定的了。</p>
+<p>我们讲web2的权重该大一点：</p>
+<p>upstream webservers{<br>    ip_hash;<br>    server 192.168.33.11 weight=1 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.12 weight=2 max_fails=2 fail_timeout=30s;<br>    server 192.168.33.13 down;<br>}<br>这样就会永远是web2了。</p>
+<p>我们试着把web2服务关掉，再刷新，就会输出web1了，已经切换过来了。</p>
+<p>注意<br>ip_hash 模式下，最好不要设置weight参数，因为你设置了，就相当于手动设置了，将会导致很多的流量分配不均匀。</p>
+<p>ip_hash模式下, backup参数不可用，加了会报错，为啥呢？因为，本身我们的访问就是固定的了，其实，备用已经不管什么作用了。</p>
+<p>4.页面缓存</p>
+<p>页面缓存也是日常web 开发中很重要的一个环节，对于一些页面，我们可以将其静态化，保存起来，下次请求时候，直接走缓存，而不用去请求反相代理服务器甚至数据库服务了。从而减轻服务器压力。</p>
+<p>nginx 也提供了简单而强大的下重定向，反向代理的缓存功能，只需要简单配置下，就能将指定的一个页面缓存起来。它的原理也很简单，就是匹配当前访问的url, hash加密后，去指定的缓存目录找，看有没有，有的话就说明匹配到缓存了。</p>
+<p>好。现在开始学习！</p>
+<p>我们先来看一下一个简单的页面缓存的配置：</p>
+<p>http {<br>  proxy_cache_path /data/nginx/cache levels=1:2 keys_zone=cache_zone:10m inactive=1d max_size=100m;<br>  upstream myproject {<br>    …..<br>  }<br>  server  {<br>    ….<br>    location ~<em> .php$ {<br>        proxy_cache cache_zone; #keys_zone的名字<br>        proxy_cache_key $host$uri$is_args$args; #缓存规则<br>        proxy_cache_valid any 1d;<br>        proxy<em>pass <a href="http://127.0.0.1:8080" target="_blank" rel="external">http://127.0.0.1:8080</a>;<br>    }<br>  }<br>  ….<br>}<br>下面我们来一步一步说。用到的配置参数，主要是proxy</em></em>前缀的很多配置。</p>
+<p>首先需要在http中加入proxy_cache_path 它用来制定缓存的目录以及缓存目录深度制定等。它的格式如下：</p>
+<p>proxy_cache_path path [levels=number] keys_zone=zone_name:zone_size [inactive=time] [max_size=size]; </p>
+<ol>
+<li><p>path是用来指定 缓存在磁盘的路径地址。比如：/data/nginx/cache。那以后生存的缓存文件就会存在这个目录下。</p>
+</li>
+<li><p>levels用来指定缓存文件夹的级数，可以是：levels=1, levels=1:1, levels=1:2, levels=1:2:3 可以使用任意的1位或2位数字作为目录结构分割符，如 X, X:X,或 X:X:X 例如: 2, 2:2, 1:1:2，但是最多只能是三级目录。</p>
+</li>
+</ol>
+<p>那这个里面的数字是什么意思呢。表示取hash值的个数。比如：现在根据请求地址localhost/index.php?a=4 用md5进行哈希，得到e0bd86606797639426a92306b1b98ad9</p>
+<p>levels=1:2 表示建立2级目录，把hash最后1位(9)拿出建一个目录，然后再把9前面的2位(ad)拿来建一个目录, 那么缓存文件的路径就是/data/nginx/cache/9/d/e0bd86606797639426a92306b1b98ad9</p>
+<p>以此类推：levels=1:1:2表示建立3级目录，把hash最后1位(9)拿出建一个目录，然后再把9前面的1位(d)建一个目录, 最后把d前面的2位(8a)拿出来建一个目录 那么缓存文件的路径就是/data/nginx/cache/9/d/8a/e0bd86606797639426a92306b1b98ad9</p>
+<ol>
+<li>keys_zone 所有活动的key和元数据存储在共享的内存池中，这个区域用keys_zone参数指定。one指的是共享池的名称，10m指的是共享池的大小。</li>
+</ol>
+<p>注意每一个定义的内存池必须是不重复的路径，例如：</p>
+<p>proxy_cache_path  /data/nginx/cache/one  levels=1      keys_zone=one:10m;<br>proxy_cache_path  /data/nginx/cache/two  levels=2:2    keys_zone=two:100m;<br>proxy_cache_path  /data/nginx/cache/three  levels=1:1:2  keys_zone=three:1000m;</p>
+<ol>
+<li><p>inactive 表示指定的时间内缓存的数据没有被请求则被删除，默认inactive为10分钟。inactive=1d 1小时。inactive=30m30分钟。</p>
+</li>
+<li><p>max_size 表示单个文件最大不超过的大小。它被用来删除不活动的缓存和控制缓存大小，当目前缓存的值超出max_size指定的值之后，超过其大小后最少使用数据（LRU替换算法）将被删除。max_size=10g表示当缓存池超过10g就会清除不常用的缓存文件。</p>
+</li>
+<li><p>clean_time 表示每间隔自动清除的时间。clean_time=1m 1分钟清除一次缓存</p>
+</li>
+</ol>
+<p>好。说完了这个很重要的参数。我们再来说在server模块里的几个配置参数：</p>
+<p>proxy_cache 用来指定用哪个keys_zone的名字，也就是用哪个目录下的缓存。上面我们指定了三个one, two,three 。比如，我现在想用one 这个缓存目录 : proxy_cache one</p>
+<p>proxy_cache_key 这个其实蛮重要的，它用来指定生成hash的url地址的格式。他会根据这个key映射成一个hash值，然后存入到本地文件。<br>proxy_cache_key $host$uri表示无论后面跟的什么参数，都会访问一个文件，不会再生成新的文件。<br>而如果proxy_cache_key $is_args$args，那么传入的参数 localhost/index.php?a=4 与localhost/index.php?a=44将映射成两个不同hash值的文件。</p>
+<p>proxy_cache_key 默认是 “$scheme$host$request_uri”。但是一般我们会把它设置成：$host$uri$is_args$args 一个完整的url路径。</p>
+<p>proxy_cache_valid 它是用来为不同的http响应状态码设置不同的缓存时间,</p>
+<p>proxy_cache_valid  200 302  10m;<br>proxy_cache_valid  404      1m;<br>表示为http status code 为200和302的设置缓存时间为10分钟，404代码缓存1分钟。<br>如果只定义时间：</p>
+<p>proxy_cache_valid 5m;<br>那么只对代码为200, 301和302的code进行缓存。<br>同样可以使用any参数任何相响应：</p>
+<p>proxy_cache_valid  200 302 10m;<br>proxy_cache_valid  301 1h;<br>proxy_cache_valid  any 1m; #所有的状态都缓存1小时<br>好。缓存的基本一些配置讲完了。也大致知道了怎么使用这些参数。</p>
+<p>现在开始实战！我们启动一台vagrant linux 机器 web1 (192.168.33.11) 用作远程代理机器，就不搞复杂的负载均衡了。</p>
+<p>先在Mac本地加一个域名cache.iyangyi.com, 然后按照上面的配置在vhost 下新建一个proxy_cache.iyangyi.conf 文件:</p>
+<p>proxy_cache_path /usr/local/var/cache levels=1:2 keys_zone=cache_zone:10m inactive=1d max_size=100m;<br>server  {<br>    listen 80;<br>    server_name cache.iyangyi.com;<br>    access_log /usr/local/var/log/nginx/cache.iyangyi.access.log main;<br>    error_log /usr/local/var/log/nginx/cache.iyangyi.error.log error;<br>    add_header X-Via $server_addr;<br>    add_header X-Cache $upstream_cache_status;<br>    location / {<br>        proxy_set_header  X-Real-IP  $remote_addr;<br>        proxy_cache cache_zone;<br>        proxy_cache_key $host$uri$is_args$args;<br>        proxy_cache_valid 200 304 1m;<br>        proxy_pass <a href="http://192.168.33.11" target="_blank" rel="external">http://192.168.33.11</a>;<br>    }<br>}<br>当然缓存文件夹 /usr/local/var/cache得提前新建好。然后重启nginx。</p>
+<p>192.168.33.11 是apache服务器，在index.html页面就写了一个web1。</p>
+<p>我们打开浏览器访问 cache.iyangyi.com 。就能看到web1了。</p>
+<p>打开审核元素或者firebug。看network网络请求选项，我们可以看到，Response Headers，在这里我们可以看到：</p>
+<p>X-Cache:MISS<br>X-Via:127.0.0.1<br>X-cache 为 MISS 表示未命中，请求被传送到后端。y因为是第一次访问，没有缓存，所以肯定是未命中。我们再刷新下，就发现其变成了HIT, 表示命中。它还有其他几种状态：</p>
+<p>MISS 未命中，请求被传送到后端<br>HIT 缓存命中<br>EXPIRED 缓存已经过期请求被传送到后端<br>UPDATING 正在更新缓存，将使用旧的应答<br>STALE 后端将得到过期的应答<br>BYPASS 缓存被绕过了<br>我们再去看看缓存文件夹 /usr/local/var/cache里面是否有了文件：</p>
+<p>cache git:(master) cd a/13<br>➜  13 git:(master) ls<br>5bd1af99bcb0db45c8bd601d9ee9e13a<br>➜  13 git:(master) pwd<br>/usr/local/var/cache/a/13<br>已经生成了缓存文件。</p>
+<p>我们在url 后面随便加一个什么参数，看会不会新生成一个缓存文件夹及文件： <a href="http://cache.iyangyi.com/?w=ww55。因为我们使用的生成规则是全部url转换(proxy_cache_key" target="_blank" rel="external">http://cache.iyangyi.com/?w=ww55。因为我们使用的生成规则是全部url转换(proxy_cache_key</a> $host$uri$is_args$args;)</p>
+<p>查看 X-cache 为 MISS，再刷新 ，变成HIT。再去看一下缓存文件夹 /usr/local/var/cache。</p>
+<p>  ~cache git:(master) ls<br>  4 a<br>果然又生成了一个4文件夹。</p>
+<p>参考资料：<a href="http://freeloda.blog.51cto.com/2033581/1288553" target="_blank" rel="external">http://freeloda.blog.51cto.com/2033581/1288553</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/" data-id="cixv6wco1002dlkcynxj39f29" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/" class="article-date">
+  <time datetime="2017-01-13T02:31:21.000Z" itemprop="datePublished">2017-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/" data-id="cixv6wcnz002blkcy0hdqim0u" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Nginx的配置、虚拟主机、负载均衡和反向代理（1）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/" class="article-date">
+  <time datetime="2017-01-13T02:30:35.000Z" itemprop="datePublished">2017-01-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Nginx的配置、虚拟主机、负载均衡和反向代理（1）</p>
+<p>nginx在前面，我写过好几篇，相似的介绍烂它在各个平台上的安装配置以及和php-fpm的连接等。今天，这一篇，着重讲解它的配置，其中包括它比较擅长的负债均衡和反向代理，还有虚拟主机功能。</p>
+<p>nginx启动和关闭</p>
+<p>按照惯例，先说下各个平台的配置情况：</p>
+<p>centos平台,源码安装的：</p>
+<p>/usr/local/nginx/nginx # 启动<br>/usr/local/nginx/nginx -s reload #平滑重启<br>/usr/local/nginx/nginx.conf #配置文件<br>mac平台，我用brew安装的。</p>
+<p>/usr/local/bin/nginx # 启动<br>/usr/local/bin/nginx -s reload #平滑重启<br>/usr/local/etc/nginx/nginx.cnf #配置文件。<br>nginx.conf配置文件详解</p>
+<p>其实，对比，apache的配置文件，它的相对比较清晰和简单，之前觉得很难，现在沉下心来想想，其实很简单。大致的分块下，基本就分为以下几块：</p>
+<p>main<br>events   {<br>  ….<br>}<br>http        {<br>  ….<br>  upstream myproject {<br>    …..<br>  }<br>  server  {<br>    ….<br>    location {<br>        ….<br>    }<br>  }<br>  server  {<br>    ….<br>    location {<br>        ….<br>    }<br>  }<br>  ….<br>}<br>nginx配置文件主要分为六个区域：<br>main(全局设置)、events(nginx工作模式)、http(http设置)、<br>sever(主机设置)、location(URL匹配)、upstream(负载均衡服务器设置)。</p>
+<p>main模块</p>
+<p>下面时一个main区域，他是一个全局的设置：</p>
+<p>user nobody nobody;<br>worker_processes 2;<br>error_log  /usr/local/var/log/nginx/error.log  notice;<br>pid        /usr/local/var/run/nginx/nginx.pid;<br>worker_rlimit_nofile 1024;<br>user 来指定Nginx Worker进程运行用户以及用户组，默认由nobody账号运行。</p>
+<p>worker_processes来指定了Nginx要开启的子进程数。每个Nginx进程平均耗费10M~12M内存。根据经验，一般指定1个进程就足够了，如果是多核CPU，建议指定和CPU的数量一样的进程数即可。我这里写2，那么就会开启2个子进程，总共3个进程。</p>
+<p>error_log用来定义全局错误日志文件。日志输出级别有debug、info、notice、warn、error、crit可供选择，其中，debug输出日志最为最详细，而crit输出日志最少。</p>
+<p>pid用来指定进程id的存储文件位置。</p>
+<p>worker_rlimit_nofile用于指定一个nginx进程可以打开的最多文件描述符数目，这里是65535，需要使用命令“ulimit -n 65535”来设置。</p>
+<p>events 模块</p>
+<p>events模块来用指定nginx的工作模式和工作模式及连接数上限，一般是这样：</p>
+<p>events {<br>    use kqueue; #mac平台<br>    worker_connections  1024;<br>}<br>use用来指定Nginx的工作模式。Nginx支持的工作模式有select、poll、kqueue、epoll、rtsig和/dev/poll。其中select和poll都是标准的工作模式，kqueue和epoll是高效的工作模式，不同的是epoll用在Linux平台上，而kqueue用在BSD系统中，因为Mac基于BSD,所以Mac也得用这个模式，对于Linux系统，epoll工作模式是首选。</p>
+<p>worker_connections用于定义Nginx每个进程的最大连接数，即接收前端的最大请求数，默认是1024。最大客户端连接数由worker_processes和worker_connections决定，即Max_clients=worker_processes<em>worker_connections，在作为反向代理时，Max_clients变为：Max_clients = worker_processes </em> worker_connections/4。<br>进程的最大连接数受Linux系统进程的最大打开文件数限制，在执行操作系统命令“ulimit -n 65536”后worker_connections的设置才能生效。</p>
+<p>http 模块</p>
+<p>http模块可以说是最核心的模块了，它负责HTTP服务器相关属性的配置，它里面的server和upstream子模块，至关重要，等到反向代理和负载均衡以及虚拟目录等会仔细说。</p>
+<p>http{<br>    include       mime.types;<br>    default_type  application/octet-stream;<br>    log_format  main  ‘$remote_addr - $remote_user [$time_local] “$request” ‘<br>                      ‘$status $body_bytes_sent “$http_referer” ‘<br>                      ‘“$http_user_agent” “$http_x_forwarded_for”‘;<br>    access_log  /usr/local/var/log/nginx/access.log  main;<br>    sendfile        on;<br>    tcp_nopush      on;<br>    tcp_nodelay     on;<br>    keepalive_timeout  10;</p>
+<pre><code>#gzip  on;
+upstream myproject {
+    .....
+}
+server {
+    ....
+}
+</code></pre><p>}<br>下面详细介绍下这段代码中每个配置选项的含义。<br>include 来用设定文件的mime类型,类型在配置文件目录下的mime.type文件定义，来告诉nginx来识别文件类型。</p>
+<p>default_type设定了默认的类型为二进制流，也就是当文件类型未定义时使用这种方式，例如在没有配置asp 的locate 环境时，Nginx是不予解析的，此时，用浏览器访问asp文件就会出现下载了。</p>
+<p>log_format用于设置日志的格式，和记录哪些参数，这里设置为main，刚好用于access_log来纪录这种类型。</p>
+<p>main的类型日志如下：也可以增删部分参数。</p>
+<p>127.0.0.1 - - [21/Apr/2015:18:09:54 +0800] “GET /index.php HTTP/1.1” 200 87151 “-“ “Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.76 Safari/537.36”<br>access_log 用来纪录每次的访问日志的文件地址，后面的main是日志的格式样式，对应于log_format的main。</p>
+<p>sendfile参数用于开启高效文件传输模式。将tcp_nopush和tcp_nodelay两个指令设置为on用于防止网络阻塞。</p>
+<p>keepalive_timeout设置客户端连接保持活动的超时时间。在超过这个时间之后，服务器会关闭该连接。</p>
+<p>还有很多各种配置，以后等用到来再说。</p>
+<p>server 模块</p>
+<p>sever 模块是http的子模块，它用来定一个虚拟主机，我们先讲最基本的配置，这些在后面再讲。</p>
+<p>我们看一下一个简单的server 是如何做的？</p>
+<p>server {<br>        listen       8080;<br>        server_name  localhost 192.168.12.10 www.yangyi.com;</p>
+<pre><code># 全局定义，如果都是这一个目录，这样定义最简单。
+root   /Users/yangyi/www;
+index  index.php index.html index.htm; 
+charset utf-8;
+access_log  usr/local/var/log/host.access.log  main;
+aerror_log  usr/local/var/log/host.error.log  error;
+....
+</code></pre><p>}<br>server标志定义虚拟主机开始。<br>listen用于指定虚拟主机的服务端口。<br>server_name用来指定IP地址或者域名，多个域名之间用空格分开。<br>root 表示在这整个server虚拟主机内，全部的root web根目录。注意要和locate {}下面定义的区分开来。<br>index 全局定义访问的默认首页地址。注意要和locate {}下面定义的区分开来。<br>charset用于设置网页的默认编码格式。<br>access_log用来指定此虚拟主机的访问日志存放路径，最后的main用于指定访问日志的输出格式。</p>
+<p>location 模块</p>
+<p>location模块是nginx中用的最多的，也是最重要的模块了，什么负载均衡啊、反向代理啊、虚拟域名啊都与它相关。慢慢来讲：</p>
+<p>location 根据它字面意思就知道是来定位的，定位URL，解析URL，所以，它也提供了强大的正则匹配功能，也支持条件判断匹配，用户可以通过location指令实现Nginx对动、静态网页进行过滤处理。像我们的php环境搭建就是用到了它。</p>
+<p>我们先来看这个，设定默认首页和虚拟机目录。</p>
+<p>location / {<br>            root   /Users/yangyi/www;<br>            index  index.php index.html index.htm;<br>        }<br>location /表示匹配访问根目录。</p>
+<p>root指令用于指定访问根目录时，虚拟主机的web目录，这个目录可以是相对路径（相对路径是相对于nginx的安装目录）。也可以是绝对路径。</p>
+<p>index用于设定我们只输入域名后访问的默认首页地址，有个先后顺序：index.php index.html index.htm，如果没有开启目录浏览权限，又找不到这些默认首页，就会报403错误。</p>
+<p>location 还有一种方式就是正则匹配，开启正则匹配这样：location ~。后面加个~。</p>
+<p>下面这个例子是运用正则匹配来链接php。我们之前搭建环境也是这样做：</p>
+<p>location ~ .php$ {<br>            root           /Users/yangyi/www;<br>            fastcgi_pass   127.0.0.1:9000;<br>            fastcgi_index  index.php;<br>            include        fastcgi.conf;<br>        }<br>.php$ 熟悉正则的我们直到，这是匹配.php结尾的URL，用来解析php文件。里面的root也是一样，用来表示虚拟主机的根目录。<br>fast_pass链接的是php-fpm 的地址，之前我们也搭建过。其他几个参数我们以后再说。</p>
+<p>location 还有其他用法，等讲到实例的时候，再看吧。</p>
+<p>upstram 模块</p>
+<p>upstream 模块负债负载均衡模块，通过一个简单的调度算法来实现客户端IP到后端服务器的负载均衡。我先学习怎么用，具体的使用实例以后再说。</p>
+<p>upstream iyangyi.com{<br>    ip_hash;<br>    server 192.168.12.1:80;<br>    server 192.168.12.2:80 down;<br>    server 192.168.12.3:8080  max_fails=3  fail_timeout=20s;<br>    server 192.168.12.4:8080;<br>}<br>在上面的例子中，通过upstream指令指定了一个负载均衡器的名称iyangyi.com。这个名称可以任意指定，在后面需要的地方直接调用即可。</p>
+<p>里面是ip_hash这是其中的一种负载均衡调度算法，下面会着重介绍。紧接着就是各种服务器了。用server关键字表识，后面接ip。</p>
+<p>Nginx的负载均衡模块目前支持4种调度算法:</p>
+<p>weight 轮询（默认）。每个请求按时间顺序逐一分配到不同的后端服务器，如果后端某台服务器宕机，故障系统被自动剔除，使用户访问不受影响。weight。指定轮询权值，weight值越大，分配到的访问机率越高，主要用于后端每个服务器性能不均的情况下。<br>ip_hash。每个请求按访问IP的hash结果分配，这样来自同一个IP的访客固定访问一个后端服务器，有效解决了动态网页存在的session共享问题。<br>fair。比上面两个更加智能的负载均衡算法。此种算法可以依据页面大小和加载时间长短智能地进行负载均衡，也就是根据后端服务器的响应时间来分配请求，响应时间短的优先分配。Nginx本身是不支持fair的，如果需要使用这种调度算法，必须下载Nginx的upstream_fair模块。<br>url_hash。按访问url的hash结果来分配请求，使每个url定向到同一个后端服务器，可以进一步提高后端缓存服务器的效率。Nginx本身是不支持url_hash的，如果需要使用这种调度算法，必须安装Nginx 的hash软件包。<br>在HTTP Upstream模块中，可以通过server指令指定后端服务器的IP地址和端口，同时还可以设定每个后端服务器在负载均衡调度中的状态。常用的状态有：</p>
+<p>down，表示当前的server暂时不参与负载均衡。<br>backup，预留的备份机器。当其他所有的非backup机器出现故障或者忙的时候，才会请求backup机器，因此这台机器的压力最轻。<br>max_fails，允许请求失败的次数，默认为1。当超过最大次数时，返回proxy_next_upstream 模块定义的错误。<br>fail_timeout，在经历了max_fails次失败后，暂停服务的时间。max_fails可以和fail_timeout一起使用。<br>注意 当负载调度算法为ip_hash时，后端服务器在负载均衡调度中的状态不能是weight和backup。</p>
+<p>参考文件：<br><a href="http://blog.csdn.net/xifeijian/article/details/20956605" target="_blank" rel="external">http://blog.csdn.net/xifeijian/article/details/20956605</a><br><a href="http://www.360doc.com/content/13/1114/12/7694408_329125489.shtml" target="_blank" rel="external">http://www.360doc.com/content/13/1114/12/7694408_329125489.shtml</a><br><a href="http://www.cnblogs.com/xiaogangqq123/archive/2011/03/02/1969006.html" target="_blank" rel="external">http://www.cnblogs.com/xiaogangqq123/archive/2011/03/02/1969006.html</a><br><a href="http://ixdba.blog.51cto.com/2895551/790611" target="_blank" rel="external">http://ixdba.blog.51cto.com/2895551/790611</a><br><a href="http://freeloda.blog.51cto.com/2033581/1288553" target="_blank" rel="external">http://freeloda.blog.51cto.com/2033581/1288553</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/" data-id="cixv6wco0002clkcy6e996f0d" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-搭建nginx反向代理用做内网域名转发" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/" class="article-date">
@@ -94,7 +484,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/27/搭建nginx反向代理用做内网域名转发/" data-id="cix7b3wq7004z0ecyf93wrixs" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/27/搭建nginx反向代理用做内网域名转发/" data-id="cixv6wcqb0054lkcyjhv84k1w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -164,7 +554,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/27/Docker的Swarm模式/" data-id="cix7b3wo1001s0ecy2cr7udlj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/27/Docker的Swarm模式/" data-id="cixv6wcnl001slkcyloszoeyp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -233,7 +623,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="cix7b3wpp003w0ecyh6x4qsh9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/zebra/" data-id="cixv6wcpo0040lkcyanymutpc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -290,7 +680,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="cix7b3wp9003a0ecyhej48x2d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/moodle在CentOS下的迁移/" data-id="cixv6wcoq003clkcysxdsdb5q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -328,7 +718,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="cix7b3woo002m0ecyo7q3rlos" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/TzuChi-技术/" data-id="cixv6wco8002plkcydux3esge" class="article-share-link">Share</a>
       
       
     </footer>
@@ -387,272 +777,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="cix7b3wnt001k0ecylh33872v" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-7-x-预配-2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-7-x-预配-2/" class="article-date">
-  <time datetime="2016-12-19T02:33:15.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-7-x-预配-2/">Centos 7.x 预配</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话："><a href="#假设你的-USB-装置为-dev-sdc-，而-ISO-档名为-centos7-iso-的话：" class="headerlink" title="假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话："></a>假设你的 USB 装置为 /dev/sdc ，而 ISO 档名为 centos7.iso 的话：</h1><p>[root@study ~]# dd if=centos7.iso of=/dev/sdc</p>
-<p>rpm -ivh <a href="http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm" target="_blank" rel="external">http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-5.noarch.rpm</a><br>yum repolist</p>
-<p>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
-<p>yum install ntp -y<br>systemctl enable ntpd<br>systemctl status ntpd<br>ntpdate -u 202.120.2.101<br>n1<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>ONBOOT=”yes”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5</p>
-<p>vim /etc/hostname</p>
-<p>vim /etc/hosts</p>
-<p>vim /etc/selinux/config</p>
-<p>systemctl stop firewalld.service<br>systemctl disable firewalld.service</p>
-<p>tar -zxvf VMwareTools-9.9.0-2304977.tar.gz<br>cd vmware-tools-distrib/<br>ls<br>./vmware-install.pl</p>
-<p>reboot<br>getenforce</p>
-<p>yum install lrzsz -y<br>sz download<br>rz upload</p>
-<p>rpm -qa | grep java<br>rpm -e –nodeps javapackages-tools-3.4.1-5.el7.noarch<br>rpm -e –nodeps java-1.7.0-openjdk-headless-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.51-2.4.5.5.el7.x86_64<br>rpm -e –nodeps python-javapackages-3.4.1-5.el7.noarch<br>rpm -e –nodeps tzdata-java-2014b-1.el7.noarch<br>rpm -qa | grep java</p>
-<p>tar -xvf jdk-8u66-linux-x64.tar.gz<br>vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.8.0_66/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export PATH=$PATH:${JAVA_HOME}/bin<br>source /etc/profile<br>java -version</p>
-<p>快照</p>
-<p>wget <a href="https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz" target="_blank" rel="external">https://www.python.org/ftp/python/3.5.0/Python-3.5.0.tar.xz</a><br>ll -h<br>tar -Jxvf Python-3.5.0.tar.xz<br>mkdir /usr/local/python3<br>cd Python-3.5.0/<br>./configure –prefix=/usr/local/python3<br>make<br>make install<br>cd /usr/bin/<br>ls<br>mv python python.bak<br>ln -s /usr/local/python3/bin/python3 /usr/bin/python<br>python<br>cd<br>vim /usr/bin/yum</p>
-<p>python -V</p>
-<p>python</p>
-<p>vim /etc/profile<br>source /etc/profile</p>
-<p>uname -a<br>su jinyan<br>mv eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz /home/jinyan/<br>cd /home/jinyan/<br>chown jinyan:jinyan eclipse-jee-mars-1-linux-gtk-x86_64.tar.gz</p>
-<p>rpm -ivh nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>wget <a href="http://nginx.org/keys/nginx_signing.key" target="_blank" rel="external">http://nginx.org/keys/nginx_signing.key</a><br>rpmkeys –import nginx_signing.key<br>vim /etc/yum.repos.d/nginx.repo<br>rpmkeys -K nginx-release-centos-7-0.el7.ngx.noarch.rpm<br>yum -y install nginx<br>systemctl start nginx<br>systemctl enable nginx<br>systemctl status httpd.service<br>systemctl status nginx.service<br>vim /etc/nginx/nginx.conf </p>
-<p>nano /etc/nginx/nginx.conf<br>vim /etc/nginx/nginx.conf<br>nginx -s reload<br>mkdir -p /data/www<br>getenforce<br>echo “This a test page.” &gt;/data/www/index.html</p>
-<p>chmod -R 777 /data/www/<br>tail -f /var/log/nginx/error.log<br>cd /data/www/<br>touch favicon.ico<br>ls<br>tail -f /var/log/nginx/error.log<br>nginx -s reload</p>
-<p>yum install perl-DBI -y<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>rpm -ivh mysql-community-server-5.6.27-2.el7.x86_64.rpm<br>yum install mysql-community-server -y<br>yum -y install mysql-community-client</p>
-<p>systemctl start mysqld<br>systemctl enable mysqld<br>systemctl status mysqld<br>netstat -tunlp | grep :3306<br>mysqladmin -uroot password yanjin<br>mysqladmin -uroot password<br>mysqladmin -u root password<br>mysql -uroot -pyanjin</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-7-x-预配-2/" data-id="cix7b3wnz001q0ecy39rhqtip" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Centos-6-5-x64-Hadoop-2-3-0-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" class="article-date">
-  <time datetime="2016-12-19T02:32:40.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/">Centos 6.5 x64 Hadoop-2.3.0</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>groupadd hadoop<br>useradd -g hadoop hadoop</p>
-<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
-<p>无密码登录<br>root用户<br>[root@n0 ~]# ssh-keygen -t rsa -P “”<br>[root@n0 ~]# cat /root/.ssh/id_rsa.pub &gt;&gt; /root/.ssh/authorized_keys<br>[root@n0 ~]# ssh localhost</p>
-<p>普通用户<br>/home/hadoop/.ssh<br>[hadoop@n0 .ssh]$ ssh-keygen -t rsa -P “”<br>[hadoop@n0 .ssh]$ cat id_rsa.pub &gt;&gt; authorized_keys<br>[hadoop@n0 .ssh]$ chmod 600 authorized_keys<br>[hadoop@n0 .ssh]$ ssh localhost</p>
-<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:hadoop”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
-<p>service vncserver restart<br>开机启动<br>chkconfig –level 345 vncserver on</p>
-<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>[root@n0 ~]# tar -zxvf jdk-7u79-linux-x64.tar.gz<br>[root@n0 ~]# mv jdk1.7.0_79/ /usr/lib/java<br>[root@n0 ~]# vim /etc/profile<br>export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/<br>export JRE_HOME=${JAVA_HOME}/jre<br>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib<br>export PATH=$PATH:${JAVA_HOME}/bin</p>
-<p>export HADOOP_HOME=/usr/local/hadoop/<br>export PATH=$PATH:${HADOOP_HOME}/bin:${HADOOP_HOME}/sbin<br>export HADOOP_MAPRED_HOME=${HADOOP_HOME}<br>export HADOOP_COMMON_HOME=${HADOOP_HOME}<br>export HADOOP_HDFS_HOME=${HADOOP_HOME}<br>export YARN_HOME=${HADOOP_HOMEL}<br>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_HOME}/lib/natvie<br>export HADOOP_OPTS=”-Djava.library.path=${HADOOP_HOME}/lib:${HADOOP_HOME}/lib/native”</p>
-<p>[root@n0 ~]# source /etc/profile<br>[root@n0 ~]# java -version<br>java version “1.7.0_79”<br>Java(TM) SE Runtime Environment (build 1.7.0_79-b15)<br>Java HotSpot(TM) 64-Bit Server VM (build 24.79-b02, mixed mode)</p>
-<p>[root@n0 ~]# tar -zxvf hadoop-2.3.0-x64.tar.gz<br>[root@n0 ~]# mv hadoop-2.3.0 /usr/local/hadoop<br>[root@n0 ~]# chmod -R 755 /usr/local/hadoop/<br>[root@n0 ~]# chown -R hadoop:hadoop /usr/local/hadoop/<br>[root@n0 ~]# ll /usr/local/hadoop/<br>/usr/local/hadoop/etc/hadoop<br>vim core-site.xml<br>    <property><br>        <name>hadoop.tmp.dir</name><br>        <value>/usr/local/hadoop/tmp</value><br>    </property><br>    <property><br>        <name>fs.defaultFS</name><br>        <value>hdfs://localhost:9000</value><br>     </property></p>
-<p>vim hdfs-site.xml</p>
-<property><br>        <name>dfs.replication</name><br>        <value>1</value><br>    </property><br>    <property><br>        <name>dfs.namenode.name.dir</name><br>        <value>file:/usr/local/hadoop/dfs/name</value><br>    </property><br>    <property><br>        <name>dfs.datanode.data.dir</name><br>        <value>file:/usr/local/hadoop/dfs/data</value><br>    </property><br>    <property><br>            <name>dfs.permissions</name><br>            <value>false</value><br>     </property>
-
-<p>vim yarn-site.xml</p>
-<property><br><name>mapreduce.framework.name</name><br><value>yarn</value><br></property>
-
-<property><br><name>yarn.nodemanager.aux-services</name><br><value>mapreduce_shuffle</value><br></property>
-
-<property><br><name>yarn.resourcemanager.scheduler.address</name><br><value>localhost:9001</value><br></property>
-
-<p>[hadoop@n0 hadoop]$ cd /usr/local/hadoop/<br>[hadoop@n0 hadoop]$ mkdir tmp dfs dfs/name dfs/data<br>[hadoop@n0 hadoop]$ ll</p>
-<p>[hadoop@n0 ~]$ hdfs namenode -format<br>15/10/29 14:52:56 INFO common.Storage: Storage directory /usr/local/hadoop/dfs/name has been successfully formatted.<br>[hadoop@n0 ~]$ start-dfs.sh<br>Starting namenodes on [localhost]<br>localhost: starting namenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-namenode-n0.out<br>localhost: starting datanode, logging to /usr/local/hadoop/logs/hadoop-hadoop-datanode-n0.out<br>Starting secondary namenodes [0.0.0.0]<br>The authenticity of host ‘0.0.0.0 (0.0.0.0)’ can’t be established.<br>RSA key fingerprint is a4:f8:d8:ba:42:46:7a:f3:5d:82:7a:4e:e3:08:17:df.<br>Are you sure you want to continue connecting (yes/no)? yes<br>0.0.0.0: Warning: Permanently added ‘0.0.0.0’ (RSA) to the list of known hosts.<br>0.0.0.0: starting secondarynamenode, logging to /usr/local/hadoop/logs/hadoop-hadoop-secondarynamenode-n0.out<br>[hadoop@n0 ~]$ start-yarn.sh<br>starting yarn daemons<br>starting resourcemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-resourcemanager-n0.out<br>localhost: starting nodemanager, logging to /usr/local/hadoop/logs/yarn-hadoop-nodemanager-n0.out<br>[hadoop@n0 ~]$ jps<br>12108 SecondaryNameNode<br>12742 Jps<br>11932 DataNode<br>11840 NameNode<br>12313 ResourceManager<br>12408 NodeManager</p>
-<p>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -mkdir -p /output/<br>[hadoop@n0 hadoop]$ hadoop fs -put *.xml /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop fs -ls /data/wordcount<br>[hadoop@n0 hadoop]$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.3.0.jar wordcount /data/wordcount /output/wordcount<br>15/10/29 15:48:00 INFO client.RMProxy: Connecting to ResourceManager at /0.0.0.0:8032<br>15/10/29 15:48:01 INFO input.FileInputFormat: Total input paths to process : 7<br>15/10/29 15:48:01 INFO mapreduce.JobSubmitter: number of splits:7<br>15/10/29 15:48:02 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1446104470000_0001<br>15/10/29 15:48:03 INFO impl.YarnClientImpl: Submitted application application_1446104470000_0001<br>15/10/29 15:48:03 INFO mapreduce.Job: The url to track the job: <a href="http://n0:8088/proxy/application_1446104470000_0001/" target="_blank" rel="external">http://n0:8088/proxy/application_1446104470000_0001/</a><br>15/10/29 15:48:03 INFO mapreduce.Job: Running job: job_1446104470000_0001<br>15/10/29 15:48:16 INFO mapreduce.Job: Job job_1446104470000_0001 running in uber mode : false<br>15/10/29 15:48:16 INFO mapreduce.Job:  map 0% reduce 0%<br>15/10/29 15:48:29 INFO mapreduce.Job:  map 86% reduce 0%<br>15/10/29 15:48:36 INFO mapreduce.Job:  map 100% reduce 0%<br>15/10/29 15:48:38 INFO mapreduce.Job:  map 100% reduce 100%<br>15/10/29 15:48:39 INFO mapreduce.Job: Job job_1446104470000_0001 completed successfully<br>15/10/29 15:48:39 INFO mapreduce.Job: Counters: 49</p>
-<p>[hadoop@n0 hadoop]$ hadoop fs -cat /output/wordcount/part-r-00000 |head<br>“*”     17<br>“AS     7<br>“License”);     7<br>“alice,bob      17<br>(ASF)   1<br>(root   1<br>(the    7<br>–&gt;     13<br>0.0     1<br>1.0.    1</p>
-<p>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/HDFSTest/bin/<br>[hadoop@n0 hadoop]$ cp core-site.xml hdfs-site.xml /home/hadoop/workspace/MapreduceTest/bin/</p>
-<p>[hadoop@n0 ~]$ hadoop archive -archiveName test.har -p /data /data/har<br>[hadoop@n0 ~]$ hadoop fs -ls har:///data/har/test.har</p>
-<p>来源： <a href="http://www.centoscn.com/hadoop/2015/0118/4525.html" target="_blank" rel="external">http://www.centoscn.com/hadoop/2015/0118/4525.html</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/Centos-6-5-x64-Hadoop-2-3-0-1/" data-id="cix7b3wno001d0ecykheb0t1b" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-x/" class="article-date">
-  <time datetime="2016-12-19T02:27:06.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-x/">CentOS 6.x</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>非必要，无需安装<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>yum -y install lrzsz<br>时间设置<br>date后面的数字代表月日时分年<br>date 070415522015<br>时间同步<br>/usr/sbin/ntpdate -u 202.120.2.101<br>ntpdate -u 202.120.2.101</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>n2-4<br>vim /etc/ntp.conf<br>server n1<br>ntpdate -u n1<br>service ntpd start</p>
-<p>网络设置<br>vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
-<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
-<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>配置SSH<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
-<p>更换软件源<br>wget -O /etc/yum.repos.d/CentOS-Base.repo <a href="http://mirrors.aliyun.com/repo/Centos-6.repo" target="_blank" rel="external">http://mirrors.aliyun.com/repo/Centos-6.repo</a><br>yum clean all<br>yum makecache</p>
-<p>SSH无密码登录配置<br>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys<br>mkdir -p /root/.ssh/<br>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/</p>
-<p>安装桌面环境<br>yum groupinstall ‘X Window System’  -y</p>
-<p>安装配置VNC<br>设置密码<br>yum -y install tigervnc-server<br>vncpasswd<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”</p>
-<p>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
-<p>卸载内置Java<br>rpm -qa | grep java<br>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>MySQL安装配置<br>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin</p>
-<p>FTP安装配置<br>yum -y install vsftpd<br>[root@localhost ~]# vim /etc/vsftpd/vsftpd.conf<br>[root@localhost ~]# chkconfig –level 345 vsftpd on<br>[root@localhost ~]#<br>[root@localhost ~]#<br>[root@localhost ~]# useradd -g ftp -d /home -M ftpuser<br>[root@localhost ~]# chmod 777 /home/<br>[root@localhost ~]# passwd ftpuser<br>Changing password for user ftpuser.<br>New password:<br>BAD PASSWORD: it is based on a dictionary word<br>BAD PASSWORD: is too simple<br>Retype new password:<br>passwd: all authentication tokens updated successfully.<br>[root@localhost ~]# service vsftpd restart<br>Shutting down vsftpd: [  OK  ]<br>Starting vsftpd for vsftpd: [  OK  ]<br>service vsftpd restart<br>开机启动chkconfig –level 345 vsftpd on</p>
-<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>        comment = The hdfs<br>        path = /mnt/hdfs/<br>        browseable = yes<br>        writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
-<p>xxx is not in the sudoers file. This incident will be reported<br>visudo</p>
-<h2 id="Allow-root-to-run-any-commands-anywhere"><a href="#Allow-root-to-run-any-commands-anywhere" class="headerlink" title="Allow root to run any commands anywhere"></a>Allow root to run any commands anywhere</h2><p>root    ALL=(ALL)       ALL<br>hdfs    ALL=(ALL)       ALL</p>
-<p>NFS<br>server<br>[root@n0 ~]# yum install nfs-utils -y<br>[root@n0 ~]# vim /etc/exports<br>/home   10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>/mnt/hdfs    10.6.0.0/24(rw,no_root_squash)  </em>(ro)<br>/home    10.6.0.0/24(rw,no_root_squash)  <em>(ro)<br>[root@n0 ~]# /etc/init.d/rpcbind start<br>[root@n0 ~]# /etc/init.d/nfs start<br>启动 NFS 服务： [确定]<br>关掉 NFS 配额：[确定]<br>启动 NFS mountd：[确定]<br>启动 NFS 守护进程：[确定]<br>正在启动 RPC idmapd：[确定]<br>[root@n0 ~]# /etc/init.d/nfslock start<br>[root@n0 ~]# chkconfig rpcbind on<br>[root@n0 ~]# chkconfig nfs on<br>[root@n0 ~]# chkconfig nfslock on<br>[root@n0 ~]# netstat -tunlp | grep :111<br>tcp        0      0 0.0.0.0:111                 0.0.0.0:</em>                   LISTEN      1012/rpcbind<br>tcp        0      0 :::111                      :::<em>                        LISTEN      1012/rpcbind<br>udp        0      0 0.0.0.0:111                 0.0.0.0:</em>                               1012/rpcbind<br>udp        0      0 :::111                      :::<em>                                    1012/rpcbind<br>[root@n0 ~]#<br>[root@n0 ~]# tail /var/log/messages<br>[root@n0 ~]# rpcinfo -p localhost<br>   program vers proto   port  service<br>    100000    4   tcp    111  portmapper<br>    100000    3   tcp    111  portmapper<br>    100000    2   tcp    111  portmapper<br>    100000    4   udp    111  portmapper<br>    100000    3   udp    111  portmapper<br>    100000    2   udp    111  portmapper<br>    100024    1   udp  47728  status<br>    100024    1   tcp  37084  status<br>    100011    1   udp    875  rquotad<br>    100011    2   udp    875  rquotad<br>    100011    1   tcp    875  rquotad<br>    100011    2   tcp    875  rquotad<br>    100005    1   udp  59870  mountd<br>    100005    1   tcp  42830  mountd<br>    100005    2   udp  57353  mountd<br>    100005    2   tcp  53228  mountd<br>    100005    3   udp  53687  mountd<br>    100005    3   tcp  45899  mountd<br>    100003    2   tcp   2049  nfs<br>    100003    3   tcp   2049  nfs<br>    100003    4   tcp   2049  nfs<br>    100227    2   tcp   2049  nfs_acl<br>    100227    3   tcp   2049  nfs_acl<br>    100003    2   udp   2049  nfs<br>    100003    3   udp   2049  nfs<br>    100003    4   udp   2049  nfs<br>    100227    2   udp   2049  nfs_acl<br>    100227    3   udp   2049  nfs_acl<br>    100021    1   udp  36721  nlockmgr<br>    100021    3   udp  36721  nlockmgr<br>    100021    4   udp  36721  nlockmgr<br>    100021    1   tcp  47260  nlockmgr<br>    100021    3   tcp  47260  nlockmgr<br>    100021    4   tcp  47260  nlockmgr<br>[root@n0 ~]# rpcinfo -t localhost nfs<br>program 100003 version 2 ready and waiting<br>program 100003 version 3 ready and waiting<br>program 100003 version 4 ready and waiting<br>[root@n0 ~]# showmount -e localhost<br>Export list for localhost:<br>/home (everyone)<br>[root@n0 ~]# tail /var/lib/nfs/etab<br>/home   10.6.0.0/24(rw,sync,wdelay,hide,nocrossmnt,secure,no_root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,rw,no_root_squash,no_all_squash)<br>/home   </em>(ro,sync,wdelay,hide,nocrossmnt,secure,root_squash,no_all_squash,no_subtree_check,secure_locks,acl,anonuid=65534,anongid=65534,sec=sys,ro,root_squash,no_all_squash)<br>[root@n0 ~]# exportfs -arv<br>exporting 10.6.0.0/24:/home<br>exporting *:/home<br>[root@n0 ~]# cd /home/<br>[root@n0 home]# ls<br>hadoop  lost+found  test<br>[root@n0 home]# ll<br>总用量 24<br>drwx——  31 hadoop hadoop  4096 10月 30 08:50 hadoop<br>drwx——.  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x   2 root   root    4096 11月  7 13:35 test</p>
-<p>client<br>[root@n1 ~]# /etc/init.d/rpcbind start<br>[root@n1 ~]# /etc/init.d/nfslock start<br>[root@n1 ~]# chkconfig rpcbind on<br>[root@n1 ~]# chkconfig nfslock on<br>[root@n1 ~]# showmount -e 10.6.0.24<br>Export list for 10.6.0.24:<br>/home (everyone)<br>[root@n1 ~]# mkdir -p /home/nfs<br>[root@n1 ~]# mount -t nfs 10.6.0.24:/home/ /home/nfs/<br>[root@n1 ~]# df -h<br>Filesystem        Size  Used Avail Use% Mounted on<br>/dev/sda3         1.8T  1.1T  687G  61% /<br>tmpfs             7.8G  148K  7.8G   1% /dev/shm<br>/dev/sda1         194M   34M  151M  19% /boot<br>fuse_dfs           22T  3.9T   18T  19% /mnt/hdfs<br>cm_processes      7.8G  7.5M  7.8G   1% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.24:/home/  242G  1.5G  228G   1% /home/nfs<br>[root@n1 ~]# cd /home/nfs/<br>[root@n1 nfs]# touch test<br>[root@n1 nfs]# ll<br>总用量 24<br>drwx—— 31 nobody hadoop  4096 10月 30 08:50 hadoop<br>drwx——  2 root   root   16384 10月 17 10:50 lost+found<br>drwxr-xr-x  2 root   root    4096 11月  7 13:35 test</p>
-<p>开机启动<br>vim /etc/rc.d/rc.local<br>mount -t nfs -o nosuid,noexec,nodev,rw,bg,soft,rsize=32768,wsize=32768 10.6.0.24:/home/ /home/nfs/</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-x/" data-id="cix7b3wnh00150ecyf432s30p" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-5-Template" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/19/CentOS-6-5-Template/" class="article-date">
-  <time datetime="2016-12-19T02:26:13.000Z" itemprop="datePublished">2016-12-19</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/CentOS-6-5-Template/">CentOS 6.5 Template</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>core switch<br>-&gt; vlan port mobile 2/5 bpdu ignore enable<br>-&gt; show vlan port 2/5<br>  vlan     type      status<br>——–+———+————–<br>   100    default   forwarding</p>
-<p>-&gt; vlan 40 mac 08:00:27:fe:1e:60<br>-&gt; vlan 40 mac 08:00:27:53:fa:cd<br>-&gt; vlan 40 mac 08:00:27:FB:D0:0B<br>Oracle VM VirtualBox<br>安装增强功能<br>10.6.4.34<br>Create Snapshot</p>
-<p>10.6.4.35<br>yum -y install lrzsz<br>rz sz<br>[root@localhost ~]# visudo<br>jinyan  ALL=(ALL)       ALL<br>renjia  ALL=(ALL)       NOPASSWD: ALL<br>[jinyan@localhost ~]$ sudo su -<br>[sudo] password for jinyan: </p>
-<p>[root@localhost ~]# vim /etc/selinux/config</p>
-<h1 id="SELINUX-enforcing"><a href="#SELINUX-enforcing" class="headerlink" title="SELINUX=enforcing"></a>SELINUX=enforcing</h1><p>SELINUX=disabled</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>[root@localhost ~]# vim /etc/ssh/sshd_config</p>
-<p>#UseDNS yes<br>UseDNS no<br>[root@002 ~]# /etc/init.d/sshd restart<br>Stopping sshd: [  OK  ]<br>Starting sshd: [  OK  ]<br>[root@002 ~]# </p>
-<p>[root@server ~]# vim /etc/inittab<br>id:3:initdefault:</p>
-<p>[root@localhost ~]# yum install ntp -y<br>[root@localhost ~]# chkconfig ntpd on<br>[root@localhost ~]# chkconfig –list ntpd<br>ntpd            0:off   1:off   2:on    3:on    4:on    5:on    6:off<br>[root@localhost ~]# ntpdate -u 202.112.29.82<br>26 Apr 11:30:33 ntpdate[2050]: adjust time server 202.112.29.82 offset 0.005681 sec<br>[root@localhost ~]# vim /etc/ntp.conf</p>
-<p>#restrict 192.168.1.0 mask 255.255.255.0 nomodify notrap</p>
-<p>#server 202.120.2.101 prefer<br>server 202.112.29.82 prefer</p>
-<h1 id="Use-public-servers-from-the-pool-ntp-org-project"><a href="#Use-public-servers-from-the-pool-ntp-org-project" class="headerlink" title="Use public servers from the pool.ntp.org project."></a>Use public servers from the pool.ntp.org project.</h1><p>service ntpd start<br>[root@localhost ~]# ntpstat<br>synchronised to NTP server (202.112.29.82) at stratum 3<br>   time correct to within 482 ms<br>   polling server every 64 s</p>
-<p>[root@localhost ~]# vim /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>TYPE=Ethernet<br>UUID=8c33c654-f1ca-4b5c-9db6-4abe11cc76d4<br>ONBOOT=yes<br>NM_CONTROLLED=yes<br>BOOTPROTO=dhcp</p>
-<p>#BOOTPROTO=static</p>
-<p>#IPADDR=10.6.4.35</p>
-<p>#PREFIX=24</p>
-<p>#GATEWAY=10.6.4.1</p>
-<p>#DNS1=61.177.7.1</p>
-<p>#DOMAIN=223.5.5.5<br>HWADDR=08:00:27:FE:1E:60<br>DEFROUTE=yes<br>PEERDNS=yes<br>PEERROUTES=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”</p>
-<p>[root@localhost ~]# vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>NTPSERVERARGS=iburst</p>
-<p>[root@localhost ~]# vim /etc/hosts<br>127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4<br>::1         localhost localhost.localdomain localhost6 localhost6.localdomain6</p>
-<p>Centos6.5做路由、NAT和DHCP<br>server<br>[root@server ~]# ifconfig<br>eth1      Link encap:Ethernet  HWaddr 08:00:27:1B:AA:96<br>          inet addr:192.168.3.3  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe1b:aa96/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:154070 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:828615 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:10420011 (9.9 MiB)  TX bytes:1228814209 (1.1 GiB)</p>
-<p>eth2      Link encap:Ethernet  HWaddr 08:00:27:FB:D0:0B<br>          inet addr:10.6.4.36  Bcast:10.6.4.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fefb:d00b/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:43747 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:1146 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:3626576 (3.4 MiB)  TX bytes:173429 (169.3 KiB)</p>
-<p>[root@server ~]# vi /etc/sysctl.conf</p>
-<h1 id="Kernel-sysctl-configuration-file-for-Red-Hat-Linux"><a href="#Kernel-sysctl-configuration-file-for-Red-Hat-Linux" class="headerlink" title="Kernel sysctl configuration file for Red Hat Linux"></a>Kernel sysctl configuration file for Red Hat Linux</h1><p>#</p>
-<h1 id="For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and"><a href="#For-binary-values-0-is-disabled-1-is-enabled-See-sysctl-8-and" class="headerlink" title="For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and"></a>For binary values, 0 is disabled, 1 is enabled.  See sysctl(8) and</h1><h1 id="sysctl-conf-5-for-more-details"><a href="#sysctl-conf-5-for-more-details" class="headerlink" title="sysctl.conf(5) for more details."></a>sysctl.conf(5) for more details.</h1><h1 id="Controls-IP-packet-forwarding"><a href="#Controls-IP-packet-forwarding" class="headerlink" title="Controls IP packet forwarding"></a>Controls IP packet forwarding</h1><h1 id="net-ipv4-ip-forward-0"><a href="#net-ipv4-ip-forward-0" class="headerlink" title="net.ipv4.ip_forward = 0"></a>net.ipv4.ip_forward = 0</h1><p>net.ipv4.ip_forward = 1</p>
-<h1 id="Controls-source-route-verification"><a href="#Controls-source-route-verification" class="headerlink" title="Controls source route verification"></a>Controls source route verification</h1><p>net.ipv4.conf.default.rp_filter = 1</p>
-<h1 id="Do-not-accept-source-routing"><a href="#Do-not-accept-source-routing" class="headerlink" title="Do not accept source routing"></a>Do not accept source routing</h1><p>net.ipv4.conf.default.accept_source_route = 0</p>
-<h1 id="Controls-the-System-Request-debugging-functionality-of-the-kernel"><a href="#Controls-the-System-Request-debugging-functionality-of-the-kernel" class="headerlink" title="Controls the System Request debugging functionality of the kernel"></a>Controls the System Request debugging functionality of the kernel</h1><p>kernel.sysrq = 0</p>
-<h1 id="Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename"><a href="#Controls-whether-core-dumps-will-append-the-PID-to-the-core-filename" class="headerlink" title="Controls whether core dumps will append the PID to the core filename."></a>Controls whether core dumps will append the PID to the core filename.</h1><h1 id="Useful-for-debugging-multi-threaded-applications"><a href="#Useful-for-debugging-multi-threaded-applications" class="headerlink" title="Useful for debugging multi-threaded applications."></a>Useful for debugging multi-threaded applications.</h1><p>kernel.core_uses_pid = 1</p>
-<p>“/etc/sysctl.conf” 41L, 1176C written<br>[root@server ~]# sysctl -p<br>net.ipv4.ip_forward = 1<br>net.ipv4.conf.default.rp_filter = 1<br>net.ipv4.conf.default.accept_source_route = 0<br>kernel.sysrq = 0<br>kernel.core_uses_pid = 1<br>net.ipv4.tcp_syncookies = 1<br>error: “net.bridge.bridge-nf-call-ip6tables” is an unknown key<br>error: “net.bridge.bridge-nf-call-iptables” is an unknown key<br>error: “net.bridge.bridge-nf-call-arptables” is an unknown key<br>kernel.msgmnb = 65536<br>kernel.msgmax = 65536<br>kernel.shmmax = 68719476736<br>kernel.shmall = 4294967296</p>
-<p>[root@server ~]# iptables -F<br>[root@server ~]# iptables -t nat -A POSTROUTING -o eth2 -j MASQUERADE<br>[root@server ~]# iptables -t filter -A FORWARD -i eth2 -o eth1 -j ACCEPT<br>[root@server ~]# iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>[root@server ~]# service iptables save<br>iptables: Saving firewall rules to /etc/sysconfig/iptables: [  OK  ]<br>[root@server ~]#</p>
-<p>yum –y install dhcp   //安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak    //备份dhcpd.conf文件<br>[root@server ~]# vim /etc/dhcp/dhcpd.conf</p>
-<p>#</p>
-<h1 id="DHCP-Server-Configuration-file"><a href="#DHCP-Server-Configuration-file" class="headerlink" title="DHCP Server Configuration file."></a>DHCP Server Configuration file.</h1><h1 id="see-usr-share-doc-dhcp-dhcpd-conf-sample"><a href="#see-usr-share-doc-dhcp-dhcpd-conf-sample" class="headerlink" title="see /usr/share/doc/dhcp*/dhcpd.conf.sample"></a>see /usr/share/doc/dhcp*/dhcpd.conf.sample</h1><h1 id="see-‘man-5-dhcpd-conf’"><a href="#see-‘man-5-dhcpd-conf’" class="headerlink" title="see ‘man 5 dhcpd.conf’"></a>see ‘man 5 dhcpd.conf’</h1><p>#<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>        range 192.168.3.100 192.168.3.200;<br>        option subnet-mask 255.255.255.0;<br>        option domain-name-servers 114.114.114.114;<br>        option domain-name-servers 223.5.5.5;<br>        default-lease-time 21600;<br>        max-lease-time 43200;<br>        next-server 192.168.3.3;<br>        filename “/pxelinux.0”;<br>}<br>“/etc/dhcp/dhcpd.conf” 15L, 455C written<br>[root@server ~]# /etc/init.d/dhcpd restart<br>Shutting down dhcpd: [  OK  ]<br>Starting dhcpd: [  OK  ]<br>[root@server ~]# </p>
-<p>service dhcpd start  //启动服务<br>chkconfig dhcpd on  //设为开机启动<br>[root@localhost ~]# vim /etc/sysconfig/dhcpd</p>
-<h1 id="Command-line-options-here"><a href="#Command-line-options-here" class="headerlink" title="Command line options here"></a>Command line options here</h1><p>DHCPDARGS=eth1</p>
-<p>/etc/init.d/dhcpd restart</p>
-<p>client<br>注释掉client的静态IP配置，BOOTPROTO更改为dhcp<br>/etc/init.d/network restart<br>[root@localhost ~]# ifconfig eth0<br>eth0      Link encap:Ethernet  HWaddr 08:00:27:87:23:4C<br>          inet addr:192.168.3.106  Bcast:192.168.3.255  Mask:255.255.255.0<br>          inet6 addr: fe80::a00:27ff:fe87:234c/64 Scope:Link<br>          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1<br>          RX packets:489 errors:0 dropped:0 overruns:0 frame:0<br>          TX packets:338 errors:0 dropped:0 overruns:0 carrier:0<br>          collisions:0 txqueuelen:1000<br>          RX bytes:48843 (47.6 KiB)  TX bytes:42845 (41.8 KiB)</p>
-<p>[root@localhost ~]#<br>[root@localhost ~]# vi /etc/sysconfig/network</p>
-<p>NETWORKING=yes<br>HOSTNAME=localhost.localdomain<br>GATEWAY=192.168.3.3</p>
-<p>[root@localhost ~]# traceroute -n www.qq.com<br>traceroute to www.qq.com (180.96.86.192), 30 hops max, 60 byte packets<br> 1  192.168.3.3  2.279 ms  1.963 ms  1.887 ms<br> 2  10.6.4.1  12.267 ms  12.519 ms  12.639 ms<br> 3  10.6.0.1  2.535 ms  3.029 ms  2.965 ms<br> 4  222.92.37.81  3.859 ms  3.740 ms  3.607 ms<br> 5  218.4.14.33  4.600 ms  4.999 ms  4.938 ms<br> 6  218.94.215.222  5.981 ms  4.990 ms  4.857 ms<br> 7  61.155.187.209  7.527 ms  8.261 ms  8.040 ms<br> 8  202.102.69.142  10.481 ms 202.102.69.246  12.911 ms 202.102.69.142  9.696 ms<br> 9  180.96.51.90  10.673 ms 180.96.48.18  7.666 ms 180.96.51.90  10.560 ms<br>10  <em> 180.96.35.182  7.695 ms </em></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/19/CentOS-6-5-Template/" data-id="cix7b3wmb00090ecylygtpuqn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/19/Centos-6-x-预配-2/" data-id="cixv6wcnb001ilkcyivulii41" class="article-share-link">Share</a>
       
       
     </footer>
@@ -683,7 +808,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -696,23 +821,23 @@
       <ul>
         
           <li>
+            <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/zebra/">zebra</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
       </ul>
@@ -727,7 +852,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 JinYan<br>
+      &copy; 2017 JinYan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>

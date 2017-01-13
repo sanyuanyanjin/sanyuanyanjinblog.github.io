@@ -61,6 +61,361 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-CentOS-6-x-OpenLDAP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-OpenLDAP/" class="article-date">
+  <time datetime="2016-12-15T03:26:25.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-OpenLDAP/">CentOS 6.x OpenLDAP</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>yum -y install openldap<em>  db4</em><br>slappasswd<br>cp /usr/share/openldap-servers/slapd.conf.obsolete /etc/openldap/slapd.conf</p>
+<p>vim /etc/openldap/slapd.conf<br>access to *<br>    by dn.exact=”gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth” read</p>
+<h1 id="by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read"><a href="#by-dn-exact-”cn-Manager-dc-my-domain-dc-com”-read" class="headerlink" title="by dn.exact=”cn=Manager,dc=my-domain,dc=com” read"></a>by dn.exact=”cn=Manager,dc=my-domain,dc=com” read</h1><pre><code>by dn.exact=&quot;cn=admin,dc=example,dc=com&quot; read
+    by * none
+</code></pre><p>database    bdb</p>
+<h1 id="suffix-“dc-my-domain-dc-com”"><a href="#suffix-“dc-my-domain-dc-com”" class="headerlink" title="suffix        “dc=my-domain,dc=com”"></a>suffix        “dc=my-domain,dc=com”</h1><p>suffix          “dc=example,dc=com”<br>checkpoint    1024 15<br>rootdn          “cn=admin,dc=example,dc=com”</p>
+<h1 id="rootdn-“cn-Manager-dc-my-domain-dc-com”"><a href="#rootdn-“cn-Manager-dc-my-domain-dc-com”" class="headerlink" title="rootdn        “cn=Manager,dc=my-domain,dc=com”"></a>rootdn        “cn=Manager,dc=my-domain,dc=com”</h1><h1 id="Cleartext-passwords-especially-for-the-rootdn-should"><a href="#Cleartext-passwords-especially-for-the-rootdn-should" class="headerlink" title="Cleartext passwords, especially for the rootdn, should"></a>Cleartext passwords, especially for the rootdn, should</h1><h1 id="be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details"><a href="#be-avoided-See-slappasswd-8-and-slapd-conf-5-for-details" class="headerlink" title="be avoided.  See slappasswd(8) and slapd.conf(5) for details."></a>be avoided.  See slappasswd(8) and slapd.conf(5) for details.</h1><h1 id="Use-of-strong-authentication-encouraged"><a href="#Use-of-strong-authentication-encouraged" class="headerlink" title="Use of strong authentication encouraged."></a>Use of strong authentication encouraged.</h1><h1 id="rootpw-secret"><a href="#rootpw-secret" class="headerlink" title="rootpw        secret"></a>rootpw        secret</h1><h1 id="rootpw-crypt-ijFYNcSNctBYg"><a href="#rootpw-crypt-ijFYNcSNctBYg" class="headerlink" title="rootpw        {crypt}ijFYNcSNctBYg"></a>rootpw        {crypt}ijFYNcSNctBYg</h1><p>rootpw        yanjin</p>
+<p>cp /usr/share/openldap-servers/DB_CONFIG.example  /var/lib/ldap/DB_CONFIG<br>rm -rf /etc/openldap/slapd.d/*<br>service slapd restart<br>chkconfig slapd on<br>chown -R ldap:ldap /var/lib/ldap<br>chown -R ldap:ldap /etc/openldap/<br>slaptest  -f /etc/openldap/slapd.conf -F /etc/openldap/slapd.d<br>chown -R ldap:ldap /etc/openldap/slapd.d<br>service slapd restart<br>useradd ldapuser1<br>passwd ldapuser1<br>yum install migrationtools -y<br>[root@localhost ~]# cd /usr/share/migrationtools/<br>[root@localhost migrationtools]# vim  migrate_common.ph<br>70 行</p>
+<h1 id="DEFAULT-MAIL-DOMAIN-“padl-com”"><a href="#DEFAULT-MAIL-DOMAIN-“padl-com”" class="headerlink" title="$DEFAULT_MAIL_DOMAIN = “padl.com”;"></a>$DEFAULT_MAIL_DOMAIN = “padl.com”;</h1><p>$DEFAULT_MAIL_DOMAIN = “example.com”;</p>
+<h1 id="Default-base"><a href="#Default-base" class="headerlink" title="Default base"></a>Default base</h1><h1 id="DEFAULT-BASE-“dc-padl-dc-com”"><a href="#DEFAULT-BASE-“dc-padl-dc-com”" class="headerlink" title="$DEFAULT_BASE = “dc=padl,dc=com”;"></a>$DEFAULT_BASE = “dc=padl,dc=com”;</h1><p>$DEFAULT_BASE = “dc=example,dc=com”;</p>
+<p>[root@localhost migrationtools]# ./migrate_base.pl &gt; /tmp/base.ldif<br>[root@localhost migrationtools]# ./migrate_passwd.pl  /etc/passwd &gt; /tmp/passwd.ldif<br>[root@localhost migrationtools]# ./migrate_group.pl  /etc/group &gt; /tmp/group.ldif<br>[root@localhost migrationtools]#</p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/base.ldif</p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/passwd.ldif</p>
+<p>ldapadd -x -D “cn=admin,dc=example,dc=com” -W -f /tmp/group.ldif<br>service slapd restart</p>
+<p>导入导出<br>LdapAdmin.exe</p>
+<p>10.6.0.19<br>389<br>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>sztzuchi</p>
+<p>dc=example,dc=com<br>cn=admin,dc=example,dc=com<br>yanjin</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-OpenLDAP/" data-id="cixv6wcmd000plkcyd19rivza" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-Squid" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-Squid/" class="article-date">
+  <time datetime="2016-12-15T03:23:48.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-Squid/">CentOS 6.x Squid</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>环境：CentOS6.5 64位</p>
+<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
+<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
+<p>ssh 登录慢<br>vim /etc/ssh/sshd_config<br>122 UseDNS no<br>/etc/init.d/sshd restart</p>
+<p>修改主机名<br>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=squid</p>
+<p>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a></p>
+<p>cd /etc/yum.repos.d/<br>mv cobbler-config.repo cobbler-config.repobak<br>yum clean all<br>yum makecache<br>yum repolist</p>
+<p>安装SecureCRT<br>yum -y install lrzsz</p>
+<p>安装配置VNC<br>yum -y install tigervnc-server<br>更改配置<br>vim /etc/sysconfig/vncservers<br>VNCSERVERS=”0:root”<br>VNCSERVERARGS[0]=”-geometry 1024x768”<br>设置密码<br>vncpasswd<br>service vncserver start<br>开机启动<br>chkconfig –level 345 vncserver on</p>
+<p>NTP<br>yum install ntp -y<br>chkconfig ntpd on<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
+<p>双网卡<br>eth0<br>IP地址：10.6.0.101<br>子网掩码：255.255.255.0<br>网关：10.6.0.128<br>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=9a:58:98:fb:64:93<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>UUID=”8a6cf2c6-50d5-4118-b343-477b0fe0850c”<br>IPADDR=10.6.0.101<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>GATEWAY=10.6.0.128<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>eth1<br>IP地址：192.168.3.3<br>子网掩码：255.255.255.0<br>ifconfig eth1 192.168.3.3 netmask 255.255.255.0<br>cat /etc/sysconfig/network-scripts/ifcfg-eth1<br>DEVICE=eth0<br>BOOTPROTO=none<br>HWADDR=4E:F7:71:1F:2B:77<br>IPV6INIT=yes<br>MTU=1500<br>NM_CONTROLLED=yes<br>ONBOOT=yes<br>TYPE=Ethernet<br>IPADDR=192.168.3.3<br>NETMASK=255.255.255.0<br>DNS2=114.114.114.114<br>DNS1=223.5.5.5<br>USERCTL=no</p>
+<p>安装XenServer Tools<br>mount /dev/cdrom /media/<br>cd /media/Linux/<br>./install.sh<br>You should now reboot this Virtual Machine.<br>快照</p>
+<p>普通代理 http_port 3128<br>透明代理 http_port 3128 transparent<br>反向代理 http_port 3128 accel vhost vport</p>
+<p>去除显示grep进程<br>ps -ef |grep ‘sbin/squid’ | grep -v grep |wc -l</p>
+<p>加载系统函数库<br>. /etc/init.d/functions</p>
+<p>日期<br>access_$(date +%F).log</p>
+<p>使用yum 方式安装<br>yum -y install squid<br>设置开机自启动<br>chkconfig –level 35 squid on<br>在3、5级别上自动运行squid服务</p>
+<p>squid服务器的配置文件说明<br>去#号及去空行<br>egrep -v “#|^$” /etc/squid/squid.conf<br>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl SSL_ports port 443<br>acl CONNECT method CONNECT<br>http_access allow manager localhost<br>http_access deny manager<br>http_access deny !Safe_ports<br>http_access deny CONNECT !SSL_ports<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>cp /etc/squid/squid.conf /etc/squid/squid.confbak<br>squid 的主配置文件是 /etc/squid/squid.conf，所有squid的设定都是在这个文件里配置，下面是一些常用的配置选项。<br>vim /etc/squid/squid.conf<br>http_port　3128<br>设置监听的IP与端口号<br>cache_mem 64 MB<br>额外提供给squid使用的内存，squid的内存总占用为 X <em> 10+15+“cache_mem”，其中X为squid的cache占用的容量（以GB为单位）<br>比如下面的cache大小是100M，即0.1GB，则内存总占用为0.1</em>10+15+64=80M，推荐大小为物理内存的1/3-1/2或更多。<br>maximum_object_size 4 MB<br>设置squid磁盘缓存最大文件，超过4M的文件不保存到硬盘<br>minimum_object_size 0 KB<br>设置squid磁盘缓存最小文件<br>maximum_object_size_in_memory 4096 KB<br>设置squid内存缓存最大文件，超过4M的文件不保存到内存<br>cache_dir ufs /var/spool/squid 100 16 256<br>定义squid的cache存放路径 、cache目录容量（单位M）、一级缓存目录数量、二级缓存目录数量<br>logformat combined %&gt;a %ui %un [%tl] “%rm %ru HTTP/%rv” %Hs %h” “%{User-Agent}&gt;h” %Ss:%Sh<br>emulate_httpd_log on<br>log文件日志格式<br>access_log /var/log/squid/access.log combined<br>log文件存放路径和日志格式<br>cache_log /var/log/squid/cache.log<br>设置缓存日志<br>logfile_rotate 60<br>log轮循 60天<br>cache_swap_high 95<br>cache目录使用量大于95%时，开始清理旧的<br>cachecache_swap_low 90<br>cache目录清理到90%时停止。<br>acl localnet src 10.6.0.0/16<br>定义本地网段<br>http_access allow localnet<br>允许本地网段使用<br>http_access deny all<br>拒绝所有<br>visible_hostname squid.sanyuan.tk<br>主机名<br>cache_mgr example@test.com<br>管理员邮箱</p>
+<p>普通代理<br>编辑squid 主配置文件/etc/squid/squid.conf<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confnormal<br>cp /etc/squid/squid.confnormal /etc/squid/squid.conf</p>
+<p>example：<br>http_port 3128<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com</p>
+<p>检查语法<br>squid -k parse</p>
+<p>初始化<br>squid -z</p>
+<p>启动Squid<br>/etc/init.d/squid start<br>chkconfig squid on</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>tail -f /var/log/squid/access.log</p>
+<p>透明代理<br>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access allow all<br>http_port 3128 transparent<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.conftransparent</p>
+<p>example：<br>http_port 3128 transparent<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>acl localnet src 10.6.0.0/16<br>http_access allow localnet<br>http_access deny all<br>visible_hostname squid.sanyuan.tk<br>cache_mgr mchina_tang@qq.com<br>在http_port 3128 后添加transparent 关键字。</p>
+<p>reload<br>reload 让上面的配置生效。<br>/etc/init.d/squid reload</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :3128</p>
+<p>yum -y install dhcp<br>安装DHCP服务<br>cp /etc/dhcp/dhcpd.conf /etc/dhcp/dhcpd.conf.bak<br>备份dhcpd.conf文件<br>vim /etc/dhcp/dhcpd.conf<br>subnet 192.168.3.0 netmask 255.255.255.0 {<br>     option routers             192.168.3.3;<br>     option domain-name-servers 223.5.5.5;<br>     option subnet-mask         255.255.255.0;<br>     range dynamic-bootp        192.168.3.6 192.168.3.99;<br>     default-lease-time         21600;<br>     max-lease-time             43200;<br>     next-server                192.168.3.3;<br>}</p>
+<p>指定DHCP服务的网络接口<br>vim /etc/sysconfig/dhcpd<br>DHCPDARGS=eth1</p>
+<p>service dhcpd start<br>chkconfig dhcpd on</p>
+<p>NAT<br>vim /etc/sysctl.conf<br>7 # net.ipv4.ip_forward = 0<br>net.ipv4.ip_forward = 1<br>sysctl -p</p>
+<p>添加iptables规则，把内部的http请求重定向到3128端口<br>清除现有iptables filter 表规则<br>iptables -F<br>保存iptables 设置<br>/etc/init.d/iptables save<br>iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE<br>iptables -t filter -A FORWARD -i eth0 -o eth1 -j ACCEPT<br>iptables -t filter -A FORWARD -i eth1 -o eth0 -j ACCEPT<br>iptables -t nat -I PREROUTING -i eth1 -s 192.168.3.0/24 -p tcp –dport 80 -j REDIRECT –to-port 3128<br>保存<br>/etc/init.d/iptables save</p>
+<p>反向代理</p>
+<p>vim /etc/squid/squid.conf</p>
+<p>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow all<br>http_port 80 accel vhost<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 10.6.6.200 parent 80 0 originserver round-robin weight=1<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320</p>
+<p>mv /etc/squid/squid.conf /etc/squid/squid.confreverse</p>
+<p>example：<br>http_port 80 accel vhost<br>http_access allow all<br>cache_peer 192.168.3.6 parent 80 0 originserver round-robin weight=1<br>cache_peer 192.168.3.9 parent 80 0 originserver round-robin weight=1<br>visible_hostname squid.sanyuan.tk</p>
+<p>/etc/init.d/squid restart<br>squid 采用了round-robin，所以客户端的访问将轮询两台web服务器，采用 “Ctrl + F5” 来深度刷新测试。</p>
+<p>检查语法<br>squid -k parse</p>
+<p>ps -ef |grep ‘squid’ | grep -v grep</p>
+<p>lsof -i :80</p>
+<p>启用验证</p>
+<p>yum -y install mysql*</p>
+<p>[root@squid mysql_auth-0.8]# vim Makefile</p>
+<p>CC = gcc<br>CFLAGS = -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm<br>LDFLAGS = -lmysqlclient<br>SRC = src<br>OBJS = $(SRC)/mysql_auth.o $(SRC)/confparser.o $(SRC)/mypasswd.o<br>INSTALL = /usr/bin/install<br>CONF = $(SRC)/mysql_auth.conf</p>
+<p>all : mysql_auth mypasswd</p>
+<p>clean:<br>        rm -rf src/<em>.o </em>.o mysql_auth mypasswd</p>
+<p>mysql_auth: $(OBJS)<br>        $(CC) -o $@ $(SRC)/mysql_auth.c $(SRC)/confparser.c $(LDFLAGS) $(CFLAGS)</p>
+<p>mypasswd: $(OBJS)<br>        $(CC) -o $@ $(SRC)/mypasswd.c $(SRC)/confparser.c $(LDFLAGS) $(CFLAGS)</p>
+<p>install:<br>        $(INSTALL) -o nobody -g nogroup -m 755 mysql_auth /etc/squid/mysql_auth<br>        $(INSTALL) -o root -g root -m 700 mypasswd /usr/local/bin/mypasswd<br>        $(INSTALL) -o nobody -g nogroup -m 600 $(CONF) /etc/squid/mysql_auth.conf<br>        $(INSTALL) -o nobody -g nogroup -m 600 $(CONF) /etc/squid/mysql_auth.conf.default</p>
+<p>linux-yanjin:~/mysql_auth-0.8/src # vim define.h</p>
+<p>#define CONFIG_FILE “/etc/squid/mysql_auth.conf”</p>
+<p>#define VAR_MYSQLD_SOCKET “mysql_socket”</p>
+<p>#define DEF_MYSQLD_SOCKET “/var/lib/mysql/mysql.sock”</p>
+<p>linux-yanjin:~/mysql_auth-0.8/src # vim mysql_auth.conf<br>mysql_socket   /var/lib/mysql/mysql.sock</p>
+<p>[root@squid mysql_auth-0.8]# make<br>gcc -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm   -c -o src/mysql_auth.o src/mysql_auth.c<br>gcc -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm   -c -o src/confparser.o src/confparser.c<br>gcc -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm   -c -o src/mypasswd.o src/mypasswd.c<br>gcc -o mysql_auth src/mysql_auth.c src/confparser.c -lmysqlclient -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm<br>gcc -o mypasswd src/mypasswd.c src/confparser.c -lmysqlclient -I /usr/include/mysql -L /usr/lib64/mysql -lz -lm<br>[root@squid mysql_auth-0.8]# make install<br>/usr/bin/install -o nobody -g nogroup -m 755 mysql_auth /etc/squid/mysql_auth<br>/usr/bin/install -o root -g root -m 700 mypasswd /usr/local/bin/mypasswd<br>/usr/bin/install -o nobody -g nogroup -m 600 src/mysql_auth.conf /etc/squid/mysql_auth.conf<br>/usr/bin/install -o nobody -g nogroup -m 600 src/mysql_auth.conf /etc/squid/mysql_auth.conf.default<br>[root@squid mysql_auth-0.8]# cd scripts/<br>[root@squid scripts]# mysql -u root -pyanjin &lt; create_script<br>[root@squid scripts]# mypasswd yanjin 123<br>Password record ADDED succesfully.<br>[root@squid scripts]#</p>
+<p>查看mysql_auth table<br>linux-yanjin:~ # mysql -uroot -pyanjin<br>Welcome to the MySQL monitor.  Commands end with ; or \g.<br>Your MySQL connection id is 13<br>Server version: 5.0.95-Max SUSE MySQL RPM</p>
+<p>Type ‘help;’ or ‘\h’ for help. Type ‘\c’ to clear the current input statement.</p>
+<p>mysql&gt; use mysql_auth;<br>Database changed<br>mysql&gt; select * from data;<br>+——–+———-+<br>| user   | password |<br>+——–+———-+<br>| yanjin | 123      |<br>+——–+———-+<br>1 row in set (0.00 sec)</p>
+<p>查看用戶<br>mysql&gt; select user,host,password from mysql.user;<br>+——–+————–+——————————————-+<br>| user   | host         | password                                  |<br>+——–+————–+——————————————-+<br>| root   | localhost    | <em>4327D690FDFB060004FF99724B03EB7303EFEA76 |<br>| root   | linux-yanjin |                                           |<br>| root   | 127.0.0.1    |                                           |<br>|        | localhost    |                                           |<br>|        | linux-yanjin |                                           |<br>| renjia | localhost    | </em>4327D690FDFB060004FF99724B03EB7303EFEA76 |<br>| squid  | localhost    | *AFD42D37182BDB40880BEF624CC64B0F4A1E35B4 |<br>+——–+————–+——————————————-+<br>7 rows in set (0.00 sec)</p>
+<p>允许远程访问<br>mysql&gt; use mysql_auth;<br>Database changed<br>mysql&gt; GRANT ALL ON <em>.</em> TO squid@’%’ IDENTIFIED BY ‘squid’ WITH GRANT OPTION;<br>Query OK, 0 rows affected (0.00 sec)<br>mysql&gt; flush privileges;<br>Query OK, 0 rows affected (0.03 sec)</p>
+<p>mysql&gt;</p>
+<p>設置mysql_auth文件權限<br>chmod 777 /etc/squid/mysql_auth.conf</p>
+<p>四、配置SQUID.conf<br>[root@squid ~]# vim /etc/squid/squid.conf<br>auth_param basic program /etc/squid/mysql_auth<br>auth_param basic children 5<br>auth_param basic realm squid Proxy web server<br>auth_param basic credentialsttl 2 hours<br>acl manager proto cache_object<br>acl localhost src 127.0.0.1/32 ::1<br>acl to_localhost dst 127.0.0.0/8 0.0.0.0/32 ::1<br>acl CONNECT method CONNECT<br>acl localnet src 10.6.0.0/16<br>acl password proxy_auth REQUIRED<br>http_access allow password<br>http_access allow manager localhost<br>http_access deny manager<br>http_access allow localnet<br>http_access allow localhost<br>http_access deny all<br>http_port 3128<br>coredump_dir /var/spool/squid<br>cache_mem 64 MB<br>maximum_object_size 4 MB<br>minimum_object_size 0 KB<br>maximum_object_size_in_memory 4096 KB<br>cache_dir ufs /var/spool/squid 100 16 256<br>access_log /var/log/squid/access.log<br>cache_log /var/log/squid/cache.log<br>emulate_httpd_log on<br>logfile_rotate 60<br>cache_swap_high 95<br>cache_swap_low 90<br>visible_hostname squid.sanyuan.tk<br>cache_mgr yanjin198620@126.com<br>refresh_pattern ^ftp:           1440    20%     10080<br>refresh_pattern ^gopher:        1440    0%      1440<br>refresh_pattern -i (/cgi-bin/|\?) 0     0%      0<br>refresh_pattern .               0       20%     4320<br>[root@squid ~]#</p>
+<p>建立cache文件<br>mkdir -p /var/cache/squida<br>mkdir -p /var/cache/squidb<br>mkdir -p /var/cache/squidc<br>chown -R squid:root /var/cache/squida<br>chown -R squid:root /var/cache/squidb<br>chown -R squid:root /var/cache/squidc<br>chmod 777 /var/cache/squida<br>chmod 777 /var/cache/squidb<br>chmod 777 /var/cache/squidc</p>
+<p>[root@squid ~]# vim /etc/squid/squid.conf<br>1、MysQL_auth驗證模塊<br>auth_param basic program /etc/squid/mysql_auth<br>auth_param basic children 5<br>auth_param basic realm squid Proxy web server<br>auth_param basic credentialsttl 2 hours</p>
+<p>2、訪問控制列表<br>acl password proxy_auth REQUIRED<br>http_access allow password<br>http_access deny all<br>http_access allow manager localhost<br>http_access deny manager<br>http_access deny !Safe_ports<br>http_access deny CONNECT !SSL_ports<br>http_access allow localnet<br>http_access allow localhost</p>
+<p>3、驗證有效期<br>authenticate_ttl 2 hour<br>authenticate_ip_ttl 2 hours</p>
+<p>4、squid可以使用的記憶體大小<br>cache_mem 256 MB<br>squid磁片替換策略<br>cache_replacement_policy lru<br>squid記憶體替換策略<br>memory_replacement_policy lru</p>
+<p>5、緩存容量閥值<br>cache_swap_low 70<br>cache_swap_high 85</p>
+<p>6、squid磁片緩存最大檔<br>maximum_object_size 32768 KB<br>squid記憶體緩存最大檔<br>maximum_object_size_in_memory 4096 KB</p>
+<p>7、緩存目錄<br>cache_dir ufs /var/cache/squida 7168 16 256<br>cache_dir ufs /var/cache/squidb 7168 16 256<br>cache_dir ufs /var/cache/squidc 7168 16 256</p>
+<p>8、HOSTS<br>hosts_file /etc/hosts</p>
+<p>9、主機名<br>visible_hostname squid</p>
+<p>10、日誌 2124行<br>cache_access_log /var/log/squid/access.log</p>
+<p>11、日誌輪詢<br>logfile_rotate 10</p>
+<p>12、日誌輸出方式<br>emulate_httpd_log on</p>
+<p>[root@squid ~]# /etc/init.d/squid restart<br>Stopping squid: …………….[  OK  ]<br>Starting squid: .[  OK  ]<br>[root@squid ~]#</p>
+<p>tail -f /var/log/squid/access.log</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Squid/" data-id="cixv6wcmp000xlkcytjp33xa1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-SendMail" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-SendMail/" class="article-date">
+  <time datetime="2016-12-15T03:22:18.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-SendMail/">CentOS 6.x SendMail</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>sendmail是Linux下优秀的邮件系统。今天某个网站需要有发邮件的需求，而服务器安装时没有安装这个，那就开始吧。<br>1、安装</p>
+<pre><code>#yum install -y sendmail
+#yum install -y sendmail-cf
+如果需要SMTP验证就安装并启动saslauthd服务：
+# service saslauthd start 
+</code></pre><p>2、配置        </p>
+<p>(1) 配置Senmail的SMTP认证</p>
+<h1 id="vi-etc-mail-sendmail-mc"><a href="#vi-etc-mail-sendmail-mc" class="headerlink" title="vi /etc/mail/sendmail.mc"></a>vi /etc/mail/sendmail.mc</h1><p>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
+<p>dnl define(<code>confAUTH_MECHANISMS’,</code>EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN’)dnl </p>
+<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
+<p>(2) 设置Sendmail服务的网络访问权限（因为我是直接本机调用所以我没有操作这个步骤）</p>
+<p>vi /etc/mail/sendmail.mc</p>
+<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=0.0.0.0, Name=MTA‘)dnl 
+</code></pre><p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。<br>3、生成配置文件</p>
+<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
+<p>#m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf<br>4、启动服务</p>
+<p>service sendmail start</p>
+<p>service sendmail restart</p>
+<p>[root@rsync py]#<br>ps aux | grep sendmail | grep -v grep<br>smmsp     9311  0.0  0.2  78136  2140 ?        Ss   14:27   0:00 sendmail: Queue runner@01:00:00 for /var/spool/clientmqueue<br>root      9324  0.0  0.0 103252   852 pts/0    S+   14:29   0:00 grep sendmail<br>[root@rsync py]# </p>
+<p>检查服务是否加入自启行列</p>
+<p>[root@rsync py]# chkconfig sendmail on<br>[root@rsync py]# chkconfig –list |grep sendmail<br>sendmail        0:关闭  1:关闭  2:启用  3:启用  4:启用  5:启用  6:关闭<br>[root@rsync py]# </p>
+<p>[root@rsync py]#<br>mail -s xxx 455177385@qq.com<br>xxx<br>EOT<br>你可以把当前shell当成编辑器来用，编辑完内容后Ctrl-D结束</p>
+<p>echo “mail content”|mail -s test 455177385@qq.com</p>
+<p>mail -s test 455177385@qq.com &lt; file #第三种方法，以file的内容为邮件内容发信</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SendMail/" data-id="cixv6wcmj000tlkcyvq3gabfd" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-CentOS-6-x-GlusterFS" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/15/CentOS-6-x-GlusterFS/" class="article-date">
+  <time datetime="2016-12-15T03:13:50.000Z" itemprop="datePublished">2016-12-15</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/CentOS-6-x-GlusterFS/">CentOS 6.x GlusterFS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一、前言<br>GlusterFS是一个开源的分布式文件系统,于2011年被红帽收购.它具有高扩展性、高性能、高可用性、可横向扩展的弹性特点,无元数据服务器设计使glusterfs没有单点故障隐患，详细介绍请查看官网：www.gluster.org 。<br>二、环境<br>1、系统：<br>Centos 6.5<br>2、部署说明<br>服务端：<br>10.6.0.217<br>10.6.0.218<br>10.6.0.219<br>客户端：<br>10.6.0.215<br>三、部署<br>1、服务端安装：<br>rpm -ivh <a href="http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm" target="_blank" rel="external">http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm</a><br>wget -P /etc/yum.repos.d <a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/CentOS/glusterfs-epel.repo" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/CentOS/glusterfs-epel.repo</a><br>[root@n5 ~]# cd /etc/yum.repos.d/<br>[root@n5 yum.repos.d]# cat glusterfs-epel.repo</p>
+<h1 id="Place-this-file-in-your-etc-yum-repos-d-directory"><a href="#Place-this-file-in-your-etc-yum-repos-d-directory" class="headerlink" title="Place this file in your /etc/yum.repos.d/ directory"></a>Place this file in your /etc/yum.repos.d/ directory</h1><p>[glusterfs-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes.<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/$basearch/" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/$basearch/</a><br>enabled=1<br>skip_if_unavailable=1<br>gpgcheck=1</p>
+<h1 id="gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key"><a href="#gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key" class="headerlink" title="gpgkey=http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key"></a>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></h1><p>gpgkey=<a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></p>
+<p>[glusterfs-noarch-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes.<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/noarch" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/noarch</a><br>enabled=1<br>skip_if_unavailable=1<br>gpgcheck=1<br>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></p>
+<p>[glusterfs-source-epel]<br>name=GlusterFS is a clustered file-system capable of scaling to several petabytes. - Source<br>baseurl=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/SRPMS" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/epel-$releasever/SRPMS</a><br>enabled=0<br>skip_if_unavailable=1<br>gpgcheck=1</p>
+<h1 id="gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key-1"><a href="#gpgkey-http-download-gluster-org-pub-gluster-glusterfs-3-7-3-7-12-EPEL-repo-pub-key-1" class="headerlink" title="gpgkey=http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key"></a>gpgkey=<a href="http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">http://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a></h1><p>gpgkey=<a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/EPEL.repo/pub.key</a><br>[root@n5 yum.repos.d]#<br>wget -P /etc/yum.repos.d <a href="https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/pub.key" target="_blank" rel="external">https://download.gluster.org/pub/gluster/glusterfs/3.7/3.7.12/pub.key</a><br>[root@n6 ~]# cd -<br>/etc/yum.repos.d<br>[root@n6 yum.repos.d]# scp -r glusterfs-epel.repo pub.key root@n5:/etc/yum.repos.d<br>The authenticity of host ‘n5 (10.6.0.215)’ can’t be established.<br>RSA key fingerprint is 23:92:f4:8f:62:12:e2:31:d2:31:5b:d7:28:f3:58:1f.<br>Are you sure you want to continue connecting (yes/no)? yes<br>Warning: Permanently added ‘n5,10.6.0.215’ (RSA) to the list of known hosts.<br>root@n5’s password:<br>glusterfs-epel.repo                                                                                                                            100% 1257     1.2KB/s   00:00<br>pub.key                                                                                                                                        100% 1732     1.7KB/s   00:00<br>[root@n6 yum.repos.d]#<br>yum clean all<br>rpm –import pub.key<br>yum makecache<br>yum -y install glusterfs glusterfs-server<br>chkconfig glusterd on<br>service glusterd start<br>2、服务端配置：<br>将3个存储节点组成一集群，本文在第一个节点执行，只需要在任意节点执行就OK。<br>[root@n6 ~]# gluster peer probe 10.6.0.216<br>peer probe: success. Probe on localhost not needed<br>[root@n6 ~]# gluster peer probe 10.6.0.217<br>peer probe: success.<br>[root@n6 ~]# gluster peer probe 10.6.0.218<br>peer probe: success.<br>[root@n6 ~]# gluster peer probe 10.6.0.219<br>peer probe: success.<br>查看集群的节点信息：<br>[root@n6 ~]# gluster peer status<br>Number of Peers: 3</p>
+<p>Hostname: 10.6.0.217<br>Uuid: f2614374-cc36-4f01-970d-8bae30928451<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)<br>以/data/gluster为共享目录，创建名为img的卷,副本数为3：<br>mkdir -p /data/gluster<br>[root@n6 ~]# gluster volume create img replica 3 10.6.0.217:/data/gluster 10.6.0.218:/data/gluster 10.6.0.219:/data/gluster force<br>volume create: img: success: please start the volume to access data<br>启动卷：<br>[root@n6 ~]# gluster volume start img<br>volume start: img: success<br>[root@n6 ~]#<br>查看卷状态:<br>[root@n6 ~]# gluster volume info</p>
+<p>Volume Name: img<br>Type: Replicate<br>Volume ID: c481f5a9-5dcb-4cb3-9870-0ec57dbc22fb<br>Status: Started<br>Number of Bricks: 1 x 3 = 3<br>Transport-type: tcp<br>Bricks:<br>Brick1: 10.6.0.217:/data/gluster<br>Brick2: 10.6.0.218:/data/gluster<br>Brick3: 10.6.0.219:/data/gluster<br>Options Reconfigured:<br>performance.readdir-ahead: on<br>[root@n6 ~]#<br>3、客户端安装配置：<br>安装：<br>yum -y install glusterfs glusterfs-fuse<br>[root@n5 ~]# mkdir -p /data/img<br>挂载任意一个节点即可<br>[root@n5 ~]# mount -t glusterfs 10.6.0.217:/img /data/img<br>[root@n5 ~]# df -h<br>Filesystem                  Size  Used Avail Use% Mounted on<br>/dev/mapper/vg_n5-LogVol00  3.6T  1.1T  2.4T  31% /<br>tmpfs                       1.9G   68K  1.9G   1% /dev/shm<br>/dev/sda1                   194M   35M  150M  19% /boot<br>cm_processes                1.9G   72M  1.9G   4% /opt/cm-5.1.3/run/cloudera-scm-agent/process<br>10.6.0.217:/img             3.6T  1.4T  2.1T  41% /data/img<br>[root@n5 ~]#<br>mount -t nfs -o mountproto=tcp,vers=3 10.6.0.217:/img /home/nfs （使用NFS挂载，注意远端的rpcbind服务必须开启）<br>echo “10.6.0.217:/img /data/img glusterfs defaults,_netdev 0 0” &gt;&gt; /etc/fstab (开机自动挂载)</p>
+<p>安装配置Samba<br>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[img]<br>        comment = The img<br>        path = /data/img<br>        browseable = yes<br>        writable = yes<br>useradd smbimg<br>smbpasswd -a smbimg<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig smb on</p>
+<p>[root@n5 ~]# ll -d /data/img/<br>drwxr-xr-x 4 root root 4096 8月   2 13:56 /data/img/<br>[root@n5 ~]# chown -R smbimg:smbimg /data/img/<br>[root@n5 ~]# ll -d /data/img/<br>drwxr-xr-x 4 smbimg smbimg 4096 8月   2 13:56 /data/img/<br>[root@n5 ~]#<br>[root@n5 ~]# ll /data/img/<br>总用量 0<br>-rwxr–r– 1 smbimg smbimg 0 8月   2 14:08 测试gfs.txt</p>
+<p>安装配置FTP<br>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>chkconfig –level 345 vsftpd on<br>useradd -g ftp -d /data/img/ftpimg -M ftpimg<br>passwd ftpimg<br>chown -R ftpimg /data/img/ftpimg<br>ll -d /data/img/ftpimg<br>drwxr-xr-x 2 ftpimg root 4096 8月   2 14:12 /data/img/ftpimg<br>service vsftpd restart</p>
+<p>四、测试<br>1、检查文件正确性<br>dd if=/dev/urandom of=/data/navy bs=1M count=100 # 在挂载客户端生成测试文件<br>cp /data/navy /mnt/  # 文件拷贝到存储上<br>md5sum /data/navy /mnt/navy # 在查看客户端检查文件哈希<br>md5sum /data/gluster/navy # 存储集群的某2个节点上会有此文件，检查其哈希<br>2、宕机测试。使用glusterfs-fuse挂载，即使目标服务器故障，也完全不影响使用。用NFS则要注意挂载选项，否则服务端故障容易导致文件系统halt住而影响服务！</p>
+<h1 id="将其中一个节点停止存储服务service-glusterd-stop"><a href="#将其中一个节点停止存储服务service-glusterd-stop" class="headerlink" title="将其中一个节点停止存储服务service glusterd stop"></a>将其中一个节点停止存储服务service glusterd stop</h1><p>service glusterfsd stop# 在挂载客户端删除测试文件<br>rm -fv /mnt/navy# 此时在服务端查看，服务被停止的节点上navy并未被删除。此时启动服务：service glusterd start# 数秒后，navy就被自动删除了。新增文件效果相同！<br>五、运维常用命令：<br>删除卷<br>gluster volume stop img<br>gluster volume delete img<br>将机器移出集群<br>gluster peer detach 10.6.0.217<br>只允许10.6.<em>.</em>的网络访问glusterfs<br>gluster volume set img auth.allow 10.6.<em>.</em></p>
+<p>加入新的机器并添加到卷里(由于副本数设置为3,至少要添加3（6、9、12..）台机器)<br>gluster peer probe 10.6.0.212<br>gluster peer probe 10.6.0.213<br>gluster peer probe 10.6.0.216</p>
+<p>[root@n3 ~]# mkdir -p /data/gluster<br>gluster volume add-brick img 10.6.0.212:/data/gluster 10.6.0.213:/data/gluster 10.6.0.216:/data/gluster force</p>
+<p>[root@n6 ~]# gluster volume add-brick img 10.6.0.212:/data/gluster 10.6.0.213:/data/gluster 10.6.0.216:/data/gluster force<br>volume add-brick: success<br>[root@n6 ~]# gluster volume info</p>
+<p>Volume Name: img<br>Type: Distributed-Replicate<br>Volume ID: c481f5a9-5dcb-4cb3-9870-0ec57dbc22fb<br>Status: Started<br>Number of Bricks: 2 x 3 = 6<br>Transport-type: tcp<br>Bricks:<br>Brick1: 10.6.0.217:/data/gluster<br>Brick2: 10.6.0.218:/data/gluster<br>Brick3: 10.6.0.219:/data/gluster<br>Brick4: 10.6.0.212:/data/gluster<br>Brick5: 10.6.0.213:/data/gluster<br>Brick6: 10.6.0.216:/data/gluster<br>Options Reconfigured:<br>performance.readdir-ahead: on<br>[root@n6 ~]#</p>
+<p><a href="https://gluster.readthedocs.io/en/latest/Administrator%20Guide/Managing%20Volumes/#rebalancing-volumes" target="_blank" rel="external">https://gluster.readthedocs.io/en/latest/Administrator%20Guide/Managing%20Volumes/#rebalancing-volumes</a><br>均衡卷<br>[root@n6 ~]# gluster volume rebalance img start<br>volume rebalance: img: success: Rebalance on img has been started successfully. Use rebalance status command to check status of the rebalance process.<br>ID: b9d8629a-673d-4db2-8361-bb8e9b65b16b</p>
+<p>[root@n6 ~]# gluster volume rebalance img status<br>                                    Node Rebalanced-files          size       scanned      failures       skipped               status  run time in h:m:s</p>
+<pre><code> ---------      -----------   -----------   -----------   -----------   -----------         ------------     --------------
+ localhost                0        0Bytes             0             0             0          in progress        0:0:17
+10.6.0.217                0        0Bytes          1033             0           341          in progress        0:0:16
+10.6.0.218                0        0Bytes             0             0             0          in progress        0:0:17
+10.6.0.219                0        0Bytes             0             0             0          in progress        0:0:16
+10.6.0.212                0        0Bytes             1             0             0          in progress        0:0:17
+10.6.0.213                0        0Bytes             0             0             0          in progress        0:0:17
+</code></pre><p>volume rebalance: img: success<br>[root@n6 ~]#</p>
+<p>[root@n6 ~]# gluster volume status<br>Status of volume: img</p>
+<h2 id="Gluster-process-TCP-Port-RDMA-Port-Online-Pid"><a href="#Gluster-process-TCP-Port-RDMA-Port-Online-Pid" class="headerlink" title="Gluster process                             TCP Port  RDMA Port  Online  Pid"></a>Gluster process                             TCP Port  RDMA Port  Online  Pid</h2><p>Brick 10.6.0.217:/data/gluster              49152     0          Y       31557<br>Brick 10.6.0.218:/data/gluster              49152     0          Y       2469<br>Brick 10.6.0.219:/data/gluster              49152     0          Y       12325<br>Brick 10.6.0.212:/data/gluster              49152     0          Y       31261<br>Brick 10.6.0.213:/data/gluster              49152     0          Y       24831<br>Brick 10.6.0.216:/data/gluster              49152     0          Y       28081<br>NFS Server on localhost                     2049      0          Y       28102<br>Self-heal Daemon on localhost               N/A       N/A        Y       28112<br>NFS Server on 10.6.0.217                    2049      0          Y       8257<br>Self-heal Daemon on 10.6.0.217              N/A       N/A        Y       8267<br>NFS Server on 10.6.0.219                    2049      0          Y       26335<br>Self-heal Daemon on 10.6.0.219              N/A       N/A        Y       26344<br>NFS Server on 10.6.0.212                    N/A       N/A        N       N/A<br>Self-heal Daemon on 10.6.0.212              N/A       N/A        Y       31290<br>NFS Server on 10.6.0.213                    2049      0          Y       24852<br>Self-heal Daemon on 10.6.0.213              N/A       N/A        Y       24861<br>NFS Server on 10.6.0.218                    2049      0          Y       9773<br>Self-heal Daemon on 10.6.0.218              N/A       N/A        Y       9782</p>
+<h2 id="Task-Status-of-Volume-img"><a href="#Task-Status-of-Volume-img" class="headerlink" title="Task Status of Volume img"></a>Task Status of Volume img</h2><p>Task                 : Rebalance<br>ID                   : b9d8629a-673d-4db2-8361-bb8e9b65b16b<br>Status               : completed           </p>
+<p>[root@n6 ~]#</p>
+<p>[root@n6 ~]# gluster<br>gluster&gt; peer status<br>Number of Peers: 5</p>
+<p>Hostname: 10.6.0.217<br>Uuid: f2614374-cc36-4f01-970d-8bae30928451<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.212<br>Uuid: 4f734c6e-aefc-4bd7-98e3-1d27e437eaff<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.213<br>Uuid: bae64a18-2613-4e68-88fa-2016d2ecf86b<br>State: Peer in Cluster (Connected)<br>gluster&gt;</p>
+<p>[root@n7 ~]# gluster<br>gluster&gt; peer status<br>Number of Peers: 5</p>
+<p>Hostname: n6<br>Uuid: 9512aa35-a8ee-4d50-a715-fbc857e3d8f8<br>State: Peer in Cluster (Connected)<br>Other names:<br>10.6.0.216</p>
+<p>Hostname: 10.6.0.218<br>Uuid: 3baee195-593a-4d97-9b61-96eb2a7e1778<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.219<br>Uuid: b342072a-ca38-476c-82b8-21ed28eb5376<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.212<br>Uuid: 4f734c6e-aefc-4bd7-98e3-1d27e437eaff<br>State: Peer in Cluster (Connected)</p>
+<p>Hostname: 10.6.0.213<br>Uuid: bae64a18-2613-4e68-88fa-2016d2ecf86b<br>State: Peer in Cluster (Connected)<br>gluster&gt;</p>
+<p>收缩卷</p>
+<h1 id="收缩卷前gluster需要先移动数据到其他位置"><a href="#收缩卷前gluster需要先移动数据到其他位置" class="headerlink" title="收缩卷前gluster需要先移动数据到其他位置"></a>收缩卷前gluster需要先移动数据到其他位置</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img start</p>
+<h1 id="查看迁移状态"><a href="#查看迁移状态" class="headerlink" title="查看迁移状态"></a>查看迁移状态</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img status</p>
+<h1 id="迁移完成后提交"><a href="#迁移完成后提交" class="headerlink" title="迁移完成后提交"></a>迁移完成后提交</h1><p>gluster volume remove-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img commit</p>
+<p>节点故障处理<br>如果一台节点服务器down机，这个时候，我们要恢复故障，替换volume中坏掉的brick为新的brick，参考如下操作：</p>
+<p>#prob server<br>gluster peer probe [new-server]</p>
+<p>#replace old to new brick<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] start</p>
+<p>#检查同步的状态<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] status</p>
+<p>#等待同步完成之后 提交<br>gluster volume replace-brick vol-name [old-server]:/[old-brick] [new-server]:/[new-brick] commit force<br>只需在一台节点上操作，所有的服务器上该卷的brick都换成新的brick了。</p>
+<p>迁移卷</p>
+<h1 id="将10-6-0-217的数据迁移到-先将10-6-0-212加入集群"><a href="#将10-6-0-217的数据迁移到-先将10-6-0-212加入集群" class="headerlink" title="将10.6.0.217的数据迁移到,先将10.6.0.212加入集群"></a>将10.6.0.217的数据迁移到,先将10.6.0.212加入集群</h1><p>gluster peer probe 10.6.0.212<br>gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img start</p>
+<h1 id="查看迁移状态gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-status"><a href="#查看迁移状态gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-status" class="headerlink" title="查看迁移状态gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img status"></a>查看迁移状态gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img status</h1><h1 id="数据迁移完毕后提交gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-commit"><a href="#数据迁移完毕后提交gluster-volume-replace-brick-img-10-6-0-217-data-gluster-img-10-6-0-212-data-gluster-img-commit" class="headerlink" title="数据迁移完毕后提交gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img commit"></a>数据迁移完毕后提交gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.212:/data/gluster/img commit</h1><h1 id="如果机器10-6-0-217出现故障已经不能运行-执行强制提交然后要求gluster马上执行一次同步"><a href="#如果机器10-6-0-217出现故障已经不能运行-执行强制提交然后要求gluster马上执行一次同步" class="headerlink" title="如果机器10.6.0.217出现故障已经不能运行,执行强制提交然后要求gluster马上执行一次同步"></a>如果机器10.6.0.217出现故障已经不能运行,执行强制提交然后要求gluster马上执行一次同步</h1><p>gluster volume replace-brick img 10.6.0.217:/data/gluster/img 10.6.0.218:/data/gluster/img commit -force<br>gluster volume heal imgs full</p>
+<p>安装：</p>
+<p>yum install scsi-target-utils -y</p>
+<p>启动服务</p>
+<p>/etc/init.d/tgtd start</p>
+<p>设为开机自启动：</p>
+<p>chkconfig tgtd on</p>
+<p>确认一下有没有端口起来<br>netstat -anlpt | grep 3260</p>
+<p>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n3:test=""><br>  backing-store /mnt/test<br></target>
+
+<p>[root@n2 ~]# ll -h /data/img/img1<br>-rw-r–r– 1 root root 200M 8月  23 14:45 /data/img/img1</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 2 -b /data/img/img1</p>
+<p>[root@n5 ~]# dd if=/dev/zero of=/data/img/n5img1 bs=10M count=5<br>记录了5+0 的读入<br>记录了5+0 的写出<br>52428800字节(52 MB)已复制，1.87226 秒，28.0 MB/秒<br>[root@n5 ~]# tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 3 -b /data/img/n5img1<br>[root@n5 ~]#</p>
+<p>10.6.100.39 n5# dd if=/dev/zero of=/data/img/img1  bs=1024M count=1024<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-08.n5:img1=""><br>  backing-store /data/img/img1<br></target>
+
+<p>/etc/init.d/tgtd restart</p>
+<p>10.6.100.39 n5# dd if=/dev/zero of=/data/img/img2  bs=1024M count=100<br>vim /etc/tgt/targets.conf</p>
+<target iqn.2016-09.n5:img2=""><br>  backing-store /data/img/img2<br></target>
+
+<p>/etc/init.d/tgtd restart</p>
+<p>查看信息<br>tgtadm –lld iscsi –op show –mode target</p>
+<p>tgtadm –lld iscsi –op new –mode logicalunit –tid 1 –lun 1 -b /data/img/img2</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-GlusterFS/" data-id="cixv6wclw000ilkcy940t1e0a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-CentOS-6-x-Expec" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/12/15/CentOS-6-x-Expec/" class="article-date">
@@ -189,7 +544,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="cix7b3wmh000g0ecyv2j8ib0b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Expec/" data-id="cixv6wcls000glkcy2ofy77px" class="article-share-link">Share</a>
       
       
     </footer>
@@ -227,7 +582,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="cix7b3wml000h0ecyd3364b9f" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Fabric/" data-id="cixv6wclv000hlkcyedj49ybo" class="article-share-link">Share</a>
       
       
     </footer>
@@ -263,7 +618,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="cix7b3wo2001t0ecyh5kenaf3" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/Domino-10-6-0-41-66-fd-a4-dd-6c-ee/" data-id="cixv6wcnm001tlkcynrrtzd6l" class="article-share-link">Share</a>
       
       
     </footer>
@@ -425,7 +780,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="cix7b3wmh000f0ecyjskzv830" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Domino/" data-id="cixv6wclq000flkcygf31emio" class="article-share-link">Share</a>
       
       
     </footer>
@@ -592,7 +947,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="cix7b3wn1000q0ecyigfkxd06" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Nginx/" data-id="cixv6wcm8000olkcypt876gi8" class="article-share-link">Share</a>
       
       
     </footer>
@@ -649,388 +1004,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="cix7b3wms000n0ecytituqc8e" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-SmokePing" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-SmokePing/" class="article-date">
-  <time datetime="2016-12-15T02:57:25.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-SmokePing/">CentOS 6.x SmokePing</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SmokePing 是一款开源的网络质量监控的工具。<br>CentOS<br>o    准备<br>o    安装源<br>o    安装依赖<br>o    安装SmokePing<br>o    配置SmokePing<br>§  创建 cache、data、var 数据目录<br>§  创建日志<br>§  授权<br>§  修改配置文件<br>§  修改 Apache 配置<br>§  无密码<br>§  设密码<br>§  自动启动 SmokePing、Apache 服务<br>§  添加监控列表<br>§  Apache 开端口<br>§  树状目录权限报错<br>配 IP 地址。<br>vim  /etc/sysconfig/network-scripts/ifcfg-ethx<br>然后把 SELinux 禁用：<br>vim /etc/selinux/config<br>SELINUX = disabled<br>安装源<br>rpm -Uvh <a href="http://apt.sw.be/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm" target="_blank" rel="external">http://apt.sw.be/redhat/el6/en/x86_64/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.x86_64.rpm</a><br>rpm -Uvh <a href="http://apt.sw.be/redhat/el6/en/i386/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.i686.rpm" target="_blank" rel="external">http://apt.sw.be/redhat/el6/en/i386/rpmforge/RPMS/rpmforge-release-0.5.3-1.el6.rf.i686.rpm</a><br>根据自己的版本安装，5/7 的自己把 el 后的数字改掉。<br>安装依赖<br>yum -y install perl perl-Net-Telnet perl-Net-DNS perl-LDAP perl-libwww-perl perl-RadiusPerl perl-IO-Socket-SSL perl-Socket6 perl-CGI-SpeedyCGI perl-FCGI perl-CGI-SpeedCGI perl-Time-HiRes perl-ExtUtils-MakeMaker perl-RRD-Simple rrdtool rrdtool-perl curl fping echoping  httpd httpd-devel gcc make  wget libxml2-devel libpng-devel glib pango pango-devel freetype freetype-devel fontconfig cairo cairo-devel libart_lgpl libart_lgpl-devel mod_fastcgi<br>安装SmokePing<br>wget <a href="http://oss.oetiker.ch/SmokePing/pub/SmokePing-2.6.11.tar.gz" target="_blank" rel="external">http://oss.oetiker.ch/SmokePing/pub/SmokePing-2.6.11.tar.gz</a><br>tar zxvf SmokePing-2.6.11.tar.gz<br>cd SmokePing-2.6.11<br>./configure –prefix=/usr/local/SmokePing<br>./setup/build-perl-modules.sh /usr/local/SmokePing/thirdparty<br>./configure –prefix=/usr/local/SmokePing<br>/usr/bin/gmake install<br>注意下载下来的压缩包是安装文件，不要改名后直接扔目录，会有冲突。<br>其中 ./setup/build-perl-modules.sh /usr/local/SmokePing/thirdparty 这一条是个大坑，会从 cpan.org 下载文件安装，但是 cpan.org 国内并不稳定，建议使用网易的镜像，教程在这，但我按教程来没效果，你也可以爬梯子或者多试两遍。<br>配置 SmokePing<br>创建 cache、data、var 数据目录<br>cd /usr/local/SmokePing<br>mkdir cache data var<br>创建日志<br>touch /var/log/SmokePing.log<br>授权<br>chown apache:apache cache data var<br>chown apache:apache /var/log/SmokePing.log<br>修改配置文件<br>cd /usr/local/SmokePing/htdocs/<br>mv SmokePing.fcgi.dist SmokePing.fcgi<br>cd /usr/local/SmokePing/etc<br>mv config.dist config<br>vimm config<br>cgiurl = <a href="http://some.url/SmokePing.cgi" target="_blank" rel="external">http://some.url/SmokePing.cgi</a><br>…<br>step = 300<br>ping = 5<br>将 some.url 改成你的 IP 或者是域名。<br>这里 step、ping 意思是每 300 秒时间，ping 5 次。<br>配完保存给密码文件权限：<br>chmod 600 /usr/local/SmokePing/etc/SmokePing_secrets.dist<br>修改 Apache 配置<br>无密码<br>vim /etc/httpd/conf/httpd.conf<br>Alias /cache “/usr/local/SmokePing/cache/“<br>Alias /cropper “/usr/local/SmokePing/htdocs/cropper/“<br>Alias /SmokePing “/usr/local/SmokePing/htdocs/SmokePing.fcgi”</p>
-<p><directory "="" usr="" local="" smokeping"=""><br>AllowOverride None<br>Options All<br>AddHandler cgi-script .fcgi .cgi<br>Order allow,deny<br>Allow from all<br>DirectoryIndex SmokePing.fcgi<br></directory><br>设密码<br>如果要让登录 SmokePing 时需要验证用户，则 Apache 添加内容为<br>vim /etc/httpd/conf/httpd.conf<br>Alias /cache “/usr/local/SmokePing/cache/“<br>Alias /cropper “/usr/local/SmokePing/htdocs/cropper/“<br>Alias /SmokePing “/usr/local/SmokePing/htdocs/SmokePing.fcgi”</p>
-<p><directory "="" usr="" local="" smokeping"=""><br>AllowOverride None<br>Options All<br>AddHandler cgi-script .fcgi .cgi<br>AllowOverride AuthConfig<br>Order allow,deny<br>Allow from all<br>AuthName “SmokePing”<br>AuthType Basic<br>AuthUserFile /usr/local/SmokePing/htdocs/htpasswd<br>Require valid-user<br>DirectoryIndex SmokePing.fcgi<br></directory><br>然后命令行输入，点回车，会要你输密码：<br>htpasswd -c /usr/local/SmokePing/htdocs/htpasswd admin<br>自动启动 SmokePing、Apache 服务<br>echo “/usr/local/SmokePing/bin/SmokePing –logfile=/var/log/SmokePing.log 2&gt;&amp;1 &amp;” &gt;&gt; /etc/rc.local<br>chkconfig httpd on<br>添加监控列表<br>vimm /usr/local/SmokePing/etc/config<br>Apache 开端口<br>iptables -I INPUT -p TCP –dport 80 -j ACCEPT<br>/etc/init.d/iptables save<br>重启设备后进入 <a href="http://127.0.0.1/SmokePing" target="_blank" rel="external">http://127.0.0.1/SmokePing</a> 应该就能看到图表了<br><a href="http://192.168.57.135/SmokePing" target="_blank" rel="external">http://192.168.57.135/SmokePing</a><br>树状目录权限报错<br>如果点击列表看不到图，提示什么权限不足，要按照报错新建对应目录，然后给权限<br>mkdir /usr/local/SmokePing/data/IDC //IDC 根据实际情况修改<br>chmod 655 /usr/local/SmokePing/data/IDC</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-SmokePing/" data-id="cix7b3wn7000w0ecyw5m9766l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-1-刷固件" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/1-刷固件/" class="article-date">
-  <time datetime="2016-12-15T02:54:01.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/1-刷固件/">1.刷固件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/1-刷固件/" data-id="cix7b3wll00000ecyt2j0zd52" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-Linaro-12-11-Hadoop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/Linaro-12-11-Hadoop/" class="article-date">
-  <time datetime="2016-12-15T02:52:38.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/Linaro-12-11-Hadoop/">Linaro 12.11 Hadoop</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.刷固件</p>
-<p>出厂的Cubieboard是Android系统，需要Linux系统安装Hadoop，到此网址下载：</p>
-<p><a href="http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/" target="_blank" rel="external">http://dl.cubieboard.org/software/a20-cubietruck/lubuntu/</a></p>
-<p>①．使用PhoenixSuit一键刷机，并选择 lubuntu 系统镜像</p>
-<p>②．电脑一方先接上 USB 线，将Cubieboard电源，电池全部拔除，按住Cubieboard FEL 按钮（此按钮在 RESET 按钮的边上）不放，此时将另外一端的 mini USB 和 Cubieboard 连接，这时候会弹出一个强制升级的提示对话框，然后就可以松开 FEL 按钮了。</p>
-<p>③．提示对话框上选 Yes 开始刷系统。</p>
-<p>④．刷完系统之后，拿掉和电脑连接的 USB 线，然后接上电源和网线。</p>
-<p>2.系统配置</p>
-<p>①．使用 linaro 用户登录上去，设置 root 的密码：</p>
-<p>$ sudo passwd root</p>
-<p>②．cubieboard nand 重新分区扩容</p>
-<p>安装分区工具 nand-part (sunxi-tools)</p>
-<p>#apt-get install git</p>
-<p>#apt-get install build-essential</p>
-<p>#apt-get install pkg-config libusb-1.0</p>
-<p>#git clone <a href="https://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">https://github.com/linux-sunxi/sunxi-tools.git</a></p>
-<p>#cd sunxi-tools</p>
-<p>#make all</p>
-<p>现在我们查看一下 nandflash：</p>
-<h1 id="ls-dev-nand-l"><a href="#ls-dev-nand-l" class="headerlink" title="ls /dev/nand* -l"></a>ls /dev/nand* -l</h1><p>brw-rw—- 1 root disk 93, 0 Jan 1 2010 /dev/nand</p>
-<p>brw-rw—- 1 root disk 93, 1 Jan 1 2010 /dev/nanda</p>
-<p>brw-rw—- 1 root disk 93, 2 Jan 1 2010 /dev/nandb</p>
-<p>brw-rw—- 1 root disk 93, 3 Jan 1 2010 /dev/nandc</p>
-<p>这里的 nand 表示了整个 nandflash，nanda、nandb、nandc 则为其 3 个分区，其中：</p>
-<p>nanda 中包含 bootlogo、script.bin、uEnv.txt 等</p>
-<p>nandb 中为 rootfs</p>
-<p>nandc 有 5G 左右的空间，我觉得把它合并到 nandb 似乎是一个好的想法。敲击命令 nand-part 大概能看到如下信息（只列出主要部分）：</p>
-<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
-<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 4194304 user_type=0</p>
-<p>partition 3: class = DISK, name = UDISK, partition start = 4358144, partition size = 10584064 user_type=0</p>
-<p>我们可以看到各个分区的大小，这样我们就可以重新规划一下：</p>
-<h1 id="nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’"><a href="#nand-part-f-a20-dev-nand-32768-‘bootloader-131072’-‘rootfs-14778368’" class="headerlink" title="nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’"></a>nand-part -f a20 /dev/nand 32768 ‘bootloader 131072’ ‘rootfs 14778368’</h1><p>此命令执行后输出：</p>
-<p>ready to write new partition tables:</p>
-<p>mbr: version 0x00000200, magic softw411</p>
-<p>2 partitions</p>
-<p>partition 1: class = DISK, name = bootloader, partition start = 32768, partition size = 131072 user_type=0</p>
-<p>partition 2: class = DISK, name = rootfs, partition start = 163840, partition size = 14778368 user_type=0</p>
-<p>我们看到 bootloader（nanda）的大小未发生变化，rootfs（nandb）和 UDISK（nandc）合并了（4194304 + 10584064 = 14778368）。然后，我们重启一下系统，再敲击命令来完成 nandb 的扩展：</p>
-<h1 id="resize2fs-dev-nandb"><a href="#resize2fs-dev-nandb" class="headerlink" title="resize2fs /dev/nandb"></a>resize2fs /dev/nandb</h1><p>需要说明的是，这个重分区的过程不会破坏任何数据的。</p>
-<p>处理完 nand 就可以开始处理我的 HDD 硬盘了。使用命令 fdisk 来查看 HDD 硬盘是否存在，执行 fdisk -l</p>
-<p>分区fdisk /dev/sda</p>
-<p>格式化mkfs.ext4 /dev/sda1</p>
-<p>挂载mount /dev/sda1 /data</p>
-<p>配置启动时挂载vim /etc/fstab</p>
-<p>/dev/sda1 /data ext4 defaults 1 2</p>
-<p>允许root用户SSH远程登录</p>
-<p>安装OpenSSH server：</p>
-<ol>
-<li>使用apt命令安装openssh server</li>
-</ol>
-<p>$ sudo apt-get install openssh-server</p>
-<ol>
-<li>可以对 openssh server进行配置</li>
-</ol>
-<p>$ sudo vi /etc/ssh/sshd_config</p>
-<p>找到PermitRootLogin no一行，改为PermitRootLogin yes</p>
-<ol>
-<li>重启 openssh server</li>
-</ol>
-<p>$ sudo service ssh restart</p>
-<ol>
-<li>客户端如果是ubuntu的话，则已经安装好ssh client,可以用下面的命令连接远程服务器。</li>
-</ol>
-<p>$ ssh xxx.xxx.xxx.xxx</p>
-<p>如果是windows系统的话，可以使用SSH Secure Shell等ssh软件进行远程连接。</p>
-<p>3.安装Hadoop</p>
-<p>Java</p>
-<p>vim ~/.bashrc</p>
-<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
-<p>export JRE_HOME=${JAVA_HOME}/jre</p>
-<p>export CLASS_PATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib</p>
-<p>export PATH=${JAVA_HOME}/bin:$PATH</p>
-<p>export PATH=${JAVA_HOME}/bin:/usr/local/hadoop/hadoop-2.2.0/bin:$PATH</p>
-<p>source ~/.bashrc</p>
-<p>hadoop-env.sh</p>
-<p>export JAVA_HOME=/usr/lib/java/jdk1.7.0_71</p>
-<p>export HADOOP_COMMON_LIB_NATIVE_DIR=${HADOOP_PREFIX}/lib/native</p>
-<p>export HADOOP_OPTS=”-Djava.library.path=$HADOOP_PREFIX/lib”</p>
-<p>/etc/hostname</p>
-<p>/etc/hosts</p>
-<p>ssh-keygen -t rsa -P “”</p>
-<p>root@m1:/home/hadoop# scp -r root@m2:/root/.ssh/id_rsa.pub ~/.ssh/m2.pub</p>
-<p>root@m1:/home/hadoop# scp -r root@s1:/root/.ssh/id_rsa.pub ~/.ssh/s1.pub</p>
-<p>root@m1:/home/hadoop# scp -r root@s2:/root/.ssh/id_rsa.pub ~/.ssh/s2.pub</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/m2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/s1.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# cat ~/.ssh/s2.pub &gt;&gt; ~/.ssh/authorized_keys</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@m2:~/.ssh/</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s1:~/.ssh/</p>
-<p>root@m1:/home/hadoop# scp -r ~/.ssh/authorized_keys root@s2:~/.ssh/</p>
-<p>core-site.xml</p>
-  <property><br><br>  <name>fs.defaultFS</name><br><br>  <value>hdfs://master:9000/</value><br><br>  <description>The name of the default file system</description><br><br>  </property>
-
-  <property><br><br>  <name>hadoop.tmp.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/tmp</value><br><br>  <description>A base for other temporary directories</description><br><br>  </property>
-
-
-<p>hdfs-site.xml</p>
-  <property><br><br>  <name>dfs.replication</name><br><br>  <value>2</value><br><br>  </property>
-
-  <property><br><br>  <name>dfs.namenode.name.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/name</value><br><br>  </property>
-
-  <property><br><br>  <name>dfs.datanode.data.dir</name><br><br>  <value>/usr/local/hadoop/hadoop-2.2.0/dfs/data</value><br><br>  </property>
-
-
-
-<p>mapred-site.xml</p>
-  <property><br><br>  <name>mapreduce.framework.name</name><br><br>  <value>yarn</value><br><br>  </property>
-
-
-
-<p>yarn-site.xml</p>
-  <property><br><br>  <name>yarn.resourcemanager.hostname</name><br><br>  <value>master</value><br><br>  </property>
-
-  <property><br><br>  <name>yarn.nodemanager.aux-services</name><br><br>  <value>mapreduce_shuffle</value><br><br>  </property>
-
-
-<p>slaves</p>
-<p>slave001</p>
-<p>slave002</p>
-<p>scp -r hadoop-2.2.0/ hadoop@slave001:/usr/local/hadoop/</p>
-<p>scp -r hadoop-2.2.0/ hadoop@slave002:/usr/local/hadoop/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave001:/usr/lib/java/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ scp -r /usr/lib/java/jdk1.7.0_71/ hadoop@slave002:/usr/lib/java/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop namenode -format</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-dfs.sh</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4236 Jps</p>
-<p>hadoop@slave001:/usr/lib/java$ jps</p>
-<p>6129 DataNode</p>
-<p>6199 Jps</p>
-<p>hadoop@slave002:/usr/lib/java$ jps</p>
-<p>5229 DataNode</p>
-<p>5301 Jps</p>
-<p><a href="http://10.6.4.226:50070/dfshealth.jsp" target="_blank" rel="external">http://10.6.4.226:50070/dfshealth.jsp</a></p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ ./start-yarn.sh</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4557 Jps</p>
-<p>4310 ResourceManager</p>
-<p>hadoop@slave001:/usr/lib/java$ jps</p>
-<p>6129 DataNode</p>
-<p>6377 NodeManager</p>
-<p>6492 Jps</p>
-<p>hadoop@slave002:/usr/lib/java$ jps</p>
-<p>5229 DataNode</p>
-<p>5478 NodeManager</p>
-<p>5592 Jps</p>
-<p><a href="http://10.6.4.226:8088/cluster" target="_blank" rel="external">http://10.6.4.226:8088/cluster</a></p>
-<p><a href="http://10.6.4.227:8042/node" target="_blank" rel="external">http://10.6.4.227:8042/node</a></p>
-<p><a href="http://10.6.4.228:8042/node" target="_blank" rel="external">http://10.6.4.228:8042/node</a></p>
-<p>/usr/local/hadoop/hadoop-2.2.0/sbin# ./mr-jobhistory-daemon.sh start historyserver</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/sbin$ jps</p>
-<p>3197 NameNode</p>
-<p>3387 SecondaryNameNode</p>
-<p>4609 JobHistoryServer</p>
-<p>4310 ResourceManager</p>
-<p>4665 Jps</p>
-<p><a href="http://10.6.4.226:19888/jobhistory" target="_blank" rel="external">http://10.6.4.226:19888/jobhistory</a></p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /data/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -mkdir -p /output/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -put ../etc/hadoop/*.xml /data/wordcount/</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -ls /data/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop jar ../share/hadoop/mapreduce/hadoop-mapreduce-examples-2.2.0.jar wordcount /data/wordcount /output/wordcount</p>
-<p>hadoop@master:/usr/local/hadoop/hadoop-2.2.0/bin$ hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/Linaro-12-11-Hadoop/" data-id="cix7b3wo9001x0ecyngppsalj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CentOS-6-x-CDH" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/12/15/CentOS-6-x-CDH/" class="article-date">
-  <time datetime="2016-12-15T02:50:28.000Z" itemprop="datePublished">2016-12-15</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/15/CentOS-6-x-CDH/">CentOS 6.x CDH</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.jianshu.com/p/57179e03795f" target="_blank" rel="external">http://www.jianshu.com/p/57179e03795f</a><br>namenode reboot<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server stop<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent stop</p>
-<p>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>umount -l /mnt/hdfs</p>
-<p>数据同步脚本<br>crontab -e<br>00 06 <em> </em> * python /root/syncdir.py /home/smbhdfs/zy/ /mnt/hdfs/zy/ 2&gt; /dev/null &gt; /dev/null<br>python /root/syncdir.py /home/smbhdfs/jinyan/ /mnt/hdfs/jinyan/<br>python /root/syncdir.py /home/smbhdfs/wqf/ /mnt/hdfs/wqf/</p>
-<p>关闭防火墙：<br>service iptables stop （临时关闭）<br>chkconfig iptables off （重启后生效）</p>
-<p>关闭SELINUX<br>vim /etc/selinux/config<br>SELINUX=disabled</p>
-<p>最小化安装<br>yum -y install openssh-server<br>vim /etc/ssh/sshd_config<br>PermitRootLogin yes<br>service sshd restart<br>yum install openssh-clients -y</p>
-<p>yum groupinstall ‘X Window System’ -y<br>yum -y install bind-utils<br>yum -y install cyrus-sasl-gssapi<br>yum -y install cyrus-sasl-plain<br>yum -y install fuse*<br>yum -y install portmap<br>yum -y install redhat-lsb</p>
-<p>yum groupinstall ‘Desktop Platform Development’ -y</p>
-<p>mkdir -p /root/.ssh/</p>
-<p>cat /etc/sysconfig/network-scripts/ifcfg-eth0<br>DEVICE=”eth0”<br>BOOTPROTO=none<br>NM_CONTROLLED=”yes”<br>ONBOOT=”yes”<br>TYPE=”Ethernet”<br>UUID=”735675de-800d-47c3-bcbb-f61abbd19cf2”<br>IPADDR=10.6.0.211<br>PREFIX=24<br>GATEWAY=10.6.0.128<br>DNS1=61.177.7.1<br>DOMAIN=223.5.5.5<br>DEFROUTE=yes<br>IPV4_FAILURE_FATAL=yes<br>IPV6INIT=no<br>NAME=”System eth0”<br>HWADDR=DE:A9:01:8A:18:34<br>LAST_CONNECT=1438477375</p>
-<p>vim /etc/sysconfig/network<br>NETWORKING=yes<br>HOSTNAME=n4</p>
-<p><a href="http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html" target="_blank" rel="external">http://www.cloudera.com/content/www/zh-CN/documentation/enterprise/5-3-x/topics/cm_sg_s1_install_cm_cdh.html</a></p>
-<p>vim /etc/hosts<br>10.6.0.211 n1<br>10.6.0.212 n2<br>10.6.0.213 n3<br>10.6.0.214 n4<br>10.6.0.215 n5<br>10.6.0.216 n6<br>10.6.0.217 n7<br>10.6.0.218 n8<br>10.6.0.219 n9<br>10.6.0.220 n10<br>10.6.0.221 n11</p>
-<p>ssh-keygen -t rsa<br>cat ~/.ssh/id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys</p>
-<p>scp ~/.ssh/authorized_keys root@n2:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n3:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n4:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n5:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n6:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n7:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n8:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n9:~/.ssh/<br>scp ~/.ssh/authorized_keys root@n1:~/.ssh/</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>vim /etc/ntp.conf<br>19行<br>server n10<br>ntpdate -u n10<br>service ntpd start</p>
-<p>rpm -qa | grep java</p>
-<p>rpm -e –nodeps java-1.7.0-openjdk-1.7.0.45-2.4.3.3.el6.x86_64<br>rpm -e –nodeps java-1.6.0-openjdk-1.6.0.0-1.66.1.13.0.el6.x86_64<br>rpm -e –nodeps tzdata-java-2013g-1.el6.noarch</p>
-<p>rpm -ivh oracle-j2sdk1.7-1.7.0+update55-2.x86_64.rpm<br>rpm -ivh jdk-6u31-linux-amd64.rpm<br>mkdir /usr/java/latest/<br>cp -a /usr/java/jdk1.6.0_31/* /usr/java/latest/<br>echo “JAVA_HOME=/usr/java/latest/“ &gt;&gt; /etc/environment<br>java -version</p>
-<p>rpm -ivh cloudera-manager-daemons-5.1.3-1.cm513.p0.155.el6.x86_64.rpm<br>rpm -ivh cloudera-manager-agent-5.1.3-1.cm513.p0.155.el6.x86_64.rpm</p>
-<p>echo 0 &gt; /proc/sys/vm/swappiness</p>
-<p>向群集添加新主机</p>
-<p>[root@n5 ~]#<br>/etc/rc.d/init.d/cloudera-scm-agent stop</p>
-<p>yum install mysql-server -y<br>chkconfig mysqld on<br>service mysqld start<br>mysqladmin -u root password yanjin<br>mysql -uroot -pyanjin<br>create database hive DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>create database amon DEFAULT CHARSET utf8 COLLATE utf8_general_ci;<br>grant all privileges on <em>.</em> to ‘root’@’n10’ identified by ‘yanjin’ with grant option;<br>flush privileges;</p>
-<p>yum install ntp -y<br>chkconfig ntpd on<br>chkconfig –list ntpd<br>ntpdate -u 202.120.2.101<br>n10<br>vim /etc/ntp.conf<br>server 202.120.2.101 prefer<br>service ntpd start<br>ntpstat</p>
-<p>n2-4<br>vim /etc/ntp.conf<br>server n10<br>ntpdate -u n1<br>service ntpd start<br><a href="http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html" target="_blank" rel="external">http://www.cloudera.com/content/cloudera/zh-CN/documentation/core/v5-3-x/topics/introduction.html</a><br><a href="http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz" target="_blank" rel="external">http://archive.cloudera.com/cm5/cm/5/cloudera-manager-el5-cm5.3.6_x86_64.tar.gz</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/CDH-5.3.6-1.cdh5.3.6.p0.11-el6.parcel.sha1</a><br><a href="http://archive.cloudera.com/cdh5/parcels/latest/manifest.json" target="_blank" rel="external">http://archive.cloudera.com/cdh5/parcels/latest/manifest.json</a><br><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.3.6/RPMS/x86_64/</a></p>
-<p><a href="http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/" target="_blank" rel="external">http://archive.cloudera.com/cm5/redhat/6/x86_64/cm/5.1.3/RPMS/x86_64/</a><br>cd /opt/<br>mv /home/cloudera-manager-el6-cm5.1.3_x86_64.tar.gz .<br>tar -zxvf cloudera-manager-el6-cm5.1.3_x86_64.tar.gz<br>ls<br>cd cm-5.1.3/share/cmf/lib/<br>cp /home/mysql-connector-java-5.1.33-bin.jar .<br>ls<br>ls mysql-connector-java-5.1.33-bin.jar<br>cd /opt/<br>useradd –system –home=/opt/cm-5.1.3/run/cloudera-scm-server/ –no-create-home –shell=/bin/false –comment “Cloudera SCM User” cloudera-scm<br>/opt/cm-5.1.3/share/cmf/schema/scm_prepare_database.sh mysql cm -hlocalhost -uroot -pyanjin –scm-host localhost scm scm scm<br>vim cm-5.1.3/etc/cloudera-scm-agent/config.ini<br>server_host=n10<br>scp -r /opt/cm-5.1.3/ root@n2:/opt/<br>scp -r /opt/cm-5.1.3/ root@n3:/opt/<br>scp -r /opt/cm-5.1.3/ root@n4:/opt/</p>
-<p>[root@n1 opt]# cd cloudera/parcel-repo/<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel .<br>mv /home/CDH-5.1.3-1.cdh5.1.3.p0.12-el6.parcel.sha .<br>mv /home/manifest.json .<br>ls<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-server start<br>/opt/cm-5.1.3/etc/init.d/cloudera-scm-agent start<br>echo 0 &gt; /proc/sys/vm/swappiness</p>
-<p>安装服务前<br>cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hive/lib/</p>
-<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar pi 10 100</p>
-<p>hadoop fs -mkdir -p /data/wordcount<br>sudo -u hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /data/wordcount<br>sudo -u hdfs hadoop fs -mkdir -p /output/<br>sudo -u hdfs hadoop fs -put /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop/etc/hadoop/*.xml /data/wordcount/<br>sudo -u hdfs hadoop fs -ls /data/wordcount/<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH/lib/hadoop-mapreduce/hadoop-mapreduce-examples.jar wordcount /data/wordcount /output/wordcount<br>sudo -u hdfs hadoop fs -cat /output/wordcount/part-r-00000 |head</p>
-<p>mkdir -p /mnt/hdfs<br>hadoop-fuse-dfs dfs://n10:8022 /mnt/hdfs/<br>df -h /mnt/hdfs/</p>
-<p>yum -y install vsftpd<br>vim /etc/vsftpd/vsftpd.conf<br>useradd -g ftp -d /mnt/hdfs/ -M ftphdfs<br>passwd ftphdfs<br>sztzuchi<br>service vsftpd restart</p>
-<p>ftpuser<br>ftpuser<br>[root@n10 smbhdfs]# useradd -g ftp -d /home/smbhdfs/ -M ftpsmb<br>[root@n10 smbhdfs]# passwd ftpsmb</p>
-<p>10.6.0.24<br>chmod -R 777 /home/</p>
-<p>[root@n1 nfs]# useradd -g ftp -d /home/nfs/ -M ftpnfs<br>[root@n1 nfs]# passwd ftpnfs<br>更改用户 ftpnfs 的密码 。<br>新的 密码：<br>重新输入新的 密码：<br>passwd： 所有的身份验证令牌已经成功更新。<br>[root@n1 nfs]# service vsftpd restart<br>关闭 vsftpd：[确定]<br>为 vsftpd 启动 vsftpd：[确定]</p>
-<p>yum install samba samba-client samba-swat -y<br>vim /etc/samba/smb.conf<br>[hdfs]<br>  comment = The hdfs<br>  path = /mnt/hdfs/<br>  browseable = yes<br>  writable = yes<br>useradd smbhdfs<br>smbpasswd -a smbhdfs<br>sztzuchi<br>service smbd restart<br>/etc/init.d/smb start<br>/etc/init.d/nmb start<br>service smb status<br>chkconfig –level 35 smb on</p>
-<p>[root@n1 ~]# cp /opt/cm-5.1.3/share/cmf/lib/mysql-connector-java-5.1.33-bin.jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/sqoop/lib/<br>[root@n1 ~]# sqoop list-databases –connect jdbc:mysql://localhost:3306/ –username root –password yanjin</p>
-<p>基准测试<br>TestDFSIO基准测试HDFS<br>[root@n1 ~]# su hdfs<br>[hdfs@n1 root]$ cd<br>[hdfs@n1 ~]$ pwd<br>/var/lib/hadoop-hdfs<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
-<p>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -write -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -read -nrFiles 10 -fileSize 1000<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-test-2.3.0-mr1-cdh5.1.3.jar TestDFSIO -clean</p>
-<p>用sort排序测试MapReduce<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data<br> sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar randomwriter random-data</p>
-<p>TeraSort 基准测试实验<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>hadoop fs -ls terasort/1000000-input<br>hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>hadoop fs -ls terasort/1000000-output<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar teragen 1000000 terasort/1000000-input<br>sudo -u hdfs hadoop fs -ls terasort/1000000-input<br>sudo -u hdfs hadoop jar /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/lib/hadoop-0.20-mapreduce/hadoop-examples-2.3.0-mr1-cdh5.1.3.jar terasort terasort/1000000-input terasort/1000000-output<br>sudo -u hdfs hadoop fs -ls terasort/1000000-output</p>
-<p>[hdfs@n1 ~]$ hdfs dfsadmin<br>Usage: java DFSAdmin<br>Note: Administrative commands can only be run as the HDFS superuser.<br>  [-report]<br>  [-safemode enter | leave | get | wait]</p>
-<p>manual ha<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode121<br>standby<br>You have new mail in /var/spool/mail/root<br>[hdfs@n1 ~]$ hdfs haadmin -getServiceState namenode84<br>active</p>
-<p>[hdfs@n1 ~]$ hdfs haadmin<br>Usage: DFSHAAdmin [-ns <nameserviceid>]<br>  [-transitionToActive <serviceid>]<br>  [-transitionToStandby <serviceid>]<br>  [-failover [–forcefence] [–forceactive] <serviceid> <serviceid>]<br>  [-getServiceState <serviceid>]<br>  [-checkHealth <serviceid>]<br>  [-help <command>]</serviceid></serviceid></serviceid></serviceid></serviceid></serviceid></nameserviceid></p>
-<p>[hdfs@n2 ~]$ hdfs zkfc -formatZK<br>[hdfs@n2 ~]$ hdfs haadmin -failover –forceactive namenode84 namenode121<br>[root@n2 ~]# /opt/cloudera/parcels/CDH-5.1.3-1.cdh5.1.3.p0.12/etc/rc.d/init.d/hadoop-hdfs-namenode restart</p>
-<p>[hdfs@n1 ~]$ hdfs zkfc -formatZK<br>[hdfs@n1 ~]$ hdfs haadmin -failover –forceactive namenode121 namenode84</p>
-<p>AUTO HA<br>vim /etc/hadoop/conf.cloudera.hdfs/core-site.xml<br>  <property><br>  <name>ha.zookeeper.quorum</name><br>  <value>n1:2181,n2:2181,n3:2181</value><br>  </property><br>hdfs zkfc -formatZK</p>
-<p>增加根目录空间</p>
-<p>创建一个GPT label啊<br>安装的时候按ctrl+alt+f2进入另外一个console，输入parted<br>然后mklable gpt /dev/sda<br>然后你可以输入print /dev/sda确认lable正确<br>然后quit<br>再按ctrl+alt+f6 返回分区上一步继续安装</p>
-<p>fuser -m /home 终止占用进程</p>
-<p>umount /home/<br>vgdisplay<br>lvreduce -L 10G /dev/mapper/vg_nx-lv_home<br>vgdisplay<br>lvextend -L +937409 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root<br>df -h<br>vgdisplay<br>lvextend -L +703056 /dev/mapper/vg_nx-lv_root<br>resize2fs -p /dev/mapper/vg_nx-lv_root</p>
-<p>rpm -qa | grep lvm<br>yum install -y lvm2</p>
-<p>df -h<br>e2fsck -f /dev/mapper/vg_n9-lv_home<br>resize2fs -p /dev/mapper/vg_n9-lv_home 10G<br>mount /home/<br>df -h</p>
-<p>hadoop archive -archiveName test.har -p /data /data/har<br>hadoop fs -ls har:///data/har/test.har</p>
-<p>[root@n1 nfs]# time mv 018/ /mnt/hdfs/tmp/ 2&gt;/dev/null<br>[root@n1 home]# time cp -a /mnt/hdfs/tmp/018/ .<br>[root@n1 tmp]# hadoop archive -archiveName 018.har -p /tmp/018/ /tmp/har<br>hadoop fs -ls har:////tmp/har/018.har</p>
-<p>[root@n1 nfs]# time cp -a /mnt/hdfs/tmp/har/018.har/ .</p>
-<p>Lock on /dfs/dn/in_use.lock acquired by nodename<br>[root@n10 cloudera]# cat /dfs/nn/current/VERSION</p>
-<p>#Sun Nov 22 10:19:27 CST 2015<br>namespaceID=39325997<br>clusterID=cluster42<br>cTime=0<br>storageType=NAME_NODE<br>blockpoolID=BP-2074941685-10.6.0.220-1448154708456<br>layoutVersion=-55</p>
-<p>[root@n3 ~]# vim /dfs/dn/current/VERSION</p>
-<p> #Sun Nov 22 08:14:02 CST 2015<br>storageID=DS-465f3d32-b20c-416a-905a-86f78bbbd7bd<br>clusterID=cluster42<br>cTime=0<br>datanodeUuid=9a02f390-0b95-4cde-bedf-b14949296adc<br>storageType=DATA_NODE<br>layoutVersion=-55</p>
-<p>[root@n5 ~]# netstat -tunlp | grep :9000<br>tcp 0 0 10.6.0.215:9000 0.0.0.0:<em> LISTEN 1914/python<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>tcp 0 0 127.0.0.1:9001 0.0.0.0:</em> LISTEN 2117/python<br>[root@n5 ~]# kill -9 1914<br>[root@n5 ~]# kill -9 2117<br>[root@n5 ~]# netstat -tunlp | grep :9001<br>[root@n5 ~]# netstat -tunlp | grep :9000<br>[root@n5 ~]# netstat -tunlp | grep :7180</p>
-<p>spark-shell<br>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/“)<br>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)<br>counts.saveAsTextFile(“hdfs://n10:8020/output”)</p>
-<p>val file = sc.textFile(“hdfs://n10:8020/hadoop/Input/WordCount/test1.txt”)</p>
-<p>val counts = file.flatMap(line =&gt; line.split(“ “)).map(word =&gt; (word, 1)).reduceByKey(<em> + </em>)</p>
-<p>counts.saveAsTextFile(“hdfs://n10:8020/output1”)</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-CDH/" data-id="cix7b3wmd000b0ecyw7eop0bb" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2016/12/15/CentOS-6-x-Moodle/" data-id="cixv6wcm4000nlkcykmob4yp4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -1061,7 +1035,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li></ul>
     </div>
   </div>
 
@@ -1074,23 +1048,23 @@
       <ul>
         
           <li>
+            <a href="/2017/01/13/nginx的配置、虚拟主机、负载均衡和反向代理（3）/">nginx的配置、虚拟主机、负载均衡和反向代理（3）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（2）/">Nginx的配置、虚拟主机、负载均衡和反向代理（2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）-1/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/01/13/Nginx的配置、虚拟主机、负载均衡和反向代理（1）/">Nginx的配置、虚拟主机、负载均衡和反向代理（1）</a>
+          </li>
+        
+          <li>
             <a href="/2016/12/27/搭建nginx反向代理用做内网域名转发/">搭建nginx反向代理用做内网域名转发</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/27/Docker的Swarm模式/">Docker的Swarm模式</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/zebra/">zebra</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/moodle在CentOS下的迁移/">moodle在CentOS下的迁移</a>
-          </li>
-        
-          <li>
-            <a href="/2016/12/19/TzuChi-技术/">TzuChi 技术</a>
           </li>
         
       </ul>
@@ -1105,7 +1079,7 @@
   
   <div class="outer">
     <div id="footer-info" class="inner">
-      &copy; 2016 JinYan<br>
+      &copy; 2017 JinYan<br>
       Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
